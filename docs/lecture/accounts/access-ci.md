@@ -56,6 +56,8 @@ To use Jetstream2, the PI must first obtain an allocation through the ACCESS por
    - **Note:** The user must have already created their own ACCESS account before they can be added to a project.
 5. **Assign Roles:** Assign a role (e.g., "Member") and save the changes.
 
+<a name="access-ci-assignment"></a>
+
 !!! assignment "Assignment: Create the ACCESS CI Account"
 
     **Goal**: Successfully create an ACCESS account and notify the professor for project association.

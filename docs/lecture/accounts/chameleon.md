@@ -38,7 +38,7 @@ Once your account is approved:
 
     **Goal**: Successfully apply for a Chameleon Cloud account and request access to the course project.
 
-    ### Tasks:
+    **Tasks:**
 
     1. [ ] Navigate to [chameleoncloud.org](https://chameleoncloud.org) and start the registration process.
     2. [ ] Complete the application using your **institutional email address**.
@@ -46,7 +46,7 @@ Once your account is approved:
     4. [ ] Explicitly request to be added to project `cloudmesh` (ID: `CH-817419`).
     5. [ ] Submit the application and keep a record of your submission.
 
-    ### Validation:
+    **Validation:**
 
     - The exercise is considered complete when you receive the **approval email** from Chameleon Cloud and can log in to the portal.
     - Verify that you can see the `cloudmesh` project in your project list within the Horizon Dashboard.

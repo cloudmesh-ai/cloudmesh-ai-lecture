@@ -36,11 +36,11 @@ Once your account is active:
 
 ---
 
-!!! assignment \"Assignment: Setup GCP Free Trial Account\"
+!!! assignment "Assignment: Setup GCP Free Trial Account"
 
     **Goal**: Successfully create a GCP account and configure a budget alert.
 
-    ### Tasks:
+    **Tasks:**
 
     1. [ ] Create a GCP account using the [Google Cloud Free Trial](https://cloud.google.com/free).
     2. [ ] Complete the identity verification and payment setup.
@@ -48,7 +48,7 @@ Once your account is active:
     4. [ ] Navigate to **Billing > Budgets & alerts** and create a budget alert for $1.00.
     5. [ ] Create a new project named `course-cloud-setup`.
 
-    ### Validation:
+    **Validation:**
 
     - The assignment is considered complete when you can log in to the console and provide a screenshot of your budget alert.
     - Verify that you can launch an `e2-micro` instance in a supported free-tier region.

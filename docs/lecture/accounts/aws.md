@@ -46,7 +46,7 @@ Once your account is active:
 
     **Goal**: Successfully create an AWS account and configure a billing alarm to protect against charges.
 
-    ### Tasks:
+    **Tasks:**
 
     1. [ ] Create an AWS account using the [AWS Free Tier](https://aws.amazon.com/free/).
     2. [ ] Complete the identity verification and payment setup.
@@ -54,7 +54,7 @@ Once your account is active:
     4. [ ] Navigate to **AWS Budgets** and create a budget alert for $1.00.
     5. [ ] Create an **IAM User** with `AdministratorAccess` for your course work.
 
-    ### Validation:
+    **Validation:**
 
     - The assignment is considered complete when you can log in to the console and provide a screenshot of your $1.00 budget alarm.
     - Verify that you can launch a `t2.micro` (or equivalent free-tier) instance.

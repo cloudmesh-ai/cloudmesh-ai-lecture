@@ -41,7 +41,7 @@ Once your account is active:
 
     **Goal**: Successfully create an Azure account (or activate Azure for Students) and configure a budget alert.
 
-    ### Tasks:
+    **Tasks:*
 
     1. [ ] Create an Azure account using the [Azure Free Account](https://azure.microsoft.com/free/) or [Azure for Students](https://azure.microsoft.com/free/students/).
     2. [ ] Complete the identity verification process.
@@ -49,7 +49,7 @@ Once your account is active:
     4. [ ] Navigate to **Cost Management + Billing** and set up a budget alert.
     5. [ ] Create a new **Resource Group** named `course-cloud-setup`.
 
-    ### Validation:
+    **Validation:**
 
     - The assignment is considered complete when you can log in to the portal and provide a screenshot of your budget alert.
     - Verify that you can create a small Virtual Machine (e.g., B1s) within your resource group.
