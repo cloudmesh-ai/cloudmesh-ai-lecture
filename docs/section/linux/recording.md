@@ -41,7 +41,7 @@ $ google-chrome /tmp/test.html
 To capture an image in OSX, please use
 
 ```
-OSX SHIT-COMMAND - 4
+OSX SHIFT-COMMAND - 4
 ```
 
 To do it from the commandline you can use
