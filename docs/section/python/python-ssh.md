@@ -65,7 +65,7 @@ except Exception as e:
 - **`set_missing_host_key_policy`**: Determines how the client handles unknown host keys. `AutoAddPolicy` is common for automated scripts but should be used cautiously in high-security environments.
 - **`exec_command()`**: Sends a command to the remote server and returns three streams: `stdin` (to send data), `stdout` (to read output), and `stderr` (to read errors).
 
-!!! exercise "Remote Cloud Auditor"
+!!! assignment "Remote Cloud Auditor"
     Write a Python script that:
     1. Takes a list of three remote VM IP addresses.
     2. Connects to each VM using the same SSH key.

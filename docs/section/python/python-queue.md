@@ -68,7 +68,7 @@ print("[Main] All cloud tasks processed.")
 - `task_done()`: Signals that a formerly enqueued task is complete. Used by `join()`.
 - `join()`: Blocks until all items in the queue have been gotten and processed.
 
-!!! exercise "Asynchronous Resource Monitor"
+!!! assignment "Asynchronous Resource Monitor"
     Write a Python program that simulates a cloud resource monitor. 
     1. Use a `queue.Queue` to store "Health Check" requests for a list of 5 VM names.
     2. Implement two worker threads that consume these requests and simulate a health check (e.g., checking if a port is open) by sleeping for a random duration.

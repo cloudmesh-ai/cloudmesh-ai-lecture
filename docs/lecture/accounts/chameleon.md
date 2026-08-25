@@ -1,4 +1,4 @@
-# Applying for a Chameleon Cloud Account
+# Chameleon Cloud Account Setup
 
 To participate in the course exercises that require a public cloud environment, you will need an account on [Chameleon Cloud](https://chameleoncloud.org). Chameleon Cloud is a testbed for cloud computing research and education.
 

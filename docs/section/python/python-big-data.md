@@ -265,7 +265,7 @@ Here are some examples from a previous class:
 - <https://github.com/bigdata-i523/hid231/blob/master/experiment/seaborn/seaborn-exercises.ipynb>
 - <https://github.com/bigdata-i523/hid231/blob/master/experiment/learning-jupyter/learning_jupyter_notebook.ipynb>
 
-!!! exercise "E:ipynb-export: Jupyter Notebook to LaTeX"
+!!! assignment "E:ipynb-export: Jupyter Notebook to LaTeX"
     1. Take these examples and create sections in LaTeX that can be added to the book.
     2. Describe the process:
         - Export the `.ipynb` as `.rst`.
@@ -349,10 +349,10 @@ cms class notebook [--git=GITREPONAME] --history
     of the notebook.md file in the git repository
 ```
 
-!!! exercise "E:notebook-md.1: Notebook.md Parser"
+!!! assignment "E:notebook-md.1: Notebook.md Parser"
     1. Write a `notebook.md` parser.
 
-!!! exercise "E:notebook-md.2: Generalized Notebook Analysis"
+!!! assignment "E:notebook-md.2: Generalized Notebook Analysis"
     1. Generalize the parser command to provide class-level information.
     2. Identify preferred days of notebook check-ins.
     3. Identify students who have not updated their notebooks for a week.
@@ -372,7 +372,7 @@ Given a LaTeX file, can you create a table that includes the names of all videos
       prints the videolist in the given format. txt means it is just ASCII
   ```
 
-!!! exercise "Video Length Extraction"
+!!! assignment "Video Length Extraction"
     1. Write a tool that extracts the information for video length.
     2. Write a tool that finds all YouTube URLs that are not in a video LaTeX macro.
 
@@ -388,7 +388,7 @@ More information can be found at:
 
 - <https://dask.pydata.org>
 
-!!! exercise "Dask Performance Study"
+!!! assignment "Dask Performance Study"
     1. Conduct a performance study that showcases the difference between:
         - Parallel calculations in Dask.
         - Calculations in a framework such as SciPy.

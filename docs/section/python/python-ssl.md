@@ -47,7 +47,7 @@ with socket.create_connection((hostname, port)) as sock:
 - **`wrap_socket()`**: Transforms a plain TCP socket into a secure SSL socket.
 - **Certificate Validation**: The process of verifying that the server's certificate was signed by a trusted Certificate Authority (CA).
 
-!!! exercise "SSL Certificate Explorer"
+!!! assignment "SSL Certificate Explorer"
     Write a Python script that:
     1. Connects to three different cloud provider endpoints (e.g., `aws.amazon.com`, `azure.microsoft.com`, `cloud.google.com`) using `ssl`.
     2. Extracts and prints the SSL version and the cipher suite being used for each connection.

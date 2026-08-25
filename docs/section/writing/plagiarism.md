@@ -124,16 +124,16 @@ Please note that assignments in this course do not use APA style. We follow numb
 
 ## Exercises
 
-!!! exercise "Plagiarism 1"
+!!! assignment "Plagiarism 1"
     Read this document thoroughly to understand the definition of plagiarism and the requirements for proper citation.
 
-!!! exercise "Plagiarism 2"
+!!! assignment "Plagiarism 2"
     Compare APA and IEEE citation styles. Why is numbered citation generally preferred in scientific and technical writing?
 
-!!! exercise "Plagiarism 3"
+!!! assignment "Plagiarism 3"
     Complete and pass the [plagiarism certification](https://www.indiana.edu/~academy/firstPrinciples/certificationTests/index.html). 
     
     This certification is mandatory for all students in this class. If you have not previously completed this certification in another course, you must do so now. Please use the materials provided on the Indiana University education web page to prepare for the test.
 
-!!! exercise "Plagiarism 4 - LUC"
+!!! assignment "Plagiarism 4 - LUC"
     Identify the plagarism guidleines and policies at Loyola University Chicago.

@@ -219,13 +219,13 @@ A Short Introduction to Jupyter Notebooks and NumPy To view the notebook, open t
 
 ## Exercises
 
-!!! exercise "E.Python.Lib.1: Iterate Program"
+!!! assignment "E.Python.Lib.1: Iterate Program"
     1. Write a python program called iterate.py that accepts an integer n from the command line.
     2. Pass this integer to a function called iterate.
     3. The iterate function should then iterate from 1 to n.
     4. If the i-th number is a multiple of three, print *multiple of 3*, if a multiple of 5 print *multiple of 5*, if a multiple of both print *multiple of 3 and 5*, else print the value.
 
-!!! exercise "E.Python.Lib.2: Virtual Environment and Docopt"
+!!! assignment "E.Python.Lib.2: Virtual Environment and Docopt"
     1. Create a pyenv or virtualenv ~/ENV.
     2. Modify your ~/.bashrc shell file to activate your environment upon login.
     3. Install the docopt python package using pip.

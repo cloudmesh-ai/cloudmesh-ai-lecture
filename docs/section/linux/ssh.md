@@ -317,36 +317,36 @@ graph LR
 
 ## Exercises
 
-!!! exercise "SSH.1 Keypair"
+!!! assignment "SSH.1 Keypair"
     Create an SSH key pair
 
-!!! exercise "E.SSH.2 Key upload"
+!!! assignment "E.SSH.2 Key upload"
     Upload the public key to git repository you use. 
 
-!!! exercise "E.SSH.3 githib.com"
+!!! assignment "E.SSH.3 githib.com"
     Get an account on. Upload your key. Provide a guide in md.
 
-!!! exercise "E.SSH.4 access-ci.org"
+!!! assignment "E.SSH.4 access-ci.org"
     Get an account on access-ci.org (if you are authorized to do
     so). Upload your key. Provide a guide.
 
-!!! exercise "E.SSH.5 chamelopncloud.org"
+!!! assignment "E.SSH.5 chamelopncloud.org"
     Get an account on (if you are authorized to do
     so). Upload your key. Provide a guide.
 
-!!! exercise "E.SSH.6: Private key handeling"
+!!! assignment "E.SSH.6: Private key handeling"
     What can happen if you copy your private key to a machine on the network?
 
-!!! exercise "E.SSH.6: Private key sharing"
+!!! assignment "E.SSH.6: Private key sharing"
     Should I share my provate key with others?
 
-!!! exercise "E.SSH.7: Private key via video"
+!!! assignment "E.SSH.7: Private key via video"
     Assume I participate in a video conference call and I accidently share
     my private key. What should I do?
 
-!!! exercise "E.SSH.8: Public key via video"
+!!! assignment "E.SSH.8: Public key via video"
     Assume I participate in a video conference call and I accidently share
     my public key. What should I do?
 
-!!! exercise "E.SSH.8: Can i share my ?ublic key?"
+!!! assignment "E.SSH.8: Can i share my ?ublic key?"
     Am I allowed to share my public key?

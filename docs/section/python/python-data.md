@@ -397,20 +397,20 @@ see: <https://www.tutorialspoint.com/python/python_database_access.htm>
 
 ### Exercises
 
-!!! exercise "E:Encryption.1: Shell Script Encryption"
+!!! assignment "E:Encryption.1: Shell Script Encryption"
     1. Test the shell script to replicate how this example works.
 
-!!! exercise "E:Encryption.2: Cloudmesh Encryption"
+!!! assignment "E:Encryption.2: Cloudmesh Encryption"
     1. Test the cloudmesh encryption class.
 
-!!! exercise "E:Encryption.3: Research Encryption Methods"
+!!! assignment "E:Encryption.3: Research Encryption Methods"
     1. Research other encryption methods that exist.
     2. Provide an example and contribute to the section.
 
-!!! exercise "E:Encryption.4: Big Data Encryption Challenges"
+!!! assignment "E:Encryption.4: Big Data Encryption Challenges"
     1. Analyze and describe the issues of encryption that make it challenging for Big Data.
 
-!!! exercise "E:Encryption.5: Encryption Benchmarking"
+!!! assignment "E:Encryption.5: Encryption Benchmarking"
     1. Given a test dataset with many text files, measure how long it takes to encrypt and decrypt them on various machines.
     2. Write a benchmark to test this performance.
     3. Develop this benchmark as a group and test it on a variety of platforms.

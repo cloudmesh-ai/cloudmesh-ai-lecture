@@ -455,26 +455,26 @@ $ chmod a-x,o+r file1.txt file2.txt
 
 ## Exercises
 
-!!! exercise "Exercise E.Linux.1"
+!!! assignment "Exercise E.Linux.1"
     Familiarize yourself with the commands
 
-!!! exercise "Exercise E.Linux.2"
+!!! assignment "Exercise E.Linux.2"
     Find more commands that you find useful and add them to this page.
 
-!!! exercise "Exercise E.Linux.3"
+!!! assignment "Exercise E.Linux.3"
     Use the sort command to sort all lines of a file while removing duplicates.
 
-!!! exercise "Exercise E.Linux.4"
+!!! assignment "Exercise E.Linux.4"
     Should there be other commands listed in the table with the Linux commands? If so which? Create a pull request for them.
 
-!!! exercise "Exercise E.Linux.5"
+!!! assignment "Exercise E.Linux.5"
     Write a section explaining chmod. Use letters not numbers.
 
-!!! exercise "Exercise E.Linux.6"
+!!! assignment "Exercise E.Linux.6"
     Write a section explaining chown. Use letters not numbers.
 
-!!! exercise "Exercise E.Linux.7"
+!!! assignment "Exercise E.Linux.7"
     Write a section explaining su and sudo.
 
-!!! exercise "Exercise E.Linux.8"
+!!! assignment "Exercise E.Linux.8"
     Write a section explaining cron, at, and crontab.

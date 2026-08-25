@@ -81,11 +81,11 @@ $ echo "digraph G " | dot -Tpng > hello.png
 
 ## Exercises
 
-!!! exercise "Graphviz 1"
+!!! assignment "Graphviz 1"
     Develop a REST service that takes a graph as input and returns a rendered version of the graph in a specified format. Make sure you can pass the format as a parameter.
 
-!!! exercise "Graphviz 2"
+!!! assignment "Graphviz 2"
     Develop a REST service that takes a graph as input and returns a URL of the rendered graph while storing the output onto a data server. The data server is another REST service, from which the result can be picked up.
 
-!!! exercise "Graphviz 3"
+!!! assignment "Graphviz 3"
     For IU students: Develop a REST service that takes a graph as input and returns a URL of the rendered graph while storing the output onto a data server. The data server is another REST service, from which the result can be picked up. Use Box and/or Google Drive that are offered by IU as services. Make sure not to expose your passwords or access keys.

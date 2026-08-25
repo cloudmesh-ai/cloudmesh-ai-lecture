@@ -58,7 +58,7 @@ except KeyboardInterrupt:
 - `priority`: Used to break ties between events scheduled for the same time.
 - `scheduler.run()`: Blocks the main thread and executes all scheduled events in order.
 
-!!! exercise "Delayed VM Shutdown Sequence"
+!!! assignment "Delayed VM Shutdown Sequence"
     Create a cloud maintenance script using the `sched` module that implements a graceful shutdown sequence:
     1. Schedule a "Notification" event to be sent to users 60 seconds from now.
     2. Schedule a "Stop Application" event 120 seconds from now.

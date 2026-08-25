@@ -1,4 +1,4 @@
-# ACCESS CI Guide
+# ACCESS CI Account Setup
 
 ACCESS (Advanced Cyberinfrastructure Coordination Ecosystem: Services) is the gateway for researchers and educators to obtain allocations for high-performance computing and cloud resources, including Jetstream2.
 
