@@ -2,14 +2,17 @@
 
 ## Week 1
 
-1. Review all sections under LECTURES -> INTRODUCTIONS. In case of questions post them on piazza.
-2. Review all secions under ASSIGNMENTS
-3. Create an account on piazza.
-4. Create an account on access-ci.org. 
-5. Create an account on chameleoncloud.org
-6. Explore how to set up virtual machines on your local computer
-7. Set up a github account
-8. We will do some minimal linux and python in this class, if you want to work ahead review some of theoptional material in the class documentation. (If you find errors update them or let us know.)
+1. Fill out the [LUC Hardware Questionaire](https://docs.google.com/forms/d/e/1FAIpQLSdxxTnj8JFrrbREcM0wQ7B9nGmqpYfBPRddhKnGE7e7Dui_lA/viewform?usp=sharing&ouid=114251938823529916329)
+
+2. Review all sections under LECTURES -> INTRODUCTIONS. In case of questions post them on piazza.
+3. Review all secions under ASSIGNMENTS
+4. Create an account on piazza.
+5. Create an account on access-ci.org. 
+6. Create an account on chameleoncloud.org
+7. Explore how to set up virtual machines on your local computer
+8. Set up a github account
+9. We will do some minimal linux and python in this class, if you want to work ahead review some of theoptional material in the class documentation. 
+10. During the entire semester: If you find errors update them or let us know.
 
 !!! warning
     Do not start vms or containers or use other resources from  access-ci or chameleoncloud yet. 
