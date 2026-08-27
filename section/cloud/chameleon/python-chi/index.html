@@ -20,7 +20,7 @@
     
     
       
-        <title>Python chi - Lecture Notes: CloudComputing, DevOps, and AI</title>
+        <title>Launch a KVM@TACC Virtual Machine with the python‑chi Library - Lecture Notes: CloudComputing, DevOps, and AI</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#choose-your-project-and-target-the-kvm-site" class="md-skip">
+        <a href="#launch-a-kvmtacc-virtual-machine-with-the-pythonchi-library" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Python chi
+              Launch a KVM@TACC Virtual Machine with the python‑chi Library
             
           </span>
         </div>
@@ -2737,6 +2737,191 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#step-1-initialise-the-library-and-choose-a-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 – Initialise the library and choose a context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-prepare-the-ssh-keypair-and-private-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 – Prepare the SSH key‑pair and private network
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-optional-create-a-lease-and-launch-the-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 – (Optional) Create a lease and launch the VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-allocate-a-floating-ip-and-attach-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 – Allocate a floating IP and attach it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-credentials-for-accessing-chameleon-from-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Managing Credentials for Accessing Chameleon from Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Managing Credentials for Accessing Chameleon from Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-use-an-x509-proxy-default-for-many-chameleon-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Use an X.509 proxy (default for many Chameleon users)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-use-passwordbased-openstack-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Use password‑based OpenStack authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-use-an-openstack-cloudsyaml-file-recommended-for-reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Use an OpenStack clouds.yaml file (recommended for reproducibility)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-programmatic-authentication-with-the-chi-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Programmatic authentication with the chi SDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-storing-credentials-securely-with-keyring-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Storing credentials securely with keyring (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-copypaste-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick copy‑paste version
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick copy‑paste version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-2-ssh-key-and-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 – SSH key and network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-optional-lease-and-launch-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 – (Optional) lease and launch VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-floating-ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 – Floating IP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips &amp; Common Issues
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2755,32 +2940,318 @@
   
 
 
-<p>you prefer working programmatically or via the command line rather than using the Horizon web GUI, you can perform the exact same workflow on the KVM@TACC site using Chameleon's Python library (python-chi).  Here is how you can set up and launch a virtual machine instance on KVM@TACC using Python:1. Initialize and Connect to KVM@TACCFirst, set your site context to KVM@TACC and select your project:  Pythonimport chi
-from chi import lease, server, network, context</p>
-<h1 id="choose-your-project-and-target-the-kvm-site">Choose your project and target the KVM site</h1>
-<p>context.choose_project()
-context.choose_site("KVM@TACC")
-2. Configure Key Pairs and NetworksEnsure your SSH key is registered and your private network/router are mapped:Python# Import or check your key pair (assumes public key is uploaded)
-key_name = "my-ssh-key"</p>
-<h1 id="retrieve-or-create-a-private-network-connected-to-an-external-router">Retrieve or create a private network connected to an external router</h1>
-<p>net_name = "sharednet1" # Or your custom private net
-3. Create a Lease (If Required) and Launch the InstanceUnlike bare-metal nodes, virtual machines on KVM@TACC can often be launched directly, but you can also manage resources programmatically:  Pythonserver_name = "my-kvm-vm"
-image_name = "CC-Ubuntu-22.04"  # Or your chosen standard image/appliance
-flavor_name = "m1.small"          # Choose your virtual hardware size</p>
-<h1 id="launch-the-server-instance">Launch the server instance</h1>
-<p>instance = server.create_server(
-    server_name,
-    image_name=image_name,
-    flavor_name=flavor_name,
-    network_name=net_name,
-    key_name=key_name,
-    security_groups=["default"]
-)</p>
-<p>print(f"Server {server_name} is launching...")
-4. Associate a Floating IP and ConnectOnce the instance is active, assign a public IP and print out the SSH command:Python# Associate a floating IP
-floating_ip = network.create_floating_ip("ext-net")
-network.associate_floating_ip(instance.id, floating_ip.ip)</p>
-<p>print(f"Connect via terminal:\nssh -i ~/.ssh/id_rsa cc@{floating_ip.ip}")</p>
+<h1 id="launch-a-kvmtacc-virtual-machine-with-the-pythonchi-library">Launch a KVM@TACC Virtual Machine with the <strong>python‑chi</strong> Library</h1>
+<p>If you prefer scripting over the Horizon web UI, the same workflow can be performed from Python.<br>
+The example below shows how to:</p>
+<ul>
+<li>select a project and the KVM@TACC site  </li>
+<li>choose (or create) an SSH key pair and a private network  </li>
+<li>create a virtual‑machine (server) instance  </li>
+<li>attach a floating (public) IP  </li>
+<li>print an SSH command you can use to connect  </li>
+</ul>
+<p>It also includes a complete guide to <strong>managing the credentials</strong> required by the Chameleon SDK.</p>
+<hr>
+<h2 id="step-1-initialise-the-library-and-choose-a-context">Step 1 – Initialise the library and choose a context</h2>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Standard imports from the python‑chi SDK</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">chi</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">chi</span><span class="w"> </span><span class="kn">import</span> <span class="n">lease</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">context</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Choose the project you want to bill to.</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Replace the placeholder with the actual name or ID of your project.</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">PROJECT_NAME</span> <span class="o">=</span> <span class="s2">"my-project"</span>          <span class="c1"># &lt;-- replace with your project</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">context</span><span class="o">.</span><span class="n">choose_project</span><span class="p">(</span><span class="n">PROJECT_NAME</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># Select the KVM@TACC site.</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">context</span><span class="o">.</span><span class="n">choose_site</span><span class="p">(</span><span class="s2">"KVM@TACC"</span><span class="p">)</span>
+</span></code></pre></div>
+<hr>
+<h2 id="step-2-prepare-the-ssh-keypair-and-private-network">Step 2 – Prepare the SSH key‑pair and private network</h2>
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># SSH key – the key must already be uploaded to the site.</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">key_name</span> <span class="o">=</span> <span class="s2">"my-ssh-key"</span>               <span class="c1"># &lt;-- name of the uploaded public key</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Private network – either reuse an existing one or create a new one.</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">net_name</span> <span class="o">=</span> <span class="s2">"sharednet1"</span>               <span class="c1"># &lt;-- existing private network name</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># If you need to create a new network, uncomment the following lines:</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># net_name = network.create_network(</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">#     name="my-private-net",</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1">#     router="external-router-id",   # replace with your router ID</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1">#     is_shared=False</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1"># )</span>
+</span></code></pre></div>
+<hr>
+<h2 id="step-3-optional-create-a-lease-and-launch-the-vm">Step 3 – (Optional) Create a lease and launch the VM</h2>
+<blockquote>
+<p>For most KVM VMs a lease is not required, but the call is shown for completeness.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Server details – adjust the image and flavor to match your needs.</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">server_name</span>  <span class="o">=</span> <span class="s2">"my-kvm-vm"</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">image_name</span>   <span class="o">=</span> <span class="s2">"CC-Ubuntu-22.04"</span>   <span class="c1"># change if you want a different image</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">flavor_name</span>  <span class="o">=</span> <span class="s2">"m1.small"</span>          <span class="c1"># choose an appropriate size</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># Optional: create a lease if you need exclusive resources.</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># lease_id = lease.create_lease(</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1">#     name="my-lease",</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1">#     start="2024-09-01T00:00:00Z",</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1">#     end="2024-09-07T00:00:00Z",</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1">#     project=PROJECT_NAME,</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># )</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="c1"># print(f"Lease created: {lease_id}")</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1"># Launch the server instance</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="n">instance</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">create_server</span><span class="p">(</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    <span class="n">name</span><span class="o">=</span><span class="n">server_name</span><span class="p">,</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    <span class="n">image</span><span class="o">=</span><span class="n">image_name</span><span class="p">,</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>    <span class="n">flavor</span><span class="o">=</span><span class="n">flavor_name</span><span class="p">,</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>    <span class="n">network</span><span class="o">=</span><span class="n">net_name</span><span class="p">,</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>    <span class="n">key_name</span><span class="o">=</span><span class="n">key_name</span><span class="p">,</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>    <span class="n">security_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"default"</span><span class="p">],</span>   <span class="c1"># add additional groups if required</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>    <span class="c1"># lease_id=lease_id,           # uncomment if you created a lease</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="p">)</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Server '</span><span class="si">{</span><span class="n">server_name</span><span class="si">}</span><span class="s2">' is being launched (ID: </span><span class="si">{</span><span class="n">instance</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">) …"</span><span class="p">)</span>
+</span></code></pre></div>
+<hr>
+<h2 id="step-4-allocate-a-floating-ip-and-attach-it">Step 4 – Allocate a floating IP and attach it</h2>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># Grab a floating IP from the external network (usually called "ext-net")</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">floating_ip</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">create_floating_ip</span><span class="p">(</span><span class="s2">"ext-net"</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">network</span><span class="o">.</span><span class="n">associate_floating_ip</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">floating_ip</span><span class="o">.</span><span class="n">ip</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Floating IP attached:"</span><span class="p">)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    </span><span class="si">{</span><span class="n">floating_ip</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># Show the SSH command you can use to connect</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">ssh_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"ssh -i ~/.ssh/id_rsa cc@</span><span class="si">{</span><span class="n">floating_ip</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Connect to your VM with:"</span><span class="p">)</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    </span><span class="si">{</span><span class="n">ssh_command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+<hr>
+<h2 id="managing-credentials-for-accessing-chameleon-from-python">Managing Credentials for Accessing Chameleon from Python</h2>
+<p>The <strong>python‑chi</strong> library (and the underlying OpenStack SDK) obtains authentication information from one of the following sources, in order:</p>
+<ol>
+<li>Explicit arguments passed to the SDK  </li>
+<li>Environment variables  </li>
+<li><code>~/.config/openstack/clouds.yaml</code> (or <code>~/.clouds.yaml</code>)  </li>
+<li><code>~/.netrc</code> (for password authentication)  </li>
+<li>X.509 proxy (for VOMS‑authenticated users)  </li>
+</ol>
+<p>Below are the most common approaches.</p>
+<h3 id="1-use-an-x509-proxy-default-for-many-chameleon-users">1. Use an X.509 proxy (default for many Chameleon users)</h3>
+<ol>
+<li>Obtain a proxy on a machine that has a valid X.509 certificate  </li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>voms-proxy-init<span class="w"> </span>--voms<span class="w"> </span>chameleon
+</span></code></pre></div>
+<ol>
+<li>Export the proxy location for the current shell (the SDK looks for <code>X509_USER_PROXY</code>)  </li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">X509_USER_PROXY</span><span class="o">=</span><span class="nv">$HOME</span>/.globus/proxy
+</span></code></pre></div>
+<ol>
+<li>Run your Python script in the same environment; the SDK will automatically read the proxy and acquire a token.</li>
+</ol>
+<h3 id="2-use-passwordbased-openstack-authentication">2. Use password‑based OpenStack authentication</h3>
+<p>Set the standard OpenStack environment variables before running Python:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_AUTH_URL</span><span class="o">=</span>https://keystone.tacc.chameleoncloud.org:5000/v3
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_USERNAME</span><span class="o">=</span>your-username
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_PASSWORD</span><span class="o">=</span>your-password
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_PROJECT_NAME</span><span class="o">=</span>your-project
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_USER_DOMAIN_NAME</span><span class="o">=</span>Default
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_PROJECT_DOMAIN_NAME</span><span class="o">=</span>Default
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_REGION_NAME</span><span class="o">=</span>KVM@TACC
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_INTERFACE</span><span class="o">=</span>public
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_IDENTITY_API_VERSION</span><span class="o">=</span><span class="m">3</span>
+</span></code></pre></div>
+<p>If you prefer not to expose the password in the shell, place the variables in a file and source it only when needed:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># file: chameleon_env.sh</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_AUTH_URL</span><span class="o">=</span>https://keystone.tacc.chameleoncloud.org:5000/v3
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_USERNAME</span><span class="o">=</span>your-username
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_PASSWORD</span><span class="o">=</span>your-password
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_PROJECT_NAME</span><span class="o">=</span>your-project
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_USER_DOMAIN_NAME</span><span class="o">=</span>Default
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_PROJECT_DOMAIN_NAME</span><span class="o">=</span>Default
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_REGION_NAME</span><span class="o">=</span>KVM@TACC
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_INTERFACE</span><span class="o">=</span>public
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OS_IDENTITY_API_VERSION</span><span class="o">=</span><span class="m">3</span>
+</span></code></pre></div>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">source</span><span class="w"> </span>chameleon_env.sh
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>python<span class="w"> </span>launch_vm.py
+</span></code></pre></div>
+<h3 id="3-use-an-openstack-cloudsyaml-file-recommended-for-reproducibility">3. Use an OpenStack <code>clouds.yaml</code> file (recommended for reproducibility)</h3>
+<p>Create a <code>clouds.yaml</code> file (default locations are <code>~/.config/openstack/clouds.yaml</code> or <code>~/.clouds.yaml</code>):</p>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># ~/.config/openstack/clouds.yaml</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nt">clouds</span><span class="p">:</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">chameleon</span><span class="p">:</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nt">auth</span><span class="p">:</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">      </span><span class="nt">auth_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://keystone.tacc.chameleoncloud.org:5000/v3</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-username</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-password</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">      </span><span class="nt">project_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-project</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">      </span><span class="nt">user_domain_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Default</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">      </span><span class="nt">project_domain_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Default</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nt">region_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KVM@TACC</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">public</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="nt">identity_api_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</span></code></pre></div>
+<p>Tell the SDK which cloud to use:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">openstack</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># The OpenStack SDK reads clouds.yaml automatically.</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">conn</span> <span class="o">=</span> <span class="n">openstack</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">cloud</span><span class="o">=</span><span class="s2">"chameleon"</span><span class="p">)</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># If you need the raw token (for debugging):</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="n">token</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">authorize</span><span class="p">()</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Obtained token:"</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+</span></code></pre></div>
+<p>When you use the <code>chi</code> library, it internally creates a temporary OpenStack connection using the same environment, so you do <strong>not</strong> need to pass the <code>conn</code> object explicitly. Just ensure the environment variables or <code>clouds.yaml</code> are in place before importing <code>chi</code>.</p>
+<h3 id="4-programmatic-authentication-with-the-chi-sdk">4. Programmatic authentication with the <code>chi</code> SDK</h3>
+<p>If you want to supply credentials directly in code (e.g., for CI pipelines), you can use the <code>chi.auth</code> helper:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">chi</span><span class="w"> </span><span class="kn">import</span> <span class="n">auth</span><span class="p">,</span> <span class="n">context</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">auth_params</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="s2">"auth_url"</span><span class="p">:</span> <span class="s2">"https://keystone.tacc.chameleoncloud.org:5000/v3"</span><span class="p">,</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"your-username"</span><span class="p">,</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"your-password"</span><span class="p">,</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="s2">"project_name"</span><span class="p">:</span> <span class="s2">"your-project"</span><span class="p">,</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="s2">"user_domain_name"</span><span class="p">:</span> <span class="s2">"Default"</span><span class="p">,</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="s2">"project_domain_name"</span><span class="p">:</span> <span class="s2">"Default"</span><span class="p">,</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="s2">"region_name"</span><span class="p">:</span> <span class="s2">"KVM@TACC"</span><span class="p">,</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="s2">"interface"</span><span class="p">:</span> <span class="s2">"public"</span><span class="p">,</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="s2">"identity_api_version"</span><span class="p">:</span> <span class="s2">"3"</span><span class="p">,</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="p">}</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="c1"># Authenticate and store the token internally.</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="n">auth</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="o">**</span><span class="n">auth_params</span><span class="p">)</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="c1"># Continue with the normal workflow.</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="n">context</span><span class="o">.</span><span class="n">choose_project</span><span class="p">(</span><span class="s2">"your-project"</span><span class="p">)</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="n">context</span><span class="o">.</span><span class="n">choose_site</span><span class="p">(</span><span class="s2">"KVM@TACC"</span><span class="p">)</span>
+</span></code></pre></div>
+<blockquote>
+<p><strong>Security note</strong> – Never hard‑code passwords or tokens in a script that is stored in a public repository. Use environment variables, a secrets manager, or a protected configuration file with restrictive permissions (<code>chmod 600</code>).</p>
+</blockquote>
+<h3 id="5-storing-credentials-securely-with-keyring-optional">5. Storing credentials securely with <code>keyring</code> (optional)</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">keyring</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">chi</span><span class="w"> </span><span class="kn">import</span> <span class="n">auth</span><span class="p">,</span> <span class="n">context</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">username</span> <span class="o">=</span> <span class="n">keyring</span><span class="o">.</span><span class="n">get_password</span><span class="p">(</span><span class="s2">"chameleon"</span><span class="p">,</span> <span class="s2">"username"</span><span class="p">)</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">password</span> <span class="o">=</span> <span class="n">keyring</span><span class="o">.</span><span class="n">get_password</span><span class="p">(</span><span class="s2">"chameleon"</span><span class="p">,</span> <span class="s2">"password"</span><span class="p">)</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">project</span>  <span class="o">=</span> <span class="n">keyring</span><span class="o">.</span><span class="n">get_password</span><span class="p">(</span><span class="s2">"chameleon"</span><span class="p">,</span> <span class="s2">"project"</span><span class="p">)</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="n">auth_params</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="s2">"auth_url"</span><span class="p">:</span> <span class="s2">"https://keystone.tacc.chameleoncloud.org:5000/v3"</span><span class="p">,</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="s2">"username"</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="s2">"password"</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>    <span class="s2">"project_name"</span><span class="p">:</span> <span class="n">project</span><span class="p">,</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>    <span class="s2">"user_domain_name"</span><span class="p">:</span> <span class="s2">"Default"</span><span class="p">,</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>    <span class="s2">"project_domain_name"</span><span class="p">:</span> <span class="s2">"Default"</span><span class="p">,</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>    <span class="s2">"region_name"</span><span class="p">:</span> <span class="s2">"KVM@TACC"</span><span class="p">,</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>    <span class="s2">"interface"</span><span class="p">:</span> <span class="s2">"public"</span><span class="p">,</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>    <span class="s2">"identity_api_version"</span><span class="p">:</span> <span class="s2">"3"</span><span class="p">,</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="p">}</span>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="n">auth</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="o">**</span><span class="n">auth_params</span><span class="p">)</span>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="n">context</span><span class="o">.</span><span class="n">choose_project</span><span class="p">(</span><span class="n">project</span><span class="p">)</span>
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="n">context</span><span class="o">.</span><span class="n">choose_site</span><span class="p">(</span><span class="s2">"KVM@TACC"</span><span class="p">)</span>
+</span></code></pre></div>
+<hr>
+<h2 id="quick-copypaste-version">Quick copy‑paste version</h2>
+<p>You can copy the four code blocks below into a single Python script (or a Jupyter notebook) and run them in order.</p>
+<div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="gu">### Step 1 – Choose project and site</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>```python
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>import chi
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>from chi import lease, server, network, context
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>PROJECT_NAME = "my-project"          # &lt;-- replace
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>context.choose_project(PROJECT_NAME)
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>context.choose_site("KVM@TACC")
+</span></code></pre></div>
+<h3 id="step-2-ssh-key-and-network">Step 2 – SSH key and network</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">key_name</span> <span class="o">=</span> <span class="s2">"my-ssh-key"</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">net_name</span> <span class="o">=</span> <span class="s2">"sharednet1"</span>               <span class="c1"># &lt;-- existing private net</span>
+</span></code></pre></div>
+<h3 id="step-3-optional-lease-and-launch-vm">Step 3 – (Optional) lease and launch VM</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">server_name</span>  <span class="o">=</span> <span class="s2">"my-kvm-vm"</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">image_name</span>   <span class="o">=</span> <span class="s2">"CC-Ubuntu-22.04"</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">flavor_name</span>  <span class="o">=</span> <span class="s2">"m1.small"</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">instance</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">create_server</span><span class="p">(</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="n">name</span><span class="o">=</span><span class="n">server_name</span><span class="p">,</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="n">image</span><span class="o">=</span><span class="n">image_name</span><span class="p">,</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    <span class="n">flavor</span><span class="o">=</span><span class="n">flavor_name</span><span class="p">,</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>    <span class="n">network</span><span class="o">=</span><span class="n">net_name</span><span class="p">,</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>    <span class="n">key_name</span><span class="o">=</span><span class="n">key_name</span><span class="p">,</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>    <span class="n">security_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"default"</span><span class="p">],</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="p">)</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Server '</span><span class="si">{</span><span class="n">server_name</span><span class="si">}</span><span class="s2">' launching …"</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="step-4-floating-ip">Step 4 – Floating IP</h3>
+<p></p><div class="highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">floating_ip</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">create_floating_ip</span><span class="p">(</span><span class="s2">"ext-net"</span><span class="p">)</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">network</span><span class="o">.</span><span class="n">associate_floating_ip</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">floating_ip</span><span class="o">.</span><span class="n">ip</span><span class="p">)</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ssh -i ~/.ssh/id_rsa cc@</span><span class="si">{</span><span class="n">floating_ip</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+```
+<hr>
+<h2 id="tips-common-issues">Tips &amp; Common Issues</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SSH key not found</strong></td>
+<td>Upload the public key via Horizon → <em>Compute → Key Pairs</em> or use <code>chi.keypair.upload()</code> before running the script.</td>
+</tr>
+<tr>
+<td><strong>Network name not recognized</strong></td>
+<td>List available networks with <code>network.list_networks()</code> and use one of the returned names.</td>
+</tr>
+<tr>
+<td><strong>Requested flavor unavailable</strong></td>
+<td>View available flavors using <code>server.list_flavors()</code> and select a valid one.</td>
+</tr>
+<tr>
+<td><strong>No floating IPs left</strong></td>
+<td>Ask site administrators for additional floating IPs or release any that are no longer needed.</td>
+</tr>
+<tr>
+<td><strong>Authentication timeout</strong></td>
+<td>Ensure you have a valid X.509 proxy (<code>export X509_USER_PROXY=~/.globus/...</code>) or a current password‑based token before importing <code>chi</code>.</td>
+</tr>
+<tr>
+<td><strong>Credential leakage</strong></td>
+<td>Prefer environment variables, <code>clouds.yaml</code>, or a secrets manager over hard‑coding passwords in source files.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>With the steps above you can provision and access a KVM virtual machine on TACC entirely programmatically, and you have several secure options for handling the required credentials. Happy scripting!</p>
 
 
 

@@ -20,7 +20,7 @@
     
     
       
-        <title>The Openstack Command - Lecture Notes: CloudComputing, DevOps, and AI</title>
+        <title>Managing Cloud Parameters and Environment Variables with a YAML File - Lecture Notes: CloudComputing, DevOps, and AI</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#the-openstack-command" class="md-skip">
+        <a href="#managing-cloud-parameters-and-environment-variables-with-a-yaml-file" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              The Openstack Command
+              Managing Cloud Parameters and Environment Variables with a YAML File
             
           </span>
         </div>
@@ -2737,6 +2737,153 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-why-use-a-yaml-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why use a YAML file?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-recommended-file-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Recommended file layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Recommended file layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-chameleon_envyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example chameleon_env.yaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-loading-the-yaml-file-from-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Loading the YAML file from Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Loading the YAML file from Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install the dependency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helper-module-config_loaderpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helper module – config_loader.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-loader-in-your-workflow-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the loader in your workflow script
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the loader in your workflow script">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-script-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the script does
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-alternative-read-the-yaml-directly-without-creating-a-temporary-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Alternative: Read the YAML directly without creating a temporary file
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-security-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Security best practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-quick-reference-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Quick reference checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2755,41 +2902,247 @@
   
 
 
-<h1 id="the-openstack-command">The Openstack Command</h1>
-<p>To create a virtual machine using the openstack command-line client with a specific SSH key, security group, and network, use the openstack server create command combined with their respective flags.<br>
-SCS - Sovereign Cloud Stack</p>
-<p>The Command</p>
-<p><code>Bash
-openstack server create \
-  --flavor m1.small \
-  --image CC-Ubuntu-22.04 \
-  --key-name my-ssh-key \
-  --security-group my-security-group \
-  --nic net-id=UUID_OR_NAME_OF_NETWORK \
-  my-test-vm</code></p>
-<p>Breakdown of the Flags</p>
+<h1 id="managing-cloud-parameters-and-environment-variables-with-a-yaml-file">Managing Cloud Parameters and Environment Variables with a YAML File</h1>
+<p>This guide shows how to store all required OpenStack/Chameleon parameters (cloud authentication, project settings, and any additional environment variables) in a single <strong>YAML</strong> file and how to load that file from Python so the <code>python‑chi</code> (or OpenStack) SDK can use the values automatically.</p>
+<hr>
+<h2 id="1-why-use-a-yaml-file">1. Why use a YAML file?</h2>
 <ul>
-<li>
-<p>--flavor <flavor>: The hardware profile (CPU, RAM, disk size). You can find available options using openstack flavor list.</flavor></p>
-</li>
-<li>
-<p>--image <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="" data-desc-position="bottom"><img></a>: The OS boot image or appliance (e.g., Ubuntu, CentOS). Find options using openstack image list.</p>
-</li>
-<li>
-<p>--key-name <key>: The name of your registered SSH key pair for logging into the VM. (Generate or view keys via openstack keypair list).<br>
-OpenStack Docs</key></p>
-</li>
-<li>
-<p>--security-group <group>: The firewall security group to apply. You can specify this flag multiple times if you want to attach more than one group. (View groups via openstack security group list).<br>
-SCS - Sovereign Cloud Stack</group></p>
-</li>
-<li>
-<p>--nic net-id=<network>: Connects the VM to a specific private or shared network (supply either the network's name or its UUID). View available networks via openstack network list.</network></p>
-</li>
-<li>
-<p>my-test-vm: The final positional argument is the name you want to give to your new virtual machine instance.</p>
-</li>
+<li><strong>Single source of truth</strong> – All credentials, region, and optional parameters live in one place.  </li>
+<li><strong>Version‑controlled</strong> – Keep the file in a private repository (or encrypted store) and track changes.  </li>
+<li><strong>Easily reusable</strong> – Multiple scripts or notebooks can read the same configuration without duplicating code.  </li>
+<li><strong>Separation of code and secrets</strong> – The script contains no hard‑coded passwords; the YAML file can be protected with file‑system permissions.</li>
 </ul>
+<hr>
+<h2 id="2-recommended-file-layout">2. Recommended file layout</h2>
+<p>Create a file called <strong><code>chameleon_env.yaml</code></strong> (the name is arbitrary; you just need to know it when you read it).<br>
+The file contains two top‑level sections:</p>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>clouds</code></td>
+<td>The same structure used by OpenStack’s <code>clouds.yaml</code>. This is what <code>python‑chi</code> and <code>openstacksdk</code> read automatically.</td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td>Any additional environment variables you want to expose to your script (e.g., an API key for a secondary service, a DEBUG flag, etc.).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-chameleon_envyaml">Example <code>chameleon_env.yaml</code></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">clouds</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">chameleon</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">auth</span><span class="p">:</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="nt">auth_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://keystone.tacc.chameleoncloud.org:5000/v3</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YOUR_USERNAME</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YOUR_PASSWORD</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">project_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YOUR_PROJECT</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">user_domain_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Default</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">project_domain_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Default</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nt">region_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KVM@TACC</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">public</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nt">identity_api_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="nt">env</span><span class="p">:</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="c1"># Optional extra variables</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">  </span><span class="nt">DEBUG</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="nt">ANOTHER_SERVICE_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">abcdef1234567890</span>
+</span></code></pre></div>
+<blockquote>
+<p><strong>Important</strong> – Do <strong>not</strong> commit this file to a public repository.<br>
+Set file permissions so only you (or the service account) can read it:</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>chameleon_env.yaml
+</span></code></pre></div>
+<hr>
+<h2 id="3-loading-the-yaml-file-from-python">3. Loading the YAML file from Python</h2>
+<p>You can use the standard <code>yaml</code> package (PyYAML) or the more feature‑rich <code>ruamel.yaml</code>. The snippet below uses PyYAML because it is lightweight and widely available.</p>
+<h3 id="install-the-dependency">Install the dependency</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>pyyaml
+</span></code></pre></div>
+<h3 id="helper-module-config_loaderpy">Helper module – <code>config_loader.py</code></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="sd">"""</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="sd">Utility to load a YAML file that contains OpenStack cloud definitions</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="sd">and additional environment variables.</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="sd">"""</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">load_configuration</span><span class="p">(</span><span class="n">yaml_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"chameleon_env.yaml"</span><span class="p">):</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="sd">    Load the YAML configuration file.</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="sd">    Returns:</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="sd">        dict: The full dictionary parsed from the YAML file.</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="sd">    """</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="n">yaml_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">yaml_path</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">yaml_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Configuration file not found: </span><span class="si">{</span><span class="n">yaml_file</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>    <span class="k">with</span> <span class="n">yaml_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>        <span class="n">cfg</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>    <span class="c1"># Export any entries under `env` as real OS environment variables.</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>    <span class="n">env_vars</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"env"</span><span class="p">,</span> <span class="p">{})</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">env_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>        <span class="c1"># Only set the variable if it is not already defined in the environment.</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Set environment variable </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> from YAML"</span><span class="p">)</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Environment variable </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> already defined; leaving untouched"</span><span class="p">)</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>    <span class="k">return</span> <span class="n">cfg</span>
+</span></code></pre></div>
+<h3 id="using-the-loader-in-your-workflow-script">Using the loader in your workflow script</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># launch_vm.py</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">chi</span><span class="w"> </span><span class="kn">import</span> <span class="n">context</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">lease</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># 0. Load configuration and expose any extra env vars</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">config_loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_configuration</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">cfg</span> <span class="o">=</span> <span class="n">load_configuration</span><span class="p">(</span><span class="s2">"chameleon_env.yaml"</span><span class="p">)</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1"># 1. Choose project and site – the SDK will pick up the cloud definition</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1">#    from the standard location (~/.config/openstack/clouds.yaml) if present.</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1">#    To make it use our in‑memory dict we temporarily write a clouds.yaml</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1">#    file to the default location.</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="n">clouds_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~/.config/openstack/clouds.yaml"</span><span class="p">)</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">clouds_path</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">clouds_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">"clouds"</span><span class="p">],</span> <span class="n">f</span><span class="p">)</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="c1"># Now the chi SDK can read the cloud definition automatically.</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="n">PROJECT_NAME</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">"clouds"</span><span class="p">][</span><span class="s2">"chameleon"</span><span class="p">][</span><span class="s2">"auth"</span><span class="p">][</span><span class="s2">"project_name"</span><span class="p">]</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="n">context</span><span class="o">.</span><span class="n">choose_project</span><span class="p">(</span><span class="n">PROJECT_NAME</span><span class="p">)</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="n">context</span><span class="o">.</span><span class="n">choose_site</span><span class="p">(</span><span class="s2">"KVM@TACC"</span><span class="p">)</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="c1"># 2‑4. Continue with the same steps as in the main tutorial</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="n">key_name</span> <span class="o">=</span> <span class="s2">"my-ssh-key"</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="n">net_name</span> <span class="o">=</span> <span class="s2">"sharednet1"</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="n">server_name</span> <span class="o">=</span> <span class="s2">"my-kvm-vm"</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="n">image_name</span> <span class="o">=</span> <span class="s2">"CC-Ubuntu-24.04"</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="n">flavor_name</span> <span class="o">=</span> <span class="s2">"m1.small"</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="n">instance</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">create_server</span><span class="p">(</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>    <span class="n">name</span><span class="o">=</span><span class="n">server_name</span><span class="p">,</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>    <span class="n">image</span><span class="o">=</span><span class="n">image_name</span><span class="p">,</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>    <span class="n">flavor</span><span class="o">=</span><span class="n">flavor_name</span><span class="p">,</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>    <span class="n">network</span><span class="o">=</span><span class="n">net_name</span><span class="p">,</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>    <span class="n">key_name</span><span class="o">=</span><span class="n">key_name</span><span class="p">,</span>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>    <span class="n">security_groups</span><span class="o">=</span><span class="p">[</span><span class="s2">"default"</span><span class="p">],</span>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="p">)</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Server '</span><span class="si">{</span><span class="n">server_name</span><span class="si">}</span><span class="s2">' launching (ID: </span><span class="si">{</span><span class="n">instance</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="n">floating_ip</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">create_floating_ip</span><span class="p">(</span><span class="s2">"ext-net"</span><span class="p">)</span>
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="n">network</span><span class="o">.</span><span class="n">associate_floating_ip</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">floating_ip</span><span class="o">.</span><span class="n">ip</span><span class="p">)</span>
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ssh -i ~/.ssh/id_rsa cc@</span><span class="si">{</span><span class="n">floating_ip</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+<h4 id="what-the-script-does">What the script does</h4>
+<ol>
+<li><strong>Loads</strong> <code>chameleon_env.yaml</code>.  </li>
+<li><strong>Injects</strong> any variables under the <code>env</code> section into <code>os.environ</code>.  </li>
+<li><strong>Writes</strong> the <code>clouds</code> section to the default <code>clouds.yaml</code> location so the OpenStack/chi SDK can locate it without additional arguments.  </li>
+<li>Proceeds with the normal VM‑creation workflow.</li>
+</ol>
+<blockquote>
+<p>If you already have a <code>clouds.yaml</code> you can skip step 3 and simply set <code>OS_CLOUD=chameleon</code> in your environment, letting the SDK pick the cloud name from the loaded dictionary.</p>
+</blockquote>
+<hr>
+<h2 id="4-alternative-read-the-yaml-directly-without-creating-a-temporary-file">4. Alternative: Read the YAML directly without creating a temporary file</h2>
+<p>If you prefer not to write a file, you can pass the cloud dictionary directly to the OpenStack <code>Connection</code> object and then hand that connection to the chi SDK (the chi SDK accepts an existing session). Example:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">openstack</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">chi</span><span class="w"> </span><span class="kn">import</span> <span class="n">context</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">network</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">cfg</span> <span class="o">=</span> <span class="n">load_configuration</span><span class="p">(</span><span class="s2">"chameleon_env.yaml"</span><span class="p">)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">cloud_cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">"clouds"</span><span class="p">][</span><span class="s2">"chameleon"</span><span class="p">]</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Create an explicit OpenStack connection</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">conn</span> <span class="o">=</span> <span class="n">openstack</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">**</span><span class="n">cloud_cfg</span><span class="p">[</span><span class="s2">"auth"</span><span class="p">],</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>                         <span class="n">region_name</span><span class="o">=</span><span class="n">cloud_cfg</span><span class="p">[</span><span class="s2">"region_name"</span><span class="p">],</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>                         <span class="n">interface</span><span class="o">=</span><span class="n">cloud_cfg</span><span class="p">[</span><span class="s2">"interface"</span><span class="p">],</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>                         <span class="n">identity_api_version</span><span class="o">=</span><span class="n">cloud_cfg</span><span class="p">[</span><span class="s2">"identity_api_version"</span><span class="p">])</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># Give chi the connection (chi internally uses openstacksdk sessions)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="n">context</span><span class="o">.</span><span class="n">set_connection</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>          <span class="c1"># hypothetical helper; actual API may vary</span>
+</span></code></pre></div>
+<p>Consult the <code>python‑chi</code> documentation for the exact method to supply an existing OpenStack session; the principle remains the same.</p>
+<hr>
+<h2 id="5-security-best-practices">5. Security best practices</h2>
+<table>
+<thead>
+<tr>
+<th>Recommendation</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Location</strong> - <code>~/.config/chameleon_env.yaml</code></td>
+<td>Do not put the yaml file in your currednt working directory so  you do not check it in with git.</td>
+</tr>
+<tr>
+<td><strong>File permissions</strong> – <code>chmod 600 ~/.config/chameleon_env.yaml</code></td>
+<td>Prevent other users on the same host from reading passwords.</td>
+</tr>
+<tr>
+<td><strong>Never hard‑code</strong> passwords in source code</td>
+<td>Reduces the risk of accidental commits to public repos.</td>
+</tr>
+<tr>
+<td><strong>Use a secret manager</strong> (AWS Secrets Manager, HashiCorp Vault, etc.) for production</td>
+<td>Allows rotation without editing files.</td>
+</tr>
+<tr>
+<td><strong>Separate values</strong> – keep only one set of credentials per environment (dev / test / prod)</td>
+<td>Avoids mixing resources and simplifies audits.</td>
+</tr>
+<tr>
+<td><strong>Delete the temporary <code>clouds.yaml</code></strong> after the script finishes (optional)</td>
+<td>Reduces lingering credential files.</td>
+</tr>
+<tr>
+<td><strong>Validate the YAML</strong> – catch missing keys early</td>
+<td>Prevents runtime authentication failures.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-quick-reference-checklist">6. Quick reference checklist</h2>
+<ol>
+<li>Create <code>chameleon_env.yaml</code> with <code>clouds</code> and optional <code>env</code> sections.  </li>
+<li>Secure the file (<code>chmod 600</code>).  </li>
+<li>Install PyYAML (<code>pip install pyyaml</code>).  </li>
+<li>Add <code>config_loader.py</code> (or embed the <code>load_configuration</code> function) to your project.  </li>
+<li>In your script:  </li>
+<li>Call <code>load_configuration()</code> early.  </li>
+<li>Export extra env vars (handled automatically).  </li>
+<li>Write the <code>clouds</code> dict to the default <code>clouds.yaml</code> <em>or</em> create an OpenStack connection directly.  </li>
+<li>Run the script – the SDK will pick up authentication details automatically.  </li>
+</ol>
 
 
 

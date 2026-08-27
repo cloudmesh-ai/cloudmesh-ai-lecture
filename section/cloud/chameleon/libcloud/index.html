@@ -20,7 +20,7 @@
     
     
       
-        <title>Libcoud and Openstack - Lecture Notes: CloudComputing, DevOps, and AI</title>
+        <title>Libcloud and OpenStack - Lecture Notes: CloudComputing, DevOps, and AI</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#libcoud-and-openstack" class="md-skip">
+        <a href="#libcloud-and-openstack" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Libcoud and Openstack
+              Libcloud and OpenStack
             
           </span>
         </div>
@@ -2737,6 +2737,36 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#python-script-libcloud_create_vmpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python script (libcloud_create_vm.py)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2755,41 +2785,106 @@
   
 
 
-<h1 id="libcoud-and-openstack">Libcoud and Openstack</h1>
-<p>Apache Libcloud abstracts multiple cloud providers into a unified interface using its OPENSTACK compute driver.  Below is a complete Python script using Libcloud to instantiate an OpenStack connection and provision a virtual machine specifying an image, hardware size, network, security group, and SSH key pair.  Python Script (libcloud_create_vm.py)Pythonfrom libcloud.compute.providers import get_driver
-from libcloud.compute.types import Provider</p>
-<h1 id="1-initialize-the-openstack-driver">1. Initialize the OpenStack Driver</h1>
-<p>OpenStack = get_driver(Provider.OPENSTACK)</p>
-<p>driver = OpenStack(
-    key="your_username",
-    secret="your_password",
-    ex_force_auth_url="https://identity.cloud.example.com/v3",
-    ex_force_auth_version="3.x_password",
-    ex_tenant_name="your_project_name",
-    ex_domain_name="Default",  # Required for Keystone v3
-)</p>
-<h1 id="2-fetch-target-image-and-size-flavor">2. Fetch target Image and Size (Flavor)</h1>
-<p>image_id = "YOUR_IMAGE_UUID"
-flavor_id = "YOUR_FLAVOR_UUID"</p>
-<p>image = driver.get_image(image_id)
-size = [s for s in driver.list_sizes() if s.id == flavor_id][0]</p>
-<h1 id="3-define-network-security-group-and-key-pair-namesids">3. Define network, security group, and key pair names/IDs</h1>
-<p>network_id = "YOUR_NETWORK_UUID"
-security_group_name = "default"
-key_pair_name = "my-ssh-key"</p>
-<p>print(f"Provisioning VM on OpenStack via Libcloud...")</p>
-<h1 id="4-create-the-node-vm">4. Create the Node (VM)</h1>
-<p>node = driver.create_node(
-    name="my-test-vm",
-    image=image,
-    size=size,
-    ex_keyname=key_pair_name,
-    ex_security_groups=[security_group_name],
-    ex_networks=[network_id],
-)</p>
-<p>print(f"Success! Node {node.name} status: {node.extra.get('status')}")
-print(f"IP Addresses assigned: {node.public_ips + node.private_ips}")
-Key Considerations:Dependencies: Install Libcloud via pip install apache-libcloud.Authentication Versions: Ensure your ex_force_auth_version matches your OpenStack Keystone endpoint configuration (e.g., "3.x_password" for modern Identity v3 APIs vs "2.0_password" for older clouds).  </p>
+<h1 id="libcloud-and-openstack">Libcloud and OpenStack</h1>
+<p>Apache Libcloud abstracts multiple cloud providers into a unified interface using its <strong>OPENSTACK</strong> compute driver.<br>
+Below is a complete Python script (<code>libcloud_create_vm.py</code>) that:</p>
+<ol>
+<li>Instantiates an OpenStack connection.  </li>
+<li>Fetches the desired image and flavor.  </li>
+<li>Specifies the network, security group, and SSH key pair.  </li>
+<li>Provisions a virtual machine.</li>
+</ol>
+<hr>
+<h3 id="python-script-libcloud_create_vmpy">Python script (<code>libcloud_create_vm.py</code>)</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">libcloud.compute.providers</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_driver</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">libcloud.compute.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Provider</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># 1. Initialize the OpenStack driver</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">OpenStack</span> <span class="o">=</span> <span class="n">get_driver</span><span class="p">(</span><span class="n">Provider</span><span class="o">.</span><span class="n">OPENSTACK</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">driver</span> <span class="o">=</span> <span class="n">OpenStack</span><span class="p">(</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">key</span><span class="o">=</span><span class="s2">"your_username"</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">secret</span><span class="o">=</span><span class="s2">"your_password"</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">ex_force_auth_url</span><span class="o">=</span><span class="s2">"https://identity.cloud.example.com/v3"</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">ex_force_auth_version</span><span class="o">=</span><span class="s2">"3.x_password"</span><span class="p">,</span>   <span class="c1"># Keystone v3 (password auth)</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">ex_tenant_name</span><span class="o">=</span><span class="s2">"your_project_name"</span><span class="p">,</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">ex_domain_name</span><span class="o">=</span><span class="s2">"Default"</span><span class="p">,</span>                <span class="c1"># Required for Keystone v3</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">)</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="c1"># 2. Fetch target image and size (flavor)</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="n">image_id</span> <span class="o">=</span> <span class="s2">"YOUR_IMAGE_UUID"</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="n">flavor_id</span> <span class="o">=</span> <span class="s2">"YOUR_FLAVOR_UUID"</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="n">image</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">get_image</span><span class="p">(</span><span class="n">image_id</span><span class="p">)</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="c1"># Find the flavor that matches the UUID</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="n">size</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">driver</span><span class="o">.</span><span class="n">list_sizes</span><span class="p">()</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">flavor_id</span><span class="p">)</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="c1"># 3. Define network, security group, and key‑pair</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="n">network_id</span> <span class="o">=</span> <span class="s2">"YOUR_NETWORK_UUID"</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="n">security_group_name</span> <span class="o">=</span> <span class="s2">"default"</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="n">key_pair_name</span> <span class="o">=</span> <span class="s2">"my-ssh-key"</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Provisioning VM on OpenStack via Libcloud..."</span><span class="p">)</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="c1"># 4. Create the node (VM)</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="c1"># ----------------------------------------------------------------------</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="n">node</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">create_node</span><span class="p">(</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">"my-test-vm"</span><span class="p">,</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>    <span class="n">ex_keyname</span><span class="o">=</span><span class="n">key_pair_name</span><span class="p">,</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>    <span class="n">ex_security_groups</span><span class="o">=</span><span class="p">[</span><span class="n">security_group_name</span><span class="p">],</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>    <span class="n">ex_networks</span><span class="o">=</span><span class="p">[</span><span class="n">network_id</span><span class="p">],</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="p">)</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Success! Node </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> status: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">extra</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'status'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"IP Addresses assigned: </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">public_ips</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">node</span><span class="o">.</span><span class="n">private_ips</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+<hr>
+<h3 id="key-considerations">Key considerations</h3>
+<ul>
+<li>
+<p><strong>Dependencies</strong><br>
+  </p><div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>apache-libcloud
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Authentication version</strong>  </p>
+</li>
+<li>Use <code>ex_force_auth_version="3.x_password"</code> for modern OpenStack clouds that expose Keystone <strong>v3</strong> APIs.  </li>
+<li>
+<p>For older clouds, switch to <code>"2.0_password"</code> (or another appropriate version) and adjust the auth URL accordingly.</p>
+</li>
+<li>
+<p><strong>Naming / IDs</strong>  </p>
+</li>
+<li>Replace placeholders (<code>YOUR_IMAGE_UUID</code>, <code>YOUR_FLAVOR_UUID</code>, <code>YOUR_NETWORK_UUID</code>, etc.) with the actual IDs from your OpenStack project.  </li>
+<li>
+<p>Ensure the security group and SSH key pair already exist in the project, or create them beforehand via the OpenStack dashboard / CLI.</p>
+</li>
+<li>
+<p><strong>Network handling</strong>  </p>
+</li>
+<li>
+<p><code>ex_networks</code> expects a list of <strong>network UUIDs</strong>. If you need to attach several networks, simply add more IDs to the list.</p>
+</li>
+<li>
+<p><strong>Error handling (optional)</strong><br>
+  </p><div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">node</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">create_node</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to create VM: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</li>
+</ul>
+<p>Feel free to copy the script, replace the placeholders with your environment’s values, and run it to spin up a VM on OpenStack via Libcloud!</p>
 
 
 
