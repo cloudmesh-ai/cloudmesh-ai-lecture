@@ -1,9 +1,4 @@
----
-title: Running & Integrating LLMs on Jetstream 2
-description: Quick‑start guide for Jetstream’s central inference service vs. self‑hosted GPU instances.
-date: 2026-08-26
-version: 1.2
----
+# Running & Integrating LLMs on Jetstream 2
 
 ## For the impatient
 
@@ -14,6 +9,8 @@ version: 1.2
     
     is the fastest way to start querying Llama 4 Scout, DeepSeek‑R1, or GPT‑OSS‑120B.
 
+![Jetstream 2 through either the Central Inference Service (Proxy) or a Self-Hosted GPU Instance.](images/jetstream-arch-llm-Gemini_Generated_Image_bpdlncbpdlncbpdl.jpeg)
+
 !!! warning
     The document contains secrets such as tokens. They should never be hard‑coded.  All token usage must reference the 
     
@@ -23,8 +20,7 @@ version: 1.2
 
 ## Overview
 
-Jetstream 2 gives you **two distinct ways** to run Large Language Models (LLMs).  
-Both expose an **OpenAI‑compatible HTTP API**, but they differ in how the request is routed:
+Jetstream 2 gives you **two distinct ways** to run Large Language Models (LLMs). Both expose an **OpenAI‑compatible HTTP API**, but they differ in how the request is routed:
 
 | Routing path | What it is | Authentication |
 |--------------|------------|----------------|

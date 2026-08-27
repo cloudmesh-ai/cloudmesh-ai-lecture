@@ -1,5 +1,28 @@
 # Horizon
 
+!!! warning 
+    In order for you to start a VM on Chameleon CLoud Horizon make sure that 
+
+    * in the time zone set your time zone
+    * upload your public key
+    * create a resaervation 
+        * use at most an hour for small experiements
+        * set the end date to 0
+        * set the time to one hour from now in 24:00 hour format. Thus if you like to terminate at 2pm it must be 14:00
+    * initially use a n image from chameleon cloud indicated by the CC prefix such as CC-ubuntu-24.04
+    * after you have doen this you can finally obtaine a VM instance
+    you will need as part of this have to define a network, use for now the shared* network.
+
+!!! warning 
+    I am not the administrator of Chameleon Cloud, so if you need help to not hazitate to ask them. The help form is integrated into their portal.
+
+!!! warning 
+    Be aware of scheduled maintenance. Plan around this. It woll ne shown in the portal
+
+!!! warning 
+    Do not use this resource for other classes. Your professor can apply for their own project and add you. You can be part of multiple projects.
+
+
 To create a virtual machine using the **OpenStack Horizon dashboard** with a specific network, security group, and SSH key, follow these steps through the web user interface:
 
 ## 1. Navigate to Instances
