@@ -1,0 +1,3759 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Practitioners Guide">
+      
+      
+        <meta name="author" content="Gregor von Laszewski">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Amazon Bedrock - Lecture Notes: CloudComputing, DevOps, and AI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#amazon-bedrock" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-header__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lecture Notes: CloudComputing, DevOps, and AI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Amazon Bedrock
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-nav__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Lecture Notes: CloudComputing, DevOps, and AI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LECTURES
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LECTURES
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OVERVIEW
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OVERVIEW
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/syllabus/cloud-computing-devops-ai-syllabus.pdf" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.0 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/01.1-syllabus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.1 Syllabus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/01.2-contribute-lecture-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.2 Contribute
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/01.3-accounts.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.3 Accounts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/01.4-supplemental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.4 Supplemental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/01.5-piazza/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5 Piazza
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_7">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_7" id="__nav_2_1_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6 ACCOUNTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L.1.6 ACCOUNTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/local/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.1 Local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/access-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.2 Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/chameleon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.3 Chameleon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.4 AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/azure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.5 Azure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.6 Google
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLOUD
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLOUD
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/cloud/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2 Local
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.2 Local
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/vm-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/multipass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Multipass
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Qemu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/vagrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Vagrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/virsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virsh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASSIGNMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ASSIGNMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/assignments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/assignments/assignments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LUC_388_488
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="#separator" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ---
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PYTHON
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PYTHON
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.2 Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3">
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3 Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.3 Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.1 Interactive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.2 Editor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.3 Language
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4">
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5 Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.5 Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-click/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.1 Click
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-docopts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.2 DocOpts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-cmd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.3 CMD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6 Processes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.6 Processes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-subprocess/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.1 Subprocess
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.2 Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.3 Queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.4 Schedulers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6">
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7 Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.7 Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.1 Basic Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-wordcount/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.2 Wordcount
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7">
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8 Graphs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.8 Graphs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.1 Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-matplotlib/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.2 Matplotlib
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8">
+        
+          
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9 Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.9 Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-ssl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.1 SSL/TLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.2 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LINUX
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LINUX
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.2 Text one Liners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/refcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.1 RefCards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/ubuntu-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.2 Ubuntu CLI Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.4 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/ssh-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.5 SSH on Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/zsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.6 ZSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/recording/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.7 Recording
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLOUD
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLOUD
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VIRTUALIZATION
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    VIRTUALIZATION
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/cloud/virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/cloud/virtualmachines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VMs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LOCAL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LOCAL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/vm-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/multipass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Multipass
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Qemu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/virsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virsh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/vagrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Vagrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WRITING
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    WRITING
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/plagiarism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.1 Plagarism
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.2 Markdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/emacs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.3 Emacs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_4">
+        
+          
+          <label class="md-nav__link" for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4 Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    W.4 Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/ppt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.1 PPT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/mermaid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.2 Mermaid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/graphviz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.3 Graphviz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9">
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACKNOWLEDGEMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ACKNOWLEDGEMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../acknowledgements/acknowledgements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A.1 Acknowledgments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-gui-example-the-amazon-bedrock-playground" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. GUI Example: The Amazon Bedrock Playground
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-command-line-example-aws-cli-aws-bedrock-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Command-Line Example: AWS CLI (aws bedrock-runtime)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-costs-are-structured-the-cost-per-token-cos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Costs Are Structured (The Cost Per Token / "CoS")
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simple-calculation-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simple Calculation Example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simple Calculation Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-a-high-end-frontier-model-eg-claude-35-sonnet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario A: High-End Frontier Model (e.g., Claude 3.5 Sonnet)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-b-mid-tier-cost-optimized-model-eg-amazon-nova-pro-or-deepseek-v3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario B: Mid-Tier / Cost-Optimized Model (e.g., Amazon Nova Pro or DeepSeek V3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-crucial-optimization-strategy-for-large-codebases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Crucial Optimization Strategy for Large Codebases
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-code-optimization-cloudmesh-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Code optimization (cloudmesh-ai)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example: Code optimization (cloudmesh-ai)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-estimating-total-codebase-volume-for-cloudmesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Estimating Total Codebase Volume for Cloudmesh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-factoring-in-iterative-refactoring-loops-agentic-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Factoring in Iterative Refactoring Loops (Agentic RAG)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-estimated-cost-scenarios-using-amazon-bedrock-pricing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Estimated Cost Scenarios (Using Amazon Bedrock Pricing)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Estimated Cost Scenarios (Using Amazon Bedrock Pricing)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-a-high-end-frontier-model-eg-claude-35-sonnet_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario A: High-End Frontier Model (e.g., Claude 3.5 Sonnet)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-b-cost-optimized-mid-tier-model-eg-amazon-nova-pro-or-deepseek-v3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario B: Cost-Optimized / Mid-Tier Model (e.g., Amazon Nova Pro or DeepSeek V3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-key-factors-that-can-lower-or-raise-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Key Factors That Can Lower or Raise Costs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-desdicated-hosting-of-gemma-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Desdicated Hosting of Gemma 4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example: Desdicated Hosting of Gemma 4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-hourly-annual-rates-for-dedicated-model-units" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Hourly &amp; Annual Rates for Dedicated Model Units
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-summary-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Summary &amp; Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-gromacs-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Gromacs Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example: Gromacs Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-estimating-code-size-in-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Estimating Code Size in Tokens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cost-breakdown-using-bedrock-on-demand-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cost Breakdown Using Bedrock On-Demand APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Cost Breakdown Using Bedrock On-Demand APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-targeted-core-kernel-analysis-single-deep-dive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Targeted Core Kernel Analysis (Single Deep-Dive)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-full-codebase-static-analysis-multi-agent-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Full Codebase Static Analysis (Multi-Agent Scan)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-hidden-infrastructure-costs-to-watch-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Hidden Infrastructure Costs to Watch For
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-human-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Human Cost
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="amazon-bedrock">Amazon Bedrock</h1>
+<p><strong>Amazon Bedrock</strong> is a fully managed AWS service that makes high-performing foundation models (FMs) from leading AI companies (such as Anthropic, Meta, Cohere, Stability AI, and Amazon) accessible through a single API.</p>
+<p>Instead of needing to provision, manage, and scale heavy GPU infrastructure or train custom machine learning models from scratch, developers can use Bedrock to seamlessly build and scale generative AI applications.</p>
+<p>Key aspects and features of AWS Bedrock include:</p>
+<ul>
+<li><strong>Choice of Foundation Models:</strong> Gives you flexibility to choose from various top-tier text, image, and embedding models through a unified endpoint.</li>
+<li><strong>Serverless Architecture:</strong> Because it is fully managed and serverless, you do not have to handle servers or infrastructure management; AWS takes care of scaling and availability automatically.</li>
+<li><strong>Customization and RAG:</strong> Allows you to securely fine-tune models with your own proprietary data or connect them to external data sources using <strong>Retrieval-Augmented Generation (RAG)</strong> via managed Knowledge Bases.</li>
+<li><strong>Enterprise Security and Privacy:</strong> Integrated natively with AWS security controls (like IAM, KMS, and Virtual Private Clouds), ensuring your data remains encrypted in transit/at rest and is never used to train the underlying base models.</li>
+<li><strong>Guardrails and Agents:</strong> Provides built-in safety features to filter toxic content and block inappropriate topics, as well as managed <strong>Agents</strong> that can autonomously orchestrate and execute multi-step tasks across enterprise systems.</li>
+</ul>
+<p>Here are concrete, simple examples of how to interact with Amazon Bedrock using both the web graphical user interface (GUI) and the command-line interface (CLI).</p>
+<hr>
+<h3 id="1-gui-example-the-amazon-bedrock-playground">1. GUI Example: The Amazon Bedrock Playground</h3>
+<p>The graphical interface is ideal for testing prompts visually without writing code.</p>
+<ol>
+<li><strong>Log in</strong> to the <strong>AWS Management Console</strong> and navigate to the <strong>Amazon Bedrock</strong> service.</li>
+<li>In the left-hand navigation pane, look under <strong>Playgrounds</strong> and select either <strong>Chat</strong> or <strong>Text</strong>.</li>
+<li>Click the <strong>Select model</strong> button and choose a provider and model (e.g., <em>Anthropic Claude</em> or <em>Meta Llama</em>).</li>
+<li>
+<p>In the text box at the bottom, type a simple prompt:</p>
+<blockquote>
+<p><em>Explain what a container is in one sentence.</em></p>
+</blockquote>
+</li>
+<li>
+<p>Click <strong>Run</strong> to see the response instantly rendered in the browser window, along with token counts and latency metrics.
+<em>(Tip: You can click the code/ellipsis icon in the playground to view or copy the equivalent API request structure).</em></p>
+</li>
+</ol>
+<hr>
+<h3 id="2-command-line-example-aws-cli-aws-bedrock-runtime">2. Command-Line Example: AWS CLI (<code>aws bedrock-runtime</code>)</h3>
+<p>You can invoke models directly from your terminal using the AWS CLI.</p>
+<p>First, ensure you have your AWS credentials configured and permission to access the model. Then run the following command to query a Meta Llama model (using a raw payload structure):</p>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>aws<span class="w"> </span>bedrock-runtime<span class="w"> </span>invoke-model<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span>--model-id<span class="w"> </span><span class="s2">"meta.llama3-8b-instruct-v1:0"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span>--body<span class="w"> </span><span class="s1">'{"prompt": "Explain what a container is in one sentence.", "max_gen_len": 100, "temperature": 0.5}'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span>--cli-binary-format<span class="w"> </span>raw-in-base64-out<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span>--region<span class="w"> </span>us-east-1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span>output.json
+</span></code></pre></div>
+<ul>
+<li><strong>What happens:</strong> The model evaluates your prompt, writes the resulting JSON payload containing the answer directly into a local file named <code>output.json</code>, which you can then view using <code>cat output.json</code>.</li>
+</ul>
+<p>Amazon Bedrock does not use a flat subscription fee for its core models; instead, it operates primarily on a <strong>pay-as-you-go token pricing model</strong> (with options for batch processing, prompt caching, or provisioned throughput).</p>
+<h3 id="how-costs-are-structured-the-cost-per-token-cos">How Costs Are Structured (The Cost Per Token / "CoS")</h3>
+<ol>
+<li><strong>Input vs. Output Tokens:</strong></li>
+<li>You are billed separately for <strong>input tokens</strong> (the prompt text and context you send to the model) and <strong>output tokens</strong> (the response generated by the model).</li>
+<li>
+<p>Output tokens generally cost significantly more than input tokens because generating text requires more intensive computational resources.</p>
+</li>
+<li>
+<p><strong>Model Tier Variations:</strong></p>
+</li>
+<li>
+<p>Pricing depends heavily on which model you choose. Lightweight models (like <em>Amazon Nova Micro</em>) cost a fraction of a cent per million tokens, whereas frontier models (like <em>Anthropic Claude 3.5 Sonnet</em> or <em>Claude Opus</em>) cost substantially more per million tokens.</p>
+</li>
+<li>
+<p><strong>Additional/Hidden Architecture Costs:</strong></p>
+</li>
+<li><strong>Knowledge Bases (RAG):</strong> If you hook up a managed vector store like Amazon OpenSearch Serverless for Retrieval-Augmented Generation, there is a baseline infrastructure compute cost (roughly $345/month minimum) even with zero query traffic.</li>
+<li><strong>Guardrails &amp; Agents:</strong> Extra features like content filtering (Guardrails) or multi-step agent token amplification add minor incremental charges per request or per text unit.</li>
+</ol>
+<hr>
+<h3 id="simple-calculation-example">Simple Calculation Example</h3>
+<div class="admonition problem">
+<p class="admonition-title">Problem</p>
+<p>"Assume i have a 70000 line program and i want to analyze if its performance can be improved wile using an itterative RAG what do you think the cost for it would be?"</p>
+</div>
+<p>Lets simply ask an LLM (Gemini). </p>
+<ul>
+<li>However at one point we need to to verify the cost as we can not trust the LLM.</li>
+<li>
+<p>What are other LLMs return</p>
+</li>
+<li>
+<p><strong>Base Codebase Size:</strong> At roughly 15 tokens per line, 70,000 lines equals <strong>1,050,000 tokens</strong> (1.05 million tokens).</p>
+</li>
+<li><strong>Iterative RAG / Agent Loop Amplification:</strong> If an iterative agentic loop runs multiple cycles (e.g., retrieving context, analyzing chunks, self-correcting, and re-querying across 6 to 8 iterations), it repeatedly processes chunks and system history. Using an 8x multiplier, your total processed input volume per analysis run jumps to roughly <strong>8.4 million input tokens</strong>.</li>
+</ul>
+<hr>
+<h4 id="scenario-a-high-end-frontier-model-eg-claude-35-sonnet">Scenario A: High-End Frontier Model (e.g., Claude 3.5 Sonnet)</h4>
+<ul>
+<li><em>Rates:</em> ~\$3.00 / million input tokens, ~\$15.00 / million output tokens.</li>
+<li><strong>Per Run:</strong></li>
+<li>Input (~8.4M tokens): ~\$.25.20</li>
+<li>
+<p>Output (~50K generated tokens): ~\$.0.75</p>
+</li>
+<li>
+<p><strong>Estimated Cost per Analysis:</strong> <strong>~\$.26.00 per full run</strong></p>
+</li>
+</ul>
+<h4 id="scenario-b-mid-tier-cost-optimized-model-eg-amazon-nova-pro-or-deepseek-v3">Scenario B: Mid-Tier / Cost-Optimized Model (e.g., Amazon Nova Pro or DeepSeek V3)</h4>
+<ul>
+<li><em>Rates:</em> ~\$0.80 / million input tokens, ~\$3.20 / million output tokens.</li>
+<li><strong>Per Run:</strong></li>
+<li>Input (~8.4M tokens): ~\$6.72</li>
+<li>
+<p>Output (~50K tokens): ~\$0.16</p>
+</li>
+<li>
+<p><strong>Estimated Cost per Analysis:</strong> <strong>~\$.7.00 per full run</strong></p>
+</li>
+</ul>
+<hr>
+<h3 id="3-crucial-optimization-strategy-for-large-codebases">3. Crucial Optimization Strategy for Large Codebases</h3>
+<p>At 70,000 lines, <strong>Prompt Caching</strong> becomes mandatory to keep costs manageable:</p>
+<ul>
+<li>Because your codebase remains mostly static across iterations, features like <strong>Bedrock Prompt Caching</strong> allow AWS to cache the 1.05M-token codebase after the first read.</li>
+<li>Subsequent iterations read the cached code at a <strong>90% discount</strong> (e.g., dropping cached input token costs to around $0.30 per million instead of $3.00).</li>
+<li>Utilizing prompt caching on a 70,000-line loop can slash your per-run cost down from <strong>~\$.26</strong> to under <strong>~\$.5</strong>.</li>
+</ul>
+<hr>
+<h2 id="example-code-optimization-cloudmesh-ai">Example: Code optimization (cloudmesh-ai)</h2>
+<p>We ask Gemini LLM: Assume i want to improve all code in the repositories in cloudmesh (not cloudmesh-ai), how much would that cost?</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>this is done to ceate for example cloudmesh-ai</p>
+</div>
+<p>To estimate the cost of improving or refactoring code across a comprehensive ecosystem like Cloudmesh (which spans over 140 repositories encompassing core toolkits, command-line interfaces, and multi-cloud integrations), we can scale up the calculations based on aggregate codebase size and iterative agentic refactoring loops.</p>
+<p>To estimate the cost of improving or refactoring code across a comprehensive ecosystem like <strong>Cloudmesh</strong> (which spans over 140 repositories encompassing core toolkits, command-line interfaces, and multi-cloud integrations), we can scale up the calculations based on aggregate codebase size and iterative agentic refactoring loops.</p>
+<hr>
+<h3 id="1-estimating-total-codebase-volume-for-cloudmesh">1. Estimating Total Codebase Volume for Cloudmesh</h3>
+<p>While exact sizes vary per package, an active ecosystem of this scale typically contains hundreds of thousands to a few million lines of code when combining Python modules, shell scripts, tests, Makefiles, and configuration templates.</p>
+<ul>
+<li><strong>Assumed Total Size:</strong> Let's assume a collective codebase size of <strong>500,000 lines of code (LoC)</strong> across the active core repositories.</li>
+<li><strong>Token Conversion:</strong> At an average of ~15 tokens per line of code, the raw baseline codebase equals roughly <strong>7.5 million tokens</strong>.</li>
+</ul>
+<h3 id="2-factoring-in-iterative-refactoring-loops-agentic-rag">2. Factoring in Iterative Refactoring Loops (Agentic RAG)</h3>
+<p>An automated code-improvement pipeline (such as an AI agent analyzing style, fixing bugs, refactoring architecture, writing unit tests, and verifying syntax iteratively) typically consumes <strong>5x to 10x</strong> the base token volume due to multi-step reasoning, context retrieval chunks, and self-correction loops.</p>
+<ul>
+<li><strong>Total Processed Input Volume:</strong></li>
+</ul>
+<p>$$7.5\text{M base tokens} \times 8 \text{ (amplification factor)} = \mathbf{60\text{ million input tokens}}$$</p>
+<hr>
+<h3 id="3-estimated-cost-scenarios-using-amazon-bedrock-pricing">3. Estimated Cost Scenarios (Using Amazon Bedrock Pricing)</h3>
+<h4 id="scenario-a-high-end-frontier-model-eg-claude-35-sonnet_1">Scenario A: High-End Frontier Model (e.g., Claude 3.5 Sonnet)</h4>
+<ul>
+<li><em>Rates:</em> ~\$.3.00 per million input tokens, ~\$.15.00 per million output tokens.</li>
+<li><strong>Calculation:</strong></li>
+<li>Input (~60M tokens): ~\$.180.00</li>
+<li>
+<p>Output (~4M generated code/test tokens): ~\$.60.00</p>
+</li>
+<li>
+<p><strong>Total Estimated Cost:</strong> <strong>~\$.240.00 to $300.00</strong> for a complete, deep refactor of the entire multi-repository ecosystem.</p>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This means we will exceed the free tier while doing this.</p>
+</div>
+<h4 id="scenario-b-cost-optimized-mid-tier-model-eg-amazon-nova-pro-or-deepseek-v3">Scenario B: Cost-Optimized / Mid-Tier Model (e.g., Amazon Nova Pro or DeepSeek V3)</h4>
+<ul>
+<li><em>Rates:</em> ~\$.0.80 per million input tokens, ~\$.3.20 per million output tokens.</li>
+<li><strong>Total Estimated Cost:</strong> <strong>~\$.60.00 to $80.00</strong></li>
+</ul>
+<hr>
+<h3 id="4-key-factors-that-can-lower-or-raise-costs">4. Key Factors That Can Lower or Raise Costs</h3>
+<ul>
+<li><strong>Prompt Caching:</strong> Because much of the codebase remains unchanged between iterative loops, leveraging Bedrock’s prompt caching can slash repetitive input token costs by up to 90%, reducing a high-end model run down closer to <strong>$60–$80 total</strong>.</li>
+<li><strong>Scope Control:</strong> Refactoring only active core components (such as <code>cloudmesh-ai</code>, <code>cloudmesh-common</code>, and specific client wrappers) rather than all 140+ legacy or documentation repositories will naturally scale costs down linearly.</li>
+</ul>
+<h2 id="example-desdicated-hosting-of-gemma-4">Example: Desdicated Hosting of Gemma 4</h2>
+<p>Hosting or accessing Gemma 4 for a class of 10 students on Amazon Bedrock for a year costs may be small dependednt on what students do, because Bedrock is a fully managed, serverless pay-as-you-go service. You do not need to reserve, rent, or provision dedicated GPU servers (like EC2 instances) that incur hourly fees whether they are used or not. This however is only true if the needs for the students is very small, which may be questionable. Maybe this statement is a marketing trick the LLM fell for?</p>
+<p>However, let us consider that we need to reserve it to for example meed security policies or have an always on system potentially for the University and even more students let us consider the following estimeates.</p>
+<p>On Amazon Bedrock, "dedicated hardware" is implemented via <strong>Provisioned Throughput</strong>, which guarantees dedicated model capacity measured in <strong>Model Units (MUs)</strong> rather than renting raw EC2 GPU instances. You are billed a fixed hourly rate regardless of whether your traffic is high or zero.</p>
+<p>For a class of 10 students, purchasing dedicated model units is heavily cost-prohibitive compared to standard serverless on-demand billing. Here is the annual cost projection for dedicated capacity:</p>
+<hr>
+<h3 id="1-hourly-annual-rates-for-dedicated-model-units">1. Hourly &amp; Annual Rates for Dedicated Model Units</h3>
+<p>Provisioned throughput rates vary depending on the model scale and whether you choose a commitment term (such as a 6-month contract) or a flexible hourly no-commitment option:</p>
+<ul>
+<li><strong>Lightweight Model Dedicated Unit (e.g., smaller Llama or Lite models):</strong></li>
+<li><em>Hourly Rate:</em> ~\$.15.00 to $21.00 per hour per Model Unit</li>
+<li><em>Calculation:</em> $15.00 \times 24 \text{ hours} \times 365 \text{ days}$</li>
+<li>
+<p><strong>Total Annual Cost:</strong> <strong>~\$.131,400 / year</strong></p>
+</li>
+<li>
+<p><strong>Mid-to-Large Model Dedicated Unit (e.g., standard enterprise or reasoning model tier):</strong></p>
+</li>
+<li><em>Hourly Rate:</em> ~\$.39.60 per hour per Model Unit</li>
+<li><em>Calculation:</em> $39.60 \times 24 \text{ hours} \times 365 \text{ days}$</li>
+<li><strong>Total Annual Cost:</strong> <strong>~\$.346,896 / year</strong></li>
+</ul>
+<hr>
+<h3 id="2-summary-recommendation">2. Summary &amp; Recommendation</h3>
+<ul>
+<li><strong>Dedicated Hardware (Provisioned Throughput):</strong> Ranges from <strong>$130,000 to over $345,000 per year</strong> because you are paying a 24/7 continuous hourly rate to reserve isolated compute infrastructure.</li>
+<li><strong>Serverless On-Demand (Recommended for 10 Students):</strong> <strong>Under $2.00 to $20.00 total for the year</strong>, because it charges strictly per token and scales down to $0 when your students are not running labs or assignments.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Gregor doubts the last statement reverse argument what can be done with a total of 10 * $20 = $200 within the 1 year.
+Remember we work on code that has tens of thausend of lines of code and not 10 lines of code ;-)</p>
+</div>
+<h2 id="example-gromacs-analysis">Example: Gromacs Analysis</h2>
+<p>How much would it cos to find kernels that can be optimized in the code using aws bedrock? (Note this doe snot include improvements.)</p>
+<p>Analyzing a large scientific codebase like GROMACS (~4.7 million lines of code) to find performance bottlenecks and kernels that can be optimized using an LLM on <strong>Amazon Bedrock</strong> comes down to <strong>token volume</strong> and <strong>model choice</strong>.</p>
+<p>Because codebases of this scale cannot fit into a single prompt context window, you have two primary architectural options: <strong>on-demand file-by-file scanning (RAG/Agentic approach)</strong> or <strong>bulk repository analysis</strong>.</p>
+<hr>
+<h3 id="1-estimating-code-size-in-tokens">1. Estimating Code Size in Tokens</h3>
+<ul>
+<li><strong>Total Lines of Code (LoC):</strong> ~4.7 million lines (primarily C++, C, CUDA/HIP, and headers).</li>
+<li><strong>Average Characters per Line:</strong> ~35 characters (including indentation and syntax).</li>
+<li><strong>Total Characters:</strong> ~164.5 million characters.</li>
+<li><strong>Token Conversion:</strong> Assuming roughly 4 characters per token, the raw GROMACS source tree equals roughly <strong>41 million tokens</strong>.</li>
+</ul>
+<p><em>Note: You would rarely feed all 4.7 million lines to an LLM at once. Typically, you target performance-critical directories (e.g., <code>src/gromacs/innerloop</code>, <code>src/gromacs/gpu_utils</code>), which usually comprise about 10% to 15% of the codebase (~400,000 to 700,000 tokens of core compute kernels).</em></p>
+<hr>
+<h3 id="2-cost-breakdown-using-bedrock-on-demand-apis">2. Cost Breakdown Using Bedrock On-Demand APIs</h3>
+<p>Using a high-performance frontier model capable of advanced reasoning and code comprehension (such as <strong>Claude Sonnet</strong>, priced at <strong>\$3.00 per million input tokens</strong> and <strong>\$15.00 per million output tokens</strong>), here is what the math looks like for different analysis scopes:</p>
+<h4 id="option-a-targeted-core-kernel-analysis-single-deep-dive">Option A: Targeted Core Kernel Analysis (Single Deep-Dive)</h4>
+<p>If you isolate the specific compute-heavy inner loops and GPU acceleration directories (~500,000 tokens of code) and ask an agentic workflow to analyze them, suggest optimizations, and rewrite bottlenecks:</p>
+<ul>
+<li><strong>Input Tokens (Code + Prompt Context):</strong> ~500,000 tokens $\rightarrow$ <strong>\$1.50</strong></li>
+<li><strong>Output Tokens (Explanations, Profiling Analysis, Rewritten Code):</strong> ~100,000 tokens $\rightarrow$ <strong>\$1.50</strong></li>
+<li><strong>Total Estimated Cost:</strong> <strong>~\$3.00 to \$5.00 per run</strong></li>
+</ul>
+<h4 id="option-b-full-codebase-static-analysis-multi-agent-scan">Option B: Full Codebase Static Analysis (Multi-Agent Scan)</h4>
+<p>If you run an automated script that chunks through the major C++ and CUDA modules of the entire codebase to flag inefficient memory access patterns, missed vectorization, or unrolled loop opportunities:</p>
+<ul>
+<li><strong>Input Tokens (Full Core C++ / CUDA Codebase):</strong> ~5 million tokens $\rightarrow$ <strong>\$15.00</strong></li>
+<li><strong>Output Tokens (Comprehensive Report &amp; Recommendations):</strong> ~1 million tokens $\rightarrow$ <strong>\$15.00</strong></li>
+<li><strong>Total Estimated Cost:</strong> <strong>~\$30.00 to \$50.00 per full scan</strong></li>
+</ul>
+<p><em>(If using a cheaper, lightweight model like </em><em>Amazon Nova Pro</em><em>, input/output costs drop by roughly 70% to 80%, bringing a full repository scan down to under </em><em>$10</em><em>).</em></p>
+<hr>
+<h3 id="3-hidden-infrastructure-costs-to-watch-for">3. Hidden Infrastructure Costs to Watch For</h3>
+<p>If you decide to build a persistent automated tool using Bedrock (like an internal RAG knowledge base or continuous code-review agent):</p>
+<ul>
+<li><strong>Vector Store / Knowledge Base:</strong> If you index the entire repository into Bedrock Knowledge Bases using <strong>Amazon OpenSearch Serverless</strong>, expect a baseline cost of roughly <strong>\$345/month</strong> just for the infrastructure, though newer alternatives like Amazon S3 Vectors or local embedding scripts can bypass this overhead.</li>
+<li><strong>Token Amplification:</strong> If you deploy an autonomous AI coding agent (like a custom loop that reads files, tests assumptions, and cross-references header files), multi-step prompt loops can easily multiply your base token consumption by <strong>5x to 8x</strong>.</li>
+</ul>
+<h3 id="summary">Summary</h3>
+<p>To find and optimize kernels in a massive package like GROMACS using AWS Bedrock, the raw API compute cost is surprisingly cheap—ranging from <strong>less than \$5 for targeted kernel profiling</strong> up to <strong>$50 for a comprehensive full-repo assessment</strong> using top-tier models like Claude Sonnet.</p>
+<h2 id="the-human-cost">The Human Cost</h2>
+<p>Some follow up thoughts</p>
+<p>Q. Can a human even do this by temselfs?
+Q. What is the cost of such an expert?
+Q. Will we lay of all scientists and software engeneers?
+Q. What shoudl they do in this new world instead?
+Q. Is there a similarity to printing press, steamengins, assemply code vs programming languages, ...?</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <div id="custom-footer-bar">
+  <span>Lecture Notes: Collected and Prepared by Gregor von Laszewski (laszewski@gmail.com)</span>
+</div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.full_width"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/show_source.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

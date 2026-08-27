@@ -1,0 +1,4495 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Practitioners Guide">
+      
+      
+        <meta name="author" content="Gregor von Laszewski">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>AI Services in the Cloud - Lecture Notes: CloudComputing, DevOps, and AI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ai-services-in-the-cloud" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-header__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lecture Notes: CloudComputing, DevOps, and AI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AI Services in the Cloud
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-nav__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Lecture Notes: CloudComputing, DevOps, and AI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LECTURES
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LECTURES
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OVERVIEW
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OVERVIEW
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../syllabus/cloud-computing-devops-ai-syllabus.pdf" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.0 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.1-syllabus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.1 Syllabus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.2-contribute-lecture-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.2 Contribute
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.3-accounts.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.3 Accounts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.4-supplemental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.4 Supplemental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.5-piazza/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5 Piazza
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_7">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_7" id="__nav_2_1_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6 ACCOUNTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L.1.6 ACCOUNTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/local/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.1 Local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/access-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.2 Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/chameleon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.3 Chameleon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.4 AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/azure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.5 Azure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.6 Google
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLOUD
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLOUD
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2 Local
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.2 Local
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/vm-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/multipass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Multipass
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Qemu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/vagrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Vagrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/virsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virsh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASSIGNMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ASSIGNMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assignments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assignments/assignments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LUC_388_488
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="#separator" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ---
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PYTHON
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PYTHON
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.2 Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3">
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3 Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.3 Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.1 Interactive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.2 Editor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.3 Language
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4">
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5 Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.5 Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-click/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.1 Click
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-docopts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.2 DocOpts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-cmd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.3 CMD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6 Processes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.6 Processes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-subprocess/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.1 Subprocess
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.2 Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.3 Queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.4 Schedulers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6">
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7 Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.7 Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.1 Basic Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-wordcount/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.2 Wordcount
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7">
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8 Graphs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.8 Graphs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.1 Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-matplotlib/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.2 Matplotlib
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8">
+        
+          
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9 Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.9 Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-ssl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.1 SSL/TLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.2 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LINUX
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LINUX
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.2 Text one Liners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/refcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.1 RefCards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/ubuntu-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.2 Ubuntu CLI Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.4 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/ssh-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.5 SSH on Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/zsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.6 ZSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/recording/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.7 Recording
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLOUD
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLOUD
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VIRTUALIZATION
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    VIRTUALIZATION
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualmachines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VMs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LOCAL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LOCAL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/vm-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/multipass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Multipass
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Qemu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/virsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virsh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/vagrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Vagrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WRITING
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    WRITING
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/plagiarism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.1 Plagarism
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.2 Markdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/emacs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.3 Emacs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_4">
+        
+          
+          <label class="md-nav__link" for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4 Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    W.4 Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/ppt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.1 PPT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/mermaid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.2 Mermaid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/graphviz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.3 Graphviz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9">
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACKNOWLEDGEMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ACKNOWLEDGEMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/acknowledgements/acknowledgements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A.1 Acknowledgments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#2-agenda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Agenda
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-why-ai-in-the-cloud-the-business-imperative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Why AI in the Cloud – The Business Imperative
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-evolution-timeline-from-big-data-to-aiasaservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Evolution Timeline – From Big Data to AI‑as‑a‑Service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cloudai-service-taxonomy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cloud‑AI Service Taxonomy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-service-models-iaas-paas-saas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Service Models – IaaS, PaaS, SaaS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-deployment-options-public-hybrid-multicloud-edge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Deployment Options – Public, Hybrid, Multi‑Cloud, Edge
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-provider-landscape-ataglance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Provider Landscape – At‑a‑Glance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Provider Landscape – At‑a‑Glance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#speaker-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Speaker Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-aws-ai-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. AWS AI Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-azure-ai-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Azure AI Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-google-cloud-ai-portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Google Cloud AI Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-comparative-service-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Comparative Service Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-core-category-1-managed-ml-platforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Core Category 1 – Managed ML Platforms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-aws-sagemaker-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. AWS SageMaker Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-sagemaker-feature-highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. SageMaker Feature Highlights
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-azure-machine-learning-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Azure Machine Learning Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17-azure-ml-highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. Azure ML Highlights
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18-vertex-ai-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18. Vertex AI Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19-vertex-ai-highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        19. Vertex AI Highlights
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20-core-category-2-prebuilt-ai-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        20. Core Category 2 – Pre‑Built AI APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#21-aws-ai-services-quick-tour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        21. AWS AI Services Quick Tour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-azure-cognitive-services-quick-tour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        22. Azure Cognitive Services Quick Tour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-google-ai-apis-quick-tour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        23. Google AI APIs Quick Tour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24-core-category-3-mlops-model-ops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24. Core Category 3 – MLOps &amp; Model Ops
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25-mlops-comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        25. MLOps Comparison Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#26-core-category-4-data-feature-stores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        26. Core Category 4 – Data &amp; Feature Stores
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#27-feature-store-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27. Feature Store Implementations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#28-core-category-5-edge-hybrid-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        28. Core Category 5 – Edge &amp; Hybrid AI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#29-edge-service-highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        29. Edge Service Highlights
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#30-architecture-pattern-classic-endtoend-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        30. Architecture Pattern – Classic End‑to‑End Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#31-architecture-pattern-realtime-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        31. Architecture Pattern – Real‑Time Streaming
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32-architecture-pattern-mlopscentric-cicd-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        32. Architecture Pattern – MLOps‑Centric CI/CD Loop
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33-security-governance-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        33. Security &amp; Governance Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34-identity-access-iam-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        34. Identity &amp; Access (IAM) Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#35-data-protection-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        35. Data Protection &amp; Privacy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#36-model-governance-explainability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        36. Model Governance &amp; Explainability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#37-cost-management-fundamentals-updated-forecasts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        37. Cost Management Fundamentals – Updated Forecasts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#38-costoptimization-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        38. Cost‑Optimization Tips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#39-realworld-usecase-1-retail-visual-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        39. Real‑World Use‑Case #1 – Retail: Visual Search
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#40-realworld-usecase-2-healthcare-document-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        40. Real‑World Use‑Case #2 – Healthcare: Document AI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#41-realworld-usecase-3-financial-services-fraud-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        41. Real‑World Use‑Case #3 – Financial Services: Fraud Detection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-live-demo-optional-text-classification-with-azure-cognitive-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        42. Live Demo (Optional) – Text Classification with Azure Cognitive Service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-success-factors-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        43. Success Factors Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-future-trends-generative-ai-foundation-models-20272030-forecast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        44. Future Trends – Generative AI &amp; Foundation Models (2027‑2030 Forecast)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#45-responsible-ai-emerging-standards-toolkits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        45. Responsible AI – Emerging Standards &amp; Toolkits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#46-qa-whats-next-for-you" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        46. Q&amp;A – What’s Next for You?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#47-thankyou-contact-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        47. Thank‑You / Contact Information
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="ai-services-in-the-cloud">AI Services in the Cloud</h1>
+<p>Presenter: Gregor von Laszewski</p>
+<p><strong>Speaker Notes</strong>  </p>
+<p>Welcome the audience, introduce yourself, and briefly explain why you are qualified to speak about cloud AI (e.g., years of experience building production ML pipelines on AWS, Azure, and GCP). State that the session will cover the full landscape of AI services, architectural patterns, security, cost, real‑world use cases, and future trends.</p>
+<hr>
+<h2 id="2-agenda">2. Agenda</h2>
+<p><strong>Slide Content</strong><br>
+1. Opening &amp; Context<br>
+2. Cloud‑AI Fundamentals<br>
+3. Major Cloud Providers – Comparative Landscape<br>
+4. Core AI Service Categories<br>
+5. Deep‑Dive into Flagship Services<br>
+6. Architecture Patterns &amp; Design<br>
+7. Security, Governance &amp; Compliance<br>
+8. Cost Management &amp; Optimization<br>
+9. Real‑World Use‑Cases &amp; Demos<br>
+10. Future Trends &amp; Closing<br>
+11. Q&amp;A  </p>
+<p><strong>Speaker Notes</strong><br>
+Walk through each agenda item, giving a one‑sentence teaser (e.g., “We’ll start by looking at why AI in the cloud matters to every business today”). Encourage questions at the end.</p>
+<hr>
+<h2 id="3-why-ai-in-the-cloud-the-business-imperative">3. Why AI in the Cloud – The Business Imperative</h2>
+<p><strong>Slide Content</strong>  </p>
+<ul>
+<li>IDC now projects <strong>global AI‑systems spend of \$500 bn in 2025</strong> and <strong>\$740 bn in 2028</strong> – a 46 % cumulative rise from the 2023 baseline.  </li>
+<li>Gartner estimates <strong>AI‑enabled business value will reach \$4.2 tn by 2025</strong>, growing to <strong>\$6.1 tn by 2028</strong>.  </li>
+<li>Bloomberg Intelligence (2024) predicts <strong>AI‑infused SaaS market will surpass \$180 bn in 2026</strong> and <strong>\$300 bn in 2029</strong>.  </li>
+<li>Cloud‑native AI reduces time‑to‑value from <strong>months to days</strong> and provides elastic compute that can scale to <strong>exabyte‑level data lakes</strong>.  </li>
+</ul>
+<p><strong>Speaker Notes</strong><br>
+“The most recent IDC forecast shows the AI‑systems market exploding to <strong>\$500 bn in 2025</strong> and <strong>\$740 bn by 2028</strong>—almost a doubling in three years. Gartner’s complementary view adds the <strong>value side</strong>: every dollar invested in AI is projected to generate <strong>\$1.30 of incremental revenue or cost avoidance</strong> by 2028, pushing total business impact to <strong>\$6.1 tn</strong>. Bloomberg highlights the rapid expansion of <strong>AI‑infused SaaS</strong>—a $300 bn market by 2029—so the fastest path to ROI is via the SaaS APIs that live entirely in the cloud. The takeaway: the market is not just growing; it’s maturing. Enterprises are moving from pilots to production‑grade AI that is fully embedded in cloud platforms.”</p>
+<hr>
+<h2 id="4-evolution-timeline-from-big-data-to-aiasaservice">4. Evolution Timeline – From Big Data to AI‑as‑a‑Service</h2>
+<p><strong>Slide Content</strong><br>
+- Early 2000s – Hadoop and data warehouses<br>
+- 2010‑2015 – Rise of deep‑learning frameworks (TensorFlow, PyTorch)<br>
+- 2016‑2019 – Managed ML platforms appear on the big clouds<br>
+- 2020‑present – Pre‑built AI APIs, foundation models, generative‑AI services  </p>
+<p><strong>Speaker Notes</strong><br>
+Explain the progression from data collection to model training to “AI as a service.” Note how each step reduced barriers, culminating in today’s ready‑to‑use APIs.</p>
+<hr>
+<h2 id="5-cloudai-service-taxonomy">5. Cloud‑AI Service Taxonomy</h2>
+<p><strong>Slide Content</strong><br>
+1. Managed Machine‑Learning Platforms (end‑to‑end lifecycle)<br>
+2. Pre‑built AI APIs (vision, speech, language, etc.)<br>
+3. MLOps &amp; Model‑Ops tooling (model registry, monitoring, CI/CD)<br>
+4. Data &amp; Feature Stores (centralized feature engineering)<br>
+5. Edge &amp; Hybrid AI (on‑prem, edge devices, remote locations)  </p>
+<p><strong>Speaker Notes</strong><br>
+Define each category with a short example (managed platform = SageMaker, pre‑built API = Azure Computer Vision, etc.). Emphasize that a complete AI solution typically uses several categories together.</p>
+<hr>
+<h2 id="6-service-models-iaas-paas-saas">6. Service Models – IaaS, PaaS, SaaS</h2>
+<p>(Repeat)</p>
+<p><strong>Slide Content</strong><br>
+- <strong>IaaS</strong> – Raw VMs, GPUs – you manage OS, drivers, frameworks<br>
+- <strong>PaaS</strong> – Managed runtimes for training and inference (SageMaker, Azure ML, Vertex AI)<br>
+- <strong>SaaS</strong> – Fully hosted APIs (Rekognition, Form Recognizer, Document AI)  </p>
+<p><strong>Speaker Notes</strong><br>
+Clarify trade‑offs: SaaS is fastest to adopt, PaaS offers flexibility, IaaS gives total control. Provide typical use‑cases for each model.</p>
+<hr>
+<h2 id="7-deployment-options-public-hybrid-multicloud-edge">7. Deployment Options – Public, Hybrid, Multi‑Cloud, Edge</h2>
+<p><strong>Slide Content</strong>  </p>
+<p>(Repeat)</p>
+<ul>
+<li>Public cloud (AWS, Azure, GCP)  </li>
+<li>Hybrid (AWS Outposts, Azure Arc, Anthos)  </li>
+<li>Multi‑cloud (using common tools such as Feast)  </li>
+<li>Edge (Snowball Edge, Azure IoT Edge, Anthos on‑prem)  </li>
+</ul>
+<p><strong>Speaker Notes</strong><br>
+Discuss why many organizations need hybrid or edge capabilities (data residency, low latency). Give a quick anecdote of a retailer using Snowball Edge for offline video analytics.</p>
+<hr>
+<h2 id="8-provider-landscape-ataglance">8. Provider Landscape – At‑a‑Glance</h2>
+<p><strong>Slide Content</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Founded</th>
+<th>Global AI Spend (2023)</th>
+<th># AI Services*</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amazon Web Services</td>
+<td>2006</td>
+<td>\$23 B</td>
+<td>30+</td>
+</tr>
+<tr>
+<td>Microsoft Azure</td>
+<td>2010</td>
+<td>\$19 B</td>
+<td>28+</td>
+</tr>
+<tr>
+<td>Google Cloud Platform</td>
+<td>2008</td>
+<td>\$12 B</td>
+<td>25+</td>
+</tr>
+</tbody>
+</table>
+<p>*Includes managed platforms, pre‑built APIs, and supporting data services.  </p>
+<p><strong>Speaker Notes</strong><br>
+Explain that all three have extensive portfolios but differ in strategic focus: AWS on breadth, Azure on enterprise integration, GCP on research‑grade ML.</p>
+<p><strong>Slide – Provider Landscape (2026 At‑a‑Glance)</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Founded</th>
+<th><strong>Global AI‑related Spend (2026)</strong></th>
+<th><strong># AI Services (2026)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Amazon Web Services (AWS)</strong></td>
+<td>2006</td>
+<td><strong>US $28.3 B</strong></td>
+<td><strong>38 +</strong></td>
+</tr>
+<tr>
+<td><strong>Microsoft Azure</strong></td>
+<td>2010</td>
+<td><strong>US $24.7 B</strong></td>
+<td><strong>35 +</strong></td>
+</tr>
+<tr>
+<td><strong>Google Cloud Platform (GCP)</strong></td>
+<td>2008</td>
+<td><strong>US $15.9 B</strong></td>
+<td><strong>32 +</strong></td>
+</tr>
+<tr>
+<td><em>Optional – Alibaba Cloud</em></td>
+<td>2009</td>
+<td>US $5.2 B</td>
+<td>22 +</td>
+</tr>
+</tbody>
+</table>
+<p>*AI Services include managed ML platforms, pre‑built vision/speech/NLP APIs, data‑engineered services (feature stores, labeling, synthetic‑data generators) and edge/hybrid AI offerings (Outposts, Azure Arc, Anthos). Counts represent unique, publicly documented services as of <strong>30 June 2026</strong>.  </p>
+<hr>
+<h3 id="speaker-notes">Speaker Notes</h3>
+<ol>
+<li><strong>Overall Growth</strong> – All three hyperscalers have posted double‑digit YoY increases in AI‑related revenue since 2023.  </li>
+<li>
+<p>AWS remains the largest spender at <strong>$28.3 B</strong>, but Azure is gaining ground (≈ 30 % YoY growth) and GCP is accelerating (≈ 25 % YoY) thanks to its foundation‑model push.  </p>
+</li>
+<li>
+<p><strong>Service Breadth</strong> – The number of distinct AI services has risen sharply:  </p>
+</li>
+<li>AWS → 38+, Azure → 35+, GCP → 32+.  </li>
+<li>
+<p>The increase reflects the rapid rollout of <strong>foundation‑model APIs (Bedrock, Azure OpenAI, Gemini), synthetic‑data generators, and edge‑optimized inference runtimes</strong>.  </p>
+</li>
+<li>
+<p><strong>Strategic Differentiation</strong>  </p>
+</li>
+<li><strong>AWS</strong> – Emphasises breadth. Full suite from low‑code Canvas to custom SageMaker training, plus the widest set of pre‑built AI APIs.  </li>
+<li><strong>Azure</strong> – Focuses on enterprise integration and responsible‑AI tooling. Tight coupling with Microsoft 365, Power Platform, and built‑in governance dashboards.  </li>
+<li>
+<p><strong>GCP</strong> – Leverages research‑grade ML and data‑warehouse integration. Vertex AI unifies training, feature engineering, and serving; Gemini foundation models provide a competitive edge.  </p>
+</li>
+<li>
+<p><strong>Implications for the Audience</strong> – When choosing a cloud partner, weigh both <strong>spend</strong> (a proxy for ecosystem maturity) and <strong>service count</strong> (a proxy for functional breadth).  </p>
+</li>
+<li>Need the <em>largest toolbox</em>? AWS.  </li>
+<li>Need <em>deep enterprise SaaS integration</em> and <em>governance</em>? Azure.  </li>
+<li>
+<p>Need the <em>latest foundation models</em> and <em>tight BigQuery integration</em>? GCP.  </p>
+</li>
+<li>
+<p><strong>Reference Sources</strong> (add as footnote on slide)  </p>
+</li>
+<li>IDC, <em>Worldwide AI‑Systems Spending Guide</em> (2025‑2028 outlook, refreshed Jul 2025).  </li>
+<li>Gartner, <em>Forecast: AI‑Enabled Business Value, Worldwide</em> (2025‑2028 update, 2026).  </li>
+<li>Forrester, <em>The Forrester Wave™: AI‑Enabled Enterprise Applications, Q2 2026</em>.  </li>
+<li>Vendor catalogs (AWS Service Catalog, Azure REST API reference, Google Cloud API Directory) accessed 30 Jun 2026.  </li>
+</ol>
+<hr>
+<p><strong>Design tip:</strong> Use a clean two‑column table with the provider name highlighted (bold) and a light gray background for the header row. Add a small footnote icon that links to the source list at the bottom of the slide. This keeps the visual uncluttered while providing the necessary detail.</p>
+<hr>
+<h2 id="9-aws-ai-portfolio">9. AWS AI Portfolio</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Amazon SageMaker</strong> – Studio, Canvas, Pipelines, Feature Store, Clarify, JumpStart<br>
+- <strong>AI Services</strong> – Rekognition, Textract, Polly, Transcribe, Comprehend, Bedrock (foundation models)<br>
+- <strong>Supporting Services</strong> – S3, Glue, Athena, Kinesis Data Streams  </p>
+<p><strong>Speaker Notes</strong><br>
+Walk through the SageMaker suite, noting how each component fits the ML lifecycle. Highlight AI Services as pay‑per‑call, perfect for rapid prototyping. Mention Bedrock as the newest entry offering hosted foundation models.</p>
+<hr>
+<h2 id="10-azure-ai-portfolio">10. Azure AI Portfolio</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Azure Machine Learning</strong> – Designer (drag‑and‑drop), Automated ML, Pipelines, MLOps (MLflow integration)<br>
+- <strong>Cognitive Services</strong> – Computer Vision, Speech, Language, Form Recognizer, Azure Bot Service<br>
+- <strong>AI Infrastructure</strong> – NDv4, H100 GPU VMs, Azure Synapse Analytics  </p>
+<p><strong>Speaker Notes</strong><br>
+Stress Azure’s focus on low‑code tools for citizen data scientists and its tight integration with Microsoft 365 and Power Platform. Explain how Azure ML pipelines can be linked directly to Azure DevOps or GitHub Actions for CI/CD.</p>
+<hr>
+<h2 id="11-google-cloud-ai-portfolio">11. Google Cloud AI Portfolio</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Vertex AI</strong> – Unified platform (Workbench, Training, Feature Store, Model Registry, Pipelines)<br>
+- <strong>Generative AI Studio</strong> – Gemini, PaLM, fine‑tuning APIs<br>
+- <strong>AI APIs</strong> – Vision AI, Speech‑to‑Text, Text‑to‑Speech, Document AI, Translation, Vertex AI Search<br>
+- <strong>Data Services</strong> – BigQuery, Dataproc, Dataflow  </p>
+<p><strong>Speaker Notes</strong><br>
+Describe Vertex AI as a single UI/SDK that replaces many separate GCP services. Mention the tight link to BigQuery ML, allowing analysts to train models directly from SQL. Highlight leadership in foundation models with Gemini.</p>
+<hr>
+<h2 id="12-comparative-service-matrix">12. Comparative Service Matrix</h2>
+<p><strong>Slide Content</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>AWS</th>
+<th>Azure</th>
+<th>GCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AutoML (no‑code)</td>
+<td>SageMaker Canvas</td>
+<td>Automated ML</td>
+<td>AutoML Tables</td>
+</tr>
+<tr>
+<td>Feature Store</td>
+<td>SageMaker Feature Store</td>
+<td>Azure ML Feature Store (preview)</td>
+<td>Vertex Feature Store</td>
+</tr>
+<tr>
+<td>Model Explainability</td>
+<td>SageMaker Clarify</td>
+<td>Responsible AI dashboard</td>
+<td>Vertex Explainable AI</td>
+</tr>
+<tr>
+<td>Model Registry</td>
+<td>SageMaker Model Registry</td>
+<td>Azure ML Model Registry</td>
+<td>Vertex Model Registry</td>
+</tr>
+<tr>
+<td>Edge Inference</td>
+<td>SageMaker Neo / Snowball Edge</td>
+<td>Azure IoT Edge / Azure Stack</td>
+<td>Anthos on‑prem (preview)</td>
+</tr>
+<tr>
+<td>Serverless Inference</td>
+<td>SageMaker Serverless</td>
+<td>Azure Functions + ML</td>
+<td>Cloud Functions + Vertex</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Speaker Notes</strong><br>
+Point out which provider leads in each capability and how it maps to typical enterprise requirements.</p>
+<hr>
+<h2 id="13-core-category-1-managed-ml-platforms">13. Core Category 1 – Managed ML Platforms</h2>
+<p><strong>Slide Content</strong><br>
+- End‑to‑end lifecycle (data ingestion → training → deployment)<br>
+- Integrated notebooks, experiments, versioning<br>
+- Built‑in autoscaling and distributed training support  </p>
+<p><strong>Speaker Notes</strong><br>
+Emphasize that a managed platform removes the need to patch drivers or manage GPU clusters. It becomes the “operating system” for AI.</p>
+<hr>
+<h2 id="14-aws-sagemaker-architecture">14. AWS SageMaker Architecture</h2>
+<p><strong>Slide Content</strong> – Diagram (textual description)  </p>
+<ol>
+<li><strong>Notebook Instances</strong> (Jupyter) →  </li>
+<li><strong>Processing Jobs</strong> (data prep) →  </li>
+<li><strong>Training Jobs</strong> (single‑node, distributed) →  </li>
+<li><strong>Model Registry</strong> →  </li>
+<li><strong>Endpoints</strong> (real‑time, batch, serverless)  </li>
+</ol>
+<p><strong>Speaker Notes</strong><br>
+Walk through each step, describing how SageMaker automatically provisions the required VPC, IAM roles, and storage. Highlight the ability to attach Elastic Inference accelerators to cut inference cost.</p>
+<hr>
+<h2 id="15-sagemaker-feature-highlights">15. SageMaker Feature Highlights</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Studio</strong> – Integrated IDE for data science<br>
+- <strong>Canvas</strong> – No‑code model building for business analysts<br>
+- <strong>Pipelines</strong> – CI/CD for ML (YAML‑defined)<br>
+- <strong>Clarify</strong> – Feature importance, bias detection, explainability<br>
+- <strong>JumpStart</strong> – Pre‑trained models and solution templates  </p>
+<p><strong>Speaker Notes</strong><br>
+Explain how each component addresses a specific stakeholder: Studio for data scientists, Canvas for analysts, Pipelines for engineers, Clarify for compliance teams, JumpStart for rapid PoC creation.</p>
+<hr>
+<h2 id="16-azure-machine-learning-architecture">16. Azure Machine Learning Architecture</h2>
+<p><strong>Slide Content</strong> – Diagram (textual)  </p>
+<ol>
+<li><strong>Azure ML Studio</strong> (drag‑and‑drop) →  </li>
+<li><strong>Automated ML</strong> (auto‑selection of algorithms) →  </li>
+<li><strong>Pipeline Designer</strong> →  </li>
+<li><strong>AKS or Azure Container Instances</strong> for deployment →  </li>
+<li><strong>Model Registry</strong>  </li>
+</ol>
+<p><strong>Speaker Notes</strong><br>
+Highlight seamless integration with Azure DevOps: a pipeline can be triggered on each Git push. Emphasize that Azure ML supports both low‑code (Designer) and code‑first (SDK) workflows.</p>
+<hr>
+<h2 id="17-azure-ml-highlights">17. Azure ML Highlights</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Designer</strong> – Visual drag‑and‑drop pipelines<br>
+- <strong>Automated ML</strong> – Auto‑selection of model &amp; hyperparameters<br>
+- <strong>MLOps</strong> – Integration with Azure DevOps, GitHub Actions, MLflow<br>
+- <strong>Responsible AI</strong> – Fairness, interpretability, error analysis dashboards  </p>
+<p><strong>Speaker Notes</strong><br>
+Show a screenshot of the Responsible AI dashboard and explain how it surfaces potential bias, which is essential for regulated industries.</p>
+<hr>
+<h2 id="18-vertex-ai-architecture">18. Vertex AI Architecture</h2>
+<p><strong>Slide Content</strong> – Diagram (textual)  </p>
+<ol>
+<li><strong>Vertex Workbench</strong> (managed Jupyter) →  </li>
+<li><strong>Data Prep</strong> (BigQuery, Dataproc) →  </li>
+<li><strong>Training</strong> (custom, AutoML, distributed) →  </li>
+<li><strong>Feature Store</strong> (online &amp; batch) →  </li>
+<li><strong>Model Registry</strong> →  </li>
+<li><strong>Endpoints</strong> (online, batch, streaming)  </li>
+</ol>
+<p><strong>Speaker Notes</strong><br>
+Explain that Vertex abstracts the underlying GKE cluster, allowing users to focus on code. Mention that the Feature Store automatically scales and offers sub‑10 ms latency for online reads.</p>
+<hr>
+<h2 id="19-vertex-ai-highlights">19. Vertex AI Highlights</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Unified UI</strong> – All lifecycle steps in one console<br>
+- <strong>AutoML</strong> – Tabular, image, video, text with minimal code<br>
+- <strong>Model Garden</strong> – Access to pre‑trained models (e.g., EfficientDet)<br>
+- <strong>Kubeflow‑based Pipelines</strong> – Reusable components, versioned pipelines  </p>
+<p><strong>Speaker Notes</strong><br>
+Demonstrate using the UI to start an AutoML training job with a couple of clicks, showing how it automatically handles hyperparameter tuning and model selection.</p>
+<hr>
+<h2 id="20-core-category-2-prebuilt-ai-apis">20. Core Category 2 – Pre‑Built AI APIs</h2>
+<p><strong>Slide Content</strong><br>
+- Vision: image classification, object detection, OCR<br>
+- Speech: automatic speech recognition (ASR), text‑to‑speech (TTS)<br>
+- Language: sentiment analysis, translation, entity extraction<br>
+- Anomaly detection, search, recommendation APIs  </p>
+<p><strong>Speaker Notes</strong><br>
+Explain that these services are “pay‑per‑call” and require no model training. They are ideal for proofs of concept, rapid feature rollout, and augmenting existing applications with AI capabilities.</p>
+<hr>
+<h2 id="21-aws-ai-services-quick-tour">21. AWS AI Services Quick Tour</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Rekognition</strong> – Face detection, label detection, video analysis<br>
+- <strong>Textract</strong> – Structured OCR for forms and tables<br>
+- <strong>Polly</strong> – Neural TTS, multiple voices &amp; languages<br>
+- <strong>Transcribe</strong> – Real‑time &amp; batch ASR<br>
+- <strong>Comprehend</strong> – Entity recognition, sentiment, topic modeling  </p>
+<p><strong>Speaker Notes</strong><br>
+Provide a usage example for each service (e.g., Rekognition for automated content moderation). Mention pricing basics: per‑image or per‑minute for video, with free‑tier limits.</p>
+<hr>
+<h2 id="22-azure-cognitive-services-quick-tour">22. Azure Cognitive Services Quick Tour</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Computer Vision</strong> – Image tagging, OCR, spatial analysis<br>
+- <strong>Form Recognizer</strong> – Custom form extraction, receipt processing<br>
+- <strong>Speech Services</strong> – Speech‑to‑text, text‑to‑speech, speaker identification<br>
+- <strong>Language Understanding (LUIS)</strong> – Intent classification, entity extraction<br>
+- <strong>Azure Health Bot</strong> – Pre‑built healthcare conversational AI  </p>
+<p><strong>Speaker Notes</strong><br>
+Explain the “Custom Vision” capability, where users can upload their own labeled images to train a model without writing code. Highlight the option to deploy the model to an edge device using Azure IoT Edge.</p>
+<hr>
+<h2 id="23-google-ai-apis-quick-tour">23. Google AI APIs Quick Tour</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Vision AI</strong> – Label detection, face detection, landmark detection<br>
+- <strong>Speech‑to‑Text / Text‑to‑Speech</strong> – High‑accuracy models with noise robustness<br>
+- <strong>Document AI</strong> – Specialized parsers for invoices, receipts, contracts<br>
+- <strong>Translation API</strong> – Neural machine translation for &gt; 100 languages<br>
+- <strong>Vertex AI Search</strong> – Semantic search over enterprise data  </p>
+<p><strong>Speaker Notes</strong><br>
+Show a quick example of Document AI extracting fields from an invoice and returning a JSON payload. Discuss integration with Google Workspace for automatic ingestion of documents.</p>
+<hr>
+<h2 id="24-core-category-3-mlops-model-ops">24. Core Category 3 – MLOps &amp; Model Ops</h2>
+<p><strong>Slide Content</strong><br>
+- Model Registry (metadata, versioning)<br>
+- Deployment strategies: canary, blue‑green, shadow testing<br>
+- Monitoring: data drift, prediction latency, error rates<br>
+- CI/CD pipelines for model builds and promotions<br>
+- Automated rollback and alerts  </p>
+<p><strong>Speaker Notes</strong><br>
+Stress that without MLOps, models quickly become “black boxes” and operational risk rises. Describe a typical loop: data drift detection → retraining job → model promotion → monitoring.</p>
+<hr>
+<h2 id="25-mlops-comparison-table">25. MLOps Comparison Table</h2>
+<p><strong>Slide Content</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>AWS</th>
+<th>Azure</th>
+<th>GCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model Registry</td>
+<td>SageMaker Model Registry</td>
+<td>Azure ML Model Registry</td>
+<td>Vertex Model Registry</td>
+</tr>
+<tr>
+<td>Feature Store Integration</td>
+<td>Native (SageMaker)</td>
+<td>Preview (Azure ML)</td>
+<td>Native (Vertex)</td>
+</tr>
+<tr>
+<td>Explainability</td>
+<td>SageMaker Clarify</td>
+<td>Responsible AI dashboard</td>
+<td>Vertex Explainable AI</td>
+</tr>
+<tr>
+<td>Monitoring</td>
+<td>SageMaker Model Monitor</td>
+<td>Azure Monitor for ML</td>
+<td>Vertex Model Monitoring</td>
+</tr>
+<tr>
+<td>CI/CD Integration</td>
+<td>CodeBuild, CodePipeline</td>
+<td>Azure DevOps, GitHub Actions</td>
+<td>Cloud Build, GitHub Actions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Speaker Notes</strong><br>
+Explain that each provider has a slightly different focus: AWS emphasizes a mature monitoring suite, Azure leads in responsible AI tooling, GCP offers tight integration with BigQuery for data‑drift detection.</p>
+<hr>
+<h2 id="26-core-category-4-data-feature-stores">26. Core Category 4 – Data &amp; Feature Stores</h2>
+<p><strong>Slide Content</strong><br>
+- Central repository for engineered features<br>
+- Guarantees feature consistency between training &amp; inference<br>
+- Supports batch and real‑time serving<br>
+- Versioning, lineage, and governance  </p>
+<p><strong>Speaker Notes</strong><br>
+Illustrate the problem of “training‑serving skew” and how a feature store solves it. Mention that feature stores also enable reuse of features across multiple models, reducing duplication of effort.</p>
+<hr>
+<h2 id="27-feature-store-implementations">27. Feature Store Implementations</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>SageMaker Feature Store</strong> – Fully managed, supports offline &amp; online stores<br>
+- <strong>Azure ML Feature Store</strong> (preview) – Integrated with Azure Data Lake<br>
+- <strong>Vertex Feature Store</strong> – Auto‑scaled, sub‑10 ms online reads<br>
+- <strong>Open‑source option – Feast</strong> – Portable across clouds, on‑prem  </p>
+<p><strong>Speaker Notes</strong><br>
+Give a short code example using the Python SDK for each provider to create a feature and write a record. Explain the “write‑through” pattern (updates go to both offline and online stores) and the “read‑through” pattern (online store retrieves from offline if miss).</p>
+<hr>
+<h2 id="28-core-category-5-edge-hybrid-ai">28. Core Category 5 – Edge &amp; Hybrid AI</h2>
+<p><strong>Slide Content</strong><br>
+- On‑premises inference for low latency or data sovereignty<br>
+- Edge devices (IoT, robots, drones) require model compilation &amp; optimization<br>
+- Cloud‑managed model lifecycle with edge deployment  </p>
+<p><strong>Speaker Notes</strong><br>
+Describe a typical edge scenario: a factory floor camera streams video to an on‑site GPU device running a compiled model; the model is updated from the cloud nightly via a CI pipeline.</p>
+<hr>
+<h2 id="29-edge-service-highlights">29. Edge Service Highlights</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>AWS Snowball Edge + SageMaker Neo</strong> – Compile models to run on ARM or GPU‑lite devices<br>
+- <strong>Azure Stack HCI + Azure ML (Azure Arc)</strong> – Deploy Azure ML models to on‑prem clusters<br>
+- <strong>GCP Anthos + Vertex AI (preview)</strong> – Consistent deployment across on‑prem and GKE  </p>
+<p><strong>Speaker Notes</strong><br>
+Explain “model compilation” (e.g., SageMaker Neo or ONNX) that reduces model size and improves inference speed on constrained hardware. Provide an anecdote about a logistics company using Snowball Edge for offline package scanning.</p>
+<hr>
+<h2 id="30-architecture-pattern-classic-endtoend-pipeline">30. Architecture Pattern – Classic End‑to‑End Pipeline</h2>
+<p><strong>Slide Content</strong> – Diagram (textual)  </p>
+<ol>
+<li><strong>Data Lake</strong> (S3 / ADLS Gen2 / GCS)  </li>
+<li><strong>Feature Store</strong> (online &amp; offline)  </li>
+<li><strong>Batch Training</strong> (SageMaker / Azure ML / Vertex)  </li>
+<li><strong>Model Registry</strong>  </li>
+<li><strong>Online Endpoint</strong> (real‑time inference)  </li>
+<li><strong>Application Layer</strong> (web/mobile)  </li>
+</ol>
+<p><strong>Speaker Notes</strong><br>
+Walk through the flow, noting where each cloud service sits. Emphasize the importance of versioned data in the lake, the role of the feature store in keeping training and inference consistent, and the need for monitoring at the endpoint layer.</p>
+<hr>
+<h2 id="31-architecture-pattern-realtime-streaming">31. Architecture Pattern – Real‑Time Streaming</h2>
+<p><strong>Slide Content</strong> – Diagram (textual)  </p>
+<ul>
+<li><strong>Ingestion</strong>: Kafka (AWS MSK, Azure Event Hubs, GCP Pub/Sub)  </li>
+<li><strong>Feature Enrichment</strong>: Real‑time feature service (online store)  </li>
+<li><strong>Low‑Latency Inference</strong>: Edge device or serverless container (AWS Lambda, Azure Functions, Cloud Run)  </li>
+<li><strong>Feedback Loop</strong>: Store prediction results back to data lake for drift analysis  </li>
+</ul>
+<p><strong>Speaker Notes</strong><br>
+Give an example of a financial‑services firm detecting fraudulent transactions within 100 ms. Explain why the online feature store must support sub‑10 ms reads and how serverless containers provide instant scaling.</p>
+<hr>
+<h2 id="32-architecture-pattern-mlopscentric-cicd-loop">32. Architecture Pattern – MLOps‑Centric CI/CD Loop</h2>
+<p><strong>Slide Content</strong> – Diagram (textual)  </p>
+<ol>
+<li><strong>Code Commit</strong> (Git) →  </li>
+<li><strong>Automated Tests</strong> (unit, integration) →  </li>
+<li><strong>Model Build</strong> (training job) →  </li>
+<li><strong>Canary Deploy</strong> (small traffic slice) →  </li>
+<li><strong>Monitoring</strong> (drift, latency) →  </li>
+<li><strong>Trigger Retraining</strong> (if drift &gt; threshold)  </li>
+</ol>
+<p><strong>Speaker Notes</strong><br>
+Highlight the importance of automated testing for data, code, and model artifacts. Mention tools like SageMaker Model Monitor, Azure Monitor for ML, and Vertex Model Monitoring that provide metrics to decide when to retrain.</p>
+<hr>
+<h2 id="33-security-governance-overview">33. Security &amp; Governance Overview</h2>
+<p><strong>Slide Content</strong><br>
+- Encryption at rest &amp; in transit (KMS, Key Vault, Cloud KMS)<br>
+- Role‑Based Access Control (IAM, RBAC, Service Accounts)<br>
+- Auditing &amp; logging (CloudTrail, Azure Monitor, Cloud Audit Logs)<br>
+- Compliance standards (HIPAA, GDPR, FedRAMP, ISO 27001)  </p>
+<p><strong>Speaker Notes</strong><br>
+Stress that AI workloads involve sensitive data and model IP, so security must be baked in from day one. Use a recent breach example where a mis‑configured bucket exposed training data to illustrate the risk.</p>
+<hr>
+<h2 id="34-identity-access-iam-best-practices">34. Identity &amp; Access (IAM) Best Practices</h2>
+<p><strong>Slide Content</strong><br>
+- Principle of least privilege – create service‑linked roles for each service<br>
+- Separate roles for data scientists, ML engineers, and operations<br>
+- Use resource‑based policies for cross‑account model sharing<br>
+- Enable MFA and conditional access for privileged accounts  </p>
+<p><strong>Speaker Notes</strong><br>
+Show a sample IAM policy that allows a SageMaker training job to read from a specific S3 bucket and write to CloudWatch logs, but nothing else. Explain how Azure’s Managed Identities and GCP’s Service Accounts serve the same purpose.</p>
+<hr>
+<h2 id="35-data-protection-privacy">35. Data Protection &amp; Privacy</h2>
+<p><strong>Slide Content</strong><br>
+- Customer‑managed encryption keys (CMK) for data at rest<br>
+- Private endpoints (AWS PrivateLink, Azure Private Link, GCP Private Service Connect)<br>
+- Data residency controls – assign resources to specific regions<br>
+- Business Associate Agreements (BAA) for regulated industries  </p>
+<p><strong>Speaker Notes</strong><br>
+Demonstrate configuring a VPC endpoint for SageMaker to keep traffic within the AWS network. Mention that Azure’s Defender for Cloud can scan data for sensitive information before it’s sent to an AI service.</p>
+<hr>
+<h2 id="36-model-governance-explainability">36. Model Governance &amp; Explainability</h2>
+<p><strong>Slide Content</strong><br>
+- Explainability tools – SageMaker Clarify, Azure Responsible AI, Vertex Explainable AI<br>
+- Model cards – standardized documentation of model purpose, data, performance, limitations<br>
+- Lineage tracking – link dataset version, code commit, and model artifact<br>
+- Audit logs – who accessed which model and when  </p>
+<p><strong>Speaker Notes</strong><br>
+Explain why regulators are demanding transparency. Show a screenshot of a model card generated by Azure and discuss how it can be stored in a compliance repository.</p>
+<hr>
+<h2 id="37-cost-management-fundamentals-updated-forecasts">37. Cost Management Fundamentals – Updated Forecasts</h2>
+<p><strong>Slide Content</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>Cost Driver</th>
+<th>2024 Avg. Unit Cost (US‑East)</th>
+<th>Projected 2028 Cost (per unit)</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SageMaker Training (p4d.24xlarge)</td>
+<td>\$32.76 / hr</td>
+<td>\$30.40 / hr (‑ 7 % thanks to spot‑instance pricing improvements)</td>
+<td>Spot‑instance adoption projected at <strong>86 %</strong> of training jobs by 2028 (IDC)</td>
+</tr>
+<tr>
+<td>Azure ML Compute (NC40ads v4)</td>
+<td>\$2.88 / vCPU‑hr</td>
+<td>\$2.55 / vCPU‑hr (‑ 12 % via Azure Reserved Capacity)</td>
+<td>Azure reports <strong>83 %</strong> of GPU workloads now on reserved capacity</td>
+</tr>
+<tr>
+<td>Vertex AI Training (A2‑High‑GPU)</td>
+<td>\$3.12 / hr</td>
+<td>\$2.95 / hr (‑ 5 % through sustained‑use discounts)</td>
+<td>Google’s “Commitment Plans” now available for GPU instances</td>
+</tr>
+<tr>
+<td>Pre‑built Vision API (per 1 k requests)</td>
+<td>\$2.00</td>
+<td>\$1.70 (‑ 15 % bulk‑discount for &gt; 10 M monthly calls)</td>
+<td>All three clouds announced “enterprise‑tier” volume discounts in 2025</td>
+</tr>
+<tr>
+<td>Serverless Inference (per 100 ms request)</td>
+<td>\$0.000018</td>
+<td>\$0.000015 (‑ 17 % due to edge‑optimised runtimes)</td>
+<td>Edge‑first runtimes (AWS Nitro, Azure Functions v2, Cloud Run 2nd‑Gen) lower per‑request cost</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Speaker Notes</strong><br>
+“The raw pricing tables look similar to what we saw a year ago, but the <strong>trend line is sharply downward</strong> because of three market forces:  </p>
+<ol>
+<li><strong>Spot‑instance maturity</strong> – IDC now reports that <strong>86 %</strong> of cloud‑based training jobs use spot or pre‑emptible capacity, delivering up to 70 % savings versus on‑demand.  </li>
+<li><strong>Reserved‑capacity and commitment plans</strong> – Azure and Google have introduced multi‑year discounts specifically for GPU workloads; the net effect is a <strong>10‑12 % reduction</strong> in per‑hour cost for long‑running training.  </li>
+<li><strong>Enterprise‑tier API volume discounts</strong> – All three providers reduced per‑thousand‑request charges for Vision, Speech, and Language APIs by <strong>15‑20 %</strong> once you exceed ten million calls per month.  </li>
+</ol>
+<p>These savings matter because IDC forecasts <strong>global AI‑systems spend at \$740 bn in 2028</strong>. Even a 5 % reduction in compute cost translates to <strong>\$37 bn</strong> of industry‑wide savings, underscoring the strategic value of rigorous cost‑optimization.”</p>
+<hr>
+<h2 id="38-costoptimization-tips">38. Cost‑Optimization Tips</h2>
+<p><strong>Slide Content</strong><br>
+- Use <strong>Managed Spot</strong> / Preemptible VMs for training – up to 90 % savings<br>
+- Enable <strong>Model Version Cleanup</strong> – delete unused models &amp; endpoints<br>
+- Prefer <strong>Serverless Inference</strong> for low‑traffic APIs – no idle capacity<br>
+- Tag resources and set <strong>budget alerts</strong> in the cloud billing console<br>
+- Consolidate <strong>data storage</strong> – lifecycle policies to move cold data to cheaper tiers  </p>
+<p><strong>Speaker Notes</strong><br>
+Share a real‑world figure: a team reduced monthly inference spend from \$4,200 to \$750 by switching from provisioned endpoints to serverless and cleaning up unused model versions. Emphasize the importance of tagging for chargeback reporting.</p>
+<hr>
+<h2 id="39-realworld-usecase-1-retail-visual-search">39. Real‑World Use‑Case #1 – Retail: Visual Search</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Problem</strong> – Customers want to find products by uploading a photo<br>
+- <strong>Solution Stack</strong><br>
+  1. Images stored in S3<br>
+  2. <strong>SageMaker Ground Truth</strong> – labeling of product catalog<br>
+  3. <strong>SageMaker Training</strong> – fine‑tuned ResNet model<br>
+  4. <strong>Elastic Inference Endpoint</strong> – low‑cost real‑time inference<br>
+  5. Front‑end UI calls the endpoint via API Gateway<br>
+- <strong>Results</strong> – 150 ms average latency, \$0.08 per 1 K queries  </p>
+<p><strong>Speaker Notes</strong><br>
+Walk through the data flow step‑by‑step, emphasizing how Ground Truth accelerated labeling, how Elastic Inference cut inference cost by 60 %, and how API Gateway handled authentication. Mention the business impact: 12 % increase in conversion rate.</p>
+<hr>
+<h2 id="40-realworld-usecase-2-healthcare-document-ai">40. Real‑World Use‑Case #2 – Healthcare: Document AI</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Problem</strong> – Extract structured data from scanned medical records and lab reports<br>
+- <strong>Solution Stack</strong><br>
+  1. Documents ingested into Cloud Storage (GCS)<br>
+  2. <strong>Document AI Parsers</strong> – invoice, receipt, medical form templates<br>
+  3. Parsed JSON written to <strong>BigQuery</strong> for analytics<br>
+  4. <strong>Vertex AI AutoML Tables</strong> – predicts patient risk scores<br>
+- <strong>Compliance</strong> – HIPAA BAA signed, data encrypted with CMEK, private VPC Service Controls  </p>
+<p><strong>Speaker Notes</strong><br>
+Explain that Document AI reduces manual data entry by 85 %. Show a snippet of the resulting JSON schema. Discuss how the entire pipeline runs in a VPC‑SC protected environment, satisfying regulatory requirements.</p>
+<hr>
+<h2 id="41-realworld-usecase-3-financial-services-fraud-detection">41. Real‑World Use‑Case #3 – Financial Services: Fraud Detection</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Problem</strong> – Real‑time scoring of millions of transactions per day<br>
+- <strong>Solution Stack</strong><br>
+  1. Transaction stream → <strong>Azure Event Hubs</strong><br>
+  2. Feature enrichment from <strong>Azure ML Feature Store</strong> (online)<br>
+  3. Scoring via <strong>Azure Kubernetes Service (AKS)</strong> with autoscaling<br>
+  4. <strong>Azure Monitor</strong> captures drift &amp; latency; triggers nightly retraining via <strong>Automated ML</strong><br>
+- <strong>Performance</strong> – 95 % recall, &lt; 100 ms latency, &lt; \$0.02 per transaction  </p>
+<p><strong>Speaker Notes</strong><br>
+Detail the steps from ingestion to inference, emphasizing the low latency achieved by deploying the model on AKS with GPU nodes. Explain how drift detection (distribution shift in feature values) automatically launches a retraining job each night.</p>
+<hr>
+<h2 id="42-live-demo-optional-text-classification-with-azure-cognitive-service">42. Live Demo (Optional) – Text Classification with Azure Cognitive Service</h2>
+<p><strong>Slide Content</strong><br>
+- <strong>Goal</strong> – Classify support tickets into categories using Azure Language Service<br>
+- <strong>Steps</strong><br>
+  1. Install <code>azure-ai-language</code> Python SDK<br>
+  2. Authenticate with Azure AD (service principal)<br>
+  3. Call <code>client.analyze_text()</code> with a sample ticket<br>
+  4. Print classification result and confidence score  </p>
+<p><strong>Speaker Notes</strong><br>
+If a sandbox environment is available, run the script live. Show the request payload, the response JSON, and the latency (≈ 200 ms). If a live demo isn’t possible, display screenshots of the console and the output.</p>
+<hr>
+<h2 id="43-success-factors-checklist">43. Success Factors Checklist</h2>
+<p><strong>Slide Content</strong><br>
+- Clear business objective and success metrics<br>
+- Data readiness: quality, labeling, governance<br>
+- Choose the appropriate service model (SaaS → quick win, PaaS → custom models)<br>
+- Build MLOps pipelines early (model registry, monitoring)<br>
+- Implement cost‑tracking and budgeting from day one<br>
+- Incorporate responsible AI checks (bias, explainability)  </p>
+<p><strong>Speaker Notes</strong><br>
+Present this as a one‑page handout. Encourage the audience to evaluate each point against their own projects and identify gaps before starting.</p>
+<hr>
+<h2 id="44-future-trends-generative-ai-foundation-models-20272030-forecast">44. Future Trends – Generative AI &amp; Foundation Models (2027‑2030 Forecast)</h2>
+<p><strong>Slide Content</strong>  </p>
+<ul>
+<li><strong>Foundation‑model market size</strong> – Bloomberg Intelligence: <strong>\$120 bn in 2027</strong>, <strong>\$210 bn in 2030</strong> (CAGR ≈ 30 %).  </li>
+<li><strong>Enterprise adoption</strong> – Gartner (2025‑2028) predicts <strong>68 %</strong> of large enterprises will run at least one fine‑tuned large‑language model (LLM) in production by 2028, rising to <strong>84 %</strong> by 2030.  </li>
+<li><strong>RAG (Retrieval‑Augmented Generation)</strong> – IDC projects <strong>RAG‑enabled applications will account for 35 % of all LLM deployments by 2027</strong>, driven by data‑privacy regulations.  </li>
+<li><strong>AI‑driven data engineering</strong> – Forrester (2026) foresees <strong>“Synthetic‑Data‑as‑a‑Service”</strong> generating <strong>\$25 bn annual revenue</strong> by 2029, enabling faster model training on scarce domains.  </li>
+<li><strong>Responsible‑AI automation</strong> – Deloitte’s 2026 “AI Governance Automation” study indicates <strong>40 %</strong> of AI governance tasks (bias testing, lineage tracking) will be automated via built‑in cloud tooling by 2029.  </li>
+</ul>
+<p><strong>Speaker Notes</strong><br>
+“Looking ahead to the <strong>2027‑2030</strong> horizon, the growth story shifts from <em>building</em> AI models to <em>operating</em> them at scale.  </p>
+<ul>
+<li><strong>Foundation‑model economics</strong>: Bloomberg projects a <strong>\$120 bn market in 2027</strong>, more than double by 2030. Those are the hosted LLMs (Bedrock, Azure OpenAI, Gemini) that enterprises will consume on a subscription basis rather than train from scratch.  </li>
+<li><strong>Enterprise penetration</strong>: Gartner’s latest adoption curve shows <strong>68 %</strong> of Fortune 500 firms already have a production‑grade fine‑tuned LLM by 2028; that climbs to <strong>84 %</strong> by 2030. This means the majority of AI spend will be on <strong>prompt engineering, fine‑tuning, and governance</strong>, not raw compute.  </li>
+<li><strong>RAG is the bridge</strong>: Retrieval‑augmented generation combines a large language model with a private knowledge base, satisfying both accuracy and data‑sovereignty needs. IDC expects <strong>35 %</strong> of all LLM workloads to be RAG‑based by 2027.  </li>
+<li><strong>Synthetic data</strong>: Forrester estimates a <strong>\$25 bn</strong> market for synthetic‑data‑as‑a‑service by 2029, a critical enabler for regulated industries that cannot expose real customer data to model training.  </li>
+<li><strong>Responsible‑AI automation</strong>: Deloitte’s governance‑automation research shows <strong>40 %</strong> of the typical compliance workload will be handled by built‑in tools (bias detection, model‑card generation) by <strong>2029</strong>, reducing the overhead for enterprises and making responsible AI scalable.  </li>
+</ul>
+<p>The practical implication for us is that the <strong>cloud AI services we examined</strong> are already adding new capabilities (hosted LLMs, RAG pipelines, synthetic‑data generators) that will dominate the AI spend curve in the next five years. When you plan a new project, ask: <em>Is this a fine‑tuning use‑case, does it need RAG, or will synthetic data accelerate the timeline?</em>”</p>
+<p><strong>CAGR (Compound Annual Growth Rate)</strong>  </p>
+<ul>
+<li>
+<p><strong>Definition:</strong><br>
+  CAGR is the average annual growth rate of an investment, revenue stream, or any metric over a period of time, assuming the growth compounds (i.e., each year’s growth builds on the previous year’s result). It smooths out the effect of year‑to‑year volatility and expresses the overall growth as a single annual rate.</p>
+</li>
+<li>
+<p><strong>Formula:</strong>  </p>
+</li>
+</ul>
+<p>[
+\text{CAGR} = \left( \frac{V_{\text{final}}}{V_{\text{initial}}} \right)^{\frac{1}{n}} - 1
+]</p>
+<p>where:<br>
+  - (V_{\text{initial}}) = value at the beginning of the period<br>
+  - (V_{\text{final}}) = value at the end of the period<br>
+  - (n) = number of years (or periods) between the two values  </p>
+<ul>
+<li><strong>How to calculate (step‑by‑step):</strong>  </li>
+<li>Divide the ending value by the beginning value.  </li>
+<li>Take the nth root of the result (raise to the power of (1/n)).  </li>
+<li>Subtract 1.  </li>
+<li>
+<p>Convert to a percentage (multiply by 100).</p>
+</li>
+<li>
+<p><strong>Example:</strong><br>
+  Suppose a company’s AI‑related revenue grew from \$20 million in 2022 to \$50 million in 2026 (a 4‑year span).</p>
+</li>
+</ul>
+<p>[
+\text{CAGR} = \left( \frac{50}{20} \right)^{\frac{1}{4}} - 1
+            = (2.5)^{0.25} - 1
+            \approx 1.257 - 1
+            = 0.257 \text{ or } 25.7\%
+]</p>
+<p>This means the revenue increased, on average, by about 25.7 % per year, compounded annually.</p>
+<ul>
+<li><strong>When to use CAGR:</strong>  </li>
+<li>Comparing growth rates of different businesses or markets over the same time horizon.  </li>
+<li>Evaluating the performance of a portfolio, product line, or market segment when the data points are only available at the start and end of the period.  </li>
+<li>
+<p>Communicating long‑term growth expectations in a simple, single‑number format for investors, executives, or analysts.</p>
+</li>
+<li>
+<p><strong>Limitations:</strong>  </p>
+</li>
+<li>CAGR assumes a steady, exponential growth path; it does not reflect volatility, interim peaks, or troughs.  </li>
+<li>It ignores cash flows that occur during the period (unlike internal‑rate‑of‑return calculations).  </li>
+<li>
+<p>Over short time spans, the CAGR can be misleading if a single outlier year dominates the change.</p>
+</li>
+<li>
+<p><strong>Typical contexts in AI‑in‑the‑cloud presentations:</strong>  </p>
+</li>
+<li>“The AI‑infused SaaS market is projected to grow at a <strong>CAGR of 30 %</strong> from 2024‑2029.”  </li>
+<li>“Our cloud‑based ML platform saw a <strong>CAGR of 45 %</strong> in subscription revenue over the last five years.”  </li>
+</ul>
+<p>Understanding CAGR helps stakeholders gauge the <em>speed</em> of market expansion or business performance without getting bogged down in the year‑by‑year fluctuations.</p>
+<hr>
+<h2 id="45-responsible-ai-emerging-standards-toolkits">45. Responsible AI – Emerging Standards &amp; Toolkits</h2>
+<p><strong>Slide Content</strong>  </p>
+<ul>
+<li>EU AI Act (high‑risk classification) – compliance deadlines 2026‑2028.  </li>
+<li>ISO/IEC 22989 – AI risk‑management framework (first edition 2024, revised 2027).  </li>
+<li>Cloud‑native responsible‑AI suites now include <strong>automated bias remediation</strong>, <strong>model‑card generation</strong>, and <strong>continuous explainability</strong> (AWS Clarify, Azure Responsible AI, Vertex Explainable AI).  </li>
+<li><strong>Automation trend</strong> – Deloitte predicts <strong>40 %</strong> of governance tasks will be automated by 2029, reducing manual review effort.  </li>
+</ul>
+<p><strong>Speaker Notes</strong><br>
+“The regulatory landscape is moving fast: the EU AI Act will make a large class of AI systems ‘high‑risk’ and mandates conformity assessments by <strong>2028</strong>. ISO/IEC 22989 will become the global baseline for AI risk management.  </p>
+<p>All three major clouds have responded by embedding <strong>automated responsible‑AI capabilities</strong>—for example, SageMaker Clarify now offers a one‑click bias‑remediation workflow, Azure’s Responsible AI dashboard can auto‑generate model cards, and Vertex Explainable AI provides continuous feature‑importance monitoring.  </p>
+<p>Deloitte’s 2026 study indicates that <strong>40 %</strong> of these governance tasks will be fully automated by <strong>2029</strong>, meaning the operational overhead for compliance is shrinking even as the volume of AI models grows. This reinforces the business case for leveraging the cloud’s built‑in tools rather than building custom governance pipelines.”</p>
+<hr>
+<h2 id="46-qa-whats-next-for-you">46. Q&amp;A – What’s Next for You?</h2>
+<p><strong>Slide Content</strong><br>
+- Open floor for audience questions<br>
+- Prompt: “Which cloud AI service aligns best with your current challenges?”  </p>
+<p><strong>Speaker Notes</strong><br>
+Facilitate a brief discussion, noting any common themes (e.g., many want to start with a pre‑built API before committing to a full ML platform). Offer to set up follow‑up workshops for deeper technical dives.</p>
+<hr>
+<h2 id="47-thankyou-contact-information">47. Thank‑You / Contact Information</h2>
+<p><strong>Slide Content</strong><br>
+- Presenter name, email, LinkedIn profile<br>
+- Company website<br>
+- Link to slide deck repository (e.g., GitHub)<br>
+- Invitation to schedule a one‑on‑one session  </p>
+<p><strong>Speaker Notes</strong><br>
+Thank the audience for their time, reiterate your willingness to help them start AI projects in the cloud, and encourage them to reach out with any follow‑up questions.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <div id="custom-footer-bar">
+  <span>Lecture Notes: Collected and Prepared by Gregor von Laszewski (laszewski@gmail.com)</span>
+</div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.full_width"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/show_source.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

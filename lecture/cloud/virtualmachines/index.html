@@ -1,0 +1,4422 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Practitioners Guide">
+      
+      
+        <meta name="author" content="Gregor von Laszewski">
+      
+      
+      
+        <link rel="prev" href="../virtualization/">
+      
+      
+        <link rel="next" href="../../../section/cloud/local/vm-status/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Virtualization  - Lecture Notes: CloudComputing, DevOps, and AI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#virtual-machines" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-header__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lecture Notes: CloudComputing, DevOps, and AI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Virtualization 
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-nav__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Lecture Notes: CloudComputing, DevOps, and AI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LECTURES
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LECTURES
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OVERVIEW
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OVERVIEW
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../syllabus/cloud-computing-devops-ai-syllabus.pdf" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.0 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.1-syllabus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.1 Syllabus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.2-contribute-lecture-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.2 Contribute
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.3-accounts.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.3 Accounts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.4-supplemental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.4 Supplemental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.5-piazza/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5 Piazza
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_7">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_7" id="__nav_2_1_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6 ACCOUNTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L.1.6 ACCOUNTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/local/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.1 Local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/access-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.2 Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/chameleon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.3 Chameleon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.4 AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/azure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.5 Azure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../accounts/google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.6 Google
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLOUD
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLOUD
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2 Local
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.2 Local
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/vm-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/multipass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Multipass
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Qemu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/vagrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Vagrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/virsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virsh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASSIGNMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ASSIGNMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assignments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../assignments/assignments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LUC_388_488
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="#separator" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ---
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PYTHON
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PYTHON
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.2 Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3">
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3 Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.3 Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.1 Interactive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.2 Editor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.3 Language
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4">
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5 Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.5 Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-click/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.1 Click
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-docopts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.2 DocOpts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-cmd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.3 CMD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6 Processes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.6 Processes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-subprocess/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.1 Subprocess
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.2 Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.3 Queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.4 Schedulers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6">
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7 Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.7 Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.1 Basic Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-wordcount/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.2 Wordcount
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7">
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8 Graphs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.8 Graphs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.1 Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-matplotlib/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.2 Matplotlib
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8">
+        
+          
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9 Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.9 Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-ssl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.1 SSL/TLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/python/python-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.2 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LINUX
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LINUX
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.2 Text one Liners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/refcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.1 RefCards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/ubuntu-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.2 Ubuntu CLI Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.4 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/ssh-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.5 SSH on Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/zsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.6 ZSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/linux/recording/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.7 Recording
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLOUD
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLOUD
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VIRTUALIZATION
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    VIRTUALIZATION
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VMs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VMs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#virtual-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtual Machines
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-virtual-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Virtual Machines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Virtual Machines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bare-metal-virtualization-type-1-hyporvisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bare-Metal Virtualization: Type-1 Hyporvisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosted-virtualization-type-2-hypervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hosted Virtualization: Type-2 Hypervisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-differences-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Differences at a Glance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtualization-approaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtualization Approaches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtualization-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtualization Technologies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Virtualization Technologies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selected-hardware-virtualization-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selected Hardware Virtualization Technologies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selected Hardware Virtualization Technologies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#amd-v-and-intel-vt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AMD-V and Intel-VT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#io-mmu-virtualization-amd-vi-and-intel-vt-d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I/O MMU virtualization (AMD-Vi and Intel VT-d)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selected-vm-virtualization-software-and-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selected VM Virtualization Software and Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selected VM Virtualization Software and Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#libvirt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Libvirt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QEMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kvm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KVM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kvm-vs-qemu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KVM vs QEMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Xen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hyper-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyper-V
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VMWare
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wine-wine-is-not-an-emulator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wine -- Wine is not an emulator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-some-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison of some technologies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparative-summary-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparative Summary Table
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparative Summary Table">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-virtualization-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison of Virtualization Technologies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selected-storage-virtualization-software-and-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selected Storage Virtualization Software and Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selected-network-virtualization-software-and-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selected Network Virtualization Software and Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#excerises" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Excerises
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LOCAL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LOCAL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/vm-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/multipass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Multipass
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Qemu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/virsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virsh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/vagrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Vagrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/cloud/local/virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WRITING
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    WRITING
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/plagiarism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.1 Plagarism
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.2 Markdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/emacs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.3 Emacs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_4">
+        
+          
+          <label class="md-nav__link" for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4 Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    W.4 Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/ppt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.1 PPT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/mermaid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.2 Mermaid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/writing/graphviz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.3 Graphviz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9">
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACKNOWLEDGEMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ACKNOWLEDGEMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../section/acknowledgements/acknowledgements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A.1 Acknowledgments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#virtual-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtual Machines
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-virtual-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Virtual Machines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Virtual Machines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bare-metal-virtualization-type-1-hyporvisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bare-Metal Virtualization: Type-1 Hyporvisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosted-virtualization-type-2-hypervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hosted Virtualization: Type-2 Hypervisor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-differences-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Differences at a Glance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtualization-approaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtualization Approaches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtualization-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtualization Technologies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Virtualization Technologies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selected-hardware-virtualization-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selected Hardware Virtualization Technologies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selected Hardware Virtualization Technologies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#amd-v-and-intel-vt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AMD-V and Intel-VT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#io-mmu-virtualization-amd-vi-and-intel-vt-d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I/O MMU virtualization (AMD-Vi and Intel VT-d)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selected-vm-virtualization-software-and-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selected VM Virtualization Software and Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selected VM Virtualization Software and Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#libvirt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Libvirt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QEMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kvm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KVM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kvm-vs-qemu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KVM vs QEMU
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Xen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hyper-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyper-V
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VMWare
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wine-wine-is-not-an-emulator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wine -- Wine is not an emulator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-some-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison of some technologies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparative-summary-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparative Summary Table
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparative Summary Table">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-virtualization-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison of Virtualization Technologies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selected-storage-virtualization-software-and-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selected Storage Virtualization Software and Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selected-network-virtualization-software-and-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selected Network Virtualization Software and Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#excerises" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Excerises
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>VMs</h1>
+
+<div class="admonition note">
+<p class="admonition-title">Learning Outcome</p>
+<ul>
+<li>Gain an understanding of the basic concepts of virtualization</li>
+<li>Understand what a virtual machine is</li>
+<li>Understand what a Hypervisor is</li>
+</ul>
+</div>
+<p>Virtualization is one of the important technologies that started the cloud revolution. It provides the basic underlying principles for the development and adoption of clouds. The concept, although old and already used in the early days of computing, has recently been exploited to lead to better utilization of servers as part of data centers, but also the local desktops.</p>
+<p>Virtualization enables to execute multiple applications in such a way that the applications seem to run independently form each other in their own virtualized context.</p>
+<p>Examples of the usefulness of virtualization include testing of applications and run experiments on a different operating system than the one on our host computer. To enable this, we need virtual machines.</p>
+<p>However, overall, the search popularity of hypervisors have been decreasing, as other lightweight virtualization solutions, i.e., container technologies are now more main stream. We will cover them in a different chapter.</p>
+<h2 id="virtual-machines">Virtual Machines</h2>
+<p>We define a virtual machine as follows:</p>
+<div class="admonition info">
+<p class="admonition-title">Virtual Machine</p>
+<p>A virtual machine (VM) is a software-based emulation of a computer system. This can include process virtualization and physical computer virtualization, such as running an operating system. Multiple virtual machines share the resources of the computer or system on which they run.</p>
+</div>
+<p>We distinguish the following types of Virtual machines</p>
+<ul>
+<li><strong>System Virtual Machines</strong> or <strong>Hardware Virtual Machines</strong>, which is the virtualization of the operating system providing a complete system platform environment emulating the hardware. Here we essentially run another operating system on top of the existing OS while using a software abstraction between them allowing the virtualization.</li>
+</ul>
+<p>Examples of such virtualization include VirtualBox and VMWare.</p>
+<ul>
+<li><strong>Process Virtual Machines</strong> or <strong>Application Virtual Machine</strong> which provides a platform-independent programming environment that abstracts the details of the underneath hardware or OS from software or application runtime.</li>
+</ul>
+<p>Examples of such virtual machines include Java Virtual Machine (JVM) and the .NET Framework</p>
+<p>Next, we will be analyzing the system machine virtualization in more detail, as they are one of the reasons for the clouds revolution.</p>
+<h2 id="system-virtual-machines">System Virtual Machines</h2>
+<p>The use of a system as a virtual machine has its clear advantages for the cloud. We distinguish two main ways of system virtualizing:</p>
+<ul>
+<li>
+<p><strong>Bare-metal Virtualization</strong> in which the virtual machine monitor is installed directly on top of the hardware so that it has direct access to the underlying hardware. It hosts the operating system. The VMM is also called hypervisor. We also use for bare-metal supporting VMM the term <em>Type 1 hypervisor</em>.</p>
+</li>
+<li>
+<p><strong>Hosted Virtualization</strong> in which the base operating system is installed on the hardware. Here a virtual machine monitor (VMM) is installed on top of the host OS allowing the users to run other operating systems on the VMM. In addition, the Virtual Machine Monitor or <em>Hypervisor</em> manages the deployments of potentially multiple virtual machines on top of the underlying Operating system. We also use for hosted VMM the term <em>Type 2 hypervisor</em>.</p>
+</li>
+</ul>
+<p>In either case, the functionality a virtual machine is supported through configuration files, specifications, and access to the physical resources either directly or indirectly through the host OS. A virtual machine provides the same functionality as a physical computer, but with the advantage that through virtualization they are portable, can be managed, and provide increased security while shielding the underlying OS from harmful actions. As a virtual machine is in principle a program, it consists of several files , including a configuration file, virtual disk files, virtual RAM, and a log file. Virtual machines are configured to run a virtual operating system that allows applications to run on them. Each virtual machine has its own copy of the OS, making it independent and more secure.</p>
+<p>End-users and developers will benefit from using virtual machines in the case they need to operate or support on different hardware or porting software on it.</p>
+<h3 id="bare-metal-virtualization-type-1-hyporvisor">Bare-Metal Virtualization: Type-1 Hyporvisor</h3>
+<p>A <strong>Type 1 hypervisor</strong> is installed directly on the physical hardware of the computer. There is no operating system (like Windows or macOS) underneath it. Because it has direct access to the hardware, it is extremely fast, secure, and efficient.</p>
+<ul>
+<li>
+<p><strong>How it works:</strong> It acts as a slim operating system itself, designed specifically to manage virtual machines (VMs).</p>
+</li>
+<li>
+<p><strong>Best for:</strong> Enterprise data centers, cloud providers (AWS, Azure), and web hosting.</p>
+</li>
+<li>
+<p><strong>Examples:</strong> VMware ESXi, Microsoft Hyper-V, and Xen.</p>
+</li>
+</ul>
+<h3 id="hosted-virtualization-type-2-hypervisor">Hosted Virtualization: Type-2 Hypervisor</h3>
+<p>As in the hosted virtualization, the guest operating system accessed the underlying hardware through the host OS, it usually has limited access to the hardware as defined by the host OS. This allows the host OS to impose policies that govern the operation of multiple guest OS concurrently. This includes management and scheduling of processes, memory, I/O operations to assign them appropriately to the guest OS. Through this mechanism, the hypervisor provides an emulation of available hardware to each Virtual Machine running on top of it in time-sharing fashion for resource-constrained or resource shared activities.</p>
+<p>As example, the hypervisor has the ability to present generic I/O devices, and it has no access to non-generic I/O devices. Generic I/O devices are network, interface cards, CD-ROMs. Examples for non-generic I/O devices are PCI data acquisition card, etc. However, with appropriate driver support, even such devices could be made accessible to the VMs.</p>
+<p>Often we also find that hosted virtualization supports connected USB drives in the VMs which become very practical for USB attached devices needed in storage, or even edge computing applications.</p>
+<p>Advantages of Hosted Virtualization include</p>
+<ul>
+<li>Multiple Operating systems run on separate virtual machines on a VMM.</li>
+<li>Different Operating systems run on separate virtual machines on a VMM.</li>
+<li>Hardware-level driver support is controlled by VMM, allowing an isolation of certain security aspects for accessing the hardware.</li>
+<li>Installation of software can be done by the owner of the virtual machine and does not have to be conducted by the provider of the hypervisor.</li>
+</ul>
+<p>Disadvantages of Hosted Virtualization include</p>
+<ul>
+<li>Increased resource requirements as the Guest OS is running a full copy of the OS. In its worst case, this will lead to a significant performance reduction while using resources that are in contention.</li>
+<li>The user of hypervisors must be familiar with the operating system management and security to ensure it is safe to use.</li>
+</ul>
+<p>A <strong>Type 2 hypervisor</strong> runs as an application on top of an existing operating system. You interact with it just like you would with a web browser or a word processor.</p>
+<ul>
+<li>
+<p><strong>How it works:</strong> When a VM needs hardware resources (like RAM or CPU), the Type 2 hypervisor has to ask the "Host" operating system for permission. This extra step makes it slightly slower than a Type 1.</p>
+</li>
+<li>
+<p><strong>Best for:</strong> Developers, students, and home users who want to run a second OS (like Linux) inside their primary OS (like Windows).</p>
+</li>
+<li>
+<p><strong>Examples:</strong> Oracle VirtualBox, VMware Workstation, and Parallels Desktop.</p>
+</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>To showcase how these technologies relate to each other you may review @fig:vm-taxonomy</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./images/vm.png" data-desc-position="bottom"><img alt="Virtualization Taxonomy [@paravsfull-virt]" src="./images/vm.png"></a>{#fig:vm-taxonomy}</p>
+<p>We summarize the following <em>hypervisor</em> types:</p>
+<ul>
+<li>
+<p>Type-1 hypervisors supporting native or bare-metal. They run directly on the host's hardware to control the hardware and to manage guest operating systems.</p>
+</li>
+<li>
+<p>Type-2 hypervisors supporting hosted virtualization. They run on a conventional operating system (OS), just as other computer programs do. A guest operating system runs as a process on the host.</p>
+</li>
+</ul>
+<p>o understand the difference between a Type 1 and Type 2 hypervisor, it helps to look at where the "virtualization layer" sits in relation to the physical computer hardware.</p>
+<h3 id="key-differences-at-a-glance">Key Differences at a Glance</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Feature</strong></td>
+<td><strong>Type 1 (Bare-Metal)</strong></td>
+<td><strong>Type 2 (Hosted)</strong></td>
+</tr>
+<tr>
+<td><strong>Placement</strong></td>
+<td>Directly on Hardware</td>
+<td>On top of an OS (Host OS)</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Near-native speed</td>
+<td>Slightly slower (overhead)</td>
+</tr>
+<tr>
+<td><strong>Complexity</strong></td>
+<td>Higher (requires dedicated setup)</td>
+<td>Lower (easy to install/use)</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Higher (smaller attack surface)</td>
+<td>Lower (vulnerable to Host OS issues)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="virtualization-approaches">Virtualization Approaches</h2>
+<p>Next, we look at different virtualization approaches that relate to resource utilization.</p>
+<ul>
+<li>
+<p><strong>Full virtualization:</strong> When looking at virtualization, we often identify it with being full virtualization. The hypervisor provides a full abstraction of the hardware exposed to the guest OSs. In this case, the guest OSs the virtual machine just run without any special modification on the host OS. It just looks like an independent running computer [@paravsfull-virt].</p>
+</li>
+<li>
+<p><strong>Paravirtualization:</strong> Para -- alongside/partial -- virtualization is developed to improve performance by interacting between the OS and the hypervisor. This is done for complex and time-consuming tasks that otherwise could not be managed by the VMM manager. Commands sent from the OS to the hypervisor are called <em>hypercalls</em> [@paravsfull-virt].</p>
+</li>
+</ul>
+<h2 id="virtualization-technologies">Virtualization Technologies</h2>
+<p>In this section, we cover an introduction to the underlying virtualization technologies used on some mainstream platforms.</p>
+<p>Cloud providers, such as AWS, Azure, and Google, and OpenStack use for example, QEMU and KVM technologies for compute instance virtualization.</p>
+<h3 id="selected-hardware-virtualization-technologies">Selected Hardware Virtualization Technologies</h3>
+<h4 id="amd-v-and-intel-vt">AMD-V and Intel-VT</h4>
+<p>The hardware virtualization support enabled by AMD-V and Intel VT technologies introduces virtualization in the x86 processor architecture. According to Intel, Intel Hyper-Threading Technology allows a single processor to execute two or more separate threads concurrently. When it is enabled, multi-threaded software applications can execute their threads in parallel, thereby improving their performance.</p>
+<h4 id="io-mmu-virtualization-amd-vi-and-intel-vt-d">I/O MMU virtualization (AMD-Vi and Intel VT-d)</h4>
+<p>The term IOMMU is an abbreviation for input-output memory management unit. An IOMMU allows through virtual addresses to interface with physical addresses, allowing external direct-memory-access–capable IO devices to interface with the main memory [@iommu-1]. AMD's I/O Virtualization Technology (AMD-Vi) was originally called <em>IOMMU</em>.</p>
+<p>To use Intel's <em>Virtualization Technology for Directed I/O</em> (VT-d), both the motherboard chipset and system firmware (BIOS or UEFI) need to fully support the IOMMU I/O virtualization functionality for it to be usable [@iommu-2].</p>
+<h3 id="selected-vm-virtualization-software-and-tools">Selected VM Virtualization Software and Tools</h3>
+<p>A number of noteworthy virtualization software and tools exist which make the development and use of virtualization on the hardware possible. They include</p>
+<ul>
+<li>Libvirt</li>
+<li>KVM</li>
+<li>Xen</li>
+<li>Hyper-V</li>
+<li>QEMU</li>
+<li>VMWare</li>
+<li>VirtualBox</li>
+</ul>
+<p>We will be discussing them next.</p>
+<h4 id="libvirt">Libvirt</h4>
+<p><a href="https://libvirt.org/api.html">Libvirt</a> is a library with an API for managing virtualization solutions such as provided by KVM and Xen. It provides a common management API for them, allowing uniform, cross-hypervisor interfaces for higher-level management tools. <code>Libvirt</code> provides a toolkit to manage virtualization hosts and supports a wide set of languages, such as C, Python, Perl, and Java. Drivers are the basic building block for libvirt functionality to support the capability to handle specific hypervisor driver calls. Drivers are discovered and registered during connection processing as part of the <code>virInitializeAPI</code>. Each driver has a registration API that loads up the driver-specific function references for the libvirt APIs to call. The following is a simplistic view of the hypervisor driver mechanism. Furthermore, it provides APIs for management of virtual networks and storage on the VM Host Server. The configuration of each VM Guest is stored in an XML file [@libvirt]. The official website for <code>libvirt</code> is located at</p>
+<ul>
+<li><a href="https://libvirt.org/">https://libvirt.org/</a></li>
+</ul>
+<h4 id="qemu">QEMU</h4>
+<p>QEMU is a virtualization technology emulator that allows you to run operating systems and Linux distributions on your current system without installing them or burn their ISO files. When used as a machine emulator, QEMU can run OSs and programs made for one machine (e.g., an ARM board) on a different machine (e.g., your own PC). By using dynamic translation, it achieves very good performance. QEMU provides two generic functions. One of them is an open-source machine emulator, and the other is a virtualizer.</p>
+<ul>
+<li>
+<p><em>Machine emulation:</em> using it as a machine emulator it runs the OSs and programs designed for one machine on a different machine of potentially different architecture. It uses dynamic translation through which it achieves very good performance.</p>
+</li>
+<li>
+<p><em>Virtualizer:</em> Using is as a virtualizer it executes the guest code directly on the host CPU. This enables QEMU to achieve near-native performance.</p>
+</li>
+</ul>
+<p>Once QEMU has been installed, it should be ready to run a guest OS from a disk image. This image is a file that represents the filesystem and OS on a hard disk. From the perspective of the guest OS, it actually is a file on harddisk, and it can create its own filesystem on the virtual disk.</p>
+<p>QEMU supports either XEN or KVM to enable virtualization. With the help of KVM, QEMU can virtualize x86, server, and embedded PowerPC, 64-bit POWER, S390, 32-bit and 64-bit ARM, and MIPS guests according to the <a href="https://wiki.qemu.org/Main_Page">QEMU Wiki</a>.</p>
+<p>Useful links include the following:</p>
+<ul>
+<li>
+<p>An extensive manual is provided at <a href="https://qemu.weilnetz.de/doc/qemu-doc.html">https://qemu.weilnetz.de/doc/qemu-doc.html</a>.</p>
+</li>
+<li>
+<p>QEMU can be downloaded from <a href="http://www.qemu.org/download/">http://www.qemu.org/download/</a>.</p>
+</li>
+<li>
+<p>A collection of images for testing purposes is provided at <a href="https://wiki.qemu.org/Testing/System_Images">https://wiki.qemu.org/Testing/System_Images</a></p>
+</li>
+</ul>
+<p>An example of using QEMU is provided in Section [Virtual Machine Management with QEMU]{@s-qemu-kvm}</p>
+<h4 id="kvm">KVM</h4>
+<p>KVM, or Kernel-based Virtual Machine is a popular open-source hypervisor solution. It was released as a virtualization solution for Linux based systems and later was merged into Linux Kernel since version 2.6.20. It was originally supporting x86 hardware with virtualization extensions (Intel VT or AMD-V), but later supporting of PowerPC and ARM were added. It supports a variety of different guest OSs, e.g., Windows family, Darwin (the core of MacOS), in addition to the different distros from various Linux operating systems. The full supported guest list can be found at: <a href="http://www.linux-kvm.org/page/Guest_Support_Status">http://www.linux-kvm.org/page/Guest_Support_Status</a></p>
+<p>The full list of KVM features can be found here: <a href="http://www.linux-kvm.org/page/KVM_Features">http://www.linux-kvm.org/page/KVM_Features</a>. Among them, some cool features include hot-plugging of hardware , even CPU and PCI devices. It supports live migration of VMs too.</p>
+<h4 id="kvm-vs-qemu">KVM vs QEMU</h4>
+<p>KVM includes a fork of the QEMU executable. The QEMU project focuses on hardware emulation and portability. KVM focus on the kernel module and interfacing with the rest of the userspace code. KVM comes with a <code>kvm-qemu</code> executable that just like QEMU manages the resources while allocating RAM, loading the code. However, instead of recompiling the code, it spawns a thread which calls the KVM kernel module to switch to guest mode. It then proceeds to execute the VM code. When privileged instructions are found, it switches back to the KVM kernel module, and if necessary, signals the QEMU thread to handle most of the hardware emulation. This means that the guest code is emulated in a POSIX thread, which can be managed with common Linux tools [@kvmvsqemu].</p>
+<h4 id="xen">Xen</h4>
+<p>Xen is one of the most widely adopted hypervisors by IaaS cloud. It is supported by the earliest and still the most popular public cloud offering, i.e., Amazon Web Service (AWS). Eucalyptus, one open-source effort to replicate what AWS had to offer, and the then most popular private cloud software, supported Xen from the start. And later, Openstack, the most popular open-source IaaS cloud software at present, also supports Xen.</p>
+<p>Some notable features of Xen include:</p>
+<ul>
+<li>
+<p>Supporting x86-64 and ARM for host architecture.</p>
+</li>
+<li>
+<p>Supporting live migration of VMs between different physical hosts without losing availability.</p>
+</li>
+</ul>
+<p>A more detailed list can be found at <a href="https://wiki.xenproject.org/wiki/Xen_Project_Release_Features">https://wiki.xenproject.org/wiki/Xen_Project_Release_Features</a>.</p>
+<h4 id="hyper-v">Hyper-V</h4>
+<p>Hyper-V is a product from Microsoft to support virtualization on systems running Windows. Hyper-V was originally released along with Windows Server 2008, with a separate free version with limited functionality. In later releases, it adds more features, e.g., better support of Linux guest OS, live migration of VMs, etc.</p>
+<p>More detailed information about Hyper-V can be found at <a href="https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/reference/hyper-v-architecture">https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/reference/hyper-v-architecture</a></p>
+<h4 id="vmware">VMWare</h4>
+<p>VMware is well known for the company bringing hypervisors to the mass market. The company is now owned by Dell. It has developed the first type 2 hypervisor. Today VMWare offer type 1 hypervisors and type 2 hypervisors [@wikipedia-vmware].</p>
+<p>Because the initial software virtualized "hardware for a video adapter, a network adapter, and hard disk adapters" as well as "pass-through drivers for guest USB, serial, and parallel devices" [@wikipedia-vmware] it provided an attractive solution for many to use it to run different OSs on their host computers. One important advantage is that it does not rely on virtualization extensions to the x86 instruction set as it was developed before they became available. This means it can run on many other platforms. However this advantage is diminished with the ubiquitous availability of these features in the hardware.</p>
+<h4 id="parallels">Parallels</h4>
+<p>Another interesting company offering hypervisors is Parallels. This company has two main products in that regards:</p>
+<ul>
+<li>
+<p>Parallels Desktop for Mac, which for x86 machines allows users to run virtual machines independently using Windows, Linux, Solaris.</p>
+</li>
+<li>
+<p>Parallels Workstation for Microsoft Windows and Linux users which for x86 machines allows user to run virtual machines independently on the Windows host.</p>
+</li>
+</ul>
+<h4 id="virtualbox">VirtualBox</h4>
+<p>VirtualBox is a free, open-source hypervisor for x86 architectures. It is now owned by Oracle while transitioning from SUN which in turn acquired the original technology from Innotek.</p>
+<p>One of the nice features for us is that VirtualBox is able to create and manage guest virtual machines such as Windows, Linux, BSD, OSx86 and even in part also macOS (on Apple hardware). Hence it makes it for us a very valuable tool while being able to run virtual machines on a local desktop or computer to simulate cloud resources without charging cost. In addition, we find command-line tools such as Vagrant that make the use convenient while not having to utilize the GUI or the more complex virtual box command interfaces. A guest additions package allows compatibility with the host OS, to, for example, allow window management between host and guest OS.</p>
+<p>In Section <a href="#s-virtualbox">VirtualBox</a> we have provided a practical introduction to VirtualBox.</p>
+<h4 id="wine-wine-is-not-an-emulator">Wine -- Wine is not an emulator</h4>
+<p>The next software that we introduce is not a hypervisor. However, it is very interesting as a contrast to the other approach. The term Wine has been originally introduced as an acronym for <em>Wine Is Not an Emulator</em>. In contrast to the other approaches, Wine introduces a compatibility layer that allows running Windows applications on a number of POSIX-compliant operating systems. This includes Linux, macOS and BSD. In contrast to using a virtual machine or emulator, Wine translates Windows API calls into POSIX calls [@www-wine]. Hence, it allows us to pass the Windows API calls directly to operating system calls leading to good performance [@www-wine]. The disadvantage of this approach is that in the early days and still today, some of the underlying calls may not be ported yet and may lead to applications not running. Those of us that wanted to run for example Microsoft Word on Linux or macOS may remember that Wine was the tool we used to do so even before Word was released on macOS.</p>
+<h4 id="comparison-of-some-technologies">Comparison of some technologies</h4>
+<p>QEMU and KVM are better integrated into Linux and has a smaller footprint. This may result in better performance. VirtualBox is targeted as virtualization software and limited to x86 and amd64. As Xen uses QEMU it allows hardware virtualization. However, Xen can also use paravirtualization [@diff-qemu]. In the following table, we summarize support for full- and paravirtualization</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">XEN</th>
+<th style="text-align: right;">KVM</th>
+<th style="text-align: right;">VirtualBox</th>
+<th style="text-align: right;">VMWare</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Paravirtualization</td>
+<td style="text-align: right;">yes</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">no</td>
+</tr>
+<tr>
+<td>Full virtualization</td>
+<td style="text-align: right;">yes</td>
+<td style="text-align: right;">yes</td>
+<td style="text-align: right;">yes</td>
+<td style="text-align: right;">yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="comparative-summary-table">Comparative Summary Table</h2>
+<h3 id="comparison-of-virtualization-technologies">Comparison of Virtualization Technologies</h3>
+<p>The following table summarizes the key characteristics, hypervisor types, and primary use cases for the technologies discussed in your text. This serves as a quick-reference guide to distinguish between bare-metal, hosted, and container-like solutions.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Technology</strong></td>
+<td><strong>Hypervisor Type</strong></td>
+<td><strong>Primary Host OS</strong></td>
+<td><strong>Key Characteristic</strong></td>
+<td><strong>Common Use Case</strong></td>
+</tr>
+<tr>
+<td><strong>KVM</strong></td>
+<td>Type 1 (Kernel-based)</td>
+<td>Linux</td>
+<td>Built directly into the Linux kernel; near-native speed.</td>
+<td>Cloud Infrastructure (AWS, Google Cloud).</td>
+</tr>
+<tr>
+<td><strong>Xen</strong></td>
+<td>Type 1 (Bare-metal)</td>
+<td>None (Runs on HW)</td>
+<td>Supports both Full and Paravirtualization.</td>
+<td>Enterprise Clouds &amp; VPS hosting.</td>
+</tr>
+<tr>
+<td><strong>ESXi (VMware)</strong></td>
+<td>Type 1 (Bare-metal)</td>
+<td>None (Runs on HW)</td>
+<td>Industry standard for enterprise data centers.</td>
+<td>Large-scale corporate server consolidation.</td>
+</tr>
+<tr>
+<td><strong>Hyper-V</strong></td>
+<td>Type 1</td>
+<td>Windows</td>
+<td>Integrated with Windows Server; strong Windows guest support.</td>
+<td>Enterprise Windows environments.</td>
+</tr>
+<tr>
+<td><strong>QEMU</strong></td>
+<td>Emulator / Type 2</td>
+<td>Cross-platform</td>
+<td>Can emulate different CPU architectures (e.g., ARM on x86).</td>
+<td>Development, testing, and hardware emulation.</td>
+</tr>
+<tr>
+<td><strong>VirtualBox</strong></td>
+<td>Type 2 (Hosted)</td>
+<td>Win / Mac / Linux</td>
+<td>Easy-to-use GUI; highly portable across desktop OSs.</td>
+<td>Local development and software testing.</td>
+</tr>
+<tr>
+<td><strong>Parallels</strong></td>
+<td>Type 2 (Hosted)</td>
+<td>macOS / Windows</td>
+<td>Highly optimized for running Windows on Mac hardware.</td>
+<td>Desktop productivity for Mac users.</td>
+</tr>
+<tr>
+<td><strong>Libvirt</strong></td>
+<td>Management API</td>
+<td>N/A</td>
+<td>Not a hypervisor; it is an API to manage other hypervisors.</td>
+<td>Automating VM management (scripts/tools).</td>
+</tr>
+<tr>
+<td><strong>Wine</strong></td>
+<td>Compatibility Layer</td>
+<td>Linux / Mac / BSD</td>
+<td><strong>Not an emulator/VM.</strong> Translates API calls in real-time.</td>
+<td>Running Windows apps (Word, Games) on Linux/Mac.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="selected-storage-virtualization-software-and-tools">Selected Storage Virtualization Software and Tools</h3>
+<p>Storage virtualization allows the system to integrate the logical view of the physical storage resources into a single pool of storage. Users are unaware while using virtual storage that it is not hosted on the same hardware resources, such as disks. Storage virtualization is done across the various layers that build state of the art storage infrastructures. This includes Storage devices, the Block aggregation layer, the File/record layer, and the Application layer. Most recently, hosting files as part of the application layer in the cloud is changing how we approach data storage needs in the enterprise. A good example of a cloud-based virtual storage is google drive. Other systems include Box, AWS3 and Azure.</p>
+<h3 id="selected-network-virtualization-software-and-tools">Selected Network Virtualization Software and Tools</h3>
+<p>Network virtualization allows hardware and software network resources as well as network functionality to be combined into a single, software-defined administrative unit which is called a virtual network. We distinguish external network virtualization that combines many networks into a unifying network, and internal network virtualization that provides network functionality to the processes and containers running on a single server.</p>
+<p>Note that we will not cover this topic in this introductory class.</p>
+<h2 id="excerises">Excerises</h2>
+<div class="admonition note">
+<p class="admonition-title">E.Virtualization.1</p>
+<p>Install a virtualization framework on your local machine and experiment with it.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">E.Virtualization.2</p>
+<p>Contribute a section about network virtualization.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"> E.Virtualization.3</p>
+<p>Which free virtualization software did you install on your machine. Can you describe your experience with it?</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Feature</strong></td>
+<td><strong>Parallels (Mac)</strong></td>
+<td><strong>VMware (Win/Lin/Mac)</strong></td>
+<td><strong>UTM (Mac)</strong></td>
+<td><strong>VirtualBox (All)</strong></td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Paid (Subscription)</td>
+<td><strong>Free</strong> (Personal Use)</td>
+<td>Free</td>
+<td>Free</td>
+</tr>
+<tr>
+<td><strong>Setup Ease</strong></td>
+<td>Easiest (1-Click)</td>
+<td>Moderate</td>
+<td>Simple</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Best on M-series</td>
+<td>Excellent</td>
+<td>Near-Native (ARM)</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td><strong>3D Graphics</strong></td>
+<td>Best (DX11/12)</td>
+<td>Great (DX11)</td>
+<td>None / Basic</td>
+<td>Moderate</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title"> E.Virtualization.4</p>
+<p>Start a recent LST version of an Ubuntu image on your virtualizer.</p>
+<ul>
+<li>Which version did you use?</li>
+<li>Did it work?</li>
+<li>Describe what limitations you set besed on your machines hardware resources?</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title"> E.Virtualization.5</p>
+<p>Automate the management of your virtual machines with a Makefile with the following set of minimal targets:</p>
+<ul>
+<li>make help</li>
+<li>make start</li>
+<li>make stop</li>
+<li>make status</li>
+<li>make pause</li>
+<li>make resume</li>
+<li>make destroy</li>
+<li>make backup</li>
+<li>make recover # reloads from a backup</li>
+</ul>
+<p>Why would one create such a makefile, instead of just using the GUI (if yours hase one)?</p>
+<p>You are allowed to use an LLM to help you. However, you need to explore what it creates and understand each line of the program.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"> E.Virtualization.6</p>
+<p>Based on your experience with E.Virtualization.5 develop a python program that can accept commandline arguments with additional parameters such as</p>
+<ul>
+<li>vm-manager.py help</li>
+<li>vm-manager.py set --name=NAME –os=Ubuntu24_LTS_64</li>
+<li>vm-manager.py start [--name=NAME] ...</li>
+<li>vm-manager.py stop [--name=NAME] ...</li>
+<li>vm-manager.py status [--name=NAME]</li>
+<li>vm-manager.py pause [--name=NAME]</li>
+<li>vm-manager.py resume [--name=NAME]</li>
+<li>vm-manager.py destroy [--name=NAME]</li>
+<li>vm-manager.py backup [--name=NAME]</li>
+<li>vm-manager.py recover [--name=NAME] <em># reloads from a backup</em></li>
+<li>vm-manager.py list <em># lists the vms in a table including space requirements and memory utilization if possible</em></li>
+<li>
+<p>vm-manager.py images <em># lists the os's available (probe dynamically if possible)</em></p>
+</li>
+<li>
+<p>Can your program handle multiple virtual machines by name?</p>
+</li>
+<li>
+<p>Assume the set command saves the name of the vm and if the --name option is ommitted this name is used. If you need a configuration file you must use YAML. Name it ~/.cloudmesh/vms.yaml.</p>
+</li>
+<li>
+<p>You are allowed to use an LLM to help you. However, you need to explore what it creates and understand each line of the program.</p>
+</li>
+<li>
+<p>How do you handle security groups and ssh keys (Not coverd in previous assignment).</p>
+</li>
+<li>
+<p>Show that you can login </p>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title"> E.Virtualization.7</p>
+<p>Develop unit tests for E.Virtualization.6</p>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <div id="custom-footer-bar">
+  <span>Lecture Notes: Collected and Prepared by Gregor von Laszewski (laszewski@gmail.com)</span>
+</div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.full_width"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/show_source.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
