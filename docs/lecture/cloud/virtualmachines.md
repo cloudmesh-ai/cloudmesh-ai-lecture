@@ -323,25 +323,28 @@ Note that we will not cover this topic in this introductory class.
 !!! note " E.Virtualization.6"
     Based on your experience with E.Virtualization.5 develop a python program that can accept commandline arguments with additional parameters such as
 
-    - virtmanager.py help
-    - virtmanager.py set --name=vm1 –os=Ubuntu24_LTS_64
-    - virtmanager.py start \[--name=vm1\] ...
-    - virtmanager.py stop \[--name=vm1\] ...
-    - virtmanager.py status \[--name=vm1\]
-    - virtmanager.py pause \[--name=vm1\]
-    - virtmanager.py resume \[--name=vm1\]
-    - virtmanager.py destroy \[--name=vm1\]
-    - virtmanager.py backup \[--name=vm1\]
-    - virtmanager.py recover \[--name=vm1\] \# reloads from a backup
-    - virtmanager.py list \# lists the vms in a table including space requirements and memory utilization if possible
-    - virtmanager.py images \# lists the oses available (probe dynamically if possible)
+    - vm-manager.py help
+    - vm-manager.py set --name=NAME –os=Ubuntu24_LTS_64
+    - vm-manager.py start [--name=NAME] ...
+    - vm-manager.py stop [--name=NAME] ...
+    - vm-manager.py status [--name=NAME]
+    - vm-manager.py pause [--name=NAME]
+    - vm-manager.py resume [--name=NAME]
+    - vm-manager.py destroy [--name=NAME]
+    - vm-manager.py backup [--name=NAME]
+    - vm-manager.py recover [--name=NAME] *# reloads from a backup*
+    - vm-manager.py list *# lists the vms in a table including space requirements and memory utilization if possible*
+    - vm-manager.py images *# lists the os's available (probe dynamically if possible)*
 
-    Can your program handle multiple virtual machines by name?
+    1. Can your program handle multiple virtual machines by name?
 
-    Assume the set command saves the name of the vm and if the --name option is ommitted this name is used. If you need a configuration file you must use YAML. Name it ~/.virtmanager-vms.yaml.
+    2. Assume the set command saves the name of the vm and if the --name option is ommitted this name is used. If you need a configuration file you must use YAML. Name it ~/.cloudmesh/vms.yaml.
 
-    You are allowed to use an LLM to help you. However, you need to explore what it creates and understand each line of the program.
+    3. You are allowed to use an LLM to help you. However, you need to explore what it creates and understand each line of the program.
 
+    4. How do you handle security groups and ssh keys (Not coverd in previous assignment).
+    
+    5. Show that you can login 
 
 !!! note " E.Virtualization.7"
     Develop unit tests for E.Virtualization.6

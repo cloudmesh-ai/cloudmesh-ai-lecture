@@ -33,3 +33,9 @@ size:
 
 publish:
 	$(MKDOCS_BIN) gh-deploy
+
+
+install:
+	pip install mkdocs-exclude-search
+	pip install mkdocs-glightbox
+	# add the missing packages
