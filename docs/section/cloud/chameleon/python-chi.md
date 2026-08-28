@@ -1,79 +1,153 @@
 
-# Launch a KVM@TACC Virtual Machine with the **python‑chi** Library  
+## Virtual Machine with the `python‑chi`
 
-If you prefer scripting over the Horizon web UI, the same workflow can be performed from Python.  
-The example below shows how to:
-
-* select a project and the KVM@TACC site  
-* choose (or create) an SSH key pair and a private network  
-* create a virtual‑machine (server) instance  
-* attach a floating (public) IP  
-* print an SSH command you can use to connect  
-
-It also includes a complete guide to **managing the credentials** required by the Chameleon SDK.
+The workflow is the same as the original guide, but **all mutable values and credentials are stored in a YAML configuration file** (or supplied via environment variables). No passwords, tokens, or project identifiers are hard‑coded in the Python source.
 
 ---  
 
-## Step 1 – Initialise the library and choose a context  
+## 1. Configuration file.
+
+Place the configuration file in `~/.config/chameleon/chameleon_config.yaml`.
+
+All values that may change between runs or environments are placed in the `runtime` section. The `cloud` section contains the authentication data that the OpenStack SDK expects as `OS_…` environment variables.
+
+
+!!! warning
+    Do <u>**NOT**</u> commit this file to a public repository.    Restrict access to the owner only:
+    ```bash
+    chmod 600 ~/.config/chameleon/chameleon_config.yaml
+    ```
+--
+
+
+```yaml
+cloud:
+  name:                 chameleon            # identifier used by the SDK
+  auth_url:             https://keystone.tacc.chameleoncloud.org:5000/v3
+  username:             YOUR_USERNAME
+  password:             YOUR_PASSWORD
+  project_name:         YOUR_PROJECT
+  user_domain_name:     Default
+  project_domain_name:  Default
+  region_name:          KVM@TACC
+  interface:            public
+  identity_api_version: 3
+
+runtime:
+  project_name:         YOUR_PROJECT          # project that will be billed
+  site_name:            KVM@TACC
+  ssh_key_name:         my-ssh-key
+  network_name:         sharednet1            # existing private network
+  image_name:           CC-Ubuntu-22.04
+  flavor_name:          m1.small
+  server_name:          my-kvm-vm
+  security_groups:      [default]             # list – add more if required
+  floating_network:     ext-net               # name of the external network
+```
+
+---  
+
+## 2. Install the required Python packages  
+
+```bash
+pip install "python-chi>=0.7" "pyyaml>=6.0" "python-openstackclient>=6.0"
+```
+
+!!! tip
+    If you prefer to load variables from a `.env` file, also install `python-dotenv`.
+
+---  
+
+## 3. Helper module – `config_loader.py`
+
+Utility to load the Chameleon configuration and expose `OS_… variables`.
 
 ```python
-# Standard imports from the python‑chi SDK
+from pathlib import Path
+import yaml
+import os
+
+DEFAULT_CFG_PATH = Path.home() / ".config" / "chameleon" / "chameleon_config.yaml"
+
+
+def load_config(path: Path = DEFAULT_CFG_PATH) -> dict:
+    """Read the YAML config and return a plain dict.
+
+    The function also populates the OS_… environment variables required by the
+    OpenStack SDK before any SDK import occurs.
+    """
+    if not path.is_file():
+        raise FileNotFoundError(f"Config file not found: {path}")
+
+    with path.open("rt") as f:
+        cfg = yaml.safe_load(f)
+
+    cloud = cfg.get("cloud", {})
+    for key, value in cloud.items():
+        env_var = f"OS_{key.upper()}"
+        os.environ[env_var] = str(value)
+
+    return cfg
+```
+
+*Calling `load_config()` sets the environment variables (`OS_AUTH_URL`, `OS_USERNAME`, …) that the `chi`/OpenStack SDK reads automatically.*
+
+---  
+
+## 4. Main script – `launch_kvm_vm.py`
+
+Launch a VM using python‑chi, with all secrets read from a YAML file. The script has the following key characteristics.
+
+| What the script does | How it avoids hard‑coded secrets |
+|----------------------|----------------------------------|
+| Reads passwords, usernames, project IDs | All values are loaded from `chameleon_config.yaml`; the helper writes them to `OS_…` variables for the SDK |
+| Chooses project/site, launches VM, attaches floating IP | No literal strings like `"my-project"` or `"my-ssh-key"` appear in the source – they come from the config |
+| Optional lease creation | Lease parameters can also be added under a `lease` key in the YAML file if required |
+
+
+```python
+#!/usr/bin/env python3
+
+import sys
+from config_loader import load_config
+
+# ----------------------------------------------------------------------
+# 1️.  Load configuration (sets OS_… env vars for the SDK)
+# ----------------------------------------------------------------------
+try:
+    cfg = load_config()                     # uses the default location
+except Exception as exc:
+    sys.stderr.write(f"Configuration error: {exc}\n")
+    sys.exit(1)
+
+# ----------------------------------------------------------------------
+# 2️. Import the chi SDK *after* the environment is prepared
+# ----------------------------------------------------------------------
 import chi
 from chi import lease, server, network, context
 
 # ----------------------------------------------------------------------
-# Choose the project you want to bill to.
-# Replace the placeholder with the actual name or ID of your project.
+# 3️. Runtime parameters – taken from the YAML file for easy tweaking
 # ----------------------------------------------------------------------
-PROJECT_NAME = "my-project"          # <-- replace with your project
+rt = cfg["runtime"]
+PROJECT_NAME = rt["project_name"]
+SITE_NAME    = rt["site_name"]
+KEY_NAME     = rt["ssh_key_name"]
+NET_NAME     = rt["network_name"]
+IMG_NAME     = rt["image_name"]
+FLV_NAME     = rt["flavor_name"]
+SRV_NAME     = rt["server_name"]
+SEC_GROUPS   = rt["security_groups"]
+FLOAT_NET    = rt["floating_network"]
 
+# ----------------------------------------------------------------------
+# 4️. Choose project and site (billing context)
+# ----------------------------------------------------------------------
 context.choose_project(PROJECT_NAME)
+context.choose_site(SITE_NAME)
 
 # ----------------------------------------------------------------------
-# Select the KVM@TACC site.
-# ----------------------------------------------------------------------
-context.choose_site("KVM@TACC")
-```
-
----  
-
-## Step 2 – Prepare the SSH key‑pair and private network  
-
-```python
-# ----------------------------------------------------------------------
-# SSH key – the key must already be uploaded to the site.
-# ----------------------------------------------------------------------
-key_name = "my-ssh-key"               # <-- name of the uploaded public key
-
-# ----------------------------------------------------------------------
-# Private network – either reuse an existing one or create a new one.
-# ----------------------------------------------------------------------
-net_name = "sharednet1"               # <-- existing private network name
-
-# If you need to create a new network, uncomment the following lines:
-# net_name = network.create_network(
-#     name="my-private-net",
-#     router="external-router-id",   # replace with your router ID
-#     is_shared=False
-# )
-```
-
----  
-
-## Step 3 – (Optional) Create a lease and launch the VM  
-
-> For most KVM VMs a lease is not required, but the call is shown for completeness.
-
-```python
-# ----------------------------------------------------------------------
-# Server details – adjust the image and flavor to match your needs.
-# ----------------------------------------------------------------------
-server_name  = "my-kvm-vm"
-image_name   = "CC-Ubuntu-22.04"   # change if you want a different image
-flavor_name  = "m1.small"          # choose an appropriate size
-
-# ----------------------------------------------------------------------
-# Optional: create a lease if you need exclusive resources.
+# 5️. (Optional) Create a lease – uncomment if exclusive resources are needed
 # ----------------------------------------------------------------------
 # lease_id = lease.create_lease(
 #     name="my-lease",
@@ -84,264 +158,128 @@ flavor_name  = "m1.small"          # choose an appropriate size
 # print(f"Lease created: {lease_id}")
 
 # ----------------------------------------------------------------------
-# Launch the server instance
+# 6️. Create the VM
 # ----------------------------------------------------------------------
 instance = server.create_server(
-    name=server_name,
-    image=image_name,
-    flavor=flavor_name,
-    network=net_name,
-    key_name=key_name,
-    security_groups=["default"],   # add additional groups if required
-    # lease_id=lease_id,           # uncomment if you created a lease
+    name=SRV_NAME,
+    image=IMG_NAME,
+    flavor=FLV_NAME,
+    network=NET_NAME,
+    key_name=KEY_NAME,
+    security_groups=SEC_GROUPS,
+    # lease_id=lease_id,          # uncomment when a lease is used
 )
 
-print(f"Server '{server_name}' is being launched (ID: {instance.id}) …")
-```
+print(f"Server '{SRV_NAME}' launched – ID: {instance.id}")
 
----  
-
-## Step 4 – Allocate a floating IP and attach it  
-
-```python
 # ----------------------------------------------------------------------
-# Grab a floating IP from the external network (usually called "ext-net")
+# 7️. Allocate a floating IP and attach it
 # ----------------------------------------------------------------------
-floating_ip = network.create_floating_ip("ext-net")
+floating_ip = network.create_floating_ip(FLOAT_NET)
 network.associate_floating_ip(instance.id, floating_ip.ip)
 
 print("\nFloating IP attached:")
 print(f"    {floating_ip.ip}")
 
 # ----------------------------------------------------------------------
-# Show the SSH command you can use to connect
+# 8️. Show the SSH command the user can run
 # ----------------------------------------------------------------------
-ssh_command = f"ssh -i ~/.ssh/id_rsa cc@{floating_ip.ip}"
-print("\nConnect to your VM with:")
-print(f"    {ssh_command}")
+ssh_cmd = f"ssh -i ~/.ssh/id_rsa cc@{floating_ip.ip}"
+print("\nConnect to the VM with:")
+print(f"    {ssh_cmd}")
 ```
 
 ---  
 
-## Managing Credentials for Accessing Chameleon from Python  
+## 5. Alternative credential sources  
 
-The **python‑chi** library (and the underlying OpenStack SDK) obtains authentication information from one of the following sources, in order:
+| Source | When to use | How to enable |
+|--------|-------------|----------------|
+| **X.509 proxy** (default for many Chameleon users) | You already have a VOMS proxy | Export `X509_USER_PROXY=$HOME/.globus/proxy` before running the script. The SDK will pick it up automatically. |
+| **`clouds.yaml`** (OpenStack native format) | You prefer the OpenStack SDK’s built‑in config handling | Create `~/.config/openstack/clouds.yaml` with the same `cloud` block as in the YAML file; the SDK loads it automatically. |
+| **`keyring`** (CI pipelines) | You want to avoid storing secrets on disk | Store credentials with `keyring set chameleon username`, etc., and modify `config_loader.py` to read them from `keyring`. |
+| **`.env` file** | Quick local testing | Install `python-dotenv` and add `from dotenv import load_dotenv; load_dotenv()` at the top of `config_loader.py`. Keep the `.env` file out of version control. |
 
-1. Explicit arguments passed to the SDK  
-2. Environment variables  
-3. `~/.config/openstack/clouds.yaml` (or `~/.clouds.yaml`)  
-4. `~/.netrc` (for password authentication)  
-5. X.509 proxy (for VOMS‑authenticated users)  
+**Security reminder** – Never commit the configuration file (or any file containing passwords) to a public repository. Add the following to `.gitignore`:
 
-Below are the most common approaches.
-
-### 1. Use an X.509 proxy (default for many Chameleon users)
-
-1. Obtain a proxy on a machine that has a valid X.509 certificate  
-
-   ```bash
-   voms-proxy-init --voms chameleon
-   ```
-
-2. Export the proxy location for the current shell (the SDK looks for `X509_USER_PROXY`)  
-
-   ```bash
-   export X509_USER_PROXY=$HOME/.globus/proxy
-   ```
-
-3. Run your Python script in the same environment; the SDK will automatically read the proxy and acquire a token.
-
-### 2. Use password‑based OpenStack authentication  
-
-Set the standard OpenStack environment variables before running Python:
-
-```bash
-export OS_AUTH_URL=https://keystone.tacc.chameleoncloud.org:5000/v3
-export OS_USERNAME=your-username
-export OS_PASSWORD=your-password
-export OS_PROJECT_NAME=your-project
-export OS_USER_DOMAIN_NAME=Default
-export OS_PROJECT_DOMAIN_NAME=Default
-export OS_REGION_NAME=KVM@TACC
-export OS_INTERFACE=public
-export OS_IDENTITY_API_VERSION=3
-```
-
-If you prefer not to expose the password in the shell, place the variables in a file and source it only when needed:
-
-```bash
-# file: chameleon_env.sh
-export OS_AUTH_URL=https://keystone.tacc.chameleoncloud.org:5000/v3
-export OS_USERNAME=your-username
-export OS_PASSWORD=your-password
-export OS_PROJECT_NAME=your-project
-export OS_USER_DOMAIN_NAME=Default
-export OS_PROJECT_DOMAIN_NAME=Default
-export OS_REGION_NAME=KVM@TACC
-export OS_INTERFACE=public
-export OS_IDENTITY_API_VERSION=3
-```
-
-```bash
-source chameleon_env.sh
-python launch_vm.py
-```
-
-### 3. Use an OpenStack `clouds.yaml` file (recommended for reproducibility)
-
-Create a `clouds.yaml` file (default locations are `~/.config/openstack/clouds.yaml` or `~/.clouds.yaml`):
-
-```yaml
-# ~/.config/openstack/clouds.yaml
-clouds:
-  chameleon:
-    auth:
-      auth_url: https://keystone.tacc.chameleoncloud.org:5000/v3
-      username: your-username
-      password: your-password
-      project_name: your-project
-      user_domain_name: Default
-      project_domain_name: Default
-    region_name: KVM@TACC
-    interface: public
-    identity_api_version: 3
-```
-
-Tell the SDK which cloud to use:
-
-```python
-import openstack
-
-# The OpenStack SDK reads clouds.yaml automatically.
-conn = openstack.connect(cloud="chameleon")
-
-# If you need the raw token (for debugging):
-token = conn.authorize()
-print("Obtained token:", token)
-```
-
-When you use the `chi` library, it internally creates a temporary OpenStack connection using the same environment, so you do **not** need to pass the `conn` object explicitly. Just ensure the environment variables or `clouds.yaml` are in place before importing `chi`.
-
-### 4. Programmatic authentication with the `chi` SDK  
-
-If you want to supply credentials directly in code (e.g., for CI pipelines), you can use the `chi.auth` helper:
-
-```python
-from chi import auth, context
-
-auth_params = {
-    "auth_url": "https://keystone.tacc.chameleoncloud.org:5000/v3",
-    "username": "your-username",
-    "password": "your-password",
-    "project_name": "your-project",
-    "user_domain_name": "Default",
-    "project_domain_name": "Default",
-    "region_name": "KVM@TACC",
-    "interface": "public",
-    "identity_api_version": "3",
-}
-
-# Authenticate and store the token internally.
-auth.authenticate(**auth_params)
-
-# Continue with the normal workflow.
-context.choose_project("your-project")
-context.choose_site("KVM@TACC")
-```
-
-> **Security note** – Never hard‑code passwords or tokens in a script that is stored in a public repository. Use environment variables, a secrets manager, or a protected configuration file with restrictive permissions (`chmod 600`).
-
-### 5. Storing credentials securely with `keyring` (optional)
-
-```python
-import keyring
-from chi import auth, context
-
-username = keyring.get_password("chameleon", "username")
-password = keyring.get_password("chameleon", "password")
-project  = keyring.get_password("chameleon", "project")
-
-auth_params = {
-    "auth_url": "https://keystone.tacc.chameleoncloud.org:5000/v3",
-    "username": username,
-    "password": password,
-    "project_name": project,
-    "user_domain_name": "Default",
-    "project_domain_name": "Default",
-    "region_name": "KVM@TACC",
-    "interface": "public",
-    "identity_api_version": "3",
-}
-
-auth.authenticate(**auth_params)
-
-context.choose_project(project)
-context.choose_site("KVM@TACC")
+```.gitignore
+# Sensitive configuration
+*.yaml
+*.env
 ```
 
 ---  
 
-## Quick copy‑paste version  
+## 6. Cleanup and common pitfalls  
 
-You can copy the four code blocks below into a single Python script (or a Jupyter notebook) and run them in order.
+| Symptom | Likely cause | Remedy |
+|---------|--------------|--------|
+| `Authentication failed` | Incorrect username/password in the YAML file | Verify the values, then `chmod 600` the file to ensure only you can read it. |
+| `No floating IPs left` | All public IPs are already allocated | Release unused floating IPs (`openstack floating ip delete <IP>`) or request additional IPs from the site administrator. |
+| `Network not found` | The name in `network_name` does not exist or is not shared with the project | List networks with `network.list_networks()` and update the config accordingly. |
+| `Instance stays in BUILD` | Insufficient quota for the selected flavor | Check quota with `openstack quota show` and choose a smaller flavor, or request a quota increase. |
+| `Key not found` | The SSH key name does not exist in the project | Upload the public key via Horizon **Compute → Key Pairs** or use `chi.keypair.upload()` before launching. |
+| `Credential leakage` | Passwords appear in shell history or logs | Prefer environment variables, `clouds.yaml`, or a secrets manager; never echo passwords in scripts. |
+
+---  
+
+## 7. Minimal copy‑paste version (four logical blocks)  
+
+If you prefer a notebook or want to keep everything in separate cells, the same logic can be split into four sections. Each block assumes that `config_loader.py` is available on the Python path.
 
 ```markdown
-### Step 1 – Choose project and site
+### 1️. Load configuration and choose context
 ```python
+from config_loader import load_config
+cfg = load_config()                     # populates OS_… env vars
 import chi
 from chi import lease, server, network, context
 
-PROJECT_NAME = "my-project"          # <-- replace
-context.choose_project(PROJECT_NAME)
-context.choose_site("KVM@TACC")
+rt = cfg["runtime"]
+context.choose_project(rt["project_name"])
+context.choose_site(rt["site_name"])
 ```
 
-### Step 2 – SSH key and network
+### 2️. Define key and network (no hard‑coded values)
 ```python
-key_name = "my-ssh-key"
-net_name = "sharednet1"               # <-- existing private net
+KEY_NAME = rt["ssh_key_name"]
+NET_NAME = rt["network_name"]
 ```
 
-### Step 3 – (Optional) lease and launch VM
+### 3️. Launch the VM
 ```python
-server_name  = "my-kvm-vm"
-image_name   = "CC-Ubuntu-22.04"
-flavor_name  = "m1.small"
-
 instance = server.create_server(
-    name=server_name,
-    image=image_name,
-    flavor=flavor_name,
-    network=net_name,
-    key_name=key_name,
-    security_groups=["default"],
+    name=rt["server_name"],
+    image=rt["image_name"],
+    flavor=rt["flavor_name"],
+    network=NET_NAME,
+    key_name=KEY_NAME,
+    security_groups=rt["security_groups"],
 )
-
-print(f"Server '{server_name}' launching …")
+print(f"Server '{rt['server_name']}' launched – ID: {instance.id}")
 ```
 
-### Step 4 – Floating IP
+### 4️. Allocate a floating IP and show the SSH command
 ```python
-floating_ip = network.create_floating_ip("ext-net")
+floating_ip = network.create_floating_ip(rt["floating_network"])
 network.associate_floating_ip(instance.id, floating_ip.ip)
 
-print(f"ssh -i ~/.ssh/id_rsa cc@{floating_ip.ip}")
+print("\nFloating IP attached:")
+print(f"    {floating_ip.ip}")
+
+ssh_cmd = f"ssh -i ~/.ssh/id_rsa cc@{floating_ip.ip}"
+print("\nConnect to the VM with:")
+print(f"    {ssh_cmd}")
 ```
 ```
 
 ---  
 
-## Tips & Common Issues  
+## 8. Summary  
 
-| Problem | Resolution |
-|---------|------------|
-| **SSH key not found** | Upload the public key via Horizon → *Compute → Key Pairs* or use `chi.keypair.upload()` before running the script. |
-| **Network name not recognized** | List available networks with `network.list_networks()` and use one of the returned names. |
-| **Requested flavor unavailable** | View available flavors using `server.list_flavors()` and select a valid one. |
-| **No floating IPs left** | Ask site administrators for additional floating IPs or release any that are no longer needed. |
-| **Authentication timeout** | Ensure you have a valid X.509 proxy (`export X509_USER_PROXY=~/.globus/...`) or a current password‑based token before importing `chi`. |
-| **Credential leakage** | Prefer environment variables, `clouds.yaml`, or a secrets manager over hard‑coding passwords in source files. |
+* All mutable values—including credentials—are stored in a **protected YAML file** (`~/.config/chameleon/chameleon_config.yaml`).  
+* The `config_loader` module injects the required `OS_…` environment variables **before** any `chi` import, allowing the SDK to operate exactly as documented while keeping secrets out of source code.  
+* The main script (`launch_kvm_vm.py`) is a single, reusable file that can be version‑controlled safely.  
+* Multiple credential back‑ends (X.509 proxy, `clouds.yaml`, `keyring`, `.env`) are supported for flexibility.  
 
----  
-
-With the steps above you can provision and access a KVM virtual machine on TACC entirely programmatically, and you have several secure options for handling the required credentials. Happy scripting!
+You now have a clean, secure, and maintainable workflow for provisioning VMs from Python. Happy scripting!

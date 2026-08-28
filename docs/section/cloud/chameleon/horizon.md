@@ -1,70 +1,116 @@
-# Horizon
-
-!!! warning 
-    In order for you to start a VM on Chameleon CLoud Horizon make sure that 
-
-    * in the time zone set your time zone
-    * upload your public key
-    * create a resaervation 
-        * use at most an hour for small experiements
-        * set the end date to 0
-        * set the time to one hour from now in 24:00 hour format. Thus if you like to terminate at 2pm it must be 14:00
-    * initially use a n image from chameleon cloud indicated by the CC prefix such as CC-ubuntu-24.04
-    * after you have doen this you can finally obtaine a VM instance
-    you will need as part of this have to define a network, use for now the shared* network.
-
-!!! warning 
-    I am not the administrator of Chameleon Cloud, so if you need help to not hazitate to ask them. The help form is integrated into their portal.
-
-!!! warning 
-    Be aware of scheduled maintenance. Plan around this. It woll ne shown in the portal
-
-!!! warning 
-    Do not use this resource for other classes. Your professor can apply for their own project and add you. You can be part of multiple projects.
-
-
-To create a virtual machine using the **OpenStack Horizon dashboard** with a specific network, security group, and SSH key, follow these steps through the web user interface:
-
-## 1. Navigate to Instances
-
-1. Log in to your Horizon dashboard and make sure you have selected the correct project from the dropdown menu at the top left.
-2. In the left-hand sidebar, expand **Compute** and click on **Instances**.
-3. Click the **Launch Instance** button in the upper-right corner.
+# Chameleon Cloud – Horizon Quick‑Start Guide
 
 ---
 
-## 2. Configure the Launch Instance Tabs
-
-A multi-step wizard will appear. Fill out the required tabs:
-
-* **Details Tab**
-* **Instance Name**: Enter a name for your virtual machine.
-* **Flavor**: Select the virtual hardware size (vCPUs, RAM, disk).
-
-
-* **Source Tab**
-* **Select Boot Source**: Choose **Image**.
-* Locate your desired boot image (e.g., Ubuntu) in the *Available* table and click the **`+`** icon to move it to *Allocated*.
-
-
-* **Networking Tab**
-* Find your target private or shared network in the *Available* table and click the **`+`** icon to add it to *Allocated*.
-
-
-* **Security Groups Tab**
-* Select the security group containing your inbound rules (such as SSH port 22 access) and click the **`+`** icon to move it to *Allocated*.
-
-
-* **Key Pair Tab**
-* Select your pre-registered SSH key pair and click the **`+`** icon to allocate it. *(If you haven't created one yet, you can click the `+` button next to the dropdown to create or import a new key pair right inside the wizard).*
-
-
+## Prerequisites
+- A **Chameleon Cloud** account with an active project.  
+- A **public SSH key** uploaded to the portal (Settings → Key Pairs).  
+- Sufficient credit / quota for at least one small instance.  
+- Your local machine’s **time zone** correctly set (the portal uses UTC).  
 
 ---
 
-## 3. Launch the Instance
+## System Use & Policy
+!!! warning "System Use & Policy"
+    * **Scheduled maintenance** – Check the *Maintenance* banner in the portal; plan your work around it.  
+    * **Support** – I am not a Chameleon Cloud administrator. If you need assistance, use the integrated **Help** form.  
+    * **Course usage** – Do not use this resource for other classes. Your other professor can create a dedicated project and add you as a member. It is common  that you may belong to multiple projects. In that case make sure you associate the resources with the correct project.
 
-1. Review your configurations across the tabs.
-2. Click the **Launch Instance** button in the lower-right corner.
+---
 
-Horizon will queue the request, and within a few moments, the instance status will change to **Active**. You can then assign a floating IP via the actions dropdown menu if you need external public internet access.
+## Getting Started – Step‑by‑Step
+
+### 1. Create a reservation
+1. In the Horizon sidebar, go to **Project → Compute → Reservations**.  
+2. Click **Create Reservation**.  
+3. Fill the form as follows:  
+
+   | Field            | Recommended value                                                                  |
+   |------------------|------------------------------------------------------------------------------------|
+   | **Name**         | `demo‑reservation‑<your-luc-email-id-before-at>`                                                  |
+   | **Start time**   | *Current time + 1 min* (the portal will auto‑populate)                             |
+   | **End time**     | `0` (means “no explicit end”)                                                      |
+   | **Duration**     | `1 h` (maximum for small experiments)                                              |
+   | **Time zone**    | Select your local time zone                                                         |
+   | **Image**        | Choose an image with the **CC‑** prefix, e.g. **CC‑ubuntu‑24.04**                  |
+   | **Network**      | **shared** (default)                                                               |
+   | **Flavor**       | `a2.tiny` (or any small flavor)                                                   |
+
+!!! info "Tip"
+    Keep the reservation ≤ 1 hour to avoid quota conflicts.  
+
+!!! info 
+    For The official documentation on reservation please look at:
+
+    * [Overview](https://chameleoncloud.readthedocs.io/en/latest/technical/reservations)
+    * GUI: [link](https://chameleoncloud.readthedocs.io/en/latest/technical/reservations/gui_reservations.html)
+    * Commandline: [link](https://chameleoncloud.readthedocs.io/en/latest/technical/reservations/cli_reservations.html)
+
+### 2. Navigate to Instances
+1. Verify the correct **project** is selected in the top‑left dropdown.  
+2. Open the left‑hand menu → **Compute → Instances**.  
+3. Click the **Launch Instance** button (top‑right).  
+
+### 3. Configure the Launch Instance wizard
+#### Details tab
+- **Instance Name** – e.g., `my‑test‑vm`.  
+- **Flavor** – choose a small flavor (e.g., `a2.tiny`).  
+
+#### Source tab
+- **Select Boot Source** → **Image**.  
+- Locate the image you chose in the reservation (e.g., **CC‑ubuntu‑24.04**) and click the **`+`** button to move it to *Allocated*.
+
+#### Networking tab
+- Locate the **shared** network (or a private network you own).  
+- Click the **`+`** button to allocate it.
+
+#### Security Groups tab
+- Choose a group that permits **SSH (port 22)** inbound traffic.  
+- Click **`+`** to allocate it.
+
+#### Key Pair tab
+- Select the SSH key you uploaded earlier.  
+- If none appears, click the **`+`** next to the dropdown to **Create / Import** a new key pair directly from this wizard.
+
+### 4. Launch the instance
+1. Review every tab to confirm the settings are correct.  
+2. Press **Launch Instance** (bottom‑right).
+
+> **Result** – The instance will appear in the Instances list with status **BUILD** → **ACTIVE** in a few moments.
+
+---
+
+## Assign a floating IP (optional)
+A floating (public) IP lets you reach the VM from outside the private cloud network, which is required for SSH or any web service you want to expose to the internet.  
+
+1. In **Instances**, click the dropdown next to your VM → **Associate Floating IP**.  
+2. Choose an available floating IP or click **Allocate New Floating IP**.  
+3. Confirm. You can now SSH to the VM using the floating IP address.
+
+---
+
+## Cleanup (avoid lingering charges)
+
+| Action                | How to perform |
+|-----------------------|----------------|
+| **Terminate VM**      | Instances → select the VM → **Delete Instance** |
+| **Release reservation** | Reservations → select the reservation → **Delete** |
+| **Remove key pair** (if no longer needed) | Access & Security → Key Pairs → delete the entry |
+
+---
+
+## Troubleshooting
+
+| Symptom                     | Likely cause                              | Fix |
+|-----------------------------|-------------------------------------------|-----|
+| *VM stuck in BUILD*         | Reservation not active or quota exceeded  | Verify the reservation window, increase quota, or delete other running VMs. |
+| *SSH “Connection refused”* | No floating IP attached or security group missing port 22 | Attach a floating IP and ensure the security group allows inbound TCP 22. |
+| *Image not listed*          | Wrong image prefix or wrong project       | Use a **CC‑**‑prefixed image and confirm the project selection. |
+| *Time‑zone mismatch*        | Portal using UTC while you entered local time | Double‑check the **time zone** field in the reservation form. |
+
+---
+
+## Further reading
+- [Chameleon Cloud Documentation – Horizon UI](https://chameleoncloud.org/docs/horizon/)  
+- [OpenStack Horizon User Guide](https://docs.openstack.org/horizon/latest/)  
+- [Chameleon Cloud Help Form](https://chameleoncloud.org/help/)
