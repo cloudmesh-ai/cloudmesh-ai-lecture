@@ -69,7 +69,7 @@
     Firstname: Albert
     Lastname: Zweistein
     LUC e-mail: azweistein@luc.edu
-    chameloncloud id: azwei
+    chameloncloud id: azweistein@luc.edu
     access id: azeweistein
     github id: zweistein
     ```
