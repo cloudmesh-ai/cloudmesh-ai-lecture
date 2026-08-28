@@ -24,8 +24,8 @@ Jetstream2 provides multiple graphical user interfaces depending on your needs:
 Exosphere is a streamlined, simplified interface designed for the most common tasks.
 
 - **Best for:** Quickly launching instances, basic management, and users who want a simpler experience.
-- **Workflow:** Log in $\\rightarrow$ Click \"Create Instance\" $\\rightarrow$ Select 
-Image/Flavor $\\rightarrow$ Launch.
+- **Workflow:** Log in $\rightarrow$ Click "Create Instance" $\rightarrow$ Select 
+Image/Flavor $\rightarrow$ Launch.
 - **Not for:** This class.
 
 ### Horizon

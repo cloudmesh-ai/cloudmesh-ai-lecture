@@ -1,3 +1,180 @@
+# Chameleon Cloud – Unified Environment Configuration
+
+This file describes a single YAML configuration that can be used by all of the
+example workflows (python‑chi, OpenStack CLI, Libcloud, and openstacksdk).  
+It stores **only data** – no secrets are hard‑coded in any script.  
+
+## 1. YAML file layout (`chameleon_env.yaml`)
+
+```yaml
+# ---------------------------------------------------------
+# Cloud definition – compatible with OpenStack `clouds.yaml`
+# ---------------------------------------------------------
+clouds:
+  chameleon:
+    auth:
+      auth_url: https://keystone.tacc.chameleoncloud.org:5000/v3
+      username: YOUR_USERNAME
+      password: YOUR_PASSWORD
+      project_name: YOUR_PROJECT
+      user_domain_name: Default
+      project_domain_name: Default
+    region_name: KVM@TACC
+    interface: public
+    identity_api_version: 3
+
+# ---------------------------------------------------------
+# Runtime parameters – values that change between runs
+# ---------------------------------------------------------
+runtime:
+  project_name: YOUR_PROJECT            # billed project
+  site_name: KVM@TACC
+  ssh_key_name: my-ssh-key
+  network_name: sharednet1
+  image_name: CC-Ubuntu-22.04
+  flavor_name: m1.small
+  server_name: my-kvm-vm
+  security_groups: [default]
+  floating_network: ext-net
+
+# ---------------------------------------------------------
+# Optional reservation block – used when a reservation is required
+# ---------------------------------------------------------
+reservation:
+  name: demo-reservation
+  start_offset_minutes: 1               # start = now + offset
+  duration: 1h                          # ISO‑8601 duration string
+  lease_name: my-lease                  # optional lease for exclusive nodes
+```
+
+* **`clouds`** – follows the standard OpenStack `clouds.yaml` format, so any
+  client that reads `clouds.yaml` (python‑chi, openstacksdk, CLI, etc.) will work
+  without modification.
+* **`runtime`** – holds parameters that differ per execution: image, flavor,
+  network, key pair, security group, floating network, etc.
+* **`reservation`** – minimal fields needed to create a Chameleon reservation
+  (name, start offset, duration, optional lease).
+
+!!! Warning "Security note"
+    Keep this file private (`chmod 600 /.config/chameleon/env.yaml`) and add it to `.gitignore` so it never gets committed.
+    Also place it in a directory other then your code such as 
+    `~/.config/chameleon/env.yaml`
+
+## 2. Loader module (`config_loader.py`)
+
+```python
+"""
+Load `chameleon_env.yaml`, expose its values as environment variables,
+and return the parsed dictionary for the caller.
+"""
+
+import os
+import yaml
+import logging
+from pathlib import Path
+
+log = logging.getLogger(__name__)
+
+def load_configuration(path: str = "~/.config/chameleon/chameleon_env.yaml"):
+    """Read the YAML file, set OS_… vars and return the full config."""
+    cfg_path = Path(path).expanduser().resolve()
+    if not cfg_path.is_file():
+        raise FileNotFoundError(f"Configuration file not found: {cfg_path}")
+
+    with cfg_path.open("rt") as f:
+        cfg = yaml.safe_load(f) or {}
+
+    # ----- inject the cloud authentication values as OS_… vars -----
+    cloud = cfg.get("clouds", {}).get("chameleon", {})
+    auth = cloud.get("auth", {})
+    for key, value in auth.items():
+        env_name = f"OS_{key.upper()}"
+        os.environ[env_name] = str(value)
+        log.debug("Set %s from YAML", env_name)
+
+    # ----- expose any extra env vars the user may have added -----
+    for key, value in cfg.get("env", {}).items():
+        if os.getenv(key) is None:
+            os.environ[key] = str(value)
+
+    return cfg
+```
+
+* The loader reads the YAML file, writes the required `OS_…` variables so that
+  any OpenStack‑compatible SDK picks up the credentials automatically, and returns
+  the entire configuration dictionary for the script to use.
+
+## 3. Using the configuration in the various examples
+
+All scripts should start with:
+
+```python
+from config_loader import load_configuration
+cfg = load_configuration()   # loads default location and sets OS_… vars
+rt = cfg["runtime"]
+```
+
+Then use `rt["..."]` for image, flavor, network, key name, etc.  
+The same approach works for:
+
+* **python‑chi** – see `launch_kvm_vm.py` in the original guide.
+* **OpenStack CLI** – export the variables (or source a small helper that runs the loader).
+* **Libcloud** – read credentials from `os.getenv("OS_USERNAME")`, etc.
+* **openstacksdk** – call `openstack.connect(cloud="chameleon")` after the loader has written the `clouds.yaml` file if needed.
+
+## 4. Reservation support
+
+If the `reservation` block is present, the script can create a reservation or
+lease before launching the VM. Example (python‑chi):
+
+```python
+if cfg.get("reservation"):
+    r = cfg["reservation"]
+    from datetime import datetime, timedelta
+    start = (datetime.utcnow() + timedelta(minutes=r["start_offset_minutes"])).isoformat() + "Z"
+
+    lease_id = None
+    if r.get("lease_name"):
+        lease_id = lease.create_lease(
+            name=r["lease_name"],
+            start=start,
+            end=(datetime.fromisoformat(start.rstrip("Z")) + timedelta(hours=1)).isoformat() + "Z",
+            project=rt["project_name"],
+        )
+
+    reservation_id = lease.create_reservation(
+        name=r["name"],
+        start=start,
+        end=r["duration"],
+        lease_id=lease_id,
+        project=rt["project_name"],
+        site=rt["site_name"],
+    )
+    print(f"Reservation created: {reservation_id}")
+```
+
+The same values can be interpolated into the OpenStack CLI `openstack reservation
+create …` command.
+
+## 5. Checklist for a uniform workflow
+
+| Step | Action |
+|------|--------|
+| 1 | Place the single `chameleon_env.yaml` (as shown above) under `~/.config/chameleon/`. |
+| 2 | Protect the file: `chmod 600 ~/.config/chameleon/chameleon_env.yaml`. |
+| 3 | Add `config_loader.py` to every repository containing a script. |
+| 4 | In every script, call `load_configuration()` **before** importing any OpenStack/Chi SDK. |
+| 5 | Use `cfg["runtime"]` for all mutable parameters (image, flavor, network, etc.). |
+| 6 | If a reservation is needed, read `cfg["reservation"]` and invoke the appropriate API/CLI. |
+| 7 | Never hard‑code passwords, tokens, or project IDs in source code. |
+| 8 | List the YAML file in `.gitignore` to avoid accidental commits. |
+
+---
+
+*This markdown file provides the complete description of the unified
+environment configuration that can be used across all the examples.*
+
+&&&&&
 
 ## Virtual Machine with the `python‑chi`
 
