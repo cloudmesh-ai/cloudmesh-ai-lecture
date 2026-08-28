@@ -2,9 +2,9 @@
 
 ## Week 2
 
-!!! info You are allowed to work ahead. More assignments for week 2 will be posted here once ready.
+!!! info "You are allowed to work ahead. More assignments for week 2 will be posted here once ready."
 
-!!! note Assignment 4. VM on local machine.
+!!! note "Assignment W2.1. VM on local machine."
 
     Explore how to set up virtual machines on your local computer. Take your specific computer into account and create a markdown tutorial on how to do it. Fille free to add screenshots. 
 
@@ -17,21 +17,22 @@
 
 ## Week 1
 
-!!! warning Due date: 9am, Thursday August, 2026
+!!! warning "Due date: 9am, Thursday August, 2026"
 
-!!! note "Assignment 1. What hardware do you have?"
+!!! note "Assignment W1.1. What hardware do you have?"
 
     Fill out the [LUC Hardware Questionaire](https://docs.google.com/forms/d/e/1FAIpQLSdxxTnj8JFrrbREcM0wQ7B9nGmqpYfBPRddhKnGE7e7Dui_lA/viewform?usp=sharing&ouid=114251938823529916329)
 
-!!! note "Assignment 2. Lecture review
+!!! note "Assignment W1.2. Lecture review"
+
     Review all sections under LECTURES -> INTRODUCTIONS. 
     In case of questions post them on piazza.
 
-!!! note "Assignment 3. look over the assignment sections"
+!!! note "Assignment W1.3. look over the assignment sections"
 
     Review all secions under ASSIGNMENTS, this includes the Overview section and the weekly section.
 
-!!! note Assignmnet 3. Create class accounts
+!!! note "Assignmnet W1.3. Create class accounts"
 
     a. Create an account on access-ci.org. 
     b. Create an account on chameleoncloud.org
@@ -73,16 +74,16 @@
     github id: zweistein
     ```
 
-    !!! note 
+    !!! info 
         The ids on access, github and chameleon may be different.
 
 
 
-!!! note Assignment 4. Work ahead: Refresh python and Linux   
+!!! note "Assignment W1.4. Work ahead: Refresh knowledge about Python and Linux"
 
     We will do some minimal linux and python in this class, if you want to work ahead review some of the optional material in the class documentation. 
 
-!!! note Assignment 5. Improve the Web Site.
+!!! note "Assignment W1.5. Improve the Web Site."
 
     During the entire semester: If you find errors update them or let us know.
 
