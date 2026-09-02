@@ -10,6 +10,7 @@
     is the fastest way to start querying Llama 4 Scout, DeepSeek‑R1, or GPT‑OSS‑120B.
 
 ![Jetstream 2 through either the Central Inference Service (Proxy) or a Self-Hosted GPU Instance.](images/jetstream-arch-llm-Gemini_Generated_Image_bpdlncbpdlncbpdl.jpeg)
+*Figure: Jetstream 2 through either the Central Inference Service (Proxy) or a Self-Hosted GPU Instance.*
 
 !!! warning
     The document contains secrets such as tokens. They should never be hard‑coded.  All token usage must reference the 

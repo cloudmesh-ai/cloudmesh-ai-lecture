@@ -369,5 +369,3 @@ Run the script with `bash launch_gemma4.sh`. It will:
 | OpenAI‑compatible API spec (used by vLLM) | <https://platform.openai.com/docs/api-reference/completions/create> |
 
 ---  
-
-You are now ready to run Gemma‑4 on a Frontier worker node and interact with it from your laptop via a secure SSH tunnel. Happy inference!
