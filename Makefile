@@ -1,5 +1,6 @@
 # Variables
 MKDOCS_BIN = mkdocs
+PORT=8000
 
 .PHONY: help serve build clean publish size local-size
 
@@ -13,6 +14,8 @@ help:
 	@echo \"  make local-size  - Get local repository size ignoring gitignore\"
 
 
+view:
+	open http://localhost:${PORT}
 
 serve:
 	$(MKDOCS_BIN) serve --dirtyreload

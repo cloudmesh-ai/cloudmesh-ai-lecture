@@ -22,7 +22,7 @@ Presenter: Gregor von Laszewski
 | 3. | Service Models (IaaS / PaaS / SaaS)  | Explain differences and use‑cases |
 | 4. | Deployment Models  | Public, Private, Hybrid, Community |
 | 5. | Core Enabling Technologies |  Virtualization, Containers, Serverless |
-| 6. | Architecture & Design Principles |   Scalability, resilience, automation |
+| 6. | Architecture and Design Principles |   Scalability, resilience, automation |
 | 7. | The Big Three Providers  | AWS, Azure, GCP – high‑level comparison |
 | 8. | Storage Services  | Object, Block, File, Archive |
 | 9. | Networking in the Cloud | VPC, subnets, load balancers, CDN |
@@ -435,7 +435,7 @@ Examples of SaaS include:
 
 ---  
 
-# 6. Architecture & Design Principles  
+# 6. Architecture and Design Principles  
 
 1. Design for Failure – redundancy, health checks.  
 2. Loose Coupling – message queues, event buses.  
@@ -446,7 +446,7 @@ Examples of SaaS include:
 **Speaker notes**  
 - Reference the **Well‑Architected Framework** (AWS) and the **Azure Architecture Center**.  
 
-![Architecture & Design Principles  ](images/principles-Gemini_Generated_Image_44qw9f44qw9f44qw.jpeg)
+![Architecture and Design Principles](images/principles-Gemini_Generated_Image_44qw9f44qw9f44qw.jpeg)
 
 ---  
 # 7. The Big Three Providers – Quick Comparison  
@@ -617,9 +617,8 @@ Explanation:
 
 **Speaker notes**  
 
-![Quick visual of a CloudWatch metrics graph (CPU utilisation)](images/aws-Anomaly_Detection_Icon.png)
+![Quick visual of a CloudWatch metrics graph (CPU utilisation), Source: [AWS](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/graph_a_metric.html).](images/aws-Anomaly_Detection_Icon.png)
 
-Figure: AWS CloudWatch CPU utilization metrics graph dashboard. Source: docs.aws.amazon.com, [Link](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/graph_a_metric.html).
 
 ---  
 # 12. Cost Management & Optimization  

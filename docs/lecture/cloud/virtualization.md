@@ -83,6 +83,7 @@ A Type 1 hypervisor is installed directly on top of the physical hardware, so th
     directly on the host's hardware to control the hardware and to
     manage guest operating systems.
 
+
 <div style="font-family: sans-serif; border: 2px solid #333; border-radius: 6px; padding: 15px; width: 550px; background: #fff; margin: auto;">
   <div style="text-align: center; font-weight: bold; font-size: 16px; margin-bottom: 12px;">Virtual machines</div>
   
@@ -118,7 +119,7 @@ A Type 1 hypervisor is installed directly on top of the physical hardware, so th
 </div>
 </br>
 
-Figure: Type 1 (Bare-metal) Virtualization
+<br>Figure. Type 1 (Bare-metal) Virtualization</br>
 
 
 
@@ -179,7 +180,7 @@ In hosted virtualization, the base operating system is installed on the hardware
 </div>
 
 </br>
-Figure: Type 2 (Hosted) Virtualization
+Figure. Type 2 (Hosted) Virtualization
 </br>
 
 
