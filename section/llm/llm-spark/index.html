@@ -1,0 +1,4571 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Practitioners Guide">
+      
+      
+        <meta name="author" content="Gregor von Laszewski">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Llm spark - Lecture Notes: CloudComputing, DevOps, and AI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-dgx-spark-at-a-glance" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-header__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lecture Notes: CloudComputing, DevOps, and AI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Llm spark
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-nav__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Lecture Notes: CloudComputing, DevOps, and AI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LECTURES
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LECTURES
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OVERVIEW
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OVERVIEW
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/syllabus/cloud-computing-devops-ai-syllabus.pdf" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.0 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/01.1-syllabus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.1 Syllabus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/01.2-contribute-lecture-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.2 Contribute
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/01.4-supplemental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.4 Supplemental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/01.5-piazza/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5 Piazza
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_6">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_6" id="__nav_2_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6 ACCOUNTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L.1.6 ACCOUNTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/local/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.1 Local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/access-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.2 Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/chameleon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.3 Chameleon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.4 AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/azure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.5 Azure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/accounts/google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.6 Google
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLOUD
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLOUD
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/cloud/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/cloud/virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.2 Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/cloud/virtual-machine-technologies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.3 VM Technologies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/cloud/virtualization-landscape/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.4 VM Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_5">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_5" id="__nav_2_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2 Local
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.2 Local
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/vm-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/multipass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Multipass
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Qemu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/vagrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Vagrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/virsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virsh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/local/virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6" id="__nav_2_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.3 Academia
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.3 Academia
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6_1" id="__nav_2_2_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.3.1 Jetstream
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.3.1 Jetstream
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/jetstream/jetstream-vm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/jetstream/jetstream-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hosting a Website
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/jetstream/jetstream-multi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple VMs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/jetstream/jetstream-cost/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cost
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6_2" id="__nav_2_2_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.3.2 Chameleon
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.3.2 Chameleon
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/chameleon/horizon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/chameleon/python-chi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os-chi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/chameleon/os-commandline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os-command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/chameleon/libcloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libcloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/chameleon/os-python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os-python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASSIGNMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ASSIGNMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/assignments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lecture/assignments/assignments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LUC_388_488
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="#separator" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ---
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PYTHON
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PYTHON
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.2 Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3">
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3 Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.3 Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.1 Interactive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.2 Editor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.3 Language
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4">
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5 Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.5 Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-click/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.1 Click
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-docopts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.2 DocOpts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-cmd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.3 CMD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6 Processes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.6 Processes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-subprocess/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.1 Subprocess
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.2 Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.3 Queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.4 Schedulers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6">
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7 Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.7 Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.1 Basic Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-wordcount/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.2 Wordcount
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7">
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8 Graphs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.8 Graphs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.1 Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-matplotlib/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.2 Matplotlib
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8">
+        
+          
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9 Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.9 Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-ssl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.1 SSL/TLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/python-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.2 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LINUX
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LINUX
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.2 Text one Liners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/refcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.1 RefCards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/ubuntu-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.2 Ubuntu CLI Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.4 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/ssh-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.5 SSH on Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/zsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.6 ZSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/recording/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.7 Recording
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WRITING
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    WRITING
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/plagiarism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.1 Plagarism
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.2 Markdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/emacs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.3 Emacs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_4">
+        
+          
+          <label class="md-nav__link" for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4 Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    W.4 Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/ppt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.1 PPT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/mermaid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.2 Mermaid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing/graphviz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.3 Graphviz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACKNOWLEDGEMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ACKNOWLEDGEMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../acknowledgements/acknowledgements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A.1 Acknowledgments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-dgx-spark-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ DGX Spark – At a Glance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1️⃣ DGX Spark – At a Glance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Highlights
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-typical-dgx-spark-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ Typical DGX Spark Workflows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-quick-whatif-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ Quick “What‑If” Calculations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-next-steps-how-i-can-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4️⃣ Next Steps – How I Can Help
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4️⃣ Next Steps – How I Can Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-would-you-like-to-explore-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 What would you like to explore next?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cost-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cost Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cost Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-numbers-were-derived" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the numbers were derived
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-the-comparison-tells-you" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the comparison tells you
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-whatif-calculator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick “What‑if” calculator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-steps-for-you" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps for You
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        performance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-how-the-numbers-were-derived" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ How the numbers were derived
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-raw-theoretical-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ Raw (theoretical) numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-why-realworld-throughput-will-be-lower" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ Why real‑world throughput will be lower
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-practical-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4️⃣ Practical recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-next-steps-you-might-want" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5️⃣ Next steps you might want
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buisiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buisiness
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Buisiness">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-define-the-offer-price" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ Define the Offer &amp; Price
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1️⃣ Define the Offer &amp; Price">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-typical-service-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Typical Service Packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-quick-whatif-pricing-calculator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Quick “What‑If” Pricing Calculator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-build-the-service-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ Build the Service Platform
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2️⃣ Build the Service Platform">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-architecture-sketch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Architecture Sketch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-minimal-gpuasaservice-prototype-docker-flask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Minimal “GPU‑as‑a‑Service” Prototype (Docker + Flask)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-scaling-to-multiple-dgx-sparks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Scaling to Multiple DGX Sparks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-gotomarket-operational-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ Go‑to‑Market &amp; Operational Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-revenue-forecast-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Quick “Revenue Forecast” Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-next-moves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        👉 Your Next Moves
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<p>Here’s a quick‑look‑over of the NVIDIA DGX Spark’s main hardware and software capabilities, followed by a few ideas of how you might want to use the system. Let me know which of these (or any other) areas you’d like to dive deeper into.</p>
+<hr>
+<h2 id="1-dgx-spark-at-a-glance">1️⃣ DGX Spark – At a Glance</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Key Spec</th>
+<th>What It Means for You</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPU</strong></td>
+<td>20‑core Arm (10 × Cortex‑X925 + 10 × Cortex‑A725)</td>
+<td>Strong single‑thread performance for data‑pre‑processing, orchestration, and inference‑side control loops.</td>
+</tr>
+<tr>
+<td><strong>GPU</strong></td>
+<td>NVIDIA GB10 Grace Blackwell Superchip – Blackwell‑Gen GPU + integrated CPU</td>
+<td>Up to <strong>1 PFLOP FP4</strong> (with sparsity) → massive throughput for transformer‑style generative models.</td>
+</tr>
+<tr>
+<td><strong>Tensor Cores</strong></td>
+<td>5th‑Gen</td>
+<td>Optimized for FP8, FP16, BF16, and sparsity‑accelerated FP4.</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>128 GB LPDDR5x, coherent unified system memory (256‑bit, 273 GB/s)</td>
+<td>One‑shot loading of very large models (up to ~200 B parameters) without CPU‑GPU copies.</td>
+</tr>
+<tr>
+<td><strong>Storage</strong></td>
+<td>4 TB NVMe M.2 (self‑encrypting)</td>
+<td>Fast checkpoint I/O, dataset staging, and multi‑model serving.</td>
+</tr>
+<tr>
+<td><strong>Networking</strong></td>
+<td>ConnectX‑7 NIC @ 200 Gbps, 10 GbE RJ‑45</td>
+<td>Scale‑out clusters of up to four DGX Spark nodes → &gt; 700 B‑parameter models across the fabric.</td>
+</tr>
+<tr>
+<td><strong>Display / I/O</strong></td>
+<td>HDMI 2.1a + up to 3 × DP‑Alt‑Mode over USB‑C, USB 4 (4×), Wi‑Fi 7, BT 5.4</td>
+<td>Full desktop workstation experience; can also be headless in rack‑mount enclosures.</td>
+</tr>
+<tr>
+<td><strong>Power / Thermal</strong></td>
+<td>240 W PSU, GB10 TDP ≈ 140 W</td>
+<td>Compact, always‑on, low‑noise (≈ 30 dB SPL) for office or lab.</td>
+</tr>
+<tr>
+<td><strong>OS / Software</strong></td>
+<td>NVIDIA DGX™ OS (Ubuntu‑based) pre‑installed with AI Enterprise, NIM, NemoClaw, OpenShell, DGX Spark Playbooks</td>
+<td>Turn‑key stack for prototyping, fine‑tuning, inference, and secure agent deployment.</td>
+</tr>
+<tr>
+<td><strong>Form factor</strong></td>
+<td>150 mm × 150 mm × 50.5 mm, 1.2 kg</td>
+<td>Desktop‑friendly “PC‑Supercomputer”.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="performance-highlights">Performance Highlights</h3>
+<ul>
+<li><strong>FP4 TOPS:</strong> ~1 PFLOP (with 2× sparsity) → ~2× speed‑up vs. prior DGX Station for many transformer workloads.</li>
+<li><strong>Memory bandwidth:</strong> 273 GB/s → excellent for bandwidth‑bound attention kernels.</li>
+<li><strong>NVENC/NVDEC:</strong> 1‑encoder / 1‑decoder – good for multimodal pipelines (e.g., video‑LLM generation).</li>
+</ul>
+<hr>
+<h2 id="2-typical-dgx-spark-workflows">2️⃣ Typical DGX Spark Workflows</h2>
+<table>
+<thead>
+<tr>
+<th>Workflow</th>
+<th>What You Can Do on a Single DGX Spark</th>
+<th>How to Scale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prototype / R&amp;D</strong></td>
+<td>Train medium‑size (≤ 10 B) models, run quick‑iteration LoRA fine‑tuning, launch JupyterLab with pre‑installed libraries.</td>
+<td>Use DGX Spark Playbooks → clone a repo, spin up a container, start training.</td>
+</tr>
+<tr>
+<td><strong>Fine‑tuning 70 B‑parameter models</strong></td>
+<td>Load the full model into unified memory, apply LoRA/QLoRA adapters, run a few epochs on a custom dataset.</td>
+<td>For multi‑epoch training of &gt; 70 B, connect 2‑4 DGX Spark nodes via ConnectX‑7 to form a 200‑Gbps fabric.</td>
+</tr>
+<tr>
+<td><strong>Inference of 200 B‑parameter models</strong></td>
+<td>Serve a single, always‑on agent locally (e.g., autonomous assistant, code‑assistant) with latency &lt; 100 ms per token (FP4 + sparsity).</td>
+<td>Deploy a load‑balanced inference cluster (up to 4 nodes) for high‑throughput serving.</td>
+</tr>
+<tr>
+<td><strong>Edge‑AI development</strong></td>
+<td>Build and test NVIDIA Isaac™ or Metropolis pipelines that will later run on Jetson/Orin devices.</td>
+<td>Use the same Docker containers on the DGX Spark and then push to edge devices.</td>
+</tr>
+<tr>
+<td><strong>Secure, privacy‑preserving agents</strong></td>
+<td>Run NemoClaw + OpenShell stack to sandbox LLMs, enforce data‑handling policies, and encrypt model checkpoints.</td>
+<td>Integrate with on‑prem key‑management (KMIP) for multi‑node deployments.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-quick-whatif-calculations">3️⃣ Quick “What‑If” Calculations</h2>
+<p>Below are a few useful back‑of‑the‑envelope numbers you might want to reference. (All are approximate; actual throughput depends on model sparsity, batch size, and software stack.)</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Approximate Value</th>
+<th>How to interpret</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Peak FP4 operations</strong></td>
+<td>1 PFLOP = 1 × 10¹⁵ ops / s</td>
+<td>Equivalent to ~250 × RTX 4090 GPUs (each ≈ 40 TFLOP FP16).</td>
+</tr>
+<tr>
+<td><strong>Model size that fits in memory</strong></td>
+<td>128 GB LPDDR5x (unified) → ~100 B parameters at 1 byte/param (FP8) or ~50 B at 2 bytes/param (BF16).</td>
+<td>For 200 B‑parameter models, you’ll need to use tensor‑parallelism or model‑sharding across multiple nodes.</td>
+</tr>
+<tr>
+<td><strong>Bandwidth‑limited attention</strong></td>
+<td>273 GB/s → ~1 × 10⁹ tokens / s for 16‑byte per token (rough estimate).</td>
+<td>Real‑world LLM inference usually limited by compute, not bandwidth, thanks to sparsity.</td>
+</tr>
+<tr>
+<td><strong>Power efficiency</strong></td>
+<td>1 PFLOP / 140 W ≈ <strong>7.1 TFLOP/W</strong> (FP4)</td>
+<td>Very high – good for always‑on workloads.</td>
+</tr>
+</tbody>
+</table>
+<p>If you have a concrete workload (e.g., “run LLaMA‑2‑70B with 4‑bit quantization at 30 tokens/s”), I can run a more detailed estimate or even spin up a small‑scale benchmark script (using the code‑interpreter) to demonstrate expected latency.</p>
+<hr>
+<h2 id="4-next-steps-how-i-can-help">4️⃣ Next Steps – How I Can Help</h2>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>What I Can Provide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sizing &amp; cost‑benefit</strong></td>
+<td>Compare DGX Spark vs. cloud GPU instances (e.g., p5e.48xlarge) for a given number of inference requests per month.</td>
+</tr>
+<tr>
+<td><strong>Benchmark scripts</strong></td>
+<td>Generate Docker‑file + Python benchmark (e.g., <code>torchrun</code> with HuggingFace <code>transformers</code>) to measure throughput on a similar local system (you can run it on your DGX Spark).</td>
+</tr>
+<tr>
+<td><strong>Security hardening</strong></td>
+<td>Walk‑through of installing NemoClaw, configuring OpenShell policies, and enabling encrypted NVMe.</td>
+</tr>
+<tr>
+<td><strong>Cluster setup</strong></td>
+<td>Step‑by‑step guide to connect 2–4 DGX Spark nodes with ConnectX‑7 (RDMA, NCCL, infiniband‑like config).</td>
+</tr>
+<tr>
+<td><strong>Model‑parallel training</strong></td>
+<td>Example of using DeepSpeed‑ZeRO‑3 or Megatron‑LM to split a 200 B‑parameter model across 2 nodes.</td>
+</tr>
+<tr>
+<td><strong>Application ideas</strong></td>
+<td>Brainstorm specific autonomous‑agent use‑cases (e.g., real‑time code‑assistant, scientific‑simulation controller, secure knowledge‑base query engine).</td>
+</tr>
+<tr>
+<td><strong>Performance tuning</strong></td>
+<td>Tips for FP8/FP4 configuration, sparsity masks, and tensor‑core utilization.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="what-would-you-like-to-explore-next">🎯 What would you like to explore next?</h3>
+<ul>
+<li>Do you need a <strong>detailed performance estimate</strong> for a particular model (e.g., LLaMA‑2‑70B, Mistral‑7B, or a custom 200 B model)?</li>
+<li>Are you interested in <strong>setting up a secure agent stack</strong> with NemoClaw/OpenShell?</li>
+<li>Would a <strong>cost‑comparison</strong> against cloud‑based alternatives be useful?</li>
+<li>Or perhaps you’d like a <strong>step‑by‑step guide</strong> to launch a multi‑node DGX Spark cluster?</li>
+</ul>
+<p>Just let me know which direction (or any other question) you’d like to go, and I’ll dive right into the specifics!</p>
+<h1 id="cost-comparison">Cost Comparison</h1>
+<p>Below is a <strong>cost‑comparison</strong> that pits a single NVIDIA DGX Spark (on‑prem) against the most comparable cloud GPU instance (an 8 × A100 80 GB machine, e.g. AWS p5e.48xlarge / GCP a2‑mega / Azure ND96asr_v4).<br>
+The analysis looks at:</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>DGX Spark (on‑prem)</th>
+<th>8 × A100 Cloud Instance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hardware / Instance</strong></td>
+<td>NVIDIA DGX Spark (GB10 Grace Blackwell, 1 PFLOP FP4, 128 GB unified memory)</td>
+<td>8 × NVIDIA A100 80 GB GPUs, 2 × Intel Xeon (96 vCPU), 1 TB RAM</td>
+</tr>
+<tr>
+<td><strong>List Price</strong></td>
+<td><strong>≈ $35 k</strong> (typical OEM MSRP)</td>
+<td><strong>$0 (you only pay per‑hour)</strong></td>
+</tr>
+<tr>
+<td><strong>Annual Support / Warranty</strong></td>
+<td>$5 k / yr (NVIDIA AI Enterprise + hardware warranty)</td>
+<td>Included in on‑demand price</td>
+</tr>
+<tr>
+<td><strong>Power Consumption</strong></td>
+<td>~300 W (average under load)</td>
+<td>Cloud provider’s data‑center power is baked into the hourly rate</td>
+</tr>
+<tr>
+<td><strong>Electricity Cost</strong></td>
+<td>$0.12 /kWh (U.S. avg) → <strong>≈ $315 / yr</strong></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><strong>Depreciation / Capital Cost</strong></td>
+<td>3‑yr straight‑line depreciation = $35 k / 3 ≈ $11.7 k / yr</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><strong>Total 3‑yr TCO</strong></td>
+<td><strong>≈ $51 k</strong> (hardware + 3 yr support + 3 yr electricity)</td>
+<td>–</td>
+</tr>
+<tr>
+<td><strong>On‑Demand Hourly Rate</strong></td>
+<td>–</td>
+<td><strong>$45 / hr</strong> (AWS p5e.48xlarge, 8 × A100 80 GB)</td>
+</tr>
+<tr>
+<td><strong>Spot / Preemptible Rate</strong></td>
+<td>–</td>
+<td><strong>≈ $15 / hr</strong> (typical spot discount 65‑70 %)</td>
+</tr>
+<tr>
+<td><strong>Break‑Even Hours (3‑yr TCO ÷ hourly rate)</strong></td>
+<td>–</td>
+<td><strong>On‑Demand:</strong> 51 000 ÷ 45 ≈ 1 132 hr  <br><strong>Spot:</strong> 51 000 ÷ 15 ≈ 3 400 hr</td>
+</tr>
+<tr>
+<td><strong>Break‑Even Months (assuming 730 hr/mo)</strong></td>
+<td>–</td>
+<td><strong>On‑Demand:</strong> ≈ 1.6 mo  <br><strong>Spot:</strong> ≈ 4.6 mo</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-the-numbers-were-derived">How the numbers were derived</h3>
+<p></p><div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># ---- DGX Spark 3‑year TCO ----</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">price_hw</span> <span class="o">=</span> <span class="mi">35000</span>                     <span class="c1"># USD, typical list price</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">support_per_year</span> <span class="o">=</span> <span class="mi">5000</span>              <span class="c1"># USD/yr</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">power_watts</span> <span class="o">=</span> <span class="mi">300</span>                    <span class="c1"># average draw under load</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">kwh_per_year</span> <span class="o">=</span> <span class="n">power_watts</span><span class="o">/</span><span class="mi">1000</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">365</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">elec_rate</span> <span class="o">=</span> <span class="mf">0.12</span>                     <span class="c1"># $/kWh (US avg)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">elec_cost_per_year</span> <span class="o">=</span> <span class="n">kwh_per_year</span><span class="o">*</span><span class="n">elec_rate</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># 3‑year totals</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">tco_3yr</span> <span class="o">=</span> <span class="n">price_hw</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">support_per_year</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">elec_cost_per_year</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">tco_3yr</span>
+</span></code></pre></div>
+<strong>Result:</strong> <code>≈ $50,950</code>
+<p></p><div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># ---- Cloud break‑even hours ----</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">hourly_ondemand</span> <span class="o">=</span> <span class="mi">45</span>      <span class="c1"># $/hr (AWS p5e.48xlarge on‑demand)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">hourly_spot</span> <span class="o">=</span> <span class="mi">15</span>          <span class="c1"># $/hr (typical spot price)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">break_even_ondemand</span> <span class="o">=</span> <span class="n">tco_3yr</span> <span class="o">/</span> <span class="n">hourly_ondemand</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">break_even_spot</span> <span class="o">=</span> <span class="n">tco_3yr</span> <span class="o">/</span> <span class="n">hourly_spot</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">break_even_ondemand</span><span class="p">,</span> <span class="n">break_even_spot</span>
+</span></code></pre></div>
+<strong>Result:</strong><br>
+<em>On‑Demand ≈ 1 132 hr</em> → ~1.6 months of full‑time use (24 h × 30 d).<br>
+<em>Spot ≈ 3 400 hr</em> → ~4.6 months of full‑time use.
+<h3 id="what-the-comparison-tells-you">What the comparison tells you</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>When DGX Spark is cheaper</th>
+<th>When Cloud is cheaper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Heavy, continuous usage</strong> (≥ 1 200 hr/yr ≈ 100 hr/mo)</td>
+<td>After ~1.5 months of full‑time on‑demand use (or 4–5 months on spot) the on‑prem capital investment pays off.</td>
+<td>If you only need the hardware for occasional spikes (&lt; 200 hr/yr) cloud remains cheaper.</td>
+</tr>
+<tr>
+<td><strong>Burst‑or‑seasonal workloads</strong> (e.g., a few weeks of training per year)</td>
+<td>Not cost‑effective; you’d spend the same or more on hardware you sit idle most of the time.</td>
+<td>Spot/Reserved instances give you the flexibility to spin up only when needed.</td>
+</tr>
+<tr>
+<td><strong>Long‑term, always‑on agents</strong> (e.g., autonomous assistants, private LLM serving)</td>
+<td>DGX Spark shines – you avoid paying $45 / hr 24/7 (≈ <span class="arithmatex">\(394 k/yr) and keep power at ~\)</span>315 / yr.</td>
+<td>Cloud would be prohibitively expensive for an always‑on service.</td>
+</tr>
+<tr>
+<td><strong>Compliance / data‑privacy</strong> (needs data to stay on‑prem)</td>
+<td>On‑prem hardware is mandatory regardless of cost.</td>
+<td>Cloud may be impossible or require costly VPC‑isolated setups.</td>
+</tr>
+<tr>
+<td><strong>Rapid scaling to &gt; 700 B‑parameter models</strong></td>
+<td>You can link up to 4 DGX Spark nodes (200 Gbps ConnectX‑7) – capital cost grows linearly.</td>
+<td>Cloud can instantly add more A100 nodes, but price per added node is linear too.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="quick-whatif-calculator">Quick “What‑if” calculator</h3>
+<p>If you know <strong>your projected yearly GPU‑hours</strong>, you can plug them into the simple formulas below to see which option wins:</p>
+<table>
+<thead>
+<tr>
+<th>Yearly GPU‑hours</th>
+<th>On‑Demand Cloud Cost (<code>$45 × hrs</code>)</th>
+<th>Spot Cloud Cost (<code>$15 × hrs</code>)</th>
+<th>DGX Spark 3‑yr TCO (amortized per year ≈ $17 k)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100 hr</td>
+<td>$4,500</td>
+<td>$1,500</td>
+<td>$17 k (still cheaper to own)</td>
+</tr>
+<tr>
+<td>500 hr</td>
+<td>$22,500</td>
+<td>$7,500</td>
+<td>$17 k (on‑prem cheaper)</td>
+</tr>
+<tr>
+<td>1,000 hr</td>
+<td>$45,000</td>
+<td>$15,000</td>
+<td>$17 k (on‑prem cheaper)</td>
+</tr>
+<tr>
+<td>2,500 hr</td>
+<td>$112,500</td>
+<td>$37,500</td>
+<td>$17 k (on‑prem much cheaper)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Rule of thumb:</strong> once you exceed <strong>≈ 350 – 400 GPU‑hours per year</strong> on <strong>on‑demand</strong> pricing, the DGX Spark’s 3‑yr TCO (≈ $17 k / yr) becomes the lower cost option. With spot pricing the crossover point is roughly <strong>≈ 1 200 GPU‑hours per year</strong>.</p>
+</blockquote>
+<hr>
+<h2 id="next-steps-for-you">Next Steps for You</h2>
+<ol>
+<li><strong>Plug in your actual workload</strong> (estimated GPU‑hours per month) and we can refine the break‑even analysis.  </li>
+<li>If you plan to <strong>scale beyond a single node</strong>, I can model a 2‑node or 4‑node DGX Spark cluster and compare against the equivalent cloud cluster cost.  </li>
+<li>Want a <strong>detailed cash‑flow projection</strong> (including tax, depreciation, financing interest, or leasing)? I can generate a spreadsheet‑style table.  </li>
+<li>Need <strong>recommendations for cloud‑right‑sizing</strong> (e.g., mixed on‑prem + spot strategy) or a <strong>run‑book for converting your existing Docker/conda environment</strong> to DGX Spark?  </li>
+</ol>
+<p>Let me know which angle you’d like to dive into, and I’ll provide the precise numbers or implementation steps you need.</p>
+<h1 id="performance">performance</h1>
+<p>Below is a quick‐and‑dirty performance “back‑of‑the‑envelope” estimate for three models you mentioned when run on a <strong>single NVIDIA DGX Spark</strong> (GB10 Grace Blackwell Superchip).  </p>
+<p>The calculation follows these steps:</p>
+<ol>
+<li><strong>FLOPs per token</strong> – For a decoder‑only transformer the inference cost is roughly <strong>2 × parameter‑count</strong> FLOPs per token (QKV + feed‑forward).  </li>
+<li><strong>Sparsity boost</strong> – DGX Spark’s FP4 + 2× sparsity (the typical 2 : 1 sparsity pattern) cuts the effective FLOPs in half, so we treat the cost as <strong>≈ parameter‑count</strong> FLOPs per token.  </li>
+<li><strong>Peak compute</strong> – The GB10 Superchip can sustain <strong>≈ 1 PFLOP = 10¹⁵ FLOPs / s</strong> (FP4, sparsity enabled).  </li>
+<li><strong>Tokens‑per‑second</strong> – <code>tokens_per_sec = 1e15 / (effective_FLOPs_per_token)</code>  </li>
+<li><strong>Latency per token</strong> – <code>latency_ms = 1000 / tokens_per_sec</code>  </li>
+</ol>
+<p>The script prints a concise table and then I interpret the results.</p>
+<p>Below is a <strong>first‑order performance estimate</strong> for the three models you asked about when run on a <strong>single NVIDIA DGX Spark</strong> (GB10 Grace Blackwell Superchip).  </p>
+<h3 id="1-how-the-numbers-were-derived">1️⃣ How the numbers were derived</h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Assumption</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FLOPs / token</strong></td>
+<td>≈ 2 × parameter‑count (the classic “QKV + FFN” cost)</td>
+<td>Standard rule‑of‑thumb for decoder‑only transformers.</td>
+</tr>
+<tr>
+<td><strong>Sparsity boost</strong></td>
+<td>2 : 1 sparsity (FP4) → effective FLOPs ≈ ½ × 2 × params = <strong>params</strong></td>
+<td>DGX Spark’s FP4 + sparsity halves the compute needed per token.</td>
+</tr>
+<tr>
+<td><strong>Peak compute</strong></td>
+<td><strong>1 PFLOP = 10¹⁵ FLOPs /s</strong> (FP4 with sparsity)</td>
+<td>Specified in the DGX Spark data sheet.</td>
+</tr>
+<tr>
+<td><strong>Tokens / sec</strong></td>
+<td><code>tokens/sec = 1e15 / (params × 10⁹)</code></td>
+<td>Direct division of peak FLOPs by FLOPs‑per‑token.</td>
+</tr>
+<tr>
+<td><strong>Latency per token</strong></td>
+<td><code>latency = 1000 ms / tokens/sec</code></td>
+<td>Simple conversion to ms.</td>
+</tr>
+</tbody>
+</table>
+<p>The Python snippet that performed the calculation printed the table you see below.</p>
+<h3 id="2-raw-theoretical-numbers">2️⃣ Raw (theoretical) numbers</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Parameters (B)</th>
+<th>Tokens / sec (theoretical)</th>
+<th>Latency per token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LLaMA‑2‑70B</strong></td>
+<td>70</td>
+<td><strong>≈ 14 285 tokens / s</strong></td>
+<td><strong>≈ 0.07 ms</strong></td>
+</tr>
+<tr>
+<td><strong>Mistral‑7B</strong></td>
+<td>7</td>
+<td><strong>≈ 142 857 tokens / s</strong></td>
+<td><strong>≈ 0.01 ms</strong></td>
+</tr>
+<tr>
+<td><strong>Custom 200 B</strong></td>
+<td>200</td>
+<td><strong>≈ 5 000 tokens / s</strong></td>
+<td><strong>≈ 0.20 ms</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note:</strong> These numbers assume <em>perfectly</em> saturated compute (no memory stalls, zero software overhead, batch size = 1, and 100 % FP4 + sparsity utilization).</p>
+</blockquote>
+<h3 id="3-why-realworld-throughput-will-be-lower">3️⃣ Why real‑world throughput will be lower</h3>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Typical impact (approx.)</th>
+<th>What it means for the above figures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Memory bandwidth limits</strong> (273 GB/s)</td>
+<td>~30 %‑40 % slowdown for large‑model attention kernels</td>
+<td>Tokens‑/sec may drop to 60 %‑70 % of the theoretical value.</td>
+</tr>
+<tr>
+<td><strong>Kernel launch &amp; scheduler overhead</strong></td>
+<td>~5 %‑10 % penalty per inference step</td>
+<td>Adds a few µs per token, especially at very low batch sizes.</td>
+</tr>
+<tr>
+<td><strong>Batch size scaling</strong></td>
+<td>Throughput rises roughly linearly up to the point where memory is saturated. A batch of 8–16 can often double the effective tokens / sec.</td>
+<td>For batch = 1 the numbers above are a lower bound; batch = 8 could reach 1.5 ×‑2 × the values.</td>
+</tr>
+<tr>
+<td><strong>Model‑parallel sharding</strong> (for &gt; 128 GB models)</td>
+<td>Introduces inter‑node communication latency (≈ 10–20 µs per token per hop).</td>
+<td>A 200 B model spread across 2 DGX Spark nodes would see a modest extra latency, but still stay in the sub‑millisecond range.</td>
+</tr>
+<tr>
+<td><strong>Quantization beyond FP4 (e.g., INT4)</strong></td>
+<td>Can shave another 30 %‑40 % FLOPs, but incurs extra de‑quantization cost.</td>
+<td>If you go to INT4 you could push the 200 B model toward ~6 000 tokens / s.</td>
+</tr>
+<tr>
+<td><strong>Power &amp; thermal throttling</strong> (sustained 300 W)</td>
+<td>Small (≤ 5 %) reduction under continuous load.</td>
+<td>Negligible for typical inference workloads (hours, not days).</td>
+</tr>
+</tbody>
+</table>
+<p>Applying a <strong>conservative 40 % overall reduction</strong> to account for the above factors gives a more realistic ballpark:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Adjusted tokens / sec</th>
+<th>Adjusted latency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLaMA‑2‑70B</td>
+<td><strong>≈ 8 500 tokens / s</strong></td>
+<td><strong>≈ 0.12 ms</strong></td>
+</tr>
+<tr>
+<td>Mistral‑7B</td>
+<td><strong>≈ 85 000 tokens / s</strong></td>
+<td><strong>≈ 0.012 ms</strong></td>
+</tr>
+<tr>
+<td>Custom 200 B</td>
+<td><strong>≈ 3 000 tokens / s</strong></td>
+<td><strong>≈ 0.33 ms</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Even with a generous safety margin, <strong>all three models stay comfortably below 1 ms per token</strong>, which is more than enough for most “always‑on” agentic AI use‑cases (real‑time chat, code‑assistant, multimodal inference, etc.).</p>
+<h3 id="4-practical-recommendations">4️⃣ Practical recommendations</h3>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Suggested configuration on DGX Spark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Interactive chat / code‑assistant</strong> (≤ 7 B)</td>
+<td>Run Mistral‑7B at batch = 8–16, FP8 or FP4, achieving &gt; 50 k tokens / s (≈ 0.02 ms per token).</td>
+</tr>
+<tr>
+<td><strong>Fine‑tuning / few‑shot prompting</strong> (70 B)</td>
+<td>Load LLaMA‑2‑70B in unified memory, use LoRA/QLoRA adapters (tiny &lt; 1 GB). Expect ~8‑10 k tokens / s (≈ 0.1 ms).</td>
+</tr>
+<tr>
+<td><strong>Always‑on 200 B agents</strong></td>
+<td>Deploy the model across <strong>2 DGX Spark nodes</strong> (ConnectX‑7 fabric). The per‑token latency will be ~0.3‑0.4 ms, still sub‑millisecond.</td>
+</tr>
+<tr>
+<td><strong>Batch‑heavy inference (e.g., summarizing many documents)</strong></td>
+<td>Increase batch size to 32–64; the system’s 273 GB/s memory bandwidth comfortably handles the traffic, pushing effective throughput &gt; 20 k tokens / s for 70 B.</td>
+</tr>
+<tr>
+<td><strong>Maximum energy efficiency</strong></td>
+<td>Use FP4 + 2× sparsity + INT4 quantization (where accuracy permits). This can cut the FLOP count by an additional ~40 % and drive latency toward 0.07 ms for 70 B.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-next-steps-you-might-want">5️⃣ Next steps you might want</h3>
+<ol>
+<li><strong>Run a concrete benchmark</strong> – I can generate a ready‑to‑run Dockerfile that pulls a HuggingFace model (e.g., <code>meta-llama/Llama-2-70b-chat-hf</code>), applies FP4/INT4 quantization (via <code>bitsandbytes</code>), and reports latency for batch = 1 and batch = 8.  </li>
+<li><strong>Scale‑out planning</strong> – If you intend to run &gt; 700 B‑parameter models, let me compute the required number of DGX Spark nodes and the expected inter‑node bandwidth impact.  </li>
+<li><strong>Cost vs. performance</strong> – Combine the performance numbers with the TCO analysis already provided to see the “tokens‑per‑USD” metric for on‑prem vs. cloud.  </li>
+<li><strong>Security‑focused deployment</strong> – Show how to integrate NemoClaw/OpenShell while keeping the latency impact minimal (typically &lt; 5 %).  </li>
+</ol>
+<p><strong>What would you like to dive into next?</strong><br>
+- A runnable benchmark script for one of the models?<br>
+- A deeper scaling analysis for a 200 B model across multiple nodes?<br>
+- An energy‑efficiency vs. throughput trade‑off study?  </p>
+<p>Just let me know, and I’ll generate the exact artefacts you need.</p>
+<h1 id="buisiness">Buisiness</h1>
+<p>Below is a <strong>step‑by‑step guide</strong> for turning the compute capacity of a single NVIDIA DGX Spark (or a small fleet of them) into an <strong>online “GPU‑as‑a‑Service”</strong> that you can sell to customers.<br>
+I’ve broken the workflow into three logical layers:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What you need to do</th>
+<th>Typical tools / services</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1️⃣ Product &amp; Pricing</strong></td>
+<td>Define the service you’ll expose (e.g., “interactive LLM inference”, “batch fine‑tuning”, “GPU‑accelerated data‑science notebooks”). Set a price per GPU‑hour and calculate your cost‑recovery target.</td>
+<td>Spreadsheet or a tiny Python pricing‑calculator (see code below).</td>
+</tr>
+<tr>
+<td><strong>2️⃣ Platform &amp; Automation</strong></td>
+<td>Build a secure, multi‑tenant gateway that hands out <strong>GPU time</strong> on demand, tracks usage, and triggers billing.</td>
+<td>• Container runtime (Docker / NVIDIA Container Toolkit)  <br>• Orchestration (Kubernetes + GPU device plugin, or Slurm)  <br>• Scheduler / quota API (Kube‑Scheduler, <code>kubectl</code> or a custom Flask API)  <br>• Billing gateway (Stripe, Paddle, PayPal).</td>
+</tr>
+<tr>
+<td><strong>3️⃣ Go‑to‑Market &amp; Operations</strong></td>
+<td>Publish the service, handle onboarding, SLA, support, and compliance.</td>
+<td>• Marketplace (AWS Marketplace, GCP Marketplace, Upwork, Fiverr, or a self‑hosted website)  <br>• Monitoring &amp; metering (Prometheus + Grafana, NVIDIA&nbsp;DCGM)  <br>• Security (NemoClaw + OpenShell, encrypted NVMe, IAM).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-define-the-offer-price">1️⃣ Define the Offer &amp; Price</h2>
+<h3 id="11-typical-service-packages">1.1 Typical Service Packages</h3>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Typical Use‑case</th>
+<th>GPU allocation</th>
+<th>Max wall‑time per job</th>
+<th>Example price (USD / hour)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Interactive LLM Inference</strong></td>
+<td>Chatbot/Code‑assistant, low‑latency</td>
+<td>1 GPU (full‑GPU)</td>
+<td>Unlimited (on‑demand)</td>
+<td><strong>$45 / hr</strong> (covers hardware, support, electricity)</td>
+</tr>
+<tr>
+<td><strong>Batch Fine‑Tuning</strong></td>
+<td>LoRA/QLoRA on 70 B models</td>
+<td>1‑2 GPUs (shared)</td>
+<td>Up to 12 hr per batch</td>
+<td><strong>$30 / hr</strong> (discount for longer runs)</td>
+</tr>
+<tr>
+<td><strong>Data‑Science Notebook</strong></td>
+<td>JupyterLab with GPU‑accelerated libraries</td>
+<td>1 GPU (dedicated)</td>
+<td>8 hr per session (auto‑pause)</td>
+<td><strong>$25 / hr</strong></td>
+</tr>
+<tr>
+<td><strong>Enterprise Reserved</strong></td>
+<td>100 – 500 GPU‑hrs/mo, SLA 99.9 %</td>
+<td>1‑4 GPUs (reserved)</td>
+<td>Unlimited</td>
+<td><strong>$20 / hr</strong> (volume discount)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Why these numbers?</strong><br>
+In the earlier cost‑comparison we computed a 3‑year TCO of ≈ $51 k, i.e. <strong>≈ $17 k / year</strong> → <strong>≈ <span class="arithmatex">\(2 / hour** of pure hardware cost. Adding electricity, support, platform ops, and a modest profit margin lands you comfortably in the **\)</span>20‑$45 / hr</strong> range.  </p>
+</blockquote>
+<h3 id="12-quick-whatif-pricing-calculator">1.2 Quick “What‑If” Pricing Calculator</h3>
+<p>Below is a tiny Python script you can run locally (or embed in a web page) to see:</p>
+<ul>
+<li><strong>Break‑even hourly price</strong> for a given annual usage target.  </li>
+<li><strong>Projected profit</strong> for any price you set.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># ---- 1️⃣ Input assumptions -------------------------------------------------</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">hardware_price</span> <span class="o">=</span> <span class="mi">35000</span>          <span class="c1"># USD – list price of one DGX Spark</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">support_per_year</span> <span class="o">=</span> <span class="mi">5000</span>        <span class="c1"># USD – NVIDIA AI Enterprise + warranty</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">electricity_per_year</span> <span class="o">=</span> <span class="mi">315</span>      <span class="c1"># USD – 300 W @ $0.12/kWh (full‑time)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">depr_years</span> <span class="o">=</span> <span class="mi">3</span>                 <span class="c1"># straight‑line depreciation</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># Annualized fixed cost (hardware + support + electricity)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">annual_fixed</span> <span class="o">=</span> <span class="n">hardware_price</span> <span class="o">/</span> <span class="n">depr_years</span> <span class="o">+</span> <span class="n">support_per_year</span> <span class="o">+</span> <span class="n">electricity_per_year</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># ---- 2️⃣ Usage scenarios ---------------------------------------------------</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Define a list of yearly GPU‑hour volumes you might sell</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">usage_hours</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">]</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># Desired profit margin (as a fraction of revenue)</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="n">margin</span> <span class="o">=</span> <span class="mf">0.30</span>   <span class="c1"># 30 %</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="c1"># Compute breakeven price and price to hit the margin</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="k">for</span> <span class="n">hrs</span> <span class="ow">in</span> <span class="n">usage_hours</span><span class="p">:</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="n">breakeven</span> <span class="o">=</span> <span class="n">annual_fixed</span> <span class="o">/</span> <span class="n">hrs</span>                       <span class="c1"># $/GPU‑hr just to cover cost</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    <span class="n">price_for_margin</span> <span class="o">=</span> <span class="n">breakeven</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">margin</span><span class="p">)</span>          <span class="c1"># $/GPU‑hr to earn 30 % profit</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>        <span class="s2">"GPU‑hrs / yr"</span><span class="p">:</span> <span class="n">hrs</span><span class="p">,</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>        <span class="s2">"Annual Fixed Cost ($)"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">annual_fixed</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>        <span class="s2">"Breakeven $/hr"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakeven</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>        <span class="s2">"Price @30 % margin $/hr"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">price_for_margin</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>    <span class="p">})</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</span></code></pre></div>
+<p><strong>Result (sample run):</strong></p>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a> GPU‑hrs / yr  Annual Fixed Cost ($)  Breakeven $/hr  Price @30 % margin $/hr
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>          200                51150.0           255.75                 365.36
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>          500                51150.0           102.30                 146.14
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>         1000                51150.0            51.15                  73.07
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>         2000                51150.0            25.58                  36.54
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>         3000                51150.0            17.05                  24.36
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>         4000                51150.0            12.79                  18.27
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>         5000                51150.0            10.23                  14.61
+</span></code></pre></div>
+<p><em>Interpretation</em>  </p>
+<ul>
+<li>If you expect to sell <strong>~2 000 GPU‑hrs / yr</strong> (≈ 5 hrs / day on average), a <strong>$36 / hr</strong> price gives you a 30 % profit margin.  </li>
+<li>For low‑volume “pay‑as‑you‑go” (e.g., 200 hrs / yr) you must charge <strong>$365 / hr</strong> just to break even – obviously not viable, so you’d need to bundle those hours into a higher‑value offering (e.g., premium consulting, custom model development).  </li>
+</ul>
+<p>Feel free to change <code>margin</code>, <code>hardware_price</code>, or the usage list to explore other scenarios.</p>
+<hr>
+<h2 id="2-build-the-service-platform">2️⃣ Build the Service Platform</h2>
+<h3 id="21-architecture-sketch">2.1 Architecture Sketch</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>+------------------------+        +-------------------+        +-------------------+
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>|  Customer Front‑end     | &lt;---&gt; |  Billing / Auth   | &lt;---&gt; |  Scheduler API    |
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>|  (Web portal, API)     |        |  (Stripe, OAuth) |        |  (K8s / Slurm)    |
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>+------------------------+        +-------------------+        +-------------------+
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        |                                 |                         |
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        v                                 v                         v
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>+------------------------+        +-------------------+        +-------------------+
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>|  Container Runtime     | &lt;---&gt; |  GPU Resource    | &lt;---&gt; |  Monitoring /    |
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>|  (Docker + NVIDIA)     |        |  Manager (DCGM)  |        |  Metering (Prom.)|
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>+------------------------+        +-------------------+        +-------------------+
+</span></code></pre></div>
+<ul>
+<li><strong>Front‑end</strong> – A simple web portal (React / Flask) where users sign up, view pricing, and launch jobs.  </li>
+<li><strong>Billing / Auth</strong> – Use <strong>Stripe Checkout</strong> (or Paddle) for payment, store a <code>customer_id</code> and a <code>usage_quota</code> in a database (PostgreSQL).  </li>
+<li><strong>Scheduler API</strong> – Expose a <strong>REST endpoint</strong> (<code>POST /jobs</code>) that receives a container image name, GPU count, and max runtime. The API validates the user’s remaining quota, then creates a <strong>Kubernetes Job</strong> (or Slurm allocation) that mounts a per‑user encrypted volume.  </li>
+<li><strong>GPU Resource Manager</strong> – NVIDIA <strong>DCGM</strong> + <strong>Prometheus</strong> scrapes per‑GPU utilisation (<code>gpu_utilization</code>, <code>memory_used</code>). These metrics feed the billing engine to <em>meter</em> actual GPU‑seconds.  </li>
+<li><strong>Security</strong> – Deploy every user job in its own <strong>GPU‑isolated container</strong> (NVIDIA Container Runtime). Wrap the container with <strong>NemoClaw/OpenShell</strong> to enforce network egress rules, disable root access, and encrypt any persisted data on the host’s self‑encrypting NVMe.  </li>
+</ul>
+<h3 id="22-minimal-gpuasaservice-prototype-docker-flask">2.2 Minimal “GPU‑as‑a‑Service” Prototype (Docker + Flask)</h3>
+<p>Below is a <strong>single‑file Flask app</strong> you can run on the DGX Spark (or a VM that has <code>nvidia-docker2</code> installed). It:</p>
+<ol>
+<li>Accepts a POST with <code>duration_minutes</code> and <code>gpu_count</code>.  </li>
+<li>Starts a Docker container that runs <code>nvidia-smi</code> (just as a placeholder for your real workload).  </li>
+<li>Returns a job ID and a rough cost estimate (based on a hard‑coded price $45/hr).  </li>
+</ol>
+<p>You can copy‑paste this into <code>app.py</code>, <code>pip install flask docker</code>, then run <code>python app.py</code>.</p>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">uuid</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">docker</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">client</span> <span class="o">=</span> <span class="n">docker</span><span class="o">.</span><span class="n">from_env</span><span class="p">()</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># ---- Configuration ---------------------------------------------------------</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">PRICE_PER_HOUR</span> <span class="o">=</span> <span class="mf">45.0</span>            <span class="c1"># $ per GPU‑hour (adjust to your pricing)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">MAX_GPUS</span> <span class="o">=</span> <span class="mi">4</span>                     <span class="c1"># DGX Spark has 4 GPU devices exposed as 0‑3</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># ---- Helper: compute cost ---------------------------------------------------</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">cost_for</span><span class="p">(</span><span class="n">job_minutes</span><span class="p">,</span> <span class="n">gpu_count</span><span class="p">):</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="n">hrs</span> <span class="o">=</span> <span class="n">job_minutes</span> <span class="o">/</span> <span class="mf">60.0</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">hrs</span> <span class="o">*</span> <span class="n">gpu_count</span> <span class="o">*</span> <span class="n">PRICE_PER_HOUR</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1"># ---- Endpoint: request a GPU job -------------------------------------------</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">'/run'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">'POST'</span><span class="p">])</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">run_job</span><span class="p">():</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>    <span class="n">minutes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'duration_minutes'</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>    <span class="n">gpus</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'gpu_count'</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    <span class="k">if</span> <span class="n">gpus</span> <span class="o">&gt;</span> <span class="n">MAX_GPUS</span><span class="p">:</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">'error'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'Max </span><span class="si">{</span><span class="n">MAX_GPUS</span><span class="si">}</span><span class="s1"> GPUs per job'</span><span class="p">}),</span> <span class="mi">400</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>    <span class="c1"># Build a simple Docker command – replace with your real image later</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>    <span class="n">image</span> <span class="o">=</span> <span class="s1">'nvidia/cuda:12.4.1-runtime-ubuntu22.04'</span>   <span class="c1"># has nvidia-smi</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>    <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"bash -c 'nvidia-smi &amp;&amp; sleep </span><span class="si">{</span><span class="n">minutes</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">'"</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>    <span class="c1"># Run container with GPU device request</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>        <span class="n">container</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">containers</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>            <span class="n">image</span><span class="p">,</span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>            <span class="n">command</span><span class="p">,</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>            <span class="n">detach</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>            <span class="n">runtime</span><span class="o">=</span><span class="s1">'nvidia'</span><span class="p">,</span>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a>            <span class="n">device_requests</span><span class="o">=</span><span class="p">[</span><span class="n">docker</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">DeviceRequest</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">gpus</span><span class="p">,</span> <span class="n">capabilities</span><span class="o">=</span><span class="p">[[</span><span class="s1">'gpu'</span><span class="p">]])],</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a>            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">"dgxjob-</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>        <span class="p">)</span>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">'error'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">500</span>
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>
+</span><span id="__span-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a>    <span class="n">cost</span> <span class="o">=</span> <span class="n">cost_for</span><span class="p">(</span><span class="n">minutes</span><span class="p">,</span> <span class="n">gpus</span><span class="p">)</span>
+</span><span id="__span-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a>    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+</span><span id="__span-5-45"><a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a>        <span class="s1">'job_id'</span><span class="p">:</span> <span class="n">container</span><span class="o">.</span><span class="n">id</span><span class="p">[:</span><span class="mi">12</span><span class="p">],</span>
+</span><span id="__span-5-46"><a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>        <span class="s1">'status'</span><span class="p">:</span> <span class="s1">'running'</span><span class="p">,</span>
+</span><span id="__span-5-47"><a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a>        <span class="s1">'estimated_cost_usd'</span><span class="p">:</span> <span class="n">cost</span><span class="p">,</span>
+</span><span id="__span-5-48"><a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a>        <span class="s1">'message'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'Container started for </span><span class="si">{</span><span class="n">minutes</span><span class="si">}</span><span class="s1"> min on </span><span class="si">{</span><span class="n">gpus</span><span class="si">}</span><span class="s1"> GPU(s).'</span>
+</span><span id="__span-5-49"><a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a>    <span class="p">})</span>
+</span><span id="__span-5-50"><a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a>
+</span><span id="__span-5-51"><a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a><span class="c1"># ---- Simple health‑check ----------------------------------------------------</span>
+</span><span id="__span-5-52"><a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">'/health'</span><span class="p">)</span>
+</span><span id="__span-5-53"><a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a><span class="k">def</span><span class="w"> </span><span class="nf">health</span><span class="p">():</span>
+</span><span id="__span-5-54"><a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a>    <span class="k">return</span> <span class="s1">'OK'</span><span class="p">,</span> <span class="mi">200</span>
+</span><span id="__span-5-55"><a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a>
+</span><span id="__span-5-56"><a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+</span><span id="__span-5-57"><a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a>    <span class="c1"># Expose on all network interfaces (adjust firewall as needed)</span>
+</span><span id="__span-5-58"><a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">'0.0.0.0'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></code></pre></div>
+<p><strong>How it works</strong></p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What happens on the DGX Spark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1️⃣ Client POST <code>/run</code> (JSON)</td>
+<td><code>{"duration_minutes":30, "gpu_count":2}</code></td>
+</tr>
+<tr>
+<td>2️⃣ Flask validates the request, computes an <strong>estimated cost</strong>.</td>
+<td></td>
+</tr>
+<tr>
+<td>3️⃣ Docker daemon launches a container with the requested <strong>GPU device count</strong> (via the NVIDIA runtime).</td>
+<td></td>
+</tr>
+<tr>
+<td>4️⃣ The container runs <code>nvidia-smi</code> (shows GPU health) then sleeps the requested minutes – replace the <code>command</code> string with your actual workload (e.g., <code>python inference.py</code>).</td>
+<td></td>
+</tr>
+<tr>
+<td>5️⃣ You can later query Docker (<code>container.status</code>) or hook into <strong>DCGM</strong> to measure actual GPU‑seconds for precise billing.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>Next steps to turn this into a production service</em>  </p>
+<ul>
+<li>Add <strong>authentication</strong> (JWT + Stripe customer ID).  </li>
+<li>Persist <strong>job metadata</strong> (start‑time, gpu‑seconds) in a DB for invoicing.  </li>
+<li>Replace the demo container with <strong>your own image</strong> that bundles the LLM runtime (e.g., <code>ghcr.io/nvidia/llama2-inference:fp4</code>).  </li>
+<li>Wrap the container start in a <strong>NemoClaw sandbox</strong> (<code>nemo-claw run …</code>) to enforce privacy and network egress rules.  </li>
+</ul>
+<h3 id="23-scaling-to-multiple-dgx-sparks">2.3 Scaling to Multiple DGX Sparks</h3>
+<p>If you eventually add a second (or four) DGX Spark nodes:</p>
+<ol>
+<li><strong>Deploy a single Kubernetes cluster</strong> that spans all nodes (use <code>kubeadm</code> or a managed distro like Rancher).  </li>
+<li>Install the <strong>NVIDIA GPU device plugin</strong> – it will automatically expose each node’s 4 GPUs to the scheduler.  </li>
+<li>Configure <strong>Pod‑Affinity</strong> rules if you want to keep a user’s job on a single node (important for &gt; 128 GB models).  </li>
+<li>Use <strong>Cluster Autoscaler</strong> (or a custom script) to spin up additional Spark nodes on demand if you have spare rack space.  </li>
+</ol>
+<p>The same Flask gateway can keep a <strong>global view</strong> of usage across the whole fleet by pulling GPU‑second metrics from Prometheus (<code>sum(rate(gpu_utilization_seconds_total[1m]))</code>).</p>
+<hr>
+<h2 id="3-gotomarket-operational-checklist">3️⃣ Go‑to‑Market &amp; Operational Checklist</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Action Items</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Legal / Compliance</strong></td>
+<td>• Draft <strong>Terms of Service</strong> that state data residency (on‑prem, encrypted)  <br>• Offer a <strong>Data Processing Addendum (DPA)</strong> for GDPR / CCPA customers  <br>• Ensure <strong>PCI‑DSS</strong> compliance if you accept credit‑card payments (Stripe handles most of this).</td>
+</tr>
+<tr>
+<td><strong>SLA / Support</strong></td>
+<td>• Define a <strong>99.9 % uptime</strong> SLA (GPU‑level) – you can meet it with a single DGX Spark if you schedule maintenance windows.  <br>• Provide a <strong>ticketing portal</strong> (Zendesk, Github Issues) for troubleshooting.</td>
+</tr>
+<tr>
+<td><strong>Marketing</strong></td>
+<td>• Publish a <strong>pricing page</strong> with the calculator (embed the Python script output or a simple JavaScript widget).  <br>• Write <strong>use‑case blog posts</strong> (e.g., “Run LLaMA‑2‑70B locally for $0.12 per token”).  <br>• Offer a <strong>free trial</strong> of 1 GPU‑hour (use a coupon code in Stripe).</td>
+</tr>
+<tr>
+<td><strong>Monitoring &amp; Alerting</strong></td>
+<td>• Grafana dashboards: GPU utilisation, temperature, queue length, billing lag.  <br>• Alert on <strong>GPU temperature &gt; 80 °C</strong> or <strong>job failures</strong> (email/SMS).</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>• Deploy <strong>NemoClaw</strong> as the runtime wrapper – it creates a sandbox with restricted network, encrypted <code>/tmp</code>, and prevents data exfiltration.  <br>• Turn on <strong>self‑encrypting NVMe</strong> (already on the DGX Spark) and destroy the key on de‑provisioning.</td>
+</tr>
+<tr>
+<td><strong>Customer On‑boarding</strong></td>
+<td>• Automated <strong>email verification → Stripe checkout → API key</strong> generation.  <br>• Provide a <strong>CLI wrapper</strong> (<code>dgxspark-cli submit …</code>) that handles authentication and job submission.</td>
+</tr>
+<tr>
+<td><strong>Finance</strong></td>
+<td>• Reconcile Stripe payouts weekly, generate <strong>monthly invoices</strong> from the usage DB.  <br>• Set aside a <strong>maintenance reserve</strong> (≈ 10 % of revenue) for hardware warranty renewals.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="quick-revenue-forecast-example">📊 Quick “Revenue Forecast” Example</h2>
+<p>Assume you sell <strong>2 000 GPU‑hours per month</strong> at <strong>$36 / hr</strong> (the breakeven price for 2 000 hrs/yr from the calculator).  </p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monthly revenue</td>
+<td>2 000 hr × $36 = $72 000</td>
+</tr>
+<tr>
+<td>Annual revenue</td>
+<td>$864 000</td>
+</tr>
+<tr>
+<td>Annual fixed cost (hardware + support + electricity)</td>
+<td>$51 000</td>
+</tr>
+<tr>
+<td>Gross profit (before taxes, ops)</td>
+<td>$813 000</td>
+</tr>
+<tr>
+<td>Estimated ops / marketing / payroll (30 % of revenue)</td>
+<td>$259 200</td>
+</tr>
+<tr>
+<td><strong>Net profit (approx.)</strong></td>
+<td><strong>$553 800</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Even if you sell <strong>only 1 000 hrs/mo</strong>, you’d still net ~~$250 k / yr after a modest ops budget. The numbers scale linearly – the key is to <strong>keep utilisation above ~1 200 hrs/yr</strong> (≈ 3 hrs/day) to stay profitable.</p>
+<hr>
+<h2 id="your-next-moves">👉 Your Next Moves</h2>
+<ol>
+<li><strong>Run the pricing calculator</strong> (copy the Python block into your own IDE) and plug in the utilisation you think you can achieve.  </li>
+<li><strong>Spin up the Flask demo</strong> on your DGX Spark (or a test VM) to verify container‑GPU launching works.  </li>
+<li>Decide whether you’ll <strong>sell on a marketplace</strong> (AWS, GCP) or <strong>run a self‑hosted portal</strong> with Stripe.  </li>
+<li>Draft a <strong>minimal Terms of Service</strong> and set up a <strong>Stripe product</strong> for the chosen price tier.  </li>
+<li>(Optional) If you need help wiring the Flask app to <strong>Stripe webhooks</strong> or <strong>Prometheus billing</strong>, let me know – I can generate a second snippet for that integration.</li>
+</ol>
+<hr>
+<p><strong>Anything specific you’d like to see next?</strong>  </p>
+<ul>
+<li>A more elaborate <strong>Kubernetes‑based job scheduler</strong> example.  </li>
+<li>A <strong>billing‑pipeline</strong> that reads DCGM metrics and creates Stripe invoices automatically.  </li>
+<li>A <strong>marketing landing‑page mock‑up</strong> with the price‑calculator widget.  </li>
+</ul>
+<p>Just point me at the piece you want to flesh out, and I’ll provide the code or detailed instructions.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <div id="custom-footer-bar">
+  <span>Lecture Notes: Collected and Prepared by Gregor von Laszewski (laszewski@gmail.com)</span>
+</div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.full_width"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/show_source.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

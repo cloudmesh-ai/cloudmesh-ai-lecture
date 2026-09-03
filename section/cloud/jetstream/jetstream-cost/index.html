@@ -1,0 +1,4526 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Practitioners Guide">
+      
+      
+        <meta name="author" content="Gregor von Laszewski">
+      
+      
+      
+        <link rel="prev" href="../jetstream-multi/">
+      
+      
+        <link rel="next" href="../../chameleon/horizon/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Cost - Lecture Notes: CloudComputing, DevOps, and AI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../custom.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#jetstream-2-understanding-serviceunit-costs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-header__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lecture Notes: CloudComputing, DevOps, and AI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cost
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-nav__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Lecture Notes: CloudComputing, DevOps, and AI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LECTURES
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LECTURES
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OVERVIEW
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OVERVIEW
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/syllabus/cloud-computing-devops-ai-syllabus.pdf" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.0 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/01.1-syllabus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.1 Syllabus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/01.2-contribute-lecture-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.2 Contribute
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/01.4-supplemental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.4 Supplemental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/01.5-piazza/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5 Piazza
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_6">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_6" id="__nav_2_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6 ACCOUNTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L.1.6 ACCOUNTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/local/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.1 Local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/access-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.2 Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/chameleon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.3 Chameleon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.4 AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/azure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.5 Azure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.6.6 Google
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLOUD
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLOUD
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/cloud/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/cloud/virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.2 Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/cloud/virtual-machine-technologies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.3 VM Technologies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/cloud/virtualization-landscape/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.4 VM Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_5">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_5" id="__nav_2_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2 Local
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.2 Local
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../local/vm-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../local/multipass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Multipass
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../local/qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Qemu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../local/vagrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Vagrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../local/virsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virsh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../local/virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6" id="__nav_2_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.3 Academia
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.3 Academia
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6_1" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6_1" id="__nav_2_2_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.3.1 Jetstream
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_6_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.3.1 Jetstream
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jetstream-vm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jetstream-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hosting a Website
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jetstream-multi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple VMs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cost
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cost
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-a-service-unit-su" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What is a Service Unit (SU)?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-instanceflavor-su-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Instance‑Flavor SU Costs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-storage-objectstore-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Storage &amp; Object‑Store Costs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-networking-data-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Networking (Data Transfer)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-how-to-estimate-your-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. How to Estimate Your Allocation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-budgeting-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Budgeting Tips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-example-calculations-appendix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Example Calculations (Appendix)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-exchange-calculator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: Exchange Calculator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Exchange Calculator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It Matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Use It
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-jetstream-2-allocation-estimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: Jetstream 2 Allocation Estimator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Jetstream 2 Allocation Estimator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#appendix-jetstream-2-allocation-estimator-calculator-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: Jetstream 2 Allocation Estimator &amp; Calculator Script
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Jetstream 2 Allocation Estimator &amp; Calculator Script">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-allocation-estimator-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Allocation Estimator Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Use It
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-whatif-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick “What‑If” Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-implementation-su-usage-calculator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Implementation: SU Usage Calculator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpreting-the-example-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpreting the Example Result
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpreting the Example Result">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-the-script-for-your-own-workloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to use the script for your own workloads
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6_2" id="__nav_2_2_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.3.2 Chameleon
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.3.2 Chameleon
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chameleon/horizon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chameleon/python-chi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os-chi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chameleon/os-commandline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os-command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chameleon/libcloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libcloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chameleon/os-python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os-python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASSIGNMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ASSIGNMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/assignments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/assignments/assignments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LUC_388_488
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="#separator" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ---
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PYTHON
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PYTHON
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.2 Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3">
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3 Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.3 Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.1 Interactive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.2 Editor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.3 Language
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4">
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5 Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.5 Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-click/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.1 Click
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-docopts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.2 DocOpts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-cmd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.3 CMD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6 Processes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.6 Processes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-subprocess/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.1 Subprocess
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.2 Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.3 Queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.4 Schedulers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6">
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7 Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.7 Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.1 Basic Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-wordcount/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.2 Wordcount
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7">
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8 Graphs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.8 Graphs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.1 Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-matplotlib/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.2 Matplotlib
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8">
+        
+          
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9 Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.9 Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-ssl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.1 SSL/TLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.2 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LINUX
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LINUX
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.2 Text one Liners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/refcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.1 RefCards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/ubuntu-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.2 Ubuntu CLI Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.4 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/ssh-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.5 SSH on Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/zsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.6 ZSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/recording/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.7 Recording
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WRITING
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    WRITING
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/plagiarism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.1 Plagarism
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.2 Markdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/emacs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.3 Emacs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_4">
+        
+          
+          <label class="md-nav__link" for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4 Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    W.4 Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/ppt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.1 PPT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/mermaid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.2 Mermaid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/graphviz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.3 Graphviz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACKNOWLEDGEMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ACKNOWLEDGEMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../acknowledgements/acknowledgements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A.1 Acknowledgments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-a-service-unit-su" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What is a Service Unit (SU)?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-instanceflavor-su-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Instance‑Flavor SU Costs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-storage-objectstore-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Storage &amp; Object‑Store Costs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-networking-data-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Networking (Data Transfer)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-how-to-estimate-your-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. How to Estimate Your Allocation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-budgeting-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Budgeting Tips
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-example-calculations-appendix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Example Calculations (Appendix)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-exchange-calculator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: Exchange Calculator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Exchange Calculator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It Matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Use It
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-jetstream-2-allocation-estimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: Jetstream 2 Allocation Estimator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Jetstream 2 Allocation Estimator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#appendix-jetstream-2-allocation-estimator-calculator-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: Jetstream 2 Allocation Estimator &amp; Calculator Script
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix: Jetstream 2 Allocation Estimator &amp; Calculator Script">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-allocation-estimator-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Allocation Estimator Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Use It
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-whatif-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick “What‑If” Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-implementation-su-usage-calculator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Implementation: SU Usage Calculator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpreting-the-example-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpreting the Example Result
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interpreting the Example Result">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-the-script-for-your-own-workloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to use the script for your own workloads
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="jetstream-2-understanding-serviceunit-costs">Jetstream 2 - Understanding Service‑Unit Costs</h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All values are expressed in SUs; dollar amounts are omitted on purpose.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">How to Use This Document</p>
+<ol>
+<li><strong>Identify</strong> the flavors, storage, and network you anticipate using.  </li>
+<li><strong>Apply</strong> the SU‑hour rates from Sections 2‑4.  </li>
+<li><strong>Multiply</strong> the hourly total by 730 h (≈ 1 month) to obtain a monthly SU estimate.  </li>
+<li><strong>Compare</strong> the result with your allocated SU budget (or use the Exchange Calculator to see the dollar‑to‑SU conversion).  </li>
+<li><strong>Iterate</strong> – adjust instance sizes, switch to pre‑emptible flavors, or reduce egress/storage until the forecast fits your allocation.</li>
+</ol>
+<p>With these steps and the information in this document, you can plan, justify, and stay within your Jetstream 2 Service‑Unit budget without ever needing to convert back to dollars.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We have a total budget of 200,000 SUs for this project, which must be shared across AWS, Azure, and Google. Note that an expenditure of $1 on AWS is roughly equivalent to 40 SUs. Additionally, students must provide well-formulated project descriptions with detailed cost estimations to justify the public cloud credits. These estimations must be generated using the public cloud cost estimator, and a link to the results must be provided.</p>
+</div>
+<hr>
+<h2 id="1-what-is-a-service-unit-su">1. What is a Service Unit (SU)?</h2>
+<p>Jetstream 2 uses <strong>SUs</strong> as the sole fiscal metric for all allocations.  An SU is a <em>normalized</em> measure of the compute, memory, storage, and networking resources consumed over time.  </p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>SU definition (per‑hour)</th>
+<th>Typical interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPU core</strong></td>
+<td><strong>1 SU / core‑hour</strong></td>
+<td>1 core running for 1 h consumes 1 SU.</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td><strong>0.5 SU / GB‑hour</strong></td>
+<td>2 GB of RAM for 1 h → 1 SU.</td>
+</tr>
+<tr>
+<td><strong>GPU</strong></td>
+<td><strong>6 SU / GPU‑hour</strong></td>
+<td>1 GPU for 1 h → 6 SU.</td>
+</tr>
+<tr>
+<td><strong>Block storage</strong></td>
+<td><strong>0.25 SU / GB‑month</strong> (≈ 0.00035 SU / GB‑hour)</td>
+<td>100 GB for a full month ≈ 25 SU.</td>
+</tr>
+<tr>
+<td><strong>Object storage (Swift)</strong></td>
+<td><strong>0.15 SU / GB‑month</strong> (≈ 0.00021 SU / GB‑hour)</td>
+<td>50 GB for a month ≈ 7.5 SU.</td>
+</tr>
+<tr>
+<td><strong>Data egress (network out)</strong></td>
+<td><strong>0.01 SU / GB</strong></td>
+<td>10 GB transferred out → 0.1 SU.</td>
+</tr>
+<tr>
+<td><strong>Data ingress</strong></td>
+<td><strong>0 SU</strong></td>
+<td>No charge for inbound traffic.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The rates above are the <em>default</em> rates published by the Jetstream 2 allocation documentation.  They can be overridden for special projects (e.g., GPU‑heavy science) but the default rates cover 95 % of typical use cases.</p>
+</div>
+<hr>
+<h2 id="2-instanceflavor-su-costs">2. Instance‑Flavor SU Costs</h2>
+<p>Jetstream 2 offers a set of pre‑defined <em>flavors</em> (CPU + RAM combos).  The SU‑hour cost for each flavor is simply the sum of the CPU and memory components:</p>
+<div class="arithmatex">\[\text{SU‑hour} = (\#\text{cores}\times 1) \;+\; (\text{RAM(GB)} \times 0.5) \;+\; \begin{cases} 
+6 &amp; \text{if GPU enabled} \\ 
+0 &amp; \text{otherwise} 
+\end{cases}\]</div>
+<p><em>The GPU‑enabled flavors add the extra 6 SU / GPU‑hour on top of the CPU+RAM cost.</em>  </p>
+<table>
+<thead>
+<tr>
+<th>Flavor</th>
+<th>vCPU</th>
+<th>RAM (GB)</th>
+<th>SU‑hour</th>
+<th>SU‑day</th>
+<th>SU‑month</th>
+<th>SU‑year</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>m1.tiny</strong></td>
+<td>1</td>
+<td>1</td>
+<td>1 + 0.5 = <strong>1.5</strong></td>
+<td>36</td>
+<td>1,095</td>
+<td>13,140</td>
+</tr>
+<tr>
+<td><strong>m1.small</strong></td>
+<td>1</td>
+<td>2</td>
+<td>1 + 1 = <strong>2</strong></td>
+<td>48</td>
+<td>1,460</td>
+<td>17,520</td>
+</tr>
+<tr>
+<td><strong>m1.medium</strong></td>
+<td>2</td>
+<td>4</td>
+<td>2 + 2 = <strong>4</strong></td>
+<td>96</td>
+<td>2,920</td>
+<td>35,040</td>
+</tr>
+<tr>
+<td><strong>m1.large</strong></td>
+<td>4</td>
+<td>8</td>
+<td>4 + 4 = <strong>8</strong></td>
+<td>192</td>
+<td>5,840</td>
+<td>70,080</td>
+</tr>
+<tr>
+<td><strong>m1.xlarge</strong></td>
+<td>8</td>
+<td>16</td>
+<td>8 + 8 = <strong>16</strong></td>
+<td>384</td>
+<td>11,680</td>
+<td>140,160</td>
+</tr>
+<tr>
+<td><strong>m1.2xlarge</strong></td>
+<td>16</td>
+<td>32</td>
+<td>16 + 16 = <strong>32</strong></td>
+<td>768</td>
+<td>23,360</td>
+<td>280,320</td>
+</tr>
+<tr>
+<td><strong>g1.large (GPU)</strong></td>
+<td>4</td>
+<td>16</td>
+<td>(4 + 8) + 6 = <strong>18</strong></td>
+<td>432</td>
+<td>13,140</td>
+<td>157,680</td>
+</tr>
+<tr>
+<td><strong>g1.xlarge (GPU)</strong></td>
+<td>8</td>
+<td>32</td>
+<td>(8 + 16) + 6 = <strong>30</strong></td>
+<td>720</td>
+<td>21,900</td>
+<td>262,800</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This means that a single  <strong>m1.2xlarge</strong> vm even without GPU will exhaust the budgest of this project. You must be frugal and use your local computer first before going on the cloud (including jetstream). We want you to use them, but you have to develop a detailed plan how you can grow from very small instances to larger. It also means you need to limit the datasets you use.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you feel you need mor hours beyond this class, I am happy to work with you on getting an allocation. However they may be only approved on a quaterly basis once the class is over. However, experience shows, that they will only allow non public cloud resources. So using resources from Access-CI or chameleon cloud may be the only option for you. Also note that students are not allowed to request service hours and the activity must be  aresearch project and not a production service. </p>
+</div>
+<h2 id="3-storage-objectstore-costs">3. Storage &amp; Object‑Store Costs</h2>
+<p>Storage in Jetstream 2 is primarily split between block storage (for VM disks) and object storage (for unstructured data). Unlike compute, storage is billed based on the amount of capacity reserved per month.</p>
+<table>
+<thead>
+<tr>
+<th>Storage type</th>
+<th>Unit</th>
+<th>SU cost (per unit)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Block (Cinder) volume</strong></td>
+<td>GB‑month</td>
+<td><strong>0.25 SU</strong></td>
+</tr>
+<tr>
+<td><strong>Object (Swift) bucket</strong></td>
+<td>GB‑month</td>
+<td><strong>0.15 SU</strong></td>
+</tr>
+<tr>
+<td><strong>Snapshot</strong></td>
+<td>GB‑month</td>
+<td><strong>0.30 SU</strong> (double the block rate)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong> If you reserve 100 GB of Block Storage for one month, the cost is 100 GB × 0.25 SU = 25 SU for that month.</p>
+<p><em>Because allocations are typically measured </em><em>per‑hour</em><em>, convert the monthly rate by dividing by the average number of hours in a month (≈ 730 h).  Example: 0.25 SU / GB‑month → 0.00034 SU / GB‑hour.</em></p>
+<hr>
+<h2 id="4-networking-data-transfer">4. Networking (Data Transfer)</h2>
+<p>Networking costs are only applied to data leaving the Jetstream 2 environment. Inbound traffic (ingress) is free, which encourages importing large datasets into the cloud.</p>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Unit</th>
+<th>SU cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Egress (outbound)</strong></td>
+<td>GB</td>
+<td><strong>0.01 SU</strong></td>
+</tr>
+<tr>
+<td><strong>Ingress (inbound)</strong></td>
+<td>GB</td>
+<td><strong>0 SU</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong> Transferring a 50 GB dataset from Jetstream 2 to an external server costs 50 GB × 0.01 SU = 0.5 SU.</p>
+<p>Only traffic that leaves the Jetstream 2 cloud (e.g., to the public internet or another federation site) is charged.</p>
+<hr>
+<h2 id="5-how-to-estimate-your-allocation">5. How to Estimate Your Allocation</h2>
+<p>Jetstream provides two <strong>interactive tools</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it does</th>
+<th>How to use it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Allocation Estimator</strong></td>
+<td>Calculates total SU cost for a set of resources (instances, storage, network).</td>
+<td>Select flavors, number of instances, storage size, and expected egress. The estimator returns the <em>total SU per hour</em> and the <em>monthly SU total</em> (hourly × 730 h).</td>
+</tr>
+<tr>
+<td><strong>Exchange Calculator</strong></td>
+<td>Converts a dollar‑based budget (if you have a grant) into an SU budget, using the current exchange rate (≈ 10 USD = 1 SU).</td>
+<td>Input your dollar amount → get the equivalent SU budget.</td>
+</tr>
+</tbody>
+</table>
+<p>Both tools are accessible from the “Getting Started” and “Allocation” sections of the documentation.</p>
+<hr>
+<h2 id="6-budgeting-tips">6. Budgeting Tips</h2>
+<ol>
+<li><strong>Start Small</strong> – Use the <em>m1.small</em> or <em>m1.medium</em> flavors for testing.  </li>
+<li><strong>Right‑size RAM</strong> – Remember that 2 GB of RAM = 1 SU per hour; over‑provisioning RAM inflates the cost quickly.  </li>
+<li><strong>Leverage Spot/Pre‑emptible Instances</strong> – If your workload tolerates interruption, you can request <em>pre‑emptible</em> flavors that cost <strong>50 % fewer SUs</strong> (the rate shown above is for regular on‑demand instances).  </li>
+<li><strong>Batch Storage</strong> – Delete unused volumes promptly; each GB‑month of lingering storage translates into ~0.25 SU.  </li>
+<li><strong>Minimize Egress</strong> – Cache data locally when possible; every 100 GB of outbound traffic adds only 1 SU, but for large data‑intensive projects this can be significant.  </li>
+<li><strong>Use the Estimator Early</strong> – Run the Estimator with projected usage. The output can be compared against your allocated SU budget to spot over‑commitments before launching resources.</li>
+</ol>
+<hr>
+<h2 id="7-example-calculations-appendix">7. Example Calculations (Appendix)</h2>
+<p>Below are three realistic usage scenarios.  All numbers are rounded to two decimal places.</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Resources (per hour)</th>
+<th>SU‑hour breakdown</th>
+<th>Monthly SU (≈ 730 h)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A – Small Development VM</strong></td>
+<td>1 × m1.small (2 SU / h) <br> 20 GB block storage (0.00034 SU / GB‑h) <br> 5 GB egress</td>
+<td>Compute: 2.00 <br> Storage: 20 × 0.00034 = 0.01 <br> Egress: 5 × 0.01 = 0.05</td>
+<td>(2.00 + 0.01 + 0.05) × 730 ≈ 1 506 SU</td>
+</tr>
+<tr>
+<td><strong>B – Medium Data‑Processing Cluster</strong></td>
+<td>4 × m1.medium (4 SU each) = 16 SU / h <br> 500 GB block storage = 0.17 SU / h <br> 200 GB egress = 2 SU / h</td>
+<td>Compute: 16.00 <br> Storage: 0.17 <br> Egress: 2.00</td>
+<td>(16 + 0.17 + 2) × 730 ≈ 13 300 SU</td>
+</tr>
+<tr>
+<td><strong>C – GPU‑Enabled Training Job</strong></td>
+<td>2 × g1.large (18 SU each) = 36 SU / h <br> 2 TB (2 000 GB) block storage = 0.68 SU / h <br> 1 TB egress = 10 SU / h</td>
+<td>Compute+GPU: 36.00 <br> Storage: 0.68 <br> Egress: 10.00</td>
+<td>(36 + 0.68 + 10) × 730 ≈ 33 664 SU</td>
+</tr>
+</tbody>
+</table>
+<p><em>These examples illustrate how the SU cost grows with the number of cores, amount of RAM, and data movement.</em></p>
+<h2 id="8-references">8. References</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title / Content</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Instance Management – Getting Started</strong></td>
+<td>https://docs.jetstream-cloud.org/getting-started/instance-management/?h=su</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Jetstream Documentation &amp; Support Index</strong></td>
+<td>https://jetstream-cloud.org/documentation-support/index.html</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Explore &amp; Access – Allocation Overview</strong></td>
+<td>https://docs.jetstream-cloud.org/alloc/overview/#explore-access</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Exchange Calculator</strong></td>
+<td>https://allocations.access-ci.org/exchange_calculator</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Resources – Jetstream2 (Indiana) Allocation Page</strong></td>
+<td>https://allocations.access-ci.org/resources/jetstream2.indiana.access-ci.org</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Allocation Estimator</strong></td>
+<td>https://docs.jetstream-cloud.org/alloc/estimator/</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Budgeting – Allocation Guide</strong></td>
+<td>https://docs.jetstream-cloud.org/alloc/budgeting/</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Instance Flavors – General Information</strong></td>
+<td>https://docs.jetstream-cloud.org/general/instance-flavors/</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Access – Getting Started</strong></td>
+<td>https://docs.jetstream-cloud.org/general/access/</td>
+</tr>
+</tbody>
+</table>
+<p><em>(All URLs were current as of the time of writing.)</em>  </p>
+<hr>
+<h2 id="appendix-exchange-calculator">Appendix: Exchange Calculator</h2>
+<p>The <strong>Exchange Calculator</strong> (available at <a href="https://allocations.access-ci.org/exchange_calculator">https://allocations.access-ci.org/exchange_calculator</a>) is a web‑based utility that translates a monetary budget (for example, a grant award expressed in U.S. dollars) into the equivalent number of <strong>Service Units (SUs)</strong> for Jetstream 2 allocations.  </p>
+<h3 id="what-it-does">What It Does</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dollar → SU conversion</strong></td>
+<td>Enter the total dollar amount you have been awarded. The calculator applies the current exchange rate (approximately <strong>10 USD = 1 SU</strong>, though the exact rate may be updated periodically) and returns the total SU budget you can request.</td>
+</tr>
+<tr>
+<td><strong>SU → Dollar conversion</strong></td>
+<td>Conversely, you can input a target SU total to see the approximate dollar value it represents, which is helpful when discussing budget allocations with funding agencies.</td>
+</tr>
+<tr>
+<td><strong>Transparent budgeting</strong></td>
+<td>By showing the direct relationship between grant money and Jetstream resources, the tool helps you plan workloads, choose instance flavors, and stay within the limits of your allocation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-it-matters">Why It Matters</h3>
+<ul>
+<li><strong>Budget Planning</strong> – Before you start estimating compute, storage, and network usage, you can determine the exact SU ceiling you have based on your funding.</li>
+<li><strong>Allocation Requests</strong> – When completing the Jetstream allocation request form, you must report the total SU you are requesting. The Exchange Calculator provides an authoritative, reproducible figure.</li>
+<li><strong>Simple Interface</strong> – No login is required; you simply type your dollar amount and receive an instant conversion, making it ideal for quick “what‑if” scenarios.</li>
+</ul>
+<h3 id="how-to-use-it">How to Use It</h3>
+<ol>
+<li><strong>Navigate</strong> to <a href="https://allocations.access-ci.org/exchange_calculator">https://allocations.access-ci.org/exchange_calculator</a>.  </li>
+<li><strong>Enter</strong> your grant amount (or desired SU total) in the appropriate field.  </li>
+<li><strong>Click</strong> the “Calculate” button.  </li>
+<li><strong>Read</strong> the resulting SU (or dollar) value, which you can then use in the <strong>Allocation Estimator</strong> to model specific resource configurations.  </li>
+</ol>
+<p>By using the Exchange Calculator together with Jetstream’s Allocation Estimator, you can ensure that your planned experiments, storage, and data‑transfer needs fit comfortably within the SU budget derived from your funding source.</p>
+<h2 id="appendix-jetstream-2-allocation-estimator">Appendix: Jetstream 2 Allocation Estimator</h2>
+<p><strong>URL:</strong> <a href="https://docs.jetstream-cloud.org/alloc/estimator/">https://docs.jetstream-cloud.org/alloc/estimator/</a></p>
+<p><strong>What the Allocation Estimator Does</strong><br>
+The Allocation Estimator is an interactive, web‑based calculator that converts a concrete list of resources (CPU cores, RAM, GPUs, block storage, object storage, and expected outbound data) into the exact number of <strong>Service Units (SUs)</strong> your workload will consume.  </p>
+<table>
+<thead>
+<tr>
+<th>Input you provide</th>
+<th>How the tool uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Instance flavors</strong> (e.g., <em>m1.large</em>, <em>g1.xlarge</em>) and quantity</td>
+<td>Looks up the default SU‑hour rate for each flavor (CPU + RAM + GPU, if applicable) and multiplies by the number of instances.</td>
+</tr>
+<tr>
+<td><strong>Block storage size</strong> (GB)</td>
+<td>Applies the default rate of <strong>0.25 SU / GB‑month</strong> (≈ 0.00034 SU / GB‑hour) and adds the per‑hour contribution.</td>
+</tr>
+<tr>
+<td><strong>Object‑storage (Swift) size</strong> (GB)</td>
+<td>Uses <strong>0.15 SU / GB‑month</strong> (≈ 0.00021 SU / GB‑hour).</td>
+</tr>
+<tr>
+<td><strong>Data egress</strong> (GB)</td>
+<td>Charges <strong>0.01 SU / GB</strong> of outbound traffic.</td>
+</tr>
+<tr>
+<td><strong>Pre‑emptible flag</strong></td>
+<td>Halves the SU‑hour rate for any selected instances.</td>
+</tr>
+<tr>
+<td><strong>Duration</strong> (hours)</td>
+<td>The calculator multiplies the per‑hour total by the number of hours you plan to run (the UI defaults to a 30‑day month ≈ 730 h).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why Use It</strong>  </p>
+<ol>
+<li><strong>Accurate budgeting</strong> – You see the exact SU cost before you submit an allocation request.  </li>
+<li><strong>Scenario testing</strong> – Try multiple “what‑if” configurations (different flavors, storage amounts, or egress levels) and compare the resulting SU totals instantly.  </li>
+<li><strong>Compliance</strong> – The SU total you obtain can be copied directly into the Jetstream allocation request form, satisfying the required budget justification.  </li>
+</ol>
+<hr>
+<h3 id="appendix-jetstream-2-allocation-estimator-calculator-script">Appendix: Jetstream 2 Allocation Estimator &amp; Calculator Script</h3>
+<p>The <strong>Allocation Estimator</strong> is an interactive, web-based calculator that converts a concrete list of resources (CPU cores, RAM, GPUs, block storage, object storage, and expected outbound data) into the exact number of <strong>SUs</strong> your workload will consume.</p>
+<p><strong>URL:</strong> <a href="https://docs.jetstream-cloud.org/alloc/estimator/">https://docs.jetstream-cloud.org/alloc/estimator/</a></p>
+<h4 id="what-the-allocation-estimator-does">What the Allocation Estimator Does</h4>
+<table>
+<thead>
+<tr>
+<th>Input you provide</th>
+<th>How the tool uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Instance flavors</strong> (e.g., <em>m1.large</em>, <em>g1.xlarge</em>) and quantity</td>
+<td>Looks up the default SU‑hour rate for each flavor (CPU + RAM + GPU, if applicable) and multiplies by the number of instances.</td>
+</tr>
+<tr>
+<td><strong>Block storage size</strong> (GB)</td>
+<td>Applies the default rate of <strong>0.25 SU / GB‑month</strong> (≈ 0.00034 SU / GB‑hour).</td>
+</tr>
+<tr>
+<td><strong>Object‑storage (Swift) size</strong> (GB)</td>
+<td>Uses <strong>0.15 SU / GB‑month</strong> (≈ 0.00021 SU / GB‑hour).</td>
+</tr>
+<tr>
+<td><strong>Data egress</strong> (GB)</td>
+<td>Charges <strong>0.01 SU / GB</strong> of outbound traffic.</td>
+</tr>
+<tr>
+<td><strong>Pre‑emptible flag</strong></td>
+<td>Halves the SU‑hour rate for any selected instances.</td>
+</tr>
+<tr>
+<td><strong>Duration</strong> (hours)</td>
+<td>Multiplies the per‑hour total by the planned runtime (defaults to 30 days ≈ 730 h).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="why-use-it">Why Use It</h4>
+<ol>
+<li><strong>Accurate budgeting</strong> – See the exact SU cost before submitting an allocation request.</li>
+<li><strong>Scenario testing</strong> – Instantly compare different flavors, storage amounts, or egress levels.</li>
+<li><strong>Compliance</strong> – The resulting SU total can be copied directly into the allocation request form.</li>
+</ol>
+<h4 id="quick-whatif-workflow">Quick “What‑If” Workflow</h4>
+<ol>
+<li><strong>Gather</strong> your planned resources (flavor, count, storage sizes, expected egress).</li>
+<li><strong>Open</strong> the estimator at the URL above and fill in the fields.</li>
+<li><strong>Read</strong> the displayed <em>SU per hour</em> and <em>monthly SU</em>.</li>
+<li><strong>Verify Budget</strong> – If you have a dollar-based budget, use the <strong>Exchange Calculator</strong> (<a href="https://allocations.access-ci.org/exchange_calculator">https://allocations.access-ci.org/exchange_calculator</a>) to obtain your SU ceiling and ensure the estimate fits.</li>
+<li><strong>Iterate</strong> – Adjust configurations until the projected SU usage matches your allocation.</li>
+</ol>
+<hr>
+<h4 id="python-implementation-su-usage-calculator">Python Implementation: SU Usage Calculator</h4>
+<p>For those who prefer a local tool or need to automate calculations, the following Python script reproduces the <strong>Allocation Estimator</strong> logic. It allows you to define instance flavors, pre-emptible status, storage, and egress to obtain a detailed SU breakdown.</p>
+<p>(The script follows below)</p>
+<h3 id="interpreting-the-example-result">Interpreting the Example Result</h3>
+<p>The script output provides a clear breakdown of costs:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>=== Jetstream 2 SU Calculation ===
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Duration (hours): 730 (≈ 1 month)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>--- Input Summary ---
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Instances: [('m1.small', 1)]
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Block storage: 20 GB
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Object storage: 0 GB
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Egress: 5 GB
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>--- SU Breakdown (per hour) ---
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Instances SU/h:   2.0000
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>Block storage SU/h: 0.006849
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>Object storage SU/h: 0.000000
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>Egress SU/h:      0.000068
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>Total SU/h:       2.0069
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>--- Monthly SU (SU total) ---
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>Total SU for 730 h: 1465.05
+</span></code></pre></div>
+<ul>
+<li><strong>Compute</strong> (1 × <em>m1.small</em>) contributes <strong>2 SU / h</strong>.</li>
+<li><strong>Block storage</strong> (20 GB) adds <strong>≈ 0.007 SU / h</strong> (≈ 0.25 SU / GB‑month).</li>
+<li><strong>Egress</strong> (5 GB over the month) is negligible: <strong>≈ 0.00007 SU / h</strong>.</li>
+</ul>
+<p>The overall cost is <strong>≈ 2.01 SU / h</strong>, totaling <strong>~1,465 SU</strong> for a full month.</p>
+<h4 id="how-to-use-the-script-for-your-own-workloads">How to use the script for your own workloads</h4>
+<ol>
+<li><strong>Edit the <code>example_plan</code> list</strong> – e.g., <code>example_plan = [("g1.large", 2), ("m1.medium", 3)]</code>.</li>
+<li><strong>Set the <code>preemptible</code> flag</strong> to <code>True</code> if using spot/pre‑emptible instances (halves the compute rate).</li>
+<li><strong>Adjust storage and egress values</strong> (<code>block_storage_gb</code>, <code>object_storage_gb</code>, <code>egress_gb</code>).</li>
+<li><strong>Change <code>duration_hours</code></strong> for runtimes other than one month.</li>
+</ol>
+<p>Simply re‑run the script to get a revised summary. You can also expand the <code>flavors</code> dictionary or modify rate constants if allocation policies change.</p>
+<h1 id="appendix-jetstream-2-serviceunit-su-usage-calculator">Appendix Jetstream 2 – Service‑Unit (SU) Usage Calculator</h1>
+<p>This script was generated by an LLM. It is not tested for accuracy.</p>
+<p>The script reproduces the logic of the Jetstream 2 <em>Allocation Estimator</em>.<br>
+You can edit the input section at the bottom of the program to model any workload you like – change instance flavors, quantities, add GPUs, switch to pre‑emptible VMs, adjust block/object storage, outbound traffic, or the runtime duration.</p>
+<p>Below is the full Python program (already executed) and a brief interpretation of the example result.</p>
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Jetstream 2 – Service Unit (SU) usage calculator</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># ------------------------------------------------</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Default SU rates (per hour unless noted otherwise)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># See Section 1 for the detailed SU definition table.</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">SU_PER_CORE_HOUR</span> <span class="o">=</span> <span class="mf">1.0</span>          <span class="c1"># CPU core</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">SU_PER_GB_RAM_HOUR</span> <span class="o">=</span> <span class="mf">0.5</span>        <span class="c1"># RAM</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">SU_PER_GPU_HOUR</span> <span class="o">=</span> <span class="mf">6.0</span>           <span class="c1"># GPU</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">SU_PER_GB_BLOCK_MONTH</span> <span class="o">=</span> <span class="mf">0.25</span>    <span class="c1"># Block storage (Cinder)</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">SU_PER_GB_OBJECT_MONTH</span> <span class="o">=</span> <span class="mf">0.15</span>   <span class="c1"># Object storage (Swift)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">SU_PER_GB_EGRESS</span> <span class="o">=</span> <span class="mf">0.01</span>         <span class="c1"># Data out</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Convert monthly storage rates to per‑hour rates (≈730 h per month)</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">HOURS_PER_MONTH</span> <span class="o">=</span> <span class="mf">730.0</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">SU_PER_GB_BLOCK_HOUR</span> <span class="o">=</span> <span class="n">SU_PER_GB_BLOCK_MONTH</span> <span class="o">/</span> <span class="n">HOURS_PER_MONTH</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">SU_PER_GB_OBJECT_HOUR</span> <span class="o">=</span> <span class="n">SU_PER_GB_OBJECT_MONTH</span> <span class="o">/</span> <span class="n">HOURS_PER_MONTH</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="c1"># ------------------------------------------------</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="c1"># Helper: define a flavor</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="k">class</span><span class="w"> </span><span class="nc">Flavor</span><span class="p">:</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">vcpu</span><span class="p">,</span> <span class="n">ram_gb</span><span class="p">,</span> <span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">vcpu</span> <span class="o">=</span> <span class="n">vcpu</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ram_gb</span> <span class="o">=</span> <span class="n">ram_gb</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">gpu</span> <span class="o">=</span> <span class="n">gpu</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">su_per_hour</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">        </span><span class="sd">"""Base SU‑hour cost for this flavor (no pre‑emptible discount)."""</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>        <span class="c1"># See Section 2 for the SU-hour formula: (cores * 1) + (RAM * 0.5)</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>        <span class="n">su</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcpu</span> <span class="o">*</span> <span class="n">SU_PER_CORE_HOUR</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ram_gb</span> <span class="o">*</span> <span class="n">SU_PER_GB_RAM_HOUR</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gpu</span><span class="p">:</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>            <span class="n">su</span> <span class="o">+=</span> <span class="n">SU_PER_GPU_HOUR</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>        <span class="k">return</span> <span class="n">su</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="c1"># ------------------------------------------------</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="c1"># Define the available flavors (extend as needed)</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="n">flavors</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>    <span class="s2">"m1.tiny"</span><span class="p">:</span>    <span class="n">Flavor</span><span class="p">(</span><span class="s2">"m1.tiny"</span><span class="p">,</span>    <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>  <span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>    <span class="s2">"m1.small"</span><span class="p">:</span>   <span class="n">Flavor</span><span class="p">(</span><span class="s2">"m1.small"</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>  <span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>    <span class="s2">"m1.medium"</span><span class="p">:</span>  <span class="n">Flavor</span><span class="p">(</span><span class="s2">"m1.medium"</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>  <span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>    <span class="s2">"m1.large"</span><span class="p">:</span>   <span class="n">Flavor</span><span class="p">(</span><span class="s2">"m1.large"</span><span class="p">,</span>   <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span>  <span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>    <span class="s2">"m1.xlarge"</span><span class="p">:</span>  <span class="n">Flavor</span><span class="p">(</span><span class="s2">"m1.xlarge"</span><span class="p">,</span>  <span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span>  <span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>    <span class="s2">"m1.2xlarge"</span><span class="p">:</span> <span class="n">Flavor</span><span class="p">(</span><span class="s2">"m1.2xlarge"</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span> <span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>    <span class="s2">"g1.large"</span><span class="p">:</span>   <span class="n">Flavor</span><span class="p">(</span><span class="s2">"g1.large"</span><span class="p">,</span>   <span class="mi">4</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span> <span class="n">gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>   <span class="c1"># GPU‑enabled</span>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>    <span class="s2">"g1.xlarge"</span><span class="p">:</span>  <span class="n">Flavor</span><span class="p">(</span><span class="s2">"g1.xlarge"</span><span class="p">,</span>  <span class="mi">8</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span> <span class="n">gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="p">}</span>
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="c1"># ------------------------------------------------</span>
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="c1"># Core calculation function</span>
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_su</span><span class="p">(</span>
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>    <span class="n">instance_plan</span><span class="p">,</span>
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>    <span class="n">block_storage_gb</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>    <span class="n">object_storage_gb</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>    <span class="n">egress_gb</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>    <span class="n">duration_hours</span><span class="o">=</span><span class="n">HOURS_PER_MONTH</span><span class="p">,</span>
+</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>    <span class="n">preemptible</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a><span class="p">):</span>
+</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a><span class="sd">    instance_plan: list of tuples (flavor_name, quantity)</span>
+</span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a><span class="sd">    block_storage_gb, object_storage_gb, egress_gb: amounts</span>
+</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a><span class="sd">    duration_hours: total runtime (default = 1 month)</span>
+</span><span id="__span-1-61"><a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a><span class="sd">    preemptible: if True, halve the compute SU rate</span>
+</span><span id="__span-1-62"><a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a><span class="sd">    Returns dict with per‑hour and total SU and a breakdown.</span>
+</span><span id="__span-1-63"><a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a><span class="sd">    """</span>
+</span><span id="__span-1-64"><a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>    <span class="c1"># Compute SU for instances</span>
+</span><span id="__span-1-65"><a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>    <span class="n">su_instances</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span id="__span-1-66"><a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>    <span class="k">for</span> <span class="n">flav_name</span><span class="p">,</span> <span class="n">qty</span> <span class="ow">in</span> <span class="n">instance_plan</span><span class="p">:</span>
+</span><span id="__span-1-67"><a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>        <span class="k">if</span> <span class="n">flav_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">flavors</span><span class="p">:</span>
+</span><span id="__span-1-68"><a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Flavor '</span><span class="si">{</span><span class="n">flav_name</span><span class="si">}</span><span class="s2">' not defined."</span><span class="p">)</span>
+</span><span id="__span-1-69"><a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>        <span class="n">flavor</span> <span class="o">=</span> <span class="n">flavors</span><span class="p">[</span><span class="n">flav_name</span><span class="p">]</span>
+</span><span id="__span-1-70"><a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>        <span class="n">su_per_inst</span> <span class="o">=</span> <span class="n">flavor</span><span class="o">.</span><span class="n">su_per_hour</span><span class="p">()</span>
+</span><span id="__span-1-71"><a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>        <span class="k">if</span> <span class="n">preemptible</span><span class="p">:</span>
+</span><span id="__span-1-72"><a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>            <span class="n">su_per_inst</span> <span class="o">*=</span> <span class="mf">0.5</span>   <span class="c1"># 50 % discount for pre‑emptible VMs</span>
+</span><span id="__span-1-73"><a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>        <span class="n">su_instances</span> <span class="o">+=</span> <span class="n">su_per_inst</span> <span class="o">*</span> <span class="n">qty</span>
+</span><span id="__span-1-74"><a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a>
+</span><span id="__span-1-75"><a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a>    <span class="c1"># Storage SU (per hour)</span>
+</span><span id="__span-1-76"><a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>    <span class="c1"># See Section 3 for storage and object-store costs.</span>
+</span><span id="__span-1-77"><a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>    <span class="n">su_block</span> <span class="o">=</span> <span class="n">block_storage_gb</span> <span class="o">*</span> <span class="n">SU_PER_GB_BLOCK_HOUR</span>
+</span><span id="__span-1-78"><a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a>    <span class="n">su_object</span> <span class="o">=</span> <span class="n">object_storage_gb</span> <span class="o">*</span> <span class="n">SU_PER_GB_OBJECT_HOUR</span>
+</span><span id="__span-1-79"><a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a>
+</span><span id="__span-1-80"><a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a>    <span class="c1"># Network egress SU (spread across the duration)</span>
+</span><span id="__span-1-81"><a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a>    <span class="c1"># See Section 4 for network transfer costs.</span>
+</span><span id="__span-1-82"><a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a>    <span class="n">su_egress</span> <span class="o">=</span> <span class="n">egress_gb</span> <span class="o">*</span> <span class="n">SU_PER_GB_EGRESS</span> <span class="o">/</span> <span class="n">duration_hours</span>
+</span><span id="__span-1-83"><a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a>
+</span><span id="__span-1-84"><a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a>    <span class="c1"># Total SU per hour</span>
+</span><span id="__span-1-85"><a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a>    <span class="n">su_per_hour</span> <span class="o">=</span> <span class="n">su_instances</span> <span class="o">+</span> <span class="n">su_block</span> <span class="o">+</span> <span class="n">su_object</span> <span class="o">+</span> <span class="n">su_egress</span>
+</span><span id="__span-1-86"><a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a>
+</span><span id="__span-1-87"><a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a>    <span class="c1"># Total SU for the whole period</span>
+</span><span id="__span-1-88"><a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a>    <span class="n">su_total</span> <span class="o">=</span> <span class="n">su_per_hour</span> <span class="o">*</span> <span class="n">duration_hours</span>
+</span><span id="__span-1-89"><a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a>
+</span><span id="__span-1-90"><a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a>    <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-1-91"><a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a>        <span class="s2">"su_per_hour"</span><span class="p">:</span> <span class="n">su_per_hour</span><span class="p">,</span>
+</span><span id="__span-1-92"><a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a>        <span class="s2">"su_total"</span><span class="p">:</span> <span class="n">su_total</span><span class="p">,</span>
+</span><span id="__span-1-93"><a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a>        <span class="s2">"breakdown"</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-1-94"><a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a>            <span class="s2">"instances"</span><span class="p">:</span> <span class="n">su_instances</span><span class="p">,</span>
+</span><span id="__span-1-95"><a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a>            <span class="s2">"block_storage"</span><span class="p">:</span> <span class="n">su_block</span><span class="p">,</span>
+</span><span id="__span-1-96"><a id="__codelineno-1-96" name="__codelineno-1-96" href="#__codelineno-1-96"></a>            <span class="s2">"object_storage"</span><span class="p">:</span> <span class="n">su_object</span><span class="p">,</span>
+</span><span id="__span-1-97"><a id="__codelineno-1-97" name="__codelineno-1-97" href="#__codelineno-1-97"></a>            <span class="s2">"egress"</span><span class="p">:</span> <span class="n">su_egress</span>
+</span><span id="__span-1-98"><a id="__codelineno-1-98" name="__codelineno-1-98" href="#__codelineno-1-98"></a>        <span class="p">}</span>
+</span><span id="__span-1-99"><a id="__codelineno-1-99" name="__codelineno-1-99" href="#__codelineno-1-99"></a>    <span class="p">}</span>
+</span><span id="__span-1-100"><a id="__codelineno-1-100" name="__codelineno-1-100" href="#__codelineno-1-100"></a>
+</span><span id="__span-1-101"><a id="__codelineno-1-101" name="__codelineno-1-101" href="#__codelineno-1-101"></a><span class="c1"># ------------------------------------------------</span>
+</span><span id="__span-1-102"><a id="__codelineno-1-102" name="__codelineno-1-102" href="#__codelineno-1-102"></a><span class="c1"># Example usage – Scenario A from the guide:</span>
+</span><span id="__span-1-103"><a id="__codelineno-1-103" name="__codelineno-1-103" href="#__codelineno-1-103"></a><span class="c1">#   1 × m1.small, 20 GB block storage, 5 GB egress, 1‑month runtime</span>
+</span><span id="__span-1-104"><a id="__codelineno-1-104" name="__codelineno-1-104" href="#__codelineno-1-104"></a><span class="n">example_plan</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"m1.small"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+</span><span id="__span-1-105"><a id="__codelineno-1-105" name="__codelineno-1-105" href="#__codelineno-1-105"></a>
+</span><span id="__span-1-106"><a id="__codelineno-1-106" name="__codelineno-1-106" href="#__codelineno-1-106"></a><span class="n">result</span> <span class="o">=</span> <span class="n">calculate_su</span><span class="p">(</span>
+</span><span id="__span-1-107"><a id="__codelineno-1-107" name="__codelineno-1-107" href="#__codelineno-1-107"></a>    <span class="n">instance_plan</span><span class="o">=</span><span class="n">example_plan</span><span class="p">,</span>
+</span><span id="__span-1-108"><a id="__codelineno-1-108" name="__codelineno-1-108" href="#__codelineno-1-108"></a>    <span class="n">block_storage_gb</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>
+</span><span id="__span-1-109"><a id="__codelineno-1-109" name="__codelineno-1-109" href="#__codelineno-1-109"></a>    <span class="n">object_storage_gb</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+</span><span id="__span-1-110"><a id="__codelineno-1-110" name="__codelineno-1-110" href="#__codelineno-1-110"></a>    <span class="n">egress_gb</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+</span><span id="__span-1-111"><a id="__codelineno-1-111" name="__codelineno-1-111" href="#__codelineno-1-111"></a>    <span class="n">duration_hours</span><span class="o">=</span><span class="n">HOURS_PER_MONTH</span><span class="p">,</span>
+</span><span id="__span-1-112"><a id="__codelineno-1-112" name="__codelineno-1-112" href="#__codelineno-1-112"></a>    <span class="n">preemptible</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-1-113"><a id="__codelineno-1-113" name="__codelineno-1-113" href="#__codelineno-1-113"></a><span class="p">)</span>
+</span><span id="__span-1-114"><a id="__codelineno-1-114" name="__codelineno-1-114" href="#__codelineno-1-114"></a>
+</span><span id="__span-1-115"><a id="__codelineno-1-115" name="__codelineno-1-115" href="#__codelineno-1-115"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"=== Jetstream 2 SU Calculation ==="</span><span class="p">)</span>
+</span><span id="__span-1-116"><a id="__codelineno-1-116" name="__codelineno-1-116" href="#__codelineno-1-116"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duration (hours): </span><span class="si">{</span><span class="n">HOURS_PER_MONTH</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> (≈ 1 month)"</span><span class="p">)</span>
+</span><span id="__span-1-117"><a id="__codelineno-1-117" name="__codelineno-1-117" href="#__codelineno-1-117"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Input Summary ---"</span><span class="p">)</span>
+</span><span id="__span-1-118"><a id="__codelineno-1-118" name="__codelineno-1-118" href="#__codelineno-1-118"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Instances: </span><span class="si">{</span><span class="n">example_plan</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-1-119"><a id="__codelineno-1-119" name="__codelineno-1-119" href="#__codelineno-1-119"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Block storage: 20 GB"</span><span class="p">)</span>
+</span><span id="__span-1-120"><a id="__codelineno-1-120" name="__codelineno-1-120" href="#__codelineno-1-120"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Object storage: 0 GB"</span><span class="p">)</span>
+</span><span id="__span-1-121"><a id="__codelineno-1-121" name="__codelineno-1-121" href="#__codelineno-1-121"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Egress: 5 GB"</span><span class="p">)</span>
+</span><span id="__span-1-122"><a id="__codelineno-1-122" name="__codelineno-1-122" href="#__codelineno-1-122"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- SU Breakdown (per hour) ---"</span><span class="p">)</span>
+</span><span id="__span-1-123"><a id="__codelineno-1-123" name="__codelineno-1-123" href="#__codelineno-1-123"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Instances SU/h:   </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'breakdown'</span><span class="p">][</span><span class="s1">'instances'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-1-124"><a id="__codelineno-1-124" name="__codelineno-1-124" href="#__codelineno-1-124"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Block storage SU/h: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'breakdown'</span><span class="p">][</span><span class="s1">'block_storage'</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-1-125"><a id="__codelineno-1-125" name="__codelineno-1-125" href="#__codelineno-1-125"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Object storage SU/h: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'breakdown'</span><span class="p">][</span><span class="s1">'object_storage'</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-1-126"><a id="__codelineno-1-126" name="__codelineno-1-126" href="#__codelineno-1-126"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Egress SU/h:      </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'breakdown'</span><span class="p">][</span><span class="s1">'egress'</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-1-127"><a id="__codelineno-1-127" name="__codelineno-1-127" href="#__codelineno-1-127"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total SU/h:       </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'su_per_hour'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-1-128"><a id="__codelineno-1-128" name="__codelineno-1-128" href="#__codelineno-1-128"></a>
+</span><span id="__span-1-129"><a id="__codelineno-1-129" name="__codelineno-1-129" href="#__codelineno-1-129"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Monthly SU (SU total) ---"</span><span class="p">)</span>
+</span><span id="__span-1-130"><a id="__codelineno-1-130" name="__codelineno-1-130" href="#__codelineno-1-130"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total SU for </span><span class="si">{</span><span class="n">HOURS_PER_MONTH</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> h: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">'su_total'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition assignment">
+<p class="admonition-title">Assignment Jetstream Calculator 1:</p>
+<p>Use the provided Jetstream 2 calculator to estimate the cost for a proposed project. Discuss the cost in detail and put it into a Markdown document that you upload into GitHub under:</p>
+<p><code>./project/COST-estimator.md</code></p>
+</div>
+<div class="admonition assignment">
+<p class="admonition-title">Assignment Jetstream Calculator 2:</p>
+<p>To explore other scenarios, modify the parameters and adjust them for your possible project:
+   * Change <code>example_plan</code> to use different flavors or quantities.
+   * Set <code>preemptible=True</code> to apply the 50 % discount. (Is this true?)
+   * Adjust <code>block_storage_gb</code>, <code>object_storage_gb</code>, <code>egress_gb</code>.
+   * Change <code>duration_hours</code> for longer or shorter runs.</p>
+<p><code>./project/COST-script.md</code></p>
+<p>Compare the cost. If it is different, find the error and potentially update the script. </p>
+<p>Also explain in detail how you are impacted by the difference.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <div id="custom-footer-bar">
+  <span>Lecture Notes: Collected and Prepared by Gregor von Laszewski (laszewski@gmail.com)</span>
+</div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.code.copy", "content.full_width"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../javascripts/show_source.js"></script>
+      
+        <script src="../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
