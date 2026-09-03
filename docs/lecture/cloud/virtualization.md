@@ -335,8 +335,8 @@ In Section [VirtualBox](../../section/cloud/local/virtualbox.md) we have provide
 ![Popularity of KVM, Xen, and Hyper-V according to Google Trends [Source](https://trends.google.com/trends/?geo=US)](images/kvm-xen-hyperv-gtrends.png){#fig:hypervisor-gtrends}
 -->
 
+![Virtualization Trends](images/virtualization-trend2.png)
 
-![alt text](images/vm-trend.png)
 
 ## Technical Nuances and Advanced Comparisons
 
