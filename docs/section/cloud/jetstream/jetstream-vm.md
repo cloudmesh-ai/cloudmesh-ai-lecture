@@ -18,24 +18,21 @@ Go to <https://docs.jetstream-cloud.org/ui/horizon/login> and you will see the L
 Follow the login process. We provide here some screenshots.
 
 ![Login](images/login.png)
-*Figure: Login*
 
 Press the `Sign in` Button. 
 
-![access logon](images/access-logon.png)
-*Figure: access logon*
+
+![Access logon](images/access-logon.png)
 
 Press the `Log On` button.
 
 ![Enter your Access ID](images/access-username.png)
-*Figure: Enter your Access ID*
 
 Fill out the form and `Login`.
 
 Once logged in, you will see the Horizon dashboard:
 
 ![Horizon Dashboard](images/horizon.png)
-*Figure: Horizon Dashboard*
 
 ### 2. Add an SSH Key Pair
 
@@ -45,8 +42,8 @@ Detailed instructions can be found here: [https://docs.jetstream-cloud.org/ui/ho
 
 When uploading the key pair we recommend to name it after your login ID or your first and last name. For programming and scripting it is best to use a name that does not contain spaces and keep it short. As we share a project the names must be unique.
 
-![alt text](images/key.png)
-*Figure: alt text*
+
+![Upload public key](images/key.png)
 
 
 ### 3. Create Application Credentials
@@ -60,21 +57,19 @@ Hence you need to follow tis workflow:
 
 1. Navigate to the **Identity** menu.
 
-![identity](images/identity.png)
-*Figure: identity*
+![Identity](images/identity.png)
 
 CLick on `Identity` and you will see the Identity menu
 
-![identity-menu](images/identity-menu.png)
-*Figure: identity-menu*
+![Identity menu](images/identity-menu.png)
 
 
 2. Create your credentials.
 
 Click on the `Applications Credentials` menu entry
 
+
 ![Credentials Menu](images/credentials-1.png)
-*Figure: Credentials Menu*
 
 
 You will now be redirectet to the credentials 
@@ -82,13 +77,12 @@ form, that includes a list of all credentials.
 
 
 ![Applications credentials list](images/credentials-2.png)
-*Figure: Applications credentials list*
 
 Click on the `Create Applications Credentails` button to create a new credential you can use.
 Please note you only need one for this class, but could create more dependent on if you need to restrict access to services offered by the cloud.
 
+
 ![Create the credential.](images/credentials-3.png)
-*Figure: Create the credential.*
 
 !!! warning
     do not click on unrestricted. 

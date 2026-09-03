@@ -147,6 +147,8 @@ This runs the server in the background and saves all logs to `mkdocs.log`. You c
 - [ ] Security group rule added for port `8000`.
 - [ ] Site accessed via `http://<floating-ip>:8000`.
 
+
+![What we learned](images/mkdos-hosting.png)
 ---
 
 ## Appendix: Automation Scripts

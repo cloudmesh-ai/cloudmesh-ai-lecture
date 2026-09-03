@@ -1,6 +1,4 @@
----
-title: "Python Installation"
----
+# Python Installation
 
 !!! info "Learning Outcomes"
     - Install Python 3.12 using various methods, including official installers, Homebrew, and compiling from source.
@@ -216,6 +214,19 @@ To make sure you have an up-to-date version of pip, issue the command:
 ``` bash
 $ pip install pip -U
 ```
+
+### Contrast: Python Virtual Environments vs. Virtual Machines
+
+It is important to distinguish between a **Python Virtual Environment** (`venv`) and a **Virtual Machine (VM)**, as both use the term "virtual" but operate at completely different levels:
+
+| Feature | Python Virtual Environment (`venv`) | Virtual Machine (VM) |
+| :--- | :--- | :--- |
+| **What is virtualized?** | The Python runtime and installed packages. | The entire physical hardware (CPU, RAM, Disk). |
+| **Isolation Level** | **Dependency Isolation**: Prevents package version conflicts between projects. | **System Isolation**: Runs a complete guest OS isolated from the host OS. |
+| **Overhead** | Negligible (just a directory with symlinks/copies). | High (requires memory and CPU for a full OS). |
+| **Boot Time** | Instant (just activating a script). | Minutes (booting a full kernel). |
+| **Use Case** | Managing different library versions for different Python projects. | Running a different OS or isolating an entire system. |
+
 
 ## Install Python via Anaconda or Miniconda
 

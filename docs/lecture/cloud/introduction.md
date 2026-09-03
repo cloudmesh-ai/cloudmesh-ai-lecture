@@ -2,7 +2,7 @@
 # Introduction to Cloud Computing 
 Presenter: Gregor von Laszewski
 
-!!! note "Leraning Outcome"
+!!! note "Learning Outcome"
     
     - **Goal:** Provide a comprehensive, practical view of cloud computing, from fundamentals to day‑to‑day operational best practices.  
     - **Outcomes for attendees:**  
@@ -21,7 +21,7 @@ Presenter: Gregor von Laszewski
 | 2. | What is Cloud Computing?  | Definition, evolution, business value |
 | 3. | Service Models (IaaS / PaaS / SaaS)  | Explain differences and use‑cases |
 | 4. | Deployment Models  | Public, Private, Hybrid, Community |
-| 5. | Core Enabling Technologies |  Virtualisation, Containers, Serverless |
+| 5. | Core Enabling Technologies |  Virtualization, Containers, Serverless |
 | 6. | Architecture & Design Principles |   Scalability, resilience, automation |
 | 7. | The Big Three Providers  | AWS, Azure, GCP – high‑level comparison |
 | 8. | Storage Services  | Object, Block, File, Archive |
@@ -36,11 +36,11 @@ Presenter: Gregor von Laszewski
 
 # 1. Introductory Poll
 
-1. Who has already used a cloud service? (show of hands n in zoom). 
+1. Who has already used a cloud service? (show of hands in Zoom). 
 
 2. Which cloud services have you used? (Piazza).
 
-3. What cloud services are you most interested about? (We may not have the time to cover them, but lets list them here. Uses zoom.)
+3. What cloud services are you most interested in? (We may not have the time to cover them, but let's list them here. Use Zoom.)
 
 
 
@@ -50,7 +50,7 @@ Presenter: Gregor von Laszewski
 - **NIST definition:** “A model for enabling ubiquitous, convenient, on‑demand network access to a shared pool of configurable computing resources….”  
 - **Core attributes:** On‑Demand Self‑Service, Broad Network Access, Resource Pooling, Rapid Elasticity, Measured Service.  
 - **Evolution timeline:** 
-Mainframe → Client‑Server → Metacomputing → Grid Computing → Virtualisation → Cloud (2006‑present).  
+Mainframe → Client‑Server → Metacomputing → Grid Computing → Virtualization → Cloud (2006‑present).  
 
 ## Era Breakdown: Evolution of Computing
 
@@ -85,7 +85,7 @@ gantt
     section Cloud
     Cloud Computing             :active, 2006, 2026
 ```
-Because it may not render correctly here the png
+Because it may not render correctly here, the PNG is provided as follows:
 
 -->
 
@@ -709,7 +709,7 @@ One example from the image in more detail:
 
 ## Quantitative Business Impact 
 
-quantified by cost saved, time‑to‑market, energy used (indirect cost).
+This is quantified by cost saved, time-to-market, and energy used (indirect cost).
 
 * **Netflix (AWS - Scale & Elasticity):**
     * *Challenge:* Managing tens of millions of concurrent video streams globally with unpredictable traffic surges.
@@ -728,7 +728,7 @@ quantified by cost saved, time‑to‑market, energy used (indirect cost).
     * *Cloud Solution:* Deployed a hybrid strategy using Microsoft Azure, Azure Stack, and Azure Private Link to connect on-premises systems securely with cloud infrastructure.
     * *Business Impact:* Established an **audit-ready compliance environment** that satisfied regional regulatory authorities while providing the agility of cloud-native development without sacrificing data sovereignty.
 
-![Buisines Impact Examples](images/buisiness-impact-examples.png)
+![Business Impact Examples](images/buisiness-impact-examples.png)
 ---  
 # 16. Q&A / Wrap‑up  
 
@@ -747,11 +747,11 @@ Treat the cloud as a continuous enabler of agility, operational model shifts, an
 - **Next steps for the audience:**
   - Explore if your own computer can run VMs
   - Sign up for Access-ci account
-  - Sign up for Chameleon CLoud account
-  - Possibly wait for   
+  - Sign up for Chameleon Cloud account
+  - Possibly wait for
      - Sign up for a free‑tier account on a provider of choice.  
 
-  - Investigaet what it takes tie  deploy a static website such as mkdocs).  
+  - Investigate what it takes to deploy a static website such as mkdocs).  
   
 
 ---  
@@ -765,6 +765,6 @@ Treat the cloud as a continuous enabler of agility, operational model shifts, an
 *  [NIST Cloud Definition (PDF)](https://nvlpubs.nist.gov/NISTPUBS/LEGACY/SP/NISTSPECIALPUBLICATION800-145.PDF). Must read. 
 * [AWS Well-Architected Framework Welcome](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
 * [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
-* [Azure Architecture Center](ttps://learn.microsoft.com/en-us/azure/well-architected/)
+* [Azure Architecture Center](https://learn.microsoft.com/en-us/azure/well-architected/)
 * [Azure Architecture](https://learn.microsoft.com/en-us/azure/architecture/)
 * [Google Cloud Architecture framework](https://docs.cloud.google.com/architecture/framework)
