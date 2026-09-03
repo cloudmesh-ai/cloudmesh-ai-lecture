@@ -29,7 +29,7 @@ All commands are written for the **OpenStack CLI** (`openstack`).
 
 *Figure: The diagram of the multiple VM example*
 
-![The diagram of the multiple VM example](../images/jetstream-multi.png)
+![The diagram of the multiple VM example](images/jetstream-multi.png)
 
 **Prerequisites**  
 

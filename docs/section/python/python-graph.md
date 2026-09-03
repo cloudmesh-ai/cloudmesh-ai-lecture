@@ -117,7 +117,7 @@ generrate_diagram(graph_diagram, 'blockdiag.png')
 
 ```
 
-![System Architecture Diagram](../blockdiag.png)
+![System Architecture Diagram](blockdiag.png)
 
 ```{python}
 import matplotlib.pyplot as plt

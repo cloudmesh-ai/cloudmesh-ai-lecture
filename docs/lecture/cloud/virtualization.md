@@ -328,11 +328,15 @@ One of the most common tools for this is **Oracle VirtualBox**. To make the use 
 
 To improve the interaction between the host and the guest, a **guest additions package** is typically installed. This allows for features like shared folders, shared clipboards, and better window management between the host and guest OS.
 
-In Section [VirtualBox](../local/virtualbox.md) we have provided a practical introduction to VirtualBox.
+In Section [VirtualBox](../../section/cloud/local/virtualbox.md) we have provided a practical introduction to VirtualBox.
 
 ---
+<!--
 ![Popularity of KVM, Xen, and Hyper-V according to Google Trends [Source](https://trends.google.com/trends/?geo=US)](images/kvm-xen-hyperv-gtrends.png){#fig:hypervisor-gtrends}
+-->
 
+
+![alt text](images/vm-trend.png)
 
 ## Technical Nuances and Advanced Comparisons
 

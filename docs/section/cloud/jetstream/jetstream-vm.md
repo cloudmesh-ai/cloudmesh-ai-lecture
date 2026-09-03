@@ -59,9 +59,9 @@ Hence you need to follow tis workflow:
 
 ![Identity](images/identity.png)
 
-CLick on `Identity` and you will see the Identity menu
+Click on `Identity` and you will see the Identity menu
 
-![Identity menu](images/identity-menu.png)
+![alt Identity Form](images/credentials-details.png)
 
 
 2. Create your credentials.
