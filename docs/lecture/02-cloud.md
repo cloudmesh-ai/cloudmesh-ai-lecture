@@ -25,7 +25,9 @@ color: #333
 ----
 
 <!-- Slide 1 -->
+
 # Topic 1: Cloud Computing Fundamentals
+
 ## Core Concepts, Architectural Drivers & Virtualization Mechanics
 
 - **The Traditional Paradigm Shift**: Moving away from fixed, under-utilized physical hardware silhouettes (CapEx) to a dynamic, API-driven utility consumption framework (OpEx).

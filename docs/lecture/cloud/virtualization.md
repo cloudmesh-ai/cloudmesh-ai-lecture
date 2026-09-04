@@ -14,6 +14,8 @@ Examples of the usefulness of virtualization include testing applications and ru
 
 However, it is important to note that the search popularity of hypervisors has been decreasing, as other lightweight virtualization solutions, i.e., container technologies, are now more mainstream. We will cover them in a different chapter.
 
+![Virtualization from Hardware to Cloud](images/virtualization-chtgpt.png)
+
 ## Virtual Machines
 
 A **Virtual Machine (VM)** is a software-based emulation of a computer system. This can include process virtualization and physical computer virtualization, such as running an operating system. Multiple virtual machines share the resources of the computer or system on which they run.
