@@ -4,8 +4,6 @@
 ??? note "Click here to see a draft version of the Assignments Week 3, Sept 17, 2026 (not yet due)"
     !!! info "You are allowed to work ahead. More assignments for week 2 will be posted here once ready."
 
-    !!! info "You are allowed to work in a team. This may be done either remotely or via in-person meetings. When working in teams, you need to provide documentation of who did what. Teams can be different for different assignments."
-
     !!! note "Assignment W2.1. VM on local machine."
 
     Explore how to set up virtual machines on your local computer. Take your specific computer into account and create a Markdown tutorial on how to do it. Feel free to add screenshots. 
@@ -47,6 +45,10 @@
     
 !!! warning
     Do not start VMs or containers or use other resources from access-ci jetstream or chameleon cloud yet. 
+
+!!! info "Temawork is allowed on any assignment."
+
+    You are allowed to work in a team. This may be done either remotely or via in-person meetings. When working in teams, you need to provide documentation of who did what. Teams can be different for different assignments. Some homework may foster ad-hoc teams that utilize the same platform or operating system. Just make sure you do not just blindly replicate somone elses work. If you work on a team, please put that in your assignment solution and describe who did what.
 
 
 ## Week 2:  Due Sep 10, 2026, 9am 
