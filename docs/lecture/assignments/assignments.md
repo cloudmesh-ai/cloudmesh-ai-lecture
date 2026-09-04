@@ -12,11 +12,18 @@
 ## Week 3:  Due Sep 17, 2026, 9am
 
 ??? note "Click here to see a draft version of the Assignments Week 3, Sept 17, 2026 (not yet due)"
-    !!! note "Assignment W3.1 VM on Chameleon Cloud"
+
+    !!! note "Assignment W3.1 VM on Jetstream"
+
+        Start a vm on jetstream and follow the tutorial provided. If you see issues. Improve the tutorial while createing pull requests in the Lecture notes.
+
+        Document your activity with a screenshot of the terminal (800x600).
+
+    !!! note "Assignment W3.2 VM on Chameleon Cloud"
 
         Although you may wish to use other clouds for your project, we want you to start up a single VM on Chameleon Cloud for a very brief time.
 
-        Document your activity with screenshots.
+        Document your activity with a screenshot of the terminal (800x600).
 
         Tip: 
         
@@ -25,10 +32,6 @@
         3. Before doing anything, explore the portal and browse around so you develop a plan for what you have to do.
         4. Only after you have developed a plan. Do the reservation first. Make sure the reservation does not exceed 1 hour.
         5. Start up a VM using a Chameleon Cloud image for Ubuntu 24.04. Make sure to use the smallest image size possible for it (what size is that? It is part of your plan).
-
-    !!! note "Assignment W3.2 VM on Jetstream"
-
-        Start a vm on jetstream and follow the tutorial provided. If you see issues. Improve the tutorial while createing pull requests in the Lecture notes.
 
     !!! note "Assignment W3.3: OPTIONAL: VM on public cloud"
 
@@ -41,9 +44,12 @@
 
         2. Put the results of your assignments in a structured fashion into the repository. While creating filenames and directories
 
-        Example: assignments/week1/w3.3-compare
+        
+    !!! tip
+        Create a single document with all your assignment answers in them:
+    
+        * `<repor>/assignment/week3.md`
 
-        (All filenames and dir names for assignments must be lower case.)
     
 
 ## Week 2:  Due Sep 10, 2026, 9am
@@ -149,7 +155,7 @@
     - [ ] Proper commit/push of the markdown file and screenshot.  
     - [ ] If relevant, a well‑formatted PR to the lecture notes.
 
-    **Tips:
+    **Tips**:
 
     - **CLI vs. GUI** – include the command‑line version of the VM creation steps (e.g., `VBoxManage …`) even if you used the GUI; it’s useful for automation.  
     - **Version info** – note the version numbers of the hypervisor and OS you used; future students can compare.  
