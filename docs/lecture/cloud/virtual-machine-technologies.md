@@ -4,6 +4,10 @@ In this section, we cover an introduction to the underlying virtualization techn
 
 Cloud providers, such as AWS, Azure, and Google, and OpenStack use, for example, QEMU and KVM technologies for compute instance virtualization.
 
+Despite the word "complete" in  the title it is certanly not complete and many other parts could be added
+
+![The "Incomplete" Virtualization Landscaape](images/virtualization-ecosystem.png)
+
 ### Selected Hardware Virtualization Technologies
 
 #### AMD-V and Intel-VT
@@ -289,4 +293,552 @@ Note that we will not cover this topic in this introductory class.
 
 
 
+
+## Appendix - a more exhustive list
+
+We present a more comprehensive catalog. It includes additional hypervisors, VMMs, VM runtimes, management systems, emulators, and VM-oriented developer tools. A useful distinction is that **not everything that is listed next is a hypervisor itself**. For example, KVM is the kernel virtualization layer, QEMU is a VMM/emulator, libvirt is a management API, and Proxmox is a management platform. ([IBM][1])
+
+## Expanded VM toolkit catalog
+
+### 1. General-purpose hypervisors / VMMs
+
+* **KVM**
+* **QEMU**
+* **Xen**
+* **bhyve**
+* **Hyper-V**
+* **VMware ESXi / vSphere**
+* **VirtualBox**
+* **VMware Workstation**
+* **VMware Fusion**
+* **Parallels Desktop**
+* **UTM**
+* **crosvm**
+* **Cloud Hypervisor**
+* **Firecracker**
+* **OpenVMM**
+* **libkrun**
+* **StratoVirt**
+* **Dragonball**
+* **ACRN**
+* **Jailhouse**
+
+For example, crosvm is itself a VMM, while using the host's hypervisor facilities; its design emphasizes sandboxing of virtual devices. ([Crosvm][2])
+
+---
+
+## 2. Lightweight / microVM systems
+
+This is a particularly large area now.
+
+* **Firecracker**
+* **Cloud Hypervisor**
+* **crosvm**
+* **libkrun**
+* **OpenVMM**
+* **Dragonball**
+* **StratoVirt**
+* **NEMU**
+* **Cloud Hypervisor + KVM**
+* **QEMU microVM configurations**
+* **Kata Containers**
+* **runwasi/VM-oriented runtimes**
+* **runv**
+
+These are useful when you want something closer to:
+
+```text
+          application
+              ↓
+        isolated VM
+              ↓
+       tiny guest kernel
+              ↓
+            KVM
+              ↓
+       physical computer
+```
+
+rather than a large traditional desktop VM.
+
+Firecracker, Cloud Hypervisor, crosvm and libkrun are particularly relevant in this space. ([Emir Beganović][3])
+
+---
+
+# 3. Bare-metal virtualization platforms
+
+These install directly onto a physical machine and turn it into a VM host.
+
+### Major options
+
+* **Proxmox VE**
+* **XCP-ng**
+* **Xen**
+* **VMware ESXi**
+* **Microsoft Hyper-V Server / Hyper-V**
+* **Nutanix AHV**
+* **oVirt**
+* **OpenNebula**
+* **OpenStack**
+* **Scale Computing**
+* **Harvester**
+* **SmartOS**
+* **Oracle VM** — legacy
+* **Citrix Hypervisor / XenServer**
+
+A useful addition to the earlier list is **XCP-ng**: it's a complete Xen-based virtualization platform rather than merely the underlying Xen hypervisor. ([Sekin][4])
+
+---
+
+# 4. VM management frameworks
+
+These don't necessarily virtualize hardware themselves. Instead, they control hypervisors.
+
+### libvirt
+
+One of the most important pieces in the Linux ecosystem.
+
+```text
+Your application
+       ↓
+    libvirt
+       ↓
+ KVM / QEMU / Xen / ...
+       ↓
+       VM
+```
+
+GNOME Boxes, for example, uses QEMU/KVM and libvirt underneath. ([GNOME Help][5])
+
+### Other management systems
+
+* **libvirt**
+* **virt-manager**
+* **Cockpit Machines**
+* **GNOME Boxes**
+* **Virtual Machine Manager**
+* **OpenStack Nova**
+* **OpenNebula**
+* **oVirt**
+* **Proxmox VE**
+* **Xen Orchestra**
+* **XenCenter**
+* **VMware vCenter**
+* **Nutanix Prism**
+* **Harvester**
+* **CloudStack**
+
+---
+
+# 5. Kubernetes + VM technologies
+
+This is another category I would add.
+
+### KubeVirt
+
+Lets Kubernetes manage traditional VMs.
+
+```text
+             Kubernetes
+                 │
+        ┌────────┴────────┐
+        ↓                 ↓
+   Containers             VMs
+                         │
+                    KVM/QEMU
+```
+
+### Related projects
+
+* **KubeVirt**
+* **Kata Containers**
+* **Virtink**
+* **Harvester**
+* **OpenShift Virtualization**
+* **VM Operator**
+* **Kube-OVN** — networking component often used in these environments
+* **Containerized Data Importer (CDI)** — VM disk/image management for KubeVirt
+
+OpenStack similarly supports multiple underlying virtualization technologies, including KVM, QEMU, Xen, VMware, Hyper-V, Virtuozzo and others. ([OpenStack Docs][6])
+
+---
+
+# 6. Container runtimes that use VM isolation
+
+These aren't conventional VM platforms, but they're worth including if your goal is **isolated local workloads**.
+
+* **Kata Containers**
+* **runq**
+* **runv**
+* **Firecracker-based OCI runtimes**
+* **Cloud Hypervisor-based runtimes**
+* **KubeVirt**
+* **gVisor** — sandboxing, but **not a VM hypervisor**
+* **Sysbox** — enhanced container isolation, but **not a traditional VM**
+
+This distinction matters: Kata is a container runtime that can drive a VM underneath; Firecracker and Cloud Hypervisor are VMMs. ([OpenComputer][7])
+
+---
+
+# 7. Desktop VM managers
+
+More options here too:
+
+### Windows
+
+* VirtualBox
+* VMware Workstation
+* Hyper-V
+* QEMU
+* Windows Sandbox
+* WSL2 — VM-backed Linux environment rather than a conventional VM product
+
+### macOS
+
+* UTM
+* Parallels Desktop
+* VMware Fusion
+* VirtualBox
+* QEMU
+* Apple Virtualization.framework
+* Apple Hypervisor.framework
+* Tart
+* Lima
+* OrbStack — primarily containers/Linux VMs
+* Multipass
+
+### Linux
+
+* virt-manager
+* GNOME Boxes
+* VirtualBox
+* VMware Workstation
+* QEMU
+* Cockpit
+* AQEMU
+* Proxmox VE
+
+---
+
+# 8. VM developer / automation toolkits
+
+These are especially interesting if you're writing software.
+
+### Vagrant
+
+Reproducible development VMs.
+
+### Packer
+
+Builds VM images automatically.
+
+### Terraform
+
+Automates VM infrastructure.
+
+### Ansible
+
+Configures machines after they're created.
+
+### cloud-init
+
+Automatically configures newly booted Linux VMs.
+
+### QEMU QMP
+
+Programmatically controls QEMU.
+
+### libvirt API
+
+Programmatically creates/manages VMs.
+
+### QEMU Guest Agent
+
+Allows host-side management of the guest.
+
+### SPICE
+
+Remote VM display/input infrastructure.
+
+### virtio
+
+Paravirtualized device ecosystem for high-performance VM I/O.
+
+---
+
+# 9. Apple Silicon virtualization
+
+This deserves its own category because Apple Silicon changed the landscape considerably.
+
+* **Apple Virtualization.framework**
+* **Apple Hypervisor.framework**
+* **QEMU**
+* **UTM**
+* **Tart**
+* **Lima**
+* **OrbStack**
+* **VirtualBuddy**
+* **Parallels**
+* **VMware Fusion**
+
+A useful architecture is:
+
+```text
+             macOS
+               │
+       Virtualization.framework
+               │
+        ┌──────┴──────┐
+        │             │
+       VMs          containers
+        │
+     ARM64 Linux
+     ARM64 macOS*
+     ARM64 Windows
+```
+
+---
+
+# 10. Embedded / real-time virtualization
+
+These are less well-known but absolutely belong on a comprehensive list.
+
+* **ACRN**
+* **Jailhouse**
+* **Xen**
+* **Bao**
+* **seL4**
+* **PikeOS**
+* **QNX Hypervisor**
+* **INTEGRITY Multivisor**
+* **LynxSecure**
+* **OKL4**
+* **PREEMPT_RT + KVM**
+* **Jailhouse Linux**
+
+These are used for things like:
+
+* automotive
+* robotics
+* avionics
+* industrial controls
+* IoT
+* edge AI
+* safety-critical systems
+
+ACRN and Jailhouse, for example, target embedded/mixed-criticality scenarios rather than acting like desktop VM software. ([QS Compute][8])
+
+---
+
+# 11. OS/emulator-oriented virtualization
+
+This is where things get really interesting.
+
+### QEMU
+
+Can emulate entire computers and architectures:
+
+* x86
+* x86-64
+* ARM
+* ARM64
+* RISC-V
+* MIPS
+* PowerPC
+* SPARC
+* s390x
+* m68k
+* etc.
+
+So QEMU can do things that a conventional hardware-accelerated VM cannot.
+
+### Other emulation projects
+
+* **Bochs**
+* **DOSBox / DOSBox-X**
+* **86Box**
+* **PCem**
+* **Unicorn Engine**
+* **Dynamorio** — instrumentation rather than VM
+* **Renode** — embedded-system simulation
+* **gem5** — computer-system simulation
+
+These are useful for OS development, reverse engineering, embedded development and architecture research.
+
+---
+
+# 12. VM/sandbox projects that are easy to overlook
+
+Some particularly interesting ones:
+
+* **Lima**
+* **Tart**
+* **Multipass**
+* **Incus**
+* **LXD**
+* **Podman machine**
+* **Docker Desktop VM**
+* **Rancher Desktop VM**
+* **Colima**
+* **OrbStack**
+* **minikube VM drivers**
+* **kind** — container-based rather than traditional VM
+* **MicroK8s VM deployments**
+
+For example, **Lima** provides Linux VMs primarily to support container workloads on macOS/Linux, while tools such as Tart focus on lightweight Apple-virtualization-based VMs.
+
+---
+
+# 13. Cloud/private-cloud VM platforms
+
+If you want to turn multiple physical computers into a local cloud:
+
+* **OpenStack**
+* **OpenNebula**
+* **Apache CloudStack**
+* **Proxmox VE**
+* **oVirt**
+* **XCP-ng**
+* **Harvester**
+* **Nutanix AHV**
+* **OpenShift Virtualization**
+* **VMware vSphere**
+* **OpenNebula KVM**
+* **CloudStack KVM**
+
+---
+
+# 14. Storage/networking pieces that are part of VM infrastructure
+
+These aren't VM engines, but you'll encounter them when building a serious local virtualization platform.
+
+### VM storage
+
+* qcow2
+* raw
+* VMDK
+* VHD/VHDX
+* VDI
+* ZFS
+* Ceph
+* LVM
+* LVM-thin
+* btrfs
+* NFS
+* iSCSI
+* NVMe-oF
+
+### VM networking
+
+* Linux bridges
+* Open vSwitch
+* SR-IOV
+* macvtap
+* TAP/TUN
+* virtio-net
+* vhost-net
+* OVN
+* VXLAN
+
+### VM device technologies
+
+* VirtIO
+* VFIO
+* vhost
+* SPICE
+* virtio-fs
+* 9p
+* USB passthrough
+* PCI passthrough
+* GPU passthrough
+
+---
+
+# 15. If you want the *really* broad universe
+
+I'd divide everything into this hierarchy:
+
+```text
+VIRTUALIZATION
+│
+├── HARDWARE HYPERVISORS
+│   ├── KVM
+│   ├── Xen
+│   ├── Hyper-V
+│   ├── ESXi
+│   ├── bhyve
+│   ├── ACRN
+│   └── Jailhouse
+│
+├── VMMs
+│   ├── QEMU
+│   ├── Firecracker
+│   ├── Cloud Hypervisor
+│   ├── crosvm
+│   ├── libkrun
+│   ├── OpenVMM
+│   └── Dragonball
+│
+├── DESKTOP VM APPS
+│   ├── VirtualBox
+│   ├── VMware
+│   ├── Parallels
+│   ├── UTM
+│   ├── GNOME Boxes
+│   └── virt-manager
+│
+├── VM PLATFORMS
+│   ├── Proxmox
+│   ├── XCP-ng
+│   ├── OpenNebula
+│   ├── oVirt
+│   ├── OpenStack
+│   ├── CloudStack
+│   └── Harvester
+│
+├── VM + CONTAINER
+│   ├── Kata
+│   ├── KubeVirt
+│   ├── Incus
+│   ├── LXD
+│   └── Sysbox
+│
+├── MAC VM ECOSYSTEM
+│   ├── Virtualization.framework
+│   ├── Hypervisor.framework
+│   ├── UTM
+│   ├── Tart
+│   ├── Lima
+│   ├── Parallels
+│   └── VMware Fusion
+│
+├── AUTOMATION
+│   ├── Vagrant
+│   ├── Packer
+│   ├── Terraform
+│   ├── Ansible
+│   ├── cloud-init
+│   ├── libvirt API
+│   └── QEMU QMP
+│
+└── EMULATION / RESEARCH
+    ├── QEMU
+    ├── Bochs
+    ├── 86Box
+    ├── PCem
+    ├── Renode
+    └── gem5
+```
+The modern ecosystem isn't really one list of “VM software”; it's an interconnected stack of **hypervisors → VMMs → VM runtimes → management platforms → automation → storage/networking → container/VM hybrids**. ([Emir Beganović][3])
+
+If your eventual goal is to build a **local VM toolkit/API that can dynamically create and destroy isolated machines**, I'd narrow this enormous list to about **15 technologies worth actually investigating** rather than trying to use all of them.
+
+[1]: https://www.ibm.com/think/topics/hypervisors?utm_source=chatgpt.com "What Are Hypervisors? | IBM"
+[2]: https://crosvm.dev/?utm_source=chatgpt.com "Introduction - Book of crosvm"
+[3]: https://emirb.github.io/blog/microvm-2026/?utm_source=chatgpt.com "Your Container Is Not a Sandbox: The State of MicroVM Isolation in 2026"
+[4]: https://sekin.in/free-and-open-source-bare-metal-hypervisors-the-2021-list-corrected-for-2026/?utm_source=chatgpt.com "Best Open-Source Bare-Metal Hypervisors in 2026"
+[5]: https://help.gnome.org/gnome-boxes/supported-protocols.html?utm_source=chatgpt.com "What is the technology used by Boxes?"
+[6]: https://docs.openstack.org/nova/wallaby/admin/configuration/hypervisors.html?utm_source=chatgpt.com "OpenStack Docs: Hypervisors"
+[7]: https://opencomputer.dev/guides/firecracker-vs-cloud-hypervisor-vs-kata/?utm_source=chatgpt.com "Firecracker vs Cloud Hypervisor vs Kata Containers – OpenComputer"
+[8]: https://qscompute.com/blog/embedded-virtualization-hypervisor-edge-ai-2026?utm_source=chatgpt.com "Embedded Virtualization for Edge AI 2026 — ACRN vs Xen vs KVM vs Jailhouse (Mixed-Criticality on One SoC) | QSCompute"
 

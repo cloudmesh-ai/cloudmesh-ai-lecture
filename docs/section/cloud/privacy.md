@@ -1,8 +1,7 @@
 
 # Lecture: Privacy Concerns in the Cloud  
 
-(Created by LLM)
-
+![Dealing with Privacy in Clouds](images/privacy-cloud-chatgpt.png)
 ---
 
 ## 1. Why Cloud Privacy Matters  
