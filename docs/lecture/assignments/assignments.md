@@ -1,67 +1,54 @@
 # Assignments
 
+!!! warning "All assignments are due on *Thursdays 9am*. This is 9am in the morning so i can attempt to review your assignments before class"
 
-??? note "Click here to see a draft version of the Assignments Week 3, Sept 17, 2026 (not yet due)"
-    !!! info "You are allowed to work ahead. More assignments for week 2 will be posted here once ready."
-
-    !!! note "Assignment W2.1. VM on local machine."
-
-    Explore how to set up virtual machines on your local computer. Take your specific computer into account and create a Markdown tutorial on how to do it. Feel free to add screenshots. 
-
-    The files need to be in a folder. 
-
-    `<luc-email-id>/week2/local-vm`
-
-    You will upload this to GitHub. You will be provided with a Repo. Week 1. Assignment 3 must be completed before you can do the submission.
-
-    !!! note "Assignment W2.2 VM on Chameleon Cloud"
-
-    Although you may wish to use other clouds for your project, we want you to start up a single VM on Chameleon Cloud for a very brief time.
-
-    Document your activity with screenshots.
-
-    Tip: 
-    
-    1. Set your preferred time zone in Chameleon settings.
-    2. Make sure you have a key in your .ssh dir on your laptop. Upload the public key to Chameleon.
-    3. Before doing anything, explore the portal and browse around so you develop a plan for what you have to do.
-    4. Only after you have developed a plan. Do the reservation first. Make sure the reservation does not exceed 1 hour.
-    5. Start up a VM using a Chameleon Cloud image for Ubuntu 24.04. Make sure to use the smallest image size possible for it (what size is that? It is part of your plan).
-
-    !!! note "Assignment W3.4: OPTIONAL: VM on public cloud"
-
-    Create a VM on a cloud of your choice, such as AWS, Azure, or Google. Use the free tier.
-    Document with screenshots how you created your account. Make sure you blur out sensitive information in the screenshot, including your name, credit card numbers and key, and other security details.
-
-    !!! note "Assignment W3.3: Compare"
-
-    Compare your experience between starting a VM on your local machine vs using Chameleon Cloud.
-
-    2. Put the results of your assignments in a structured fashion into the repository. While creating filenames and directories
-
-    Example: assignments/week1/w3.3-compare
-
-    (All filenames and dir names for assignments must be lower case.)
-    
-!!! warning
-    Do not start VMs or containers or use other resources from access-ci jetstream or chameleon cloud yet. 
+!!! warning "Do not start VMs or containers or use other resources from access-ci jetstream or chameleon cloud yet."
 
 !!! info "Temawork is allowed on any assignment."
 
     You are allowed to work in a team. This may be done either remotely or via in-person meetings. When working in teams, you need to provide documentation of who did what. Teams can be different for different assignments. Some homework may foster ad-hoc teams that utilize the same platform or operating system. Just make sure you do not just blindly replicate somone elses work. If you work on a team, please put that in your assignment solution and describe who did what.
 
-## Week 2:  Due Sep 10, 2026, 9am 
 
-!!! note "Assignment W2.1: GitHub Repository"
+## Week 3:  Due Sep 17, 2026, 9am
 
-    1. You will be given a GitHub repository by the instructor. It is located at
-       
-        - <https://github.com/orgs/cloudmesh-ai-luc/repositories>
+??? note "Click here to see a draft version of the Assignments Week 3, Sept 17, 2026 (not yet due)"
+    !!! note "Assignment W2.1 VM on Chameleon Cloud"
+
+        Although you may wish to use other clouds for your project, we want you to start up a single VM on Chameleon Cloud for a very brief time.
+
+        Document your activity with screenshots.
+
+        Tip: 
+        
+        1. Set your preferred time zone in Chameleon settings.
+        2. Make sure you have a key in your .ssh dir on your laptop. Upload the public key to Chameleon.
+        3. Before doing anything, explore the portal and browse around so you develop a plan for what you have to do.
+        4. Only after you have developed a plan. Do the reservation first. Make sure the reservation does not exceed 1 hour.
+        5. Start up a VM using a Chameleon Cloud image for Ubuntu 24.04. Make sure to use the smallest image size possible for it (what size is that? It is part of your plan).
+
+    !!! note "Assignment W2.1 VM on Jetstream"
+
+        Start a vm on jetstream and follow the tutorial provided. If you see issues. Improve the tutorial while createing pull requests in the Lecture notes.
+
+    !!! note "Assignment W3.4: OPTIONAL: VM on public cloud"
+
+        Create a VM on a cloud of your choice, such as AWS, Azure, or Google. Use the free tier.
+        Document with screenshots how you created your account. Make sure you blur out sensitive information in the screenshot, including your name, credit card numbers and key, and other security details.
+
+    !!! note "Assignment W3.3: Compare"
+
+        Compare your experience between starting a VM on your local machine vs using Chameleon Cloud.
+
+        2. Put the results of your assignments in a structured fashion into the repository. While creating filenames and directories
+
+        Example: assignments/week1/w3.3-compare
+
+        (All filenames and dir names for assignments must be lower case.)
     
-    2. Verify that you can write into a file in the directory. I suggest to put something useful into the README such as your first and lastname. 
-    3. Upload your public key 
 
-!!! note "Assignment W2.2: Google Account, Piazza Account post cleanup"
+## Week 2:  Due Sep 10, 2026, 9am
+
+!!! note "Assignment W2.1: Google Account, Piazza Account post cleanup"
 
     1. Locate your Account post in Piazza
     2. Add your google account too your original post
@@ -91,7 +78,45 @@
     The post must be submitted to the accounts category.
 
 
-!!! note "Assignment W.2.3: Local VM"
+!!! note "Assignment W2.2: GitHub Repository"
+
+    1. You will be given a GitHub repository by the instructor. It is located at
+       
+        - <https://github.com/orgs/cloudmesh-ai-luc/repositories>
+    
+    2. Verify that you can write into a file in the directory. I suggest to put something useful into the README such as your first and lastname. 
+    3. Upload your public key 
+
+!!! note "Assignment W2.3: Backup Your Computer"
+
+    Computers store the work, photos, and projects you’ve spent time creating including that of your classes. If a virus, hardware failure, or accidental delete occurs, those files can disappear forever. A regular backup gives you a safe copy that you can restore instantly, protecting both your effort and your grades. Think of a backup as a “reset button” that saves you from losing everything.
+   
+    1. Write a one‑paragraph explanation (4‑6 sentences) of why backing up of your own up a computer is important, using the ideas discussed earlier.
+
+    2. List three real‑world consequences that apply to you of not having a backup (e.g., lost homework, corrupted projects, costly data recovery).
+
+    3. Choose one backup method (external drive, cloud service, or built‑in OS tool) and outline very briefly the steps you would follow to set it up on your own computer.
+
+    4. Create a weekly backup schedule (day, time, and what to back up). 
+
+    5. Research an example from cloud Computing where a missing backup strategy lead to issues. (Example: Loss of data by NPR dur to Vendor shutting down [[1]](https://www.stlpr.org/news-briefs/2026-08-20/nine-pbs-70-years-programming-history)) 
+    Are there other examples? Write a short incidence case and how it could have been avoided.
+    
+    **Submission:**  
+    
+    * <repo>/assignments/week2/backup.md
+
+        1. Why is backing up important?
+        2. Real world consequences applying to you.
+        3. Which backup plan will you use?
+        4. My plan to establish a backup schedule.
+        5. Real world consequences applying to others.
+
+    !!! warning 
+        Backing up your computer could cost significant time. In the instructors case it took almost 2 days. So plan ahead and use days where you do not need your computer, or break the backup in smaller chinks. In some cases restrict the backup. If you use a physical backup drive, do not move your computer or drive during the backup.
+        
+
+!!! note "Assignment W.2.4: Local VM"
 
     **Goal:**  Set up a local virtual machine (VM) on your own computer, prove that you can log in, and produce a short, up‑to‑date tutorial that anyone else can follow.
 
@@ -141,7 +166,7 @@
 
 
 
-## Week 1 (Past Due) Thursday, August, 2026, 9am
+## Week 1 (Past Due) Thursday, August, 2026, 9am {#assignment-week1}
 
 !!! note "Assignment W1.1. What hardware do you have?"
 
