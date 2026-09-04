@@ -12,7 +12,7 @@
 ## Week 3:  Due Sep 17, 2026, 9am
 
 ??? note "Click here to see a draft version of the Assignments Week 3, Sept 17, 2026 (not yet due)"
-    !!! note "Assignment W2.1 VM on Chameleon Cloud"
+    !!! note "Assignment W3.1 VM on Chameleon Cloud"
 
         Although you may wish to use other clouds for your project, we want you to start up a single VM on Chameleon Cloud for a very brief time.
 
@@ -26,16 +26,16 @@
         4. Only after you have developed a plan. Do the reservation first. Make sure the reservation does not exceed 1 hour.
         5. Start up a VM using a Chameleon Cloud image for Ubuntu 24.04. Make sure to use the smallest image size possible for it (what size is that? It is part of your plan).
 
-    !!! note "Assignment W2.1 VM on Jetstream"
+    !!! note "Assignment W3.2 VM on Jetstream"
 
         Start a vm on jetstream and follow the tutorial provided. If you see issues. Improve the tutorial while createing pull requests in the Lecture notes.
 
-    !!! note "Assignment W3.4: OPTIONAL: VM on public cloud"
+    !!! note "Assignment W3.3: OPTIONAL: VM on public cloud"
 
         Create a VM on a cloud of your choice, such as AWS, Azure, or Google. Use the free tier.
         Document with screenshots how you created your account. Make sure you blur out sensitive information in the screenshot, including your name, credit card numbers and key, and other security details.
 
-    !!! note "Assignment W3.3: Compare"
+    !!! note "Assignment W3.4: Compare"
 
         Compare your experience between starting a VM on your local machine vs using Chameleon Cloud.
 
