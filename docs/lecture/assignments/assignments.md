@@ -50,19 +50,48 @@
 
     You are allowed to work in a team. This may be done either remotely or via in-person meetings. When working in teams, you need to provide documentation of who did what. Teams can be different for different assignments. Some homework may foster ad-hoc teams that utilize the same platform or operating system. Just make sure you do not just blindly replicate somone elses work. If you work on a team, please put that in your assignment solution and describe who did what.
 
-
 ## Week 2:  Due Sep 10, 2026, 9am 
 
-
-!!! note "Assignment W2.1: GitHub" 
+!!! note "Assignment W2.1: GitHub Repository"
 
     1. You will be given a GitHub repository by the instructor. It is located at
        
         - <https://github.com/orgs/cloudmesh-ai-luc/repositories>
     
-    2. Verify that you can write into a file in the Directory. I suggest to Put something useful into the README such as your first and lastname. 
+    2. Verify that you can write into a file in the directory. I suggest to put something useful into the README such as your first and lastname. 
+    3. Upload your public key 
 
-!!! note "Assignment W.2.2: Local VM"
+!!! note "Assignment W2.2: Google Account, Piazza Account post cleanup"
+
+    1. Locate your Account post in Piazza
+    2. Add your google account too your original post
+    3. Correct your chameleon id which is for us the e-mail you registered with
+    4. Fix your subject line to `Firstname Lastname (lucid@luc.edu)`
+
+    **Solution Example**
+
+    This is the subject line in the post:
+
+    ```
+    Albert Zweistein (azweistein@luc.edu)
+    ```
+    This is the message boddy in the post.
+
+    ```
+    class: 488
+    Firstname: Albert
+    Lastname: Zweistein
+    LUC e-mail: azweistein@luc.edu
+    chameloncloud id: azweistein@luc.edu
+    access id: azweistein
+    github id: zweistein
+    google email: zweistein-fake@gmail.com
+    ```
+
+    The post must be submitted to the accounts category.
+
+
+!!! note "Assignment W.2.3: Local VM"
 
     **Goal:**  Set up a local virtual machine (VM) on your own computer, prove that you can log in, and produce a short, up‑to‑date tutorial that anyone else can follow.
 
@@ -102,7 +131,7 @@
 
 
 
-!!! note "Assignment W2.3: Project proposal"
+!!! note "Assignment W2.4: Project proposal"
 
     Start working towards a project proposal. Work on it every week. A possible template for a proposal is at 
     
@@ -151,22 +180,28 @@
     class: 388 or 488 (use only one number)
     Firstname:
     Lastname:
-    LUC e-mail/id:
-    chameloncloud id:
-    access id:
-    github id:
+    LUC e-mail/id: *this is an e-mail*
+    chameloncloud id: *this is an e-mail*
+    access id: *this is not an e-mail*
+    github id: *this is not an e-mail*
+    google email: *this is an e-mail*
     ```
 
     To make it clear by example:
 
+    ```
+    Albert Zweistein (azweistein@luc.edu)
+    ```
+    
     ```
     class: 488
     Firstname: Albert
     Lastname: Zweistein
     LUC e-mail: azweistein@luc.edu
     chameloncloud id: azweistein@luc.edu
-    access id: azeweistein
+    access id: azweistein
     github id: zweistein
+    google email: zweistein-fake@gmail.com
     ```
 
     !!! info 
