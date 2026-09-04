@@ -172,7 +172,7 @@
 
 
 
-## Week 1 (Past Due) Thursday, August, 2026, 9am {#assignment-week1}
+## Week 1 (Past Due) Thursday, August, 2026, 9am
 
 !!! note "Assignment W1.1. What hardware do you have?"
 
