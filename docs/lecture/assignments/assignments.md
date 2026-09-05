@@ -48,7 +48,7 @@
     !!! tip
         Create a single document with all your assignment answers in them:
     
-        * `<repor>/assignment/week3.md`
+        * `<repor>/assignments/week3.md`
 
     
 
@@ -141,8 +141,8 @@
 
     Files are to be submitted into your repository.
 
-    1. **`assignment/week1/local-vm.md`** – the complete, up‑to‑date tutorial,   
-    2. **Screenshot** (`assignment/week1/vm-login.png`) showing a successful login inside the VM (≤ 800 × 600 px).  
+    1. **`assignments/week1/local-vm.md`** – the complete, up‑to‑date tutorial,   
+    2. **Screenshot** (`assignments/week1/vm-login.png`) showing a successful login inside the VM (≤ 800 × 600 px).  
     3. (Optional) A pull request against the lecture‑notes repository if you corrected an existing guide. (Gets extra points)
 
     **Grading Checklist**

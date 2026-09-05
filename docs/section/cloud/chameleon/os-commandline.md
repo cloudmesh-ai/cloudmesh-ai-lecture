@@ -43,7 +43,7 @@ source myproject-openrc.sh
 
 | Item | How to obtain / install |
 |------|-------------------------|
-| OpenStack CLI (`openstack`) | `pip install python-openstackclient`  *(or the distro package)* |
+| OpenStack CLI (`openstack`) | `pipx install python-openstackclient`  *(or the distro package)* |
 | Registered SSH key pair | `openstack keypair list` (create one with `openstack keypair create …`) |
 | Required resources (flavor, image, security group, network) | Use the `openstack … list` commands shown in the table below |
 

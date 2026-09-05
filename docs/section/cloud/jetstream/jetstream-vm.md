@@ -130,7 +130,7 @@ Once activated, you can proceed to install the necessary tools.
 
 First Install the OpenStack client:
   ```bash
-  pip install python-openstackclient
+  pipx install python-openstackclient
   ```
 
 ### 2. Authentication Configuration

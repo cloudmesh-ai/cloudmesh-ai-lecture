@@ -227,7 +227,8 @@ runtime:
 ## 2. Install the required Python packages  
 
 ```bash
-pip install "python-chi>=0.7" "pyyaml>=6.0" "python-openstackclient>=6.0"
+pip install "python-chi>=0.7" "pyyaml>=6.0"
+pipx install python-openstackclient
 ```
 
 !!! tip
