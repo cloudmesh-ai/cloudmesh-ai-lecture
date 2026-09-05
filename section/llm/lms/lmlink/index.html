@@ -1,0 +1,4039 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Practitioners Guide">
+      
+      
+        <meta name="author" content="Gregor von Laszewski">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Lmlink - Lecture Notes: CloudComputing, DevOps, and AI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../custom.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#unified-multi-tier-llm-cluster-architecture-deployment-guide-daemon-free" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-header__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Lecture Notes: CloudComputing, DevOps, and AI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lmlink
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Lecture Notes: CloudComputing, DevOps, and AI" class="md-nav__button md-logo" aria-label="Lecture Notes: CloudComputing, DevOps, and AI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Lecture Notes: CloudComputing, DevOps, and AI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LECTURES
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LECTURES
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OVERVIEW
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OVERVIEW
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/syllabus/cloud-computing-devops-ai-syllabus.pdf" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.0 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/01.1-syllabus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.1 Syllabus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/01.2-contribute-lecture-notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.2 Contribute
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/01.4-supplemental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.3 Supplemental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/01.5-piazza/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.4 Piazza
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_6">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_6" id="__nav_2_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5 ACCOUNTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L.1.5 ACCOUNTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/local/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5.1 Local
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/access-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5.2 Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/chameleon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5.3 Chameleon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/aws/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5.4 AWS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/azure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5.5 Azure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/accounts/google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1.5.6 Google
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLOUD
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLOUD
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/cloud/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.2 Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/cloud/virtualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.3 Virtualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/cloud/virtual-machine-technologies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.4 VM Technologies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/cloud/virtualization-landscape/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.1.5 VM Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6" id="__nav_2_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2 Local
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.2 Local
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/local/vm-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.1 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/local/multipass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.2 Multipass
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/local/qemu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.3 Qemu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/local/vagrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.4 Vagrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/local/virsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.5 Virsh
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/local/virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.6 Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/local/wsl2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.2.7 WSL2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_7">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_7" id="__nav_2_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.3 Academia
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.3 Academia
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_7_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_7_1" id="__nav_2_2_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.3.1 Jetstream
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.3.1 Jetstream
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/jetstream/jetstream-vm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/jetstream/jetstream-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hosting a Website
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/jetstream/jetstream-multi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple VMs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/jetstream/jetstream-cost/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cost
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_7_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_7_2" id="__nav_2_2_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L2.3.2 Chameleon
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    L2.3.2 Chameleon
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/chameleon/horizon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/chameleon/python-chi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os-chi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/chameleon/os-commandline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os-command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/chameleon/libcloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    libcloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/chameleon/os-python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os-python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ASSIGNMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ASSIGNMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/assignments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lecture/assignments/assignments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LUC_388_488
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PYTHON
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PYTHON
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-install/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.2 Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3">
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3 Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.3 Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.1 Interactive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.2 Editor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.3.3 Language
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5 Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.5 Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-click/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.1 Click
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-docopts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.2 DocOpts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-cmd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.5.3 CMD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5">
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6 Processes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.6 Processes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-subprocess/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.1 Subprocess
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.2 Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.3 Queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.6.4 Schedulers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6">
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7 Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.7 Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.1 Basic Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-wordcount/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.7.2 Wordcount
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7">
+        
+          
+          <label class="md-nav__link" for="__nav_4_7" id="__nav_4_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8 Graphs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.8 Graphs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.1 Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-matplotlib/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.8.2 Matplotlib
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_8">
+        
+          
+          <label class="md-nav__link" for="__nav_4_8" id="__nav_4_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9 Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    P.9 Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-ssl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.1 SSL/TLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/python-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    P.9.2 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LINUX
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LINUX
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.1 Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.2 Text one Liners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/refcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.1 RefCards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/ubuntu-cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.3.2 Ubuntu CLI Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.4 SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/ssh-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.5 SSH on Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/zsh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.6 ZSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/recording/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    L.7 Recording
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WRITING
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    WRITING
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/plagiarism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.1 Plagarism
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.2 Markdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/emacs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.3 Emacs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4">
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4 Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    W.4 Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/ppt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.1 PPT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/mermaid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.2 Mermaid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../writing/graphviz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    W.4.3 Graphviz
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ACKNOWLEDGEMENTS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ACKNOWLEDGEMENTS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../acknowledgements/acknowledgements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A.1 Acknowledgments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-system-architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. System Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-infrastructure-deployment-setup-daemon-free" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Infrastructure Deployment &amp; Setup (Daemon-Free)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Infrastructure Deployment &amp; Setup (Daemon-Free)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-initialize-remote-nodes-dgx-spark-rtx-3090" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Initialize Remote Nodes (DGX Spark &amp; RTX 3090)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-establish-lm-link-on-your-macbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Establish LM Link on Your MacBook
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-secure-the-remote-a100-cluster-jetstream-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Secure the Remote A100 Cluster &amp; Jetstream Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-managing-and-swapping-models-on-local-nodes-spark-rtx-3090" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Managing and Swapping Models on Local Nodes (Spark &amp; RTX 3090)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-client-tool-configuration-claude-code-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Client Tool Configuration (Claude Code &amp; VS Code)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Client Tool Configuration (Claude Code &amp; VS Code)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-claude-code-configuration-zshrc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Claude Code Configuration (~/.zshrc)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-vs-code-extension-configuration-continueconfigjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. VS Code Extension Configuration (~/.continue/config.json)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-install-cline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Install Cline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-open-cline-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Open Cline Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-configure-provider-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Configure Provider &amp; Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Configure Provider &amp; Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-routing-via-lm-studio-dgx-spark-rtx-3090-local-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Routing via LM Studio (DGX Spark / RTX 3090 / Local Router)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-routing-via-the-remote-a100-cluster-proxy-17704" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Routing via the Remote A100 Cluster Proxy (17704)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-routing-via-jetstream-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: Routing via Jetstream Cloud
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-advanced-model-parameters-recommended-for-local-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Advanced Model Parameters (Recommended for Local Models)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-the-rtx-3090-rig-24gb-vram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The RTX 3090 Rig (24GB VRAM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-the-nvidia-dgx-spark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The NVIDIA DGX Spark
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-the-remote-a100-cluster-via-port-17704" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Remote A100 Cluster (via Port 17704)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-m1-macbook-pro-max-64gb-unified-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. M1 MacBook Pro Max (64GB Unified Memory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-workflow-mapping-for-cline-claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Workflow Mapping for Cline &amp; Claude Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mac-os" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MAC OS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MAC OS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-choose-qwen38-27b-over-gemma-4-for-local-mac-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Choose Qwen3.8-27B over Gemma 4 for Local Mac Usage:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#which-quantization-to-pick-q4-vs-q8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which Quantization to Pick (Q4 vs. Q8)?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spark
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-llama-33-70b-instruct-or-qwen38-large-variant-moe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Llama 3.3 (70B Instruct) or Qwen3.8 (Large Variant / MoE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-deepseek-or-mixture-of-experts-moe-architectures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. DeepSeek or Mixture-of-Experts (MoE) Architectures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-best-for-spark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        what is best for spark
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="what is best for spark">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-manage-it-via-lm-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to manage it via LM Link:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-llama-33-70b-for-the-spark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Llama 3.3 70B for the Spark?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-install-claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Install Claude Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-authenticate-your-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Authenticate Your Account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-configure-claude-code-to-route-through-your-localremote-backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Configure Claude Code to Route Through Your Local/Remote Backends
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Configure Claude Code to Route Through Your Local/Remote Backends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-target-your-remote-a100-cluster-proxy-17704" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Target your Remote A100 Cluster Proxy (17704)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-target-your-local-lm-studio-router-dgx-spark-rtx-3090-on-port-1234" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Target your Local LM Studio Router (DGX Spark / RTX 3090 on Port 1234)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-essential-claude-code-commands-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Essential Claude Code Commands &amp; Shortcuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<hr>
+<h1 id="unified-multi-tier-llm-cluster-architecture-deployment-guide-daemon-free">Unified Multi-Tier LLM Cluster Architecture &amp; Deployment Guide (Daemon-Free)</h1>
+<p>Requirement: </p>
+<ul>
+<li>deamon free</li>
+<li>running LM Studio in foreground or interactive mode rather than background system daemons across your four compute tiers.</li>
+</ul>
+<h2 id="1-system-architecture-overview">1. System Architecture Overview</h2>
+<p>Your environment is structured into <strong>four distinct compute tiers</strong> controlled centrally from your M1 MacBook Pro, leveraging LM Link, secure SSH tunneling, and standard OpenAI-compatible endpoints without relying on background system daemons.</p>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>                                +-----------------------------------+
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                                |          M1 MacBook Pro           |
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                                |     (Client Control Machine)      |
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                                +-----------------------------------+
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                                   /       |              \           \      
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>         [LM Link / Mesh]         /        | [Localhost]   \           \ [HTTPS API]
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        +------------------------+         |                \           \
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        v                                  v                 v           v
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>+------------------------+      +------------------------+  +------------------------+  +------------------------+
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>|   NVIDIA DGX Spark     |      |   Linux + RTX 3090     |  | Remote 2x/4x A100 Node |  |    Jetstream Cloud     |
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>| (LM Studio / Desktop)  |      | (LM Studio / Desktop)  |  | (Proxy via port 17704) |  | (llm.jetstream-cloud)  |
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>+------------------------+      +------------------------+  +------------------------+  +------------------------+
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        \                                 /                         
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>         \                               / [Localhost Aggregator]   
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>          v                             v                           
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        +---------------------------------------+                   
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>        |         LM Studio Unified Router      |                   
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        |              [port 1234]              |                   
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>        +---------------------------------------+                   
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>   Client Tools Integration:
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>   • Claude Code (CLI) ---&gt; Points to your choice of active endpoint (`localhost:1234`, `17704`, or Jetstream)
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>   • VS Code          ---&gt; Multi-profile extension settings routing across all nodes
+</span></code></pre></div>
+<hr>
+<h2 id="2-infrastructure-deployment-setup-daemon-free">2. Infrastructure Deployment &amp; Setup (Daemon-Free)</h2>
+<h3 id="step-1-initialize-remote-nodes-dgx-spark-rtx-3090">Step 1: Initialize Remote Nodes (DGX Spark &amp; RTX 3090)</h3>
+<p>Instead of running a background system daemon (<code>lms daemon up</code>), manage these nodes via active foreground processes or desktop apps:</p>
+<ul>
+<li><strong>Option A (GUI):</strong> Launch the LM Studio desktop application directly on the physical display/desktop of the DGX Spark and RTX 3090 machines.</li>
+<li><strong>Option B (Foreground CLI):</strong> If logged in via terminal, load your model and start the server process directly in an active, foreground shell window:
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>lms<span class="w"> </span>load<span class="w"> </span>&lt;model_identifier&gt;<span class="w"> </span>--gpu<span class="w"> </span>max
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>lms<span class="w"> </span>server<span class="w"> </span>start
+</span></code></pre></div></li>
+</ul>
+<p><em>(Keeping this terminal window open keeps the service alive; closing it or hitting <code>Ctrl+C</code> cleanly shuts down the server).</em></p>
+<h3 id="step-2-establish-lm-link-on-your-macbook">Step 2: Establish LM Link on Your MacBook</h3>
+<ol>
+<li>Open the <strong>LM Studio</strong> desktop app on your M1 MacBook Pro.</li>
+<li>
+<p>Authenticate your session if prompted:
+</p><div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>lms<span class="w"> </span>login
+</span></code></pre></div>
+</li>
+<li>
+<p>Use the LM Studio GUI dashboard to pair your active remote DGX Spark and RTX 3090 instances into your <strong>LM Link</strong> mesh network.</p>
+</li>
+</ol>
+<h3 id="step-3-secure-the-remote-a100-cluster-jetstream-connection">Step 3: Secure the Remote A100 Cluster &amp; Jetstream Connection</h3>
+<ol>
+<li>Launch a persistent background SSH tunnel to map the remote multi-GPU A100 cluster proxy forward to port <code>17704</code> on your Mac:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ssh<span class="w"> </span>-N<span class="w"> </span>-L<span class="w"> </span><span class="m">17704</span>:localhost:17704<span class="w"> </span>user@your-a100-cluster-ip<span class="w"> </span><span class="p">&amp;</span>
+</span></code></pre></div>
+<ol>
+<li>Verify local proxy connectivity:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>http://localhost:17704/v1/models
+</span></code></pre></div>
+<ol>
+<li>Add your Jetstream Cloud credentials to your shell configuration (<code>~/.zshrc</code>):</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">JETSTREAM_API_KEY</span><span class="o">=</span><span class="s2">"your-jetstream-api-key"</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">JETSTREAM_BASE_URL</span><span class="o">=</span><span class="s2">"https://llm.jetstream-cloud.org/v1"</span>
+</span></code></pre></div>
+<hr>
+<h2 id="3-managing-and-swapping-models-on-local-nodes-spark-rtx-3090">3. Managing and Swapping Models on Local Nodes (Spark &amp; RTX 3090)</h2>
+<p>With the manual/foreground setup, you can dynamically change models using either interface method:</p>
+<ul>
+<li><strong>Method A (GUI):</strong> Open LM Studio on your Mac, select your DGX Spark or RTX 3090 from the node menu, and load a different model directly into VRAM.</li>
+<li><strong>Method B (CLI):</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># List available local models</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>lms<span class="w"> </span>ls
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Unload current memory block</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>lms<span class="w"> </span>unload<span class="w"> </span>--host<span class="w"> </span>&lt;node-ip-or-name&gt;
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Load new model with maximum GPU offloading</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>lms<span class="w"> </span>load<span class="w"> </span>&lt;model_identifier&gt;<span class="w"> </span>--host<span class="w"> </span>&lt;node-ip-or-name&gt;<span class="w"> </span>--gpu<span class="w"> </span>max<span class="w"> </span>--context-length<span class="w"> </span><span class="m">8192</span>
+</span></code></pre></div>
+<hr>
+<h2 id="4-client-tool-configuration-claude-code-vs-code">4. Client Tool Configuration (Claude Code &amp; VS Code)</h2>
+<h3 id="a-claude-code-configuration-zshrc">A. Claude Code Configuration (<code>~/.zshrc</code>)</h3>
+<p>Set up base variables or alias shortcuts to swap your CLI focus between targets:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Default target pointing to A100 cluster proxy</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_BASE_URL</span><span class="o">=</span><span class="s2">"http://localhost:17704/v1"</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_MODEL</span><span class="o">=</span><span class="s2">"gemma-4"</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">"not-needed"</span>
+</span></code></pre></div>
+<p><em>(To route Claude Code through your DGX Spark or RTX 3090 instead, swap the base URL to <code>http://localhost:1234/v1</code>).</em></p>
+<h3 id="b-vs-code-extension-configuration-continueconfigjson">B. VS Code Extension Configuration (<code>~/.continue/config.json</code>)</h3>
+<p>Configure multi-profile backends for extensions like <strong>Continue</strong>, <strong>Cline</strong>, or <strong>Roo Code</strong>:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">"models"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gemma 4 (A100 Cluster)"</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">      </span><span class="nt">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openai"</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">      </span><span class="nt">"apiBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:17704/v1"</span><span class="p">,</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">      </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gemma-4"</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DGX Spark / RTX 3090 (LM Link)"</span><span class="p">,</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">      </span><span class="nt">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openai"</span><span class="p">,</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">      </span><span class="nt">"apiBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:1234/v1"</span><span class="p">,</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">      </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-linked-local-model"</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jetstream Cloud"</span><span class="p">,</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">      </span><span class="nt">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openai"</span><span class="p">,</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">      </span><span class="nt">"apiBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://llm.jetstream-cloud.org/v1"</span><span class="p">,</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">      </span><span class="nt">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your-jetstream-api-key"</span><span class="p">,</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">      </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jetstream-model-name"</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Cline</p>
+<p>To configure the <strong>Cline</strong> extension in VS Code on your M1 MacBook Pro so it can talk to your multi-tier backends (such as your local LM Studio router, your remote A100 cluster proxy, or Jetstream Cloud), follow these steps:</p>
+<h3 id="step-1-install-cline">Step 1: Install Cline</h3>
+<ol>
+<li>Open <strong>VS Code</strong> on your Mac.</li>
+<li>Go to the Extensions marketplace (<code>Cmd+Shift+X</code> or click the Extensions icon on the left sidebar).</li>
+<li>Search for <strong>Cline</strong> (by Saoud Rizwan) and click <strong>Install</strong>.</li>
+</ol>
+<h3 id="step-2-open-cline-settings">Step 2: Open Cline Settings</h3>
+<ol>
+<li>Click the <strong>Cline icon</strong> in your left activity bar to open the Cline panel.</li>
+<li>Click the <strong>Settings gear icon (⚙️)</strong> at the top of the Cline panel.</li>
+</ol>
+<h3 id="step-3-configure-provider-endpoints">Step 3: Configure Provider &amp; Endpoints</h3>
+<p>Because Cline supports OpenAI-compatible APIs, you can point it directly to any of your local or remote routing layers.</p>
+<p>In the <strong>API Provider</strong> dropdown, select <strong>OpenAI Compatible</strong>, then fill out the fields depending on which tier you want Cline to target:</p>
+<h4 id="option-a-routing-via-lm-studio-dgx-spark-rtx-3090-local-router">Option A: Routing via LM Studio (DGX Spark / RTX 3090 / Local Router)</h4>
+<ul>
+<li><strong>Base URL:</strong> <code>http://localhost:1234/v1</code></li>
+<li><strong>API Key:</strong> <code>not-needed</code> (or any dummy string like <code>lm-studio</code>)</li>
+<li><strong>Model ID:</strong> Enter the exact model name currently loaded in your LM Studio network (e.g., matching what is active on your Spark or 3090).</li>
+</ul>
+<h4 id="option-b-routing-via-the-remote-a100-cluster-proxy-17704">Option B: Routing via the Remote A100 Cluster Proxy (<code>17704</code>)</h4>
+<ul>
+<li><strong>Base URL:</strong> <code>http://localhost:17704/v1</code></li>
+<li><strong>API Key:</strong> <code>not-needed</code></li>
+<li><strong>Model ID:</strong> <code>gemma-4</code> (or the specific model identifier mapped on your A100 backend)</li>
+</ul>
+<h4 id="option-c-routing-via-jetstream-cloud">Option C: Routing via Jetstream Cloud</h4>
+<ul>
+<li><strong>Base URL:</strong> <code>[https://llm.jetstream-cloud.org/v1](https://llm.jetstream-cloud.org/v1)</code></li>
+<li><strong>API Key:</strong> Your personal Jetstream API key (<code>sk-...</code>)</li>
+<li><strong>Model ID:</strong> Your target Jetstream model name</li>
+</ul>
+<hr>
+<h3 id="step-4-advanced-model-parameters-recommended-for-local-models">Step 4: Advanced Model Parameters (Recommended for Local Models)</h3>
+<p>Scroll down inside the Cline settings to fine-tune context behavior for coding:</p>
+<ul>
+<li><strong>Context Window:</strong> Match this to your model's capabilities (e.g., <code>8192</code>, <code>16384</code>, or higher depending on the model you are running on your A100s or workstations).</li>
+<li><strong>Max Output Tokens:</strong> Set a comfortable ceiling for code generation blocks (e.g., <code>4096</code> or <code>8192</code>).</li>
+</ul>
+<p>Click <strong>Save</strong> at the bottom of the provider settings panel, and Cline is ready to interact with your chosen backend directly inside your workspace.</p>
+<p>With your mix of hardware—<strong>RTX 3090 (24GB VRAM)</strong>, <strong>NVIDIA DGX Spark</strong> (cohesive multi-GPU / high-memory accelerator setup), <strong>M1 MacBook Pro Max 64GB</strong>, and your <strong>remote A100 cluster</strong>—you can distribute your models based on their strengths: code execution, heavy logic reasoning, or fast local agent tasks.</p>
+<p>Here is a breakdown of what models you should run on each machine to get the absolute most out of your setup:</p>
+<hr>
+<h3 id="1-the-rtx-3090-rig-24gb-vram">1. The RTX 3090 Rig (24GB VRAM)</h3>
+<ul>
+<li><strong>Best Choice:</strong> <strong>Qwen3-Coder (30B-A3B)</strong> or <strong>DeepSeek-R1-Distill-32B</strong> (at a 4-bit/Q4 or IQ4 quant).</li>
+<li><strong>Why:</strong> A single 24GB VRAM card hits the sweet spot for 27B–32B parameter models. Qwen3-Coder models excel at local agentic tool use (crucial for Cline and VS Code), while a DeepSeek-R1 distilled model gives you powerful logic and math reasoning right on your local hardware without hitting the cloud.</li>
+</ul>
+<h3 id="2-the-nvidia-dgx-spark">2. The NVIDIA DGX Spark</h3>
+<ul>
+<li><strong>Best Choice:</strong> <strong>Mistral Small / Devstral (24B–48B)</strong> or <strong>Llama 3.3 (70B quantized)</strong>.</li>
+<li><strong>Why:</strong> The DGX Spark handles heavy enterprise and deep system orchestration workloads. Use it for a larger frontier-class open model (like a 70B parameter model at Q4 quantization) or specialized multi-step code generation models that require robust VRAM bandwidth to maintain low latency during agentic loops.</li>
+</ul>
+<h3 id="3-the-remote-a100-cluster-via-port-17704">3. The Remote A100 Cluster (via Port <code>17704</code>)</h3>
+<ul>
+<li><strong>Best Choice:</strong> <strong>Gemma 4</strong> or <strong>Qwen-Max / Large MoE architectures</strong> (fully resident in high-speed multi-GPU VRAM).</li>
+<li><strong>Why:</strong> Since you have a multi-A100 backend proxy mapped here, reserve this tier for your heaviest, highest-context frontier tasks. Run large-context models (e.g., 32K–128K+ windows) here so Claude Code can ingest massive repositories or documentation sets without choking local VRAM.</li>
+</ul>
+<h3 id="4-m1-macbook-pro-max-64gb-unified-memory">4. M1 MacBook Pro Max (64GB Unified Memory)</h3>
+<ul>
+<li><strong>Best Choice:</strong> <strong>Qwen3.8-27B (Q4 or Q8)</strong> or <strong>Gemma 4 (26B)</strong>.</li>
+<li><strong>Why:</strong> Your Mac's 64GB of unified memory allows you to comfortably run dense 27B models locally via MLX or llama.cpp. This acts as your mobile/local offline fallback when you aren't routing tasks out to your DGX Spark or RTX 3090 via LM Link.</li>
+</ul>
+<hr>
+<h3 id="recommended-workflow-mapping-for-cline-claude-code">Recommended Workflow Mapping for Cline &amp; Claude Code</h3>
+<ul>
+<li><strong>For everyday coding &amp; fast edits:</strong> Route Cline/Claude Code to your <strong>RTX 3090 running Qwen3-Coder-30B</strong> for instant generation speed.</li>
+<li><strong>For deep architectural refactoring &amp; complex debugging:</strong> Shift your tool target to your <strong>A100 Cluster (Gemma 4)</strong> or <strong>DGX Spark (70B)</strong> to leverage maximum reasoning capacity.</li>
+</ul>
+<h2 id="mac-os">MAC OS</h2>
+<p>Use <strong>Qwen3.8-27B</strong>.</p>
+<h3 id="why-choose-qwen38-27b-over-gemma-4-for-local-mac-usage">Why Choose Qwen3.8-27B over Gemma 4 for Local Mac Usage:</h3>
+<ol>
+<li><strong>Superior Coding &amp; Agentic Performance:</strong> Qwen models (specifically the Qwen dense/coder line) consistently rank at the top for local coding assistants like Cline, Claude Code, and VS Code integrations. It handles tool-calling loops and multi-step code generation natively with exceptional precision.</li>
+<li><strong>Flexible Thinking Control:</strong> Qwen3.8-27B features adjustable reasoning effort flags (<code>xhigh</code>, <code>medium</code>, <code>low</code>), letting you dynamically scale its logic depth depending on whether you need a fast completion or deep architecture debugging.</li>
+<li><strong>Massive Context &amp; Native Multimodality:</strong> It ships with a native 262K context window (extensible up to 1M tokens) and strong vision capabilities, making it far more versatile for analyzing local file trees or UI screenshots on your Mac.</li>
+</ol>
+<h3 id="which-quantization-to-pick-q4-vs-q8">Which Quantization to Pick (Q4 vs. Q8)?</h3>
+<ul>
+<li><strong>Go with Q4 (or IQ4_NL / Q4_K_M)</strong> if you want lightning-fast token generation speeds on your M1 Mac's unified memory. It leaves plenty of breathing room for macOS system memory and other background tools.</li>
+<li><strong>Go with Q8</strong> only if your workflow demands maximum code-accuracy logic and you don't mind a slightly lower generation tokens-per-second rate.</li>
+</ul>
+<p><em>(If you are setting it up via llama.cpp or MLX on your Mac, pull <code>Qwen/Qwen3.8-27B-Instruct</code> quantized to Q4_K_M for the best balance of speed and coding intelligence).</em></p>
+<h3 id="spark">Spark</h3>
+<p>On your <strong>NVIDIA DGX Spark</strong>, you should run a <strong>larger frontier-class open weight model or Mixture-of-Experts (MoE)</strong> that exceeds the 24GB VRAM ceiling of your RTX 3090, but fully leverages the Spark's <strong>128 GB of unified system memory (Grace Blackwell architecture)</strong>.</p>
+<p>The best choices to load onto your DGX Spark include:</p>
+<h3 id="1-llama-33-70b-instruct-or-qwen38-large-variant-moe">1. Llama 3.3 (70B Instruct) or Qwen3.8 (Large Variant / MoE)</h3>
+<ul>
+<li><strong>Why:</strong> With 128GB of high-speed unified memory, the DGX Spark can comfortably fit a fully unquantized or lightly quantized (Q4/Q5) 70B+ parameter model.</li>
+<li><strong>Role in your cluster:</strong> Keep this as your <strong>heavy local reasoning and orchestration engine</strong>. When Cline or Claude Code faces a complex software architecture refactoring task that requires looking deep into a codebase, route it to the 70B model running on the Spark. It bridges the gap between your local Mac/3090 setup and your remote A100 cluster.</li>
+</ul>
+<h3 id="2-deepseek-or-mixture-of-experts-moe-architectures">2. DeepSeek or Mixture-of-Experts (MoE) Architectures</h3>
+<ul>
+<li><strong>Why:</strong> The Spark's Grace Blackwell unified design excels at handling memory-bound MoE models efficiently. Running a model like a DeepSeek distilled variant or specialized MoE allows you to utilize massive parameter counts while maintaining fast token throughput.</li>
+</ul>
+<h2 id="what-is-best-for-spark">what is best for spark</h2>
+<h3 id="how-to-manage-it-via-lm-link">How to manage it via LM Link:</h3>
+<p>Leave the Spark loaded with your heavy <strong>70B/MoE model</strong>, use your <strong>RTX 3090</strong> for fast 32B coding loops (Qwen3-Coder), and use your <strong>Mac</strong> for mobile/offline fallback. This gives you a tiered performance hierarchy across all your local hardware before ever needing to tap your remote A100 cluster or Jetstream Cloud.</p>
+<p>Load <strong>Llama 3.3 (70B Instruct)</strong> (quantized to Q4_K_M or IQ4_NL) onto your <strong>NVIDIA DGX Spark</strong>.</p>
+<h3 id="why-llama-33-70b-for-the-spark">Why Llama 3.3 70B for the Spark?</h3>
+<ul>
+<li><strong>Perfect Memory Fit:</strong> The DGX Spark features <strong>128 GB of coherent unified system memory</strong> (Grace Blackwell architecture). A 70B model at a 4-bit quantization takes up roughly 40GB–45GB of space, fitting comfortably into the Spark's massive memory footprint with plenty of headroom left over for long context windows and fast token caching.</li>
+<li><strong>The "Goldilocks" Tier:</strong> Your RTX 3090 handles the snappy 30B coding tasks, your Mac handles mobile/local fallback, and your remote A100 cluster handles hyper-scale tasks. Putting a heavy 70B reasoning model on the Spark creates a seamless mid-to-high bridge for deep code analysis, multi-file architectural reasoning, and complex agentic workflows when Cline or Claude Code needs broad context comprehension.</li>
+</ul>
+<p>To install and configure <strong>Claude Code</strong> on your macOS system, follow the native command-line installation path recommended by Anthropic.</p>
+<hr>
+<h3 id="step-1-install-claude-code">Step 1: Install Claude Code</h3>
+<p>Open your terminal on your M1 MacBook Pro and run the native installer script:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://claude.ai/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</span></code></pre></div>
+<p><em>(Alternatively, if you prefer using Homebrew: <code>brew install --cask claude-code</code>)</em></p>
+<p>Verify that the installation completed successfully by checking the version:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>claude<span class="w"> </span>--version
+</span></code></pre></div>
+<hr>
+<h3 id="step-2-authenticate-your-account">Step 2: Authenticate Your Account</h3>
+<p>Claude Code requires an active account (such as Claude Pro, Max, Team, Enterprise, or a Claude Console API account).</p>
+<ol>
+<li>
+<p>Navigate to any of your code project directories in your terminal:
+</p><div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">cd</span><span class="w"> </span>/path/to/your/project
+</span></code></pre></div>
+</li>
+<li>
+<p>Launch the CLI tool for the first time:
+</p><div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>claude
+</span></code></pre></div>
+</li>
+<li>
+<p>Follow the automated browser prompts to log in and authorize your session. Once authenticated, credentials are saved locally so you won't need to log in repeatedly.</p>
+</li>
+</ol>
+<hr>
+<h3 id="step-3-configure-claude-code-to-route-through-your-localremote-backends">Step 3: Configure Claude Code to Route Through Your Local/Remote Backends</h3>
+<p>By default, Claude Code communicates with Anthropic's cloud infrastructure. However, because you are building a custom multi-tier cluster infrastructure (using your local Mac, DGX Spark, RTX 3090, A100 cluster proxy, or Jetstream), you can redirect Claude Code's backend target using standard OpenAI-compatible environment variables.</p>
+<p>To point Claude Code to a specific backend, define the routing variables in your <code>~/.zshrc</code> file:</p>
+<h4 id="option-a-target-your-remote-a100-cluster-proxy-17704">Option A: Target your Remote A100 Cluster Proxy (<code>17704</code>)</h4>
+<div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_BASE_URL</span><span class="o">=</span><span class="s2">"http://localhost:17704/v1"</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_MODEL</span><span class="o">=</span><span class="s2">"gemma-4"</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">"not-needed"</span>
+</span></code></pre></div>
+<h4 id="option-b-target-your-local-lm-studio-router-dgx-spark-rtx-3090-on-port-1234">Option B: Target your Local LM Studio Router (DGX Spark / RTX 3090 on Port <code>1234</code>)</h4>
+<div class="highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_BASE_URL</span><span class="o">=</span><span class="s2">"http://localhost:1234/v1"</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_MODEL</span><span class="o">=</span><span class="s2">"your-linked-local-model"</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">"not-needed"</span>
+</span></code></pre></div>
+<p>After modifying your <code>~/.zshrc</code>, reload your shell:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">source</span><span class="w"> </span>~/.zshrc
+</span></code></pre></div>
+<hr>
+<h3 id="step-4-essential-claude-code-commands-shortcuts">Step 4: Essential Claude Code Commands &amp; Shortcuts</h3>
+<p>Once inside an active <code>claude</code> session in your project directory:</p>
+<ul>
+<li>Type <code>/</code> inside the prompt to view available workspace commands and tools.</li>
+<li>Press <strong>Shift + Tab</strong> to cycle through different permission modes (e.g., auto-approval vs. guarded interactive turns).</li>
+<li>Type <code>/config</code> to open settings (such as theme and preferences).</li>
+<li>Use <code>claude -c</code> to instantly continue your most recent conversation thread in that project.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <div id="custom-footer-bar">
+  <span>Lecture Notes: Collected and Prepared by Gregor von Laszewski (laszewski@gmail.com)</span>
+</div>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.code.copy", "content.full_width"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../javascripts/show_source.js"></script>
+      
+        <script src="../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
