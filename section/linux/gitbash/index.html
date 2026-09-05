@@ -2857,6 +2857,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#appendix-automated-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix - Automated deployments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix - Automated deployments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-using-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Using Ansible
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-using-native-windows-package-managers-winget-chocolatey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Using Native Windows Package Managers (Winget / Chocolatey)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3414,6 +3453,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#appendix-automated-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix - Automated deployments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix - Automated deployments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-using-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 1: Using Ansible
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-using-native-windows-package-managers-winget-chocolatey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method 2: Using Native Windows Package Managers (Winget / Chocolatey)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3484,6 +3562,45 @@ Once you reach the final configuration screen, click <strong>Install</strong>. W
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">"Your Full Name"</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">"your.email@example.com"</span>
 </span></code></pre></div>
+<h2 id="appendix-automated-deployments">Appendix - Automated deployments</h2>
+<div class="admonition warning">
+<p class="admonition-title">Untested, i do not have Windows</p>
+</div>
+<p>Git Bash can be fully automated and installed via configuration management and deployment tools like <strong>Ansible</strong>, <strong>Winget</strong>, or <strong>Chocolatey</strong>.</p>
+<h3 id="method-1-using-ansible">Method 1: Using Ansible</h3>
+<p>Ansible can manage Windows nodes remotely via WinRM. You can use either the <code>win_chocolatey</code> module or run <code>winget</code> directly through Ansible tasks to automate the installation and configure your git user profile.</p>
+<p>Here is an example playbook snippet using Chocolatey:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Git for Windows (includes Git Bash)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">chocolatey.chocolatey.win_chocolatey</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure global Git user name</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="nt">ans.windows.win_command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git config --global user.name "Your Full Name"</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="c1"># Or use ansible.windows.win_powershell / win_shell</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure global Git user email</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="nt">ans.windows.win_command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git config --global user.email "your.email@example.com"</span>
+</span></code></pre></div>
+<h3 id="method-2-using-native-windows-package-managers-winget-chocolatey">Method 2: Using Native Windows Package Managers (Winget / Chocolatey)</h3>
+<p>If you are bootstrapping machines locally or through scripts without Ansible, you can invoke a package manager directly from PowerShell or Command Prompt.</p>
+<ul>
+<li>
+<p><strong>Using Winget (Built into Windows 11):</strong>
+</p><div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">winget</span> <span class="n">install</span> <span class="p">-</span><span class="n">-id</span> <span class="n">Git</span><span class="p">.</span><span class="n">Git</span> <span class="n">-e</span> <span class="p">-</span><span class="n">-source</span> <span class="n">winget</span>
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Using Chocolatey:</strong>
+</p><div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">choco</span> <span class="n">install</span> <span class="n">git</span> <span class="n">-y</span>
+</span></code></pre></div>
+</li>
+</ul>
+<p>Once installed via any of these tools, Git Bash is automatically placed on your system along with the command-line tools, requiring no manual GUI clicking. </p>
+<div class="admonition assignmnet">
+<p class="admonition-title">Assignmnet</p>
+<p>In the last two cases you still have to set the username and email. please work as a team and create a pull request completing the documentation</p>
+</div>
 
 
 
