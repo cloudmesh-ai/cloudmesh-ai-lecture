@@ -60,3 +60,55 @@ git config --global user.name "Your Full Name"
 git config --global user.email "your.email@example.com"
 
 ```
+
+## Appendix - Automated deployments
+
+!!! warning "Untested, i do not have Windows"
+
+Git Bash can be fully automated and installed via configuration management and deployment tools like **Ansible**, **Winget**, or **Chocolatey**.
+
+### Method 1: Using Ansible
+
+Ansible can manage Windows nodes remotely via WinRM. You can use either the `win_chocolatey` module or run `winget` directly through Ansible tasks to automate the installation and configure your git user profile.
+
+Here is an example playbook snippet using Chocolatey:
+
+```yaml
+- name: Install Git for Windows (includes Git Bash)
+  chocolatey.chocolatey.win_chocolatey:
+    name: git
+    state: present
+
+- name: Configure global Git user name
+  ans.windows.win_command: git config --global user.name "Your Full Name"
+  # Or use ansible.windows.win_powershell / win_shell
+
+- name: Configure global Git user email
+  ans.windows.win_command: git config --global user.email "your.email@example.com"
+
+```
+
+### Method 2: Using Native Windows Package Managers (Winget / Chocolatey)
+
+If you are bootstrapping machines locally or through scripts without Ansible, you can invoke a package manager directly from PowerShell or Command Prompt.
+
+* **Using Winget (Built into Windows 11):**
+```powershell
+winget install --id Git.Git -e --source winget
+
+```
+
+
+* **Using Chocolatey:**
+```powershell
+choco install git -y
+
+```
+
+
+
+Once installed via any of these tools, Git Bash is automatically placed on your system along with the command-line tools, requiring no manual GUI clicking. 
+
+
+!!! Assignmnet 
+    In the last two cases you still have to set the username and email. please work as a team and create a pull request completing the documentation
