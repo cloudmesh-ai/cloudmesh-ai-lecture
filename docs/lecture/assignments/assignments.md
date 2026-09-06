@@ -8,6 +8,13 @@
 
     You are allowed to work in a team. This may be done either remotely or via in-person meetings. When working in teams, you need to provide documentation of who did what. Teams can be different for different assignments. Some homework may foster ad-hoc teams that utilize the same platform or operating system. Just make sure you do not just blindly replicate somone elses work. If you work on a team, please put that in your assignment solution and describe who did what.
 
+!!! Assignments "Assignments: Every week"
+
+    1. review lecture material
+    2. improve with pull requests if you see issues
+    3. help each other
+    4. update the README.md with the list of assignments that are posted each week.
+    5. you can add a subbullet with - [ ] Other and check what other things you did. If there are links in GitHub relevant make sure to post them here.
 
 ## Week 3:  Due Sep 17, 2026, 9am
 
@@ -55,8 +62,14 @@
 
     !!! note "Assignment W3.5: README.md"
 
-        https://github.com/cloudmesh-ai-luc/example/blob/main/README.md
 
+        1. Please update the Readme using the following template
+
+            * <https://github.com/cloudmesh-ai-luc/example/blob/main/README.md>
+
+        2. fill out the checkboxes. only fill them out when they are done. The have the purpose to selfevaluate and document the progress. you make.
+
+        3. This is kept up to date by you every week from assignments posted in the Lecture notes. It is part of each weeks assignment
         
 
     
