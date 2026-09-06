@@ -71,7 +71,23 @@
 
         3. This is kept up to date by you every week from assignments posted in the Lecture notes. It is part of each weeks assignment
         
+    !!! note "Assignment W3.6 git from commandline"
 
+        We created a project.md use th git command lines to sharpen your skills to do all git interactions from commandline. This is important as on cloud services we do not have GUIs and we need to use git form multiple services. Use:
+
+        * work with a fork (GUI)
+
+        All these from commandline:
+        * git clone
+        * git commit -a
+        * git commit -m "msg" file
+        * git push
+        * git pull
+
+        * create a pull request (GUI)
+        *a ccept a pull request (you can do that via GUI)
+
+        !!! tip "set up your username email on any machine where you do git push. Also set up the editor.
     
 
 ## Week 2:  Due Sep 10, 2026, 9am
