@@ -13,6 +13,15 @@
 
 ??? note "Click here to see a draft version of the Assignments Week 3, Sept 17, 2026 (not yet due)"
 
+    !!! tip "Keep this assignment simple" 
+
+        Create a single document with all your assignment answers in them:
+    
+        * `<repor>/assignments/week3.md`
+
+        But make sure you do also the README.md update
+
+
     !!! note "Assignment W3.1 VM on Jetstream"
 
         Start a vm on jetstream and follow the tutorial provided. If you see issues. Improve the tutorial while createing pull requests in the Lecture notes.
@@ -44,11 +53,11 @@
 
         2. Put the results of your assignments in a structured fashion into the repository. While creating filenames and directories
 
+    !!! note "Assignment W3.5: README.md"
+
+        https://github.com/cloudmesh-ai-luc/example/blob/main/README.md
+
         
-    !!! tip
-        Create a single document with all your assignment answers in them:
-    
-        * `<repor>/assignments/week3.md`
 
     
 
