@@ -101,3 +101,32 @@ screencapture -i a.png
 
 * **Windows Interactive Area Capture (GUI):** Press `WIN + SHIFT + S` to open the Snipping Tool and select the area you want to capture.
 
+## Avoiding to record secret information
+
+You can prevent sensitive information from being recorded, though most standard terminal recorders capture raw text input and output streams indiscriminately.
+
+Here are the primary ways to handle or remove secret information:
+
+### 1. Pre-Recording Prevention: Environment Isolation
+
+The safest approach is to avoid exposing secrets in the terminal environment entirely during the recording session:
+
+* **Use Dummy Credentials:** Use placeholder values (e.g., `API_KEY=your_key_here`, `password123`) instead of real production keys or passwords.
+* **Source Environment Variables from Files:** Load sensitive configuration from a separate, unrecorded file or `.env` file that is ignored by your commands, or export them before starting the recording session so they do not appear in command history or output text.
+
+### 2. Post-Recording Editing (`asciinema`)
+
+If you use `asciinema` to record `.cast` files, the recording is stored as plain-text JSON. You can edit the file manually before sharing it:
+
+1. Open the `.cast` file in a text editor.
+2. Locate the lines containing the sensitive text in the output frames (each frame is structured as `[timestamp, event_type, text]`).
+3. Replace the sensitive string with asterisks or dummy text (ensure you do not alter the length of the string if it shifts column coordinates, or simply substitute characters 1-to-1).
+
+### 3. Dedicated Redaction Tools
+
+For automated scrubbing, tools like `asciinema` or third-party wrappers do not typically feature live optical "blending" since terminals render text rather than pixels, but you can pipe output through text filters or sanitize transcripts.
+
+* **Scrubbing scripts:** You can write a short Python or `sed` script to parse your output logs and regex-replace known patterns (such as AWS keys, Bearer tokens, or IP addresses) before rendering or publishing them.
+
+!!! Warning "Security Warning"" 
+    Always review your raw typescript, cast file, or HTML output in a text editor before publishing it to a public repository. Terminal histories often capture unexpected environment variables, prompt strings showing hostnames, or configuration file contents.
