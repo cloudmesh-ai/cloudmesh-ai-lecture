@@ -1,4 +1,4 @@
-# Lecture Notes: Cloud Computing, DevOps, and AI
+# Cloudmesh AI Lecture Notes: CloudComputing, DevOps, and AI
 
 Welcome to the repository for the **Cloud Computing, DevOps, and AI** course. This project serves as a comprehensive "Practitioner's Guide," providing hands-on, project-based materials for students and professionals exploring modern cloud infrastructure and AI integration.
 
