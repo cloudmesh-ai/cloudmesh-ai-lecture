@@ -18,6 +18,7 @@ view:
 	open http://localhost:${PORT}
 
 serve:
+	-lsof -ti:$(PORT) | xargs -n 1 kill -9 2>/dev/null || true
 	$(MKDOCS_BIN) serve --dirtyreload
 
 dev: serve
