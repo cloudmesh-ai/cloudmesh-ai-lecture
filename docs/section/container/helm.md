@@ -7,6 +7,9 @@
     - Install, upgrade, and rollback applications using Helm.
     - Create and customize your own basic Helm Chart.
     - Evaluate the trade-offs between Helm's templating and other configuration management methods.
+    - Implement Helm hooks for custom deployment lifecycle management.
+    - Manage sensitive data in Helm charts using secrets management tools.
+    - Orchestrate complex applications using Helm dependencies (Umbrella Charts).
 
 
 
@@ -404,6 +407,9 @@ jobs:
     2. **Value Overrides**: Deploy an application using a Helm chart, but override at least three default values using a custom `my-values.yaml` file.
     3. **Lifecycle Management**: Perform a successful deployment, then update a value in your chart, upgrade the release, and finally roll it back to the previous version using `helm rollback`.
     4. **Custom Chart**: Create your own Helm chart for a simple Nginx deployment and test it locally.
+    5. **Advanced Templating**: Create a chart that uses `range` and `with` to dynamically generate multiple resources (e.g., multiple ConfigMaps) based on a list in `values.yaml`.
+    6. **Umbrella Charts**: Build a master chart that depends on two sub-charts (e.g., Redis and a custom App) and deploy them as a single unit.
+    7. **Helm Hooks**: Implement a `pre-install` or `post-upgrade` hook to run a database migration job before the main application starts.
 
 ### References & Further Reading
 
