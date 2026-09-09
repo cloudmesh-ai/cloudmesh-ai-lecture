@@ -1,95 +1,129 @@
 # Assignments
 
-!!! warning "All assignments are due on *Thursdays 9am*. This is 9am in the morning so i can attempt to review your assignments before class"
+!!! warning "All assignments are due on *Thursdays 9am*. This is 9am in the morning so I can attempt to review your assignments before class"
 
 !!! warning "Do not start VMs or containers or use other resources from access-ci jetstream or chameleon cloud yet."
 
-!!! info "Temawork is allowed on any assignment."
+!!! info "Teamwork is allowed on any assignment."
 
-    You are allowed to work in a team. This may be done either remotely or via in-person meetings. When working in teams, you need to provide documentation of who did what. Teams can be different for different assignments. Some homework may foster ad-hoc teams that utilize the same platform or operating system. Just make sure you do not just blindly replicate somone elses work. If you work on a team, please put that in your assignment solution and describe who did what.
+    You are allowed to work in a team. This may be done either remotely or via in-person meetings. When working in teams, you need to provide documentation of who did what. Teams can be different for different assignments. Some homework may foster ad-hoc teams that utilize the same platform or operating system. Just make sure you do not just blindly replicate someone else's work. If you work on a team, please put that in your assignment solution and describe who did what.
 
 !!! Assignments "Assignments: Every week"
 
-    1. review lecture material
-    2. improve with pull requests if you see issues
-    3. help each other
-    4. update the README.md with the list of assignments that are posted each week.
-    5. you can add a subbullet with - [ ] Other and check what other things you did. If there are links in GitHub relevant make sure to post them here.
+    1. Review lecture material
+    2. Improve with pull requests if you see issues
+    3. Help each other
+    4. Update the `README.md` with the list of assignments that are posted each week.
+    5. You can add a subbullet with - [ ] Other and check what other things you did. If there are relevant links in GitHub, make sure to post them here.
 
-## Week 3:  Due Sep 17, 2026, 9am
+## Week 4:  Due Sep 24, 2026, 9am
 
 ??? note "Click here to see a draft version of the Assignments Week 3, Sept 17, 2026 (not yet due)"
 
-    !!! tip "Keep this assignment simple" 
+    Assignments not yet available
 
-        Create a single document with all your assignment answers in them:
+## Week 3:  Due Sep 17, 2026, 9am
+
+
+!!! tip "Keep this assignment simple" 
+
+    Create the proper file specified under:
+
+    * `<repo>/assignments/week3/`
+
+    But make sure you do also the `README.md` update
+
+
+!!! note "Assignment W3.1 VM on Jetstream"
+
+    Start a vm on jetstream and follow the tutorial provided. If you see issues, improve the tutorial while creating pull requests in the Lecture notes.
+
+    Document your activity with a screenshot of the terminal (800x600).
+
+    Put the solution in file vms.md
+    ```
+    # Jestream VM
+
+    ![Jetstream](jetstream.png)
+    ```
+
+
+!!! note "Assignment W3.2 VM on Chameleon Cloud"
+
+    Although you may wish to use other clouds for your project, we want you to start up a single VM on Chameleon Cloud for a very brief time.
+
+    Document your activity with a screenshot of the terminal (800x600).
+
+    Tip: 
     
-        * `<repor>/assignments/week3.md`
+    1. Set your preferred time zone in Chameleon settings.
+    2. Make sure you have a key in your .ssh dir on your laptop. Upload the public key to Chameleon.
+    3. Before doing anything, explore the portal and browse around so you develop a plan for what you have to do.
+    4. Only after you have developed a plan, do the reservation first. Make sure the reservation does not exceed 1 hour.
+    5. Start up a VM using a Chameleon Cloud image for Ubuntu 24.04. Make sure to use the smallest image size possible for it (what size is that? It is part of your plan).
 
-        But make sure you do also the README.md update
+    Put the solution in file vms.md
+    ```
+    # Chamelon Cloud VM
 
-
-    !!! note "Assignment W3.1 VM on Jetstream"
-
-        Start a vm on jetstream and follow the tutorial provided. If you see issues. Improve the tutorial while createing pull requests in the Lecture notes.
-
-        Document your activity with a screenshot of the terminal (800x600).
-
-    !!! note "Assignment W3.2 VM on Chameleon Cloud"
-
-        Although you may wish to use other clouds for your project, we want you to start up a single VM on Chameleon Cloud for a very brief time.
-
-        Document your activity with a screenshot of the terminal (800x600).
-
-        Tip: 
-        
-        1. Set your preferred time zone in Chameleon settings.
-        2. Make sure you have a key in your .ssh dir on your laptop. Upload the public key to Chameleon.
-        3. Before doing anything, explore the portal and browse around so you develop a plan for what you have to do.
-        4. Only after you have developed a plan. Do the reservation first. Make sure the reservation does not exceed 1 hour.
-        5. Start up a VM using a Chameleon Cloud image for Ubuntu 24.04. Make sure to use the smallest image size possible for it (what size is that? It is part of your plan).
-
-    !!! note "Assignment W3.3: OPTIONAL: VM on public cloud"
-
-        Create a VM on a cloud of your choice, such as AWS, Azure, or Google. Use the free tier.
-        Document with screenshots how you created your account. Make sure you blur out sensitive information in the screenshot, including your name, credit card numbers and key, and other security details.
-
-    !!! note "Assignment W3.4: Compare"
-
-        Compare your experience between starting a VM on your local machine vs using Chameleon Cloud.
-
-        2. Put the results of your assignments in a structured fashion into the repository. While creating filenames and directories
-
-    !!! note "Assignment W3.5: README.md"
+    ![Chameleon](chameleon.png)
+    ```
 
 
-        1. Please update the Readme using the following template
+!!! note "Assignment W3.3: OPTIONAL: VM on public cloud"
 
-            * <https://github.com/cloudmesh-ai-luc/example/blob/main/README.md>
+    Create a VM on a cloud of your choice, such as AWS, Azure, or Google. Use the free tier.
+    Document with screenshots how you created your account. Make sure you blur out sensitive information in the screenshot, including your name, credit card numbers and key, and other security details.
 
-        2. fill out the checkboxes. only fill them out when they are done. The have the purpose to selfevaluate and document the progress. you make.
+    Put the solution in file vms.md
+    ```
+    # XYZ VM
 
-        3. This is kept up to date by you every week from assignments posted in the Lecture notes. It is part of each weeks assignment
-        
-    !!! note "Assignment W3.6 git from commandline"
+    ![XYZ](xyz.png)
+    ```
 
-        We created a project.md use th git command lines to sharpen your skills to do all git interactions from commandline. This is important as on cloud services we do not have GUIs and we need to use git form multiple services. Use:
+!!! note "Assignment W3.4: Compare"
 
-        * work with a fork (GUI)
+    Compare your experience between starting a VM on your local machine vs using Chameleon Cloud and Jetstream 2. If you did others also add them. 
 
-        All these from commandline:
-        * git clone
-        * git commit -a
-        * git commit -m "msg" file
-        * git push
-        * git pull
+    Put the solution in file vms.md
+    ```
+    # Comparing VM Creation
 
-        * create a pull request (GUI)
-        *a ccept a pull request (you can do that via GUI)
+    write a nice comparision, do not use I
+    ```
 
-        !!! tip "set up your username email on any machine where you do git push. Also set up the editor.
+
+!!! note "Assignment W3.5: `README.md`"
+
+
+    1. Please update the Readme using the following template
+
+        * <https://github.com/cloudmesh-ai-luc/example/blob/main/README.md>
+
+    2. Fill out the checkboxes. only fill them out when they are done. The have the purpose to selfevaluate and document the progress. you make.
+
+    3. This is kept up to date by you every week from assignments posted in the Lecture notes. It is part of each weeks assignment. It is your responsibility. I will only review assignments that are linked to this document. So make sure the URLs are also included.
     
+!!! note "Assignment W3.6 git from commandline"
 
+    We created a project.md use th git command lines to sharpen your skills to do all git interactions from commandline. This is important as on cloud services we do not have GUIs and we need to use git form multiple services. Use:
+
+    * Work with a fork (GUI)
+
+    All these from commandline:
+    * git clone
+    * git commit -a
+    * git commit -m "msg" file
+    * git push
+    * git pull
+
+    * Create a pull request (GUI)
+    * Accept a pull request (you can do that via GUI)
+
+    !!! tip "set up your username email on any machine where you do git push. Also set up the editor.
+
+~
 ## Week 2:  Due Sep 10, 2026, 9am
 
 !!! note "Assignment W2.1: Google Account, Piazza Account post cleanup"
@@ -113,7 +147,7 @@
     Firstname: Albert
     Lastname: Zweistein
     LUC e-mail: azweistein@luc.edu
-    chameloncloud id: azweistein@luc.edu
+    chameleoncloud id: azweistein@luc.edu
     access id: azweistein
     github id: zweistein
     google email: zweistein-fake@gmail.com
@@ -206,7 +240,7 @@
     
     * <https://github.com/cloudmesh-ai-luc/example/blob/main/project.md>
 
-    Note that you can deviate form the format. The proposal for example aught to have an architectural diagram, Also the description is not yet fully developed (It is just a sample template ;-) ) It is not expected that you have it worked out by next week, but that you have created some text nd at least though t about the title and filled out the administartive fields.
+    Note that you can deviate from the format. The proposal, for example, ought to have an architectural diagram. Also, the description is not yet fully developed (it is just a sample template ;-) ). It is not expected that you have it worked out by next week, but that you have created some text and at least thought about the title and filled out the administrative fields.
 
 
 
@@ -250,7 +284,7 @@
     Firstname:
     Lastname:
     LUC e-mail/id: *this is an e-mail*
-    chameloncloud id: *this is an e-mail*
+    chameleoncloud id: *this is an e-mail*
     access id: *this is not an e-mail*
     github id: *this is not an e-mail*
     google email: *this is an e-mail*
@@ -267,7 +301,7 @@
     Firstname: Albert
     Lastname: Zweistein
     LUC e-mail: azweistein@luc.edu
-    chameloncloud id: azweistein@luc.edu
+    chameleoncloud id: azweistein@luc.edu
     access id: azweistein
     github id: zweistein
     google email: zweistein-fake@gmail.com

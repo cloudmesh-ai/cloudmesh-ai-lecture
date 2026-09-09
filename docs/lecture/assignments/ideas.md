@@ -61,7 +61,27 @@ The following project suggestions are tailored for a cloud, automation, and AI-f
 
     is an example 
 
+### Overview Table
 
+
+**Semester‑Long Project List**
+
+| # | Project Title | Core Concept (one‑sentence summary) | Key Elements Mentioned in the Prompt |
+|---|---------------|--------------------------------------|---------------------------------------|
+| 1 | **Multi‑Cloud VM Provisioning CLI Wrapper** | A Python CLI (using `cloudmesh‑ai‑cmc` / libcloud) that can start, stop, suspend, checkpoint, and account VM instances on multiple clouds with a unified syntax. | `cmc cloud set`, `cmc vm start/stop/...`, SSH‑key & security‑group setup, `~/.config/cloudmesh/ai/clouds.yaml`, Dockerization of the tool |
+| 2 | **Local LLM vs. Cloud API Benchmark Tool** | Automated benchmarking of latency, token‑throughput, and cost for a prompt suite against a local Ollama model versus a cloud LLM API. | Async harness, `cloudmesh‑ai StopWatch` (thread‑safe), per‑run unique directories, Jupyter for result prototyping, logging & data analysis |
+| 3 | **Containerized RAG Microservice with Object Storage** | A Dockerised service that watches an OpenStack, S3, or Azure Blob bucket, embeds new PDFs, and serves retrieval‑augmented generation via a query endpoint. | Architecture & storage hooks, embedding + vector store, API route, end‑to‑end testing, final paper |
+| 4 | **Raspberry Pi Edge Telemetry & Cloud Forwarder** | A script (Pi or Ubuntu VM) that collects system metrics and securely forwards them every minute to a cloud database/dashboard; optionally runs a lightweight LLM for prompt routing. | Metric gathering, secure transmission, cloud DB ingestion, dashboard, reliability testing, LiteLLM interface |
+| 5 | **AI‑Powered Natural Language Shell Command Translator** | Plugin/extension that turns natural‑language requests (e.g., “List all active EC2 instances with high CPU usage”) into safe Cloudmesh or cloud‑CLI commands using a lightweight LLM. | Prompt engineering, safety guardrails, parser, CLI integration, edge‑case testing |
+| 6 | **Automated Cloud Cost and Idle Resource Auditor** | Python script that scans a cloud account for unattached volumes, idle instances, old snapshots, estimates wasted spend, and outputs a Markdown/CSV audit report. | Read‑only SDK permissions, resource mapping, cost‑estimation formulas, reporting options |
+| 7 | **Serverless Webhook Log Analyzer** | AWS Lambda or Google Cloud Function that receives error webhooks, summarizes stack traces (regex or LLM), and forwards critical alerts to Discord/Slack. | Webhook configuration, parsing logic, chat‑platform integration, security/token management, load simulation |
+| 8 | **Kubernetes Edge Cluster Deployment Automation** | Ansible playbook or Python script that bootstraps K3s across local VMs/servers; includes a `cloudmesh‑ai‑cmc` CLI for cluster management. | CLI design, K3s install automation, health‑check scripts, multi‑node validation, user guide |
+| 9 | **Multi‑Cloud Secret Management Utility** | Unified CLI to encrypt, store, rotate, and sync secrets/API keys across local storage and cloud parameter stores (AWS SSM, Azure Key Vault, etc.). | AES/Fernet encryption, `cmc sec` commands (init, set, get, list, sync, rotate), cloud‑key‑vault integration |
+| 10 | **Automated Documentation & Architecture Diagram Generator** | Tool that parses a GitHub repo (Dockerfiles, compose files, requirements) and automatically produces an architectural summary and dependency graph (e.g., Mermaid.js). | Repo traversal, dependency parsing, graph generation, integration tests, package release |
+| 11 | **Code Optimization** | Define an Agentic AI that has as input a scientific code, identifies its cernals and provides improved implementations based on GPU optimizations. Create a benchmark automatically and let it improve. | Design, implementation, deployment, testing, refinement, GitHub workflow, documentation. |
+| 12 | **Define Your Own** | Student‑chosen project that must involve cloud resources (VM/Container/DB), Dockerization, and AI integration, following the same DevOps workflow. | Design, implementation, deployment, testing, refinement, GitHub workflow, documentation |
+
+*All projects must demonstrate use of clouds, Dockerization, and AI, and follow a GitHub‑based DevOps workflow as outlined in the original brief.*
 ---
 
 ### 1. Multi-Cloud VM Provisioning CLI Wrapper
@@ -246,7 +266,21 @@ This may already exist, so if it does figure out if you can come up with a modif
     * Refinement;
     * Final package release.
 
-### 10. Define your own
+### 11 AI Guided Code Optimization 
+
+* **Concept:** Define an Agentic AI that has as input a scientific code, identifies its compute kernals and provides improved implementations based on GPU optimizations. Create a benchmark automatically and let it improve. 
+
+* **Breakdown**: 
+
+    * Design
+    * Implementation
+    * Deployment
+    * Testing
+    * Refinement
+    * GitHub workflow
+    * Documentation. 
+
+### 12. Define your own
 
 * **Concept:** Define your own. Must use 
 
