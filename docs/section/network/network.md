@@ -13,6 +13,9 @@
 
 Networking is the "glue" of cloud computing. Whether you are deploying a simple website or a complex microservices architecture, the way data moves between your components determines the security, performance, and reliability of your application.
 
+![alt text](images/network-chatgpt.png)
+
+
 ### The OSI Model vs. TCP/IP Stack
 
 To understand networking, we use conceptual models. The **OSI (Open Systems Interconnection)** model is the gold standard for education, breaking down the complex process of sending data into seven distinct layers. 
@@ -450,7 +453,7 @@ The following guide gives a quick overview how to chose the CIDR.
 
     Given the following diagram, explain what each component is and come up with an example application that needs such an architecture.
 
-    ![Network layout for an example cloud Web App](cloud_network.png.png)
+    ![Network layout for an example cloud Web App](images/cloud_network.png)
 
     As you have by now identified 
 
