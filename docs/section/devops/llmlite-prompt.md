@@ -1,0 +1,1 @@
+create a colorful diagram for using LLMlite to interface with multiple LLMs this includes jetstream ollama vllm and others. Add a framework so that best answers are returned, also add another where we send the prompt to the best suitable llm make sure that you include remote, local, hpc, and cloud resources. add a monitor that dynamically adds llms based on load or on demand

@@ -416,3 +416,34 @@ It is mandatory to cite the original references for the technologies you use. Th
 Google [@www-google] is a company that offers cloud services.
 ~~~
 In this case, `www-google` is the label in the BibTeX entry representing the Google homepage.
+
+# Video test
+
+Videos can be included with or without iFrame.
+
+## With iFrame
+
+```
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+  <iframe src="https://www.youtube.com/embed/pQb2VV1zNIc" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+          frameborder="0" allowfullscreen></iframe>
+</div>
+```
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+  <iframe src="https://www.youtube.com/embed/pQb2VV1zNIc" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+          frameborder="0" allowfullscreen></iframe>
+</div>
+
+
+## Without iFrame:
+
+```
+![video](images/video.png)  <a href="https://www.youtube.com/watch?v=pQb2VV1zNIc" target="_blank" rel="noopener">  SSH video 
+</a>
+```
+
+![video](images/video.png)  <a href="https://www.youtube.com/watch?v=pQb2VV1zNIc" target="_blank" rel="noopener">  SSH video 
+</a>
