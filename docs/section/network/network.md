@@ -292,12 +292,10 @@ To practivcall use it :
 | **Hands‑On Labs** | *Qwiklabs* / *A Cloud Guru* labs for VPC creation, peering, and load‑balancer configuration. | Real‑world practice in a sandbox environment. |
 | **Certification** | *AWS Certified Advanced Networking – Specialty* | Deep dive into hybrid connectivity, security, and high‑availability patterns. |
 
-## Appendix: Which CIDR
+## Appendix: Which CIDR?
 
 The following guide gives a quick overview how to chose the CIDR.
 
-
-## How to Choose the Right CIDR
 
 | Decision factor | Guidance |
 |-----------------|----------|
@@ -316,7 +314,7 @@ The following guide gives a quick overview how to chose the CIDR.
 
 !!! Assignment "Networking Assignment 1"
 
-    Research the different applications running on the different ports. Give a short explanation what they do. Expalain why one is good and the other si bad. Are there other setttings or alternative settings that should be used?
+    Research the different applications running on the different ports. Give a short explanation of what they do. Explain why one is good and the other is bad. Are there other settings or alternative settings that should be used?
 
     **What a "good" rule looks like**
 
@@ -425,7 +423,7 @@ The following guide gives a quick overview how to chose the CIDR.
 
     **Question:**
 
-    How can the output from thos program interpreted?
+    How can the output from this program be interpreted?
 
     !!! tip "Solution"
 
@@ -434,23 +432,23 @@ The following guide gives a quick overview how to chose the CIDR.
         * The rule `203.0.113.45/32` allows only a single IP, which is the most restrictive (only **1** address).  
         * The internal DB rule `10.0.0.0/16` still contains 65 536 addresses, but it is limited to the private VPC space, which is **not reachable from the public Internet**.  
 
-!!! Assignment "Networking Assignment 3"
+!!! Assignment "Networking Assignment 4"
 
-    what should i do if I am constantly pinged, probed, and I detect logins from an ipaddress that has no need to get to my "public" service.
+    What should I do if I am constantly pinged, probed, and I detect logins from an IP address that has no need to access my "public" service?
 
-    * Why is the 0.0.0.0 ip sometimes just a bad idea? 
-    * How do you prevent it? 
-    * How can you block ips from a country? 
-    Why woudl they be able to mask they are from a specific country or ipaddress range?
+    * Why is the 0.0.0.0 IP sometimes a bad idea? 
+    * How can this be prevented? 
+    * How can you block IP addresses from a specific country? 
+    Why would they be able to mask that they are from a specific country or IP address range?
 
     !!! tip
-        Research how to set up firewalls in Linux and allpy it on the given ip or ip ranges.
+        Research how to set up firewalls in Linux and apply the rules to the given IP or IP ranges.
         Show the explicit rule.
 
-!!! Assignment "Network Assignment 4: Architecture"
+!!! Assignment "Network Assignment 5: Architecture"
 
 
-    Given the following diagram. Explain what each component is and come up with an example application that needs such an archtecture 
+    Given the following diagram, explain what each component is and come up with an example application that needs such an architecture.
 
     ![Network layout for an example cloud Web App](cloud_network.png.png)
 
@@ -464,4 +462,4 @@ The following guide gives a quick overview how to chose the CIDR.
 
     **Question 1:** Explain the "concrete" application and conduct a security audit.
 
-    **Question 2:** If the aplication is run in a university, how does the security needs to be changed?
+    **Question 2:** If the application is run in a university, how do the security requirements need to be changed?
