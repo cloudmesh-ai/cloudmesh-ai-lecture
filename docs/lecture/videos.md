@@ -20,6 +20,17 @@
 </div>
 
 
+### Cloud Networking
+
+A summary generatited from the lecture notes that are not yet published.
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+  <iframe src="https://www.youtube.com/embed/e-uzgqeb2_4" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+          frameborder="0" allowfullscreen></iframe>
+</div>
+
+
 ## Supplemental
 
 ### SSH keygen
