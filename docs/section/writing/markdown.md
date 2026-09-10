@@ -424,18 +424,40 @@ Videos can be included with or without iFrame.
 ## With iFrame
 
 ```
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
-  <iframe src="https://www.youtube.com/embed/pQb2VV1zNIc" 
-          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-          frameborder="0" allowfullscreen></iframe>
+div class="video-aspect" style="width:50%;">
+  <iframe src="https://www.youtube.com/embed/NWibDntN2M4"
+          allowfullscreen frameborder="0"></iframe>
 </div>
+
+<style>
+.video-aspect {
+  aspect-ratio: 16 / 9;      /* 16:9 */
+  max-width: 100%;
+}
+.video-aspect iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+</style>
 ```
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
-  <iframe src="https://www.youtube.com/embed/pQb2VV1zNIc" 
-          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-          frameborder="0" allowfullscreen></iframe>
+<div class="video-aspect" style="width:50%;">
+  <iframe src="https://www.youtube.com/embed/NWibDntN2M4"
+          allowfullscreen frameborder="0"></iframe>
 </div>
+
+<style>
+.video-aspect {
+  aspect-ratio: 16 / 9;      /* 16:9 */
+  max-width: 100%;
+}
+.video-aspect iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+</style>
 
 
 ## Without iFrame:
