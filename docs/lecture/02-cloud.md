@@ -1,6 +1,6 @@
 ---
 marp: true
-theme: gaia
+theme: cloudmesh-ai
 _class: lead
 paginate: true
 backgroundColor: #f5f5f5
@@ -305,7 +305,7 @@ color: #333
 
 
 ---marp: true
-theme: gaia
+theme: cloudmesh-ai
 _class: lead
 paginate: true
 backgroundColor: #f5f5f5
