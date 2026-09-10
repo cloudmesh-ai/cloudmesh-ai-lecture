@@ -1,395 +1,223 @@
----
-title: "Python for Big Data"
----
+# Data Analysis and Big Data with Python
 
-!!! info "Learning Outcomes"
-    - Load and explore large datasets using Pandas DataFrames.
-    - Clean and preprocess data by handling missing values and converting data types.
-    - Generate and save statistical visualizations using Matplotlib and NumPy.
-    - Understand the role of the SciPy ecosystem (NumPy, Pandas, Matplotlib) in big data analysis.
+!!! info "Learning Objectives"
+    - Utilize the SciPy ecosystem (NumPy, Pandas, Matplotlib) for data manipulation and visualization.
+    - Load, clean, and explore large datasets using Pandas DataFrames.
+    - Perform statistical analysis and generate data visualizations.
+    - Implement data parsing techniques for semi-structured files.
+    - Understand and apply parallel computing concepts using Dask for larger-than-memory datasets.
 
-## An Example with Pandas, NumPy and Matplotlib
+Working with large datasets in Python requires a move away from standard lists and loops toward vectorized operations and specialized data structures. The "Big Data" challenge in Python primarily revolves around memory management; since Python objects have significant overhead, loading a multi-gigabyte CSV into a standard list can quickly exhaust system RAM.
 
-In this example, we will download some traffic citation data for the city of Bloomington, IN, load it into Python, and generate a histogram. In doing so, you will be exposed to important Python libraries for working with big data such as [numpy](https://www.numpy.org), [pandas](https://pandas.pydata.org), and [matplotlib](https://matplotlib.org).
+The SciPy ecosystem provides a standardized stack of libraries—NumPy, Pandas, and Matplotlib—that allow Python to perform high-performance numerical computing. For datasets that exceed available memory, distributed computing frameworks like Dask extend these familiar APIs to parallelize execution across multiple CPU cores or cluster nodes.
 
-## Set Up Directories and Get Test Data
+## The SciPy Ecosystem
 
-Data.gov is a government portal for open data and the [city of Bloomington, Indiana makes available a number of datasets there](https://catalog.data.gov/dataset?organization_type=City+Government&organization=city-of-bloomington&_organization_limit=0).
+The foundation of data science in Python is built upon three primary libraries that work in tandem.
 
-We will use traffic citations data for 2016.
+### NumPy: Numerical Computing
 
-To start, let's create a separate directory for this project and download the CSV data:
+NumPy provides the `ndarray` (n-dimensional array), which is far more memory-efficient than Python lists. It enables vectorization, allowing operations to be performed on entire arrays without explicit `for` loops.
 
-`bash    $ cd ~/projects/i524 $ mkdir btown-citations $ cd btown-citations $ wget https://data.bloomington.in.gov/dataset/c543f0c1-1e37-46ce-a0ba-e0a949bd248a/resource/24841976-fd35-4483-a2b4-573bd1e77cfb/download/2016-first-quarter-citations.csv`
+### Pandas: Data Manipulation
 
-Depending on your directory organization, the previous might be slightly different for you.
+Pandas introduces the `DataFrame`, a two-dimensional labeled data structure similar to a SQL table or an Excel spreadsheet. It is the primary tool for data cleaning, filtering, and aggregation.
 
-If you go to the previous link to data.gov for Bloomington, you will see that the citation data is organized per quarter, so there are a total of four files. Previously, we downloaded the data for the first quarter. Go ahead and download the remaining three files with `wget`.
+### Matplotlib: Data Visualization
 
-In this example, we will use three modules, `numpy`, `pandas`, and `matplotlib`. If you set up `virtualenv` as described in the Python tutorial \<python_intro\>, the first two of these are already installed for you. To install `matplotlib`, make sure you've activated your `virtualenv` and use `pip`:
+Matplotlib is the standard library for creating static, animated, and interactive visualizations. It is typically used in conjunction with NumPy and Pandas to identify trends and outliers in data.
 
-`bash    $ source ~/ENV/bin/activate $ pip install matplotlib`
+## Practical Data Analysis Workflow
 
-If you are using a different distribution of Python, you will need to make sure that all three of these modules are installed.
+The following workflow demonstrates how to use the SciPy stack to analyze real-world data. In this case study, we use traffic citation data from the city of Bloomington, Indiana.
 
-## Load Data in Pandas
+### Step 1: Data Acquisition and Setup
 
-From the same directory where you saved the citations data, let's start the Python interpreter and load the citations data for Q1 2016
+Data is often distributed across multiple files (e.g., by quarter). The first step is to organize the local environment and acquire the raw CSV files.
 
-```         
-$ python
->>> import numpy as np
->>> import pandas as pd
->>> import matplotlib.pyplot as plt
->>> data = pd.read_csv('2016-first-quarter-citations.csv')
+```bash
+# Create a project directory for the dataset
+mkdir btown-citations
+cd btown-citations
+
+# Download the first quarter citations data
+wget https://data.bloomington.in.gov/dataset/c543f0c1-1e37-46ce-a0ba-e0a949bd248a/resource/24841976-fd35-4483-a2b4-573bd1e77cfb/download/2016-first-quarter-citations.csv
 ```
 
-If the first `import` statement seems confusing, take a look at the Python tutorial \<python_intro\>. The next three `import` statements load each of the modules we will use in this example. The final line uses Pandas' `read_csv` function to load the data into a Pandas `DataFrame` data structure.
+### Step 2: Loading and Exploring Data
 
-## Working with DataFrames
+Using Pandas, we can load CSV files into a DataFrame and inspect their internal structure. The following example shows how to use the Python interpreter to explore a new dataset.
 
-You can verify that you are working with a `DataFrame` and use some of its methods to take a look at the structure of the data as follows:
+Example: Exploring the DataFrame structure.
 
-```         
->>> type(data)
-<class 'pandas.core.frame.DataFrame'>
->>> data.index
-Int64Index([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
-...
-197, 198, 199, 200, 201, 202, 203, 204, 205, 206],
-dtype='int64', length=200)
->>> data.columns
-Index([u'Citation Number', u'Date Issued', u'Time Issued', u'Location ',
-u'District', u'Cited Person Age', u'Cited Person Sex',
-u'Cited Person Race', u'Offense Code', u'Offense Description',
-u'Officer Age', u'Officer Sex', u'Officer Race'],
-dtype='object')
->>> data.dtypes
-Citation Number                object
-Date Issued                    object
-Time Issued                    object
-Location                       object
-District                       object
-Cited Person Age              float64
-Cited Person Sex               object
-Cited Person Race              object
-Offense Code                   object
-Offense Description            object
-Officer Age                   float64
-Officer Sex                    object
-Officer Race                   object
-dtype: object
->>> data.shape
-(200, 15)
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the dataset into a Pandas DataFrame
+data = pd.read_csv('2016-first-quarter-citations.csv')
+
+# Verify the object type
+print(f"Object Type: {type(data)}")
+# Output: <class 'pandas.core.frame.DataFrame'>
+
+# Inspect the index (the row labels)
+print(f"Index: {data.index}")
+
+# Inspect the columns (the column names)
+print(f"Columns: {data.columns}")
+
+# Preview the first few rows of data
+print(data.head())
+
+# Check for data types and identify missing values (nulls)
+print(data.info())
+
+# Generate a summary of central tendency and dispersion for numerical columns
+print(data.describe())
 ```
 
-As you can see from the `columns` field, when the CSV file was read, the header line was used to populate the name of the columns in the `DataFrame`. In addition, you will notice that `read_csv` correctly inferred the data type of some columns like *Age*, but not of others like *Date Issued* and *Time Issued*. `read_csv` is a very customizable function and in general, you can correct issues like this using the `dtype` and `converters` parameters. In this specific case, it makes more sense to combine the *Date Issued* and *Time Issued* columns into a new column containing a time stamp. We will see how to do this shortly.
+### Step 3: Data Cleaning and Preprocessing
 
-You can also look at the data itself with the `DataFrame`'s `head()` and `tail()` methods:
+Raw data is rarely clean. Common tasks include handling missing values (NaNs) and converting strings to numerical types.
 
-```         
->>> data.head()
-<Output omitted for brevity>
->>> data.tail()
-<Output omitted for brevity>
+Example: Cleaning the \"Cited Person Age\" column.
+
+```python
+# Identify the number of missing values in the age column
+missing_ages = data['Cited Person Age'].isnull().sum()
+print(f"Number of missing ages: {missing_ages}")
+
+# Fill missing values with the median age to maintain statistical distribution
+median_age = data['Cited Person Age'].median()
+data['Cited Person Age'] = data['Cited Person Age'].fillna(median_age)
+
+# Convert the column to an integer type for analysis
+data['Cited Person Age'] = data['Cited Person Age'].astype(int)
 ```
 
-In addition to letting you examine your data easily, `DataFrame`s have methods that help you deal with missing values:
+### Step 4: Generating Visualizations
 
-```         
->>> data = data.dropna(how='any')
->>> data.shape
+Visualizations help in understanding the distribution of data. A histogram is ideal for viewing the frequency of specific values.
+
+Example: Plotting the distribution of cited person ages.
+
+```python
+plt.figure(figsize=(10, 6))
+plt.hist(data['Cited Person Age'], bins=20, color='skyblue', edgecolor='black')
+plt.title('Distribution of Cited Person Age - Bloomington 2016')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.grid(axis='y', alpha=0.75)
+plt.savefig('age_distribution.png')
+plt.show()
 ```
 
-Adding columns to the data is also easy. Here, we add two columns. First, a [datetime](https://docs.python.org/2/library/datetime.html) column that is a combination of the `Date Issued` and `Time Issued` columns originally in the data. Second, a column identifying what day of the week each citation was given. To understand this example better, take a look at the Python docs for the `strptime` and `strftime` functions in the previous `datetime` module linked.
+## Data Parsing and Extraction
 
-```         
->>> from datetime import datetime
->>> data['DateTime Issued'] = data.apply(
-...  lambda row: datetime.strptime(row['Date Issued'] + ':' + row['Time Issued'], '%m/%d/%y:%I:%M %p'), axis=1
-... )
->>> data.columns
->>> data['Day of Week Issued'] = data.apply(
-...  lambda row: datetime.strftime(row['DateTime Issued'], '%A'), axis=1
-... )
-```
+Not all data arrives in clean CSV formats. Semi-structured data, such as Markdown files or LaTeX source code, requires custom parsing logic to extract useful information.
 
-## Plotting with Matplotlib and NumPy
+### Parsing Semi-Structured Text
 
-Let us say we want to see how many citations were given each day of the week. We gather the data first:
+A common task is parsing a `notebook.md` file to track student progress. In a professional automation context, this is often implemented as a CLI command.
 
-```         
->>> days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
->>> dow_data = [days.index(dow) for dow in data['Day of Week Issued']]
->>> dow_data
-<Output omitted for brevity>
-```
+Example: CLI specification for a notebook parser.
 
-Then we use `matplotlib` to plot it:
-
-```         
->>> fig = plt.figure()
->>> ax = fig.add_subplot(1, 1, 1)
->>> plt.hist(dow_data, bins=len(days))
->>> plt.xticks(range(len(days)), days)
->>> plt.show()
-```
-
-You should see something like this on your screen:
-
-*(Image dow.png is currently unavailable)*
-
-## More DataFrame Manipulation and Plotting
-
-`DataFrame`s and `numpy` give us other ways to manipulate data. For example, we can plot a histogram of the ages of violators like this:
-
-```         
->>> ages = data['Cited Person Age'].astype(int)
->>> fig = plt.figure()
->>> ax = fig.add_subplot(1, 1, 1)
->>> plt.hist(ages, bins=np.max(ages) - np.min(ages))
->>> plt.show()
-```
-
-*(Image ages.png is currently unavailable)*
-
-Surprisingly, we see some 116 year-old violators! This is probably an error in the data, so we can remove these data points easily and plot the histogram again:
-
-```         
->>> ages = ages[ages < 100]
->>> fig = plt.figure()
->>> ax = fig.add_subplot(1, 1, 1)
->>> plt.hist(ages, bins=np.max(ages) - np.min(ages))
->>> plt.show()
-```
-
-*(Image ages-filtered.png is currently unavailable)*
-
-## Saving Plots to PDF
-
-Oftentimes, you will want to save your `matplotlib` graph as a PDF or an SVG file instead of just viewing it on your screen. For both, we need to create a `figure` and plot the histogram as before:
-
-```         
->>> fig = plt.figure()
->>> ax = fig.add_subplot(1, 1, 1)
->>> plt.hist(ages, bins=np.max(ages) - np.min(ages))
-```
-
-Then, instead of calling `plt.show()` we can invoke `plt.savefig()` to save as SVG:
-
-```         
->>> plt.savefig('hist.svg')
-```
-
-If we want to save the figure as PDF instead, we need to use the `PdfPages` module together with `savefig()`:
-
-```         
->>> import matplotlib.patches as mpatches
->>> from matplotlib.backends.backend_pdf import PdfPages
->>> pp = PdfPages('hist.pdf')
->>> fig.savefig(pp, format='pdf')
->>> pp.close()
-```
-
-## Next Steps and Exercises
-
-There is a lot more to working with `pandas`, `numpy` and `matplotlib` than we can show you here, but hopefully this example has piqued your curiosity.
-
-Do not worry if you do not understand everything in this example. For a more detailed explanation on these modules and the examples we did, please take a look at the tutorials next. The `numpy` and `pandas` tutorials are mandatory if you want to be able to use these modules, and the `matplotlib` gallery has many useful code examples.
-
-## Summary of Useful Libraries
-
-### Numpy
-
-- <http://www.numpy.org/%7D>
-
-According to the Numpy Web page, "NumPy is a package for scientific computing with Python. It contains a powerful N-dimensional array object, sophisticated (broadcasting) functions, tools for integrating C/C++ and Fortran code, useful linear algebra, Fourier transform, and random number capabilities".
-
-Tutorial: <https://docs.scipy.org/doc/numpy-dev/user/quickstart.html>
-
-### MatplotLib
-
-- <http://matplotlib.org/>
-
-According to the matplotlib Web page, "matplotlib is a python 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms. matplotlib can be used in python scripts, the python and ipython shell (ala MATLAB\* or Mathematica), web application servers, and six graphical user interface toolkits."
-
-Matplotlib Gallery: <http://matplotlib.org/gallery.html>
-
-### Pandas
-
-- <http://pandas.pydata.org/>
-
-According to the Pandas Web page, "Pandas is a library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language."
-
-In addition to access to charts via matplotlib it has elementary functionality for conduction data analysis. Pandas may be very suitable for your projects.
-
-Tutorial: <http://pandas.pydata.org/pandas-docs/stable/10min.html>
-
-Pandas Cheat Sheet: <https://github.com/pandas-dev/pandas/blob/master/doc/cheatsheet/Pandas_Cheat_Sheet.pdf>
-
-### Scipy
-
-- <https://www.scipy.org/>
-
-According to the Web page, SciPy (pronounced *Sigh Pie*) is a Python-based ecosystem of open-source software for mathematics, science, and engineering. In particular, these are some of the core packages:
-
-- NumPy
-- IPython
-- Pandas
-- Matplotlib
-- Sympy
-- SciPy library
-
-It is thus an agglomeration of useful packages and will probably suffice for your projects in case, you use Python.
-
-### Graphics
-
-#### ggplot
-
-- <http://ggplot.yhathq.com/>
-
-According to the `ggplot` Python Web page ggplot is a plotting system for Python-based on R's ggplot2. It allows to quickly generate some plots quickly with little effort. Often it may be easier to use than matplotlib directly.
-
-#### seaborn
-
-- <http://www.data-analysis-in-python.org/t_seaborn.html>
-
-Is a library for plotting is called seaborn which is build on top of matplotlib. It provides high-level templates for common statistical plots.
-
-- Gallery: <http://stanford.edu/~mwaskom/software/seaborn/examples/index.html>
-- Original Tutorial: <http://stanford.edu/~mwaskom/software/seaborn/tutorial.html>
-- Additional Tutorial: <https://stanford.edu/~mwaskom/software/seaborn/tutorial/distributions.html>
-
-Here are some examples from a previous class:
-
-- <https://github.com/bigdata-i523/hid231/blob/master/experiment/seaborn/seaborn-exercises.ipynb>
-- <https://github.com/bigdata-i523/hid231/blob/master/experiment/learning-jupyter/learning_jupyter_notebook.ipynb>
-
-!!! assignment "E:ipynb-export: Jupyter Notebook to LaTeX"
-    1. Take these examples and create sections in LaTeX that can be added to the book.
-    2. Describe the process:
-        - Export the `.ipynb` as `.rst`.
-        - Use `pandoc` to export it to `.tex`.
-        - Perform cleanup on the `.tex` files.
-    3. Evaluate if this can be automated with a `cmd5` script such as:
-       ``` bash
-       cms ipynb [url=URL | file=FILE] --output FILENAME
-       ```
-
-#### Bokeh
-
-Bokeh is an interactive visualization library with a focus on web browsers for display. Its goal is to provide a similar experience as D3.js
-
-- URL: <http://bokeh.pydata.org/>
-
-- Gallery: <http://bokeh.pydata.org/en/latest/docs/gallery.html>
-
-#### pygal
-
-Pygal is a simple API to produce graphs that can be easily embedded into your Web pages. It contains annotations when you hover over data points. It also allows presenting the data in a table.
-
-- <http://pygal.org/>
-
-#### Network and Graphs
-
-- igraph: <http://www.pythonforsocialscientists.org/t_igraph.html>
-
-- networkx: <https://networkx.github.io/>
-
-### REST
-
-- django REST Framework <http://www.django-rest-framework.org/>
-
-- flask <https://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask>
-
-- requests <https://realpython.com/blog/python/api-integration-in-python/>
-
-- urllib2 <http://rest.elkstein.org/2008/02/using-rest-in-python.html> (not recommended)
-
-- web <http://www.dreamsyssoft.com/python-scripting-tutorial/create-simple-rest-web-service-with-python.php> (not recommended)
-
-- bottle <http://bottlepy.org/docs/dev/index.html>
-
-- falcon <https://falconframework.org/>
-
-- eve <http://python-eve.org/>
-
-- <https://code.tutsplus.com/tutorials/building-rest-apis-using-eve--cms-22961>
-
-## Parsing Data
-
-Being able to parse data is an important activity in the data analysis process. Not all data may be following a specific format and the data may need to be extracted.
-
-### notebook.md Parser
-
-We are using a notebook.md to communicate what students have done throughout the semester. We like to make a simple cmd5 command that parses the notebook.md file and check it upon correctness.
-
-An example for a notebook.md file is located here
-
-- <https://raw.githubusercontent.com/bigdata-i523/sample-hid000/master/notebook.md>
-
-The following code may inspire you
-
-- <https://github.com/bigdata-i523/hid203/tree/master/experiment>
-
-We like to implement the following functionality and use docopts to document the command.
-
-```         
+```text
 cms class notebook [--git=GITREPONAME] --verify hid
-
     verifies the correctness of the notebook.md file
 
 cms class notebook [--git=GITREPONAME] --log
-
     displays the log of the notebook.md
 
 cms class notebook [--git=GITREPONAME] --history
-
-    displays a true or false for each week since the first occurance
+    displays a true or false for each week since the first occurrence
     of the notebook.md file in the git repository
 ```
 
-!!! assignment "E:notebook-md.1: Notebook.md Parser"
-    1. Write a `notebook.md` parser.
+Example: Basic implementation of a line-by-line parser.
 
-!!! assignment "E:notebook-md.2: Generalized Notebook Analysis"
-    1. Generalize the parser command to provide class-level information.
-    2. Identify preferred days of notebook check-ins.
-    3. Identify students who have not updated their notebooks for a week.
-    4. Identify students who have updated their notebooks for a week.
+```python
+import re
 
-### Video Length
+def parse_notebook(filepath):
+    results = []
+    with open(filepath, 'r') as f:
+        for line in f:
+            # Search for lines indicating a completed task
+            if "Completed:" in line:
+                # Extract the task name after the marker
+                task = line.split("Completed:")[1].strip()
+                results.append(task)
+    return results
+```
 
-The Latex source of this class contains a macro to include videos.
+### Extracting Data from LaTeX
 
-Given a LaTeX file, can you create a table that includes the names of all videos in that file and sums up the total viewing time. Previously the document was stored in RST and the code from a previous student may inspire you. Can you recreate it for LaTeX?
+Extracting video lengths from LaTeX macros requires identifying specific command patterns. This is useful for calculating the total viewing time of a course.
 
-- <https://github.com/bigdata-i523/hid107/blob/master/cloudmesh/bar/command/mycommand.py>
+Example: Using regular expressions to extract `\\video{name}{length}`.
 
-  cms class video list FILENAME --output=\[tabular\|longtable\|csv\|txt\]
+```python
+import re
 
-  ```         
-      prints the videolist in the given format. txt means it is just ASCII
-  ```
+# Sample LaTeX content containing video macros
+latex_content = r"This section covers basics in \video{Introduction to Python}{10:30} and advanced topics in \video{Asyncio Deep Dive}{15:45}"
 
-!!! assignment "Video Length Extraction"
-    1. Write a tool that extracts the information for video length.
-    2. Write a tool that finds all YouTube URLs that are not in a video LaTeX macro.
+# Pattern explanation:
+# \\video matches the literal '\video'
+# \{([^}]*)\} captures everything inside the first curly braces (the name)
+# \{([^}]*)\} captures everything inside the second curly braces (the length)
+pattern = r"\\\\video\{([^}]*)\}\{([^}]*)\}"
 
-### Dask
+matches = re.findall(pattern, latex_content)
+for name, length in matches:
+    print(f"Video: {name}, Length: {length}")
+```
 
-Many times operations need to be done on data in parallel to utilize modern processor architectures.
+## Scaling with Dask
 
-Dask provides a *dynamic task scheduling* which is optimized for computation. It is similar to other frameworks such as Airflow, Luigi, Celery, or Make. However, it is specializing in optimized interactive computational workloads.
+When datasets exceed available RAM, Pandas becomes inefficient. Dask provides a way to scale Python code by partitioning a large DataFrame into many smaller Pandas DataFrames.
 
-Furthermore, Dask targets Big Data *collections* such as parallel arrays, dataframes, and lists. These collections are commonly found in NumPy, Pandas, or Python iterators to larger-than-memory or distributed environments. While using the Dask implementation we can replace the original imports from the appropriate framework, replace them with Dask imports and implicitly use parallel collections that utilize internally the dynamic task schedulers.
+### Dynamic Task Scheduling
 
-More information can be found at:
+Dask uses a dynamic task scheduler to execute operations in parallel. Instead of executing a command immediately, Dask builds a graph of tasks and executes them only when `compute()` is called.
 
-- <https://dask.pydata.org>
+### Comparing Pandas and Dask
 
-!!! assignment "Dask Performance Study"
-    1. Conduct a performance study that showcases the difference between:
-        - Parallel calculations in Dask.
-        - Calculations in a framework such as SciPy.
-        - Regular unthreaded Python code.
+Dask mimics the Pandas API, making the transition straightforward.
+
+Example: Parallel sum using Dask vs. Sequential sum using Pandas.
+
+```python
+import pandas as pd
+import dask.dataframe as dd
+
+# Pandas: Loads the entire file into memory (Sequential execution)
+df_pandas = pd.read_csv('large_dataset.csv')
+pandas_sum = df_pandas['value'].sum()
+
+# Dask: Loads data lazily and processes in parallel (Distributed execution)
+df_dask = dd.read_csv('large_dataset.csv')
+dask_sum = df_dask['value'].sum().compute()
+
+print(f"Pandas Sum: {pandas_sum}, Dask Sum: {dask_sum}")
+```
+
+!!! tip "Summary Checklist"
+    - Used NumPy for efficient array operations and vectorization.
+    - Loaded and explored datasets using Pandas DataFrames.
+    - Performed data cleaning by handling missing values and type conversion.
+    - Generated statistical visualizations using Matplotlib.
+    - Implemented custom text parsers using regex for semi-structured files.
+    - Transitioned from Pandas to Dask for larger-than-memory datasets.
+
+!!! note "Exercise 1: Data Exploration"
+    Download a public dataset from data.gov. Use Pandas to load the data, identify columns with the most missing values, and generate a histogram for one of the numerical columns.
+
+!!! note "Exercise 2: Custom Log Parser"
+    Write a tool that parses a system log file. The tool should identify all lines containing "ERROR" or "CRITICAL", extract the timestamp, and output the results to a CSV file.
+
+!!! note "Exercise 3: Dask Performance Study"
+    Create a large CSV file (e.g., 1 million rows). Implement the same aggregation logic (e.g., mean of a column) using both Pandas and Dask. Measure the execution time and memory usage for both and report the findings.

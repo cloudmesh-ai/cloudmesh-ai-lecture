@@ -1,182 +1,171 @@
-# Emacs
+# GNU Emacs: The Extensible Text Editor
 
-Emacs is one of the most powerful editors. It originated from MIT AI Lab's
-Incompatible Timesharing System (ITS) while providing a collection of
-macros used for editing. The name *Emacs* originates as an abbreviation for
-*Editor MACroS*. A modern version of Emacs was rewritten in 1984 and since
-then has evolved and been maintained.
+!!! info "Learning Objectives"
+    - Understand the history, philosophy, and extensibility of the GNU Emacs editor.
+    - Master essential key-bindings for navigation, file management, and text manipulation.
+    - Implement and utilize recording macros to automate repetitive data-cleaning tasks.
+    - Configure and operate within Major Modes, with a focus on Python and LaTeX environments.
+    - Integrate Emacs with the system terminal and external toolchains like LatexMk.
 
-A number of extensive documentation is available at the following links
-according to the GNU Emacs Home page.
+Emacs is more than a text editor; it is an extensible, customizable environment that functions as a Lisp interpreter. Originating from the MIT AI Lab's Incompatible Timesharing System (ITS) as a collection of macros for editing, the name *Emacs* is an abbreviation for *Editor MACroS*. While the original version was a set of macros, the modern version rewritten in 1984 evolved into a full-fledged platform that allows users to modify almost every aspect of the editor's behavior while it is running.
 
-* [GNU Emacs manual](https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html)
-* [An Introduction to Programming in Emacs Lisp](https://www.gnu.org/software/emacs/manual/html_node/eintr/index.html)
-* [Emacs Lisp Reference Manual](https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html)
-* [Other Emacs manuals](https://www.gnu.org/software/emacs/manuals/)
+The power of Emacs lies in its philosophy of extensibility. By using Emacs Lisp (Elisp), users can create new commands, automate complex workflows, and integrate disparate tools into a single interface. This makes Emacs particularly valuable for data scientists, researchers, and developers who require deep control over their text-processing environment.
 
-One of the most useful short manuals for emacs is the following reference
-card. It takes some time to use this card efficiently, but the most
-important commands are written on it. Generations of students have
-literally been just presented with this card and they learned emacs
-from it.
+## Documentation and Learning Resources
 
-* <https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf>
+Because of its vast feature set, Emacs has a steep learning curve. The following official resources are recommended for structured learning:
 
-There is naturally also additional material available and a great
-manual. You could also look at
+- [GNU Emacs Manual](https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html): The comprehensive guide to all features.
+- [An Introduction to Programming in Emacs Lisp](https://www.gnu.org/software/emacs/manual/html_node/eintr/index.html): For those wanting to extend Emacs.
+- [Emacs Lisp Reference Manual](https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html): Technical specifications for Elisp.
+- [Other Emacs Manuals](https://www.gnu.org/software/emacs/manuals/): Additional specialized guides.
+- [Emacs Tour](https://www.gnu.org/software/emacs/tour/): A high-level overview of the editor's capabilities.
 
-* <https://www.gnu.org/software/emacs/tour/>
+For a condensed reference, the official [Emacs Reference Card](https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf) is the gold standard for learning essential commands.
 
-From the last page we have summarized the most useful and **simple**
-features. And present them here. One of the gems of emacs is the
-ability to recreate replay able macros which we include here also. You
-ought to try it and you will find that for data science and the cleanup
-of data emacs (applied to smaller datasets) is a gem.
+## Essential Key-bindings and Notation
 
-Notation
+Emacs uses a unique notation for its keyboard shortcuts. Most commands are combinations of modifier keys and characters.
 
-| Key   | Description |
-| ----- | ---------------------- |
-| C     | Control |
-| M     | Esc (meta character) |
+### Notation Guide
 
-Here are some other ways on what to do if you have accidentally pressed
-a wrong key:
+| Key | Description |
+| :--- | :--- |
+| `C` | Control key |
+| `M` | Meta key (usually `Esc` or `Alt`) |
 
-* `C-g` If you pressed a prefix key (e.g. `C-x`) or you invoked a
-  command which is now prompting you for input (e.g. Find file: ...),
-  type `C-g`, repeatedly if necessary, to cancel. `C-g` also cancels a
-  long-running operation if it appears that Emacs has frozen.
+### Emergency and Correction Commands
 
-* `C-/` If you executed a command and Emacs has modified your buffer,
-  use `C-/` to undo that change.
+When navigating a complex editor, it is common to press a prefix key by mistake. Use these commands to recover:
 
-| Key         | Description |
-| ----------- | ----------------------------------------- |
-| ---         | **Saving and Exiting** |
-| `C-x C-w`   | Write the buffer to file |
-| `C-x C-s`   | Write the buffer to file and quit Emacs |
-| ---         | **Cursor** *use the cursor keys or ...* |
-| `C-f`       | Forward one character |
-| `C-n`       | Next line |
-| `C-b`       | Back one character |
-| `C-p`       | Previous line |
-| ---         | **Cursor context move** |
-| `C-a`       | Beginning of line |
-| `M-f`       | Forward one word |
-| `M-a`       | Previous sentence |
-| `M-v`       | Previous screen |
-| `M-<`       | Beginning of buffer |
-| `C-e`       | End of line |
-| `M-b`       | Back one word |
-| `M-e`       | Next sentence |
-| `C-v`       | Next screen |
-| `M->`       | End of buffer |
-| ---         | **Cursor jump** |
-| `M-g` g     | Jump to specified line number |
-| ---         | **Search** |
-| `C-s`       | Incremental search forward |
-| `C-r`       | Incremental search backward |
-| ---         | **Replace** |
-| `M-`%       | Query replace |
-| ---         | **Killing ("cutting") text** |
-| `C-k`       | Kill line |
-| `C-y`       | Yanks last killed text |
-| ---         | **Macros** |
-| `M-x (`     | Start recording macro |
-| `M-x )`     | Stop recording macro |
-| `M-x e`     | Play back macro once |
-| `M-5 C-x-e` | Play back macro 5 times |
+- **`C-g` (Cancel)**: Use this to cancel a command that is prompting for input (e.g., "Find file: ...") or to stop a long-running operation if Emacs appears frozen.
+- **`C-/` (Undo)**: Reverts the last modification made to the current buffer.
 
-Modes
+### Core Command Reference
 
-> "Every buffer has an associated major mode, which alters certain
-> behaviors, key bindings, and text display in that buffer. The idea is to
-> customize the appearance and features available based on the contents of
-> the buffer."
+The following table summarizes the most essential commands for daily usage.
 
-modes are typically activated by ending such as `.py`,
-`.java`, `.rst`, ...
+| Category | Key | Description |
+| :--- | :--- | :--- |
+| **Saving and Exiting** | `C-x C-w` | Write the current buffer to a file |
+| | `C-x C-s` | Save the buffer and exit Emacs |
+| **Basic Cursor** | `C-f` | Move forward one character |
+| | `C-n` | Move to the next line |
+| | `C-b` | Move back one character |
+| | `C-p` | Move to the previous line |
+| **Contextual Move** | `C-a` | Move to the beginning of the line |
+| | `C-e` | Move to the end of the line |
+| | `M-f` | Move forward one word |
+| | `M-b` | Move back one word |
+| | `M-v` | Move to the previous screen |
+| | `C-v` | Move to the next screen |
+| | `M-<` | Jump to the beginning of the buffer |
+| | `M->` | Jump to the end of the buffer |
+| | `M-a` | Move to the previous sentence |
+| | `M-e` | Move to the next sentence |
+| **Navigation** | `M-g g` | Jump to a specified line number |
+| **Search and Replace** | `C-s` | Incremental search forward |
+| | `C-r` | Incremental search backward |
+| | `M-%` | Query replace (interactive find and replace) |
+| **Text Manipulation** | `C-k` | Kill (cut) the line from the cursor to the end |
+| | `C-y` | Yank (paste) the last killed text |
 
-|  Key                 |   Description |
-|  ----- |  ------------------------ |
-|  `M-x python-mode`      | Mode for editing Python files |
-|  `M-x auto-fill-mode`   | Wraps your lines automatically when they  get longer than 70 characters. |
-|  `M-x flyspell-mode`    | Highlights misspelled words as you type. |
+## Automation with Macros
 
-## Org Mode
+One of the most powerful features of Emacs is the ability to record and replay a sequence of keystrokes. This is exceptionally useful for data science tasks and cleaning smaller datasets where the pattern of editing is repetitive.
 
-Emacs has some very advanced features that you can activate via a mode.
-One such feature is to organize a TODO list via org-mode.
+### Recording and Playback
 
-Instead of us designing our own video, we point to a community tutorial
-such as
+Macros allow you to capture a complex series of edits and apply them to multiple lines instantly.
 
-[![Video](images/video.png) Cloud 18:04](https://www.youtube.com/watch?v=Kde5YVUwDTQ}{Youtube)
+| Key | Description |
+| :--- | :--- |
+| `M-x (` | Start recording a macro |
+| `M-x )` | Stop recording the macro |
+| `M-x e` | Play back the macro once |
+| `M-5 C-x e` | Play back the macro 5 times |
 
+### Practical Example: Data Cleaning
 
-## Programming Python with Emacs
+Imagine you have a list of items in a CSV-like format with unwanted quotes:
+`"Item 1", "Item 2", "Item 3"`
 
-Emacs comes by default with syntax highlighting for python when you
-edit a `.py` file. This is really all you need. It also comes with a
-python ide that you can use and customize.
+Instead of deleting each quote manually, you can:
+1. Place the cursor at the first quote.
+2. Start recording (`M-x (`).
+3. Delete the quote, move to the next quote, delete it, and move to the start of the next line.
+4. Stop recording (`M-x )`).
+5. Use `M-x e` to clean subsequent lines.
 
-Python auto-completion for Emacs:
+## Major and Minor Modes
 
-* <https://github.com/tkf/emacs-jedi>
+Emacs uses "Modes" to customize behavior based on the file type or the user's needs.
 
-Some more information is available at
+### Major Modes
 
-* <https://realpython.com/blog/python/emacs-the-best-python-editor/>
-* <https://www.emacswiki.org/emacs/PythonProgrammingInEmacs>
+Every buffer has one associated **Major Mode**. It determines the syntax highlighting, indentation rules, and key bindings for that specific file type. Major modes are typically activated automatically based on the file extension (e.g., `.py` activates `python-mode`).
 
-## Emacs Keys in a Terminal
+| Command | Description |
+| :--- | :--- |
+| `M-x python-mode` | Activates the environment for editing Python files |
+| `M-x auto-fill-mode` | Automatically wraps lines that exceed 70 characters |
+| `M-x flyspell-mode` | Highlights misspelled words in real-time |
 
-One of the real great features of knowing emacs is that you can set all
-your editors to emacs shortcuts. This includes pyCharm, but also bash.
-In bash you simply say
+### Org Mode
+
+**Org Mode** is one of the most celebrated features of Emacs. It transforms the editor into a powerful tool for note-taking, project planning, and TODO list management. Due to its complexity, learners are encouraged to use community tutorials, such as the "Cloud 18:04" video guide.
+
+## Specialized Workflows
+
+### Programming Python with Emacs
+
+Emacs provides built-in syntax highlighting for Python. For a more complete IDE experience, the following extensions are recommended:
+
+- **Auto-completion**: The [emacs-jedi](https://github.com/tkf/emacs-jedi) package provides powerful completion and analysis for Python code.
+- **Guides**: For a detailed setup, refer to [Real Python's Emacs Guide](https://realpython.com/blog/python/emacs-the-best-python-editor/) and the [EmacsWiki Python page](https://www.emacswiki.org/emacs/PythonProgrammingInEmacs).
+
+### Emacs in the Terminal
+
+The utility of Emacs extends to remote environments where a graphical window system is unavailable.
+
+- **Non-Window Mode**: Run `emacs -nw` to start Emacs directly in the terminal. This allows you to replace editors like `vi`, `vim`, or `nano` on remote servers.
+- **Bash Integration**: You can enable Emacs-style shortcuts in the Bash shell by running:
 
 ```bash
 $ set -o emacs
 ```
 
-in your bash prompt. Additionally, if you do not have a window systems
-configured, you can run emacs directly in the terminal with
+### LaTeX and Emacs Integration
 
-```bash
-$ emacs -nw
-```
+Emacs has native support for LaTeX, which can be significantly enhanced through specialized packages.
 
-This you can log in to a remote computer and if it has emacs installed.
-Use it in the terminal. This would replace editors such as vi, vim,
-nano, pico or others that work in a terminal.
+- **Spell Checking**: Use `M-x flyspell-mode` for real-time corrections.
+- **Predictive Text**: Use [Predictive Mode](https://www.emacswiki.org/emacs/PredictiveMode) to speed up LaTeX command entry.
+- **Compilation Workflow**: While `whizzy-tex` and `preview-latex` are available, the recommended approach is using **LatexMk**.
 
-## LaTeX and Emacs
+#### Using LatexMk
 
-LaTeX is directly supported by emacs and nothing has to be changed.
-However, a collection of information about additional LaTeX features for
-emacs is available at
+LatexMk is a tool that automatically compiles a document and updates the PDF whenever the source is changed. In a professional workflow:
+1. Run `latexmk` in one terminal window.
+2. Edit the `.tex` file in an Emacs window.
+3. View the resulting PDF in a viewer like Skim.
 
-* <https://www.emacswiki.org/emacs/LaTeX>
+This creates a near-instantaneous feedback loop similar to Overleaf, but with higher performance and full local control.
 
-Of interest are for example also
+!!! tip "Summary Checklist"
+    - Configured basic navigation using `C` and `M` modifiers.
+    - Utilized `C-g` and `C-/` for error recovery and undoing changes.
+    - Applied `C-k` and `C-y` for efficient text manipulation.
+    - Implemented a recording macro to automate a repetitive data-cleaning task.
+    - Activated `python-mode` and `flyspell-mode` for enhanced coding and writing.
+    - Integrated Emacs with a remote terminal using the `-nw` flag.
+    - Established a LaTeX compilation loop using LatexMk and a PDF viewer.
 
-* `M-x flyspell-mode`: allowing to do spell checking in the window
-* predictive mode: https://www.emacswiki.org/emacs/PredictiveMode
-* preview latex
-* whizzy tex
+!!! note "Exercise 1: Basic Navigation"
+    Create a text file with 20 lines of random text. Practice moving to the beginning of the buffer, jumping to line 10 using `M-g g`, and moving to the end of the buffer.
 
-However instead of previews and whizzy tex we recommend to use
+!!! note "Exercise 2: Macro Automation"
+    Create a file containing a list of 10 names and emails in the format: `Name <email@example.com>`. Use a macro to remove the `<` and `>` characters and the name, leaving only the email addresses.
 
-* <https://www.emacswiki.org/emacs/LatexMk>
-
-which comes pre-installed and allows you to do editing in one terminal,
-while previewing the update on change in another window.
-
-## LateXMk and Emacs
-
-LatexMk allows one to automatically compile and preview a document
-in case the source is changed. Thus, if you run LatexMk and edit
-your files for example with Emacs, the PDF viewer such as Skim will
-automatically update the document.
-This is similar to overleaf, but much faster and without collaborators editing the same file.
+!!! note "Exercise 3: LaTeX Environment"
+    Install `latexmk` on your system. Create a simple LaTeX document in Emacs, launch `latexmk` in a separate terminal, and verify that the PDF updates automatically every time you save the file (`C-x C-s`).

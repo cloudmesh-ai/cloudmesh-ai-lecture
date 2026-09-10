@@ -1,225 +1,184 @@
----
-title: "cmd Module"
----
+# Interactive Shells with Python cmd
 
-!!! info "Learning Outcomes"
-    - Implement simple interactive command-line interpreters using the `cmd.Cmd` base class.
-    - Create custom command handlers and handle EOF (Ctrl-D) in a shell application.
-    - Implement custom prompts, welcome messages, and detailed help messages for command-line tools.
+!!! info "Learning Objectives"
+    - Implement an interactive command-line interpreter using the `cmd.Cmd` base class.
+    - Create custom command handlers using the `do_` method pattern.
+    - Manage the shell lifecycle, including handling EOF (Ctrl-D) and graceful exits.
+    - Customize the user experience with custom prompts and welcome messages.
+    - Implement a built-in help system for custom commands.
 
-If you consider using this module, you may instead want to use cloudmesh cmd5 instead as it provides some very nice features that are not included in cmd. However, to do the basics, cmd will do.
+Most command-line tools operate on a "one-shot" basis: the user provides arguments, the program executes a task, and the process terminates. However, many professional tools—such as database consoles (e.g., `psql` or `mysql`), network switches, and debuggers—operate as persistent interactive shells. This pattern is known as a REPL (Read-Eval-Print Loop).
 
-The Python cmd module is useful for any more involved command-line application. It is used in the [Cloudmesh Project](http://cloudmesh.github.io/), for example, and students have found it helpful in their projects to develop quickly high-quality command line tools with documentation so that others can replicate and use the programs. The Python cmd module contains a public class, Cmd, designed to be used as a base class for command processors such as interactive shells and other command interpreters.
+The Python `cmd` module provides a framework for building these line-oriented command processors. By providing a base class that handles the loop, input reading, and basic command dispatching, `cmd` allows developers to focus on implementing the actual logic of the commands rather than the mechanics of the shell. While libraries like `click` are ideal for one-off CLI tools, `cmd` is the standard choice for building a dedicated interactive console.
 
-## Hello, World with cmd
+## Fundamentals of the `cmd` Module
 
-This example shows a very simple command interpreter that simply responds to the greet command.
+The core of any `cmd` application is a subclass of `cmd.Cmd`. This class defines the behavior of the shell, including the commands it recognizes and how it interacts with the user.
 
-In order to demonstrate commands provided by cmd, let's save the following program in a file called helloworld.py.
+### The `do_` Method Pattern
 
-```         
+The `cmd` module uses a naming convention to identify commands. Any method defined in the subclass that starts with the prefix `do_` is automatically recognized as a command. For example, a method named `do_greet` creates a command that the user can trigger by typing `greet` at the prompt.
+
+### Minimal Implementation Example
+
+The following example demonstrates a basic shell that greets the user.
+
+```python
 import cmd
 
-
-class HelloWorld(cmd.Cmd):
-    '''Simple command processor example.'''
+class GreetingShell(cmd.Cmd):
+    """A simple command processor example."""
 
     def do_greet(self, line):
-        if line is not None and len(line.strip()) > 0:
-            print('Hello, %s!' % line.strip().title())
+        """Greet the user. Usage: greet [name]"""
+        if line.strip():
+            print(f"Hello, {line.strip().title()}!")
         else:
-            print('Hello!')
+            print("Hello!")
 
     def do_EOF(self, line):
-        print('bye, bye')
+        """Handle Ctrl-D to exit the shell."""
+        print("\nExiting shell... Goodbye!")
         return True
 
-
-if __name__ == '__main__':
-    HelloWorld().cmdloop()
+if __name__ == "__main__":
+    GreetingShell().cmdloop()
 ```
 
-A session with this program might look like this:
+In this implementation:
+- `do_greet(self, line)`: The `line` argument contains everything the user typed after the command name.
+- `do_EOF(self, line)`: This is a special method triggered when the user presses `Ctrl-D`.
+- `cmdloop()`: This method starts the infinite loop that reads input and dispatches it to the corresponding `do_` method.
 
-```         
-$ python helloworld.py
+## Managing the Shell Lifecycle
 
-(Cmd) help
+A professional interactive shell requires more than just command handling; it needs a defined lifecycle and a user-friendly interface.
 
-Documented commands (type help <topic>):
-========================================
-help
+### Exiting the Shell
 
-Undocumented commands:
-======================
-EOF  greet
+In the `cmd` module, the shell continues to run until a command method returns `True`. In the example above, `do_EOF` returns `True`, which signals `cmdloop()` to terminate and exit the program.
 
-(Cmd) greet
-Hello!
-(Cmd) greet albert
-Hello, Albert!
-<CTRL-D pressed>
-(Cmd) bye, bye
+### Customizing the Interface
+
+The `cmd.Cmd` class provides several attributes that can be overridden to change the look and feel of the shell.
+
+- `prompt`: A string that is displayed before every input line.
+- `intro`: A string displayed once when the shell starts.
+
+```python
+class MyCustomShell(cmd.Cmd):
+    prompt = "my-shell >> "
+    intro = "Welcome to the Custom Shell. Type 'help' for a list of commands."
+
+    def do_quit(self, line):
+        """Exit the shell."""
+        return True
 ```
 
-The Cmd class can be used to customize a subclass that becomes a user-defined command prompt. After you have executed your program, commands defined in your class can be used. Take note of the following in this example:
+## Command Arguments and Parsing
 
-- The methods of the class of the form do_xxx implement the shell commands, with xxx being the name of the command. For example, in the `HelloWorld` class, the function do_greet maps to the greet on the command line.
+Since the `cmd` module only provides the raw input string (`line`) to the `do_` methods, the developer is responsible for parsing that string.
 
-- The EOF command is a special command that is executed when you press CTRL-D on your keyboard.
+### Basic Argument Parsing
 
-- As soon as any command method returns True the shell application exits. Thus, in this example, the shell is exited by pressing CTRL-D, since the do_EOF method is the only one that returns True.
+For simple tools, using `split()` is often sufficient to separate the command arguments.
 
-- The shell application is started by calling the `cmdloop` method of the class.
+```python
+class CalculatorShell(cmd.Cmd):
+    prompt = "calc >>> "
 
-## A More Involved Example
+    def do_add(self, line):
+        """Add numbers together. Usage: add 1 2 3"""
+        try:
+            args = line.split()
+            total = sum(float(arg) for arg in args)
+            print(f"Total: {total}")
+        except ValueError:
+            print("Error: Please provide only numbers.")
 
-Let us look at a little more involved example. Save the following code in a file called calculator.py.
+    def do_subtract(self, line):
+        """Subtract numbers from the first argument. Usage: subtract 10 2 3"""
+        try:
+            args = line.split()
+            if not args:
+                print("Error: No numbers provided.")
+                return
+            total = float(args[0])
+            for arg in args[1:]:
+                total -= float(arg)
+            print(f"Total: {total}")
+        except ValueError:
+            print("Error: Please provide only numbers.")
 
-```         
-import cmd
-
-
-class Calculator(cmd.Cmd):
- prompt = 'calc >>> '
- intro = 'Simple calculator that can do addition, subtraction, multiplication and division.'
-
- def do_add(self, line):
-     args = line.split()
-     total = 0
-     for arg in args:
-         total += float(arg.strip())
-     print(total)
-
- def do_subtract(self, line):
-     args = line.split()
-     total = 0
-     if len(args) > 0:
-         total = float(args[0])
-     for arg in args[1:]:
-         total -= float(arg.strip())
-     print(total)
-
- def do_EOF(self, line):
-     print('bye, bye')
-     return True
-
-
-if __name__ == '__main__':
- Calculator().cmdloop()
+    def do_EOF(self, line):
+        return True
 ```
 
-A session with this program might look like this:
+### Advanced Parsing
 
-```         
-$ python calculator.py
-Simple calculator that can do addition, subtraction, multiplication and division.
-calc >>> help
+For more complex argument requirements (such as flags or optional parameters), the `line` string can be passed to a separate parser, such as `argparse` or `shlex`.
 
-Documented commands (type help <topic>):
-========================================
-help
+## Implementing the Help System
 
-Undocumented commands:
-======================
-EOF  add  subtract
+One of the most useful features of the `cmd` module is the automatic help system. By default, typing `help` lists all available commands.
 
-calc >>> add
-0
-calc >>> add 4 5 6
-15.0
-calc >>> subtract
-0
-calc >>> subtract 10 2
-8.0
-calc >>> subtract 10 2 20
--12.0
-calc >>> bye, bye
+### Documented vs. Undocumented Commands
+
+The `cmd` module distinguishes between documented and undocumented commands:
+- **Undocumented**: Any `do_` method.
+- **Documented**: Any `do_` method that has a corresponding `help_` method.
+
+### Creating Help Methods
+
+To document a command, create a method with the prefix `help_` followed by the command name.
+
+```python
+class DocumentedShell(cmd.Cmd):
+    def do_status(self, line):
+        """Check system status."""
+        print("System is operational.")
+
+    def help_status(self):
+        print("status")
+        print("  Displays the current operational status of the system.")
+
+    def do_EOF(self, line):
+        return True
 ```
 
-In this case, we are using the prompt and intro class variables to define what the default prompt looks like and a welcome message when the command interpreter is invoked.
+When the user types `help status`, the `help_status` method is executed, providing the user with specific instructions.
 
-In the `add` and `subtract` commands we are using the strip and split methods to parse all arguments. If you want to get fancy, you can use Python modules like `getopts` or `argparse` for this, but this is not necessary in this simple example.
+## Summary Checklist
 
-## Help Messages
+!!! tip "Summary Checklist"
+    - [ ] `cmd.Cmd` is subclassed to create the shell.
+    - [ ] Command logic is implemented using the `do_` prefix.
+    - [ ] `cmdloop()` is called to initiate the interactive session.
+    - [ ] `do_EOF` is defined to allow the user to exit via Ctrl-D.
+    - [ ] `prompt` and `intro` are customized for the target audience.
+    - [ ] Input `line` is correctly parsed using `split()` or a parsing library.
+    - [ ] `help_` methods are implemented for all public-facing commands.
 
-Notice that all commands presently show up as undocumented. To remedy this, we can define help\_ methods for each command:
+## Practical Exercises
 
-```         
-import cmd
+!!! note "Exercise 1: Basic Shell Setup"
+    Create a shell called `SimpleShell`. Implement two commands: `hello` (which prints a greeting) and `exit` (which closes the shell). Ensure the shell has a custom prompt like `(Simple) > `.
 
+!!! note "Exercise 2: Interactive Task Manager"
+    Build a task management shell. Implement the following commands:
+    1. `add [task]`: Adds a task to a Python list.
+    2. `list`: Displays all current tasks with their index.
+    3. `done [index]`: Removes a task from the list by its index.
+    Include a `help_` method for each command to explain the usage.
 
-class Calculator(cmd.Cmd):
-  prompt = 'calc >>> '
-  intro = 'Simple calculator that can do addition, subtraction, multiplication and division.'
+!!! note "Exercise 3: Virtual Storage Simulator"
+    Create a shell that simulates a key-value store. Use a dictionary to store data. Implement:
+    1. `set [key] [value]`: Stores a value associated with a key.
+    2. `get [key]`: Retrieves the value for a given key.
+    3. `delete [key]`: Removes the key from the store.
+    Handle cases where the user tries to `get` or `delete` a key that does not exist by printing a clear error message.
 
-  def do_add(self, line):
-      args = line.split()
-      total = 0
-      for arg in args:
-          total += float(arg.strip())
-      print(total)
+## Further Reading
 
-  def help_add(self):
-      print('\n'.join([
-          'add [number,]',
-          'Add the arguments together and display the total.'
-      ]))
-
-  def do_subtract(self, line):
-      args = line.split()
-      total = 0
-      if len(args) > 0:
-          total = float(args[0])
-      for arg in args[1:]:
-          total -= float(arg.strip())
-      print(total)
-
-  def help_subtract(self):
-      print('\n'.join([
-          'subtract [number,]',
-          'Subtract all following arguments from the first argument.'
-      ]))
-
-  def do_EOF(self, line):
-      print('bye, bye')
-      return True
-
-
-if __name__ == '__main__':
-  Calculator().cmdloop()
-```
-
-Now, we can obtain help for the add and subtract commands:
-
-```         
-$ python calculator.py
-Simple calculator that can do addition, subtraction, multiplication and division.
-calc >>> help
-
-Documented commands (type help <topic>):
-========================================
-add  help  subtract
-
-Undocumented commands:
-======================
-EOF
-
-calc >>> help add
-add [number,]
-Add the arguments together and display the total.
-calc >>> help subtract
-subtract [number,]
-Subtract all following arguments from the first argument.
-calc >>> bye, bye
-```
-
-## Useful Links
-
-- [cms Python 2 Docs](https://docs.python.org/2/library/cmd.html)
-
-- [cmd Python 3 Docs](https://docs.python.org/3/library/cmd.html)
-
-- [Python Module of the Week: cmd -- Create line-oriented command processors](https://pymotw.com/2/cmd/)
-
-- [Python Module of the Week: cmd -- Create line-oriented command processors](https://pymotw.com/3/cmd/)
+- Python Official `cmd` Documentation: https://docs.python.org/3/library/cmd.html
+- Python Module of the Week (PyMOTW) - `cmd`: https://pymotw.com/3/cmd/

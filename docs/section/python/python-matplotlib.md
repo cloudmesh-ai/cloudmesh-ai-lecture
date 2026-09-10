@@ -1,115 +1,125 @@
----
-title: "Plotting with matplotlib {#sec:matplotlib}"
----
+# Data Visualization with Matplotlib
 
-!!! info "Learning Outcomes"
-    - Install and use the `matplotlib` library to create basic data visualizations.
-    - Generate line plots using NumPy for data generation and `matplotlib.pyplot` for rendering.
-    - Customize plots with axis labels, titles, legends, and predefined styles.
-    - Create bar charts to visualize categorical data.
-    - Explore browser-based plotting alternatives like `Bokeh`.
+!!! info "Learning Objectives"
 
-A brief overview of plotting with matplotlib along with examples is provided. First, matplotlib must be installed, which can be accomplished with pip install as follows:
+    By the end of this chapter, you will be able to:
+    - Install and configure the `matplotlib` library for data visualization.
+    - Generate line plots by integrating `NumPy` for data sampling and `matplotlib.pyplot` for rendering.
+    - Enhance plot readability using axis labels, titles, legends, and predefined visual styles.
+    - Implement bar charts to represent and compare categorical data.
+    - Evaluate the differences between static plotting and interactive, browser-based visualization tools like `Bokeh`.
 
-``` bash
+In the fields of AI and Cloud Engineering, the ability to visualize data is as critical as the ability to process it. Whether monitoring the loss curve of a training neural network, analyzing the latency of a microservice, or visualizing resource distribution across a cluster, graphical representations allow engineers to identify patterns and anomalies that remain hidden in raw logs or tables.
+
+`matplotlib` is the foundational library for visualization in Python. It provides a low-level interface that allows for total control over every element of a figure. While higher-level libraries like `Seaborn` or `Plotly` are often used for complex statistical charts, they are almost all built upon the core engine of `matplotlib`.
+
+## Installation and Setup
+
+Before creating visualizations, the library must be installed in your environment. It is recommended to do this within a virtual environment to avoid conflicts with system-level packages.
+
+```bash
 $ pip install matplotlib
 ```
 
-We will start by plotting a simple line graph using built in NumPy functions for sine and cosine. This first step is to import the proper libraries shown next.
+## Line Plots and Functional Data
 
-``` python
+Line plots are the most common way to visualize continuous data or functions. To create these, `matplotlib` is typically used in conjunction with `NumPy` to generate the numerical coordinates.
+
+### Data Generation with NumPy
+
+To plot a mathematical function, we first need a set of sample points. The `np.linspace` function is used to create an array of evenly spaced numbers over a specified interval.
+
+```python
 import numpy as np
 import matplotlib.pyplot as plt
-```
 
-Next, we will define the values for the x-axis, we do this with the linspace option in numpy. The first two parameters are the starting and ending points, these must be scalars. The third parameter is optional and defines the number of samples to be generated between the starting and ending points, this value must be an integer. Additional parameters for the linspace utility can be found here:
-
-``` python
+# Generate 16 evenly spaced samples between -pi and pi
 x = np.linspace(-np.pi, np.pi, 16)
 ```
 
-Now we will use the sine and cosine functions in order to generate y values, for this we will use the values of x for the argument of both our sine and cosine functions i.e. $cos(x)$.
+With the x-axis defined, we can generate the corresponding y-axis values using NumPy's trigonometric functions.
 
-``` python
+```python
 cos = np.cos(x)
 sin = np.sin(x)
 ```
 
-You can display the values of the three parameters we have defined by typing them in a python shell.
+### Rendering the Plot
 
-``` python
-x
-array([-3.14159265, -2.72271363, -2.30383461, -1.88495559, -1.46607657,
-    -1.04719755, -0.62831853, -0.20943951, 0.20943951, 0.62831853,
-    1.04719755, 1.46607657, 1.88495559, 2.30383461, 2.72271363,
-    3.14159265])
-```
+The `plt.plot()` function maps the x and y arrays to a coordinate system. To display the resulting figure, `plt.show()` must be called.
 
-Having defined x and y values we can generate a line plot and since we imported matplotlib.pyplot as plt we simply use plt.plot.
-
-``` python
-plt.plot(x,cos)
-```
-
-We can display the plot using plt.show() which will pop up a figure displaying the plot defined.
-
-``` python
+```python
+# Plot the cosine function
+plt.plot(x, cos)
 plt.show()
 ```
 
-Additionally, we can add the sine line to outline graph by entering the following.
+To visualize multiple datasets on the same graph, simply call `plt.plot()` multiple times before calling `plt.show()`.
 
-``` python
-plt.plot(x,sin)
+```python
+plt.plot(x, cos)
+plt.plot(x, sin)
+plt.show()
 ```
 
-Invoking plt.show() now will show a figure with both sine and cosine lines displayed. Now that we have a figure generated it would be useful to label the x and y-axis and provide a title. This is done by the following three commands:
+## Enhancing Plot Readability
 
-``` python
-plt.xlabel("X - label (units)")
-plt.ylabel("Y - label (units)")
-plt.title("A clever Title for your Figure")
-```
+A plot without context is technically accurate but practically useless. Professional visualizations require clear labeling to ensure they are interpretable by others.
 
-Along with axis labels and a title another useful figure feature may be a legend. In order to create a legend you must first designate a label for the line, this label will be what shows up in the legend. The label is defined in the initial plt.plot(x,y) instance, next is an example.
+### Labels, Titles, and Legends
 
-``` python
-plt.plot(x,cos, label="cosine")
-```
+To provide context, we use `xlabel`, `ylabel`, and `title`. To distinguish between multiple lines, we assign a `label` during the plot call and then invoke the `legend()` method.
 
-Then in order to display the legend, the following command is issued:
-
-``` python
-plt.legend(loc='upper right')
-```
-
-The location is specified by using upper or lower and left or right. Naturally, all these commands can be combined and put in a file with the .py extension and run from the command line.
-
-``` python
-import numpy as np
-import matplotlib.pyplot as plt
-
-x = np.linspace(-np.pi, np.pi, 16)
-cos = np.cos(x)
-sin = np.sin(x)
-plt.plot(x,cos, label="cosine")
-plt.plot(x,sin, label="sine")
+```python
+plt.plot(x, cos, label="cosine")
+plt.plot(x, sin, label="sine")
 
 plt.xlabel("X - label (units)")
 plt.ylabel("Y - label (units)")
 plt.title("A clever Title for your Figure")
 
+# Position the legend in the upper right corner
 plt.legend(loc='upper right')
-
 plt.show()
 ```
 
-<span id="T:fast-cars"></span>
-An example of a bar chart is preceded next using data from [\[T:fast-cars\]](#T:fast-cars){reference-type="ref" reference="T:fast-cars"}.
+### Complete Implementation Example
 
-``` python
+The following script combines data generation and visualization into a single, executable file.
+
+```python
+import numpy as np
 import matplotlib.pyplot as plt
 
+# 1. Data Preparation
+x = np.linspace(-np.pi, np.pi, 16)
+cos = np.cos(x)
+sin = np.sin(x)
+
+# 2. Plotting
+plt.plot(x, cos, label="cosine")
+plt.plot(x, sin, label="sine")
+
+# 3. Customization
+plt.xlabel("X - label (units)")
+plt.ylabel("Y - label (units)")
+plt.title("A clever Title for your Figure")
+plt.legend(loc='upper right')
+
+# 4. Rendering
+plt.show()
+```
+
+## Categorical Data with Bar Charts
+
+While line plots are for continuous data, bar charts are used for categorical data—where the x-axis represents distinct groups rather than a numerical range.
+
+Example: Comparing the horsepower of various car models.
+
+```python
+import matplotlib.pyplot as plt
+
+# Define categories and values
 x = [' Toyota Prius',
      'Tesla Roadster ',
      ' Bugatti Veyron',
@@ -117,40 +127,89 @@ x = [' Toyota Prius',
      ' Lamborghini Aventador ']
 horse_power = [120, 288, 1200, 158, 695]
 
+# Map categories to integer positions for the x-axis
 x_pos = [i for i, _ in enumerate(x)]
 
+# Create the bar chart
 plt.bar(x_pos, horse_power, color='green')
+
+# Customization
 plt.xlabel("Car Model")
 plt.ylabel("Horse Power (Hp)")
 plt.title("Horse Power for Selected Cars")
 
+# Replace integer positions with actual car model names
 plt.xticks(x_pos, x)
 
 plt.show()
 ```
 
-You can customize plots further by using plt.style.use(), in python 3. If you provide the following command inside a python command shell you will see a list of available styles.
+## Visual Styling and Aesthetics
 
-``` python
+`matplotlib` includes a variety of predefined styles that can change the background color, grid lines, and color palettes of a plot with a single command.
+
+### Discovering Available Styles
+
+You can list all available styles installed in your environment using the following command:
+
+```python
 print(plt.style.available)
 ```
 
-An example of using a predefined style is shown next.
+### Applying a Style
 
-``` python
+To apply a style, such as the popular `seaborn` theme, use `plt.style.use()`. This should be called at the beginning of the script to ensure all subsequent plots follow the theme.
+
+```python
 plt.style.use('seaborn')
 ```
 
-Up to this point, we have only showcased how to display figures through python output, however web browsers are a popular way to display figures. One example is Bokeh, the following lines can be entered in a python shell and the figure is outputted to a browser.
+## Beyond Static Plots: Interactive Visualization
 
-``` python
+While `matplotlib` generates static images, modern data science often requires interactive plots that allow users to zoom, pan, and hover over data points. `Bokeh` is a powerful library designed specifically for this purpose, outputting visualizations directly to a web browser.
+
+Example of creating an interactive scatter plot with `Bokeh`:
+
+```python
 from bokeh.io import show
 from bokeh.plotting import figure
 
+# Define data
 x_values = [1, 2, 3, 4, 5]
 y_values = [6, 7, 2, 3, 6]
 
+# Create a figure object
 p = figure()
+
+# Add circle markers to the plot
 p.circle(x=x_values, y=y_values)
+
+# Display the plot in a browser
 show(p)
 ```
+
+!!! tip "Summary Checklist"
+
+    - [ ] Installed `matplotlib` via `pip`.
+    - [ ] Used `np.linspace` to generate coordinate samples for functional plots.
+    - [ ] Implemented `plt.plot()` to render line graphs.
+    - [ ] Added `xlabel`, `ylabel`, and `title` to provide plot context.
+    - [ ] Used `label` and `plt.legend()` to distinguish multiple datasets.
+    - [ ] Created bar charts using `plt.bar()` and `plt.xticks()`.
+    - [ ] Applied visual themes using `plt.style.use()`.
+    - [ ] Identified the use case for interactive plotting via `Bokeh`.
+
+!!! note "Exercise 1: Sampling and Resolution"
+
+    **Task**: Recreate the sine and cosine plot, but vary the third parameter of `np.linspace`. Compare the results using 5, 50, and 500 samples.
+    **Goal**: Understand how sampling resolution affects the visual smoothness of a curve.
+
+!!! note "Exercise 2: Performance Comparison"
+
+    **Task**: Create a bar chart that compares the response times (in milliseconds) of three different API endpoints (e.g., `/login`, `/search`, `/upload`). Use different colors for each bar.
+    **Goal**: Practice representing categorical performance metrics.
+
+!!! note "Exercise 3: Multi-Plot Dashboard"
+
+    **Task**: Use `plt.subplot()` to create a single figure containing two plots: one showing a line graph of a function and another showing a bar chart of related categorical data.
+    **Goal**: Master the layout of complex figures for comprehensive data reporting.
