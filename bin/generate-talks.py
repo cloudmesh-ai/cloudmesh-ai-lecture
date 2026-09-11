@@ -67,6 +67,8 @@ def convert_slide(in_path, out_path, force=False):
                 nonlocal slide_count
                 if slide_count < len(notes):
                     note_content = notes[slide_count]
+                    # Replace "speaker notes" with "Notes:"
+                    note_content = note_content.replace("speaker notes", "Notes:", 1)
                     slide_count += 1
                     return f'<div class="instructor-notes">{note_content}</div></section>'
                 return match.group(0)

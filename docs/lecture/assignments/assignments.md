@@ -112,6 +112,7 @@
     * Work with a fork (GUI)
 
     All these from commandline:
+    
     * git clone
     * git commit -a
     * git commit -m "msg" file
