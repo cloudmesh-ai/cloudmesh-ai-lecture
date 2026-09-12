@@ -2,7 +2,7 @@
 
 
 
-## Cloud Computing (Part 1)
+## Cloud Computing (Part 1): Overview
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
   <iframe src="https://www.youtube.com/embed/DsbKu4ilmYk" 
@@ -10,7 +10,7 @@
           frameborder="0" allowfullscreen></iframe>
 </div>
 
-## Cloud Computing (Part 2)
+## Cloud Computing (Part 2): Overview
 
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
@@ -30,6 +30,15 @@ A summary generatited from the lecture notes that are not yet published.
           frameborder="0" allowfullscreen></iframe>
 </div>
 
+
+
+## Cloud Computing (Part 3): Virtualization
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+  <iframe src="https://www.youtube.com/embed/i8-UpVeMWZg" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+          frameborder="0" allowfullscreen></iframe>
+</div>
 
 ## Supplemental
 
