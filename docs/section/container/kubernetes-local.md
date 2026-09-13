@@ -13,6 +13,10 @@ It covers the most common single‑node tools, the prerequisite software, and th
     5. **Deploy** a basic application and expose it to your local browser using NodePort services.
     6. **Manage** the cluster lifecycle (start, stop, and delete) for different local providers.
 
+!!! note "Next Steps"
+    Now that you have a local cluster, learn how to scale AI workloads in production $\rightarrow$ [kubernetes.md](./kubernetes.md).
+
+
 ---
 
 
@@ -32,6 +36,12 @@ Setting up Kubernetes locally can be done using several different tools. The rig
 | **minikube** | Runs a single VM (via Docker, VirtualBox, KVM2, HyperKit, etc.) that contains a full Kubernetes node. | Supports many drivers; full feature set; easy to enable addons. | General development when you want a “real” VM node. |
 | **k3d** (k3s in Docker) | Runs a lightweight k3s distribution inside Docker containers. | Small memory/CPU footprint; fast startup; still CNCF‑conformant. | Low‑resource laptops, ARM machines, edge‑style demos. |
 | **MicroK8s** (snap package) | Installs a native Kubernetes binary on the host OS (no VM). | All‑in‑one installation; easy to enable/disable addons. | Ubuntu or WSL2 users who prefer a native install. |
+
+
+### Understanding the Local Control Plane
+It is important to understand that tools like `kind` and `k3d` use a concept called **Containers-as-Nodes**. Unlike a traditional Kubernetes cluster where each node is a physical or virtual machine, `kind` starts a Docker container and runs the Kubernetes components (Kubelet, Kube-proxy, etc.) *inside* that container. 
+
+This allows you to simulate a multi-node cluster (e.g., 1 Control Plane and 3 Workers) on a single laptop without the overhead of running 4 separate Virtual Machines. When you run `kubectl get nodes`, you are seeing these containers acting as nodes.
 
 Pick the tool that best matches the software already installed on your computer and the resources you have available.
 
@@ -310,8 +320,27 @@ If you wish to use Podman with `kind` or `k3d`, ensure you have Podman installed
 While Docker is the most common runtime for local clusters, **Podman** (Pod Manager) is a powerful, daemonless alternative that is increasingly popular in enterprise and security-focused environments.
 
 ### Motivation for using Podman
+
+#### Deep Dive: The "Rootless" Concept
+Podman's primary advantage is that it is **daemonless** and **rootless**. In Docker, the daemon runs as root, meaning any process that escapes the container might have root access to your host. Podman uses "User Namespaces" to map the root user inside the container to a non-privileged user on the host.
+
+To use Podman with `kind`, the `podman.socket` must be active because `kind` needs a way to tell Podman to create and manage the node containers. You can enable it with:
+`systemctl --user enable --now podman.socket`
+
 Podman provides several key advantages over the traditional Docker architecture:
 1. **Daemonless Architecture**: Unlike Docker, Podman does not require a background daemon (`dockerd`) to run containers. This eliminates a single point of failure and reduces system overhead.
+
+## Troubleshooting Common Local Issues
+
+Setting up Kubernetes locally often comes with a few common hurdles. Here are the most frequent pitfalls and how to solve them:
+
+*   **Wrong Context**: If you have multiple clusters (e.g., one from Minikube and one from Kind), `kubectl` might be talking to the wrong one. 
+    *   *Check*: `kubectl config current-context`
+    *   *Fix*: `kubectl config use-context kind-kind`
+*   **Resource Starvation**: Local clusters can be memory-hungry. If your nodes are in `NotReady` state, check if your Docker Desktop / VM has enough RAM allocated (at least 4GB is recommended).
+*   **Port Conflicts**: If you use `NodePort` and the port is already taken by another app on your laptop, the service will fail to connect. Try a different port in the range 30000-32767.
+*   **Rootless Podman Permissions**: If you use Podman in rootless mode, you might encounter permission errors when mounting volumes. Ensure the `:Z` flag is used in volume mounts to handle SELinux relabeling.
+
 2. **Rootless by Default**: Podman is designed to run containers without root privileges, significantly improving the security posture of your local machine.
 3. **OCI Compliant**: Podman follows the Open Container Initiative (OCI) standards, meaning it can run the same images as Docker and use the same `Dockerfile` syntax.
 4. **Seamless Integration**: For most users, Podman is a drop-in replacement; you can often simply `alias docker=podman` and continue using your existing workflows.
