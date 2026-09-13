@@ -513,3 +513,35 @@ my-chart/
     └── service.yaml
 
 ```
+
+## Appendix - Academia may not use kubernetes for AI services
+
+The divergence between **SLURM** (Simple Linux Utility for Resource Management) and **Kubernetes** in academic and national research centers comes down to a fundamental clash of paradigms: **Batch-oriented High-Performance Computing (HPC)** versus **Cloud-native Service Orchestration**.
+
+While Kubernetes dominates commercial cloud infrastructure and modern AI serving pipelines, academic centers heavily rely on SLURM for several architectural and historical reasons:
+
+### 1. The Queueing vs. "Always-On" Model
+
+* **SLURM (Batch Queue):** HPC resources are scarce and expensive. SLURM operates on a strict **queueing and allocation model** with fair-share policies and backfill scheduling. A researcher submits a script requesting 128 nodes for 24 hours. Once the time limit expires, the job terminates, and resources are reclaimed for the next user.
+* **Kubernetes (Stateful Services):** Kubernetes assumes workloads are **long-running services** (APIs, databases, web apps) that should stay up indefinitely until explicitly updated or deleted. While K8s can run batch jobs via `Jobs` or `CronJobs`, managing complex scheduling queues, priority preemption, and wall-time limits natively has historically required external batch controllers.
+
+### 2. High-Performance Interconnects and Bare-Metal Speed
+
+* **HPC (InfiniBand & MPI):** Traditional scientific simulations (weather modeling, molecular dynamics, physics) rely heavily on Message Passing Interface (MPI) running across thousands of tightly coupled nodes. SLURM launches these processes directly on **bare-metal hardware** connected via ultra-low-latency, high-bandwidth interconnects like InfiniBand or Omni-Path.
+* **Kubernetes Network Overhead:** Kubernetes historically introduced network virtualization layers (Container Network Interfaces / CNIs like Calico or Flannel) and overlay IPs. While modern HPC-K8s setups use SR-IOV, HostNetwork modes, and RDMA plugins to bypass this, tuning a K8s network to match bare-metal MPI performance remains significantly more complex than standard SLURM deployments.
+
+### 3. Multi-Tenancy and Resource Contention
+
+* **SLURM:** Designed from the ground up for aggressive multi-tenancy where hundreds of researchers share a cluster without stepping on each other's toes. Its accounting and limits framework strictly enforces CPU, memory, and GPU quotas per project or user.
+* **Kubernetes:** While Kubernetes has namespaces and resource quotas, its multi-tenancy model is historically tailored to organizational teams sharing a microservices application stack, rather than hundreds of independent academic researchers executing arbitrary, unverified code concurrently.
+
+### 4. Legacy Scientific Software Ecosystem
+
+Decades of scientific software—written in Fortran, C, and C++—are built specifically to interact with cluster resource managers via environment variables (`SLURM_JOB_ID`, `SLURM_NODEID`) and launcher commands (`srun`, `mpirun`). Rewiring or containerizing these monolithic pipelines just to run on a different scheduler offers little scientific ROI for a research lab.
+
+### 5. The Modern Shift: Hybrid Environments
+
+Many academic and national labs are no longer choosing *either/or*, but rather adopting a **hybrid approach**:
+
+* **SLURM** remains the backbone for massive, tightly coupled numerical simulations and traditional MPI workloads.
+* **Kubernetes** (often leveraging tools like Apptainer instead of Docker for rootless container security) is increasingly deployed alongside SLURM specifically for AI model training, workflow engines (like Argo), and serving interactive inference APIs.
