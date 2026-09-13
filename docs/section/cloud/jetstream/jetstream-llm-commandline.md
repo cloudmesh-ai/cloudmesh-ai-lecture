@@ -252,12 +252,21 @@ All numeric literals (`max_tokens`: 120, `temperature`: 0.7) are plain integ
 
 ---
 
-### Summary checklist
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
 
-1. **Set environment variables** `JETSTREAM_API_KEY` and optionally `JETSTREAM_MODEL`.  
-2. **For ad‑hoc use**, run the curl one‑liners in the integrated terminal.  
-3. **For a GUI chat experience**, install a compatible VS Code extension and point its API base to `https://llm.jetstream-cloud.org/v1`.  
-4. **For repeated prompts**, create `jet_prompt.sh` and a VS Code task, then bind a key‑shortcut if desired.  
-5. **Keep the API key out of source control** by using an environment variable or excluding it from Settings Sync.
+??? question "How do you configure the Jetstream Cloud LLM for use in the VS Code terminal?"
+    Set the `JETSTREAM_API_KEY` and optionally `JETSTREAM_MODEL` environment variables in your shell profile (e.g., `~/.bashrc` or `~/.zshrc`).
 
-Following these steps gives you both a command‑line and a graphical workflow for the Jetstream Cloud LLM, entirely within Visual Studio Code.
+??? question "What is the simplest way to perform an ad-hoc request to the Jetstream LLM?"
+    Run the `curl` or `httpie` one-liners directly in the integrated VS Code terminal.
+
+??? question "How can you integrate Jetstream LLM into a VS Code GUI chat extension?"
+    Install a compatible OpenAI-compatible extension (e.g., ChatGPT – EasyCode) and set the API Base to `https://llm.jetstream-cloud.org/v1`.
+
+??? question "How can you automate repeated prompts to the LLM within VS Code?"
+    Create a shell script (e.g., `jet_prompt.sh`), define a VS Code task in `tasks.json` to execute it, and optionally bind that task to a keyboard shortcut in `keybindings.json`.
+
+??? question "What are the recommended ways to keep the API key secure and out of source control?"
+    Use environment variables (which can be referenced in settings as `${env:JETSTREAM_API_KEY}`) or add the specific setting to the `sync.ignore` list if you use VS Code Settings Sync.

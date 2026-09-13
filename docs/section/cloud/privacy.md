@@ -115,34 +115,26 @@
 
 ---
 
-### 8. Key Take‑aways  
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
 
-| ✅ | Take‑away |
-|---|-----------|
-| **Know Where Your Data Lives** – Use tagging, inventory tools, and data‑residency policies. |
-| **Encrypt Early, Keep Control of Keys** – Prefer customer‑managed or BYOK solutions. |
-| **Treat Configuration as Code** – IaC + policy‑as‑code prevents human error. |
-| **Monitor Continuously** – Real‑time alerts and immutable logs are non‑negotiable. |
-| **Understand Legal Jurisdictions** – Cloud providers may store copies in multiple regions; you must be able to prove compliance. |
-| **Plan for Deletion** – Secure wipe and lifecycle policies must be part of the design, not an after‑thought. |
-| **Include the Provider in Your Risk Management** – Review SLAs, BAA/BAAs, and audit reports (SOC 2, ISO 27001). |
-| **Educate Users** – Even the best technical controls fail without staff awareness of phishing, credential reuse, and secure coding. |
+??? question "True or False: Enabling encryption at rest on a cloud storage bucket automatically satisfies GDPR’s 'right to be forgotten'."
+    **False**. Encryption protects confidentiality, but it does **not** guarantee that data is fully erased from all backups, snapshots, and replicas when a user exercises their right to be forgotten.
 
----
+??? question "Which attack vector exploits shared CPU caches in a multi-tenant environment?"
+    The **Side-channel cache attack**. This occurs when co-resident VMs on the same physical hardware infer sensitive information by observing how the CPU cache is used by other tenants.
 
-### 9. Quick Quiz (Self‑Check)
+??? question "What is the primary benefit of 'customer-managed keys' (CMK) over provider-managed encryption?"
+    **Control**. With CMKs, the customer retains ownership of the root key. This ensures that the cloud provider cannot decrypt the data without the customer's explicit consent or authorization.
 
-1. **True or False:** Enabling encryption at rest on a cloud storage bucket automatically satisfies GDPR’s “right to be forgotten”.  
-2. **Which attack vector exploits shared CPU caches in a multi‑tenant environment?**  
-   a) SQL injection b) Side‑channel cache attack c) Man‑in‑the‑middle d) Phishing  
-3. **What is the primary benefit of “customer‑managed keys” (CMK) over provider‑managed encryption?**  
-4. **Name two regulatory frameworks that impose *data‑at‑rest* encryption requirements.**  
+??? question "Which regulatory frameworks impose strict data-at-rest encryption requirements?"
+    **GDPR** (through various national interpretations and requirements for protecting personal data) and **PCI-DSS** (which mandates the encryption of cardholder data stored at rest).
 
-*Answers:*  
-1. **False** – Encryption protects confidentiality but does **not** guarantee that data is fully erased when requested.  
-2. **b) Side‑channel cache attack**  
-3. **Control:** Only the customer holds the master key, so the provider cannot decrypt data without the customer’s explicit consent.  
-4. **GDPR** (via national implementations) and **PCI‑DSS** (require encryption of cardholder data at rest).  
+??? question "How does 'Configuration as Code' help prevent privacy breaches?"
+    By treating infrastructure as code (IaC) and implementing **Policy-as-Code** (e.g., using tools like Checkov), organizations can automatically detect and block misconfigurations—such as publicly accessible storage buckets—before they are ever deployed to production.
+
+??? question "Why is data residency a critical concern for cloud privacy?"
+    Data residency refers to the physical location where data is stored. Because different countries have different laws (e.g., the US CLOUD Act vs. EU GDPR), data stored in a foreign jurisdiction may be subject to legal requests or surveillance that conflict with the privacy laws of the data owner's home country.
 
 ---
 

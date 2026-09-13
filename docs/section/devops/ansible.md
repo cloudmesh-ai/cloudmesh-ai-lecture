@@ -1,687 +1,359 @@
----
-title: "Ansible"
-linkTitle: "Ansible"
-description: >
-  Ansible is an open-source IT automation DevOps engine allowing you to manage and configure many compute resources in a scalable, consistent and reliable way.
-  
----
+# Automating Infrastructure with Ansible
 
-## Introduction to Ansible
+!!! info "Learning Objectives"
+    - Define Ansible and its role in the DevOps ecosystem.
+    - Install and configure Ansible for remote server management.
+    - Create and execute Ansible Playbooks using YAML syntax.
+    - Understand key Ansible concepts: Modules, Tasks, Handlers, and Inventories.
+    - Implement an automated deployment of a service (e.g., Apache or MariaDB).
 
-Ansible is an open-source IT automation DevOps engine allowing you to manage
-and configure many compute resources in a scalable, consistent and
-reliable way.
+Managing dozens or hundreds of servers manually via SSH is inefficient and error-prone. When a system administrator has to run the same sequence of commands on fifty different machines, the risk of a typo or a missed step increases exponentially. Ansible provides a way to automate these tasks in a scalable, consistent, and reliable manner.
 
-Ansible to automates the following tasks:
+Ansible is an open-source IT automation engine that allows you to manage and configure compute resources. Unlike many other automation tools, Ansible is "agentless," meaning you do not need to install any special software on the target nodes; it communicates over standard SSH.
 
-* **Provisioning:** It sets up the servers that you will use as part
-  of your infrastructure.
+!!! info "Why this matters"
+    In a professional DevOps pipeline, "Infrastructure as Code" (IaC) is a requirement. Ansible allows you to treat your server configurations as code, which can be version-controlled in Git, reviewed by peers, and tested in staging before being applied to production. This eliminates "configuration drift" and ensures that every server in a cluster is configured identically.
 
-* **Configuration management:** You can change the configuration of an
-application, OS, or device. You can implement security policies and
-other configuration tasks.
+## Core Capabilities of Ansible
 
-* **Service management:** You can start and stop services, install
-updates
+Ansible is versatile and can be used across the entire software delivery lifecycle:
 
-* **Application deployment:** You can conduct application deployments
-in an automated fashion that integrate with your DevOps strategies.
+- **Provisioning**: Setting up the base virtual machines or cloud instances that form your infrastructure.
+- **Configuration Management**: Changing the state of the OS, installing packages, managing users, and implementing security policies.
+- **Service Management**: Starting, stopping, or restarting services and managing system updates.
+- **Application Deployment**: Automating the rollout of application code in a way that integrates with CI/CD strategies.
 
+## Getting Started with Ansible
 
-### Prerequisite
+### Prerequisites
 
-We assume you
+To follow the examples in this chapter, you will need:
+- An Ubuntu (e.g., 18.04+) virtual machine installed on VirtualBox or a cloud provider.
+- Ability to install software via `apt-get`.
+- SSH credentials and the ability to log in to your target virtual machines without manual password entry (using SSH keys).
 
--   can install Ubuntu 18.04 virtual machine on VirtualBox
+### Installation and Setup
 
--   can install software packages via 'apt-get' tool in Ubuntu
-    virtual host
-
--   already reserved a virtual cluster (with at least 1 virtual
-    machine in it) on some cloud. OR you can use VMs installed in
-    VirtualBox instead.
-
--   have SSH credentials and can login to your virtual machines.
-
-
-### Setting up a playbook
-
-Let us develop a sample from scratch, based on the paradigms that
-ansible supports. We are going to use Ansible to install Apache server on
-our virtual machines.
-
-First, we install ansible on our machine and make sure we have an up
-to date OS:
-
-    $ sudo apt-get update
-    $ sudo apt-get install ansible
-
-Next, we prepare a working environment for your Ansible example
-
-    $ mkdir ansible-apache
-    $ cd ansible-apache
-
-To use ansible we will need a local configuration. When you execute
-Ansible within this folder, this local configuration file is always
-going to overwrite a system level Ansible configuration.  It is in
-general beneficial to keep custom configurations locally unless you
-absolutely believe it should be applied system wide. Create a file
-`inventory.cfg` in this folder, add the following:
-
-    [defaults]
-    hostfile = hosts.txt
-
-This local configuration file tells that the target machines' names
-are given in a file named `hosts.txt`. Next we will specify hosts in
-the file.
-
-You should have ssh login accesses to all VMs listed in this file as
-part of our prerequisites. Now create and edit file `hosts.txt` with
-the following content:
-
-    [apache]
-    <server_ip> ansible_ssh_user=<server_username>
-
-The name `apache` in the brackets defines a server group name. We will
-use this name to refer to all server items in this group. As we intend
-to install and run apache on the server, the name choice seems quite
-appropriate. Fill in the IP addresses of the virtual machines you
-launched in your VirtualBox and fire up these VMs in you VirtualBox.
-
-To deploy the service, we need to create a playbook. A playbook tells
-Ansible what to do. it uses YAML Markup syntax. Create and edit a file
-with a proper name e.g. `apache.yml` as follow:
-
-    ---
-    - hosts: apache #comment: apache is the group name we just defined
-      become: yes #comment: this operation needs privilege access
-      tasks:
-        - name: install apache2 # text description
-          apt: name=apache2 update_cache=yes state=latest
-
-This block defines the target VMs and operations(tasks) need to apply.
-We are using the `apt` attribute to indicate all software packages that
-need to be installed. Dependent on the distribution of the operating
-system it will find the correct module installer without your
-knowledge. Thus an ansible playbook could also work for multiple
-different OSes.
-
-Ansible relies on various kinds of modules to fulfil tasks on the remote
-servers. These modules are developed for particular tasks and take in
-related arguments. For instance, when we use `apt` module, we
-need to tell which package we intend to install. That is why we provide
-a value for the `name=` argument. The first `-name` attribute is just
-a comment that will be printed when this task is executed.
-
-### Run the playbook
-
-In the same folder, execute
-
-    ansible-playbook apache.yml --ask-sudo-pass
-
-After a successful run, open a browser and fill in your server IP. you
-should see an 'It works!' Apache2 Ubuntu default page. Make sure the
-security policy on your cloud opens port 80 to let the HTTP traffic go
-through.
-
-Ansible playbook can have more complex and fancy structure and syntaxes.
-Go explore! This example is based on:
-
-* <https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04>
-
-We are going to offer an advanced Ansible in next chapter.
-
-## Ansible Roles
-
-Next we install the R package onto our cloud VMs.  R is a useful
-statistic programing language commonly used in many scientific and
-statistics computing projects, maybe also the one you chose for this
-class.  With this example we illustrate the concept of Ansible Roles,
-install source code through Github, and make use of variables. These
-are key features you will find useful in your project deployments.
-
-We are going to use a top-down fashion in this example. We first start
-from a playbook that is already good to go. You can execute this
-playbook (do not do it yet, always read the entire section first) to
-get R installed in your remote hosts. We then further complicate this
-concise playbook by introducing functionalities to do the same tasks
-but in different ways. Although these different ways are not necessary
-they help you grasp the power of Ansible and ease your life when they
-are needed in your real projects.
-
-Let us now create the following playbook with the name `example.yml`:
-
-    ---
-    - hosts: R_hosts
-      become: yes
-      tasks:
-        - name: install the R package
-          apt: name=r-base update_cache=yes state=latest
-
-The hosts are defined in a file `hosts.txt`, which we configured in
-a file that we now call `ansible.cfg`:
-
-    [R_hosts]
-    <cloud_server_ip> ansible_ssh_user=<cloud_server_username>
-
-Certainly, this should get the installation job done. But we are going
-to extend it via new features called role next
-
-Role is an important concept used often in large Ansible projects.
-You divide a series of tasks into different groups. Each group
-corresponds to certain role within the project.
-
-For example, if your project is to deploy a web site, you may need to
-install the back end database, the web server that responses HTTP
-requests and the web application itself. They are three different roles
-and should carry out their own installation and configuration tasks.
-
-Even though we only need to install the R package in this example, we
-can still do it by defining a role 'r'. Let us modify our `example.yml` to be:
-
-    ---
-    - hosts: R_hosts
-
-      roles:
-        - r
-
-Now we create a directory structure in your top project directory as follows
-
-    $ mkdir -p roles/r/tasks
-    $ touch roles/r/tasks/main.yml
-
-Next, we edit the  `main.yml` file and include the following content:
-
-    ---
-    - name: install the R package
-      apt: name=r-base update_cache=yes state=latest
-      become: yes
-
-You probably already get the point. We take the 'tasks' section out of
-the earlier `example.yml` and re-organize them into roles. Each role
-specified in `example.yml` should have its own directory under roles/ and
-the tasks need be done by this role is listed in a file 'tasks/main.yml'
-as previous.
-
-## Using Variables
-
-We demonstrate this feature by installing source code from Github.
-Although R can be installed through the OS package manager (apt-get
-etc.), the software used in your projects may not. Many research
-projects are available by Git instead. Here we are going to show you how
-to install packages from their Git repositories. Instead of directly
-executing the module 'apt', we pretend Ubuntu does not provide this
-package and you have to find it on Git. The source code of R can be
-found at <https://github.com/wch/r-source.git>. We are going to clone it
-to a remote VM's hard drive, build the package and install the binary
-there.
-
-To do so, we need a few new Ansible modules. You may remember from the
-last example that Ansible modules assist us to do different tasks
-based on the arguments we pass to it. It will come to no surprise that
-Ansible has a module 'git' to take care of git-related works, and a
-'command' module to run shell commands.  Let us modify
-`roles/r/tasks/main.yml` to be:
-
-    ---
-    - name: get R package source
-      git:
-        repo: https://github.com/wch/r-source.git
-        dest: /tmp/R
-
-    - name: build and install R
-      become: yes
-      command: chdir=/tmp/R "{{ item }}"
-      with_items:
-        - ./configure
-        - make
-        - make install
-
-The role `r` will now carry out two tasks. One to clone the R source
-code into `/tmp/R`, the other uses a series of shell commands to build and
-install the packages.
-
-Note that the commands executed by the second task may not be
-available on a fresh VM image. But the point of this example is to
-show an alternative way to install packages, so we conveniently assume
-the conditions are all met.
-
-To achieve this we are using variables in a separate file.
-
-We typed several string constants in our Ansible scripts so far. In
-general, it is a good practice to give these values names and use them
-by referring to their names. This way, you complex Ansible project can
-be less error prone. Create a file in the same directory, and name it
-`vars.yml`:
-
-    ---
-    repository: https://github.com/wch/r-source.git
-    tmp: /tmp/R
-
-Accordingly, we will update our `example.yml`:
-
-    ---
-    - hosts: R_hosts
-      vars_files:
-        - vars.yml
-      roles:
-        - r
-
-As shown, we specify a `vars_files` telling the script that the file
-`vars.yml` is going to supply variable values, whose keys are denoted by
-Double curly brackets like in `roles/r/tasks/main.yml`:
-
-    ---
-    - name: get R package source
-      git:
-        repo: "{{ repository }}"
-        dest: "{{ tmp }}"
-
-    - name: build and install R
-      become: yes
-      command: chdir="{{ tmp }}" "{{ item }}"
-      with_items:
-        - ./configure
-        - make
-        - make install
-
-
-Now, just edit the `hosts.txt` file with your target VMs' IP addresses and
-execute the playbook.
-
-You should be able to extend the Ansible playbook for your
-needs. Configuration tools like Ansible are important components to
-master the cloud environment.
-
-## Ansible Galaxy
-
-Ansible Galaxy is a marketplace, where developers can share Ansible
-Roles to complete their system administration tasks. Roles exchanged
-in Ansible Galaxy community need to follow common conventions so that
-all participants know what to expect. We will illustrate details in
-this chapter.
-
-It is good to follow the Ansible Galaxy standard during your development
-as much as possible.
-
-### Ansible Galaxy helloworld
-
-Let us start with a simplest case: We will build an Ansible Galaxy
-project. This project will install the Emacs software package on your
-localhost as the target host. It is a *helloworld* project only meant to
-get us familiar with Ansible Galaxy project structures.
-
-First you need to create a directory. Let us call it `mongodb`:
+First, update your local package index and install Ansible:
 
 ```bash
-$ mkdir mongodb
+sudo apt-get update
+sudo apt-get install ansible
 ```
 
-Go ahead and create files `README.md`, `playbook.yml`, `inventory` and a
-subdirectory `roles/` then  `playbook.yml is your project playbook. It
-should perform the Emacs installation task by executing the
-corresponding role you will develop in the folder 'roles/'. The only
-difference is that we will construct the role with the help of
-ansible-galaxy this time.
+To keep your projects organized, create a dedicated working directory:
 
-Now, let ansible-galaxy initialize the directory structure for you:
+```bash
+mkdir ansible-apache
+cd ansible-apache
+```
 
-    $ cd roles
-    $ ansible-galaxy init <to-be-created-role-name>
+### Managing Target Hosts (The Inventory)
 
-The naming convention is to concatenate your name and the role name by a
-dot. @fig:ansible shows how it looks like.
+Ansible needs to know which servers it is managing. This is handled by an **Inventory** file. By default, Ansible looks for `/etc/ansible/hosts`, but for project-specific work, it is better to use a local configuration.
 
-![image](images/ansible-galaxy-init-structure.png){#fig:ansible}
+Create a file named `inventory.cfg` to specify a custom host file:
 
-Let us fill in information to our project. There are several `main.yml`
-files in different folders, and we will illustrate their usages.
+```ini
+[defaults]
+hostfile = hosts.txt
+```
 
-defaults and vars:
+Now, create the `hosts.txt` file and define your server groups. For example, to create a group called `apache`:
 
-> These folders should hold variables key-value pairs for your
-> playbook scripts. We will leave them empty in this example.
+```ini
+[apache]
+<server_ip> ansible_ssh_user=<server_username>
+```
 
-files:
+Replace `<server_ip>` and `<server_username>` with your actual VM details. By grouping servers, you can target all machines in the `apache` group with a single command.
 
-> This folder is for files need to be copied to the target
-> hosts. Data files or configuration files can be specified if
-> needed. We will leave it empty too.
+## Creating Your First Playbook
 
-templates:
+An Ansible **Playbook** is a YAML file that describes the desired state of your systems. It tells Ansible *what* to do, rather than *how* to do it.
 
-> Similar missions to files/, templates is allocated for template
-> files. Keep empty for a simple Emacs installation.
+### Example: Installing Apache
 
-handlers:
+Create a file named `apache.yml`. This playbook ensures that the Apache2 web server is installed and the package cache is updated.
 
-> This is reserved for services running on target hosts. For example,
-> to restart a service under certain circumstance.
+```yaml
+---
+- hosts: apache
+  become: yes
+  tasks:
+    - name: install apache2
+      apt:
+        name: apache2
+        update_cache: yes
+        state: present
+```
 
-tasks:
+**Key components of this playbook:**
+- `hosts: apache`: Targets all servers defined in the `[apache]` group of your inventory.
+- `become: yes`: Tells Ansible to execute the tasks with root privileges (sudo).
+- `tasks`: A list of actions to perform.
+- `apt`: The Ansible **module** used to manage packages on Debian/Ubuntu systems.
 
-> This file is the actual script for all tasks. You can use the role you
-> built previously for Emacs installation here:
->
->     ---
->     - name: install Emacs on Ubuntu 16.04
->       become: yes
->       package: name=emacs state=present
+### Executing the Playbook
 
-meta:
+Run the playbook using the `ansible-playbook` command:
 
-> Provide necessary metadata for our Ansible Galaxy project for
-> shipping:
+```bash
+ansible-playbook -i hosts.txt apache.yml
+```
 
-        ---
-        galaxy_info:
-          author: <you name>
-          description: emacs installation on Ubuntu 16.04
-          license:
-            - MIT
-          min_ansible_version: 2.0
-          platforms:
-            - name: Ubuntu
-              versions:
-                - xenial
-          galaxy_tags:
-            - development
+!!! info "Why this matters"
+    One of Ansible's most powerful features is **idempotence**. If you run the same playbook a second time, Ansible will detect that Apache is already installed and will report `ok` instead of `changed`. This allows you to run playbooks frequently to ensure servers haven't drifted from their intended configuration.
 
-        dependencies: []
+## Advanced Implementation: Deploying MariaDB
 
-Next let us test it out. You have your Ansible Galaxy role ready
-now. To test it as a user, go to your directory and edit the other
-two files `inventory.txt` and `playbook.yml`, which are already generated
-for you in directory `tests` by the script:
+For more complex services, you may need to perform multiple steps, such as importing GPG keys and adding external repositories.
 
-    $ ansible-playbook -i ./hosts playbook.yml
+```yaml
+---
+- hosts: db_servers
+  become: yes
+  tasks:
+    - name: Import MariaDB public GPG key
+      apt_key:
+        url: https://mariadb.org/mariadb_release_signing_key.asc
+        state: present
 
-After running this playbook, you should have Emacs installed on
-localhost.
+    - name: Add MariaDB repository
+      apt_repository:
+        repo: deb [arch=amd64] http://mirror.mariadb.org/repo/10.6/ubuntu focal main
+        state: present
 
-## A Complete Ansible Galaxy Project
+    - name: Install MariaDB Server
+      apt:
+        name: mariadb-server
+        state: present
 
-We are going to use ansible-galaxy to setup a sample project. This
-sample project will:
+    - name: Ensure MariaDB is started and enabled
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+```
 
--   use a cloud cluster with multiple VMs
--   deploy Apache Spark on this cluster
--   install a particular HPC application
--   prepare raw data for this cluster to process
--   run the experiment and collect results
+### Understanding the "Handled" Logic
 
-### Ansible: Write a Playbooks for MongoDB
+In a real-world scenario, you might want to restart a service only if a configuration file was changed. This is where **Handlers** come in. A handler is a special task that only runs when "notified" by another task.
 
-Ansible Playbooks are automated scripts written in YAML data format.
-Instead of using manual commands to setup multiple remote machines, you
-can utilize Ansible Playbooks to configure your entire systems. YAML
-syntax is easy to read and express the data structure of certain Ansible
-functions. You simply write some tasks, for example, installing
-software, configuring default settings, and starting the software, in a
-Ansible Playbook. With a few examples in this section, you will
-understand how it works and how to write your own Playbooks.
+```yaml
+  tasks:
+    - name: Update MariaDB configuration
+      template:
+        src: my.cnf.j2
+        dest: /etc/mysql/mariadb.conf.d/50-server.cnf
+      notify: restart mariadb
 
-There are also several examples of using Ansible [Playbooks](http://docs.ansible.com/playbooks.html) from the official site. It covers
+  handlers:
+    - name: restart mariadb
+      service:
+        name: mariadb
+        state: restarted
+```
+
+## Key Ansible Terminology
+
+To master Ansible, you must understand these core concepts:
+
+- **Module**: A small program that Ansible pushes to the target node to execute a specific task (e.g., `apt`, `copy`, `service`).
+- **Task**: The smallest unit of action in a playbook; it combines a module with specific arguments.
+- **Handler**: A task that is triggered by a `notify` statement, typically used for restarting services after a config change.
+- **Playbook**: A YAML file containing one or more "plays" (groups of tasks targeted at specific hosts).
+- **Inventory**: A list of managed nodes, often organized into groups.
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the difference between agent-based and agentless automation?"
+    Agent-based automation (like Puppet or Chef) requires a dedicated software agent to be installed and running on every target node. Agentless automation (like Ansible) communicates over standard protocols like SSH, meaning no special software is needed on the target nodes, which simplifies deployment and reduces resource overhead.
+
+??? question "How do I set up an Ansible inventory and target specific host groups?"
+    An inventory is a file (e.g., `hosts.txt`) that lists the IP addresses or hostnames of your managed nodes. By organizing these hosts into groups (e.g., `[webservers]`, `[databases]`), you can target specific subsets of your infrastructure in your playbooks or ad-hoc commands using the group name instead of individual IPs.
+
+??? question "How do I write a basic YAML playbook to install software?"
+    A basic playbook is a YAML file that defines one or more \"plays\". Each play targets a specific host group and contains a list of tasks. To install software, you use a module like `apt` (for Ubuntu/Debian) or `yum` (for CentOS/RHEL), specifying the package name and ensuring the state is set to `present`.
+
+??? question "What is the concept of idempotence and how can I verify it in Ansible?"
+    Idempotence is the property where an operation can be applied multiple times without changing the result beyond the initial application. In Ansible, if a system is already in the desired state, Ansible will not make any changes. You can verify this by running the same playbook twice; the second run should report `changed=0` for all tasks.
+
+??? question "How do handlers manage service restarts based on configuration changes?"
+    Handlers are special tasks that are only executed if they are \"notified\" by another task using the `notify` keyword. This is typically used when a configuration file is updated (e.g., via the `template` module); the task notifies the handler to restart the service, ensuring the service is only restarted when a change actually occurs, rather than on every playbook run.
+
+!!! note "Exercise 1: Basic Web Server"
+    Set up a virtual machine and write an Ansible playbook to install Nginx. Ensure the playbook is idempotent and that you can verify the installation by visiting the server's IP in a browser.
 
-:   from basic usage of Ansible Playbooks to advanced usage such as
-    applying patches and updates with different roles and groups.
+!!! note "Exercise 2: User and Security Management"
+    Create a playbook that performs the following on a target VM:
+    1. Creates a new system user named `devops_user`.
+    2. Adds the user to the `sudo` group.
+    3. Copies a public SSH key to the user's `authorized_keys` file.
+    4. Ensures the SSH service is running.
 
-We are going to write a basic playbook of Ansible
-software. Keep in mind that `Ansible` is a main program and `playbook`
-is a template that you would like to use. You may have several playbooks
-in your Ansible.
+!!! note "Exercise 3: Multi-Service Deployment"
+    Develop a playbook that installs both a database (e.g., PostgreSQL) and a web application. Use a handler to ensure the web application restarts only after the database configuration is successfully updated.
 
-### First playbook for MongoDB Installation
+## References
 
-As a first example, we are going to write a playbook which installs
-MongoDB server. It includes the following tasks:
+- Ansible Official Documentation: [docs.ansible.com](http://docs.ansible.com)
+- Ansible Module Index: [modules_by_category](http://docs.ansible.com/modules_by_category.html)
 
--   Import the public key used by the package management system
--   Create a list file for MongoDB
--   Reload local package database
--   Install the MongoDB packages
--   Start MongoDB
+---
+
+## Appendix: Local Deployment of the Course Site
 
-The material presented here is based on the manual installation of MongoDB from the
-official site:
+### 0. Clone the Repository
+Before running the automation, clone the course repository to your local machine:
 
-* <http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/*>
+```bash
+git clone https://github.com/cloudmesh-ai/cloudmesh-ai-lecture.git
+cd cloudmesh-ai-lecture
+```
 
-We also assume that we install MongoDB on Ubuntu 15.10.
 
-#### Enabling Root SSH Access
+As a practical exercise in "Localhost Automation," you can use Ansible to set up the environment and launch this very lecture site on your own machine. This demonstrates how Ansible can be used not just for remote servers, but for standardizing local development environments.
 
-Some setups of managed nodes may not allow you to log in as root. As
-this may be problematic later, let us create a playbook to resolve this.
-Create a `enable-root-access.yaml` file with the following contents:
+### 1. Local Inventory
+Since we are targeting the machine we are currently on, we use a special local inventory. Create a file named `local_inventory` with the following content:
+
+```ini
+[local]
+localhost ansible_connection=local
+```
 
-    ---
-    - hosts: ansible-test
-      remote_user: ubuntu
-      tasks:
-        - name: Enable root login
-          shell: sudo cp ~/.ssh/authorized_keys /root/.ssh/
+### 2. The Deployment Playbook
+Create a playbook named `deploy_site.yml`. This playbook ensures that all required Python dependencies for the MkDocs site are installed and then launches the server in the background.
+
+```yaml
+---
+- hosts: local
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
 
-Explanation:
+    - name: Install Python and Pip
+      apt:
+        name: 
+          - python3
+          - python3-pip
+        state: present
 
--   `hosts` specifies the name of a group of machines in the inventory
+    - name: Install MkDocs and required plugins
+      pip:
+        name: 
+          - mkdocs-material
+          - mkdocs-video
+          - mkdocs-slides
+          - mkdocs-caption
+          - mkdocs-blog
+          - pymdown-extensions
+        state: present
+        
+    - name: Start MkDocs server on port 8000
+      shell: "nohup mkdocs serve -a 0.0.0.0:8000 > mkdocs.log 2>&1 &"
+      async: 10
+      poll: 0
 
--   `remote_user` specifies the username on the managed nodes to log in
-    as
+    - name: Open the browser to view the site
+      shell: "open http://localhost:8000"
+      become: no # 'open' command should be run as the regular user, not root
+```
 
--   `tasks` is a list of tasks to accomplish having a `name` (a
-    description) and modules to execute. In this case we use the `shell`
-    module.
+### 3. Execution
+Run the following command from the root of the `cloudmesh-ai-lecture` directory:
 
-We can run this playbook like so:
+```bash
+ansible-playbook -i local_inventory deploy_site.yml
+```
 
-    $ ansible-playbook -i inventory.txt -c ssh enable-root-access.yaml
+### What happens under the hood?
+1. **`ansible_connection=local`**: This tells Ansible to bypass SSH and execute commands directly on the local shell.
+2. **`async: 10, poll: 0`**: Because `mkdocs serve` is a blocking process (it stays open to serve requests), we tell Ansible to launch it as an asynchronous task and not wait for it to finish.
+3. **`nohup`**: Ensures that the server continues to run even after the Ansible session ends.
+4. **`become: no`**: We switch back to the regular user for the `open` command so the browser launches in your user session rather than as the root user.
 
-    PLAY [ansible-test] ***********************************************************
 
-    GATHERING FACTS ***************************************************************
-    ok: [10.23.2.105]
-    ok: [10.23.2.104]
+### 4. Alternative: Using a Makefile for Local Deployment
 
-    TASK: [Enable root login] *****************************************************
-    changed: [10.23.2.104]
-    changed: [10.23.2.105]
+While Ansible is powerful for orchestration, for simple local tasks, a `Makefile` is often the industry standard. It provides a short, memorable interface for complex shell commands.
 
-    PLAY RECAP ********************************************************************
-    10.23.2.104                : ok=2    changed=1    unreachable=0    failed=0
-    10.23.2.105                : ok=2    changed=1    unreachable=0    failed=0
+Create a file named `Makefile` in the root of the project:
 
-#### Hosts and Users
+```makefile
+PORT=8000
+URL=http://localhost:$(PORT)
 
-First step is choosing hosts to install MongoDB and a user account to
-run commands (tasks). We start with the following lines in the example
-filename of `mongodb.yaml`:
+.PHONY: install serve open all clean
 
-    ---
-    - hosts: ansible-test
-      remote_user: root
-      become: yes
+# Install all required Python dependencies
+install:
+	pip install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions
 
-In a previous section, we setup two machines with `ansible-test` group
-name. We use two machines for MongoDB installation.
-Also, we use `root` account to complete Ansible tasks.
+# Start the MkDocs server in the background
+serve:
+	nohup mkdocs serve -a 0.0.0.0:$(PORT) > mkdocs.log 2>&1 &
+	@echo "Server started in background on $(URL)"
 
-Indentation is important in YAML format. Do not ignore spaces start
+# Open the site in the default browser
+open:
+	open $(URL)
 
-:   with in each line.
+# Complete setup: Install, Serve, and Open
+all: install serve open
 
-#### Tasks
+# Stop the server and clean logs
+clean:
+	pkill -f "mkdocs serve"
+	rm -f mkdocs.log
+```
 
-A list of tasks contains commands or configurations to be executed on
-remote machines in a sequential order. Each task comes with a `name` and
-a `module` to run your command or configuration. You provide a
-description of your task in `name` section and choose a `module` for
-your task. There are several modules that you can use, for example,
-`shell` module simply executes a command without considering a return
-value. You may use `apt` or `yum` module which is one of the packaging
-modules to install software. You can find an entire list of modules
-here: <http://docs.ansible.com/list_of_all_modules.html>
+#### Execution
+To deploy and view the site in one go, simply run:
 
-#### Module apt_key: add repository keys
+```bash
+make all
+```
 
-We need to import the MongoDB public GPG Key. This is going to be a
-first task in our playbook.:
+#### Ansible vs. Makefile: Which one to use?
 
-    tasks:
-      - name: Import the public key used by the package management system
-        apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=7F0CEB10 state=present
+| Feature | Ansible | Makefile |
+| :--- | :--- | :--- |
+| **Scope** | Cross-server orchestration | Local task automation |
+| **Complexity** | High (YAML, Inventories) | Low (Shell scripts) |
+| **Idempotency** | Built-in (checks state) | Manual (requires shell checks) |
+| **Target** | Remote and Local | Local only |
+| **Standard** | DevOps Industry Standard | Developer Build Standard |
 
-#### Module apt_repository: add repositories
+For this local course site, the `Makefile` is faster and more lightweight, but the Ansible approach prepares you for managing a fleet of production servers.
 
-Next add the MongoDB repository to apt:
 
-    - name: Add MongoDB repository
-      apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
 
-#### Module apt: install packages
+??? question "What does 'agentless' mean in the context of Ansible, and how does it communicate with target nodes?"
+    Being "agentless" means that you do not need to install any special software or "agent" on the target servers being managed. Ansible communicates with these nodes using standard SSH (for Linux/Unix) or WinRM (for Windows).
 
-We use `apt` module to install `mongodb-org` package. `notify` action is
-added to start `mongod` after the completion of this task. Use the
-`update_cache=yes` option to reload the local package database.:
+??? question "Explain the concept of 'Infrastructure as Code' (IaC) and how Ansible helps prevent 'configuration drift'."
+    IaC is the practice of managing and provisioning infrastructure through machine-readable definition files rather than manual hardware configuration or interactive configuration tools. Ansible prevents "configuration drift" (where servers slowly become different over time) by ensuring that the desired state defined in the playbook is applied consistently across all target machines.
 
-    - name: install mongodb
-      apt: pkg=mongodb-org state=latest update_cache=yes
-      notify:
-      - start mongodb
+??? question "What is an Ansible Inventory, and why are groups useful?"
+    An inventory is a file (or a script) that lists the hosts and groups of hosts that Ansible can manage. Groups allow you to target sets of servers (e.g., `[webservers]`, `[dbservers]`) with a single command or playbook, rather than specifying every individual IP address.
 
-#### Module service: manage services
+??? question "Differentiate between an Ansible Module and an Ansible Playbook."
+    A **Module** is a small, discrete piece of code that performs a specific task (e.g., `apt` for package management, `copy` for moving files). A **Playbook** is a YAML file that orchestrates multiple modules in a specific order to achieve a larger goal (e.g., "Install and Configure Apache").
 
-We use `handlers` here to start or restart services. It is similar to
-`tasks` but will run only once.:
+??? question "What is the purpose of the `become: yes` directive in a playbook?"
+    The `become: yes` directive tells Ansible to perform the task with privileged permissions (usually as the `root` user), which is necessary for tasks like installing packages or modifying system configuration files.
 
-    handlers:
-      - name: start mongodb
-        service: name=mongod state=started
+??? question "When should you use `async` and `poll` in an Ansible task?"
+    Use `async` and `poll` when a task is expected to take a long time to complete or is a blocking process (like starting a server) that should not hang the Ansible connection. Setting `poll: 0` allows Ansible to fire off the task and move on immediately without waiting for a result.
 
-#### The Full Playbook
+??? question "Contrast Ansible with a `Makefile` for automation tasks."
+    **Ansible** is designed for cross-server orchestration, focuses on idempotency (checking state before acting), and is an industry standard for DevOps. **Makefiles** are primarily used for local task automation (e.g., compiling code or local deployments) and generally rely on simple shell scripts without built-in state checking.
 
-Our first playbook looks like this:
-
-    ---
-    - hosts: ansible-test
-      remote_user: root
-      become: yes
-      tasks:
-      - name: Import the public key used by the package management system
-        apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=7F0CEB10 state=present
-      - name: Add MongoDB repository
-        apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
-      - name: install mongodb
-        apt: pkg=mongodb-org state=latest update_cache=yes
-        notify:
-        - start mongodb
-      handlers:
-        - name: start mongodb
-          service: name=mongod state=started
-
-#### Running a Playbook
-
-We use `ansible-playbook` command to run our playbook:
-
-    $ ansible-playbook -i inventory.txt -c ssh mongodb.yaml
-
-    PLAY [ansible-test] ***********************************************************
-
-    GATHERING FACTS ***************************************************************
-    ok: [10.23.2.104]
-    ok: [10.23.2.105]
-
-    TASK: [Import the public key used by the package management system] ***********
-    changed: [10.23.2.104]
-    changed: [10.23.2.105]
-
-    TASK: [Add MongoDB repository] ************************************************
-    changed: [10.23.2.104]
-    changed: [10.23.2.105]
-
-    TASK: [install mongodb] *******************************************************
-    changed: [10.23.2.104]
-    changed: [10.23.2.105]
-
-    NOTIFIED: [start mongodb] *****************************************************
-    ok: [10.23.2.105]
-    ok: [10.23.2.104]
-
-    PLAY RECAP ********************************************************************
-    10.23.2.104                : ok=5    changed=3    unreachable=0    failed=0
-    10.23.2.105                : ok=5    changed=3    unreachable=0    failed=0
-
-If you rerun the playbook, you should see that nothing changed:
-
-    $ ansible-playbook -i inventory.txt -c ssh mongodb.yaml
-
-    PLAY [ansible-test] ***********************************************************
-
-    GATHERING FACTS ***************************************************************
-    ok: [10.23.2.105]
-    ok: [10.23.2.104]
-
-    TASK: [Import the public key used by the package management system] ***********
-    ok: [10.23.2.104]
-    ok: [10.23.2.105]
-
-    TASK: [Add MongoDB repository] ************************************************
-    ok: [10.23.2.104]
-    ok: [10.23.2.105]
-
-    TASK: [install mongodb] *******************************************************
-    ok: [10.23.2.105]
-    ok: [10.23.2.104]
-
-    PLAY RECAP ********************************************************************
-    10.23.2.104                : ok=4    changed=0    unreachable=0    failed=0
-    10.23.2.105                : ok=4    changed=0    unreachable=0    failed=0
-
-#### Sanity Check: Test MongoDB
-
-Let us try to run 'mongo' to enter mongodb shell.:
-
-    $ ssh ubuntu@$IP
-    $ mongo
-    MongoDB shell version: 2.6.9
-    connecting to: test
-    Welcome to the MongoDB shell.
-    For interactive help, type "help".
-    For more comprehensive documentation, see
-            http://docs.mongodb.org/
-    Questions? Try the support group
-            http://groups.google.com/group/mongodb-user
-    >
-
-#### Terms
-
--   Module: Ansible library to run or manage services, packages, files
-    or commands.
-
--   Handler: A task for notifier.
-
--   Task: Ansible job to run a command, check files, or update
-    configurations.
-
--   Playbook: a list of tasks for Ansible nodes. YAML format used.
-
--   YAML: Human readable generic data serialization.
-
-#### Reference
-
-The main tutorial from Ansible is here:
-<http://docs.ansible.com/playbooks_intro.html>
-
-You can also find an index of the ansible modules here:
-<http://docs.ansible.com/modules_by_category.html>
-
-## Exercise
-
-We have shown a couple of examples of using Ansible tools. Before you
-apply it in you final project, we will practice it in this exercise.
-
--   set up the project structure similar to Ansible Galaxy example
--   install MongoDB from the package manager (apt in this class)
--   configure your MongoDB installation to start the service
-    automatically
--   use default port and let it serve local client connections only

@@ -109,15 +109,26 @@ sudo apt install -y apptainer
 
 By combining Lima with Apptainer, macOS developers can build and test high-performance computing (HPC) containers locally before deploying them to a remote cluster.
 
-## Summary Checklist
 
-!!! tip "Summary Checklist"
-    - [ ] Lima and QEMU are installed via Homebrew.
-    - [ ] A Linux instance has been successfully launched using `limactl start`.
-    - [ ] Shell access has been verified using `limactl shell`.
-    - [ ] Automatic file sharing between macOS and Linux has been confirmed.
-    - [ ] Instance lifecycle commands (`list`, `stop`, `delete`) have been tested.
-    - [ ] Linux-specific software has been installed within the guest environment.
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the core focus of Lima compared to traditional VM managers?"
+    Lima focuses on a command-line first experience for macOS users, prioritizing automation and seamless integration (like automatic file sharing and port forwarding) over a graphical user interface.
+
+??? question "How does Lima handle file sharing between macOS and the guest Linux VM?"
+    Lima automatically maps the user's home directory on macOS to the same path inside the Linux VM, eliminating the need for manual NFS or SMB mounts.
+
+??? question "Which command-line tool is used to manage Lima instances?"
+    The `limactl` (Lima Control) tool is the primary interface for starting, stopping, listing, and deleting Lima instances.
+
+??? question "How can you customize the resources (CPU, RAM) of a Lima instance?"
+    Resources can be customized by specifying a YAML configuration file during the start process using the `--with-config` flag.
+
+??? question "Why is Lima useful for deploying software like Apptainer on macOS?"
+    Because Lima provides a full Linux kernel, it allows macOS developers to install and run Linux-only software like Apptainer locally, which is critical for building and testing HPC containers.
 
 ## Practical Exercises
 

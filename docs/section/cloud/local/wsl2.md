@@ -323,3 +323,24 @@ python wsl_manager.py --help
         generateResolvConf = false
         ```
         And setting custom nameservers in `/etc/resolv.conf` (e.g., `nameserver 8.8.8.8`).
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the primary difference between WSL 1 and WSL 2?"
+    WSL 1 used a translation layer to map Linux system calls to Windows, while WSL 2 uses a real Linux kernel running in a lightweight utility VM, providing full system call compatibility and better performance for I/O.
+
+??? question "How do you access your Windows C: drive from within a WSL 2 Linux terminal?"
+    Windows drives are automatically mounted under the `/mnt/` directory. The C: drive is accessed at `/mnt/c/`.
+
+??? question "What command is used to terminate all running WSL instances and the background VM?"
+    The `wsl --shutdown` command immediately terminates all running distributions and the WSL 2 VM.
+
+??? question "How can you export a WSL distribution for backup or migration?"
+    You can use the `wsl --export <Distro> <Filename>` command to save the distribution as a `.tar` file.
+
+??? question "What is the purpose of `/etc/wsl.conf` in terms of network configuration?"
+    `/etc/wsl.conf` can be used to disable the automatic generation of `/etc/resolv.conf` (via `generateResolvConf = false`), allowing users to set their own DNS nameservers to resolve issues with VPNs.
+

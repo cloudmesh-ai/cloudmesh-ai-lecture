@@ -84,3 +84,24 @@ Instead of defining routes in code, you define them in an OpenAPI YAML file. Con
 
 **Example Mapping:**
 Spec: `operationId: cpu.get_processor_name` $\rightarrow$ Python: `def get_processor_name(): ...`
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Why is a machine-readable API specification (like OpenAPI) superior to manually written documentation?"
+    Specifications act as a "contract" that ensures the implementation matches the design. They allow for the automatic generation of interactive documentation, client SDKs, and automated testing, reducing the risk of outdated documentation.
+
+??? question "List the key components of an OpenAPI 3.0 document."
+    The main sections include `openapi` (spec version), `info` (metadata), `servers` (base URLs), `paths` (endpoints, methods, and responses), and `components` (reusable schemas and security schemes).
+
+??? question "What is the difference between Swagger UI and Swagger Codegen?"
+    **Swagger UI** provides a visual, interactive web page for testing endpoints. **Swagger Codegen** is a tool that takes the specification and automatically generates server stubs or client libraries in various programming languages.
+
+??? question "How does the Connexion framework implement an 'OpenAPI-first' approach in Python?"
+    Connexion uses the OpenAPI YAML file as the source of truth for routing and validation. Instead of defining routes in code, you define them in the spec, and Connexion automatically maps the `operationId` to the corresponding Python function.
+
+??? question "What is the purpose of the `operationId` in an OpenAPI specification?"
+    The `operationId` is a unique identifier for a specific API operation. It is used by tools like Connexion to link the API definition in the spec to the actual implementation function in the backend code.
+

@@ -205,6 +205,27 @@ The most effective way to deploy a system is to combine the **blueprint** (Mind-
 
 ### Assignments
 
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What does it mean for Podman to be 'rootless by default' and why is this important for security?"
+    Rootless means Podman runs containers as a non-privileged user without requiring a root-privileged daemon. This is critical for security because it prevents a "container escape" from granting the attacker root access to the physical host machine.
+
+??? question "How does Podman's concept of a 'Pod' align with Kubernetes architecture?"
+    A Pod in Podman is a group of one or more containers that share the same network namespace and IP address. This mirrors the fundamental unit of deployment in Kubernetes, allowing developers to test multi-container pods locally before deploying to a cluster.
+
+??? question "How can you use Podman as a drop-in replacement for Docker in existing scripts?"
+    Since Podman provides a nearly 1:1 CLI compatibility with Docker, you can often simply alias the `docker` command to `podman` (`alias docker=podman`) to run existing scripts without modifying them.
+
+??? question "What is the purpose of `buildah` and `skopeo` in the Podman ecosystem?"
+    `buildah` is a specialized tool for building OCI-compliant images without requiring a daemon, and `skopeo` is used for inspecting, copying, and managing images between different registries and formats.
+
+??? question "How does mind-mapping help in planning a container-based architecture?"
+    Mind-mapping allows developers to visually distill complex systems into a hierarchy of services, dependencies, and security zones, which can then be directly translated into a `podman-compose.yml` file or a Kubernetes manifest.
+
 !!! note "Hands-on Challenges"
     1. **Basic Setup**: Install Podman and verify that you are running in rootless mode using `podman info`.
     2. **Image Management**: Pull an NGINX image, run it in the background on port 8080, and verify the welcome page in your browser.

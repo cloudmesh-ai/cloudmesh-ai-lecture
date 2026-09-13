@@ -66,3 +66,27 @@ HTTP status codes tell the client the outcome of their request.
 | **3xx** | Redirection | `304 Not Modified` | Resource has moved or is cached. |
 | **4xx** | Client Error | `400 Bad Request`, `404 Not Found` | The client sent something wrong. |
 | **5xx** | Server Error | `500 Internal Server Error` | The server failed to process the request. |
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is a 'Resource' in REST, and how is it identified?"
+    A resource is any entity that can be named and manipulated (e.g., a user, an order, or a device). It is identified by a **URI (Uniform Resource Identifier)**, which should be intuitive and represent the resource itself rather than an action.
+
+??? question "Differentiate between a 'Safe' method and an 'Idempotent' method. Give an example of each."
+    A **Safe** method does not modify the state of the server (e.g., `GET`). An **Idempotent** method can be called multiple times with the same result as a single call (e.g., `PUT`, `DELETE`). `POST` is neither safe nor idempotent.
+
+??? question "When should you use `PUT` instead of `PATCH` for updating a resource?"
+    Use `PUT` when you want to perform a **full replacement** of the resource. Use `PATCH` when you only want to perform a **partial update** of specific fields.
+
+??? question "What is the purpose of the `Accept` and `Content-Type` headers in content negotiation?"
+    `Accept` is sent by the client to tell the server which media type (e.g., `application/json`) it can handle. `Content-Type` is sent by the sender (client or server) to indicate the media type of the actual body being sent.
+
+??? question "Match the HTTP status code range (2xx, 3xx, 4xx, 5xx) to its general meaning."
+    - **2xx (Success)**: The request was successfully received, understood, and accepted.
+    - **3xx (Redirection)**: Further action needs to be taken to complete the request.
+    - **4xx (Client Error)**: The request contains bad syntax or cannot be fulfilled.
+    - **5xx (Server Error)**: The server failed to fulfill an apparently valid request.
+

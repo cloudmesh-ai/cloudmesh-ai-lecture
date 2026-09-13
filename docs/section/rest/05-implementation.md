@@ -187,3 +187,24 @@ Choosing the right tool depends on your project requirements, team expertise, an
 | **Strict Contract** | **Connexion** | Spec-driven development. |
 | **Legacy Integration** | **Flask-RESTful** | Easy fit into existing Flask apps. |
 | **Developer Experience**| **FastAPI** | Best-in-class tooling and type safety. |
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Compare the 'Resource Class' pattern of Flask-RESTful with the 'Functional Decorator' pattern of FastAPI."
+    Flask-RESTful uses a class-based approach where all methods for a single resource (GET, POST, etc.) are grouped into one class. FastAPI uses a functional approach with decorators (e.g., `@app.get()`) to map functions directly to endpoints, which is generally more concise and integrates better with Python type hints.
+
+??? question "How does FastAPI use Pydantic to handle data validation and serialization?"
+    FastAPI allows developers to define data models using Pydantic classes. When a request is received, FastAPI automatically validates the input against the model; if it fails, it returns a `422 Unprocessable Entity` error. It also uses these models to serialize Python objects back into JSON for the response.
+
+??? question "In what scenario would you choose Connexion over FastAPI for implementing an API?"
+    Connexion is preferred in large organizations or projects where a "Contract-First" design is required. This means the API specification (OpenAPI YAML) must be agreed upon and finalized by stakeholders *before* any implementation begins.
+
+??? question "What is the advantage of using an ASGI server (like Uvicorn) over a WSGI server for high-traffic APIs?"
+    ASGI (Asynchronous Server Gateway Interface) supports `async/await` concurrency, allowing the server to handle many concurrent requests (especially I/O-bound ones) without blocking, which significantly increases throughput compared to the synchronous nature of WSGI.
+
+??? question "Explain how FastAPI provides automatic documentation (Swagger/ReDoc) without manual configuration."
+    FastAPI leverages Python type hints and the OpenAPI standard to generate a machine-readable specification of the API in the background. This specification is then fed into Swagger UI and ReDoc, which render the interactive documentation automatically at `/docs` and `/redoc`.
+

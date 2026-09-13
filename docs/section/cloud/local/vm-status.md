@@ -73,4 +73,23 @@ However, it has a hughe price increase recieved for commercial users when transi
 | **Vagrant** | Reproducible multi-node clusters and local infrastructure testing | Cross-Platform | Free / Open Source |
 | **VirtualBox** | Basic GUI-driven desktop virtualization | Windows, Intel Linux | Free / Open Source |
 
-Multipass is quite good fo the class as it works on all OSes.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "When would you choose Multipass over VirtualBox for local Ubuntu VMs?"
+    Multipass is ideal when you need lightweight, instant Ubuntu environments with minimal configuration overhead. While VirtualBox provides a full GUI and supports various OSs, Multipass focuses on a "cloud-like" experience for Ubuntu, allowing you to launch instances with a single command, making it superior for rapid prototyping and testing cloud-init scripts.
+
+??? question "What is the primary role of QEMU in the virtualization ecosystem?"
+    QEMU is a versatile tool providing both full system emulation (running different architectures) and virtualized execution. It often serves as the backend for other tools like UTM, Lima, and `libvirt`/`virsh`, providing the actual emulation of hardware components and CPU instructions.
+
+??? question "Why is `virsh` essential for Linux enterprise virtualization?"
+    `virsh` is the standard CLI for `libvirt`, providing a scriptable, robust way to manage KVM/QEMU hypervisors. In enterprise environments, it allows administrators to automate VM lifecycles, monitor resource usage, and manage remote hypervisors via SSH without needing a GUI.
+
+??? question "Which tool is considered often for seamless Windows on Apple Silicon (M1/M2/M3)?"
+    Parallels Desktop is used for this due to its deep integration with macOS, high performance using the native Apple Virtualization framework, and official authorization by Microsoft for running ARM-based Windows.
+
+??? question "What is the main advantage of using Vagrant for development teams?"
+    Vagrant implements "Infrastructure as Code" for local VMs. By using a `Vagrantfile`, teams can ensure that every developer is working in an identical environment (same OS, libraries, and configuration), eliminating the "it works on my machine" problem.

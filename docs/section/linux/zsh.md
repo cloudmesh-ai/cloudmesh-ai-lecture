@@ -158,16 +158,31 @@ When multiple options are available for completion, Zsh can display them in an i
 
 Zsh handles multiline commands more gracefully than bash. If a command is incomplete (e.g., an unclosed quote or bracket), Zsh provides a visual indicator and allows for easy editing of previous lines before execution.
 
-## Summary Checklist
+## Self-Assessment
 
-!!! tip "Summary Checklist"
-    - [ ] Zsh is installed and set as the default system shell.
-    - [ ] The `~/.zshrc` file is created and configured with aliases and exports.
-    - [ ] The startup loading order (`.zprofile` vs `.zshrc`) is understood.
-    - [ ] Oh My Zsh is installed and configured.
-    - [ ] Useful plugins (e.g., `git`, `zsh-autosuggestions`) are active.
-    - [ ] A custom theme is applied to the prompt for better visibility.
-    - [ ] Recursive globbing (`**`) has been tested for file searching.
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "How do you make Zsh your primary shell on a Linux system?"
+    Install Zsh and use the `chsh -s $(which zsh)` command to set it as the default shell.
+
+??? question "What is the purpose of the `~/.zshrc` file?"
+    It is the main configuration file where users define shell aliases, environment variables (exports), and plugin settings.
+
+??? question "What is the difference between `.zprofile` and `.zshrc` in terms of loading order?"
+    `.zprofile` is read during login shells, while `.zshrc` is read for every interactive shell session.
+
+??? question "What is 'Oh My Zsh', and why is it useful?"
+    It is a community-driven framework that simplifies the management of Zsh configurations, themes, and plugins.
+
+??? question "Which Zsh plugins can significantly improve developer productivity?"
+    The `git` plugin for shortcuts, `zsh-autosuggestions` for history-based prompts, and `zsh-syntax-highlighting` for real-time command validation.
+
+??? question "How can you customize the visual feedback of your terminal prompt?"
+    By installing a framework like Oh My Zsh and modifying the `ZSH_THEME` variable in `~/.zshrc`.
+
+??? question "How does recursive globbing in Zsh differ from standard wildcards?"
+    Using the `**` operator allows Zsh to search through all subdirectories recursively (e.g., `ls **/*.md`) without needing the `find` command.
 
 ## Practical Exercises
 

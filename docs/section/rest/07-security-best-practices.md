@@ -51,3 +51,24 @@ Implement centralized logging (e.g., ELK stack) to track:
 - **Request IDs**: To trace a single request across multiple microservices.
 - **Response Times**: To identify bottlenecks.
 - **Error Rates**: To catch bugs before users report them.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Why is HTTPS mandatory for APIs using JWT or API Keys?"
+    Without HTTPS (TLS encryption), tokens and keys are sent in plain text. This makes them vulnerable to "man-in-the-middle" attacks, where an attacker can intercept the network traffic and steal the credentials to impersonate the user.
+
+??? question "Contrast API Keys with JWTs in terms of how the server verifies the client's identity."
+    **API Keys** are typically stored in a database, and the server must query the database for every request to verify the key. **JWTs (JSON Web Tokens)** are digitally signed; the server only needs the secret key to verify the signature, eliminating the need for a database lookup for every request.
+
+??? question "What is the purpose of CORS, and why should you avoid using `*` in production?"
+    CORS (Cross-Origin Resource Sharing) is a security mechanism that prevents a website on one domain from making requests to an API on another domain. Using `*` allows any domain to access the API, which increases the risk of Cross-Site Request Forgery (CSRF) and other security vulnerabilities.
+
+??? question "Explain the difference between URL versioning and Header versioning."
+    **URL Versioning** includes the version in the path (e.g., `/v1/users`), which is easy to implement and cache. **Header Versioning** uses a custom HTTP header (e.g., `Accept: application/vnd.myapi.v1+json`), which keeps URIs clean but is harder to test in a browser and more complex to cache.
+
+??? question "Why is rate limiting important for protecting a public REST API?"
+    Rate limiting prevents a single client from overwhelming the server with too many requests, which protects the API from Denial of Service (DoS) attacks, prevents resource exhaustion, and ensures fair usage across all users.
+

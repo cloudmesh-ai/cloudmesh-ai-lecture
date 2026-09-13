@@ -186,15 +186,23 @@ echo "VM $VM_NAME is now running headlessly."
 ```
 
 
-!!! note "Summary Checklist"
-    - [ ] VirtualBox and Ubuntu LTS installed.
-    - [ ] Hardware requirements met and VM profile selected.
-    - [ ] VM created and configured using both GUI and `VBoxManage`.
-    - [ ] VM started in headless mode via CLI.
-    - [ ] Virtual disk created and attached via CLI.
-    - [ ] Network adapter configured (NAT or Bridged).
-    - [ ] Guest Additions installed and clipboard integration verified.
-    - [ ] Basic automation script tested for VM deployment.
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the primary purpose of `VBoxManage` compared to the VirtualBox GUI?"
+    `VBoxManage` is the command-line interface (CLI) for VirtualBox. While the GUI is intuitive for beginners, `VBoxManage` is essential for developers and sysadmins because it allows for precise control, remote management, and the automation of VM deployment through shell scripts and CI/CD pipelines.
+
+??? question "How do you start a VirtualBox VM in 'headless' mode?"
+    A VM can be started headlessly (without a GUI window) using the command: `VBoxManage startvm \"VM_NAME\" --type headless`. This is ideal for servers or when managing VMs on a remote host.
+
+??? question "What are the benefits of installing Guest Additions in a VirtualBox VM?"
+    Guest Additions provide critical drivers and system applications that enable advanced features such as dynamic window resizing, a shared clipboard (bidirectional copy-paste), and shared folders between the host and guest operating systems.
+
+??? question "What is the difference between NAT and Bridged networking in VirtualBox?"
+    **NAT (Network Address Translation)** is the default; the VM is behind a virtual router, allowing it to access the internet while remaining hidden from the external network. **Bridged Networking** makes the VM appear as a separate physical device on the network, allowing it to receive its own IP address from the local router and be reachable by other devices on the same network.
+
+??? question "How can you automate VM deployment in VirtualBox?"
+    Automation is achieved by wrapping `VBoxManage` commands into shell scripts. These scripts can handle the entire lifecycle: creating the VM, allocating resources (CPU/RAM), creating and attaching virtual disks, and configuring the network, ensuring consistent and repeatable environment setup.
 
 !!! note "Exercise 1: Basic Setup"
     Install Ubuntu Desktop on your computer using VirtualBox (GUI). Install Guest Additions and configure bidirectional copy-paste. Verify that you can move text between your host OS and the guest VM.

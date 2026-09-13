@@ -336,6 +336,27 @@ If you wish to use Podman with `kind` or `k3d`, ensure you have Podman installed
 
 ### Assignments
 
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Compare `kind` and `minikube` in terms of how they host the Kubernetes nodes."
+    `kind` (Kubernetes IN Docker) runs Kubernetes nodes as Docker containers on the host. `minikube` typically runs a single node inside a virtual machine (using drivers like VirtualBox or KVM), though it also supports a Docker driver.
+
+??? question "Which local Kubernetes tool is best suited for low-resource environments or ARM machines?"
+    `k3d` (k3s in Docker) is generally the best choice for low-resource environments because it runs k3s, a lightweight, certified Kubernetes distribution, inside Docker containers.
+
+??? question "What is the role of `kubectl` in managing a local Kubernetes cluster?"
+    `kubectl` is the standard command-line tool used to communicate with the Kubernetes API server. Regardless of the local provider (`kind`, `minikube`, etc.), `kubectl` is used to deploy pods, manage services, and inspect cluster health.
+
+??? question "Why is Docker (or a compatible runtime) a prerequisite for tools like `kind` or `k3d`?"
+    Because `kind` and `k3d` use Docker containers to simulate the nodes of a Kubernetes cluster, they require a running container runtime on the host to provision and manage those nodes.
+
+??? question "What are the advantages of using Podman as the runtime for a local Kubernetes cluster?"
+    Using Podman allows for a daemonless and rootless experience, improving security by removing the need for a privileged root daemon and reducing the system overhead associated with the Docker daemon.
+
 !!! note "Hands-on Challenges"
     1. **Cluster Setup**: Install `kind` or `minikube` and create a cluster named `local-dev`. Verify that the node is in `Ready` status.
     2. **Multi-Node Simulation**: Use a configuration file to create a `kind` cluster with one control-plane and two worker nodes. Verify all three nodes are active.

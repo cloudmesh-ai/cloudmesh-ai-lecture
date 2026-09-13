@@ -140,12 +140,24 @@ This runs the server in the background and saves all logs to `mkdocs.log`. You c
 
 ---
 
-## Summary Checklist
-- [ ] VM created and Floating IP attached.
-- [ ] `mkdocs` and `mkdocs-material` installed.
-- [ ] Server started with `-a 0.0.0.0:8000`.
-- [ ] Security group rule added for port `8000`.
-- [ ] Site accessed via `http://<floating-ip>:8000`.
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What infrastructure is required before deploying an MkDocs site on Jetstream2?"
+    A running VM with a Floating IP attached for public access.
+
+??? question "Which Python packages are necessary for a professional-looking documentation site?"
+    `mkdocs` for the site generation and `mkdocs-material` for the theme.
+
+??? question "How do you make the MkDocs server accessible from the public internet instead of just localhost?"
+    Start the server with the `-a 0.0.0.0:8000` flag to bind it to all network interfaces.
+
+??? question "Why is a security group rule necessary, and what specific rule is needed for MkDocs?"
+    The cloud firewall blocks incoming traffic by default; you must create a rule allowing TCP traffic on port `8000`.
+
+??? question "How do you verify that your MkDocs site is correctly deployed and public?"
+    Access the site using `http://<your-floating-ip>:8000` in a web browser.
 
 
 ![What we learned](images/mkdos-hosting.png)

@@ -201,3 +201,23 @@ apptainer run --bind $(pwd):/docs -p 8000:8000 mkdocs.sif
 ```
 
 Once running, open your web browser and navigate to `http://localhost:8000` to view your live MkDocs website.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the primary difference between Apptainer and Docker regarding image formats?"
+    Unlike Docker, which uses layers managed by a daemon, Apptainer primarily uses the **SIF (Singularity Image Format)**, which packages the entire container as a single, immutable file. This makes Apptainer images easier to move and execute on shared systems.
+
+??? question "Why is Apptainer particularly well-suited for High-Performance Computing (HPC) clusters?"
+    Apptainer is designed for HPC because it executes containers with the privileges of the invoking user rather than requiring a root-privileged daemon. This prevents security risks on shared supercomputers where users are not allowed to have root access.
+
+??? question "What is a SIF file in the context of Apptainer?"
+    A SIF (Singularity Image Format) file is a single-file compressed image that contains the entire root filesystem of the container. It is immutable and can be executed directly like a binary.
+
+??? question "How can an Apptainer container be executed with the privileges of the invoking user?"
+    Apptainer's architecture is designed to avoid the need for a root daemon. It leverages user namespaces to map the internal root user to the external unprivileged user, ensuring the process always runs with the caller's permissions.
+
+??? question "What is the purpose of a `.def` (definition) file in Apptainer?"
+    A `.def` file is a recipe used to build an Apptainer image. It defines the base image, the packages to install (`%post` section), environment variables (`%environment`), and the default command to run (`%runscript`).

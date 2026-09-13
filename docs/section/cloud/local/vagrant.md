@@ -112,14 +112,24 @@ After exiting the VM (`exit`), you can manage the state of the machine from your
 | `vagrant reload` | Restarts the VM and applies changes made to the `Vagrantfile`. |
 | `vagrant destroy` | Completely removes the VM and all associated virtual disks. |
 
-## Summary Checklist
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
 
-!!! tip "Summary Checklist"
-    - [ ] Vagrant and a provider (e.g., VirtualBox) are installed and verified.
-    - [ ] A `Vagrantfile` has been initialized using `vagrant init`.
-    - [ ] The VM has been successfully launched using `vagrant up`.
-    - [ ] The guest OS has been accessed via `vagrant ssh`.
-    - [ ] The VM lifecycle commands (`halt`, `suspend`, `destroy`) have been tested.
+??? question "What does it mean that Vagrant is 'provider-agnostic'?"
+    It means Vagrant can manage various virtualization backends (providers) such as VirtualBox, VMware, Hyper-V, or Docker, using the same set of commands and configuration files.
+
+??? question "What is a 'Vagrant Box' and where are they typically sourced from?"
+    A box is a pre-packaged VM image that includes the base OS and minimal configuration. They are typically sourced from Vagrant Cloud.
+
+??? question "How does a `Vagrantfile` implement 'Infrastructure as Code'?"
+    Instead of manual installation, the `Vagrantfile` declaratively defines the VM's state (OS, network, resources, synced folders), ensuring the environment is reproducible and shareable.
+
+??? question "What is the purpose of `vagrant reload`?"
+    `vagrant reload` restarts the VM and applies any changes made to the `Vagrantfile` since the last time the machine was started.
+
+??? question "How do synced folders help developers in a Vagrant workflow?"
+    Synced folders map a host directory to a guest directory, allowing developers to use their preferred IDE on the host while the code executes within the isolated, production-like environment of the VM.
 
 ## Practical Exercises
 

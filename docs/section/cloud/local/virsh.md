@@ -153,15 +153,24 @@ virsh console <vm_name>
 
 To exit the console and return to the host terminal, press `Ctrl + ]`.
 
-## Summary Checklist
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
 
-!!! tip "Summary Checklist"
-    - [ ] Successfully connected to the hypervisor using a URI (e.g., `qemu:///system`).
-    - [ ] Listed all guests and identified their current states using `virsh list --all`.
-    - [ ] Retrieved detailed resource information for a specific VM using `dominfo`.
-    - [ ] Performed a graceful `shutdown` and a forced `destroy` of a test VM.
-    - [ ] Modified a VM's hardware configuration using `virsh edit`.
-    - [ ] Accessed the guest serial console using `virsh console`.
+??? question "What is the relationship between `virsh` and `libvirt`?"
+    `virsh` is the command-line interface (CLI) for `libvirt`. `libvirt` is the underlying API that provides a consistent way to manage different hypervisors (KVM, QEMU, Xen), and `virsh` provides the tools to interact with that API.
+
+??? question "What is the difference between `qemu:///system` and `qemu:///session` URIs?"
+    `qemu:///system` connects to the system-wide hypervisor instance (managing VMs available to all users), while `qemu:///session` connects to a user-specific instance.
+
+??? question "What is the difference between `virsh shutdown` and `virsh destroy`?"
+    `virsh shutdown` sends an ACPI signal for a graceful shutdown by the guest OS. `virsh destroy` immediately stops the VM, similar to pulling the power plug, which can lead to data loss.
+
+??? question "How does `virsh edit` ensure that VM configuration changes are valid?"
+    `virsh edit` opens the XML configuration in a text editor and validates the XML syntax before saving the changes to the hypervisor, preventing configuration errors that could crash the VM.
+
+??? question "When would you use `virsh console` instead of SSH?"
+    `virsh console` is used for direct interaction with the VM's serial port, which is critical when network access (SSH) is unavailable or when troubleshooting boot-time failures.
 
 ## Practical Exercises
 

@@ -1,5 +1,3 @@
-![No](images/no.png)
-
 Deploying enterprise applications has been always challenging. Without
 consistent and reliable processes and practices, it would be impossible
 to track and measure the deployment artifacts, which code-files and

@@ -1,38 +1,55 @@
-# Terraform
+# Provisioning Infrastructure with Terraform
 
+!!! info "Learning Objectives"
+    - Define Infrastructure as Code (IaC) and the role of Terraform in the DevOps ecosystem.
+    - Master the Terraform lifecycle: `init`, `plan`, `apply`, and `destroy`.
+    - Write HCL (HashiCorp Configuration Language) to provision cloud resources.
+    - Implement infrastructure using multiple providers, including AWS, Docker, and Multipass.
+    - Understand the importance of the Terraform state file.
 
-!!! learning-outcomes "Learning Outcomes"
+In a modern cloud environment, manually creating servers, databases, and networks through a web console is inefficient and impossible to audit. Terraform, created by HashiCorp, solves this by allowing you to define your entire infrastructure as code. 
 
-    * Introduction to Terraform
-    * Basic Terraform Script to create an EC2 instance and Terraform commands
-    * Another Simple Terraform script - Docker
-    * Further Reading
+Written in Go, Terraform uses a declarative language called HCL (HashiCorp Configuration Language). Unlike procedural scripts that list a sequence of steps, HCL allows you to describe the *desired end-state* of your infrastructure, and Terraform figures out the most efficient way to achieve that state.
 
+!!! info "Why this matters"
+    The most critical feature of Terraform is the **State File** (`.tfstate`). Terraform keeps track of every resource it creates. When you change your code, Terraform compares the code against the state file and the actual cloud environment to determine exactly what needs to be added, modified, or deleted. This prevents the accidental duplication of resources and allows for precise infrastructure management.
 
----
+## The Terraform Workflow
 
+Terraform operates on a consistent four-step lifecycle that ensures changes are predictable and safe.
 
-## Introduction to Terraform
+### 1. Initialization (`terraform init`)
+Before running any scripts, you must initialize the project directory. This command downloads the necessary **Providers** (the plugins that allow Terraform to talk to AWS, Azure, etc.) and sets up the backend for the state file.
 
-Terraform is from HashiCorp. The tool is written in Go, and so are the
-modules. Since most cloud providers have APIs and support for Go,
-modules have been written for most providers.  The script of Terraform
-is called HCL(HashiCorp Configuration Language) is similar to
-YAML. Many code editors and IDEs have support for syntax highlighting
-and even refactoring.  Terraform is a single binary, and runs the
-generated script remotely -- without any master-slave configuration, or
-without any agents.
-
-The basic Terraform project script is a TF file (`.tf`). Other files you
-could encounter are plan file`(.tfplan`), or a state file (`.tfstate`).
-
-## Basic Terraform Script and commands
-
-
-A basic script could look like this. Create this script in a project
-folder.
-
+### 2. Planning (`terraform plan`)
+The plan command is a "dry run." It compares your current code against the real-world infrastructure and generates an execution plan.
+```bash
+terraform plan -out project.tfplan
 ```
+The output shows exactly what will happen (e.g., `+ create`, `~ update`, `- destroy`). Saving the plan to a file ensures that the exact same changes are applied in the next step.
+
+### 3. Application (`terraform apply`)
+The apply command executes the plan and makes the changes in the cloud.
+```bash
+terraform apply project.tfplan
+```
+Terraform spawns multiple background jobs to create resources in parallel, significantly speeding up the provisioning process.
+
+### 4. Destruction (`terraform destroy`)
+When resources are no longer needed, Terraform can tear them down cleanly.
+```bash
+terraform plan -destroy -out destroy.tfplan
+terraform apply destroy.tfplan
+```
+
+!!! info "Why this matters"
+    The `plan` $\rightarrow$ `apply` workflow is a safety mechanism. In professional environments, the `plan` output is often attached to a Pull Request and reviewed by another engineer before the `apply` command is ever run, preventing costly or catastrophic infrastructure mistakes.
+
+## Practical Example: AWS EC2 Provisioning
+
+To provision a basic virtual machine on AWS, create a file named `main.tf` with the following configuration:
+
+```hcl
 provider "aws" {
   access_key = "ACCESS_KEY_HERE"
   secret_key = "SECRET_KEY_HERE"
@@ -45,169 +62,37 @@ resource "aws_instance" "myec2instance" {
 }
 ```
 
-The pre-condition to running this script would be
+**Key Concepts:**
+- **Provider**: The plugin that connects Terraform to the AWS API.
+- **Resource**: The specific object you want to create (in this case, an `aws_instance`).
+- **Arguments**: Parameters like `ami` and `instance_type` that define the resource's properties.
 
-1. Create an AWS account
-2. From IAM, get the access key and secret key, and plug them into this script.
-3. Having the terraform binary downloaded, and uncompressed.
+## Alternative Providers: Docker and Multipass
 
-The steps to run this script are as follows:
+Terraform is not limited to the cloud; it can manage any resource with an API, including local containers and virtual machines.
 
-```bash
-terraform init
-terraform plan -out CREATmyec2.tfplan
-terraform apply CREATmyec2.tfplan
-```
-Now, your EC2 section in the AWS console should show the EC2 instance.
+### Local Docker Provisioning
+You can use Terraform to manage local Docker containers, which is excellent for testing infrastructure code locally.
 
-```bash
-terraform plan -destroy -out DESTmyec2.tfplan
-terraform apply DESTmyec2.tfplan
-```
+```hcl
+provider "docker" {}
 
-These steps would destroy the EC2 instance.
-
-Let us walk through the basic script to help understand the overall working of Terraform.
-
-The 2 main sections of the script are *Provider* and *Resource*.
-*Providers* could be cloud providers -- including all the major ones -
-AWS, Google Cloud, Azure, Alibaba, DigitalOcean, Oracle, API end
-points -- for example GitHub, GitLab, DNS, Databases -- MySQL,
-PostgreSQL, infrastructure components like Docker, Kubernetes,
-VMWare.
-
-*Resources* section has the resources that the *Providers*
-manage.
-
-When you run ```terraform init```, the relevant modules specified in
-the "Providers" and "Resources" are downloaded, and your project
-workspace  -- folder or directory -- is initialized. All the dependent
-resource information is also downloaded.
-
-The ```terraform plan``` command plans out all the infrastructure
-components and displays it. The dynamic properties and values to be
-assigned will be listed as `<computed>`.  It is often advisable to save
-the plan file. The plan file is a binary file, and is not human
-readable.
-
-In the next step, you can ```terraform apply``` the plan file. When
-you confirm the creation of the resources, terraform spawns multiple
-background jobs in parallel to create the infrastructure.
-
-From now onwards, it would be a repeated set of steps of plan and
-apply, until you get the infrastructure right.
-
-To destroy the resources you created, again run ```terraform plan```
-but this time with ```-destroy``` and save the plan. In the next
-step, apply the saved plan, and watch the resource being shutdown and
-terminated from the AWS console.
-
-Some of the inputs mentioned in the script can be converted into
-variables. Use of variables helps with modularizing code, avoiding
-repeating values, and improves security. For added security, the
-access key and secret key could be accessed as environment variables.
-
-### What is State?
-
-When you run ```terraform apply```, a state file(.tfstate) is
-created. Though it is human readable, it is not advisable to edit it
-by hand. Since it is plain text and may contain secret information,
-it is also not advisable to check this file into a version repository
-like Git. The book "Terraform - Up and Running" [@terraformuprunningbook] advises to
-add the .terraform, `.tfstate` and `.tfstate.backup` to `.gitignore` file. A
-shared, encrypted, and protected storage -- like S3 -- is often the best
-location for these files.
-
-### How Terraform deals with "environment drift"?
-
-```terraform refresh``` refreshes the state file to the updated
-real-world infrastructure that may have changed after it was
-instantiated.
-
-### How do I find out what is the current stored state?
-
-```terraform show``` will display a human readable state output
-
-
-## Another Simple Terraform script - Docker
-
-
-Here is a simple Terraform script with Docker with nginx from Brian Shumate [@TerraformDockerGist]
-
-```
-# Configure Docker provider and connect to the local Docker socket
-
-provider "docker" {
-  host = "unix:///var/run/docker.sock"
+resource "docker_image" "nginx" {
+  name = "nginx:latest"
 }
 
-# Create an Nginx container
-
 resource "docker_container" "nginx" {
-  image = "${docker_image.nginx.latest}"
-  name  = "enginecks"
+  image = docker_image.nginx.image_id
+  name  = "tutorial-nginx"
   ports {
     internal = 80
     external = 80
   }
 }
-
-resource "docker_image" "nginx" {
-  name = "nginx:latest"
-}
 ```
 
-Save this file as `dockng.tf` in another project folder/directory. Make
-sure docker is installed.
-
-Run the same set of commands as before
-
-``` terraform init
-terraform plan -out CREATmydocng.tfplan
-terraform apply CREATmydocng.tfplan
-```
-
-
-This will create a docker container with nginx, visible when you run ```docker ps -a```.
-
-When you open a browser, and navigate to `http://localhost`, you should see the nginx start page.
-
-To destroy the container, run these commands using the same PLAN-APPLY
-
-```
-terraform plan -destroy -out DESTmydocng.tfplan
-terraform apply DESTmydocng.tfplan
-```
-
-## Further Reading
-
-
-A more complex example of Terraform is given in the AWS RedShift
-section of the book.
-
-Terraform is really powerful, expressive, and versatile. We have
-explored some features and the basic workflow of usage.  Please see
-books and resources like the "Terraform Up and Running" [@terraformuprunningbook] for more real-world
-advice on IaC, structuring Terraform code and good deployment practices.
-
-## Using teraform on your local computer 
-
-
-!!! Assignment "Assignment 1. Local terraform"
-    * A terraform local instaltion script and instructions are provided. 
-    * Verify if it works on your computer
-    * Update this tutorial and make sure it works. 
-    Engage in discussions with other students on piazza. 
-    * Feel free to use a different provider and add an Example for it here.
-    * Try not to replicate the documentation, instead work on pull requests with each other. Coordinate through piazza.
-    * contrast your experience with the docker based terraform
-    * enhance the multipass script with the same services exposed to in the docker example.
-
-Canonical Multipass provides a lightweight way to spin up local Ubuntu virtual machines using native hypervisors (such as Hyper-V, VirtualBox, or Apple Silicon's Hypervisor framework). Using the community Multipass provider for Terraform (`larstobi/multipass`), local virtual machines can be managed declaratively using the same workflow applied to cloud instances.
-
-### Multipass Terraform Script
-
-Create a project folder, save the following configuration as `multipass.tf`, and ensure Multipass is installed and running on the host system.
+### Local VM Provisioning with Multipass
+Canonical Multipass allows you to spin up Ubuntu VMs on your local machine. Using the `larstobi/multipass` provider, you can manage these VMs declaratively.
 
 ```hcl
 terraform {
@@ -232,44 +117,133 @@ resource "multipass_instance" "ubuntu_vm" {
 output "vm_ip" {
   value = multipass_instance.ubuntu_vm.ipv4
 }
-
 ```
 
-### Execution Commands
+!!! info "Why this matters"
+    Using local providers like Docker and Multipass allows developers to "shift-left" their infrastructure testing. You can verify that your HCL logic is correct on your laptop before applying it to a production cloud environment, reducing the risk of deployment failures.
 
-Initialize the workspace to download the required Multipass provider:
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the difference between declarative (Terraform) and procedural (Scripts) IaC?"
+    **Declarative IaC** (Terraform) describes the *desired end-state* of the infrastructure (e.g., \"I want 3 web servers and 1 database\"), and the tool automatically determines the most efficient way to reach that state. **Procedural IaC** (Scripts) specifies a precise sequence of steps to perform (e.g., \"Create VM 1, then create VM 2, then install Nginx\"), which can be brittle and prone to errors if run multiple times.
+
+??? question "Can you explain the `init` $\rightarrow$ `plan` $\rightarrow$ `apply` workflow?"
+    The workflow ensures changes are safe and predictable: `init` downloads the necessary provider plugins and initializes the state backend; `plan` performs a \"dry run\" by comparing the code to the existing state and printing the exact changes to be made; and `apply` executes those changes in the real-world environment.
+
+??? question "What is the role of the `.tfstate` file in tracking infrastructure?"
+    The **`.tfstate` file** acts as Terraform's memory. It maps the resources defined in your HCL code to the actual IDs of the resources created in the cloud. This allows Terraform to determine if a resource needs to be created, updated, or destroyed without having to query the entire cloud API on every run.
+
+??? question "How do you distinguish between a Provider and a Resource in Terraform?"
+    A **Provider** is a plugin that allows Terraform to communicate with a specific API (e.g., the `aws` provider for Amazon Web Services or the `docker` provider for Docker). A **Resource** is the specific object managed by that provider (e.g., an `aws_instance` represents a virtual machine, while a `docker_container` represents a container).
+
+??? question "How can Terraform be used to provision both cloud and local resources?"
+    Terraform is provider-agnostic, meaning it can use different providers in the same configuration. You can use an AWS provider to provision a cloud-based VPC and EC2 instance, while simultaneously using a Docker or Multipass provider to provision local containers or VMs on your own machine, all using the same HCL language and workflow.
+
+!!! note "Exercise 1: The Lifecycle Challenge"
+    Create a Terraform script to provision a local Docker container. Run the `init`, `plan`, and `apply` commands. Once verified, use `terraform destroy` to remove the container and explain what happens to the `.tfstate` file after destruction.
+
+!!! note "Exercise 2: Multi-Provider Architecture"
+    Design a Terraform configuration that uses two different providers simultaneously (e.g., one to create a local Multipass VM and another to create a Docker container inside that VM). Describe how Terraform handles the dependencies between these two providers.
+
+!!! note "Exercise 3: State Recovery"
+    Imagine your `.tfstate` file was accidentally deleted, but your resources still exist in AWS. Research the `terraform import` command and describe the steps you would take to recover the state file without destroying the existing infrastructure.
+
+
+!!! note "Exercise 4: Using Terraform on your local computer"
+
+    * Create s terraform local installation script and instructions are provided.
+    * Verify if it works on your computer.
+    * Contrast your experience with the docker based terraform.
+    * Enhance the multipass script with the same services exposed to in the docker example.
+
+
+## Further Reading
+
+- **Terraform Up and Running**: A comprehensive guide to professional Terraform patterns.
+- **HashiCorp Learn**: Official tutorials and certification paths for Terraform.
+
+
+---
+
+## Appendix: Local Deployment with Terraform (Docker)
+
+### 0. Clone the Repository
+Before running the automation, clone the course repository to your local machine:
+
+```bash
+git clone https://github.com/cloudmesh-ai/cloudmesh-ai-lecture.git
+cd cloudmesh-ai-lecture
+```
+
+
+While Terraform is typically used for cloud infrastructure, you can use the **Docker Provider** to automate the deployment of this site locally. This ensures that every student is running the site in the exact same containerized environment.
+
+### 1. Local Configuration
+Create a file named `local_site.tf` with the following configuration:
+
+```hcl
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0.0"
+    }
+  }
+}
+
+provider "docker" {}
+
+resource "docker_image" "python_site" {
+  name = "python:3.11-slim"
+}
+
+resource "docker_container" "site_server" {
+  image = docker_image.python_site.image_id
+  name  = "cloudmesh-ai-site"
+  
+  ports {
+    internal = 8000
+    external = 8000
+  }
+
+  # We simulate the deployment by running the install and serve commands
+  command = [
+    "sh", "-c", 
+    "pip install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions && mkdocs serve -a 0.0.0.0:8000"
+  ]
+  
+  # Mount the current directory as a volume so changes are reflected in real-time
+  volumes {
+    host_path      = "."
+    container_path = "/app"
+  }
+  
+  working_dir = "/app"
+}
+
+output "site_url" {
+  value = "http://localhost:8000"
+}
+```
+
+### 2. Execution
+Run the following commands to launch the site:
 
 ```bash
 terraform init
+terraform apply -auto-approve
 ```
 
-Generate and save the execution plan:
+Once the apply is complete, Terraform will output the URL. You can then open your browser and visit `http://localhost:8000`.
+
+### 3. Destruction
+To stop the server and remove the container:
 
 ```bash
-terraform plan -out create-vm.tfplan
+terraform destroy -auto-approve
 ```
 
-Apply the plan to provision the local virtual machine:
+### Why use Terraform for this?
+Unlike a simple shell script, Terraform tracks the **state** of the container. If you change the port mapping in the `.tf` file and run `apply` again, Terraform will intelligently destroy and recreate the container to match the new configuration, ensuring your environment never drifts from the definition.
 
-```bash
-terraform apply create-vm.tfplan
-```
-
-### Verification
-
-Verify that the virtual machine was successfully created and check its operational status using the Multipass CLI:
-
-```bash
-multipass list
-```
-
-The output should display the `dev-vm` instance running with the allocated resources and assigned IP address.
-
-### Destruction
-
-To shut down and delete the local virtual machine, run the destroy plan and apply commands:
-
-```bash
-terraform plan -destroy -out destroy-vm.tfplan
-terraform apply destroy-vm.tfplan
-```

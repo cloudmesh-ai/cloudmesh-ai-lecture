@@ -144,15 +144,24 @@ qemu-system-arm -kernel ./kernel-qemu-4.4.34-jessie \
 - `-kernel`: Points to the pre-built Linux kernel required for booting the ARM image.
 - `-append`: Passes boot arguments to the kernel.
 
-## Summary Checklist
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
 
-!!! tip "Summary Checklist"
-    - [ ] QEMU and KVM are installed and configured.
-    - [ ] User is added to the `kvm` and `libvirt` groups.
-    - [ ] A `qcow2` virtual disk has been created using `qemu-img`.
-    - [ ] A Linux distribution has been installed using an ISO.
-    - [ ] The VM boots successfully from the virtual disk with acceleration.
-    - [ ] A non-native architecture (ARM) has been successfully emulated.
+??? question "What is the difference between virtualization and emulation in QEMU?"
+    Virtualization allows a guest OS to run on the same CPU architecture as the host at near-native speed using a hypervisor. Emulation simulates a completely different CPU architecture (e.g., ARM on x86), which is much slower as instructions must be translated.
+
+??? question "What is the advantage of the `qcow2` disk format over raw disk images?"
+    `qcow2` is a sparse format, meaning the file on the physical host only grows as data is actually written to the virtual disk, saving significant disk space.
+
+??? question "What role does KVM play when running QEMU on Linux?"
+    KVM (Kernel-based Virtual Machine) is a Linux kernel module that turns the kernel into a Type-1 hypervisor, allowing QEMU to execute guest instructions directly on the host CPU for high performance.
+
+??? question "How does QEMU enable cross-architecture development (e.g., ARM on x86)?"
+    Through full system emulation, QEMU can simulate the CPU, memory controllers, and peripherals of a different architecture, allowing developers to test binaries for platforms like Raspberry Pi on a standard PC.
+
+??? question "Why is hardware acceleration (like KVM or WHPX) critical for QEMU performance?"
+    Without acceleration, QEMU must emulate every CPU instruction in software, which is extremely slow. Acceleration offloads these instructions to the physical CPU, enabling near-native execution speeds.
 
 ## Practical Exercises
 

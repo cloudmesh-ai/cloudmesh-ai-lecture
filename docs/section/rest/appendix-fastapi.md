@@ -75,3 +75,24 @@ async def create_computer(computer_id: str, computer: Computer):
 - **Use Connexion/OpenAPI-First** when you are in a large organization where the API contract must be agreed upon by stakeholders *before* any code is written.
 - **Use Flask-RESTful** when you are maintaining legacy Flask applications or need a very simple, class-based structure without the overhead of async.
 - **Use FastAPI** for almost all new Python projects. It provides the best developer experience, the highest performance, and eliminates the need to manually synchronize your code with your documentation.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "How does FastAPI eliminate the need to manually synchronize code with documentation?"
+    FastAPI uses Python type hints to automatically generate an OpenAPI specification in the background. Since the specification is derived directly from the code, any change to a function signature or a Pydantic model is instantly reflected in the generated Swagger UI and ReDoc.
+
+??? question "Explain the role of `async` and `await` in FastAPI's performance."
+    `async` and `await` allow FastAPI to handle requests asynchronously. When the server hits an I/O-bound operation (like a database query or an external API call), it can pause that request and handle other incoming requests instead of blocking the entire process, significantly increasing throughput.
+
+??? question "Why is the 'Code-First' approach of FastAPI often faster for development than the 'Spec-First' approach?"
+    In a Code-First approach, the developer focuses on writing the logic and types, and the specification is a byproduct. In a Spec-First approach, the YAML file must be written and approved before coding begins, which adds an extra step to the development cycle.
+
+??? question "How does FastAPI's integration with Pydantic improve API reliability?"
+    Pydantic ensures that incoming data strictly adheres to the defined schema. By enforcing types and constraints at the entry point, FastAPI prevents malformed data from reaching the business logic, reducing runtime errors and the need for manual validation code.
+
+??? question "In a large organization with strict API contracts, why might you still prefer Connexion over FastAPI?"
+    In such environments, the API design must be agreed upon by multiple stakeholders before implementation. Connexion's "Spec-First" model forces the development to strictly follow a pre-approved contract, ensuring consistency across different teams and languages.
+

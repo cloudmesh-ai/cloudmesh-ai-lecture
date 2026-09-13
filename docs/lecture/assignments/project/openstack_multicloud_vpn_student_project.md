@@ -1003,3 +1003,136 @@ The main engineering challenge is instead **secure, automated, routed connectivi
 Ansible provides the automation layer that makes the infrastructure reproducible, testable, and suitable for a student project.
 
 A successful implementation should demonstrate that a VM in Cloud A can communicate with an authorized VM in Cloud B using private IP addresses, while public IP addresses are used only for establishing the encrypted VPN connection and approved management access.
+
+
+## Appendix
+
+Yes — but **SSH and Kubernetes solve different problems**, and neither is a direct replacement for a routed VPN.
+
+### 1. SSH tunneling — possible
+
+If you only need **a few specific services** between the clouds, you can avoid a VPN entirely.
+
+For example:
+
+```text
+Cloud A                         Cloud B
+
+GPU-A                           GPU-B
+10.10.3.10                      172.29.3.10
+   │                                │
+   └──── SSH tunnel ────────────────┘
+             over public IPs
+```
+
+You could use SSH local/remote forwarding or `ssh -w`/TUN interfaces.
+
+For a single service:
+
+```bash
+ssh -L 9000:172.29.3.10:9000 user@cloud-b-vm
+```
+
+Then Cloud A can access:
+
+```text
+localhost:9000
+```
+
+which is forwarded to:
+
+```text
+172.29.3.10:9000
+```
+
+**Good for:** SSH, databases, APIs, individual TCP services.
+
+**Bad for:** making `10.10.0.0/16` and `172.29.0.0/16` behave like interconnected networks, especially with many VMs.
+
+---
+
+### 2. Kubernetes — also possible, but it's not the VPN
+
+You could put Kubernetes nodes in both OpenStack clouds:
+
+```text
+             Kubernetes cluster
+
+        Cloud A              Cloud B
+
+       Node A1              Node B1
+       GPU-A                GPU-B
+
+       Node A2              Node B2
+          \                    /
+           \__________________/
+                 networking
+```
+
+Kubernetes can orchestrate workloads across both environments, but **Kubernetes itself doesn't magically provide arbitrary private-network connectivity between the two OpenStack networks**.
+
+Your CNI/networking solution still has to solve cross-cloud connectivity.
+
+Some approaches can create an overlay between nodes, meaning you may effectively get something VPN-like underneath.
+
+---
+
+### 3. For your student project, there's an interesting third option
+
+If your actual goal is:
+
+> "I have multiple VMs in two OpenStack clouds, and I want selected applications/GPU workloads to communicate."
+
+I'd compare these three designs:
+
+| Design               |  Complexity | Cross-cloud private networking | Multiple VMs | Good project? |
+| -------------------- | ----------: | -----------------------------: | -----------: | ------------: |
+| SSH tunnels          |         Low |                      ❌ Limited |   ⚠️ Awkward |           ⭐⭐⭐ |
+| Kubernetes + overlay | Medium/High |                              ✅ |            ✅ |         ⭐⭐⭐⭐⭐ |
+| WireGuard VPN VMs    |      Medium |                              ✅ |            ✅ |         ⭐⭐⭐⭐⭐ |
+| Public IPs directly  |    Very low |                              ❌ |           ⚠️ |            ⭐⭐ |
+
+**For learning infrastructure, I'd actually choose Kubernetes + an overlay network if your goal is containerized workloads.**
+
+But if your goal is specifically to learn **OpenStack networking**, the WireGuard VM design is better because you learn:
+
+```text
+OpenStack
+   ↓
+Neutron
+   ↓
+Routing
+   ↓
+Linux networking
+   ↓
+WireGuard
+   ↓
+Ansible
+```
+
+### The important distinction
+
+You don't necessarily need a VPN **if you don't need network-to-network connectivity**.
+
+For example:
+
+```text
+                  Public Internet
+
+GPU-A ──────── SSH/API ──────── GPU-B
+```
+
+is perfectly reasonable if the application can communicate through a specific TCP/UDP service.
+
+But if you want:
+
+```text
+VM-A1 ─────────────── VM-B1
+VM-A2 ─────────────── VM-B2
+GPU-A ─────────────── GPU-B
+DB-A  ─────────────── DB-B
+```
+
+using their private addresses, then you need some form of **cross-site networking/overlay**. WireGuard is one of the simplest ways to demonstrate that.
+
+If you're considering Kubernetes because you ultimately want to run **GPU workloads in both OpenStack clouds as one Kubernetes environment**, I'd lean toward designing the project around that instead.

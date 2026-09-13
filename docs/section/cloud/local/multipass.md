@@ -333,6 +333,27 @@ multipass launch --name secured-web --cloud-init cloud-config.yaml
 
 ---
 
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is Multipass and what is its primary goal?"
+    Multipass is a lightweight CLI tool by Canonical designed to provide instant Ubuntu VMs on local workstations, abstracting hypervisor complexities to create a bridge between local experimentation and cloud deployment.
+
+??? question "What is the purpose of `cloud-init` in Multipass provisioning?"
+    `cloud-init` allows users to automate the initialization of the VM, such as injecting SSH keys, creating users, installing packages, and configuring security settings during the first boot.
+
+??? question "How do you discover available Ubuntu images in Multipass?"
+    By running the `multipass find` command, users can see a list of supported Ubuntu images, their release versions, and supported architectures.
+
+??? question "What is the 'Primary' instance in Multipass?"
+    The "Primary" instance is a default VM that Multipass often creates automatically to provide a quick, ready-to-use Ubuntu environment.
+
+??? question "Why is Multipass preferred for testing cloud-init scripts locally?"
+    Multipass's native support for `cloud-init` configurations makes it the ideal tool for verifying that automation scripts will work correctly before they are deployed to a production cloud environment.
+
 ## Exercises
 
 !!! assignment "Exercise 1: Installation & Verification"

@@ -53,3 +53,24 @@ These tools allow you to "try" the API without writing any code.
 | **To build a test suite for a team** | Postman |
 | **To document your API for external developers** | OpenAPI Spec $\rightarrow$ Swagger UI |
 | **To automate API tests in Jenkins/GitHub Actions** | `curl` or Postman CLI (Newman) |
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "When is a CLI tool like `curl` preferred over a GUI client like Postman?"
+    `curl` is preferred for quick checks, lightweight testing, and especially when integrating API calls into shell scripts or CI/CD pipelines where a graphical interface is not available.
+
+??? question "What is the primary advantage of `HTTPie` over `curl` for manual testing?"
+    `HTTPie` provides a more intuitive, human-readable syntax and automatically pretty-prints JSON responses, making it significantly faster and easier for developers to read and write requests manually.
+
+??? question "How do tools like Swagger UI facilitate 'trying out' an API without writing code?"
+    Swagger UI reads the OpenAPI specification to present a visual list of all endpoints. It allows developers to enter parameters and click a "Try it out" button to send real HTTP requests to the server and see the live responses instantly.
+
+??? question "In a CI/CD pipeline, which tool is most likely to be used for automated API smoke tests?"
+    `curl` or a CLI-based tool like Postman's Newman are most likely to be used, as they can be easily executed in headless environments and their output can be parsed by the pipeline for success/failure.
+
+??? question "Contrast the focus of Swagger UI with that of ReDoc."
+    **Swagger UI** focuses on interactivity and testing, providing a "playground" for developers. **ReDoc** focuses on presentation, creating clean, high-quality, and readable documentation optimized for consumption rather than experimentation.
+

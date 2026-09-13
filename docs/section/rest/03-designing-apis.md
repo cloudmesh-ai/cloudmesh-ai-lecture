@@ -70,3 +70,27 @@ When returning a `4xx` or `5xx` error, always provide a JSON body that helps the
   }
 }
 ```
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What are the 'Golden Rules' for designing URIs in a RESTful API?"
+    1. **Nouns, not verbs**: Endpoints represent resources (e.g., `/users`), not actions (e.g., `/getAllUsers`).
+    2. **Use Plurals**: Maintain consistency by using plural nouns for collections (e.g., `/users` instead of `/user`).
+    3. **Hierarchy via Nesting**: Use nesting to show containment (e.g., `/users/42/orders`).
+    4. **Avoid Deep Nesting**: Keep nesting to 2-3 levels; otherwise, flatten the resource.
+
+??? question "Why should you avoid deep nesting in your URI hierarchy?"
+    Deep nesting (e.g., `/users/42/orders/10/items/5/details`) makes URIs overly complex, hard to read, and fragile. It is better to promote deeply nested resources to top-level resources and use filters.
+
+??? question "Which HTTP status code is most appropriate for a successful `POST` request that creates a new resource?"
+    The `201 Created` status code is most appropriate, as it explicitly indicates that the request was successful and a new resource was created.
+
+??? question "Contrast the use of `401 Unauthorized` vs. `403 Forbidden`."
+    `401 Unauthorized` means the user is not authenticated (they need to log in). `403 Forbidden` means the user is authenticated but does not have the necessary permissions to access that specific resource.
+
+??? question "What elements should be included in a professional JSON error payload to help developers debug?"
+    A professional payload should include a human-readable `error` title, a descriptive `message`, the numeric HTTP `code`, and a `details` object specifying which fields failed validation and why.
+

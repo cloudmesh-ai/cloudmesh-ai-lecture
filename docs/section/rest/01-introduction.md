@@ -56,3 +56,45 @@ REST has largely replaced SOAP for public APIs and microservices for several key
 
 - **REST** = The modern, web-native way to expose services. It is the standard for public APIs, cloud-native microservices, and mobile back-ends.
 - **SOAP** = A powerful but heavyweight tool still used in legacy enterprise environments, highly regulated industries (finance), or where complex transactional guarantees (WS-*) are required.
+
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What does REST stand for, and is it a protocol or an architectural style?"
+    REST stands for **REpresentational State Transfer**. It is an **architectural style**, not a protocol, although it is almost always implemented using the HTTP protocol.
+
+??? question "Explain the concept of 'statelessness' in a REST API."
+    Statelessness means that the server does not store any session context between requests. Every single request from the client must contain all the information necessary for the server to understand and process it.
+
+??? question "Contrast REST and SOAP in terms of message format and coupling."
+    REST is loosely coupled and uses lightweight formats like JSON or XML. SOAP is tightly coupled, relying on strict WSDL contracts and a rigid XML envelope.
+
+??? question "Why is JSON generally preferred over XML in modern REST APIs?"
+    JSON is significantly more lightweight (smaller payloads), faster to parse, and natively supported by JavaScript, making it ideal for mobile apps and web browsers.
+
+??? question "What are the primary reasons REST has become the de-facto standard for modern web APIs?"
+    Its simplicity, native compatibility with the web (HTTP/JSON), high performance due to cacheability, and the ease of horizontal scaling thanks to its stateless nature.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What does REST stand for, and is it a protocol or an architectural style?"
+    REST stands for **REpresentational State Transfer**. It is an **architectural style**, not a protocol, although it is almost always implemented using the HTTP protocol.
+
+??? question "Explain the concept of 'statelessness' in a REST API."
+    Statelessness means that the server does not store any session context between requests. Every single request from the client must contain all the information necessary for the server to understand and process it.
+
+??? question "Contrast REST and SOAP in terms of message format and coupling."
+    REST is loosely coupled and uses lightweight formats like JSON or XML. SOAP is tightly coupled, relying on strict WSDL contracts and a rigid XML envelope.
+
+??? question "Why is JSON generally preferred over XML in modern REST APIs?"
+    JSON is significantly more lightweight (smaller payloads), faster to parse, and natively supported by JavaScript, making it ideal for mobile apps and web browsers.
+
+??? question "What are the primary reasons REST has become the de-facto standard for modern web APIs?"
+    Its simplicity, native compatibility with the web (HTTP/JSON), high performance due to cacheability, and the ease of horizontal scaling thanks to its stateless nature.
+

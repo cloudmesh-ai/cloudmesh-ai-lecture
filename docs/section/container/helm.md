@@ -411,6 +411,27 @@ jobs:
     6. **Umbrella Charts**: Build a master chart that depends on two sub-charts (e.g., Redis and a custom App) and deploy them as a single unit.
     7. **Helm Hooks**: Implement a `pre-install` or `post-upgrade` hook to run a database migration job before the main application starts.
 
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is a Helm 'Chart' and how does it differ from a 'Release'?"
+    A **Chart** is a package containing a collection of Kubernetes resource templates and a `values.yaml` file. A **Release** is a specific instance of a Chart deployed to a cluster with a unique name and set of configuration values.
+
+??? question "How does Helm use Go templates to allow for parameterization of Kubernetes manifests?"
+    Helm uses Go-template syntax (e.g., `{{ .Values.replicaCount }}`) within its YAML files. When `helm install` is run, Helm replaces these placeholders with actual values from the `values.yaml` file or command-line overrides.
+
+??? question "What is the benefit of using `helm rollback` in a production environment?"
+    `helm rollback` allows an administrator to instantly revert a deployment to a previous stable version by updating the release state in Kubernetes, minimizing downtime after a failed upgrade.
+
+??? question "What is an 'Umbrella Chart' and when should it be used?"
+    An Umbrella Chart is a chart that does not contain its own templates but instead declares other charts as dependencies. It is used to manage and deploy a complex application composed of multiple independent services as a single unit.
+
+??? question "How do Helm hooks allow for custom deployment lifecycle management (e.g., database migrations)?"
+    Helm hooks are special annotations (e.g., `pre-install`, `post-upgrade`) that tell Helm to run a specific resource (like a Job) at a certain point in the release lifecycle, ensuring tasks like database migrations are completed before the app starts.
+
 ### References & Further Reading
 
 | Resource | Link |

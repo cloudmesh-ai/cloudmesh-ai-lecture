@@ -2,7 +2,7 @@
 MKDOCS_BIN = mkdocs
 PORT=8000
 
-.PHONY: help serve build clean publish size local-size marp marp-install slides slides-force
+.PHONY: help serve build clean publish size local-size marp marp-install slides slides-force linkchecker
 
 help:
 	@echo "Introduction to Python - Build System"
@@ -16,6 +16,7 @@ help:
 	@echo "  make slides-force - Force convert all *-talk.md slides to HTML"
 	@echo "  make marp     - (Legacy) Convert all *-talk.md slides to HTML"
 	@echo "  make marp-install - Install Marp CLI globally"
+	@echo "  make linkchecker - Check for broken links in active navigation"
 
 view:
 	open http://localhost:${PORT}
@@ -54,3 +55,15 @@ slides-force:
 	python3 bin/generate-talks.py --force
 
 marp: slides
+
+linkchecker:
+	@echo "🚧 Ensuring linkchecker image is built..."
+	@$(MAKE) -C linkchecker docker-build
+	@echo "🔎 Extracting navigation files..."
+	@FILES=$$(python3 linkchecker/extract_nav.py); \
+	if [ -z "$$FILES" ]; then \
+		echo "❌ No navigation files found to check."; \
+		exit 1; \
+	fi; \
+	echo "🔎 Checking links in navigation files..."; \
+	docker run --rm -v "$$(pwd)":/app -w /app cloudmesh-linkinator $$FILES --markdown --verbosity info

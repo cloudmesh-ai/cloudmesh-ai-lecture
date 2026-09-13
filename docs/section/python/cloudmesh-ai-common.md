@@ -14,9 +14,9 @@ By the end of this chapter, you will be able to:
 
 ---
 
-## 0. Prerequisits
+## 0. Prerequisites
 
-Install cloudmesh-ai-commom in a python virtual envirnment with  
+Install cloudmesh-ai-common in a Python virtual environment with  
 
 ```bash
 pip install cloudmesh-ai-common
@@ -334,15 +334,30 @@ StopWatch.benchmark(sysinfo=True)
 ---
 
 
-## Summary Checklist
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
 
-- [ ] Can you access a nested dictionary value using dot notation with `DotDict`?
-- [ ] Do you know how to expand environment variables in a `FlatDict`?
-- [ ] Can you execute a remote command and stream its output using `RemoteExecutor`?
-- [ ] Are you able to retrieve the current system's CPU and RAM using `systeminfo()`?
-- [ ] Can you emit a performance metric using `Telemetry` and analyze it with `TelemetryAggregator`?
-- [ ] Do you know how to execute a command with root privileges using `Sudo`?
-- [ ] Can you benchmark a function using the `@benchmark` decorator?
+??? question "How does `DotDict` simplify access to nested dictionary values?"
+    `DotDict` allows you to access nested values using attribute notation (e.g., `config.cloudmesh.ai.server`) instead of traditional bracket notation (e.g., `config['cloudmesh']['ai']['server']`), making the code cleaner and more readable.
+
+??? question "How does `FlatDict` handle environment variable expansion?"
+    `FlatDict` uses a special syntax within strings (e.g., `{os.VARIABLE}`) to automatically replace placeholders with the corresponding value from the system's environment variables during the expansion process.
+
+??? question "What is the primary purpose of `RemoteExecutor`, and how does it handle command output?"
+    `RemoteExecutor` allows for programmatic SSH-based management of remote hosts. It can execute commands and return their output as a string or stream the output in real-time using `execute_stream`, allowing the caller to process logs as they are generated.
+
+??? question "Which function in `cloudmesh-ai-common` provides hardware and OS introspection (e.g., CPU and RAM)?"
+    The `systeminfo()` function provides a comprehensive dictionary containing details about the host's operating system, CPU, RAM, and available GPUs.
+
+??? question "Contrast the roles of `Telemetry` and `TelemetryAggregator` in monitoring AI system performance."
+    `Telemetry` is used to **record** individual data points (metrics) as they occur during runtime. `TelemetryAggregator` is used to **analyze** those records, calculating summary statistics such as the average, maximum, and minimum values over a set of recorded metrics.
+
+??? question "How does the `Sudo` class enable administrative operations on a system?"
+    The `Sudo` class provides a wrapper around shell commands that requests root privileges, allowing the execution of administrative tasks (like `apt-get update`) that would otherwise be denied to a standard user.
+
+??? question "How does the `@benchmark` decorator help in profiling AI utility functions?"
+    The `@benchmark` decorator automatically wraps a function to track its execution time every time it is called, accumulating the results in the `StopWatch` registry without requiring manual timer placement inside the function body.
 
 ## Practical Exercises
 

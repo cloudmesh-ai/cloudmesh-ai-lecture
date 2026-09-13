@@ -554,6 +554,27 @@ That single command pulls an NGINX image, runs it in detached mode, maps host po
 
 
 
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Explain the 'Build, Ship, Run' workflow in Docker."
+    **Build**: Use a `Dockerfile` to create an immutable image. **Ship**: Push that image to a registry (e.g., Docker Hub). **Run**: Pull the image from the registry and instantiate it as a container on any host.
+
+??? question "What is the difference between a Docker Image and a Docker Container?"
+    An image is a read-only template consisting of layers and metadata. A container is a runtime instance of that image, adding a thin writable layer on top of the read-only image layers.
+
+??? question "How does Docker Compose simplify the management of multi-container applications?"
+    Docker Compose allows developers to define a multi-container application's services, networks, and volumes in a single YAML file, enabling the entire stack to be started, stopped, and scaled with a single command (`docker compose up`).
+
+??? question "When would you use a bind mount instead of a named volume for persistent storage?"
+    Bind mounts are used when you need to map a specific directory on the host machine to the container (e.g., mapping source code for live-reloading during development). Named volumes are preferred for production as they are managed by Docker and are more portable.
+
+??? question "What is the purpose of a multi-stage build in a Dockerfile?"
+    Multi-stage builds allow you to use multiple `FROM` statements in a single Dockerfile. This lets you compile code in a "build" stage and then copy only the resulting binary into a smaller "production" stage, drastically reducing the final image size.
+
 !!! note "Assignments"
     1. **Basic Containerization**: Create a Dockerfile for a simple Python or Node.js application, build the image, and run it as a container.
     2. **Persistent Data**: Launch a database container (e.g., MariaDB) and use a named volume to ensure data persists after the container is deleted.

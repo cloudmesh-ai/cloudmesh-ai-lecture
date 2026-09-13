@@ -87,16 +87,24 @@ UTM supports different networking modes to control how the VM communicates with 
 
 To move files between macOS and the guest OS without using network transfers, UTM supports shared directories. By adding a folder in the VM settings under the "Sharing" tab, UTM uses the VirtFS (9p) protocol to map a macOS folder into the guest's filesystem.
 
-## Summary Checklist
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
 
-!!! tip "Summary Checklist"
-    - [ ] UTM is installed and launched on macOS.
-    - [ ] The difference between "Virtualize" and "Emulate" is understood.
-    - [ ] A Linux VM has been created using the configuration wizard.
-    - [ ] The guest OS was successfully installed from an ISO image.
-    - [ ] CPU and RAM allocations have been optimized for the workload.
-    - [ ] Network connectivity has been verified.
-    - [ ] A shared directory has been configured for file exchange.
+??? question "In UTM, when should you use 'Virtualize' instead of 'Emulate'?"
+    You should use "Virtualize" when the guest OS architecture matches the host architecture (e.g., ARM64 Linux on Apple Silicon) to achieve near-native performance.
+
+??? question "How does UTM's 'Emulate' mode enable running x86_64 Windows on Apple Silicon?"
+    The "Emulate" mode uses QEMU to simulate an x86_64 CPU, translating its instructions to ARM64 instructions that the Apple Silicon chip can execute, albeit at a significantly lower speed.
+
+??? question "What is the benefit of 'headless' mode in UTM?"
+    Headless mode allows the VM to run in the background without a graphical window, which is ideal for server-based VMs that are managed via SSH.
+
+??? question "How can you share files between macOS and a UTM guest VM?"
+    By configuring a "Shared Directory" in the VM settings, UTM uses the VirtFS (9p) protocol to map a macOS folder into the guest's filesystem.
+
+??? question "What is the relationship between UTM and QEMU?"
+    UTM is a graphical user interface (GUI) wrapper around QEMU and Apple's Virtualization framework, making the power of QEMU accessible through a visual wizard.
 
 ## Practical Exercises
 
