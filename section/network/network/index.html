@@ -6438,10 +6438,12 @@
 <h3 id="the-osi-model-vs-tcpip-stack">The OSI Model vs. TCP/IP Stack</h3>
 <p>To understand networking, we use conceptual models. The <strong>OSI (Open Systems Interconnection)</strong> model is the gold standard for education, breaking down the complex process of sending data into seven distinct layers. </p>
 <h4 id="how-data-moves-encapsulation">How Data Moves: Encapsulation</h4>
-<p>When you send a request (e.g., typing <code>https://google.com</code> in a browser), your data undergoes <strong>encapsulation</strong>. It starts at the top layer (Application) and moves down. Each layer adds its own "header" (metadata) to the data, like putting a letter inside multiple envelopes.
-- The <strong>Transport layer</strong> adds a TCP header (port numbers).
-- The <strong>Network layer</strong> adds an IP header (source and destination IP).
-- The <strong>Data Link layer</strong> adds a MAC address.</p>
+<p>When you send a request (e.g., typing <code>https://google.com</code> in a browser), your data undergoes <strong>encapsulation</strong>. It starts at the top layer (Application) and moves down. Each layer adds its own "header" (metadata) to the data, like putting a letter inside multiple envelopes.</p>
+<ul>
+<li>The <strong>Transport layer</strong> adds a TCP header (port numbers).</li>
+<li>The <strong>Network layer</strong> adds an IP header (source and destination IP).</li>
+<li>The <strong>Data Link layer</strong> adds a MAC address.</li>
+</ul>
 <p>Once the data reaches the destination, it undergoes <strong>de-encapsulation</strong>, stripping away the headers layer by layer until the original request reaches the application.</p>
 <table>
 <thead>
@@ -6511,30 +6513,40 @@
 <p>While the 7-layer OSI model is an academic standard, the cloud industry and the actual internet operate on a more practical, streamlined model: the <strong>TCP/IP Model</strong>.</p>
 <h3 id="why-the-simplification">Why the Simplification?</h3>
 <p>The OSI model was developed as a theoretical framework. However, the TCP/IP model was developed to make the internet <em>work</em>. </p>
-<p>In a software-defined cloud environment:
-- The distinctions between the Session, Presentation, and Application layers are blurred because they are almost always handled by the same piece of software (the application code or a library).
-- The physical cable and the data link (the way bits are framed) are handled by the cloud provider's underlying infrastructure, making them functionally a single "Link" layer from the user's perspective.</p>
+<p>In a software-defined cloud environment:</p>
+<ul>
+<li>The distinctions between the Session, Presentation, and Application layers are blurred because they are almost always handled by the same piece of software (the application code or a library).</li>
+<li>The physical cable and the data link (the way bits are framed) are handled by the cloud provider's underlying infrastructure, making them functionally a single "Link" layer from the user's perspective.</li>
+</ul>
 <h3 id="detailed-breakdown-of-the-four-layers">Detailed Breakdown of the Four Layers</h3>
 <h4 id="layer-4-the-application-layer">Layer 4: The Application Layer</h4>
-<p>This layer is the top of the stack. It combines the functions of the OSI's Application, Presentation, and Session layers. 
-- <strong>Function</strong>: Defines the protocols that applications use to exchange data.
-- <strong>Cloud Context</strong>: This is where your APIs live. When you configure a <strong>Layer 7 Load Balancer (ALB)</strong>, you are operating at this layer. The load balancer can "see" the HTTP headers, the URL path, and the cookies to make routing decisions.
-- <strong>Common Protocols</strong>: HTTP, HTTPS, DNS, SMTP, FTP, SSH.</p>
+<p>This layer is the top of the stack. It combines the functions of the OSI's Application, Presentation, and Session layers. </p>
+<ul>
+<li><strong>Function</strong>: Defines the protocols that applications use to exchange data.</li>
+<li><strong>Cloud Context</strong>: This is where your APIs live. When you configure a <strong>Layer 7 Load Balancer (ALB)</strong>, you are operating at this layer. The load balancer can "see" the HTTP headers, the URL path, and the cookies to make routing decisions.</li>
+<li><strong>Common Protocols</strong>: HTTP, HTTPS, DNS, SMTP, FTP, SSH.</li>
+</ul>
 <h4 id="layer-3-the-transport-layer">Layer 3: The Transport Layer</h4>
-<p>This layer is responsible for end-to-end communication and reliability.
-- <strong>Function</strong>: Handles segmentation, flow control, and error checking.
-- <strong>Cloud Context</strong>: This is where you configure <strong>Security Group rules</strong> for specific ports (e.g., Port 80 for HTTP, Port 22 for SSH). A <strong>Layer 4 Load Balancer (NLB)</strong> operates here; it only looks at the IP and Port and forwards the packets as fast as possible without looking at the content.
-- <strong>Common Protocols</strong>: TCP (Reliable, connection-oriented), UDP (Fast, connectionless).</p>
+<p>This layer is responsible for end-to-end communication and reliability.</p>
+<ul>
+<li><strong>Function</strong>: Handles segmentation, flow control, and error checking.</li>
+<li><strong>Cloud Context</strong>: This is where you configure <strong>Security Group rules</strong> for specific ports (e.g., Port 80 for HTTP, Port 22 for SSH). A <strong>Layer 4 Load Balancer (NLB)</strong> operates here; it only looks at the IP and Port and forwards the packets as fast as possible without looking at the content.</li>
+<li><strong>Common Protocols</strong>: TCP (Reliable, connection-oriented), UDP (Fast, connectionless).</li>
+</ul>
 <h4 id="layer-2-the-internet-layer">Layer 2: The Internet Layer</h4>
-<p>This layer is responsible for routing packets across different networks.
-- <strong>Function</strong>: Determines the best path for data to travel from the source IP to the destination IP.
-- <strong>Cloud Context</strong>: This is the realm of the <strong>VPC</strong>, <strong>Subnets</strong>, and <strong>Route Tables</strong>. When you define a CIDR block or a route to an Internet Gateway (IGW), you are operating at the Internet Layer.
-- <strong>Common Protocols</strong>: IP (IPv4, IPv6), ICMP (used for <code>ping</code> and <code>traceroute</code>), ARP.</p>
+<p>This layer is responsible for routing packets across different networks.</p>
+<ul>
+<li><strong>Function</strong>: Determines the best path for data to travel from the source IP to the destination IP.</li>
+<li><strong>Cloud Context</strong>: This is the realm of the <strong>VPC</strong>, <strong>Subnets</strong>, and <strong>Route Tables</strong>. When you define a CIDR block or a route to an Internet Gateway (IGW), you are operating at the Internet Layer.</li>
+<li><strong>Common Protocols</strong>: IP (IPv4, IPv6), ICMP (used for <code>ping</code> and <code>traceroute</code>), ARP.</li>
+</ul>
 <h4 id="layer-1-the-link-layer-network-access">Layer 1: The Link Layer (Network Access)</h4>
-<p>This layer combines the OSI's Physical and Data Link layers.
-- <strong>Function</strong>: Handles MAC addressing and the framing of data for physical transmission.
-- <strong>Cloud Context</strong>: In the cloud, this layer is mostly abstracted away. You don't manage the physical switches or the fiber cables. However, it is still present in the form of <strong>Virtual NICs (vNICs)</strong> and the underlying SDN (Software-Defined Network) that maps your virtual IP to a physical host in the provider's data center.
-- <strong>Common Technologies</strong>: Ethernet, Wi-Fi (802.11), Fiber Optics.</p>
+<p>This layer combines the OSI's Physical and Data Link layers.</p>
+<ul>
+<li><strong>Function</strong>: Handles MAC addressing and the framing of data for physical transmission.</li>
+<li><strong>Cloud Context</strong>: In the cloud, this layer is mostly abstracted away. You don't manage the physical switches or the fiber cables. However, it is still present in the form of <strong>Virtual NICs (vNICs)</strong> and the underlying SDN (Software-Defined Network) that maps your virtual IP to a physical host in the provider's data center.</li>
+<li><strong>Common Technologies</strong>: Ethernet, Wi-Fi (802.11), Fiber Optics.</li>
+</ul>
 <h3 id="comparison-mapping-osi-vs-tcpip">Comparison Mapping: OSI vs. TCP/IP</h3>
 <table>
 <thead>
@@ -6594,11 +6606,13 @@
 <h2 id="3-cloud-networking-building-blocks">3. Cloud Networking Building Blocks</h2>
 <p>In a traditional data center, networking involves physical switches, cables, and hardware firewalls. In the cloud, we use <strong>Software-Defined Networking (SDN)</strong>. This means you define your network through an API or a console, and the cloud provider handles the underlying hardware.</p>
 <h3 id="the-virtual-private-cloud-vpc">The Virtual Private Cloud (VPC)</h3>
-<p>A <strong>VPC</strong> is your own isolated section of the cloud provider's network. Think of it as a virtual data center. Within this boundary, you have complete control over:
-- Your own IP address range.
-- The creation of subnets.
-- The routing tables that direct traffic.
-- The network gateways that connect you to the outside world.</p>
+<p>A <strong>VPC</strong> is your own isolated section of the cloud provider's network. Think of it as a virtual data center. Within this boundary, you have complete control over:</p>
+<ul>
+<li>Your own IP address range.</li>
+<li>The creation of subnets.</li>
+<li>The routing tables that direct traffic.</li>
+<li>The network gateways that connect you to the outside world.</li>
+</ul>
 <h3 id="core-components-and-their-roles">Core Components and Their Roles</h3>
 <p>Below is a <strong>single “Unified Core‑Networking Building Blocks” table</strong> that merges the two markdown tables you posted.  </p>
 <p><em>All columns from the originals are kept, so you get the plain‑English description, the high‑level purpose (the “cloud role”), the vendor‑specific names, and the security‑hardening notes – all on one line for each component.</em>  </p>
@@ -6707,16 +6721,20 @@
 </tbody>
 </table>
 <h3 id="understanding-subnet-logic-public-vs-private">Understanding Subnet Logic: Public vs. Private</h3>
-<p>The difference between a public and private subnet is not a "setting" on the subnet itself, but rather the <strong>Route Table</strong> associated with it.
-- <strong>Public Subnet</strong>: Has a route in its table that directs non-local traffic (<code>0.0.0.0/0</code>) to the <strong>Internet Gateway (IGW)</strong>.
-- <strong>Private Subnet</strong>: Does NOT have a route to the IGW. To reach the internet (e.g., for software updates), it must send traffic to a <strong>NAT Gateway</strong> located in a public subnet.</p>
+<p>The difference between a public and private subnet is not a "setting" on the subnet itself, but rather the <strong>Route Table</strong> associated with it.</p>
+<ul>
+<li><strong>Public Subnet</strong>: Has a route in its table that directs non-local traffic (<code>0.0.0.0/0</code>) to the <strong>Internet Gateway (IGW)</strong>.</li>
+<li><strong>Private Subnet</strong>: Does NOT have a route to the IGW. To reach the internet (e.g., for software updates), it must send traffic to a <strong>NAT Gateway</strong> located in a public subnet.</li>
+</ul>
 <hr>
 <h2 id="4-understanding-ip-addressing-and-cidr">4. Understanding IP Addressing and CIDR</h2>
 <p>To manage a network, you must be able to carve out IP address spaces. We do this using <strong>CIDR (Classless Inter-Domain Routing)</strong>.</p>
 <h3 id="how-cidr-works">How CIDR Works</h3>
-<p>An IPv4 address consists of 32 bits. CIDR notation (<code>x.x.x.x/n</code>) tells us how many of those bits are "locked" as the network address.
-- The <code>/n</code> (prefix) is the network portion.
-- The remaining bits (<code>32 - n</code>) are available for hosts (individual devices).</p>
+<p>An IPv4 address consists of 32 bits. CIDR notation (<code>x.x.x.x/n</code>) tells us how many of those bits are "locked" as the network address.</p>
+<ul>
+<li>The <code>/n</code> (prefix) is the network portion.</li>
+<li>The remaining bits (<code>32 - n</code>) are available for hosts (individual devices).</li>
+</ul>
 <p>For example, in a <code>/24</code> network, the first 24 bits are fixed. This leaves 8 bits for hosts. $2^8 = 256$. So, a <code>/24</code> block contains 256 IP addresses.</p>
 <h3 id="common-cidr-blocks-and-their-sizes">Common CIDR Blocks and Their Sizes</h3>
 <table>
@@ -6781,13 +6799,17 @@
 <h3 id="security-groups-vs-network-acls-nacls">Security Groups vs. Network ACLs (NACLs)</h3>
 <p>The most common point of confusion is the difference between Security Groups and NACLs.</p>
 <h4 id="1-security-groups-the-door-to-the-instance">1. Security Groups (The "Door" to the Instance)</h4>
-<p>Security Groups act as a virtual firewall for your <strong>individual instances</strong> (VMs). 
-- <strong>Stateful</strong>: This is the most important feature. If you allow an inbound request on port 80, the Security Group "remembers" this connection and automatically allows the response to go back out, regardless of outbound rules.
-- <strong>Allow-only</strong>: You only define what is <em>allowed</em>. Everything else is denied by default.</p>
+<p>Security Groups act as a virtual firewall for your <strong>individual instances</strong> (VMs). </p>
+<ul>
+<li><strong>Stateful</strong>: This is the most important feature. If you allow an inbound request on port 80, the Security Group "remembers" this connection and automatically allows the response to go back out, regardless of outbound rules.</li>
+<li><strong>Allow-only</strong>: You only define what is <em>allowed</em>. Everything else is denied by default.</li>
+</ul>
 <h4 id="2-network-acls-the-gate-to-the-subnet">2. Network ACLs (The "Gate" to the Subnet)</h4>
-<p>NACLs act as a firewall for the <strong>entire subnet</strong>.
-- <strong>Stateless</strong>: NACLs have no memory. If you allow inbound traffic on port 80, you <strong>must</strong> also explicitly create an outbound rule to allow the response to leave the subnet.
-- <strong>Allow and Deny</strong>: You can explicitly block specific IP addresses (e.g., blocking a known malicious actor).</p>
+<p>NACLs act as a firewall for the <strong>entire subnet</strong>.</p>
+<ul>
+<li><strong>Stateless</strong>: NACLs have no memory. If you allow inbound traffic on port 80, you <strong>must</strong> also explicitly create an outbound rule to allow the response to leave the subnet.</li>
+<li><strong>Allow and Deny</strong>: You can explicitly block specific IP addresses (e.g., blocking a known malicious actor).</li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -6820,9 +6842,11 @@
 </tbody>
 </table>
 <h3 id="the-danger-of-00000">The Danger of <code>0.0.0.0/0</code></h3>
-<p>The CIDR <code>0.0.0.0/0</code> means "Anywhere on the Internet." 
-- <strong>Acceptable</strong>: For public web ports (80/443) on a Load Balancer.
-- <strong>Dangerous</strong>: For SSH (22), RDP (3389), or Database ports (3306, 5432). </p>
+<p>The CIDR <code>0.0.0.0/0</code> means "Anywhere on the Internet." </p>
+<ul>
+<li><strong>Acceptable</strong>: For public web ports (80/443) on a Load Balancer.</li>
+<li><strong>Dangerous</strong>: For SSH (22), RDP (3389), or Database ports (3306, 5432). </li>
+</ul>
 <p>Opening these ports to the world makes your servers visible to automated botnets that scan the entire internet for open ports to launch brute-force attacks.</p>
 <h3 id="3-securitygroup-vs-firewall-vs-networkacl-when-to-use-which">3. Security‑Group vs. Firewall vs. Network‑ACL – When to Use Which?</h3>
 <p>Now we have introduced 3 concepts for secuering the services. But which should we use when. The following table provides a good starting point to answer this question</p>
@@ -6868,10 +6892,12 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Best‑practice pattern</strong><br>
-1. <strong>Security Group</strong> – whitelist only required ports/IPs.<br>
-2. <strong>Network ACL</strong> – “deny‑all” inbound on the private subnet; explicitly allow the SG‑controlled traffic.<br>
-3. <strong>Managed Firewall / WAF</strong> – place at the VPC edge (IGW or Transit Gateway) for logging, threat intel feeds, and L7 protection.</p>
+<p><strong>Best‑practice pattern</strong>  </p>
+<ol>
+<li><strong>Security Group</strong> – whitelist only required ports/IPs.  </li>
+<li><strong>Network ACL</strong> – “deny‑all” inbound on the private subnet; explicitly allow the SG‑controlled traffic.  </li>
+<li><strong>Managed Firewall / WAF</strong> – place at the VPC edge (IGW or Transit Gateway) for logging, threat intel feeds, and L7 protection.</li>
+</ol>
 <hr>
 <h2 id="6-designing-a-typical-cloud-web-architecture">6. Designing a Typical Cloud Web Architecture</h2>
 <p>A professional production environment is designed to minimize the <strong>Attack Surface</strong>. The goal is to ensure that no database or application server is ever directly reachable from the public internet.</p>
