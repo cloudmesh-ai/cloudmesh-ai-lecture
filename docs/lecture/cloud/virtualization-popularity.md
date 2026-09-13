@@ -168,4 +168,17 @@ You would load those numbers into a DataFrame with a datetime index (monthly, we
 3. **Add more granularity**: separate “bare‑metal hypervisors” (e.g., KVM, Xen) from “hosted VM products” (VirtualBox, VMware Workstation) for a deeper comparison.  
 4. **Export the figure** to other formats (`.svg`, `.pdf`) for publication‑ready graphics.  
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "Which technology trend has shown growth over the last few years: VMs or Containers?"
+        Container technologies (e.g., Docker, Kubernetes) have shown a significant growth trend in popularity compared to traditional Virtual Machine technologies.
+
+    ??? question "Why might container technologies be seeing higher popularity than traditional VMs for many modern applications?"
+        Containers are generally preferred for modern applications because they are more lightweight, boot faster, use fewer system resources, and provide better consistency across different environments (development, testing, production) through image-based packaging.
+
 Feel free to let me know if you’d like a concrete example using Google Trends or any other data source, and I can provide the exact code you need!

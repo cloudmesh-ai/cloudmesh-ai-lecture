@@ -170,3 +170,18 @@ Once a virtual environment is created, it must be linked to the editor:
 
 !!! note \"Exercise 3: Remote Development\"
     Set up a remote development connection. Using the \"Remote-SSH\" extension in VS Code or the \"Remote Interpreter\" feature in PyCharm Professional, connect to a remote Linux VM and execute a script stored on the remote filesystem.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What are the primary differences between an IDE and a modal text editor like Vim?"
+    An IDE (e.g., PyCharm) provides a \"batteries-included\" experience with integrated debugging, testing, and deep static analysis. A modal editor (e.g., Vim) focuses on keyboard efficiency through different modes (Insert, Normal), offering a lightweight experience that requires more manual configuration.
+
+??? question "Why is using a virtual environment (`venv`) considered best practice in Python development?"
+    Virtual environments isolate project-specific dependencies from the global system Python. This prevents version conflicts between different projects and ensures that the environment is reproducible across different machines.
+
+??? question "How do you configure a specific virtual environment as the project interpreter in VS Code?"
+    By pressing `Ctrl+Shift+P`, selecting \"Python: Select Interpreter\", and browsing to the python binary located inside the project's `.venv/bin` (or `Scripts` on Windows) directory.
+

@@ -280,3 +280,17 @@ $ pip --version
 Expected versions:
 - Python 3.12.9 (or similar)
 - pip 21.3.1 (or similar)
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the purpose of `make altinstall` when installing Python from source?"
+    It prevents the installer from overwriting the system's default `python3` binary. This is critical because many OS-level tools depend on the system Python, and overwriting it could break the operating system.
+
+??? question "Contrast a Python Virtual Environment (`venv`) with a Virtual Machine (VM) in terms of isolation and overhead."
+    `venv` provides dependency isolation at the runtime level with negligible overhead. A VM provides full system isolation by virtualizing the entire hardware and OS, which involves significantly higher resource overhead.
+
+??? question "Why is it generally recommended to avoid adding Anaconda to the system PATH via `conda init`?"
+    It modifies the shell prompt to use the `(base)` environment by default, which can conflict with other Python installations, interfere with system tools, and cause unexpected behavior in different shell profiles.

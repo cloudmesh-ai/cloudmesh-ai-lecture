@@ -109,6 +109,21 @@ In production environments, bloated distributions like Anaconda are typically av
 
 ## References
 
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "How does \"The Zen of Python\" influence the way professional cloud automation scripts are written?"
+    Principles like \"Explicit is better than implicit\" and \"Readability counts\" ensure that scripts are maintainable, clear, and less prone to errors when managed by multiple teams over several years.
+
+??? question "What is the difference between an interpreted language and a compiled language?"
+    Interpreted languages (like Python) are executed line-by-line by an interpreter, facilitating rapid iteration. Compiled languages are converted to machine code before execution, which typically results in higher runtime performance.
+
+??? question "Why are monolithic distributions like Anaconda often avoided in production deployment containers?"
+    They include many unnecessary packages, which increases the final image size and the security attack surface. Minimal virtual environments are preferred for production efficiency and security.
+
+
 The following resources provide further depth on the Python language and its ecosystem:
 
 - [Official Python Tutorial](https://docs.python.org/3/tutorial/index.html) - The authoritative guide from the Python Software Foundation.

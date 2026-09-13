@@ -45,3 +45,19 @@ This summary is significantly simplified, but provides in a convenient landsacpe
 ### V. Network Virtualization
 * **External:** Combining many physical networks into one unifying virtual network.
 * **Internal:** Providing network functionality to processes/containers on a single server.
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What is the role of Intel VT-x and AMD-V in CPU virtualization?"
+        Intel VT-x and AMD-V are hardware extensions that introduce a new CPU execution mode (Root Mode/Ring -1). This allows the hypervisor to run guest OSs with near-native performance by reducing the need for complex software-based binary translation.
+
+    ??? question "What is IOMMU (Intel VT-d/AMD-Vi) and why is it important for PCI Passthrough?"
+        IOMMU (Input-Output Memory Management Unit) provides address translation and memory protection for peripheral devices. It is critical for PCI Passthrough (SR-IOV) because it allows a virtual machine to safely access physical hardware (like a GPU or NIC) directly, bypassing the hypervisor's emulation.
+
+    ??? question "What is Libvirt?"
+        Libvirt is an open-source API, daemon, and management tool for managing various virtualization technologies (like KVM, Xen, and QEMU). It provides a consistent interface, allowing management tools to interact with different hypervisors using a uniform set of commands.
+

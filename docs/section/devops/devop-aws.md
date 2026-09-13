@@ -47,6 +47,8 @@ CloudWatch is the central nervous system for monitoring. It:
 ### AWS X-Ray
 While CloudWatch tells you *that* a system is slow, X-Ray tells you *where* it is slow. X-Ray provides distributed tracing, allowing you to follow a single request as it travels through multiple microservices, helping you pinpoint the exact bottleneck in a complex architecture.
 
+# Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

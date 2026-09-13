@@ -52,6 +52,8 @@ Instead of watching a dashboard, you can set up alerts that notify the team via 
 - A sudden spike in 500-series HTTP errors.
 - A failed health check on a critical VM.
 
+# Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

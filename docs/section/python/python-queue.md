@@ -190,6 +190,21 @@ These tools allow multiple independent processes (potentially on different serve
     - Identified when to transition from in-memory queues to distributed brokers like RabbitMQ or SQS.
 
 !!! note "Exercise 1: Basic Task Processor"
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "In what cloud automation scenario would a `PriorityQueue` be more appropriate than a standard FIFO queue?"
+    When some tasks are critical (e.g., emergency security patches or resource leaks) and must be processed immediately, regardless of their arrival order, a `PriorityQueue` ensures they are handled before routine maintenance tasks.
+
+??? question "Why is `collections.deque` preferred over `queue.Queue` for single-threaded applications?"
+    `deque` is implemented in C and does not involve the locking overhead required for thread-safety in `queue.Queue`, making it significantly faster for simple append and pop operations.
+
+??? question "When should a developer transition from an in-memory queue to a distributed broker like RabbitMQ or Amazon SQS?"
+    When the system needs to scale beyond a single machine, requires persistence (so tasks aren't lost on crash), or needs to coordinate task execution across multiple independent servers.
+
     Write a Python script that uses a `queue.Queue` to process a list of 10 filenames. A worker thread should "process" each file by printing \"Processing [filename]...\" and sleeping for 0.1 seconds.
 
 !!! note "Exercise 2: Priority Alert System"

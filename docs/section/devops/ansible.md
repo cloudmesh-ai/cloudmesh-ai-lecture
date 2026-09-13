@@ -332,7 +332,7 @@ make all
 For this local course site, the `Makefile` is faster and more lightweight, but the Ansible approach prepares you for managing a fleet of production servers.
 
 
-## Self-Assessment
+# Self-Assessment
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

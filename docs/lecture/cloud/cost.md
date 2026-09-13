@@ -45,4 +45,22 @@ If you shut down a VM to stop paying for compute, you must ensure it is fully re
 
 ### Summary
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What are the three main pricing models for cloud VMs?"
+        1. **On-Demand**: Pay for compute by the second or hour with no long-term commitment.
+        2. **Commitment-Based (Reserved Instances/Savings Plans)**: Commit to a certain amount of usage for 1 or 3 years in exchange for a significant discount.
+        3. **Spot/Preemptible**: Use spare cloud capacity at a very low cost, with the caveat that the provider can reclaim the resource at any time.
+
+    ??? question "Does 'Stopping' a VM always mean you stop paying for all associated resources?"
+        No. While stopping a VM usually halts the compute charges, you typically continue to pay for the associated block storage (e.g., AWS EBS, Azure Managed Disks) and any reserved static IP addresses.
+
+    ??? question "What is the difference between 'Stopping' and 'Deallocating' in Azure?"
+        In Azure, stopping a VM from within the guest OS (e.g., `shutdown -h now`) may keep the hardware allocated and continue to bill for compute. To stop compute charges, the VM must be explicitly "Stopped (Deallocated)" via the Azure Portal or CLI.
+
 Launching a VM is free; you only pay for active runtime. To truly stop accumulating charges when you are done using a VM, you must either **terminate/delete it** entirely or ensure it is fully stopped/deallocated so that you are only left paying for the passive storage (hard drive space) it occupies.

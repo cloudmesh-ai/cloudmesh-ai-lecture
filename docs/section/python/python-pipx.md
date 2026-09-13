@@ -104,6 +104,21 @@ By using `-e .`, the `cloudmesh-ai-llm` package is linked to the current directo
     - [ ] Performed an editable install (`pip install -e .`) for the development project.
     - [ ] Confirmed that code changes are reflected without re-installation.
 
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the primary difference between an application-level installation (`pipx`) and a library-level installation (`pip`)?"
+    Application-level installations are for standalone CLI tools that are executed from the shell; they are isolated in their own venvs to avoid dependency collisions. Library-level installations are for packages intended to be imported into other Python code.
+
+??? question "How does `pipx` allow a tool to be available globally while remaining isolated?"
+    `pipx` creates a private virtual environment for the tool and then creates a symbolic link (symlink) from the tool's executable binary to a global directory in the user's PATH (e.g., `~/.local/bin`).
+
+??? question "What is an 'editable install' (`pip install -e .`) and why is it critical for development?"
+    An editable install links the installed package to the source code directory rather than copying the files. This allows developers to see the effects of code changes immediately without having to re-install the package.
+
 !!! note "Exercise 1: Application Isolation"
 
     **Task**: Use `pipx` to install a common Python-based CLI tool (e.g., `black` or `httpie`). Verify that the tool is available globally but that its dependencies are not visible in your current `pyenv` or global `pip list`.

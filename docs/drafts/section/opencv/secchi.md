@@ -1,0 +1,148 @@
+---
+title: "Secchi Disk"
+---
+
+# Secchi Disk {#sec:secchi-disk}
+
+We are developing an autonomous robot boat that you can be part of developing within this class. The robot bot is measuring turbidity or water clarity. Traditionally this has been done with a Secchi disk. The use of the Secchi disk is as follows:
+
+1.  Lower the Secchi disk into the water.
+2.  Measure the point when you can no longer see it
+3.  Record the depth at various levels and plot in a geographical 3D map
+
+One of the things we can do is take a video of the measurement instead of a human recording them. Then we can analyze the video automatically to see how deep a disk was lowered. This is a classical image analysis program. You are encouraged to identify algorithms that can identify the depth. The simplest seems to be to do a histogram at a variety of depth steps and measure when the histogram no longer changes significantly. The depth of that image will be the measurement we look for.
+
+Thus if we analyze the images we need to look at the image and identify the numbers on the measuring tape, as well as the visibility of the disk.
+
+To showcase how such a disk looks like we refer to the image showcasing different Secchi disks. For our purpose the black-white contrast Secchi disk works well. See @fig:secchi-field-test-disk
+
+![Secchi disk types. A marine style on the left and the freshwater version on the right wikipedia.](images/secchi-field-test/disk.png){#fig:secchi-field-test-disk}
+
+More information about Secchi Disk can be found at:
+
+- <https://en.wikipedia.org/wiki/Secchi/_disk>
+
+We have included next a couple of examples while using some obviously useful OpenCV methods. Surprisingly, the use of the edge detection that comes to mind first to identify if we still can see the disk, seems too complicated to use for analysis. We at this time believe the histogram will be sufficient.
+
+Please inspect our examples.
+
+## Setup for OSX
+
+First lest setup the OpenCV environment for OSX. Naturally, you will have to update the versions based on your versions of python. When we tried the install of OpenCV on macOS, the setup was slightly more complex than other packages. This may have changed by now and if you have improved instructions, please let us know. However, we do not want to install it via Anaconda out of the obvious reason that anaconda installs too many other things.
+
+``` python
+import os, sys
+from os.path import expanduser
+os.path
+home = expanduser("~")
+sys.path.append('/usr/local/Cellar/opencv/3.3.1_1/lib/python3.6/site-packages/')
+sys.path.append(home + '/.pyenv/versions/OPENCV/lib/python3.6/site-packages/')
+import cv2
+cv2.__version__
+! pip install numpy > tmp.log
+! pip install matplotlib >> tmp.log
+%matplotlib inline
+```
+
+## Step 1: Record the video
+
+Record the video on the robot
+
+We have done this for you and will provide you with images and videos if you are interested in analyzing them. See @fig:secchi-histogram
+
+## Step 2: Analyse the images from the Video
+
+For now, we just selected 4 images from the video
+
+``` python
+import cv2
+import matplotlib.pyplot as plt
+
+img1 = cv2.imread('secchi/secchi1.png')
+img2 = cv2.imread('secchi/secchi2.png')
+img3 = cv2.imread('secchi/secchi3.png')
+img4 = cv2.imread('secchi/secchi4.png')
+
+figures = []
+fig = plt.figure(figsize=(18, 16))
+for i in range(1,13):
+  figures.append(fig.add_subplot(4,3,i))
+count = 0
+for img in [img1,img2,img3,img4]:
+  figures[count].imshow(img)
+
+  color = ('b','g','r')
+  for i,col in enumerate(color):
+      histr = cv2.calcHist([img],[i],None,[256],[0,256])
+      figures[count+1].plot(histr,color = col)
+
+  figures[count+2].hist(img.ravel(),256,[0,256])
+
+  count += 3
+
+print("Legend")
+print("First column = image of Secchi disk")
+print("Second column = histogram of colors in image")
+print("Third column = histogram of all values")
+
+plt.show()
+```
+
+![Histogram](images/secchi/output_9_1.png){#fig:secchi-histogram}
+
+### Image Thresholding
+
+See @fig:secchi-output_13_0, @fig:secchi-output_14_0, @fig:secchi-output_15_0, @fig:secchi-output_16_0
+
+``` python
+def threshold(img):
+  ret,thresh = cv2.threshold(img,150,255,cv2.THRESH_BINARY)
+  plt.subplot(1,2,1), plt.imshow(img, cmap='gray')
+  plt.subplot(1,2,2), plt.imshow(thresh, cmap='gray')
+
+threshold(img1)
+threshold(img2)
+threshold(img3)
+threshold(img4)
+```
+
+![Threshold 1, `threshold(img1)`](images/secchi/output_13_0.png){#fig:secchi-output_13_0}
+
+![Threshold 2, `threshold(img2)`](images/secchi/output_14_0.png){#fig:secchi-output_14_0}
+
+![Threshold 3, `threshold(img3)`](images/secchi/output_15_0.png){#fig:secchi-output_15_0}
+
+![Threshold 4, `threshold(img4)`](images/secchi/output_16_0.png){#fig:secchi-output_16_0}
+
+### Edge Detection
+
+See @fig:secchi-output_19_0, @fig:secchi-output_20_0, @fig:secchi-output_21_0, @fig:secchi-output_22_0, @fig:secchi-output_26_1. Edge detection using Canny edge detection algorithm
+
+``` python
+def find_edge(img):
+  edges = cv2.Canny(img,50,200)
+  plt.subplot(121),plt.imshow(img,cmap = 'gray')
+  plt.subplot(122),plt.imshow(edges,cmap = 'gray')
+
+find_edge(img1)
+find_edge(img2)
+find_edge(img3)
+find_edge(img4)
+```
+
+![Edge Detection 1, `find_edge(img1)`](images/secchi/output_19_0.png){#fig:secchi-output_19_0}
+
+![Edge Detection 2, `find_edge(img2)`](images/secchi/output_20_0.png){#fig:secchi-output_20_0}
+
+![Edge Detection 3, `find_edge(img3)`](images/secchi/output_21_0.png){#fig:secchi-output_21_0}
+
+![Edge Detection 4, , `find_edge(img4)`](images/secchi/output_22_0.png){#fig:secchi-output_22_0}
+
+### Black and white
+
+``` python
+bw1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+plt.imshow(bw1, cmap='gray')
+```
+
+![Back White conversion](images/secchi/output_26_1.png){#fig:secchi-output_26_1}

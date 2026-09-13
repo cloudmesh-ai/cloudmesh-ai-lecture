@@ -369,3 +369,21 @@ Run the script with `bash launch_gemma4.sh`. It will:
 | OpenAI‑compatible API spec (used by vLLM) | <https://platform.openai.com/docs/api-reference/completions/create> |
 
 ---  
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "Explain the 'two-hop' SSH tunnel workflow used to access a server on a Frontier worker node from a laptop."
+        Because worker nodes are not directly accessible from the public internet, the workflow is:
+        `Laptop` $\rightarrow$ (SSH Tunnel) $\rightarrow$ `Frontier Login Node` $\rightarrow$ (SSH Tunnel/Internal Network) $\rightarrow$ `Worker Node`.
+        The login node acts as a jump host, forwarding traffic from a local port on the laptop to the port on the worker node where the server is listening.
+
+    ??? question "What is the purpose of `salloc` in the context of starting an interactive inference server?"
+        `salloc` is used to request a real-time allocation of compute resources (nodes, GPUs) from SLURM. Unlike `sbatch` (which submits a script to run later), `salloc` creates an active allocation that allows the user to run interactive commands (via `srun`) on the allocated worker node.
+
+    ??? question "Why is it recommended to bind the vLLM server to `0.0.0.0` rather than `127.0.0.1` when running on a worker node?"
+        Binding to `127.0.0.1` (localhost) would restrict the server to only accept connections originating from within the worker node itself. Binding to `0.0.0.0` allows the server to accept connections from the login node via the SSH tunnel.
+

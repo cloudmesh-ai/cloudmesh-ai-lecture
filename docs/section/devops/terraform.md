@@ -158,6 +158,26 @@ output "vm_ip" {
     * Enhance the multipass script with the same services exposed to in the docker example.
 
 
+# Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the role of the Terraform state file (.tfstate)?"
+    The state file acts as a source of truth, mapping your HCL code to the real-world resources created in the cloud. It allows Terraform to track resource IDs, metadata, and dependencies, ensuring that subsequent `plan` and `apply` commands only modify what is necessary and avoid duplicating resources.
+
+??? question "Explain the difference between 'terraform plan' and 'terraform apply'."
+    `terraform plan` is a dry run that compares the current state with the desired configuration and outputs the changes that *would* be made without actually executing them. `terraform apply` executes those changes in the cloud to reach the desired state. Using `plan` first allows for verification and review before making actual infrastructure changes.
+
+??? question "Why is a declarative language (HCL) preferred over procedural scripts for infrastructure?"
+    A declarative language allows you to describe *what* the infrastructure should look like (the end-state), whereas procedural scripts describe *how* to build it (step-by-step). Declarative tools are inherently more robust because they automatically handle dependencies and can correct \"drift\" by comparing the current state to the desired state.
+
+??? question "How does 'terraform destroy' ensure a clean teardown of resources?"
+    `terraform destroy` uses the state file to identify all resources created by the configuration and deletes them in the reverse order of their dependencies. This ensures that components like VMs are removed before the networks they depend on are deleted, preventing orphaned resources and costs.
+
+??? question "What is the benefit of using the 'plan' -> 'apply' workflow in a team environment?"
+    In teams, the output of `terraform plan` can be attached to a Pull Request for peer review. This ensures that another engineer validates the intended changes before they are applied to production, reducing the risk of catastrophic mistakes and providing an audit trail of intended infrastructure modifications.
+
+
 ## Further Reading
 
 - **Terraform Up and Running**: A comprehensive guide to professional Terraform patterns.

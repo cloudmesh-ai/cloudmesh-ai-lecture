@@ -322,6 +322,21 @@ The `scope="session"` setting on the `docker_service` fixture is critical; it en
     - [ ] I can extend the suite to include integration and end-to-end tests that run inside Docker containers.
 
 !!! note "Exercise 1: Basic Unit Tests"
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the \"Testing Pyramid\" and why is it important for a DevOps pipeline?"
+    It is a strategy that recommends having many fast unit tests, fewer integration tests, and very few slow E2E tests. This balances comprehensive coverage with a fast feedback loop for developers.
+
+??? question "How do `pytest` fixtures improve test maintainability?"
+    Fixtures allow for the definition of reusable setup and teardown logic (e.g., initializing a database) that can be shared across multiple tests and scoped to the function, class, module, or session.
+
+??? question "Why is it dangerous to hard-code credentials in tests, and what is the recommended alternative?"
+    Hard-coding secrets exposes them in version control. The alternative is to use fixtures that retrieve credentials from environment variables or a secure secret manager at runtime.
+
     Create a simple Python module `math_utils.py` with functions for `multiply` and `power`. Write a corresponding `test_math_utils.py` using `pytest` to verify the correct output for basic positive and negative integers.
 
 !!! note "Exercise 2: Parametrized Testing"

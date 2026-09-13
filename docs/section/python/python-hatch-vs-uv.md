@@ -268,3 +268,17 @@ Now `hatch env create` will invoke `uv` under the hood, giving you Hatch’s fea
 * **uv** = *super‑charger* for **dependency resolution & venv creation**.
 
 If you only need to install packages quickly, go straight to `uv`. If you need a cohesive workflow that covers everything from version bumping to publishing, pick **Hatch**. And when you want the best of both worlds, configure Hatch to delegate the install step to `uv`.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "If you need to manage project metadata and publishing, why is Hatch a better choice than uv?"
+    Hatch is a full project manager that handles scaffolding, versioning, and publishing to PyPI. `uv` is primarily a high-performance package installer and resolver; it does not manage project metadata or the publishing lifecycle.
+
+??? question "How can you achieve both orchestration (Hatch) and installation speed (uv) in the same project?"
+    By configuring Hatch to use `uv` as its internal installer. This can be done by defining a custom script in `pyproject.toml` that invokes `uv pip install` instead of the default pip.
+
+??? question "When is `uv run` more advantageous than traditional virtual environment activation?"
+    `uv run` allows executing a script within an environment without manually activating it. It is especially powerful for one-off scripts because it can create a temporary environment, install dependencies, and run the code in a single step.

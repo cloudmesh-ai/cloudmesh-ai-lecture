@@ -214,6 +214,21 @@ print(f"Pandas Sum: {pandas_sum}, Dask Sum: {dask_sum}")
     - Transitioned from Pandas to Dask for larger-than-memory datasets.
 
 !!! note "Exercise 1: Data Exploration"
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the main advantage of NumPy's `ndarray` over standard Python lists for big data?"
+    `ndarray` is significantly more memory-efficient and supports vectorization, allowing mathematical operations to be performed on entire arrays without explicit `for` loops, which is orders of magnitude faster.
+
+??? question "How does Dask's approach to data processing differ from Pandas' approach?"
+    Pandas uses eager evaluation, loading the entire dataset into RAM. Dask uses lazy evaluation, partitioning the data and building a task graph that is executed in parallel only when `compute()` is called.
+
+??? question "Why is regular expression (regex) parsing useful for semi-structured files like LaTeX or system logs?"
+    Regex allows for the definition of flexible patterns to extract specific data (e.g., timestamps, IDs, or macro arguments) from text that does not follow a strict tabular format like CSV or JSON.
+
     Download a public dataset from data.gov. Use Pandas to load the data, identify columns with the most missing values, and generate a histogram for one of the numerical columns.
 
 !!! note "Exercise 2: Custom Log Parser"

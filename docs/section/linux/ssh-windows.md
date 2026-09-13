@@ -217,3 +217,19 @@ Packages of interest include
 Before installing any of them evaluate if you need them and identify
 security risks.
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What is the recommended approach for Windows users to use SSH according to this guide?"
+        The guide recommends using a virtual machine via VirtualBox and following the Linux SSH instructions. For native Windows usage, Git Bash is highly recommended as it provides a Linux-like terminal environment.
+
+    ??? question "How does the key generation process in PuTTYgen differ from using `ssh-keygen`?"
+        PuTTYgen uses a graphical interface and requires the user to move the mouse around the blank space to generate the randomness needed for the key, whereas `ssh-keygen` is a command-line tool that handles randomness automatically.
+
+    ??? question "What is Chocolatey and how can it be used to set up SSH on Windows?"
+        Chocolatey is a software package manager for Windows. It allows users to install tools like OpenSSH or Git for Windows using a simple command-line instruction (e.g., `choco install openssh`), mimicking the experience of using `apt` or `dnf` on Linux.
+

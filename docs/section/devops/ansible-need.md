@@ -40,6 +40,8 @@ You may find that you don't need Ansible if your environment fits these criteria
 2.  **Pure Immutable Infrastructure**: If you use Terraform to create "Golden Images" (via Packer) that already have everything installed, and you replace the entire VM whenever a change is needed rather than updating it in place.
 3.  **Pure GitOps**: If you use ArgoCD or Flux to manage everything *inside* the cluster, and your cluster was provisioned via a managed service.
 
+# Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

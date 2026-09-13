@@ -188,3 +188,20 @@ Modern IDEs integrate Git directly into their editor, reducing the need to switc
     3. Merge the first branch into `main`.
     4. Attempt to merge the second branch into `main` and resolve the resulting merge conflict using your IDE's merge tool.
     **Deliverable:** A screenshot of the resolved file and the final commit message.
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What is the fundamental difference between Git and GitHub?"
+        Git is a local version control system (a tool installed on your computer) that tracks changes in your files. GitHub is a cloud-based hosting platform that stores Git repositories, facilitating collaboration, code review (via Pull Requests), and project management.
+
+    ??? question "Explain the purpose of the 'Staging Area' (Index) in the Git workflow."
+        The staging area acts as a buffer between the working directory and the local repository. It allows developers to selectively choose which specific changes to include in the next commit, enabling the creation of clean, atomic commits even if multiple unrelated changes were made to the files.
+
+    ??? question "What is a 'Fork' and how does it differ from a 'Clone'?"
+        - A **Clone** creates a local copy of a repository on your machine.
+        - A **Fork** creates a server-side copy of someone else's repository under your own GitHub account. This allows you to make changes freely and then propose those changes to the original repository via a Pull Request.
+

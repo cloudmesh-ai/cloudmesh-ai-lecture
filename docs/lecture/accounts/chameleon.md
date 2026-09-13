@@ -51,3 +51,18 @@ Once your account is approved:
     - The exercise is considered complete when you receive the **approval email** from Chameleon Cloud and can log in to the portal.
     - Verify that you can see the `cloudmesh` project in your project list within the Horizon Dashboard.
 
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+    ??? question "What is Chameleon Cloud and who is it intended for?"
+        Chameleon Cloud is a testbed for cloud computing research and education, providing users with access to cloud infrastructure for legitimate research or educational purposes.
+
+    ??? question "Why is using an institutional email address important when applying for a Chameleon Cloud account?"
+        Applications from institutional emails (e.g., `.edu`) are more likely to be approved, as applications from generic providers like Gmail or Yahoo are more likely to be scrutinized or rejected.
+
+    ??? question "What information should students include in their project description to increase the chance of approval?"
+        Students should clearly state that they are in a specific course (e.g., \"Cloud Computing/DevOps/AI\") and explain that they need the account for course exercises and labs involving cloud infrastructure and automation.
+

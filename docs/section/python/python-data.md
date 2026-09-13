@@ -237,6 +237,21 @@ For structured data that requires complex querying, flat files are replaced by d
 
 !!! note "Exercise 1: Format Conversion"
 
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "When is line-by-line processing mandatory over reading an entire file into memory?"
+    Line-by-line processing is mandatory when dealing with large datasets that exceed the available system RAM. Reading a multi-gigabyte file into memory would cause the process to crash due to an `OutOfMemory` error.
+
+??? question "Why should you use the `csv` module instead of simply calling `.split(',')` on a line?"
+    The `csv` module correctly handles complex cases, such as fields that contain commas enclosed in double quotes, which a simple `.split(',')` would incorrectly split into multiple fields.
+
+??? question "Explain the security risk associated with the `pickle` module for untrusted data."
+    `pickle` can execute arbitrary Python code during deserialization. If an attacker provides a malicious pickle file, they can achieve Remote Code Execution (RCE) on the system running the `pickle.load()` command.
+
+
     **Task**: Create a CSV file with three columns (Name, Role, Email). Write a Python script that reads this CSV and converts it into a JSON array of objects.
     **Goal**: Practice basic data transformation between two common interchange formats.
 

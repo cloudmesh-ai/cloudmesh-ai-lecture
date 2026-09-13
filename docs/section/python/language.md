@@ -1378,3 +1378,21 @@ with open("config.yaml", "w") as f:
 ```
 
 For cloud practitioners, this is essential when using libraries like `boto3` or `pymongo` to ensure connections aren't leaked, which could otherwise lead to "Too many connections" errors in production.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the difference between an integer and a floating-point number in Python?"
+    An integer (int) is a whole number without a fractional component, whereas a floating-point number (float) represents a real number and includes a decimal point.
+
+??? question "How do boolean operators `and` and `or` behave in Python?"
+    The `and` operator returns `True` only if both operands are true; otherwise, it returns `False`. The `or` operator returns `True` if at least one of the operands is true.
+
+??? question "What is a generator in Python and how does it differ from a list?"
+    A generator is a special type of iterator that yields values one at a time using the `yield` keyword, rather than computing and storing the entire sequence in memory like a list. This makes generators significantly more memory-efficient for large datasets (Lazy Evaluation).
+
+??? question "In asynchronous programming with `asyncio`, what does the `await` keyword do?"
+    The `await` keyword pauses the execution of the current coroutine, yielding control back to the event loop. This allows other tasks to run while the current task waits for an I/O operation (like a network response) to complete.
+

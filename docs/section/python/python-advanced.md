@@ -224,6 +224,21 @@ for i in range(10):
     - Utilized `deque` for efficient memory management in streaming data scenarios.
 
 !!! note "Exercise 1: Concurrent Health Checker"
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "When should you choose `asyncio` over `ThreadPoolExecutor` for high-concurrency network I/O?"
+    `asyncio` is more efficient for handling thousands of concurrent connections because it uses a single-threaded event loop, avoiding the high memory and context-switching overhead associated with maintaining thousands of OS threads.
+
+??? question "How does exponential backoff improve the resilience of cloud API calls?"
+    It increases the wait time between retries after each failure, preventing the client from overwhelming a struggling server (the \"thundering herd\" problem) and increasing the likelihood of a successful recovery.
+
+??? question "What is the purpose of `ssl.create_default_context()` when establishing network sockets?"
+    It creates a secure SSL/TLS context with recommended default settings, ensuring that data transmitted over the network is encrypted and protected against eavesdropping and MITM attacks.
+
     Write a script that takes a list of 10 server IP addresses and checks if port 80 is open on each. Use `concurrent.futures.ThreadPoolExecutor` to perform these checks concurrently and print the results.
 
 !!! note "Exercise 2: Async API Aggregator"

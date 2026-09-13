@@ -174,4 +174,19 @@ sudo puppet apply site.pp
 Once applied, you can open your browser and visit `http://localhost:8000`.
 
 ### Why use Puppet for this?
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the core difference between a 'procedural' tool and a 'declarative' tool like Puppet?"
+    A procedural tool executes a sequence of commands to achieve a result (e.g., \"install package X, then start service Y\"). A declarative tool defines the desired end-state (e.g., \"package X must be installed and service Y must be running\"), and the tool automatically determines the necessary steps to reach that state.
+
+??? question "Explain the 'Pull Model' of configuration management used by Puppet."
+    In the pull model, an agent installed on each target node periodically polls the central Puppet Master for its specific configuration catalog. This is opposite to the push model (e.g., Ansible), where the central server pushes configurations to the nodes via SSH.
+
+??? question "What is 'configuration drift' and how does Puppet resolve it?"
+    Configuration drift occurs when a server's actual state deviates from the defined desired state (e.g., a user manually edits a config file). Puppet detects this during its regular check-in and automatically reapplies the correct configuration to bring the server back into compliance.
+
 The power of Puppet lies in **drift detection**. If you accidentally uninstall a plugin or stop the server, running `puppet apply` will immediately detect that the system is not in the "desired state" and will automatically reinstall the dependencies and restart the server, ensuring your environment is always stable.

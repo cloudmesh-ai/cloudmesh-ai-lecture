@@ -112,3 +112,21 @@ Once installed via any of these tools, Git Bash is automatically placed on your 
 
 !!! Assignmnet 
     In the last two cases you still have to set the username and email. please work as a team and create a pull request completing the documentation
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What is Git Bash and why is it recommended for Windows users?"
+        Git Bash is a package that provides a Bash emulation environment on Windows. It is recommended because it allows Windows users to use standard Linux/Unix commands (like `ls`, `cd`, `ssh`) and Git in a terminal that behaves like a Linux shell, ensuring consistency with server environments.
+
+    ??? question "What are the two essential configuration commands that should be run after installing Git Bash?"
+        The user must configure their global identity for Git commits using:
+        1. `git config --global user.name \"Your Name\"`
+        2. `git config --global user.email \"you@example.com\"`
+
+    ??? question "Mention one way to automate the installation of Git for Windows for multiple machines."
+        Installation can be automated using configuration management tools like **Ansible** (via `win_chocolatey` or `win_command`), or by using native Windows package managers like **Winget** or **Chocolatey** through a script.
+

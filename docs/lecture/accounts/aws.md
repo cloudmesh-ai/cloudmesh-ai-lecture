@@ -58,3 +58,18 @@ Once your account is active:
 
     - The assignment is considered complete when you can log in to the console and provide a screenshot of your $1.00 budget alarm.
     - Verify that you can launch a `t2.micro` (or equivalent free-tier) instance.
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+    ??? question "What is the recommended way to avoid costs when using AWS for course exercises?"
+        Use the **AWS Free Tier** and always look for the 'Free tier eligible' label when selecting resources (e.g., `t2.micro` or `t3.micro`).
+
+    ??? question "Why is it a best practice to create an IAM User instead of using the Root account for daily tasks?"
+        Using an IAM user with administrative permissions is more secure than using the Root account, as it allows for better access control and reduces the risk of accidental critical changes to the account.
+
+    ??? question "What steps should be taken to prevent unexpected charges in AWS?"
+        Users should monitor usage via the AWS Billing Dashboard, create billing alarms in AWS Budgets (e.g., for $1), and terminate all instances, volumes, and elastic IPs when finished.
+

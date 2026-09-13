@@ -767,3 +767,28 @@ Treat the cloud as a continuous enabler of agility, operational model shifts, an
 * [Azure Architecture Center](https://learn.microsoft.com/en-us/azure/well-architected/)
 * [Azure Architecture](https://learn.microsoft.com/en-us/azure/architecture/)
 * [Google Cloud Architecture framework](https://docs.cloud.google.com/architecture/framework)
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What is the NIST definition of cloud computing?"
+        NIST defines cloud computing as a model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+    ??? question "Describe the evolution of computing from Mainframes to Cloud."
+        Computing evolved from:
+        1. **Mainframe Era**: Centralized computing with time-sharing.
+        2. **Client-Server Architecture**: Distribution of tasks between providers (servers) and service requesters (clients).
+        3. **Metacomputing/Grid Computing**: Coordinating resources from multiple locations to reach a common goal.
+        4. **Virtualization**: Ability to run multiple virtual machines on a single physical host.
+        5. **Cloud Computing**: The culmination of these technologies, offering on-demand, elastic, and metered access to resources.
+
+    ??? question "What are the primary business drivers for moving to the cloud?"
+        Primary drivers include:
+        - **Shift from CapEx to OpEx**: Reducing upfront capital expenditure in favor of operational expenditure.
+        - **Agility and Speed**: Faster time-to-market through rapid provisioning.
+        - **Scalability**: Ability to handle peak loads without over-provisioning hardware.
+        - **Cost Efficiency**: Paying only for what is used.
+

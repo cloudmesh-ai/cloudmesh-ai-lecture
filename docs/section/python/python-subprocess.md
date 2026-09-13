@@ -287,3 +287,17 @@ The following attributes are also available:
 - `Popen.returncode`: The child return code, set by poll() and wait() (and indirectly by communicate()). A None value indicates that the process hasn’t terminated yet.
 
 A negative value `-N` indicates that the child was terminated by signal N (Unix only).
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the primary difference between `Shell.run()` (Cloudmesh) and the standard `subprocess.Popen`?"
+    `Shell.run()` is a high-level wrapper that simplifies execution and automatically converts the output to a string, whereas `Popen` provides low-level control over stdin, stdout, and stderr for complex process interactions.
+
+??? question "Why is `process.communicate()` preferred over reading from `stdout` directly?"
+    `communicate()` reads the output and waits for the process to terminate, which prevents potential deadlocks that can occur when the OS pipe buffer fills up and blocks the child process.
+
+??? question "When should you set the `shell=True` flag in a subprocess call?"
+    You should use `shell=True` when you need the command to be executed through the system shell, allowing you to use shell features like environment variables, wildcards, and pipes (e.g., loading `.bashrc`).

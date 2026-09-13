@@ -541,6 +541,21 @@ pipeline {
 }
 ```
 
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the primary advantage of the Master-Agent architecture in Jenkins?"
+    The Master-Agent architecture prevents performance bottlenecks on the central server and ensures environment isolation. It allows the Master to orchestrate workflows while Agents execute the actual build steps on different operating systems or specialized hardware (e.g., Windows, Linux, or Kubernetes pods).
+
+??? question "Contrast Declarative and Scripted pipelines in Jenkins."
+    Declarative pipelines provide a strict, pre-defined structure (starting with `pipeline { ... }`) that is easier to read and maintain. Scripted pipelines use a Groovy-based DSL, offering much more flexibility and power but requiring more complex coding and making them harder to maintain.
+
+??? question "How does 'Pipeline as Code' (via the Jenkinsfile) improve the CI/CD process?"
+    It allows the build and deployment process to be version-controlled alongside the application code. This ensures that changes to the pipeline are audited, can be rolled back, and are consistently applied across all branches and environments.
+
+
 ### 2. Execution
 1. **Create a Job**: In Jenkins, create a new "Pipeline" job.
 2. **Define Pipeline**: Select "Pipeline script from SCM," choose Git, and point it to your repository.

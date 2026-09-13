@@ -84,6 +84,8 @@ These tools are optimized for a single provider and often support new features t
 ### Cloud-Agnostic Tools
 **Terraform** is the industry standard for multi-vendor infrastructure. While Terraform scripts are not always portable (the resource definitions for AWS differ from Azure), the *workflow* and *tooling* remain identical across all providers.
 
+# Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

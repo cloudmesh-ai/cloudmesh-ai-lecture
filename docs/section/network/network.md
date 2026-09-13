@@ -466,3 +466,20 @@ The following guide gives a quick overview how to chose the CIDR.
     **Question 1:** Explain the "concrete" application and conduct a security audit.
 
     **Question 2:** If the application is run in a university, how do the security requirements need to be changed?
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+    ??? question "What is the primary difference between the OSI model and the TCP/IP stack in the context of cloud computing?"
+        The OSI model is a theoretical 7-layer framework, while the TCP/IP stack is a practical 4-layer model (Application, Transport, Internet, Link) that is the actual standard used by the internet and cloud providers.
+
+    ??? question "What is CIDR notation and why is it used in cloud networking?"
+        CIDR (Classless Inter-Domain Routing) is a method for allocating IP addresses and routing. It uses a slash notation (e.g., `/24`) to define the network prefix and the size of the IP range, allowing for more flexible and efficient address allocation than traditional class-based networking.
+
+    ??? question "Compare Security Groups and Network Access Control Lists (NACLs)."
+        **Security Groups** act as a virtual firewall for individual instances and are stateful (if an inbound request is allowed, the outbound response is automatically allowed). **NACLs** act as a firewall for the entire subnet and are stateless (both inbound and outbound rules must be explicitly defined).
+
+    ??? question "What is the difference between a Public Subnet and a Private Subnet?"
+        A **Public Subnet** has a direct route to an Internet Gateway (IGW), allowing resources within it to be accessible from the public internet. A **Private Subnet** does not have a direct route to the IGW; resources within it typically use a NAT Gateway to initiate outbound connections while remaining hidden from inbound public traffic.

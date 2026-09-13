@@ -47,6 +47,8 @@ Once the artifact is deployed to production, the focus shifts to operational exc
 !!! info "Why this matters"
     The "Improvement" phase completes the feedback loop. Data gathered during monitoring flows back into the "Planning" phase of the next development cycle, allowing teams to prioritize the most impactful optimizations based on real-world production data.
 
+# Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

@@ -386,3 +386,18 @@ Dynamic versioning, whether file‑based (Hatch) or attribute‑based (Setuptool
 - [PEP 621 – Storing project metadata in pyproject.toml](https://peps.python.org/pep-0621/)
 - [TOML Specification](https://toml.io/en/v1.0.0)
 - [Setuptools Migration Guide](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What was the 'chicken-and-egg' problem associated with `setup.py`?"
+    `setup.py` is an executable script. To find out what dependencies were needed to install a package, you had to run the script, but you might have needed those dependencies already installed to run the script.
+
+??? question "How does `pyproject.toml` solve the build-system dependency issue?"
+    It provides a static, declarative `[build-system]` table that tells the installer (like `pip`) exactly which packages are required to build the project, allowing the installer to create an isolated environment and install them before executing the build backend.
+
+??? question "What is the difference between a static version and a dynamic version in `pyproject.toml`?"
+    A static version is explicitly written as a string in the `[project]` table. A dynamic version is fetched at build time from an external source, such as a `VERSION` text file or a variable in the source code.
+

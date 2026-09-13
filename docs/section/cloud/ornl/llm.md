@@ -420,4 +420,20 @@ That command spawns an interactive allocation on a single node, loads the contai
 - Submit with `sbatch`.  
 - Collect results from your burst‑buffer directory.
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "Why is the ROCm software stack used on Frontier instead of CUDA?"
+        Frontier uses AMD MI-250X GPUs. CUDA is a proprietary stack for NVIDIA GPUs, while ROCm (Radeon Open Compute) is the open-source software stack developed by AMD to enable GPU acceleration on their hardware.
+
+    ??? question "What is the purpose of using Singularity containers for LLM workloads on Frontier?"
+        Singularity containers provide a portable, immutable environment that includes all necessary dependencies (like ROCm, PyTorch, and HuggingFace) without requiring root privileges on the compute nodes. This ensures reproducibility and avoids conflicts with the system-wide software stack.
+
+    ??? question "Why is it important to use `lfs setstripe` for large model checkpoints on Lustre?"
+        Large model checkpoints (often >100 GB) can cause I/O bottlenecks if they are stored on a single Lustre object storage target. Striping the file across multiple targets (`lfs setstripe`) allows parallel I/O, significantly increasing the read/write speed for large models.
+
 Happy LLM experimentation on one of the world’s fastest machines! If you encounter a specific error (e.g., “HIP runtime error: device not found” or “module not found”), provide the exact message and I can help you troubleshoot.

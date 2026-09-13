@@ -54,6 +54,8 @@ Implementing CircleCI generally follows these steps:
 3.  **Trigger the Build**: Push the config file to your main branch. CircleCI will automatically detect the change and start the pipeline.
 4.  **Iterate**: Use the CircleCI dashboard to view logs, identify failures, and optimize your build times using caching.
 
+# Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

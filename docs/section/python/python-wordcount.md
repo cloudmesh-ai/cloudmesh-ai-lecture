@@ -270,3 +270,17 @@ E.python.wordcount.1:
 
 - [Map, Filter and Reduce](http://book.pythontips.com/en/latest/map_filter.html)
 - [multiprocessing API](https://docs.python.org/2/library/multiprocessing.html)
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Why is a document collection of random numbers used for benchmarking instead of actual language text?"
+    It allows for controlled testing of scale and avoids bias from natural language patterns, ensuring that the performance metrics reflect the algorithm's efficiency rather than the nature of the input data.
+
+??? question "How does `multiprocessing.Pool.map()` differ from a standard `map()` in terms of execution?"
+    `Pool.map` distributes the workload across multiple CPU cores in parallel by spawning separate worker processes, whereas the standard `map` executes the function sequentially in a single process.
+
+??? question "What is the difference between \"real time\" and \"user time\" when using the Linux `time` command?"
+    Real time is the actual wall-clock time elapsed from the start to the finish of the command. User time is the total CPU time spent executing the process in user-mode, which can be higher than real time in parallel execution.

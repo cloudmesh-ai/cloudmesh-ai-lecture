@@ -398,3 +398,22 @@ Goal is to conduct the follwoing assignments:
 | **Full micro‑service stack, auto‑scale** | **Magnum + Kubernetes** |
 | **Just want Docker on a VM** | **Plain VM + cloud‑init** |
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What are the three main ways to run containers on Chameleon Cloud?"
+        The three ways are:
+        1. **Docker-on-VM**: Provisioning a standard VM and installing Docker manually or via `cloud-init`.
+        2. **Magnum-managed Kubernetes**: Deploying a full K8s cluster managed by OpenStack Magnum.
+        3. **Zun**: Launching standalone containers as a service via OpenStack Zun.
+
+    ??? question "How can `cloud-init` be used to automate the installation of a container runtime on a Chameleon VM?"
+        A `cloud-init` YAML file can be passed as `--user-data` during server creation. It can specify the installation of the `docker.io` package and include `runcmd` instructions to enable the Docker service and launch a specific container (e.g., Nginx) automatically upon boot.
+
+    ??? question "When would you choose Zun over Magnum for deploying containers?"
+        Zun is preferable for one-off containers, simple workflows, or short-lived batch jobs where the overhead of deploying and managing a full Kubernetes cluster (via Magnum) is unnecessary.
+

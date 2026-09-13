@@ -266,4 +266,25 @@ The new architecture image from openstack
 | OpenStack Training (edX, Coursera) | https://www.openstack.org/learn |
 | Community Wiki & Answers | https://ask.openstack.org |
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What is OpenStack and what is its primary goal?"
+        OpenStack is an open-source cloud-computing platform that provides an Infrastructure-as-a-Service (IaaS) solution. Its primary goal is to deliver capabilities similar to commercial public clouds (like AWS or GCP) while giving operators full control over the underlying hardware, software stack, and governance.
+
+    ??? question "Explain the role of Nova, Neutron, and Cinder in OpenStack."
+        - **Nova (Compute)**: The primary engine that manages and provisions virtual machines (instances).
+        - **Neutron (Networking)**: Provides "Networking-as-a-Service," managing virtual networks, subnets, and routers.
+        - **Cinder (Block Storage)**: Provides persistent block-level storage volumes for use with Nova instances.
+
+    ??? question "What is Ironic and how does it extend OpenStack's capabilities?"
+        Ironic is a bare-metal provisioning service. It allows OpenStack to manage physical servers as first-class resources, enabling users to provision "bare-metal instances" without the overhead of a hypervisor, which is essential for high-performance computing (HPC) and NFV workloads.
+
+    ??? question "What is Magnum and how does it integrate container orchestration into OpenStack?"
+        Magnum is an OpenStack service that provides Container Orchestration-as-a-Service (COaaS). It abstracts the creation and management of container clusters (such as Kubernetes) as OpenStack resources, leveraging Nova, Neutron, and Cinder to deploy the cluster's control plane and worker nodes.
+
 Feel free to ask questions about any specific component, deployment scenario, or operational challenge.

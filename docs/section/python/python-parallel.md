@@ -444,3 +444,17 @@ Greeter2: Greeting Tom! Counter is 6
 Greeter1: Greeting Sam! Counter is 9
 Greeter1: Greeting Larry! Counter is 12
 ```
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Why is multi-threading suitable for I/O-bound tasks but not for CPU-bound tasks in Python?"
+    Due to the Global Interpreter Lock (GIL), only one thread can execute Python bytecode at a time. I/O tasks frequently yield control while waiting, allowing other threads to run. CPU tasks, however, would just compete for the GIL, resulting in no real parallelism.
+
+??? question "What is a \"race condition\" and how does a `Lock` prevent it?"
+    A race condition occurs when multiple threads or processes attempt to modify shared data simultaneously, leading to unpredictable and incorrect results. A `Lock` ensures that only one thread/process can access the critical section of code at a time.
+
+??? question "How do `multiprocessing.Value` and `multiprocessing.Array` enable communication between independent processes?"
+    They allocate memory in a shared segment that is accessible to all child processes, providing a way to share state (using `ctypes` types) without the overhead of passing messages through pipes or queues.

@@ -124,6 +124,8 @@ jobs:
 
 ## 🎓 Learning Wrap-up
 
+# Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

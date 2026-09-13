@@ -213,6 +213,21 @@ When automating SSH, security must be the priority to prevent unauthorized acces
     - Applied host key verification policies.
     - Followed the principle of least privilege for remote user accounts.
 
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Contrast the use of `subprocess` and `paramiko` for remote execution."
+    `subprocess` invokes the system's own SSH binary and leverages local `~/.ssh/config` settings, making it simple but offering less control. `paramiko` is a native Python implementation of SSH, providing fine-grained control over channels, authentication, and SFTP.
+
+??? question "What is the benefit of using an SSH agent in cloud automation?"
+    An SSH agent manages private keys in memory, allowing the client to authenticate to multiple remote servers without needing to store the private keys on the disk of the machine running the script.
+
+??? question "How does `RemoteExecutor` simplify remote management within the Cloudmesh AI ecosystem?"
+    It provides a unified, high-level API that combines connection management and command execution, integrating with global configurations for host key trust and output monitoring.
+
 !!! note "Exercise 1: Basic Connectivity"
     Write a Python script that connects to a remote server and prints the current system kernel version using the `uname -a` command. Handle the connection using a try-except block to catch authentication errors.
 

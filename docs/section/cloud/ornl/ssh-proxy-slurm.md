@@ -306,3 +306,19 @@ Press `Ctrl‑C` (or `kill %1`) to stop the tunnel and the job will end automati
 * exposing the worker‑node hostname via a shared heartbeat file, and  
 * creating a secure SSH tunnel from your laptop that lets you interact with the model as if it were running locally.  
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "How does the 'heartbeat file' mechanism allow a user to discover the hostname of a worker node allocated by a batch job?"
+        Since the specific worker node is assigned dynamically by SLURM at runtime, the batch script writes the assigned node's hostname to a file on a shared file system (Lustre). The user can then read this file from the login node to determine which node to target for the SSH tunnel.
+
+    ??? question "What is the purpose of the `-J` flag in the SSH command `ssh -J frontier-login.olcf.ornl.gov ...`?"
+        The `-J` (Jump) flag tells SSH to use the specified host as a jump server. It establishes a secure connection to the jump host first and then tunnels the connection to the final destination worker node, simplifying the multi-hop process.
+
+    ??? question "Why should you avoid using `wget` or `curl` to download data directly from a compute node on Frontier?"
+        Compute nodes on Frontier have restricted network access and are generally blocked from accessing the public internet for security and performance reasons. Data should be downloaded on a login node or staging area and then moved to the Lustre file system.
+

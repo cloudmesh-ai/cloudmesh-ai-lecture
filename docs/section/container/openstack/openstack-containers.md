@@ -460,4 +460,22 @@ Feel free to print this on a small card and hand it out.
 
 4. Allocate time for the **mini‑labs** – they reinforce concepts and give participants a sense of accomplishment.  
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "Distinguish between the OpenStack Control Plane and the Data Plane."
+        - **Control Plane**: Consists of the APIs and management services (e.g., Keystone for identity, Nova-API for requests) that decide *what* resources should be created and how they should be configured.
+        - **Data Plane**: Consists of the actual physical and virtual resources (e.g., KVM hypervisors, OVS switches, Cinder volumes) where the actual workloads run and data is processed.
+
+    ??? question "What is the main difference between OpenStack Zun and OpenStack Magnum?"
+        - **Zun (Container-as-a-Service)**: Focuses on providing a "serverless" container experience. It allows users to launch individual containers directly via the OpenStack API without needing to manage a cluster.
+        - **Magnum (Container-Orchestration-as-a-Service)**: Focuses on deploying and managing full container orchestration clusters (like Kubernetes), providing the infrastructure for those clusters to run.
+
+    ??? question "How does Kuryr optimize container networking in an OpenStack environment?"
+        Kuryr bridges the gap between container networking (CNI) and OpenStack networking (Neutron). Instead of using an additional overlay network (like Flannel or Calico) on top of the VM network, Kuryr allows containers to be connected directly to Neutron ports, reducing network overhead and improving performance.
+
 5. Conclude with **Q&A** and hand out the cheat sheet and resource list.

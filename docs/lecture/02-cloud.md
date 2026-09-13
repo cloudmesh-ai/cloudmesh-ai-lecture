@@ -833,3 +833,32 @@ If you would like to **export this slide deck into a printable format**, customi
 - **Strategic Capacity Commitments**: Lowering compute billing by utilizing up to 72% discounts on Reserved Instances/Savings Plans, and leveraging spot marketplace pools.
 - **Hyper-Scale AI Pipeline Infrastructure**: Architecting massive high-throughput GPU clusters, unified data lakes, and vector storage networks for running foundational LLM pipelines.
 - **Quantum Cloud Network Integration**: Peeking into the future of computing by executing hybrid classical-quantum algorithms over abstract public cloud API tunnels.
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What are the 5 NIST characteristics of cloud computing?"
+        The five NIST characteristics are:
+        1. **On-Demand Self-Service**: Users can provision computing capabilities automatically without requiring human interaction with the service provider.
+        2. **Broad Network Access**: Capabilities are available over the network and accessed through standard mechanisms (e.g., mobile phones, tablets, laptops).
+        3. **Resource Pooling**: The provider's computing resources are pooled to serve multiple consumers using a multi-tenant model.
+        4. **Rapid Elasticity**: Capabilities can be elastically provisioned and released to scale rapidly outward and inward commensurate with demand.
+        5. **Measured Service**: Cloud systems automatically control and optimize resource use by leveraging a metering capability.
+
+    ??? question "Explain the differences between IaaS, PaaS, and SaaS."
+        - **Infrastructure as a Service (IaaS)**: Provides raw compute, storage, and networking. The user manages the OS, middleware, and applications (e.g., AWS EC2, Azure VMs).
+        - **Platform as a Service (PaaS)**: Provides a platform allowing customers to develop, run, and manage applications without the complexity of building and maintaining the underlying infrastructure (e.g., Heroku, Google App Engine).
+        - **Software as a Service (SaaS)**: Provides a complete software application managed by the provider, accessed typically via a web browser (e.g., Gmail, Salesforce).
+
+    ??? question "What is the Shared Responsibility Model?"
+        The Shared Responsibility Model defines the security obligations of the cloud provider and the customer. Generally, the provider is responsible for the security **of** the cloud (physical infrastructure, hardware, virtualization layer), while the customer is responsible for security **in** the cloud (guest OS, application code, data, identity and access management).
+
+    ??? question "Contrast Public, Private, Hybrid, and Multi-Cloud deployment models."
+        - **Public Cloud**: Services are owned and operated by a third-party cloud provider and delivered over the public internet.
+        - **Private Cloud**: Cloud computing resources used exclusively by one business or organization. It can be physically located on-site or hosted by a third-party.
+        - **Hybrid Cloud**: A combination of public and private clouds, allowing data and applications to be shared between them.
+        - **Multi-Cloud**: The use of multiple cloud computing services from more than one cloud provider to avoid vendor lock-in or leverage specific strengths of different providers.
+

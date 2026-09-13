@@ -33,3 +33,18 @@ Cloud resources, even within "free tiers," can incur costs if misconfigured or i
     1. Install Docker on your local machine.
     2. Run a simple "Hello World" container to ensure it is working.
     3. Verify that you have administrative rights to manage these resources.
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+    ??? question "Why is it strongly recommended to test scripts and containers locally before deploying to the cloud?"
+        Testing locally ensures that code is working correctly and prevents unexpected costs that can occur due to misconfigurations or exceeding free tier limits in the cloud.
+
+    ??? question "What are some tools that can be used for local virtualization and containerization?"
+        For virtualization, tools like Multipass, VirtualBox, or VMware can be used. For containerization, Docker is the primary tool.
+
+    ??? question "What are the general goals of setting up local-first development practices?"
+        The goals are to test code safely, avoid unexpected cloud costs, and ensure stability before moving to production or cloud environments.
+

@@ -143,3 +143,21 @@ As you rely more on AI, you must develop a critical eye for **hallucinations**â€
     2. Task Cline with: *"Write a comprehensive set of unit tests using `pytest` for `utils.py`, and run them to ensure they all pass."*
     3. Review the proposed changes and approve the execution of the tests.
     **Deliverable:** A screenshot of the terminal showing the `pytest` results (all green) and the newly created test file.
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+    ??? question "How do you open a live preview of a Markdown file in VS Code?"
+        You can click the **Open Preview to the Side** icon in the top-right corner or use the shortcut `Ctrl+Shift+V` (Windows/Linux) or `Cmd+Shift+V` (macOS).
+
+    ??? question "What is the difference between the AI assistants 'Continue' and 'Cline'?"
+        **Continue** is primarily designed for inline assistance, tab-autocomplete, and side-panel chat. **Cline** acts as an autonomous agent that can perform actions, run code, and execute tasks within the workspace.
+
+    ??? question "How can you connect VS Code to a local LLM using Ollama?"
+        Install Ollama, pull a model (e.g., `ollama run llama3.1:8b`), and add the model configuration (provider: ollama) to the Continue `config.yaml` file.
+
+    ??? question "What is an AI 'hallucination' and how can you mitigate it when coding?"
+        A hallucination is when an AI confidently generates false information, such as fake libraries or incorrect API parameters. Mitigation strategies include verifying AI-generated code with official documentation and using agentic tools like Cline that can run the code to verify it.
+

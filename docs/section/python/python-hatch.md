@@ -285,3 +285,17 @@ Hatch is a **compact, opinionated yet extensible** tool that brings together eve
 * **Plugin ecosystem** – optional features (lock files, fancy READMEs, etc.) can be added as needed.
 
 If you are looking for a single, Python‑native solution that reduces the number of configuration files and streamlines the development‑to‑publish pipeline, Hatch is a strong candidate.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the primary advantage of using `pyproject.toml` as the single source of truth in Hatch?"
+    It centralizes build system requirements, project metadata, and tool configurations in one declarative file, eliminating the need for fragmented files like `setup.py`, `requirements.txt`, or `MANIFEST.in`.
+
+??? question "How does Hatch manage different development environments (e.g., `test` vs `docs`)?"
+    Hatch allows the definition of named environments in `pyproject.toml` with their own specific dependencies. These can be created and run independently using `hatch env create <name>` and `hatch run <name>:<command>`.
+
+??? question "What is the benefit of marking the project version as `dynamic` in Hatch?"
+    It allows the version to be managed in a dedicated source (like a `VERSION` file or VCS tags), ensuring a single source of truth and enabling automatic version bumping during the release process.

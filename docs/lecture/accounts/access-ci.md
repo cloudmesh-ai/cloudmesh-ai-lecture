@@ -73,3 +73,18 @@ To use Jetstream2, the PI must first obtain an allocation through the ACCESS por
 
     - The assignment is considered complete when the professor confirms that you have been added to the course project.
     - Verify that you can log in to [Jetstream2](https://jetstream2.cloud.iu.edu/) using your ACCESS credentials.
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+    ??? question "What is ACCESS CI and why is it used?"
+        ACCESS (Advanced Cyberinfrastructure Coordination Ecosystem: Services) is a gateway for researchers and educators to obtain allocations for high-performance computing and cloud resources, such as Jetstream2.
+
+    ??? question "Do students need to apply for their own allocations on ACCESS?"
+        No, students do not apply for their own allocations. They create an ACCESS account and notify their PI (Professor/Lead Researcher), who then adds them to the existing project allocation.
+
+    ??? question "What is the first step a student must take to get access to Jetstream2?"
+        The student must first create an account on the ACCESS Portal and provide their username or registration email to their PI.
+

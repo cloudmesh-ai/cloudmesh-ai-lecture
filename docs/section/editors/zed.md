@@ -113,3 +113,21 @@ You can choose your preferred AI backend in the **Agent Settings**:
     4. **Extend**: Install one new language extension or theme from the Extensions view.
     5. **AI**: Use the **Inline Assistant** to add a docstring or comment to a function in your code.
     **Deliverable:** A screenshot of your modified settings file and the result of the AI-generated comment.
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+    ??? question "What is the 'Command Palette' in Zed and how do you access it?"
+        The Command Palette is a central hub for executing actions without using menus. It is accessed via `Cmd + Shift + P` on macOS and `Ctrl + Shift + P` on Linux/Windows.
+
+    ??? question "How does Zed handle system requirements regarding GPUs?"
+        Zed is designed for high performance and utilizes GPU acceleration for rendering. However, it provides a CPU fallback for machines without a dedicated GPU, though this may result in higher CPU usage.
+
+    ??? question "How do you configure user settings like theme or font size in Zed?"
+        Settings are managed via a JSON-based configuration file, which can be opened using the shortcut `Cmd/Ctrl + ,`.
+
+    ??? question "What is the 'Agent Panel' in Zed and how does it differ from the Inline Assistant?"
+        The **Inline Assistant** is used for quick, localized edits to a block of code. The **Agent Panel** provides project-wide context, allowing the AI to read, search, and edit multiple files across the entire project.
+

@@ -175,3 +175,18 @@ The following resources are recommended for further study of Python libraries an
 - [Virtualenvwrapper](https://virtualenvwrapper.readthedocs.io) - Extensions for managing multiple virtual environments.
 - [Awesome Python](https://github.com/vinta/awesome-python) - A curated list of the best Python frameworks and libraries.
 - [Learn Python the Hard Way](http://learnpythonthehardway.org/book/) - A practical approach to learning Python.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the risk of installing Python libraries globally on an operating system?"
+    Global installation can lead to \"dependency hell,\" where two different projects require conflicting versions of the same library, or worse, it can break OS-level tools that rely on a specific version of the system Python.
+
+??? question "How does a `requirements.txt` file facilitate the recreation of a virtual environment?"
+    A `requirements.txt` file lists all the packages and their versions used in a project. Another developer can recreate the exact same environment by running `pip install -r requirements.txt` within a fresh virtual environment.
+
+??? question "When would you choose `Kivy` over `guizero` for building a Python GUI?"
+    You would choose `Kivy` for professional, touch-enabled, or cross-platform applications (Android/iOS), whereas `guizero` is better for simple, lightweight desktop tools and educational purposes.
+

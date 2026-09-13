@@ -350,3 +350,20 @@ graph LR
 
 !!! assignment "E.SSH.8: Can i share my ?ublic key?"
     Am I allowed to share my public key?
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "Explain the basic process of SSH authentication using public-key cryptography."
+        SSH uses a public-private key pair. The user generates a pair, uploads the **public key** to the server's `authorized_keys` file, and keeps the **private key** secret. During connection, the server sends a challenge that only the holder of the corresponding private key can solve, proving the user's identity without sending a password over the network.
+
+    ??? question "Why is it a critical security risk to share or copy your private SSH key to another machine?"
+        The private key is the sole proof of identity. Anyone who possesses the private key can impersonate the owner and gain unauthorized access to any server that trusts the corresponding public key. Copying it increases the attack surface and the risk of theft.
+
+    ??? question "What is the difference between Local Port Forwarding (`-L`) and Remote Port Forwarding (`-R`)?"
+        - **Local Port Forwarding (`-L`)**: Forwards a port from the local machine to a port on the remote server (or a machine reachable by that server). Used to access a remote service as if it were running locally.
+        - **Remote Port Forwarding (`-R`)**: Forwards a port from the remote server back to a port on the local machine. Used to expose a local service to users on the remote network.
+

@@ -33,6 +33,8 @@ In the `cloudmesh-ai-lecture` project, the `.travis.yml` file is used to automat
 - **PATH Management**: The `env` section is used to ensure that custom executables are correctly located by the system.
 - **Simplified Execution**: Because the project uses sophisticated `Makefiles`, the `script` section is kept simple, merely calling the appropriate `make` commands in the relevant directories.
 
+# Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

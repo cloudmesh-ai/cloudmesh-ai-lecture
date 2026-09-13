@@ -173,6 +173,21 @@ Overusing `# type: ignore` silences the type checker and defeats the purpose of 
 
 ---  
 
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "How do type hints improve the reliability of distributed cloud systems?"
+    Type hints create explicit contracts for data shapes and API boundaries. This allows static analysis tools to detect mismatched data types or missing fields before the code is deployed, reducing the risk of cascading failures across microservices.
+
+??? question "What is the difference between `TypedDict` and a `pydantic.BaseModel`?"
+    `TypedDict` provides static type checking for dictionary-like objects at compile-time but does not perform runtime validation. `pydantic.BaseModel` enforces type constraints at runtime, throwing errors if the input data does not match the defined schema.
+
+??? question "Why is it important to avoid the `Any` type in public function signatures?"
+    Using `Any` effectively disables type checking for that variable, allowing any type to be passed or returned. This propagates unchecked data throughout the codebase, defeating the purpose of static analysis and increasing the likelihood of runtime `TypeError` exceptions.
+
+
 ## 8. Summary  
 
 Type hinting paired with static analysis transforms Python from a purely dynamic language into a **gradually typed** ecosystem that is well‑suited for large, distributed cloud applications. By explicitly modeling data contracts, enforcing them at build time, and optionally validating them at runtime, teams gain:

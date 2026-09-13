@@ -215,6 +215,21 @@ From this point forward, you can replace `pip install -r requirements.txt` with 
 
 ## Further Reading
 
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What does it mean for `uv` to provide 'deterministic' dependency management?"
+    It means that `uv` uses a lock-file (`uv.lock`) to record the exact versions of all dependencies and their transitive dependencies. This ensures that every developer and production environment installs the identical set of packages, eliminating \"works on my machine\" bugs.
+
+??? question "How does the `uv run` command improve the developer experience compared to traditional `venv` usage?"
+    `uv run` executes a script or command within the project's virtual environment automatically, removing the need for the developer to manually run `source .venv/bin/activate` before every command.
+
+??? question "Why is `uv` significantly faster than `pip` in CI/CD pipelines?"
+    `uv` is written in Rust and uses an optimized resolution engine and a global cache, which reduces the time spent resolving dependencies and downloading packages from minutes to seconds.
+
+
 - [Official uv Documentation](https://docs.astral.sh/uv/)
 - [Astral Blog - Introducing uv](https://astral.sh/blog/uv)
 - [PEP 518 – Specifying Minimum Build System Requirements](https://peps.python.org/pep-0518/)

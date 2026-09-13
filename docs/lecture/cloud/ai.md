@@ -734,3 +734,20 @@ Facilitate a brief discussion, noting any common themes (e.g., many want to star
 Thank the audience for their time, reiterate your willingness to help them start AI projects in the cloud, and encourage them to reach out with any follow‑up questions.
 
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What is the difference between a managed ML platform (like SageMaker) and a pre-built AI API?"
+        - **Managed ML Platforms**: Provide an end-to-end lifecycle for building custom models, including data preparation, training, tuning, and deployment (e.g., AWS SageMaker, Google Vertex AI).
+        - **Pre-built AI APIs**: Provide ready-to-use AI capabilities (like image recognition or sentiment analysis) via a simple API call, requiring no model training by the user (e.g., Azure Cognitive Services, Google Vision API).
+
+    ??? question "What is the purpose of MLOps?"
+        MLOps (Machine Learning Operations) aims to bring DevOps principles to the ML lifecycle. It focuses on automating the deployment, monitoring, and management of ML models in production to ensure reliability, reproducibility, and continuous improvement.
+
+    ??? question "What is CAGR and how is it used in the context of AI market growth?"
+        CAGR stands for Compound Annual Growth Rate. It represents the mean annual growth rate of an investment or market over a specified period of time longer than one year. In AI, it is used to describe the projected growth of the AI-infused SaaS market or the spending on AI systems over several years.
+

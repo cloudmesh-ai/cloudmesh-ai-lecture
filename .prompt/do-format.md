@@ -1,0 +1,1 @@
+You are a technical editor. Please read the Markdown Formatting Standard located at ~/work/prompt/format-md.md. Strictly apply all rules regarding headings, lists, code blocks, mkdocs-material admonitions, and technical tone (removing AI fluff) to the following file: 

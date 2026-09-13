@@ -161,3 +161,21 @@ python3 -c "import sys; [print(line.replace('\r\n', '\n'), end='') for line in s
 
     **Task**: Write a Python one-liner that finds all `.txt` files in a directory and replaces every occurrence of the word "TODO" with "COMPLETED".
     **Goal**: Implement a multi-file update logic using Python's `glob` and `os` modules.
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "Which tool is most suitable for the following tasks: (a) simple character translation, (b) line-based search-and-replace, and (c) column-based data extraction?"
+        - (a) Simple character translation: `tr`
+        - (b) Line-based search-and-replace: `sed`
+        - (c) Column-based data extraction: `awk`
+
+    ??? question "What does the `-i` flag do in a `sed` command?"
+        The `-i` flag stands for "in-place". It tells `sed` to modify the original file directly rather than printing the transformed text to the standard output.
+
+    ??? question "Why would an engineer choose a Perl or Python one-liner over `sed` or `awk`?"
+        Perl and Python provide more powerful regular expression features (like non-greedy matching), better structured logic (conditionals, loops), and access to full system libraries, making them suitable for complex transformations that are too cumbersome to implement in a stream editor.
+

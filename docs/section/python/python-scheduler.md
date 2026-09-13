@@ -117,6 +117,21 @@ scheduler.run()
     - Managed "thundering herd" issues by staggering initial event delays.
     - Executed the event queue using `scheduler.run()`.
 
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "How does the `sched` module avoid blocking the entire thread for each event?"
+    The `sched` module maintains a priority queue of events. It only blocks the thread when `run()` is called, and it only sleeps for the duration until the *next* scheduled event is due, rather than blocking for every event's full delay.
+
+??? question "Why is it a best practice to stagger the initial delays of periodic health checks?"
+    Staggering prevents the \"thundering herd\" problem, where multiple concurrent checks fire at the exact same time, potentially overloading the management API or the target resources.
+
+??? question "What is the risk of calling `scheduler.run()` in the main thread of a production API?"
+    Since `run()` is a blocking call, it will freeze the main thread until all scheduled events are processed. In an API, this would prevent the server from responding to any new requests. The scheduler should instead be run in a background thread.
+
 !!! note "Exercise 1: Basic Timer"
     Create a script that schedules three different messages to be printed at 2, 5, and 10 seconds respectively. Ensure the messages are printed in the correct order.
 

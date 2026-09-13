@@ -124,3 +124,18 @@ In professional development, scripts should be named using meaningful, descripti
 
     **Task**: Write a Python script named `system_info.py` that prints the current date and time (using the `datetime` module). Execute the script from the terminal and verify the output.
     **Goal**: Transition from interactive experimentation to a persistent script file.
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the REPL cycle and how does it facilitate rapid prototyping?"
+    Read-Eval-Print-Loop. It allows developers to execute small snippets of code and see results immediately, enabling them to test assumptions and refine logic without the need to write and run full scripts.
+
+??? question "How can you use `dir()` and `help()` together to discover how to use a new library?"
+    Use `dir(object)` to see a list of all available methods and attributes for that object, then use `help(object.method)` to read the detailed documentation for a specific method of interest.
+
+??? question "Why is transitioning from the interactive shell to script mode necessary for professional development?"
+    Code in the REPL is not persisted. Scripts allow for version control, reusability, and the ability to execute complex, structured logic consistently across different environments.
+

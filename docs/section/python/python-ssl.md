@@ -123,6 +123,21 @@ By setting `verify_mode` to `ssl.CERT_NONE`, the client accepts any certificate 
     - [ ] Avoided `ssl.CERT_NONE` in any production-ready code.
     - [ ] Used `load_verify_locations()` when connecting to services using private CAs.
 
+
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the purpose of the `SSLContext` object in Python's `ssl` module?"
+    The `SSLContext` acts as a configuration factory. It defines the security settings, trusted CA certificates, and protocol versions that will be applied to every socket wrapped by that context.
+
+??? question "How does `server_hostname` in `wrap_socket()` prevent man-in-the-middle attacks?"
+    It enables Server Name Indication (SNI) and ensures that the hostname in the server's certificate matches the hostname the client intended to connect to, preventing an attacker from presenting a valid certificate for a different domain.
+
+??? question "When should you use `load_verify_locations()` instead of `create_default_context()`?"
+    `load_verify_locations()` is used when the server uses a private Certificate Authority (CA) or a self-signed certificate that is not present in the system's default trust store.
+
 !!! note "Exercise 1: Basic SSL Connectivity"
 
     **Task**: Write a script that connects to `aws.amazon.com` on port 443 and prints the SSL version and the cipher suite used for the connection.

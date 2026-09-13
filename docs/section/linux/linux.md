@@ -495,4 +495,26 @@ This schedules `cleanup.sh` to run once at 02:30 AM today (or tomorrow if the 
     Write a section explaining `su` and `sudo`.
 
 !!! assignment "Exercise E.Linux.8"
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What is the primary advantage of using a command-line interface (CLI) over a GUI when managing a large number of virtual machines?"
+        The CLI is significantly more efficient for managing large-scale environments because it allows for the automation of repetitive tasks through scripting and avoids the overhead of navigating multiple graphical windows for each single operation.
+
+    ??? question "Explain the key differences between the `su` and `sudo` commands."
+        - `su` (substitute user) allows you to switch completely to another user's shell (by default, root). You must provide the password of the *target* user.
+        - `sudo` (superuser do) allows you to execute a specific command with the privileges of another user (by default, root). You must provide *your own* password.
+
+    ??? question "In a crontab line, what do the five time-and-date fields represent?"
+        The five fields represent:
+        1. Minute (0-59)
+        2. Hour (0-23)
+        3. Day of Month (1-31)
+        4. Month (1-12)
+        5. Day of Week (0-7, where 0 or 7 is Sunday)
+
     Write a section explaining `cron`, `at`, and `crontab`.

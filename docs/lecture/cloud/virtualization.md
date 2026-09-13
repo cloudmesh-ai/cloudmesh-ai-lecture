@@ -510,3 +510,21 @@ We will not explain this in great detail here, as we will discuss it more extens
   </div>
 </div>
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "What is the difference between a System VM and a Process VM?"
+        - **System VM (Hardware VM)**: Provides a complete emulation of the underlying hardware, allowing a full guest operating system to run (e.g., VMware, VirtualBox).
+        - **Process VM (Application VM)**: Provides a platform-independent environment to execute a single program, abstracting the underlying hardware/OS (e.g., JVM, CPython).
+
+    ??? question "What is the difference between a Type 1 and a Type 2 Hypervisor?"
+        - **Type 1 (Bare-Metal)**: Runs directly on the host's hardware to control the hardware and manage guest operating systems (e.g., Xen, ESXi, KVM).
+        - **Type 2 (Hosted)**: Runs as a software layer on top of a conventional operating system (e.g., VirtualBox, VMware Workstation).
+
+    ??? question "How do containers differ from traditional VMs in terms of OS kernel usage?"
+        Traditional VMs each run their own full guest operating system with its own kernel. Containers, however, share the host operating system's kernel and only package the application and its dependencies, making them much more lightweight and faster to start.
+

@@ -842,3 +842,22 @@ If your eventual goal is to build a **local VM toolkit/API that can dynamically 
 [7]: https://opencomputer.dev/guides/firecracker-vs-cloud-hypervisor-vs-kata/?utm_source=chatgpt.com "Firecracker vs Cloud Hypervisor vs Kata Containers – OpenComputer"
 [8]: https://qscompute.com/blog/embedded-virtualization-hypervisor-edge-ai-2026?utm_source=chatgpt.com "Embedded Virtualization for Edge AI 2026 — ACRN vs Xen vs KVM vs Jailhouse (Mixed-Criticality on One SoC) | QSCompute"
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "Compare KVM and QEMU."
+        KVM (Kernel-based Virtual Machine) is a Linux kernel module that turns the Linux kernel into a Type 1 hypervisor. QEMU (Quick Emulator) is a userspace emulator that can emulate various hardware architectures. In practice, KVM is often used together with QEMU, where KVM handles the CPU and memory virtualization (performance) and QEMU handles the device emulation (I/O).
+
+    ??? question "What is VirtIO and why is it used in virtualized environments?"
+        VirtIO is a virtualization standard for network and disk device drivers. Instead of emulating a specific piece of hardware (which is slow), VirtIO provides a standardized, "paravirtualized" interface that allows the guest OS to communicate more efficiently with the hypervisor, significantly improving I/O performance.
+
+    ??? question "Mention three common VM storage formats."
+        Common VM storage formats include:
+        1. **qcow2** (QEMU Copy-On-Write)
+        2. **raw** (Fixed-size binary image)
+        3. **VMDK** (VMware Virtual Machine Disk)
+

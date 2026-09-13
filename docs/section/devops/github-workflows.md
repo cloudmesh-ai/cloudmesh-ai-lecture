@@ -129,6 +129,8 @@ Never hardcode API keys or passwords in your YAML files. Use **GitHub Secrets**:
 
 ## 🎓 Learning Wrap-up
 
+# Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 
@@ -137,6 +139,10 @@ Never hardcode API keys or passwords in your YAML files. Use **GitHub Secrets**:
 
 ??? question "How do I trigger a workflow using push and pull_request?"
     Workflows are triggered by events defined in the \`on:\` section. \`on: [push]\` triggers the workflow whenever code is pushed to any branch. \`on: [pull_request]\` triggers it when a PR is opened, synchronized, or reopened. You can further refine these triggers to specific branches or tags.
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
 
 ??? question "What are community actions and how are actions/checkout and actions/setup-python used?"
     Community actions are reusable units of code shared by the community to perform common tasks. \`actions/checkout@v4\` is used to clone the repository onto the runner so that the workflow can access the code. \`actions/setup-python@v5\` is used to install a specific version of Python on the runner, ensuring a consistent environment for tests.

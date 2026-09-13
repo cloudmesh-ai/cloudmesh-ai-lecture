@@ -262,3 +262,24 @@ The following table summarizes the most commonly used GitHub CLI commands for qu
 | `gh issue status` | `gh issue status` | Show status of issues assigned to you. |
 | `gh issue close` | `gh issue close 123` | Close a specific issue. |
 
+
+
+# Self-Assessment
+
+!!! tip "Self-Assessment"
+    Test your knowledge of the concepts covered in this section.
+
+    ??? question "How does the GitHub CLI (`gh`) complement the standard `git` command-line tool?"
+        While `git` handles the core version control (commits, branches, pushes, pulls), `gh` handles GitHub-specific platform features. This allows users to manage Pull Requests, Issues, and Repository settings directly from the terminal without needing to use the web browser.
+
+    ??? question "Describe the typical workflow for managing a Pull Request using the `gh` tool."
+        The typical workflow involves:
+        1. Creating the PR: `gh pr create`
+        2. Checking the PR status: `gh pr status`
+        3. Checking out the PR locally for testing: `gh pr checkout <number>`
+        4. Reviewing and approving the PR: `gh pr review --approve <number>`
+        5. Merging the PR: `gh pr merge <number>`
+
+    ??? question "Which `gh` command would you use to create a new issue in a repository?"
+        The command is `gh issue create`.
+
