@@ -164,16 +164,25 @@ if __name__ == "__main__":
 
 Once launched, the user remains inside `my-shell >` and can execute `hello` or `greet` repeatedly without exiting the program.
 
-## Summary Checklist
+## Self-Assessment
 
-!!! tip "Summary Checklist"
-    - [ ] `click` library is installed.
-    - [ ] Basic command created using the `@click.command()` decorator.
-    - [ ] Difference between arguments (mandatory) and options (optional) is implemented.
-    - [ ] Type validation (e.g., `type=int`, `click.Choice`) is used to sanitize input.
-    - [ ] A nested command structure is built using `@click.group()`.
-    - [ ] Help pages are automatically generated and verified via `--help`.
-    - [ ] An interactive shell is implemented using `click-shell`.
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "How does Click's declarative approach differ from `argparse`?"
+    Instead of manually defining a parser object, Click uses decorators (like `@click.command()`) to wrap functions and automatically handle argument parsing and help generation.
+
+??? question "What is the fundamental difference between a Click 'Argument' and an 'Option'?"
+    Arguments are typically mandatory and represent the object being operated on; Options are optional modifiers prefixed with dashes (e.g., `--count`).
+
+??? question "How do you create a CLI that supports multiple subcommands (e.g., `tool status` and `tool restart`)?"
+    Use the `@click.group()` decorator to create a base command and then attach subcommands to it using `@group_name.command()`.
+
+??? question "How can you make a Click CLI interactive if a required option is missing?"
+    Use the `prompt` parameter in the `@click.option` decorator; Click will then pause and ask the user for the value.
+
+??? question "How do you implement a persistent interactive shell for a set of Click commands?"
+    Install the `click-shell` extension and replace `@click.group()` with the `@shell` decorator.
 
 ## Practical Exercises
 

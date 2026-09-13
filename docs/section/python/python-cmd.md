@@ -148,16 +148,25 @@ class DocumentedShell(cmd.Cmd):
 
 When the user types `help status`, the `help_status` method is executed, providing the user with specific instructions.
 
-## Summary Checklist
+## Self-Assessment
 
-!!! tip "Summary Checklist"
-    - [ ] `cmd.Cmd` is subclassed to create the shell.
-    - [ ] Command logic is implemented using the `do_` prefix.
-    - [ ] `cmdloop()` is called to initiate the interactive session.
-    - [ ] `do_EOF` is defined to allow the user to exit via Ctrl-D.
-    - [ ] `prompt` and `intro` are customized for the target audience.
-    - [ ] Input `line` is correctly parsed using `split()` or a parsing library.
-    - [ ] `help_` methods are implemented for all public-facing commands.
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "How does the `cmd` module identify which methods should be treated as shell commands?"
+    It uses a naming convention: any method starting with the prefix `do_` (e.g., `do_greet`) is automatically mapped to a command (`greet`).
+
+??? question "How do you signal the `cmdloop()` to terminate and exit the interactive shell?"
+    A command method (such as `do_EOF` or `do_exit`) must return `True`.
+
+??? question "What is the difference between a 'documented' and an 'undocumented' command in the `cmd` module?"
+    An undocumented command is just a `do_` method; a documented command has a corresponding `help_` method that provides detailed usage instructions.
+
+??? question "How can you customize the initial experience of a user entering your `cmd` shell?"
+    Override the `prompt` attribute for the input line and the `intro` attribute for the welcome message.
+
+??? question "How do you handle arguments passed to a command in a `cmd.Cmd` subclass?"
+    The command method receives a `line` string containing everything typed after the command; this string can be parsed using `line.split()` or libraries like `shlex`.
 
 ## Practical Exercises
 

@@ -121,16 +121,25 @@ if __name__ == "__main__":
 
 Default values can be specified directly in the Options section of the docstring using the `[default: value]` syntax. Docopt will automatically populate the dictionary with these values if the user does not provide the option.
 
-## Summary Checklist
+## Self-Assessment
 
-!!! tip "Summary Checklist"
-    - [ ] `docopt` library is installed via pip.
-    - [ ] The module docstring contains a valid POSIX-style usage pattern.
-    - [ ] Mandatory positional arguments are defined in uppercase (e.g., `<name>`).
-    - [ ] Optional flags and parameters are correctly defined with dashes.
-    - [ ] The `docopt(__doc__)` function is used to generate the arguments dictionary.
-    - [ ] The program logic uses the dictionary keys to determine the execution path.
-    - [ ] Default values are defined in the Options section of the docstring.
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is 'documentation-driven development' in the context of Docopt?"
+    It is the practice of writing the help message (usage string) first and having the library automatically generate the argument parser from that documentation.
+
+??? question "How do you define a mandatory positional argument versus an optional flag in a Docopt usage string?"
+    Mandatory arguments are written in uppercase or angle brackets (e.g., `<name>`); optional flags are defined with dashes (e.g., `--verbose`).
+
+??? question "How can you support multiple operational modes (e.g., `start` and `stop`) in a single Docopt application?"
+    Define multiple usage patterns on separate lines within the usage section of the docstring.
+
+??? question "How are default values for options handled in Docopt?"
+    They are specified directly in the Options section of the docstring using the `[default: value]` syntax.
+
+??? question "What is the primary benefit of using Docopt over a traditional parser like `argparse`?"
+    It eliminates 'documentation drift' because the help text is the actual specification used to generate the parser.
 
 ## Practical Exercises
 
