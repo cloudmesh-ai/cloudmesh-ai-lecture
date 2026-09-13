@@ -21,7 +21,9 @@ Networking is the "glue" of cloud computing. Whether you are deploying a simple 
 To understand networking, we use conceptual models. The **OSI (Open Systems Interconnection)** model is the gold standard for education, breaking down the complex process of sending data into seven distinct layers. 
 
 #### How Data Moves: Encapsulation
+
 When you send a request (e.g., typing `https://google.com` in a browser), your data undergoes **encapsulation**. It starts at the top layer (Application) and moves down. Each layer adds its own "header" (metadata) to the data, like putting a letter inside multiple envelopes.
+
 - The **Transport layer** adds a TCP header (port numbers).
 - The **Network layer** adds an IP header (source and destination IP).
 - The **Data Link layer** adds a MAC address.
@@ -47,9 +49,11 @@ Once the data reaches the destination, it undergoes **de-encapsulation**, stripp
 While the 7-layer OSI model is an academic standard, the cloud industry and the actual internet operate on a more practical, streamlined model: the **TCP/IP Model**.
 
 ### Why the Simplification?
+
 The OSI model was developed as a theoretical framework. However, the TCP/IP model was developed to make the internet *work*. 
 
 In a software-defined cloud environment:
+
 - The distinctions between the Session, Presentation, and Application layers are blurred because they are almost always handled by the same piece of software (the application code or a library).
 - The physical cable and the data link (the way bits are framed) are handled by the cloud provider's underlying infrastructure, making them functionally a single "Link" layer from the user's perspective.
 
@@ -57,24 +61,28 @@ In a software-defined cloud environment:
 
 #### Layer 4: The Application Layer
 This layer is the top of the stack. It combines the functions of the OSI's Application, Presentation, and Session layers. 
+
 - **Function**: Defines the protocols that applications use to exchange data.
 - **Cloud Context**: This is where your APIs live. When you configure a **Layer 7 Load Balancer (ALB)**, you are operating at this layer. The load balancer can "see" the HTTP headers, the URL path, and the cookies to make routing decisions.
 - **Common Protocols**: HTTP, HTTPS, DNS, SMTP, FTP, SSH.
 
 #### Layer 3: The Transport Layer
 This layer is responsible for end-to-end communication and reliability.
+
 - **Function**: Handles segmentation, flow control, and error checking.
 - **Cloud Context**: This is where you configure **Security Group rules** for specific ports (e.g., Port 80 for HTTP, Port 22 for SSH). A **Layer 4 Load Balancer (NLB)** operates here; it only looks at the IP and Port and forwards the packets as fast as possible without looking at the content.
 - **Common Protocols**: TCP (Reliable, connection-oriented), UDP (Fast, connectionless).
 
 #### Layer 2: The Internet Layer
 This layer is responsible for routing packets across different networks.
+
 - **Function**: Determines the best path for data to travel from the source IP to the destination IP.
 - **Cloud Context**: This is the realm of the **VPC**, **Subnets**, and **Route Tables**. When you define a CIDR block or a route to an Internet Gateway (IGW), you are operating at the Internet Layer.
 - **Common Protocols**: IP (IPv4, IPv6), ICMP (used for `ping` and `traceroute`), ARP.
 
 #### Layer 1: The Link Layer (Network Access)
 This layer combines the OSI's Physical and Data Link layers.
+
 - **Function**: Handles MAC addressing and the framing of data for physical transmission.
 - **Cloud Context**: In the cloud, this layer is mostly abstracted away. You don't manage the physical switches or the fiber cables. However, it is still present in the form of **Virtual NICs (vNICs)** and the underlying SDN (Software-Defined Network) that maps your virtual IP to a physical host in the provider's data center.
 - **Common Technologies**: Ethernet, Wi-Fi (802.11), Fiber Optics.
@@ -93,6 +101,7 @@ This layer combines the OSI's Physical and Data Link layers.
 Choosing between different types of load balancers is a critical cloud architecture decision.
 
 #### Layer 4 (L4) Load Balancing (Network Load Balancer)
+
 - **Operating Layer**: Transport Layer.
 - **What it sees**: Source IP, Destination IP, and Port.
 - **Behavior**: It simply forwards packets. It does not "open" the packet to see what's inside.
@@ -100,6 +109,7 @@ Choosing between different types of load balancers is a critical cloud architect
 - **Cons**: Cannot route based on URL paths.
 
 #### Layer 7 (L7) Load Balancing (Application Load Balancer)
+
 - **Operating Layer**: Application Layer.
 - **What it sees**: Everything in the packet, including HTTP headers, Cookies, and URL paths.
 - **Behavior**: It terminates the connection, reads the request, and then opens a new connection to the backend server.
@@ -114,6 +124,7 @@ In a traditional data center, networking involves physical switches, cables, and
 
 ### The Virtual Private Cloud (VPC)
 A **VPC** is your own isolated section of the cloud provider's network. Think of it as a virtual data center. Within this boundary, you have complete control over:
+
 - Your own IP address range.
 - The creation of subnets.
 - The routing tables that direct traffic.
@@ -145,6 +156,7 @@ Below is a **single “Unified Core‑Networking Building Blocks” table** that
 
 ### Understanding Subnet Logic: Public vs. Private
 The difference between a public and private subnet is not a "setting" on the subnet itself, but rather the **Route Table** associated with it.
+
 - **Public Subnet**: Has a route in its table that directs non-local traffic (`0.0.0.0/0`) to the **Internet Gateway (IGW)**.
 - **Private Subnet**: Does NOT have a route to the IGW. To reach the internet (e.g., for software updates), it must send traffic to a **NAT Gateway** located in a public subnet.
 
@@ -156,6 +168,7 @@ To manage a network, you must be able to carve out IP address spaces. We do this
 
 ### How CIDR Works
 An IPv4 address consists of 32 bits. CIDR notation (`x.x.x.x/n`) tells us how many of those bits are "locked" as the network address.
+
 - The `/n` (prefix) is the network portion.
 - The remaining bits (`32 - n`) are available for hosts (individual devices).
 
@@ -186,11 +199,13 @@ The most common point of confusion is the difference between Security Groups and
 
 #### 1. Security Groups (The "Door" to the Instance)
 Security Groups act as a virtual firewall for your **individual instances** (VMs). 
+
 - **Stateful**: This is the most important feature. If you allow an inbound request on port 80, the Security Group "remembers" this connection and automatically allows the response to go back out, regardless of outbound rules.
 - **Allow-only**: You only define what is *allowed*. Everything else is denied by default.
 
 #### 2. Network ACLs (The "Gate" to the Subnet)
 NACLs act as a firewall for the **entire subnet**.
+
 - **Stateless**: NACLs have no memory. If you allow inbound traffic on port 80, you **must** also explicitly create an outbound rule to allow the response to leave the subnet.
 - **Allow and Deny**: You can explicitly block specific IP addresses (e.g., blocking a known malicious actor).
 
@@ -203,6 +218,7 @@ NACLs act as a firewall for the **entire subnet**.
 
 ### The Danger of `0.0.0.0/0`
 The CIDR `0.0.0.0/0` means "Anywhere on the Internet." 
+
 - **Acceptable**: For public web ports (80/443) on a Load Balancer.
 - **Dangerous**: For SSH (22), RDP (3389), or Database ports (3306, 5432). 
 
@@ -224,6 +240,7 @@ Now we have introduced 3 concepts for secuering the services. But which should w
 | **Performance** | Very low latency (in‑hypervisor) | Slightly higher (applies to each packet) | May add latency (deep inspection) but offers richer security |
 
 **Best‑practice pattern**  
+
 1. **Security Group** – whitelist only required ports/IPs.  
 2. **Network ACL** – “deny‑all” inbound on the private subnet; explicitly allow the SG‑controlled traffic.  
 3. **Managed Firewall / WAF** – place at the VPC edge (IGW or Transit Gateway) for logging, threat intel feeds, and L7 protection.
@@ -236,6 +253,7 @@ Now we have introduced 3 concepts for secuering the services. But which should w
 A professional production environment is designed to minimize the **Attack Surface**. The goal is to ensure that no database or application server is ever directly reachable from the public internet.
 
 ### The Three-Tier Architecture
+
 1.  **Public Tier (The Entry Point)**:
     - **Load Balancer**: Receives traffic from the internet and distributes it.
     - **Bastion Host (Jumpbox)**: A tiny, highly secured server that admins use to SSH into the private servers. It is the only "door" into the private network.
@@ -245,6 +263,7 @@ A professional production environment is designed to minimize the **Attack Surfa
     - **Databases**: These live in the most restricted **Private Subnet**. They only accept traffic from the Application Tier.
 
 ### Request Journey Example
+
 1. **User** $\rightarrow$ Requests `example.com` $\rightarrow$ **Internet Gateway**.
 2. **Internet Gateway** $\rightarrow$ Routes to **Load Balancer** (Public Subnet).
 3. **Load Balancer** $\rightarrow$ Checks health and forwards to **App Server** (Private Subnet).
