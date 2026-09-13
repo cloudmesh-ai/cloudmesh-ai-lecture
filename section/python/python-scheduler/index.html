@@ -1963,7 +1963,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../container/podman-and-co.md" class="md-nav__link">
+      <a href="../../container/podman-and-co/" class="md-nav__link">
         
   
   
@@ -4257,6 +4257,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#self-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-Assessment
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -5612,6 +5623,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#self-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-Assessment
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -5741,6 +5763,23 @@
 <li>Executed the event queue using <code>scheduler.run()</code>.</li>
 </ul>
 </div>
+<h2 id="self-assessment">Self-Assessment</h2>
+<div class="admonition tip">
+<p class="admonition-title">Self-Assessment</p>
+<p>Test your knowledge by expanding the questions below.</p>
+</div>
+<details class="question">
+<summary>How does the <code>sched</code> module avoid blocking the entire thread for each event?</summary>
+<p>The <code>sched</code> module maintains a priority queue of events. It only blocks the thread when <code>run()</code> is called, and it only sleeps for the duration until the <em>next</em> scheduled event is due, rather than blocking for every event's full delay.</p>
+</details>
+<details class="question">
+<summary>Why is it a best practice to stagger the initial delays of periodic health checks?</summary>
+<p>Staggering prevents the \"thundering herd\" problem, where multiple concurrent checks fire at the exact same time, potentially overloading the management API or the target resources.</p>
+</details>
+<details class="question">
+<summary>What is the risk of calling <code>scheduler.run()</code> in the main thread of a production API?</summary>
+<p>Since <code>run()</code> is a blocking call, it will freeze the main thread until all scheduled events are processed. In an API, this would prevent the server from responding to any new requests. The scheduler should instead be run in a background thread.</p>
+</details>
 <div class="admonition note">
 <p class="admonition-title">Exercise 1: Basic Timer</p>
 <p>Create a script that schedules three different messages to be printed at 2, 5, and 10 seconds respectively. Ensure the messages are printed in the correct order.</p>
