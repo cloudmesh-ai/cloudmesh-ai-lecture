@@ -236,3 +236,22 @@ Both tools let you save the request for later reuse or share it with teammates.
 8. Keep the chat panel open to maintain conversational context; each new message automatically includes the previous history.  
 
 You now have a fully functional, graphical interface to Jetstream’s LLM inside Visual Studio Code (and, optionally, in external REST clients). No terminal commands or manual JSON editing are required. Enjoy the AI‑powered workflow!
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Where can you obtain the Jetstream API key?"
+    On the Jetstream website (https://jetstream-cloud.org) under User → API Keys.
+
+??? question "What are the two primary ways to chat with the Jetstream LLM inside VS Code using a GUI?"
+    The native AI Assistant (available in newer VS Code versions) or a third-party OpenAI-compatible extension like ChatGPT – EasyCode.
+
+??? question "What is the correct API base URL for the Jetstream Cloud LLM?"
+    `https://llm.jetstream-cloud.org/v1`
+
+??? question "How do you avoid storing the API key directly in the VS Code settings?"
+    By using an environment variable (e.g., `JETSTREAM_API_KEY`) and referencing it in the settings as `${env:JETSTREAM_API_KEY}`.
+
+??? question "Which tool is recommended for those who prefer a no-extension solution in newer VS Code versions?"
+    The native AI Assistant.

@@ -359,3 +359,22 @@ All reservation parameters are therefore **data‑driven**, not hard‑coded.
 environment configuration that can be used across all the examples, now
 pointing to `~/.config/chameleon/env.yaml` and with a simplified `--name`
 parameter for reservation creation.*
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Where should the `env.yaml` file be located for it to be discovered by the loader?"
+    It should be placed in `~/.config/chameleon/env.yaml`.
+
+??? question "What are the three main sections of the `env.yaml` file?"
+    The `clouds` section (authentication), the `runtime` section (deployment parameters like image and flavor), and the `reservation` section (booking resources).
+
+??? question "Why should you avoid hard-coding secrets in your scripts and instead use a configuration file?"
+    Using a configuration file prevents sensitive credentials from being exposed in source control and makes the scripts more portable across different environments.
+
+??? question "What does the `config_loader.py` module do when it loads the YAML configuration?"
+    It reads the YAML file, injects the authentication values as `OS_...` environment variables, and returns the parsed configuration dictionary to the caller.
+
+??? question "How do you protect the `env.yaml` file from being read by other users on the system?"
+    By setting the file permissions to be readable only by the owner using the command `chmod 600 ~/.config/chameleon/env.yaml`.

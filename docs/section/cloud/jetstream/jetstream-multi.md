@@ -438,3 +438,23 @@ By default, the database (`db-sg`) only allows traffic from the web server (`web
    ```
    If the rule was applied correctly, the connection should now succeed.
 
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is a '2-tier web-database architecture' in the context of this lab?"
+    An architecture where a public-facing web server (frontend) communicates with a private database server (backend) that is isolated from the public internet.
+
+??? question "What is the difference between a Floating IP and a Private IP?"
+    A Private IP is used for internal communication between VMs within the same cloud network, while a Floating IP is a public IP address that allows the VM to be accessed from the internet.
+
+??? question "How do you create a security group rule that allows traffic only from another security group?"
+    Use the `--remote-group` flag instead of `--remote-ip` when creating the security group rule.
+
+??? question "What is the purpose of 'password-less SSH' in a scheduler-worker cluster?"
+    It allows the head-node (scheduler) to execute commands on the worker nodes without requiring a password for every connection, which is essential for distributed computing.
+
+??? question "How do you clean up all resources (servers, floating IPs, security groups) at the end of the lab?"
+    Delete the servers first, then release the floating IPs, and finally delete the security groups and keypairs.
+

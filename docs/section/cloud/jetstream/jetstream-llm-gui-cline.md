@@ -298,3 +298,22 @@ If you receive an error, revisit the steps where the API key, base URL, or model
 - **Optional**: use Postman, Insomnia, or the VS Code REST Client for saved request collections that can be shared with teammates.  
 
 Following these steps gives you full command‑line access and a fully integrated graphical chat experience for Jetstream’s language models inside Visual Studio Code.
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What are the three main ways to call the Jetstream LLM from VS Code?"
+    You can use the integrated terminal (curl/httpie), a VS Code GUI chat extension (like the native AI Assistant or ChatGPT – EasyCode), or other GUI clients such as Postman and Insomnia.
+
+??? question "How do you configure the built-in AI Assistant in VS Code to use the Jetstream API?"
+    Enable the AI Assistant in Settings, set the API Base to `https://llm.jetstream-cloud.org/v1`, enter your Jetstream API key, and specify the model name.
+
+??? question "What is the advantage of using the `${env:JETSTREAM_API_KEY}` placeholder in settings?"
+    It allows the extension to use an environment variable for the API key, preventing the secret from being stored as plain text in the VS Code settings file.
+
+??? question "How can you perform a 'one-shot' request using `curl` in the integrated terminal?"
+    By sending a POST request to the `/v1/chat/completions` endpoint with the proper Authorization header and a JSON payload containing the model and messages.
+
+??? question "What is the purpose of the `stream: true` flag in a request to the LLM?"
+    It tells the API to stream the response token-by-token, providing a more interactive experience instead of waiting for the entire response to be generated.

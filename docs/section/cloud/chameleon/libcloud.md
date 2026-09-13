@@ -394,3 +394,22 @@ The script will:
 ---
 
 *Last updated: 2026‑08‑28 (v1.4‑example‑2)*
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is Apache Libcloud and what is the advantage of using it over a provider-specific SDK?"
+    Libcloud is a Python library that abstracts multiple cloud providers into a unified interface, allowing you to write code that is more portable across different cloud platforms.
+
+??? question "In the `libcloud_create_vm.py` script, how are the cloud credentials provided to the driver?"
+    The credentials are read from environment variables using `os.getenv`.
+
+??? question "What is the role of the `resolve_image` and `resolve_size` functions in the script?"
+    They verify that the specified image and flavor IDs exist in the cloud and return the corresponding Libcloud image and size objects.
+
+??? question "How does Libcloud handle the creation of a VM compared to the OpenStack SDK?"
+    It uses a unified `create_node` method that abstracts the underlying provider-specific API calls.
+
+??? question "Why is it a good practice to use `.env` files or environment variables for secrets in Libcloud scripts?"
+    It separates secrets from the source code, preventing sensitive information from being committed to version control systems like Git.

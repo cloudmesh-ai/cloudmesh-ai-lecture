@@ -44,10 +44,14 @@ Jetstream 2 uses **SUs** as the sole fiscal metric for all allocations.  An SU
 Jetstream 2 offers a set of pre‑defined *flavors* (CPU + RAM combos).  The SU‑hour cost for each flavor is simply the sum of the CPU and memory components:
 
 
-$$\text{SU‑hour} = (\#\text{cores}\times 1) \;+\; (\text{RAM(GB)} \times 0.5) \;+\; \begin{cases} 
-6 & \text{if GPU enabled} \\ 
+$$
+\text{SU-hour} = (\text{Number of cores} \times 1) \;+\; (\text{RAM(GB)} \times 0.5) \;+\; 
+\begin{cases} 
+6 & \text{if GPU enabled} \\\\ 
 0 & \text{otherwise} 
-\end{cases}$$
+\end{cases}
+$$
+
 
 *The GPU‑enabled flavors add the extra 6 SU / GPU‑hour on top of the CPU+RAM cost.*  
 
@@ -440,3 +444,22 @@ print(f"Total SU for {HOURS_PER_MONTH:.0f} h: {result['su_total']:.2f}")
     Compare the cost. If it is different, find the error and potentially update the script. 
 
     Also explain in detail how you are impacted by the difference.
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is a Service Unit (SU) in Jetstream 2?"
+    An SU is a normalized measure of the compute, memory, storage, and networking resources consumed over time.
+
+??? question "How is the SU-hour cost for a specific instance flavor calculated?"
+    It is the sum of the CPU cost (1 SU/core-hour), memory cost (0.5 SU/GB-hour), and an optional GPU cost (6 SU/GPU-hour).
+
+??? question "What is the SU rate for a CPU core per hour?"
+    1 SU per core-hour.
+
+??? question "How can you reduce the compute SU rate for a VM?"
+    By using pre-emptible flavors, which provide a 50% discount on the compute SU rate.
+
+??? question "How do you estimate the monthly SU cost for a specific resource configuration?"
+    Multiply the total hourly SU rate by approximately 730 hours (the average number of hours in a month).

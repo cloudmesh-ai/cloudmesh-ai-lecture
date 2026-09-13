@@ -119,3 +119,23 @@ Presence of an entry indicates that the reservation capability is installed and 
 | 7 | Write a ~200‑word reflection on why reservations are critical for research clouds and how quota enforcement works across Nova + Placement + Blazar. | Paragraph submitted with required length and content. | 10 |
 | **Total** | | | **80** |
 
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is Blazar and what is its primary purpose in OpenStack?"
+    Blazar is the official OpenStack Reservation Service, used to reserve compute, storage, and network resources for a specific future time window.
+
+??? question "Is Blazar a core component of every OpenStack deployment?"
+    No, Blazar is an optional add-on that cloud operators can choose to deploy based on their users' needs.
+
+??? question "How does a 'lease' in Blazar differ from a standard VM creation?"
+    A lease books resources for a future duration, whereas standard VM creation allocates resources immediately upon request.
+
+??? question "How can you verify if a specific OpenStack cloud has the reservation service enabled?"
+    By running `openstack service list` and checking for a service named `blazar` or `reservation`.
+
+??? question "What is the impact of a reservation on the user's quota?"
+    Blazar enforces the user's quota at the time the lease is created, preventing the user from over-booking resources.
+

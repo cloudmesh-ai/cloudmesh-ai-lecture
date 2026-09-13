@@ -282,3 +282,22 @@ Cline will now send all requests to OpenRouter using the selected `gpt-oss-120b`
 5. **Start using the AI** – ask for whole‑file refactors, generate new functions inline, or let Cline execute safe terminal commands without leaving VS Code.  
 
 If you encounter any specific error messages or need a configuration that matches a particular operating system (Windows, macOS, Linux), let me know and I’ll provide a ready‑to‑copy snippet tailored to that environment.
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the main difference between how Continue and Cline store their configurations?"
+    Continue uses a `config.yaml` file that can be edited via the UI or directly, while Cline uses a dedicated Settings panel in its sidebar.
+
+??? question "In Continue, which file stores the core layout and model configurations?"
+    The `config.yaml` file.
+
+??? question "How can you access the `config.yaml` file in Continue without using the terminal?"
+    Either through the Command Palette (Continue: Open config.yaml) or by clicking the gear icon in the Continue sidebar.
+
+??? question "What is the purpose of 'Inline Completion' models compared to 'Chat' models in Continue?"
+    Inline Completion models are designed for low-latency autocomplete as you type, whereas Chat models are used for conversational tasks and refactoring.
+
+??? question "How does Cline differ from Continue in terms of its capabilities as an agent?"
+    Cline is an autonomous agent that can read/write files and execute terminal commands, whereas Continue is primarily focused on chat, refactoring, and inline completions.

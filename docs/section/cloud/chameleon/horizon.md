@@ -114,3 +114,23 @@ A floating (public) IP lets you reach the VM from outside the private cloud netw
 - [Chameleon Cloud Documentation – Horizon UI](https://chameleoncloud.org/docs/horizon/)  
 - [OpenStack Horizon User Guide](https://docs.openstack.org/horizon/latest/)  
 - [Chameleon Cloud Help Form](https://chameleoncloud.org/help/)
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is a 'reservation' in Chameleon Cloud and why is it used?"
+    A reservation is a booking of compute, storage, and network resources for a future time window, ensuring they are available for scheduled experiments.
+
+??? question "What is the recommended maximum duration for a small experiment reservation?"
+    1 hour.
+
+??? question "Which images should be chosen for the boot source in Chameleon (what prefix)?"
+    Images with the `CC-` prefix, such as `CC-ubuntu-24.04`.
+
+??? question "How do you associate a floating IP with an instance in Horizon?"
+    In the Instances list, use the dropdown menu next to the VM and select "Associate Floating IP".
+
+??? question "What is the first step to take if a VM is stuck in the `BUILD` state?"
+    Verify that the reservation is active or check if the project quota has been exceeded.
+

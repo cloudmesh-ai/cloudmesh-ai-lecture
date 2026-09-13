@@ -461,3 +461,22 @@ print(f"    {ssh_cmd}")
 * Multiple credential back‑ends (X.509 proxy, `clouds.yaml`, `keyring`, `.env`) are supported for flexibility.  
 
 You now have a clean, secure, and maintainable workflow for provisioning VMs from Python. Happy scripting!
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the `python-chi` library and how does it differ from the OpenStack SDK?"
+    `python-chi` is a high-level wrapper specifically for the Chameleon Cloud that simplifies common tasks, whereas `openstacksdk` is a general-purpose library for any OpenStack cloud.
+
+??? question "How does the `config_loader` facilitate the use of `python-chi` while keeping secrets secure?"
+    It loads credentials from a protected YAML file and injects them as environment variables before the `chi` library is imported, so the secrets never appear in the code.
+
+??? question "In the `python-chi` workflow, how do you choose the project and site context?"
+    By calling `context.choose_project(project_name)` and `context.choose_site(site_name)`.
+
+??? question "What are the steps to launch a VM and assign a floating IP using `python-chi`?"
+    First, call `server.create_server`, then create a floating IP with `network.create_floating_ip` and associate it using `network.associate_floating_ip`.
+
+??? question "Why is it important to add `*.yaml` and `*.env` to `.gitignore`?"
+    To prevent sensitive configuration files containing passwords and API keys from being committed to a public Git repository.

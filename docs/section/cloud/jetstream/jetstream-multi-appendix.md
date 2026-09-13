@@ -457,3 +457,23 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the purpose of the `01-keypair.sh` script?"
+    It creates a reusable OpenStack keypair named `jetstream-demo` using a local public key, ensuring that you can SSH into your VMs.
+
+??? question "In `02-security-groups.sh`, what is the difference between `web-sg` and `db-sg` in terms of access?"
+    `web-sg` allows public traffic (SSH, HTTP, HTTPS) from anywhere (`0.0.0.0/0`), while `db-sg` only allows SSH and MySQL traffic originating from the `web-sg` group.
+
+??? question "What does the `summary-table.py` script do?"
+    It queries the OpenStack API for a list of servers and prints a formatted markdown table containing the Name, Status, Image, and Private IPs of the instances.
+
+??? question "How do you run the `summary-table.py` script to generate a markdown table of your instances?"
+    After making it executable (`chmod +x summary-table.py`), run it as `./summary-table.py`.
+
+??? question "Why is it important to use `chmod 600` on the keypair or RC files?"
+    To ensure that sensitive credentials and private keys are only readable by the owner, preventing other users on the system from accessing them.
+

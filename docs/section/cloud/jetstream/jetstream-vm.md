@@ -556,3 +556,23 @@ openstack security group rule delete <rule-id>
 ```
 
 
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is the purpose of the Horizon Web UI compared to the CLI?"
+    Horizon is a graphical interface suitable for beginners and small environments, whereas the CLI is designed for automation and advanced management of cloud resources.
+
+??? question "Why is it necessary to upload an SSH public key before launching a VM?"
+    The public key is injected into the VM during creation, allowing you to securely log in via SSH using the corresponding private key.
+
+??? question "What are 'Application Credentials' and how are they used?"
+    They are a set of credentials created in Horizon that allow the OpenStack CLI and other tools to authenticate to the cloud without using your main account password.
+
+??? question "What is the function of the `OS_CLOUD` environment variable?"
+    It tells the OpenStack CLI which cloud configuration to use from the `clouds.yaml` file, avoiding the need to use the `--os-cloud` flag in every command.
+
+??? question "How do you restrict SSH access to only your own laptop's public IP address?"
+    Find your public IP (e.g., via `curl ifconfig.me`) and create a security group rule allowing TCP port 22 only from that specific IP address with a `/32` mask.
+

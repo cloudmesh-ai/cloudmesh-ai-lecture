@@ -400,3 +400,22 @@ You can now SSH into the instance (assuming the security group allows port 22):
 ### End of Tutorial
 
 You now have a complete, reusable Python script and a step‑by‑step guide for launching OpenStack VMs programmatically. Adjust the configuration variables to match your environment, run the script, and you’ll have a running instance ready for SSH or further automation. Happy building!
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Which Python library is used to programmatically create VMs in the OpenStack SDK tutorial?"
+    The `openstacksdk` library.
+
+??? question "What are the two recommended ways to configure access to the cloud for the SDK?"
+    By sourcing an OpenStack RC file or by using a `clouds.yaml` configuration file.
+
+??? question "How does the `wait_for_server` method help in ensuring the VM is ready for use?"
+    It blocks the script's execution until the server reaches the `ACTIVE` state, ensuring that subsequent operations (like SSH) do not fail.
+
+??? question "How can you attach a floating IP to a server using the `openstacksdk`?"
+    Use `conn.network.create_ip` to create the floating IP and `conn.compute.add_floating_ip_to_server` to associate it with the instance.
+
+??? question "What is the benefit of wrapping the VM creation process in a `try/except` block for automatic cleanup?"
+    It allows the script to delete the server if an error occurs during creation or waiting, preventing the waste of quota and resources.

@@ -132,3 +132,23 @@ openstack server create \
 - Managing key pairs – <https://docs.openstack.org/nova/latest/user/keypairs.html>
 - Security groups guide – <https://docs.openstack.org/neutron/latest/admin/security-groups.html>
 - Network concepts – <https://docs.openstack.org/neutron/latest/admin/networks.html>
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What is an 'RC file' and how is it used to authenticate the OpenStack CLI?"
+    An RC file is a shell script containing environment variables for authentication; it is loaded into the current shell session using the `source` command.
+
+??? question "Which command is used to create a new virtual machine using the CLI?"
+    The `openstack server create` command.
+
+??? question "What is the purpose of the `--nic net-id` flag in the `openstack server create` command?"
+    It specifies the network (by UUID or name) that the virtual machine should be attached to.
+
+??? question "How do you allocate and associate a floating IP using the CLI?"
+    Use `openstack floating ip create` to allocate a new IP and `openstack server add floating ip` to associate it with a specific instance.
+
+??? question "If you receive a 'No matching image' error, how can you find the correct image name or ID?"
+    Run the `openstack image list` command to see all available images in the project.
+

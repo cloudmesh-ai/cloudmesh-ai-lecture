@@ -298,6 +298,26 @@ Both Postman and Insomnia let you export the request as a collection file for sh
 | *Can I store my keys in the VS Code settings file instead of the UI?* | It is possible, but not recommended because the settings file may be committed to source control. Prefer using environment variables (`${env:…}`) in the UI. |
 | *How do I see raw request/response for debugging?* | Both extensions have a debug console in their sidebar. In Continue click **Logs → Show raw API**. In Cline click **Debug → Network** to view HTTP payloads. Postman and Insomnia also show raw request/response in their UI. |
 
+
+## Self-Assessment
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "What are the typical use-cases for the Continue extension versus the Cline extension?"
+    Continue is best for chat, code-refactoring, and inline completions. Cline is best for autonomous agent tasks that require reading/writing files and running terminal commands.
+
+??? question "Where do you specify the provider (e.g., Ollama or OpenRouter) in Continue?"
+    In the Continue sidebar settings (gear icon), under the Chat or Completions sections.
+
+??? question "What is the recommended temperature for 'Inline Completion' in Continue?"
+    A lower temperature, typically around `0.2`, to ensure more deterministic and accurate code completions.
+
+??? question "How can you debug raw API requests/responses in Cline?"
+    By clicking Debug → Network in the Cline sidebar.
+
+??? question "In Continue, what is the function of 'context providers' like @files or @git?"
+    They allow the user to explicitly add specific workspace files or Git diffs to the LLM's context window for more accurate answers.
+
 ---
 
 ## 8. Tailored configuration examples (copy‑paste)
