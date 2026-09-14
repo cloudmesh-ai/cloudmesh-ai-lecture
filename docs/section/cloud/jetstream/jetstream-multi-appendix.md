@@ -1,16 +1,38 @@
-
 # Appendix – Ready‑to‑Copy Scripts
+
+!!! info "Learning Objectives"
+    By the end of this appendix, you will be able to:
+    1. **Automate** the creation of OpenStack keypairs and security groups using bash scripts.
+    2. **Implement** network isolation for multi-tier architectures using automated security group rules.
+    3. **Deploy** complex multi-VM clusters (scheduler and workers) through scripted provisioning.
+    4. **Develop** Python scripts to programmatically audit and summarize cloud resource states.
+    5. **Apply** security best practices for managing sensitive cloud credentials and SSH keys.
 
 !!! Note
     If things do not work its your responsibility to fix it here in GitHub.
+
+## High-Level Design
+
+The scripts in this appendix provide a comprehensive toolkit for automating the deployment of a multi-tier cloud architecture on OpenStack (Jetstream). The design follows a phased approach to ensure security, scalability, and maintainability:
+
+1.  **Identity & Access Management**: Establishing trust via SSH keypairs to ensure secure, password‑less access to all virtual machines.
+2.  **Network Security Architecture**: Implementing a tiered security model (Public Web $\rightarrow$ Private DB $\rightarrow$ Internal Cluster) using Security Groups to enforce strict isolation.
+3.  **Compute Provisioning**: Automating the launch of diverse VM roles (Web, DB, Scheduler, Workers) with appropriate flavors and images to match specific workload needs.
+4.  **Cluster Orchestration**: Setting up intra‑cluster communication for distributed workloads (e.g., Dask) and refining security rules to follow the principle of least privilege.
+5.  **Infrastructure Auditing**: Using Python to programmatically verify the state of the deployed environment and generate reports for documentation and audit.
 
 The following files can be saved directly into your project directory (or pasted into a terminal).  
 All scripts are plain‑text **bash** unless otherwise noted.  
 Feel free to adjust instance flavors, image names, or network names to match your own Jetstream environment.
 
 
-
 ### A1. `01‑keypair.sh` – Create a reusable SSH key‑pair  
+
+**What this script does:**
+This script automates the upload of your local public SSH key to the OpenStack cloud. By creating a named keypair (`jetstream-demo`), it ensures that any VM launched with this keypair will automatically have your public key in its `authorized_keys` file.
+
+**Why this matters:**
+Managing SSH keys through the cloud provider instead of manually copying keys to every VM reduces administrative overhead and ensures a consistent, secure access method across your entire infrastructure.
 
 ```bash
 #!/usr/bin/env bash
@@ -35,6 +57,15 @@ fi
 ---  
 
 ### A2. `02‑security-groups.sh` – Build the three security groups used in the lab  
+
+**What this script does:**
+This script defines the "virtual firewalls" for your environment. It creates three distinct security groups to implement network isolation:
+- `web-sg`: Permits public HTTP/HTTPS and SSH traffic from any IP address.
+- `db-sg`: Restricts access so that only the web tier (`web-sg`) can communicate with the database on SSH and MySQL ports.
+- `cluster-sg`: Initially allows broad communication between cluster members to simplify the setup of distributed services.
+
+**Why this matters:**
+Implementing security groups is the primary way to achieve "Defense in Depth." By restricting database access to only the web tier, you ensure that even if a database password is leaked, the database cannot be accessed directly from the public internet.
 
 ```bash
 #!/usr/bin/env bash
@@ -77,6 +108,12 @@ fi
 ---  
 
 ### A3. `03‑web‑db‑instances.sh` – Spin up the 2‑tier web ↔ DB VMs  
+
+**What this script does:**
+This script deploys a classic two-tier architecture. It launches a web server and a database server, assigning them the security groups created in the previous step. It also allocates a Floating IP to the web server, making it reachable from the public internet while keeping the database server strictly private.
+
+**Why this matters:**
+This pattern separates the "presentation layer" (web) from the "data layer" (DB). It allows you to scale the web tier independently and ensures that sensitive data is never exposed to the public internet.
 
 ```bash
 #!/usr/bin/env bash
@@ -137,6 +174,12 @@ echo "Web server reachable at http://$FIP"
 
 ### A4. `04‑scheduler‑workers.sh` – Build the AI/Data cluster  
 
+**What this script does:**
+This script provisions a distributed computing cluster consisting of one scheduler and two worker nodes. The scheduler is given a Floating IP for external management, while the workers remain on the private network. All nodes are placed in the `cluster-sg` to enable them to communicate with each other.
+
+**Why this matters:**
+Distributed computing is essential for AI and Big Data tasks. This architecture allows you to centralize job management (scheduler) while distributing the actual computation across multiple worker nodes to increase processing speed and memory capacity.
+
 ```bash
 #!/usr/bin/env bash
 # -------------------------------------------------
@@ -196,7 +239,13 @@ echo "Scheduler reachable at $FIP"
 
 ---  
 
-### A5. `05‑ssh‑setup.sh` – Password‑less SSH from scheduler → workers  
+### A5. `05‑ssh‑setup.sh` – Password‑less SSH from scheduler $\rightarrow$ workers  
+
+**What this script does:**
+To enable the scheduler to manage workers without manual password entry, this script generates a dedicated intra‑cluster SSH key on your local machine and distributes the public part to all worker nodes.
+
+**Why this matters:**
+Automated orchestration requires non-interactive communication. By setting up a dedicated cluster key, you enable the scheduler to launch processes on workers securely and programmatically, which is a prerequisite for distributed frameworks like Dask or Kubernetes.
 
 ```bash
 #!/usr/bin/env bash
@@ -230,6 +279,12 @@ echo "Password‑less SSH setup complete."
 
 ### A6. `06‑run‑dask.sh` – Start the scheduler and workers  
 
+**What this script does:**
+This script orchestrates the launch of a Dask cluster. It uses SSH to remotely execute commands on the scheduler (installing Dask and starting the scheduler process) and then loops through the workers to start the `dask-worker` processes, pointing them to the scheduler's private IP.
+
+**Why this matters:**
+Manual installation of software on multiple VMs is error-prone. Scripting the installation and launch sequence ensures that all nodes are running compatible versions of the software and are correctly linked to the central scheduler.
+
 ```bash
 #!/usr/bin/env bash
 # -------------------------------------------------
@@ -238,7 +293,6 @@ echo "Password‑less SSH setup complete."
 # 1) SSH to the scheduler, install Dask, and launch the scheduler.
 # 2) From the scheduler (or from your laptop), start the workers.
 # -------------------------------------------------
-
 # ----- 1) Scheduler side -------------------------------------------------
 SCHED_FIP=$(openstack floating ip list -c "Floating IP Address" -f value | head -n1)
 
@@ -272,6 +326,12 @@ echo "   client = Client('tcp://${SCHED_PRIV}:8786')"
 
 ### A7. `07‑tighten‑security.sh` – Apply the asymmetric security‑group rules  
 
+**What this script does:**
+After the cluster is running, this script removes the broad, permissive "all ports" rule created during the setup of `cluster-sg` and replaces it with a narrow rule that only allows traffic on port 8786 (the Dask scheduler port).
+
+**Why this matters:**
+This represents the transition from "Development" to "Production" security. By closing unnecessary ports, you minimize the attack surface of your cluster, preventing potential attackers from exploiting other services that might be running on your VMs.
+
 ```bash
 #!/usr/bin/env bash
 # -------------------------------------------------
@@ -303,6 +363,12 @@ echo "Added tight rule allowing only port 8786 from workers to scheduler."
 ---  
 
 ### A8. `08‑custom‑network.sh` – Build a user‑defined private network  
+
+**What this script does:**
+This script demonstrates how to create a completely custom Virtual Private Cloud (VPC). It defines a new network, a specific subnet with a custom CIDR range, and a router to manage traffic between the custom network and the external public network.
+
+**Why this matters:**
+In enterprise environments, you often cannot rely on default networks. Creating custom networks allows you to design your own IP addressing scheme, implement complex routing, and ensure total isolation from other projects in the same cloud tenant.
 
 ```bash
 #!/usr/bin/env bash
@@ -338,51 +404,33 @@ fi
 # Create router
 if ! openstack router list -c Name -f value | grep -q "^${ROUTER_NAME}$"; then
     openstack router create "${ROUTER_NAME}"
-    openstack router set --external-gateway public "${ROUTER_NAME}"
-    openstack router add subnet "${ROUTER_NAME}" "${SUBNET_NAME}"
-    echo "Router ${ROUTER_NAME} created and attached to subnet."
+    echo "Router ${ROUTER_NAME} created."
 fi
+
+# Attach router to external network
+openstack router set router ${ROUTER_NAME} --external-gateway public
+
+# Add interface to the custom subnet
+openstack router add subnet ${ROUTER_NAME} ${SUBNET_NAME}
+echo "Router ${ROUTER_NAME} configured with external gateway and interface to ${SUBNET_NAME}."
 ```
 
 ---  
 
-### A9. `summary-table.py` – Sample script that prints a markdown table of your instances  
+### A9. `summary-table.py` – Audit and summarize cloud resources  
 
-The Python program below **does not call the OpenStack CLI**; instead it works from a hard‑coded list so it can be executed in any environment (including the browser‑based interpreter).  
-Replace the `instances` list with data obtained from `openstack server list -f json` if you want a live summary.
+**What this script does:**
+This is a Python utility that uses the OpenStack CLI to retrieve a JSON list of all servers in the current project, parses the network information to isolate private IP addresses, and outputs a clean Markdown table.
 
+**Why this matters:**
+As your infrastructure grows, manually tracking IP addresses in a text file becomes impossible. Programmatic auditing ensures that your documentation is always in sync with the actual state of the cloud, providing a "single source of truth" for your cluster's topology.
 
-**`summary-table.py` – Generate a markdown‑formatted table of the instances you have created**
-
-```python
-#!/usr/bin/env python3
-"""
-summary-table.py
-----------------
-Queries the OpenStack service for a list of servers and prints a
-markdown table that can be copied directly into documentation
-(e.g. jetstream‑multi.md).
-
-Prerequisites
--------------
-* The OpenStack client (`openstack`) must be installed and sourced
-  (e.g. `source ~/openrc.sh`).
-* The script must be run on a machine that has network access to the
-  Jetstream project and the appropriate credentials.
-
-How it works
-------------
-1. Calls ``openstack server list -f json`` to obtain a JSON list of
-   servers.
-2. Extracts the fields we care about: **Name**, **Status**, **Networks**
-   (which includes the private IPs) and **Image**.
-3. Prints a markdown table with a header and a row for each server.
-
-Usage
------
+```bash
 $ chmod +x summary-table.py
 $ ./summary-table.py        # or: python3 summary-table.py
+```
 
+```python
 import json
 import subprocess
 import sys
@@ -476,4 +524,3 @@ if __name__ == "__main__":
 
 ??? question "Why is it important to use `chmod 600` on the keypair or RC files?"
     To ensure that sensitive credentials and private keys are only readable by the owner, preventing other users on the system from accessing them.
-

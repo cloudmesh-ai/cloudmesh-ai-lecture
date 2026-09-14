@@ -17,11 +17,13 @@ Docker revolutionized software delivery by packaging the application and its dep
 Docker relies on a **Client-Server architecture**. When you run `docker run`, the Docker CLI (the client) sends an API request to the **Docker Daemon** (`dockerd`), a persistent background process that actually manages the containers, images, and networks.
 
 **Pros:**
+
 - **Centralized Management**: One daemon manages everything, making it easy to monitor state.
 - **Massive Ecosystem**: Docker Desktop provides a seamless GUI for Windows and macOS.
 - **Standardization**: For a decade, "Docker" was synonymous with "Container."
 
 **Cons:**
+
 - **Single Point of Failure**: If the daemon crashes, all containers on that host can be affected.
 - **Security Risk**: Traditionally, the daemon required root privileges, meaning anyone with access to the Docker socket effectively had root access to the host.
 
@@ -33,11 +35,13 @@ Podman (Pod Manager) was developed by Red Hat to address the inherent security a
 Podman uses a **Fork/Exec model**. There is no background daemon. When you run `podman run`, the Podman process directly launches the container as a child process of your shell.
 
 **Pros:**
+
 - **Rootless by Default**: Podman was built from day one to run without root privileges, significantly reducing the attack surface.
 - **No Single Point of Failure**: Since there is no daemon, there is no central process to crash.
 - **Kubernetes Native**: Podman introduces the concept of **Pods** (groups of containers sharing a network namespace), making the transition to Kubernetes much smoother.
 
 **Cons:**
+
 - **Complexity in Networking**: Rootless networking is more complex to set up than daemon-based networking.
 - **Smaller Ecosystem**: While compatible with Docker, it lacks a direct "Desktop" equivalent as polished as Docker Desktop (though Podman Desktop is catching up).
 
@@ -67,12 +71,14 @@ To understand the landscape, we must look at the **Open Container Initiative (OC
 ## 5. Decision Guide: Which one should you use?
 
 ### Use Docker if...
+
 - You are a beginner and want the most "out-of-the-box" experience with a GUI (Docker Desktop).
 - Your existing CI/CD pipelines are heavily integrated with Docker-specific APIs.
 - You rely on Docker Swarm for simple orchestration.
 - You are developing on Windows/macOS and want the most stable virtualization layer.
 
 ### Use Podman if...
+
 - **Security is your top priority**: You are deploying to a production environment where root access is forbidden.
 - **You are targeting Kubernetes**: You want to group containers into Pods locally to mirror your production K8s environment.
 - **You hate daemons**: You want a lightweight tool that doesn't leave a background process running.

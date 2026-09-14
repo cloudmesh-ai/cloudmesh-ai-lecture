@@ -22,6 +22,7 @@ A **comprehensive guide** to using Podman for container management, from basic i
 Podman (Pod Manager) is an open-source, daemonless container engine for developing, managing, and running OCI containers on your local machine. Unlike other container engines, it does not rely on a central background process to manage containers.
 
 **Why use Podman?**
+
 - **Daemon‑less & Rootless**: There is no background service (`dockerd`) running as root. You can run containers as a normal user, which significantly reduces the attack surface of the host.
 - **Docker‑compatible CLI**: The `podman` command is designed to be a drop-in replacement for `docker`. Most commands work identically.
 - **Pods**: Podman introduces the concept of "Pods"—groups of one or more containers that share the same network namespace, similar to how Kubernetes operates.
@@ -175,6 +176,7 @@ Before containerizing an application, it is best practice to visualize the archi
 The most effective way to deploy a system is to combine the **blueprint** (Mind-map) with the **engine** (Podman).
 
 **Example Workflow:**
+
 1. **Mind-map**: Identify all services and their relationships.
 2. **Podman**: Build the images for each service and define a `podman-compose.yml` file that mirrors the mind-map branches.
 3. **Export**: Embed the architecture mind-map in your project README and provide the compose file as the implementation.

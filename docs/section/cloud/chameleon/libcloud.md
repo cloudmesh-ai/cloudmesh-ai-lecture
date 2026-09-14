@@ -4,6 +4,14 @@ Apache Libcloud abstracts multiple cloud providers into a unified interface. Her
 
 Below is a complete Python script (`libcloud_create_vm.py`) that:
 
+!!! info "Learning Objectives"
+    By the end of this guide, you will be able to:
+    1. **Apply** the Apache Libcloud abstraction layer to provision VMs across different cloud providers.
+    2. **Instantiate** provider-specific drivers (OpenStack) using environment variables.
+    3. **Resolve** cloud resources (images and flavors) using Libcloud's unified interface.
+    4. **Evaluate** the benefits of using a cloud-agnostic library for portability and secret management.
+
+
 1. Instantiates an OpenStack connection.  
 2. Fetches the desired image and flavor.  
 3. Specifies the network, security group, and SSH key pair.  

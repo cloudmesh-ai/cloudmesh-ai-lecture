@@ -2,6 +2,16 @@
 
 This tutorial provides a step-by-step guide to getting started with Jetstream2, covering both the Horizon Web UI and the Command-Line Interface (CLI).
 
+
+!!! info "Learning Objectives"
+    By the end of this guide, you will be able to:
+    1. **Navigate** the Jetstream2 Horizon Web UI to manage account settings and identity.
+    2. **Configure** secure access to virtual machines by uploading SSH public keys.
+    3. **Generate** and download application credentials for CLI authentication.
+    4. **Provision** and manage virtual machine resources using the OpenStack CLI.
+    5. **Configure** network security groups to restrict SSH access to specific IP addresses.
+    6. **Clean up** cloud resources (VMs and Floating IPs) to optimize project quota usage.
+
 ## Part 1: Getting Started with Horizon (Web UI)
 
 The Horizon dashboard is a convenient way for beginners to manage your Jetstream2 resources. It is suitable for creating small environments, but should not be used when automating deployments.

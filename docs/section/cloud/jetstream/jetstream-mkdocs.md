@@ -2,6 +2,20 @@
 
 This tutorial guides you through the process of setting up an **MkDocs** server on a Jetstream2 virtual machine. By the end of this guide, you will have a professional-looking documentation site that is accessible to anyone on the public internet.
 
+
+!!! info "Learning Objectives"
+    By the end of this guide, you will be able to:
+    1. **Install** and configure MkDocs and the Material theme within a Python virtual environment.
+    2. **Create** and structure a documentation project using Markdown files and a `mkdocs.yml` configuration.
+    3. **Configure** a web server to listen on all network interfaces (`0.0.0.0`) for public access.
+    4. **Manage** cloud firewall settings using the OpenStack CLI to allow incoming traffic on specific ports.
+    5. **Implement** background process management using `tmux` or `nohup` to keep a website online after disconnecting.
+    6. **Automate** the deployment process using shell scripts for consistent environment setup.
+
+
+
+![What we learned](images/mkdos-hosting.png)
+
 ## Prerequisites
 
 Before starting, you must have:
@@ -159,8 +173,6 @@ This runs the server in the background and saves all logs to `mkdocs.log`. You c
 ??? question "How do you verify that your MkDocs site is correctly deployed and public?"
     Access the site using `http://<your-floating-ip>:8000` in a web browser.
 
-
-![What we learned](images/mkdos-hosting.png)
 ---
 
 ## Appendix: Automation Scripts

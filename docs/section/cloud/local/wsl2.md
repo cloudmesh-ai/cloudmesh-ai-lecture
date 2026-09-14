@@ -2,6 +2,17 @@
 
 Windows Subsystem for Linux 2 (WSL 2) allows developers to run a native Linux environment—including most command-line tools, utilities, and applications—directly on Windows, unmodified, alongside traditional Windows desktop and GUI applications.
 
+
+!!! info "Learning Objectives"
+    By the end of this guide, you will be able to:
+    
+    1. **Install** and configure Windows Subsystem for Linux 2 (WSL 2) on a Windows machine.
+    2. **Manage** multiple Linux distributions using the `wsl` CLI.
+    3. **Integrate** Windows and Linux environments by accessing host files from the guest.
+    4. **Automate** the creation and management of isolated WSL instances using Python scripts.
+    5. **Troubleshoot** common installation and runtime issues, including BIOS virtualization settings and DNS configuration.
+    6. **Backup** and migrate Linux environments using export and import functionality.
+
 ---
 
 ## Prerequisites & System Requirements

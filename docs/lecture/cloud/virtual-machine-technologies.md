@@ -4,6 +4,16 @@ In this section, we cover an introduction to the underlying virtualization techn
 
 Cloud providers, such as AWS, Azure, and Google, and OpenStack use, for example, QEMU and KVM technologies for compute instance virtualization.
 
+
+!!! info "Learning Objectives"
+    By the end of this section, you will be able to:
+    1. **Distinguish** between Type 1 (bare-metal) and Type 2 (hosted) hypervisors.
+    2. **Explain** the role of hardware extensions like Intel VT-x/AMD-V and IOMMU (VT-d/AMD-Vi) in virtualization.
+    3. **Contrast** full virtualization, paravirtualization (VirtIO), and emulation.
+    4. **Compare** different VM tools and libraries, such as KVM, QEMU, and Libvirt.
+    5. **Understand** the concept of MicroVMs (e.g., Firecracker) and their use cases in cloud-native environments.
+    6. **Identify** common VM storage formats and their characteristics.
+
 Despite the word "complete" in  the title it is certanly not complete and many other parts could be added
 
 ![The "Incomplete" Virtualization Landscaape](images/virtualization-ecosystem.png)

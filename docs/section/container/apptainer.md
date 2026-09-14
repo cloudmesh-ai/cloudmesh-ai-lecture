@@ -5,6 +5,15 @@ Setting up **Apptainer** (formerly known as Singularity) on a local Linux comput
 This tutorial walks through installing Apptainer on a local **Ubuntu / Debian** system and running your first container.
 
 
+!!! info "Learning Objectives"
+    By the end of this guide, you will be able to:
+    1. **Install** and compile Apptainer on a Linux system.
+    2. **Execute** containers using the SIF (Singularity Image Format).
+    3. **Build** custom container images using Apptainer definition files (`.def`).
+    4. **Configure** runtime environments using bind mounts and port mapping.
+    5. **Understand** the security advantages of Apptainer in HPC environments.
+
+
 ![Apptainer Landscape](images/apptainer-chatgpt.png)
 
 

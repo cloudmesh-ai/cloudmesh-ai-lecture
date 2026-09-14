@@ -4,6 +4,14 @@
 
 ---
 
+
+!!! info "Learning Objectives"
+    By the end of this tutorial, you will be able to:
+    1. **Program** virtual machine creation workflows using the `openstacksdk` library.
+    2. **Implement** robust server provisioning with state polling (waiting for `ACTIVE` status).
+    3. **Configure** cloud access programmatically using `clouds.yaml`.
+    4. **Handle** errors and implement automatic cleanup for failed deployments using `try/except` blocks.
+
 <a name="overview"></a>
 ## 1. Overview
 

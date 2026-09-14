@@ -5,6 +5,16 @@
     All values are expressed in SUs; dollar amounts are omitted on purpose.
 
 
+!!! info "Learning Objectives"
+    By the end of this section, you will be able to:
+    1. **Define** the Service Unit (SU) and understand how it normalizes different cloud resources (compute, memory, storage, network).
+    2. **Calculate** the hourly SU cost for various instance flavors based on CPU, RAM, and GPU specifications.
+    3. **Estimate** the monthly SU expenditure for a given project configuration.
+    4. **Analyze** the cost-saving impact of using pre-emptible instances.
+    5. **Differentiate** between block storage, object storage, and data egress costs.
+    6. **Utilize** the provided Python calculator to generate detailed cost estimations for project justification.
+
+
 !!! tip "How to Use This Document"  
 
     1. **Identify** the flavors, storage, and network you anticipate using.  

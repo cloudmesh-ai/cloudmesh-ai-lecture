@@ -13,6 +13,7 @@
 The container ecosystem has evolved from a monolithic approach—where a single tool like Docker handled everything from building images to running them and orchestrating clusters—to a modular, standardized landscape. This shift was driven by the creation of the **Open Container Initiative (OCI)**, which standardized image formats and runtimes, allowing different tools to interoperate.
 
 Today, the "container stack" is generally divided into three distinct layers:
+
 1. **Container Runtimes**: The tools that actually start and stop containers (e.g., Docker, Podman, Apptainer, containerd).
 2. **Orchestrators**: The systems that manage clusters of containers across multiple machines (e.g., Kubernetes, Nomad).
 3. **Package Managers**: The tools used to define, version, and deploy complex applications onto orchestrators (e.g., Helm, Kustomize).
@@ -24,6 +25,7 @@ Understanding these distinctions is critical to avoiding "tool overlap" and buil
 At the base of the stack is the container runtime. While Docker popularized containers, alternatives like Podman and Apptainer emerged to solve specific problems—primarily around security, daemon dependencies, and high-performance computing (HPC).
 
 ### The Three Paradigms
+
 - **Docker (The Standard)**: Uses a **Daemon-based** architecture. The CLI communicates with a background process (`dockerd`) that manages everything. Great for general purpose and CI/CD.
 - **Podman (The Secure Alternative)**: Uses a **Daemonless** architecture. It launches containers as child processes of the shell. It is rootless by default and introduces the concept of "Pods" for Kubernetes alignment.
 - **Apptainer (The HPC Specialist)**: Originally Singularity, Apptainer is designed for **High-Performance Computing**. It uses a single-file image format (SIF) and preserves the user's identity inside the container, making it ideal for shared supercomputing clusters.

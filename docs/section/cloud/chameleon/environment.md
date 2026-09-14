@@ -5,6 +5,14 @@ example workflows (python‑chi, OpenStack CLI, Libcloud, and openstacksdk).
 All secrets are stored only in the YAML file; no passwords or project IDs are
 hard‑coded in any script.
 
+!!! info "Learning Objectives"
+    By the end of this section, you will be able to:
+    1. **Implement** a unified configuration file (`env.yaml`) to store cloud credentials and runtime parameters.
+    2. **Secure** sensitive information by using appropriate file permissions (`chmod 600`) and `.gitignore`.
+    3. **Utilize** a configuration loader module to inject credentials as environment variables for SDKs.
+    4. **Manage** data-driven deployment parameters (image, flavor, network) to ensure script portability.
+
+
 ## 1. YAML file layout (`env.yaml`)
 
 The file must be placed in **`~/.config/chameleon/env.yaml`** (the leading `~`

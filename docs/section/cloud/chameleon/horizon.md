@@ -2,6 +2,14 @@
 
 ---
 
+
+!!! info "Learning Objectives"
+    By the end of this guide, you will be able to:
+    1. **Navigate** the Horizon dashboard to manage projects and resources.
+    2. **Execute** the end-to-end workflow of creating a reservation and launching an instance.
+    3. **Configure** boot sources, networks, security groups, and key pairs via the GUI.
+    4. **Manage** public access to VMs by associating floating IPs through the web interface.
+
 ## Prerequisites
 - A **Chameleon Cloud** account with an active project.  
 - A **public SSH key** uploaded to the portal (Settings → Key Pairs).  

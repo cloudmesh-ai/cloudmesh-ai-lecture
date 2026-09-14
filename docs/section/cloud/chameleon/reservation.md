@@ -4,9 +4,17 @@ Yes – the “reservation” capability that you see on the Chameleon Cloud is 
 
 Below is a quick rundown of what Blazar is, its OpenStack‑project status, and how Chameleon uses it.
 
+
+!!! info "Learning Objectives"
+    By the end of this section, you will be able to:
+    1. **Define** the role of the OpenStack Reservation Service (Blazar) in research clouds.
+    2. **Distinguish** between a lease and a standard VM allocation.
+    3. **Create** and manage resource reservations using the OpenStack CLI.
+    4. **Explain** how reservations interact with project quotas and resource availability.
+
 ---
 
-## 1️⃣ What is the OpenStack “Reservation” service?
+## What is the OpenStack “Reservation” service?
 
 | Name (code name) | Official project name | Primary purpose |
 |------------------|----------------------|-----------------|
@@ -17,7 +25,7 @@ Below is a quick rundown of what Blazar is, its OpenStack‑project status, and 
 
 ---
 
-## 2️⃣ OpenStack project status
+## OpenStack project status
 
 | Milestone | Status in OpenStack |
 |-----------|--------------------|
@@ -32,7 +40,7 @@ Thus, while Blazar is an official, upstream OpenStack project with a stable API,
 
 ---
 
-## 3️⃣ How Chameleon Cloud uses Blazor (Blazar)
+## How Chameleon Cloud uses Blazor (Blazar)
 
 | Aspect | Details |
 |--------|---------|
@@ -45,7 +53,7 @@ Thus, while Blazar is an official, upstream OpenStack project with a stable API,
 
 ---
 
-## 4️⃣ Is it “fully supported” by OpenStack?
+## Is it “fully supported” by OpenStack?
 
 * **Upstream support:** Yes. The OpenStack PTL (Project Technical Lead) for Blazar actively maintains the code, publishes release notes, and fixes bugs in each cycle. It receives the same testing, CI, and cross‑project integration as the core services.
 * **Compatibility:** It works with Nova, Cinder, Neutron, and Placement. When a lease is created, Blazar talks to the Placement service to **allocate inventory** for the requested time window, and then it issues the actual Nova/Neutron calls when the lease becomes active.
@@ -54,7 +62,7 @@ Thus, while Blazar is an official, upstream OpenStack project with a stable API,
 
 ---
 
-## 5️⃣ Quick cheat‑sheet for a Chameleon user
+## Quick cheat‑sheet for a Chameleon user
 
 ```bash
 # List your current leases
@@ -78,7 +86,7 @@ openstack reservation lease delete <LEASE_ID>
 
 ---
 
-## 6️⃣ TL;DR
+## Summary
 
 * **Blazar** is the official OpenStack **Reservation Service**.
 * It is **maintained upstream**, releases with every OpenStack version, and is considered a **supported** OpenStack project.

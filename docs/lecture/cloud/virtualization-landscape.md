@@ -2,6 +2,16 @@
 
 This summary is significantly simplified, but provides in a convenient landsacpe diagram as well as a hierarchy of some important key concepts.
 
+
+!!! info "Learning Objectives"
+    By the end of this section, you will be able to:
+    1. **Distinguish** between System Virtual Machines (Hardware VMs) and Process Virtual Machines (Application VMs).
+    2. **Compare** Type 1 (Bare-Metal) and Type 2 (Hosted) hypervisors.
+    3. **Explain** the role of hardware extensions (Intel VT-x/AMD-V and IOMMU) in enabling efficient virtualization.
+    4. **Identify** key management tools like Libvirt and common hypervisor implementations.
+    5. **Analyze** the trade-offs between virtual machines and containers in terms of performance, security, and resource utilization.
+    6. **Differentiate** between external and internal network virtualization.
+
 ![Virtualization Landscape](images/vm-mindmap.png)
 
 

@@ -4,6 +4,14 @@ Below is a complete, step‑by‑step guide for provisioning a virtual machine w
 `openstack` command‑line client, including an example *rc* file, a full command
 example, flag explanations, post‑creation steps, and troubleshooting tips.
 
+
+!!! info "Learning Objectives"
+    By the end of this guide, you will be able to:
+    1. **Authenticate** to the Chameleon Cloud using an OpenStack RC file.
+    2. **Provision** a virtual machine using the `openstack server create` command.
+    3. **Manage** VM lifecycle tasks such as allocating floating IPs and verifying instance status via the CLI.
+    4. **Troubleshoot** common CLI errors related to quotas, images, and networking.
+
 ---
 
 ## 1. Example OpenStack RC file

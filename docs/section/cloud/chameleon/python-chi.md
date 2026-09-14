@@ -4,6 +4,14 @@ This file describes a single YAML configuration that can be used by all of the
 example workflows (python‑chi, OpenStack CLI, Libcloud, and openstacksdk).  
 It stores **only data** – no secrets are hard‑coded in any script.  
 
+
+!!! info "Learning Objectives"
+    By the end of this guide, you will be able to:
+    1. **Leverage** the `python-chi` high-level wrapper for simplified OpenStack resource management.
+    2. **Automate** VM creation and floating IP association using Python.
+    3. **Manage** project and site contexts programmatically.
+    4. **Implement** a secure workflow that separates secrets from source code.
+
 ## 1. YAML file layout (`chameleon_env.yaml`)
 
 ```yaml
@@ -170,11 +178,6 @@ create …` command.
 | 8 | List the YAML file in `.gitignore` to avoid accidental commits. |
 
 ---
-
-*This markdown file provides the complete description of the unified
-environment configuration that can be used across all the examples.*
-
-&&&&&
 
 ## Virtual Machine with the `python‑chi`
 
