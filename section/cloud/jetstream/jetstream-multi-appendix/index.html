@@ -5530,6 +5530,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#high-level-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="High-Level Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#a1-01keypairsh-create-a-reusable-ssh-keypair" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5539,8 +5551,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#a2-02security-groupssh-build-the-three-security-groups-used-in-the-lab" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5550,8 +5562,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#a3-03webdbinstancessh-spin-up-the-2tier-web-db-vms" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5561,8 +5573,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#a4-04schedulerworkerssh-build-the-aidata-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5572,19 +5584,19 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#a5-05sshsetupsh-passwordless-ssh-from-scheduler-workers" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#a5-05sshsetupsh-passwordless-ssh-from-scheduler-rightarrow-workers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        A5. 05‑ssh‑setup.sh – Password‑less SSH from scheduler → workers
+        A5. 05‑ssh‑setup.sh – Password‑less SSH from scheduler $\rightarrow$ workers
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#a6-06rundasksh-start-the-scheduler-and-workers" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5594,8 +5606,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#a7-07tightensecuritysh-apply-the-asymmetric-securitygroup-rules" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5605,8 +5617,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#a8-08customnetworksh-build-a-userdefined-private-network" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5616,15 +5628,20 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#a9-summary-tablepy-sample-script-that-prints-a-markdown-table-of-your-instances" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#a9-summary-tablepy-audit-and-summarize-cloud-resources" class="md-nav__link">
     <span class="md-ellipsis">
       
-        A9. summary-table.py – Sample script that prints a markdown table of your instances
+        A9. summary-table.py – Audit and summarize cloud resources
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5665,14 +5682,36 @@
 
 
 <h1 id="appendix-readytocopy-scripts">Appendix – Ready‑to‑Copy Scripts</h1>
+<div class="admonition info">
+<p class="admonition-title">Learning Objectives</p>
+<p>By the end of this appendix, you will be able to:
+1. <strong>Automate</strong> the creation of OpenStack keypairs and security groups using bash scripts.
+2. <strong>Implement</strong> network isolation for multi-tier architectures using automated security group rules.
+3. <strong>Deploy</strong> complex multi-VM clusters (scheduler and workers) through scripted provisioning.
+4. <strong>Develop</strong> Python scripts to programmatically audit and summarize cloud resource states.
+5. <strong>Apply</strong> security best practices for managing sensitive cloud credentials and SSH keys.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If things do not work its your responsibility to fix it here in GitHub.</p>
 </div>
+<h2 id="high-level-design">High-Level Design</h2>
+<p>The scripts in this appendix provide a comprehensive toolkit for automating the deployment of a multi-tier cloud architecture on OpenStack (Jetstream). The design follows a phased approach to ensure security, scalability, and maintainability:</p>
+<ol>
+<li><strong>Identity &amp; Access Management</strong>: Establishing trust via SSH keypairs to ensure secure, password‑less access to all virtual machines.</li>
+<li><strong>Network Security Architecture</strong>: Implementing a tiered security model (Public Web $\rightarrow$ Private DB $\rightarrow$ Internal Cluster) using Security Groups to enforce strict isolation.</li>
+<li><strong>Compute Provisioning</strong>: Automating the launch of diverse VM roles (Web, DB, Scheduler, Workers) with appropriate flavors and images to match specific workload needs.</li>
+<li><strong>Cluster Orchestration</strong>: Setting up intra‑cluster communication for distributed workloads (e.g., Dask) and refining security rules to follow the principle of least privilege.</li>
+<li><strong>Infrastructure Auditing</strong>: Using Python to programmatically verify the state of the deployed environment and generate reports for documentation and audit.</li>
+</ol>
 <p>The following files can be saved directly into your project directory (or pasted into a terminal).<br>
 All scripts are plain‑text <strong>bash</strong> unless otherwise noted.<br>
 Feel free to adjust instance flavors, image names, or network names to match your own Jetstream environment.</p>
 <h3 id="a1-01keypairsh-create-a-reusable-ssh-keypair">A1. <code>01‑keypair.sh</code> – Create a reusable SSH key‑pair</h3>
+<p><strong>What this script does:</strong>
+This script automates the upload of your local public SSH key to the OpenStack cloud. By creating a named keypair (<code>jetstream-demo</code>), it ensures that any VM launched with this keypair will automatically have your public key in its <code>authorized_keys</code> file.</p>
+<p><strong>Why this matters:</strong>
+Managing SSH keys through the cloud provider instead of manually copying keys to every VM reduces administrative overhead and ensures a consistent, secure access method across your entire infrastructure.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># -------------------------------------------------</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># 01‑keypair.sh</span>
@@ -5693,6 +5732,13 @@ Feel free to adjust instance flavors, image names, or network names to match you
 </span></code></pre></div>
 <hr>
 <h3 id="a2-02security-groupssh-build-the-three-security-groups-used-in-the-lab">A2. <code>02‑security-groups.sh</code> – Build the three security groups used in the lab</h3>
+<p><strong>What this script does:</strong>
+This script defines the "virtual firewalls" for your environment. It creates three distinct security groups to implement network isolation:
+- <code>web-sg</code>: Permits public HTTP/HTTPS and SSH traffic from any IP address.
+- <code>db-sg</code>: Restricts access so that only the web tier (<code>web-sg</code>) can communicate with the database on SSH and MySQL ports.
+- <code>cluster-sg</code>: Initially allows broad communication between cluster members to simplify the setup of distributed services.</p>
+<p><strong>Why this matters:</strong>
+Implementing security groups is the primary way to achieve "Defense in Depth." By restricting database access to only the web tier, you ensure that even if a database password is leaked, the database cannot be accessed directly from the public internet.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># -------------------------------------------------</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># 02‑security-groups.sh</span>
@@ -5731,6 +5777,10 @@ Feel free to adjust instance flavors, image names, or network names to match you
 </span></code></pre></div>
 <hr>
 <h3 id="a3-03webdbinstancessh-spin-up-the-2tier-web-db-vms">A3. <code>03‑web‑db‑instances.sh</code> – Spin up the 2‑tier web ↔ DB VMs</h3>
+<p><strong>What this script does:</strong>
+This script deploys a classic two-tier architecture. It launches a web server and a database server, assigning them the security groups created in the previous step. It also allocates a Floating IP to the web server, making it reachable from the public internet while keeping the database server strictly private.</p>
+<p><strong>Why this matters:</strong>
+This pattern separates the "presentation layer" (web) from the "data layer" (DB). It allows you to scale the web tier independently and ensures that sensitive data is never exposed to the public internet.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># -------------------------------------------------</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># 03‑web‑db‑instances.sh</span>
@@ -5786,6 +5836,10 @@ Feel free to adjust instance flavors, image names, or network names to match you
 </span></code></pre></div>
 <hr>
 <h3 id="a4-04schedulerworkerssh-build-the-aidata-cluster">A4. <code>04‑scheduler‑workers.sh</code> – Build the AI/Data cluster</h3>
+<p><strong>What this script does:</strong>
+This script provisions a distributed computing cluster consisting of one scheduler and two worker nodes. The scheduler is given a Floating IP for external management, while the workers remain on the private network. All nodes are placed in the <code>cluster-sg</code> to enable them to communicate with each other.</p>
+<p><strong>Why this matters:</strong>
+Distributed computing is essential for AI and Big Data tasks. This architecture allows you to centralize job management (scheduler) while distributing the actual computation across multiple worker nodes to increase processing speed and memory capacity.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># -------------------------------------------------</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># 04‑scheduler‑workers.sh</span>
@@ -5842,7 +5896,11 @@ Feel free to adjust instance flavors, image names, or network names to match you
 </span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Scheduler reachable at </span><span class="nv">$FIP</span><span class="s2">"</span>
 </span></code></pre></div>
 <hr>
-<h3 id="a5-05sshsetupsh-passwordless-ssh-from-scheduler-workers">A5. <code>05‑ssh‑setup.sh</code> – Password‑less SSH from scheduler → workers</h3>
+<h3 id="a5-05sshsetupsh-passwordless-ssh-from-scheduler-rightarrow-workers">A5. <code>05‑ssh‑setup.sh</code> – Password‑less SSH from scheduler $\rightarrow$ workers</h3>
+<p><strong>What this script does:</strong>
+To enable the scheduler to manage workers without manual password entry, this script generates a dedicated intra‑cluster SSH key on your local machine and distributes the public part to all worker nodes.</p>
+<p><strong>Why this matters:</strong>
+Automated orchestration requires non-interactive communication. By setting up a dedicated cluster key, you enable the scheduler to launch processes on workers securely and programmatically, which is a prerequisite for distributed frameworks like Dask or Kubernetes.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># -------------------------------------------------</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># 05‑ssh‑setup.sh</span>
@@ -5871,6 +5929,10 @@ Feel free to adjust instance flavors, image names, or network names to match you
 </span></code></pre></div>
 <hr>
 <h3 id="a6-06rundasksh-start-the-scheduler-and-workers">A6. <code>06‑run‑dask.sh</code> – Start the scheduler and workers</h3>
+<p><strong>What this script does:</strong>
+This script orchestrates the launch of a Dask cluster. It uses SSH to remotely execute commands on the scheduler (installing Dask and starting the scheduler process) and then loops through the workers to start the <code>dask-worker</code> processes, pointing them to the scheduler's private IP.</p>
+<p><strong>Why this matters:</strong>
+Manual installation of software on multiple VMs is error-prone. Scripting the installation and launch sequence ensures that all nodes are running compatible versions of the software and are correctly linked to the central scheduler.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># -------------------------------------------------</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># 06‑run‑dask.sh</span>
@@ -5878,37 +5940,40 @@ Feel free to adjust instance flavors, image names, or network names to match you
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># 1) SSH to the scheduler, install Dask, and launch the scheduler.</span>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># 2) From the scheduler (or from your laptop), start the workers.</span>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># -------------------------------------------------</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># ----- 1) Scheduler side -------------------------------------------------</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="nv">SCHED_FIP</span><span class="o">=</span><span class="k">$(</span>openstack<span class="w"> </span>floating<span class="w"> </span>ip<span class="w"> </span>list<span class="w"> </span>-c<span class="w"> </span><span class="s2">"Floating IP Address"</span><span class="w"> </span>-f<span class="w"> </span>value<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n1<span class="k">)</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>ssh<span class="w"> </span>-i<span class="w"> </span>~/.ssh/id_rsa<span class="w"> </span>ubuntu@<span class="s2">"</span><span class="si">${</span><span class="nv">SCHED_FIP</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s">&lt;&lt;'EOSSH'</span>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="s">    sudo apt update &amp;&amp; sudo apt install -y python3-pip</span>
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="s">    pip3 install --user dask[distributed]</span>
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="s">    # Launch Dask scheduler in the background (port 8786, dashboard on 8787)</span>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="s">    dask-scheduler --port 8786 --dashboard-address :8787 &amp;</span>
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="s">    echo "Dask scheduler started."</span>
-</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="s">EOSSH</span>
-</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
-</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1"># ----- 2) Workers side ---------------------------------------------------</span>
-</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="c1"># Get private IP of scheduler (needed for workers to connect)</span>
-</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="nv">SCHED_PRIV</span><span class="o">=</span><span class="k">$(</span>openstack<span class="w"> </span>server<span class="w"> </span>list<span class="w"> </span>-c<span class="w"> </span>Name<span class="w"> </span>-c<span class="w"> </span>Networks<span class="w"> </span>-f<span class="w"> </span>value<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"^scheduler "</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $2}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">'='</span><span class="w"> </span>-f2<span class="k">)</span>
-</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>
-</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">    </span><span class="nv">WORKER_IP</span><span class="o">=</span><span class="k">$(</span>openstack<span class="w"> </span>server<span class="w"> </span>show<span class="w"> </span>-c<span class="w"> </span>addresses<span class="w"> </span>-f<span class="w"> </span>value<span class="w"> </span>worker<span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">'='</span><span class="w"> </span>-f2<span class="k">)</span>
-</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Starting Dask worker on </span><span class="si">${</span><span class="nv">WORKER_IP</span><span class="si">}</span><span class="s2"> ..."</span>
-</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">    </span>ssh<span class="w"> </span>-i<span class="w"> </span>~/.ssh/id_rsa<span class="w"> </span>ubuntu@<span class="s2">"</span><span class="si">${</span><span class="nv">WORKER_IP</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">        </span><span class="s2">"dask-worker tcp://</span><span class="si">${</span><span class="nv">SCHED_PRIV</span><span class="si">}</span><span class="s2">:8786 &amp;"</span>
-</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="k">done</span>
-</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>
-</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"All workers launched. You can now connect from your laptop:"</span>
-</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"   pip install dask[distributed]"</span>
-</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"   from dask.distributed import Client"</span>
-</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"   client = Client('tcp://</span><span class="si">${</span><span class="nv">SCHED_PRIV</span><span class="si">}</span><span class="s2">:8786')"</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># ----- 1) Scheduler side -------------------------------------------------</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nv">SCHED_FIP</span><span class="o">=</span><span class="k">$(</span>openstack<span class="w"> </span>floating<span class="w"> </span>ip<span class="w"> </span>list<span class="w"> </span>-c<span class="w"> </span><span class="s2">"Floating IP Address"</span><span class="w"> </span>-f<span class="w"> </span>value<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n1<span class="k">)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>ssh<span class="w"> </span>-i<span class="w"> </span>~/.ssh/id_rsa<span class="w"> </span>ubuntu@<span class="s2">"</span><span class="si">${</span><span class="nv">SCHED_FIP</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s">&lt;&lt;'EOSSH'</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="s">    sudo apt update &amp;&amp; sudo apt install -y python3-pip</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="s">    pip3 install --user dask[distributed]</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="s">    # Launch Dask scheduler in the background (port 8786, dashboard on 8787)</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="s">    dask-scheduler --port 8786 --dashboard-address :8787 &amp;</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="s">    echo "Dask scheduler started."</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="s">EOSSH</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="c1"># ----- 2) Workers side ---------------------------------------------------</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1"># Get private IP of scheduler (needed for workers to connect)</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="nv">SCHED_PRIV</span><span class="o">=</span><span class="k">$(</span>openstack<span class="w"> </span>server<span class="w"> </span>list<span class="w"> </span>-c<span class="w"> </span>Name<span class="w"> </span>-c<span class="w"> </span>Networks<span class="w"> </span>-f<span class="w"> </span>value<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"^scheduler "</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $2}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">'='</span><span class="w"> </span>-f2<span class="k">)</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">    </span><span class="nv">WORKER_IP</span><span class="o">=</span><span class="k">$(</span>openstack<span class="w"> </span>server<span class="w"> </span>show<span class="w"> </span>-c<span class="w"> </span>addresses<span class="w"> </span>-f<span class="w"> </span>value<span class="w"> </span>worker<span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">'='</span><span class="w"> </span>-f2<span class="k">)</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Starting Dask worker on </span><span class="si">${</span><span class="nv">WORKER_IP</span><span class="si">}</span><span class="s2"> ..."</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span>ssh<span class="w"> </span>-i<span class="w"> </span>~/.ssh/id_rsa<span class="w"> </span>ubuntu@<span class="s2">"</span><span class="si">${</span><span class="nv">WORKER_IP</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">        </span><span class="s2">"dask-worker tcp://</span><span class="si">${</span><span class="nv">SCHED_PRIV</span><span class="si">}</span><span class="s2">:8786 &amp;"</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="k">done</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"All workers launched. You can now connect from your laptop:"</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"   pip install dask[distributed]"</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"   from dask.distributed import Client"</span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"   client = Client('tcp://</span><span class="si">${</span><span class="nv">SCHED_PRIV</span><span class="si">}</span><span class="s2">:8786')"</span>
 </span></code></pre></div>
 <hr>
 <h3 id="a7-07tightensecuritysh-apply-the-asymmetric-securitygroup-rules">A7. <code>07‑tighten‑security.sh</code> – Apply the asymmetric security‑group rules</h3>
+<p><strong>What this script does:</strong>
+After the cluster is running, this script removes the broad, permissive "all ports" rule created during the setup of <code>cluster-sg</code> and replaces it with a narrow rule that only allows traffic on port 8786 (the Dask scheduler port).</p>
+<p><strong>Why this matters:</strong>
+This represents the transition from "Development" to "Production" security. By closing unnecessary ports, you minimize the attack surface of your cluster, preventing potential attackers from exploiting other services that might be running on your VMs.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># -------------------------------------------------</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># 07‑tighten‑security.sh</span>
@@ -5937,6 +6002,10 @@ Feel free to adjust instance flavors, image names, or network names to match you
 </span></code></pre></div>
 <hr>
 <h3 id="a8-08customnetworksh-build-a-userdefined-private-network">A8. <code>08‑custom‑network.sh</code> – Build a user‑defined private network</h3>
+<p><strong>What this script does:</strong>
+This script demonstrates how to create a completely custom Virtual Private Cloud (VPC). It defines a new network, a specific subnet with a custom CIDR range, and a router to manage traffic between the custom network and the external public network.</p>
+<p><strong>Why this matters:</strong>
+In enterprise environments, you often cannot rely on default networks. Creating custom networks allows you to design your own IP addressing scheme, implement complex routing, and ensure total isolation from other projects in the same cloud tenant.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># -------------------------------------------------</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># 08‑custom‑network.sh</span>
@@ -5970,117 +6039,98 @@ Feel free to adjust instance flavors, image names, or network names to match you
 </span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="c1"># Create router</span>
 </span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>openstack<span class="w"> </span>router<span class="w"> </span>list<span class="w"> </span>-c<span class="w"> </span>Name<span class="w"> </span>-f<span class="w"> </span>value<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">"^</span><span class="si">${</span><span class="nv">ROUTER_NAME</span><span class="si">}</span>$<span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 </span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">    </span>openstack<span class="w"> </span>router<span class="w"> </span>create<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">ROUTER_NAME</span><span class="si">}</span><span class="s2">"</span>
-</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">    </span>openstack<span class="w"> </span>router<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--external-gateway<span class="w"> </span>public<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">ROUTER_NAME</span><span class="si">}</span><span class="s2">"</span>
-</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="w">    </span>openstack<span class="w"> </span>router<span class="w"> </span>add<span class="w"> </span>subnet<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">ROUTER_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">SUBNET_NAME</span><span class="si">}</span><span class="s2">"</span>
-</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Router </span><span class="si">${</span><span class="nv">ROUTER_NAME</span><span class="si">}</span><span class="s2"> created and attached to subnet."</span>
-</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="k">fi</span>
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Router </span><span class="si">${</span><span class="nv">ROUTER_NAME</span><span class="si">}</span><span class="s2"> created."</span>
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="k">fi</span>
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>
+</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="c1"># Attach router to external network</span>
+</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>openstack<span class="w"> </span>router<span class="w"> </span><span class="nb">set</span><span class="w"> </span>router<span class="w"> </span><span class="si">${</span><span class="nv">ROUTER_NAME</span><span class="si">}</span><span class="w"> </span>--external-gateway<span class="w"> </span>public
+</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>
+</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="c1"># Add interface to the custom subnet</span>
+</span><span id="__span-7-41"><a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a>openstack<span class="w"> </span>router<span class="w"> </span>add<span class="w"> </span>subnet<span class="w"> </span><span class="si">${</span><span class="nv">ROUTER_NAME</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">SUBNET_NAME</span><span class="si">}</span>
+</span><span id="__span-7-42"><a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Router </span><span class="si">${</span><span class="nv">ROUTER_NAME</span><span class="si">}</span><span class="s2"> configured with external gateway and interface to </span><span class="si">${</span><span class="nv">SUBNET_NAME</span><span class="si">}</span><span class="s2">."</span>
 </span></code></pre></div>
 <hr>
-<h3 id="a9-summary-tablepy-sample-script-that-prints-a-markdown-table-of-your-instances">A9. <code>summary-table.py</code> – Sample script that prints a markdown table of your instances</h3>
-<p>The Python program below <strong>does not call the OpenStack CLI</strong>; instead it works from a hard‑coded list so it can be executed in any environment (including the browser‑based interpreter).<br>
-Replace the <code>instances</code> list with data obtained from <code>openstack server list -f json</code> if you want a live summary.</p>
-<p><strong><code>summary-table.py</code> – Generate a markdown‑formatted table of the instances you have created</strong></p>
-<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="ch">#!/usr/bin/env python3</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="sd">"""</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="sd">summary-table.py</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="sd">----------------</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="sd">Queries the OpenStack service for a list of servers and prints a</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="sd">markdown table that can be copied directly into documentation</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="sd">(e.g. jetstream‑multi.md).</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="sd">Prerequisites</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="sd">-------------</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="sd">* The OpenStack client (`openstack`) must be installed and sourced</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="sd">  (e.g. `source ~/openrc.sh`).</span>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="sd">* The script must be run on a machine that has network access to the</span>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="sd">  Jetstream project and the appropriate credentials.</span>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="sd">How it works</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="sd">------------</span>
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="sd">1. Calls ``openstack server list -f json`` to obtain a JSON list of</span>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="sd">   servers.</span>
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="sd">2. Extracts the fields we care about: **Name**, **Status**, **Networks**</span>
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="sd">   (which includes the private IPs) and **Image**.</span>
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="sd">3. Prints a markdown table with a header and a row for each server.</span>
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="sd">Usage</span>
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="sd">-----</span>
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="sd">$ chmod +x summary-table.py</span>
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="sd">$ ./summary-table.py        # or: python3 summary-table.py</span>
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="sd">import json</span>
-</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="sd">import subprocess</span>
-</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="sd">import sys</span>
-</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a><span class="sd">from typing import List, Dict</span>
-</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>
-</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>
-</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a><span class="sd">def run_openstack_cmd() -&gt; List[Dict]:</span>
-</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="sd">    """</span><span class="n">Execute</span> <span class="n">the</span> <span class="n">OpenStack</span> <span class="n">CLI</span> <span class="ow">and</span> <span class="k">return</span> <span class="n">parsed</span> <span class="n">JSON</span><span class="o">.</span><span class="s2">"""</span>
-</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="s2">    try:</span>
-</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a><span class="s2">        result = subprocess.run(</span>
-</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a><span class="s2">            ["openstack", "server", "list", "-f", "json"],</span>
-</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a><span class="s2">            check=True,</span>
-</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a><span class="s2">            capture_output=True,</span>
-</span><span id="__span-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a><span class="s2">            text=True,</span>
-</span><span id="__span-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a><span class="s2">        )</span>
-</span><span id="__span-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a><span class="s2">    except FileNotFoundError:</span>
-</span><span id="__span-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a><span class="s2">        sys.stderr.write("Error: the `openstack` command is not installed.</span><span class="se">\n</span><span class="s2">")</span>
-</span><span id="__span-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a><span class="s2">        sys.exit(1)</span>
-</span><span id="__span-8-47"><a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a><span class="s2">    except subprocess.CalledProcessError as e:</span>
-</span><span id="__span-8-48"><a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a><span class="s2">        sys.stderr.write(f"OpenStack CLI failed: </span><span class="si">{e.stderr}</span><span class="se">\n</span><span class="s2">")</span>
-</span><span id="__span-8-49"><a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a><span class="s2">        sys.exit(1)</span>
-</span><span id="__span-8-50"><a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a>
-</span><span id="__span-8-51"><a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a><span class="s2">    try:</span>
-</span><span id="__span-8-52"><a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a><span class="s2">        servers = json.loads(result.stdout)</span>
-</span><span id="__span-8-53"><a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a><span class="s2">    except json.JSONDecodeError:</span>
-</span><span id="__span-8-54"><a id="__codelineno-8-54" name="__codelineno-8-54" href="#__codelineno-8-54"></a><span class="s2">        sys.stderr.write("Error: failed to parse JSON output from OpenStack.</span><span class="se">\n</span><span class="s2">")</span>
-</span><span id="__span-8-55"><a id="__codelineno-8-55" name="__codelineno-8-55" href="#__codelineno-8-55"></a><span class="s2">        sys.exit(1)</span>
-</span><span id="__span-8-56"><a id="__codelineno-8-56" name="__codelineno-8-56" href="#__codelineno-8-56"></a>
-</span><span id="__span-8-57"><a id="__codelineno-8-57" name="__codelineno-8-57" href="#__codelineno-8-57"></a><span class="s2">    return servers</span>
-</span><span id="__span-8-58"><a id="__codelineno-8-58" name="__codelineno-8-58" href="#__codelineno-8-58"></a>
-</span><span id="__span-8-59"><a id="__codelineno-8-59" name="__codelineno-8-59" href="#__codelineno-8-59"></a>
-</span><span id="__span-8-60"><a id="__codelineno-8-60" name="__codelineno-8-60" href="#__codelineno-8-60"></a><span class="s2">def extract_private_ip(networks: str) -&gt; str:</span>
-</span><span id="__span-8-61"><a id="__codelineno-8-61" name="__codelineno-8-61" href="#__codelineno-8-61"></a><span class="s2">    """</span>
-</span><span id="__span-8-62"><a id="__codelineno-8-62" name="__codelineno-8-62" href="#__codelineno-8-62"></a>    <span class="err">``</span><span class="n">networks</span><span class="err">``</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">string</span> <span class="n">like</span>
-</span><span id="__span-8-63"><a id="__codelineno-8-63" name="__codelineno-8-63" href="#__codelineno-8-63"></a>    <span class="s2">"private-net=10.0.0.5; public=203.0.113.10"</span><span class="o">.</span>
-</span><span id="__span-8-64"><a id="__codelineno-8-64" name="__codelineno-8-64" href="#__codelineno-8-64"></a>    <span class="n">We</span> <span class="k">return</span> <span class="n">only</span> <span class="n">the</span> <span class="n">private</span> <span class="n">IP</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">(</span><span class="n">comma</span><span class="err">‑</span><span class="n">separated</span> <span class="k">if</span> <span class="n">more</span> <span class="n">than</span> <span class="n">one</span><span class="p">)</span><span class="o">.</span>
-</span><span id="__span-8-65"><a id="__codelineno-8-65" name="__codelineno-8-65" href="#__codelineno-8-65"></a><span class="w">    </span><span class="sd">"""</span>
-</span><span id="__span-8-66"><a id="__codelineno-8-66" name="__codelineno-8-66" href="#__codelineno-8-66"></a><span class="sd">    ips = []</span>
-</span><span id="__span-8-67"><a id="__codelineno-8-67" name="__codelineno-8-67" href="#__codelineno-8-67"></a><span class="sd">    for pair in networks.split(";"):</span>
-</span><span id="__span-8-68"><a id="__codelineno-8-68" name="__codelineno-8-68" href="#__codelineno-8-68"></a><span class="sd">        name, ip = pair.strip().split("=")</span>
-</span><span id="__span-8-69"><a id="__codelineno-8-69" name="__codelineno-8-69" href="#__codelineno-8-69"></a><span class="sd">        if name.startswith("private"):</span>
-</span><span id="__span-8-70"><a id="__codelineno-8-70" name="__codelineno-8-70" href="#__codelineno-8-70"></a><span class="sd">            ips.append(ip)</span>
-</span><span id="__span-8-71"><a id="__codelineno-8-71" name="__codelineno-8-71" href="#__codelineno-8-71"></a><span class="sd">    return ", ".join(ips) if ips else "—"</span>
-</span><span id="__span-8-72"><a id="__codelineno-8-72" name="__codelineno-8-72" href="#__codelineno-8-72"></a>
-</span><span id="__span-8-73"><a id="__codelineno-8-73" name="__codelineno-8-73" href="#__codelineno-8-73"></a>
-</span><span id="__span-8-74"><a id="__codelineno-8-74" name="__codelineno-8-74" href="#__codelineno-8-74"></a><span class="sd">def print_markdown_table(servers: List[Dict]):</span>
-</span><span id="__span-8-75"><a id="__codelineno-8-75" name="__codelineno-8-75" href="#__codelineno-8-75"></a><span class="sd">    """</span><span class="n">Print</span> <span class="n">a</span> <span class="n">markdown</span> <span class="n">table</span> <span class="k">with</span> <span class="n">the</span> <span class="n">selected</span> <span class="n">columns</span><span class="o">.</span><span class="s2">"""</span>
-</span><span id="__span-8-76"><a id="__codelineno-8-76" name="__codelineno-8-76" href="#__codelineno-8-76"></a><span class="s2">    header = ["Name", "Status", "Image", "Private IP(s)"]</span>
-</span><span id="__span-8-77"><a id="__codelineno-8-77" name="__codelineno-8-77" href="#__codelineno-8-77"></a><span class="s2">    print("| " + " | ".join(header) + " |")</span>
-</span><span id="__span-8-78"><a id="__codelineno-8-78" name="__codelineno-8-78" href="#__codelineno-8-78"></a><span class="s2">    print("|" + "|".join(["---"] * len(header)) + "|")</span>
-</span><span id="__span-8-79"><a id="__codelineno-8-79" name="__codelineno-8-79" href="#__codelineno-8-79"></a>
-</span><span id="__span-8-80"><a id="__codelineno-8-80" name="__codelineno-8-80" href="#__codelineno-8-80"></a><span class="s2">    for srv in servers:</span>
-</span><span id="__span-8-81"><a id="__codelineno-8-81" name="__codelineno-8-81" href="#__codelineno-8-81"></a><span class="s2">        name = srv.get("Name", "—")</span>
-</span><span id="__span-8-82"><a id="__codelineno-8-82" name="__codelineno-8-82" href="#__codelineno-8-82"></a><span class="s2">        status = srv.get("Status", "—")</span>
-</span><span id="__span-8-83"><a id="__codelineno-8-83" name="__codelineno-8-83" href="#__codelineno-8-83"></a><span class="s2">        image = srv.get("Image", "—")</span>
-</span><span id="__span-8-84"><a id="__codelineno-8-84" name="__codelineno-8-84" href="#__codelineno-8-84"></a><span class="s2">        networks = srv.get("Networks", "")</span>
-</span><span id="__span-8-85"><a id="__codelineno-8-85" name="__codelineno-8-85" href="#__codelineno-8-85"></a><span class="s2">        private_ips = extract_private_ip(networks)</span>
-</span><span id="__span-8-86"><a id="__codelineno-8-86" name="__codelineno-8-86" href="#__codelineno-8-86"></a>
-</span><span id="__span-8-87"><a id="__codelineno-8-87" name="__codelineno-8-87" href="#__codelineno-8-87"></a><span class="s2">        row = [name, status, image, private_ips]</span>
-</span><span id="__span-8-88"><a id="__codelineno-8-88" name="__codelineno-8-88" href="#__codelineno-8-88"></a><span class="s2">        print("| " + " | ".join(row) + " |")</span>
-</span><span id="__span-8-89"><a id="__codelineno-8-89" name="__codelineno-8-89" href="#__codelineno-8-89"></a>
-</span><span id="__span-8-90"><a id="__codelineno-8-90" name="__codelineno-8-90" href="#__codelineno-8-90"></a>
-</span><span id="__span-8-91"><a id="__codelineno-8-91" name="__codelineno-8-91" href="#__codelineno-8-91"></a><span class="s2">def main():</span>
-</span><span id="__span-8-92"><a id="__codelineno-8-92" name="__codelineno-8-92" href="#__codelineno-8-92"></a><span class="s2">    servers = run_openstack_cmd()</span>
-</span><span id="__span-8-93"><a id="__codelineno-8-93" name="__codelineno-8-93" href="#__codelineno-8-93"></a><span class="s2">    if not servers:</span>
-</span><span id="__span-8-94"><a id="__codelineno-8-94" name="__codelineno-8-94" href="#__codelineno-8-94"></a><span class="s2">        print("No instances found in the current project.")</span>
-</span><span id="__span-8-95"><a id="__codelineno-8-95" name="__codelineno-8-95" href="#__codelineno-8-95"></a><span class="s2">        return</span>
-</span><span id="__span-8-96"><a id="__codelineno-8-96" name="__codelineno-8-96" href="#__codelineno-8-96"></a>
-</span><span id="__span-8-97"><a id="__codelineno-8-97" name="__codelineno-8-97" href="#__codelineno-8-97"></a><span class="s2">    print_markdown_table(servers)</span>
-</span><span id="__span-8-98"><a id="__codelineno-8-98" name="__codelineno-8-98" href="#__codelineno-8-98"></a>
-</span><span id="__span-8-99"><a id="__codelineno-8-99" name="__codelineno-8-99" href="#__codelineno-8-99"></a>
-</span><span id="__span-8-100"><a id="__codelineno-8-100" name="__codelineno-8-100" href="#__codelineno-8-100"></a><span class="s2">if __name__ == "__main__":</span>
-</span><span id="__span-8-101"><a id="__codelineno-8-101" name="__codelineno-8-101" href="#__codelineno-8-101"></a><span class="s2">    main()</span>
+<h3 id="a9-summary-tablepy-audit-and-summarize-cloud-resources">A9. <code>summary-table.py</code> – Audit and summarize cloud resources</h3>
+<p><strong>What this script does:</strong>
+This is a Python utility that uses the OpenStack CLI to retrieve a JSON list of all servers in the current project, parses the network information to isolate private IP addresses, and outputs a clean Markdown table.</p>
+<p><strong>Why this matters:</strong>
+As your infrastructure grows, manually tracking IP addresses in a text file becomes impossible. Programmatic auditing ensures that your documentation is always in sync with the actual state of the cloud, providing a "single source of truth" for your cluster's topology.</p>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>summary-table.py
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>$<span class="w"> </span>./summary-table.py<span class="w">        </span><span class="c1"># or: python3 summary-table.py</span>
+</span></code></pre></div>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">run_openstack_cmd</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="sd">"""Execute the OpenStack CLI and return parsed JSON."""</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>            <span class="p">[</span><span class="s2">"openstack"</span><span class="p">,</span> <span class="s2">"server"</span><span class="p">,</span> <span class="s2">"list"</span><span class="p">,</span> <span class="s2">"-f"</span><span class="p">,</span> <span class="s2">"json"</span><span class="p">],</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>            <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>            <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>            <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>        <span class="p">)</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"Error: the `openstack` command is not installed.</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>        <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"OpenStack CLI failed: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>        <span class="n">servers</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>    <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>        <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"Error: failed to parse JSON output from OpenStack.</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>    <span class="k">return</span> <span class="n">servers</span>
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="k">def</span><span class="w"> </span><span class="nf">extract_private_ip</span><span class="p">(</span><span class="n">networks</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="w">    </span><span class="sd">"""</span>
+</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="sd">    ``networks`` is a string like</span>
+</span><span id="__span-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="sd">    "private-net=10.0.0.5; public=203.0.113.10".</span>
+</span><span id="__span-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="sd">    We return only the private IP(s) (comma‑separated if more than one).</span>
+</span><span id="__span-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a><span class="sd">    """</span>
+</span><span id="__span-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a>    <span class="n">ips</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a>    <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">networks</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">";"</span><span class="p">):</span>
+</span><span id="__span-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a>        <span class="n">name</span><span class="p">,</span> <span class="n">ip</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)</span>
+</span><span id="__span-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a>        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"private"</span><span class="p">):</span>
+</span><span id="__span-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>            <span class="n">ips</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+</span><span id="__span-9-43"><a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a>    <span class="k">return</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ips</span><span class="p">)</span> <span class="k">if</span> <span class="n">ips</span> <span class="k">else</span> <span class="s2">"—"</span>
+</span><span id="__span-9-44"><a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a>
+</span><span id="__span-9-45"><a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a>
+</span><span id="__span-9-46"><a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a><span class="k">def</span><span class="w"> </span><span class="nf">print_markdown_table</span><span class="p">(</span><span class="n">servers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]):</span>
+</span><span id="__span-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a><span class="w">    </span><span class="sd">"""Print a markdown table with the selected columns."""</span>
+</span><span id="__span-9-48"><a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a>    <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Name"</span><span class="p">,</span> <span class="s2">"Status"</span><span class="p">,</span> <span class="s2">"Image"</span><span class="p">,</span> <span class="s2">"Private IP(s)"</span><span class="p">]</span>
+</span><span id="__span-9-49"><a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"| "</span> <span class="o">+</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">header</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" |"</span><span class="p">)</span>
+</span><span id="__span-9-50"><a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"|"</span> <span class="o">+</span> <span class="s2">"|"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">"---"</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">))</span> <span class="o">+</span> <span class="s2">"|"</span><span class="p">)</span>
+</span><span id="__span-9-51"><a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a>
+</span><span id="__span-9-52"><a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a>    <span class="k">for</span> <span class="n">srv</span> <span class="ow">in</span> <span class="n">servers</span><span class="p">:</span>
+</span><span id="__span-9-53"><a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a>        <span class="n">name</span> <span class="o">=</span> <span class="n">srv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Name"</span><span class="p">,</span> <span class="s2">"—"</span><span class="p">)</span>
+</span><span id="__span-9-54"><a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a>        <span class="n">status</span> <span class="o">=</span> <span class="n">srv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Status"</span><span class="p">,</span> <span class="s2">"—"</span><span class="p">)</span>
+</span><span id="__span-9-55"><a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a>        <span class="n">image</span> <span class="o">=</span> <span class="n">srv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Image"</span><span class="p">,</span> <span class="s2">"—"</span><span class="p">)</span>
+</span><span id="__span-9-56"><a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a>        <span class="n">networks</span> <span class="o">=</span> <span class="n">srv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Networks"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+</span><span id="__span-9-57"><a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a>        <span class="n">private_ips</span> <span class="o">=</span> <span class="n">extract_private_ip</span><span class="p">(</span><span class="n">networks</span><span class="p">)</span>
+</span><span id="__span-9-58"><a id="__codelineno-9-58" name="__codelineno-9-58" href="#__codelineno-9-58"></a>
+</span><span id="__span-9-59"><a id="__codelineno-9-59" name="__codelineno-9-59" href="#__codelineno-9-59"></a>        <span class="n">row</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">private_ips</span><span class="p">]</span>
+</span><span id="__span-9-60"><a id="__codelineno-9-60" name="__codelineno-9-60" href="#__codelineno-9-60"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"| "</span> <span class="o">+</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" |"</span><span class="p">)</span>
+</span><span id="__span-9-61"><a id="__codelineno-9-61" name="__codelineno-9-61" href="#__codelineno-9-61"></a>
+</span><span id="__span-9-62"><a id="__codelineno-9-62" name="__codelineno-9-62" href="#__codelineno-9-62"></a>
+</span><span id="__span-9-63"><a id="__codelineno-9-63" name="__codelineno-9-63" href="#__codelineno-9-63"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-9-64"><a id="__codelineno-9-64" name="__codelineno-9-64" href="#__codelineno-9-64"></a>    <span class="n">servers</span> <span class="o">=</span> <span class="n">run_openstack_cmd</span><span class="p">()</span>
+</span><span id="__span-9-65"><a id="__codelineno-9-65" name="__codelineno-9-65" href="#__codelineno-9-65"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">servers</span><span class="p">:</span>
+</span><span id="__span-9-66"><a id="__codelineno-9-66" name="__codelineno-9-66" href="#__codelineno-9-66"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"No instances found in the current project."</span><span class="p">)</span>
+</span><span id="__span-9-67"><a id="__codelineno-9-67" name="__codelineno-9-67" href="#__codelineno-9-67"></a>        <span class="k">return</span>
+</span><span id="__span-9-68"><a id="__codelineno-9-68" name="__codelineno-9-68" href="#__codelineno-9-68"></a>
+</span><span id="__span-9-69"><a id="__codelineno-9-69" name="__codelineno-9-69" href="#__codelineno-9-69"></a>    <span class="n">print_markdown_table</span><span class="p">(</span><span class="n">servers</span><span class="p">)</span>
+</span><span id="__span-9-70"><a id="__codelineno-9-70" name="__codelineno-9-70" href="#__codelineno-9-70"></a>
+</span><span id="__span-9-71"><a id="__codelineno-9-71" name="__codelineno-9-71" href="#__codelineno-9-71"></a>
+</span><span id="__span-9-72"><a id="__codelineno-9-72" name="__codelineno-9-72" href="#__codelineno-9-72"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+</span><span id="__span-9-73"><a id="__codelineno-9-73" name="__codelineno-9-73" href="#__codelineno-9-73"></a>    <span class="n">main</span><span class="p">()</span>
 </span></code></pre></div>
 <h2 id="self-assessment">Self-Assessment</h2>
 <div class="admonition tip">
