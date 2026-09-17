@@ -1,6 +1,7 @@
 # Virtualization
 
 !!! note "Learning Outcomes"
+
     - Gain a fundamental understanding of virtualization concepts.
     - Define and distinguish between different types of Virtual Machines (VMs).
     - Understand the role and types of Hypervisors (Type 1 and Type 2).
@@ -343,7 +344,9 @@ In Section [VirtualBox](../../section/cloud/local/virtualbox.md) we have provide
 ## Technical Nuances and Advanced Comparisons
 
 ### QEMU, KVM, and Xen
+
 Beyond the basic types, there are specialized implementations:
+
 *   **QEMU and KVM**: These are better integrated into Linux and have a smaller footprint, which may result in better performance.
 *   **VirtualBox**: Targeted as general-purpose virtualization software, primarily limited to x86 and amd64 architectures.
 *   **Xen**: Uses QEMU to allow hardware virtualization; however, Xen can also use paravirtualization [@diff-qemu].
@@ -371,6 +374,7 @@ Good examples of cloud-based virtual storage include **Google Drive**, as well a
 Network virtualization combines hardware and software network resources into a single, software-defined administrative unit called a **virtual network**. 
 
 We distinguish between:
+
 *   **External network virtualization**: Combines many physical networks into a unifying logical network.
 *   **Internal network virtualization**: Provides network functionality to the processes and containers running on a single server.
 
@@ -399,12 +403,14 @@ Note that we will not cover this topic in depth in this introductory class, but 
 
 !!! note "E.Virtualization.4"
     Start a recent LTS version of an Ubuntu image on your virtualizer.
+
     - Which version did you use?
     - Did it work?
     - Describe what limitations you set based on your machine's hardware resources?
 
 !!! note "E.Virtualization.5"
     Automate the management of your virtual machines with a Makefile with the following set of minimal targets:
+
     - make help
     - make start
     - make stop
@@ -420,6 +426,7 @@ Note that we will not cover this topic in depth in this introductory class, but 
 
 !!! note "E.Virtualization.6"
     Based on your experience with E.Virtualization.5 develop a python program that can accept commandline arguments with additional parameters such as:
+    
     - vm-manager.py help
     - vm-manager.py set --name=NAME –os=Ubuntu24_LTS_64
     - vm-manager.py start [--name=NAME] ...
