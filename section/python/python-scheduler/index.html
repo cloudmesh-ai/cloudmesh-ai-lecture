@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../custom.css">
     
-      <link rel="stylesheet" href="../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5799,7 +5797,7 @@
   
 
 
-<h1 id="event-scheduling-in-python-using-the-sched-module">Event Scheduling in Python using the sched Module<a class="headerlink" href="#event-scheduling-in-python-using-the-sched-module" title="Permanent link">§</a></h1>
+<h1 id="event-scheduling-in-python-using-the-sched-module">Event Scheduling in Python using the sched Module<a class="headerlink" href="#event-scheduling-in-python-using-the-sched-module" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -5811,16 +5809,16 @@
 </div>
 <p>In complex system administration and cloud management, tasks often need to be executed at specific intervals or after a predefined delay. While <code>time.sleep()</code> is suitable for simple pauses, it blocks the execution of the entire thread, making it impractical for managing multiple concurrent timed events. </p>
 <p>Python's <code>sched</code> module provides a general-purpose event scheduler. It allows developers to schedule functions to be executed at specific times in the future by maintaining a priority queue of events, ensuring that the event with the earliest scheduled time is always executed first.</p>
-<h2 id="fundamental-concepts-of-the-sched-module">Fundamental Concepts of the sched Module<a class="headerlink" href="#fundamental-concepts-of-the-sched-module" title="Permanent link">§</a></h2>
+<h2 id="fundamental-concepts-of-the-sched-module">Fundamental Concepts of the sched Module<a class="headerlink" href="#fundamental-concepts-of-the-sched-module" title="Permanent link">¶</a></h2>
 <p>The core of the module is the <code>sched.scheduler</code> class. To initialize a scheduler, you must provide two arguments: a time-reading function (usually <code>time.time</code>) and a delay function (usually <code>time.sleep</code>).</p>
-<h3 id="event-queue-management">Event Queue Management<a class="headerlink" href="#event-queue-management" title="Permanent link">§</a></h3>
+<h3 id="event-queue-management">Event Queue Management<a class="headerlink" href="#event-queue-management" title="Permanent link">¶</a></h3>
 <p>The scheduler manages events using a priority queue. When an event is entered into the scheduler, it is assigned a target execution time based on the current time plus the specified delay.</p>
 <p>The primary methods used to interact with the scheduler are:</p>
 <ul>
 <li><code>scheduler.enter(delay, priority, action, argument=(), kwargs={})</code>: Schedules an event to occur after <code>delay</code> seconds. If two events are scheduled for the same time, the one with the lower <code>priority</code> value is executed first.</li>
 <li><code>scheduler.run()</code>: Blocks the main thread and executes all scheduled events in the order of their target time.</li>
 </ul>
-<h2 id="implementation-cloud-resource-health-checker">Implementation: Cloud Resource Health Checker<a class="headerlink" href="#implementation-cloud-resource-health-checker" title="Permanent link">§</a></h2>
+<h2 id="implementation-cloud-resource-health-checker">Implementation: Cloud Resource Health Checker<a class="headerlink" href="#implementation-cloud-resource-health-checker" title="Permanent link">¶</a></h2>
 <p>In a cloud environment, periodic tasks are required to ensure system reliability, such as verifying VM responsiveness or monitoring load balancer health. The <code>sched</code> module allows these checks to be scheduled without manually calculating sleep intervals between different resources.</p>
 <p>The following example demonstrates a health monitor that staggers checks for multiple virtual machines to avoid a "thundering herd" problem, where all resources are queried simultaneously, potentially overloading the management API.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sched</span>
@@ -5860,12 +5858,12 @@
 </span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
 </span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Stopping Health Monitor..."</span><span class="p">)</span>
 </span></code></pre></div>
-<h3 id="analysis-of-the-implementation">Analysis of the Implementation<a class="headerlink" href="#analysis-of-the-implementation" title="Permanent link">§</a></h3>
+<h3 id="analysis-of-the-implementation">Analysis of the Implementation<a class="headerlink" href="#analysis-of-the-implementation" title="Permanent link">¶</a></h3>
 <p>The code uses a recursive scheduling pattern. Inside <code>check_vm_health</code>, the function calls <code>scheduler.enter</code> to schedule its own next execution. This creates a persistent monitoring loop for each VM.</p>
 <p>The use of <code>random.uniform</code> for the initial delay prevents simultaneous execution of all health checks, distributing the load over time.</p>
-<h2 id="advanced-scheduling-patterns">Advanced Scheduling Patterns<a class="headerlink" href="#advanced-scheduling-patterns" title="Permanent link">§</a></h2>
+<h2 id="advanced-scheduling-patterns">Advanced Scheduling Patterns<a class="headerlink" href="#advanced-scheduling-patterns" title="Permanent link">¶</a></h2>
 <p>For more complex scenarios, such as resource cleanup or maintenance windows, schedules must be precise and sequential.</p>
-<h3 id="sequential-execution-chains">Sequential Execution Chains<a class="headerlink" href="#sequential-execution-chains" title="Permanent link">§</a></h3>
+<h3 id="sequential-execution-chains">Sequential Execution Chains<a class="headerlink" href="#sequential-execution-chains" title="Permanent link">¶</a></h3>
 <p>You can create a chain of events by scheduling the next step within the action of the current step. This is useful for workflows that require a specific order of operations with gaps in between.</p>
 <p>Example: A resource cleanup sequence.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sched</span>
@@ -5903,7 +5901,7 @@
 <li>Executed the event queue using <code>scheduler.run()</code>.</li>
 </ul>
 </div>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -5984,8 +5982,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../assets/slides/js/slides.js"></script>
       
     
   

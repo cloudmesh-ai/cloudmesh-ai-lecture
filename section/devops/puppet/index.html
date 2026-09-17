@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../custom.css">
     
-      <link rel="stylesheet" href="../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5989,7 +5987,7 @@
   
 
 
-<h1 id="enterprise-configuration-management-with-puppet">Enterprise Configuration Management with Puppet<a class="headerlink" href="#enterprise-configuration-management-with-puppet" title="Permanent link">§</a></h1>
+<h1 id="enterprise-configuration-management-with-puppet">Enterprise Configuration Management with Puppet<a class="headerlink" href="#enterprise-configuration-management-with-puppet" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -6005,16 +6003,16 @@
 <p class="admonition-title">Why this matters</p>
 <p>The core philosophy of Puppet is <strong>state enforcement</strong>. While some tools simply run a list of commands (procedural), Puppet defines what the server <em>should</em> look like (declarative). If a user manually changes a configuration file on a server, Puppet will detect this "drift" during its next check and automatically change it back to the correct state. This makes Puppet an industry standard for high-compliance enterprise environments.</p>
 </div>
-<h2 id="puppets-architecture-the-pull-model">Puppet's Architecture: The Pull Model<a class="headerlink" href="#puppets-architecture-the-pull-model" title="Permanent link">§</a></h2>
+<h2 id="puppets-architecture-the-pull-model">Puppet's Architecture: The Pull Model<a class="headerlink" href="#puppets-architecture-the-pull-model" title="Permanent link">¶</a></h2>
 <p>One of the most significant differences between Puppet and tools like Ansible is how they communicate with target nodes.</p>
-<h3 id="push-vs-pull-configuration">Push vs. Pull Configuration<a class="headerlink" href="#push-vs-pull-configuration" title="Permanent link">§</a></h3>
+<h3 id="push-vs-pull-configuration">Push vs. Pull Configuration<a class="headerlink" href="#push-vs-pull-configuration" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Push Model (e.g., Ansible)</strong>: A central server "pushes" configurations to the nodes via SSH. The nodes are passive until the server tells them to do something.</li>
 <li><strong>Pull Model (e.g., Puppet)</strong>: Each node runs a <strong>Puppet Agent</strong> that "pulls" its configuration from the central <strong>Puppet Master</strong> at regular intervals.</li>
 </ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/IAC.jpg" data-desc-position="bottom"><img alt="Infrastructure As Code" src="../images/IAC.jpg"></a>{#fig:InfrastructureAsCode}</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/push-pull-configuration.jpg" data-desc-position="bottom"><img alt="Push-Pull Configuration" src="../images/push-pull-configuration.jpg"></a>{#fig:push-pull-config}</p>
-<h3 id="comparison-puppet-vs-ansible">Comparison: Puppet vs. Ansible<a class="headerlink" href="#comparison-puppet-vs-ansible" title="Permanent link">§</a></h3>
+<p></p><figure id="_figure-1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/IAC.jpg" data-desc-position="bottom"><img alt="Infrastructure As Code" id="fig:InfrastructureAsCode" src="../images/IAC.jpg"></a><figcaption>Figure 1: Infrastructure As Code</figcaption></figure><p></p>
+<p></p><figure id="_figure-2"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/push-pull-configuration.jpg" data-desc-position="bottom"><img alt="Push-Pull Configuration" id="fig:push-pull-config" src="../images/push-pull-configuration.jpg"></a><figcaption>Figure 2: Push-Pull Configuration</figcaption></figure><p></p>
+<h3 id="comparison-puppet-vs-ansible">Comparison: Puppet vs. Ansible<a class="headerlink" href="#comparison-puppet-vs-ansible" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
@@ -6051,23 +6049,23 @@
 </tr>
 </tbody>
 </table>
-<h2 id="the-puppet-master-agent-workflow">The Puppet Master-Agent Workflow<a class="headerlink" href="#the-puppet-master-agent-workflow" title="Permanent link">§</a></h2>
+<h2 id="the-puppet-master-agent-workflow">The Puppet Master-Agent Workflow<a class="headerlink" href="#the-puppet-master-agent-workflow" title="Permanent link">¶</a></h2>
 <p>Puppet operates through a structured cycle that ensures security and consistency.</p>
-<h3 id="the-lifecycle-of-a-configuration">The Lifecycle of a Configuration<a class="headerlink" href="#the-lifecycle-of-a-configuration" title="Permanent link">§</a></h3>
+<h3 id="the-lifecycle-of-a-configuration">The Lifecycle of a Configuration<a class="headerlink" href="#the-lifecycle-of-a-configuration" title="Permanent link">¶</a></h3>
 <ol>
 <li><strong>Fact Collection</strong>: The Puppet Agent sends "Facts" (IP address, OS version, hardware details) to the Master.</li>
 <li><strong>Catalog Compilation</strong>: The Master uses these facts and the defined <strong>Manifests</strong> (code) to compile a <strong>Catalog</strong>—a specific list of resources the agent must manage.</li>
 <li><strong>Configuration Application</strong>: The Master sends the Catalog to the Agent. The Agent applies the changes locally to reach the desired state.</li>
 <li><strong>Reporting</strong>: The Agent sends a report back to the Master confirming what was changed or if any errors occurred.</li>
 </ol>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/master-slave.jpg" data-desc-position="bottom"><img alt="Master and Slave Architecture" src="../images/master-slave.jpg"></a>{#fig:master-slave}</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/master-slave1.jpg" data-desc-position="bottom"><img alt="Master Slave Workflow" src="../images/master-slave1.jpg"></a>{#fig:master-slave1}</p>
-<h3 id="security-via-ssl">Security via SSL<a class="headerlink" href="#security-via-ssl" title="Permanent link">§</a></h3>
+<p></p><figure id="_figure-3"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/master-slave.jpg" data-desc-position="bottom"><img alt="Master and Slave Architecture" id="fig:master-slave" src="../images/master-slave.jpg"></a><figcaption>Figure 3: Master and Slave Architecture</figcaption></figure><p></p>
+<p></p><figure id="_figure-4"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/master-slave1.jpg" data-desc-position="bottom"><img alt="Master Slave Workflow" id="fig:master-slave1" src="../images/master-slave1.jpg"></a><figcaption>Figure 4: Master Slave Workflow</figcaption></figure><p></p>
+<h3 id="security-via-ssl">Security via SSL<a class="headerlink" href="#security-via-ssl" title="Permanent link">¶</a></h3>
 <p>Because the Master sends critical configuration data, all communication between the Master and Agent is encrypted using SSL certificates. The agent must be "signed" by the Master before it can receive its catalog.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/master-slave-connection.jpg" data-desc-position="bottom"><img alt="Master Slave SSL Workflow" src="../images/master-slave-connection.jpg"></a>{#fig:master-slave-connection}</p>
-<h2 id="deploying-puppet">Deploying Puppet<a class="headerlink" href="#deploying-puppet" title="Permanent link">§</a></h2>
+<p></p><figure id="_figure-5"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/master-slave-connection.jpg" data-desc-position="bottom"><img alt="Master Slave SSL Workflow" id="fig:master-slave-connection" src="../images/master-slave-connection.jpg"></a><figcaption>Figure 5: Master Slave SSL Workflow</figcaption></figure><p></p>
+<h2 id="deploying-puppet">Deploying Puppet<a class="headerlink" href="#deploying-puppet" title="Permanent link">¶</a></h2>
 <p>Puppet is available in two primary versions: <strong>Open Source Puppet</strong> and <strong>Puppet Enterprise (PE)</strong>.</p>
-<h3 id="installation-types-in-puppet-enterprise">Installation Types in Puppet Enterprise<a class="headerlink" href="#installation-types-in-puppet-enterprise" title="Permanent link">§</a></h3>
+<h3 id="installation-types-in-puppet-enterprise">Installation Types in Puppet Enterprise<a class="headerlink" href="#installation-types-in-puppet-enterprise" title="Permanent link">¶</a></h3>
 <p>Depending on the size of the organization, PE can be installed in two ways:</p>
 <ol>
 <li><strong>Monolithic Installation</strong>: The Puppet Master, PuppetDB, and the Console are all installed on a single node.<ul>
@@ -6082,7 +6080,7 @@
 </ul>
 </li>
 </ol>
-<h3 id="configuring-the-environment">Configuring the Environment<a class="headerlink" href="#configuring-the-environment" title="Permanent link">§</a></h3>
+<h3 id="configuring-the-environment">Configuring the Environment<a class="headerlink" href="#configuring-the-environment" title="Permanent link">¶</a></h3>
 <p>The primary configuration for Puppet is handled in the <code>puppet.conf</code> file. Key settings include:
 - <code>certname</code>: The unique identifier for the node.
 - <code>server</code>: The hostname of the Puppet Master.
@@ -6128,14 +6126,14 @@
 Which tool do you choose and why?</p>
 </div>
 <hr>
-<h2 id="appendix-local-deployment-with-puppet">Appendix: Local Deployment with Puppet<a class="headerlink" href="#appendix-local-deployment-with-puppet" title="Permanent link">§</a></h2>
-<h3 id="0-clone-the-repository">0. Clone the Repository<a class="headerlink" href="#0-clone-the-repository" title="Permanent link">§</a></h3>
+<h2 id="appendix-local-deployment-with-puppet">Appendix: Local Deployment with Puppet<a class="headerlink" href="#appendix-local-deployment-with-puppet" title="Permanent link">¶</a></h2>
+<h3 id="0-clone-the-repository">0. Clone the Repository<a class="headerlink" href="#0-clone-the-repository" title="Permanent link">¶</a></h3>
 <p>Before running the automation, clone the course repository to your local machine:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cloudmesh-ai/cloudmesh-ai-lecture.git
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>cloudmesh-ai-lecture
 </span></code></pre></div>
 <p>Puppet is designed for "state enforcement." While it's typically used for thousands of servers, you can use it locally to ensure your development environment is always correctly configured to serve the course site.</p>
-<h3 id="1-the-puppet-manifest">1. The Puppet Manifest<a class="headerlink" href="#1-the-puppet-manifest" title="Permanent link">§</a></h3>
+<h3 id="1-the-puppet-manifest">1. The Puppet Manifest<a class="headerlink" href="#1-the-puppet-manifest" title="Permanent link">¶</a></h3>
 <p>Create a file named <code>site.pp</code>. This manifest ensures that Python is installed, the required MkDocs plugins are present, and the server is running as a system service.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c"># Ensure Python and Pip are installed</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">package</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">'python3-pip'</span><span class="p">:</span>
@@ -6175,13 +6173,13 @@ Which tool do you choose and why?</p>
 </span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">  </span><span class="k">subscribe</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">File</span><span class="p">[</span><span class="s">'/etc/systemd/system/mkdocs.service'</span><span class="p">],</span>
 </span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="p">}</span>
 </span></code></pre></div>
-<h3 id="2-execution">2. Execution<a class="headerlink" href="#2-execution" title="Permanent link">§</a></h3>
+<h3 id="2-execution">2. Execution<a class="headerlink" href="#2-execution" title="Permanent link">¶</a></h3>
 <p>Run the manifest locally using the <code>puppet apply</code> command:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>puppet<span class="w"> </span>apply<span class="w"> </span>site.pp
 </span></code></pre></div>
 <p>Once applied, you can open your browser and visit <code>http://localhost:8000</code>.</p>
-<h3 id="why-use-puppet-for-this">Why use Puppet for this?<a class="headerlink" href="#why-use-puppet-for-this" title="Permanent link">§</a></h3>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h3 id="why-use-puppet-for-this">Why use Puppet for this?<a class="headerlink" href="#why-use-puppet-for-this" title="Permanent link">¶</a></h3>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6247,8 +6245,6 @@ Which tool do you choose and why?</p>
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../assets/slides/js/slides.js"></script>
       
     
   

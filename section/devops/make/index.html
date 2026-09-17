@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../custom.css">
     
-      <link rel="stylesheet" href="../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5900,7 +5898,7 @@
 
 
 <hr>
-<h1 id="makefiles-and-cloudvm-management">Makefiles and Cloud‑VM Management<a class="headerlink" href="#makefiles-and-cloudvm-management" title="Permanent link">§</a></h1>
+<h1 id="makefiles-and-cloudvm-management">Makefiles and Cloud‑VM Management<a class="headerlink" href="#makefiles-and-cloudvm-management" title="Permanent link">¶</a></h1>
 <div class="admonition learning objectives">
 <p class="admonition-title">Learning</p>
 <p>By the end of this chapter you should be able to:</p>
@@ -5916,7 +5914,7 @@
 <li><strong>Organise</strong> multiple, related Makefiles in a coherent directory hierarchy and drive them from a single top‑level Makefile.  </li>
 </ol>
 </div>
-<h2 id="1-what-a-makefile-is">1. What a Makefile Is<a class="headerlink" href="#1-what-a-makefile-is" title="Permanent link">§</a></h2>
+<h2 id="1-what-a-makefile-is">1. What a Makefile Is<a class="headerlink" href="#1-what-a-makefile-is" title="Permanent link">¶</a></h2>
 <p>A <strong>Makefile</strong> is a plain‑text script interpreted by the <code>make</code> utility. Its purpose is to describe <em>what</em> must be built (the <strong>targets</strong>) and <em>how</em> to build it (the <strong>recipes</strong>). When <code>make</code> is invoked it:</p>
 <ol>
 <li>Reads the dependency graph defined by targets and their prerequisites.  </li>
@@ -5925,7 +5923,7 @@
 </ol>
 <p>Although Make was devised for compiling C programs, the same model works for any repeatable command‑line workflow, making it a lightweight “task runner” for DevOps, documentation generation, container orchestration, and cloud‑VM management.</p>
 <hr>
-<h2 id="2-core-syntax">2. Core Syntax<a class="headerlink" href="#2-core-syntax" title="Permanent link">§</a></h2>
+<h2 id="2-core-syntax">2. Core Syntax<a class="headerlink" href="#2-core-syntax" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>target : prerequisite‑1 prerequisite‑2 …
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>&lt;TAB&gt;recipe line 1
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>&lt;TAB&gt;recipe line 2
@@ -5938,7 +5936,7 @@
 </ul>
 <p>If a target does not correspond to a real file (e.g., <code>clean</code>), declare it <strong>phony</strong> (see § 4) so <code>make</code> never treats the name as an existing file.</p>
 <hr>
-<h2 id="3-variables">3. Variables<a class="headerlink" href="#3-variables" title="Permanent link">§</a></h2>
+<h2 id="3-variables">3. Variables<a class="headerlink" href="#3-variables" title="Permanent link">¶</a></h2>
 <p>Variables avoid repetition and make the Makefile easy to adapt.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">CC</span><span class="w">      </span><span class="o">=</span><span class="w"> </span>gcc
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">CFLAGS</span><span class="w">  </span><span class="o">=</span><span class="w"> </span>-Wall<span class="w"> </span>-O2
@@ -5948,12 +5946,12 @@
 </span></code></pre></div>
 <p>Reference a variable with <code>$(NAME)</code>. By default variables are expanded <strong>when the recipe runs</strong> (lazy expansion). Use <code>:=</code> for immediate expansion if needed.</p>
 <hr>
-<h2 id="4-phony-targets">4. Phony Targets<a class="headerlink" href="#4-phony-targets" title="Permanent link">§</a></h2>
+<h2 id="4-phony-targets">4. Phony Targets<a class="headerlink" href="#4-phony-targets" title="Permanent link">¶</a></h2>
 <p>A <strong>phony</strong> target never represents an actual file. Declaring it as phony prevents <code>make</code> from skipping the recipe when a file of the same name exists.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">all</span> <span class="n">clean</span> <span class="n">test</span> <span class="n">install</span>
 </span></code></pre></div>
 <hr>
-<h2 id="5-pattern-rules-and-automatic-variables">5. Pattern Rules and Automatic Variables<a class="headerlink" href="#5-pattern-rules-and-automatic-variables" title="Permanent link">§</a></h2>
+<h2 id="5-pattern-rules-and-automatic-variables">5. Pattern Rules and Automatic Variables<a class="headerlink" href="#5-pattern-rules-and-automatic-variables" title="Permanent link">¶</a></h2>
 <p>Pattern rules let one recipe handle many similar targets.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nf">%.o </span><span class="o">:</span><span class="w"> </span>%.<span class="n">c</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">        </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span>$&lt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span>
@@ -5991,7 +5989,7 @@
 </table>
 <p>These make recipes concise and portable.</p>
 <hr>
-<h2 id="6-a-fully-working-build-example">6. A Fully Working Build Example<a class="headerlink" href="#6-a-fully-working-build-example" title="Permanent link">§</a></h2>
+<h2 id="6-a-fully-working-build-example">6. A Fully Working Build Example<a class="headerlink" href="#6-a-fully-working-build-example" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c"># -------------------------------------------------</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c"># Simple C program build</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c"># -------------------------------------------------</span>
@@ -6024,7 +6022,7 @@
 </span></code></pre></div>
 <p><code>make</code> builds the binary, <code>make clean</code> removes generated files, and <code>make run</code> compiles (if necessary) and executes the program.</p>
 <hr>
-<h2 id="7-managing-multipass-vms-with-make">7. Managing Multipass VMs with Make<a class="headerlink" href="#7-managing-multipass-vms-with-make" title="Permanent link">§</a></h2>
+<h2 id="7-managing-multipass-vms-with-make">7. Managing Multipass VMs with Make<a class="headerlink" href="#7-managing-multipass-vms-with-make" title="Permanent link">¶</a></h2>
 <p><strong>Multipass</strong> is a lightweight VM manager for Ubuntu. A Makefile can wrap its CLI commands.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c"># -------------------------------------------------</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c"># Multipass VM lifecycle – Makefile</span>
@@ -6113,7 +6111,7 @@
 </table>
 <p>Override variables on the command line, e.g. <code>make INSTANCE=test‑node CPU=4 MEMORY=8G launch</code>.</p>
 <hr>
-<h2 id="8-controlling-openstack-vms-with-make">8. Controlling OpenStack VMs with Make<a class="headerlink" href="#8-controlling-openstack-vms-with-make" title="Permanent link">§</a></h2>
+<h2 id="8-controlling-openstack-vms-with-make">8. Controlling OpenStack VMs with Make<a class="headerlink" href="#8-controlling-openstack-vms-with-make" title="Permanent link">¶</a></h2>
 <p>Assumes an OpenStack RC file (<code>cloudrc.sh</code>) that exports the required <code>OS_</code> variables.</p>
 <p>TODO: use clouds.yaml
     We should prefer using clouds.yaml. modify accordingly. it has jetsream: and openstack: in it </p>
@@ -6191,9 +6189,9 @@
 </table>
 <p>Override variables on the CLI, e.g. <code>make SERVER_NAME=web‑01 start</code>.</p>
 <hr>
-<h2 id="9-organising-the-three-makebased-workflows-in-a-single-repository">9. Organising the Three Make‑Based Workflows in a Single Repository<a class="headerlink" href="#9-organising-the-three-makebased-workflows-in-a-single-repository" title="Permanent link">§</a></h2>
+<h2 id="9-organising-the-three-makebased-workflows-in-a-single-repository">9. Organising the Three Make‑Based Workflows in a Single Repository<a class="headerlink" href="#9-organising-the-three-makebased-workflows-in-a-single-repository" title="Permanent link">¶</a></h2>
 <p>When a project contains several distinct automation domains—compiling source code, managing local VMs with Multipass, and controlling cloud VMs with OpenStack—keep each domain in its <strong>own directory with its own Makefile</strong>. A <strong>top‑level Makefile</strong> can act as a façade, delegating to the appropriate sub‑Makefile.</p>
-<h3 id="91-recommended-directory-layout">9.1 Recommended Directory Layout<a class="headerlink" href="#91-recommended-directory-layout" title="Permanent link">§</a></h3>
+<h3 id="91-recommended-directory-layout">9.1 Recommended Directory Layout<a class="headerlink" href="#91-recommended-directory-layout" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>project/
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>├─ Makefile                # top‑level entry point
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>├─ src/
@@ -6217,7 +6215,7 @@
 <p>Each subdirectory holds only the files relevant to that concern. The <code>README.md</code> files can store environment‑specific instructions (e.g., required credentials, version constraints, or usage examples).</p>
 <hr>
 <p><strong>Top‑level Makefile (facade)</strong>  </p>
-<h2 id="10-best-practices-for-makebased-automation">10. Best Practices for Make‑Based Automation<a class="headerlink" href="#10-best-practices-for-makebased-automation" title="Permanent link">§</a></h2>
+<h2 id="10-best-practices-for-makebased-automation">10. Best Practices for Make‑Based Automation<a class="headerlink" href="#10-best-practices-for-makebased-automation" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6257,7 +6255,7 @@
 </tbody>
 </table>
 <hr>
-<h3 id="selfassessment-questions">Self‑Assessment Questions<a class="headerlink" href="#selfassessment-questions" title="Permanent link">§</a></h3>
+<h3 id="selfassessment-questions">Self‑Assessment Questions<a class="headerlink" href="#selfassessment-questions" title="Permanent link">¶</a></h3>
 <ol>
 <li><strong>Conceptual</strong> – Explain how <code>make</code> decides whether a target needs to be rebuilt. Which timestamps are compared?  </li>
 <li><strong>Syntax</strong> – What is the purpose of the leading TAB character in a recipe line? What happens if you replace it with spaces?  </li>
@@ -6271,11 +6269,11 @@
 <li><strong>Best Practices</strong> – Identify three best‑practice items from the table in § 10 and explain why each improves the reliability of a Makefile used for cloud automation.  </li>
 </ol>
 <hr>
-<h1 id="appendix-are-makefiles-devops">Appendix - Are Makefiles DevOps<a class="headerlink" href="#appendix-are-makefiles-devops" title="Permanent link">§</a></h1>
+<h1 id="appendix-are-makefiles-devops">Appendix - Are Makefiles DevOps<a class="headerlink" href="#appendix-are-makefiles-devops" title="Permanent link">¶</a></h1>
 <p><strong>Short answer:</strong><br>
 Yes, a Makefile is a core DevOps tool. It isn’t limited to compiling C programs; it’s a lightweight, language‑agnostic task runner that can automate any command‑line workflow – building artifacts, running tests, creating Docker images, provisioning cloud resources, orchestrating CI/CD pipelines, and much more. Because DevOps is all about <strong>repeatable, version‑controlled automation</strong>, Makefiles fit naturally into that mindset.</p>
 <hr>
-<h2 id="how-makefiles-align-with-devops-principles">How Makefiles Align with DevOps Principles<a class="headerlink" href="#how-makefiles-align-with-devops-principles" title="Permanent link">§</a></h2>
+<h2 id="how-makefiles-align-with-devops-principles">How Makefiles Align with DevOps Principles<a class="headerlink" href="#how-makefiles-align-with-devops-principles" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6319,7 +6317,7 @@ Yes, a Makefile is a core DevOps tool. It isn’t limited to compiling C progr
 </tbody>
 </table>
 <hr>
-<h2 id="typical-devops-usecases-for-makefiles">Typical DevOps Use‑Cases for Makefiles<a class="headerlink" href="#typical-devops-usecases-for-makefiles" title="Permanent link">§</a></h2>
+<h2 id="typical-devops-usecases-for-makefiles">Typical DevOps Use‑Cases for Makefiles<a class="headerlink" href="#typical-devops-usecases-for-makefiles" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6377,7 +6375,7 @@ Yes, a Makefile is a core DevOps tool. It isn’t limited to compiling C progr
 </tbody>
 </table>
 <hr>
-<h2 id="minimal-devopsstyle-makefile-illustrative">Minimal DevOps‑Style Makefile (Illustrative)<a class="headerlink" href="#minimal-devopsstyle-makefile-illustrative" title="Permanent link">§</a></h2>
+<h2 id="minimal-devopsstyle-makefile-illustrative">Minimal DevOps‑Style Makefile (Illustrative)<a class="headerlink" href="#minimal-devopsstyle-makefile-illustrative" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c"># -------------------------------------------------</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c"># Project‑wide DevOps Makefile</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c"># -------------------------------------------------</span>
@@ -6426,7 +6424,7 @@ Yes, a Makefile is a core DevOps tool. It isn’t limited to compiling C progr
 </span></code></pre></div>
 <p>Running <code>make</code> locally gives you the same steps that a CI job would perform, and each target can be invoked independently (<code>make docker-push</code>, <code>make deploy</code>, etc.).</p>
 <hr>
-<h2 id="putting-makefiles-in-a-devops-toolchain">Putting Makefiles in a DevOps Toolchain<a class="headerlink" href="#putting-makefiles-in-a-devops-toolchain" title="Permanent link">§</a></h2>
+<h2 id="putting-makefiles-in-a-devops-toolchain">Putting Makefiles in a DevOps Toolchain<a class="headerlink" href="#putting-makefiles-in-a-devops-toolchain" title="Permanent link">¶</a></h2>
 <ol>
 <li><strong>Version Control</strong> – Store every Makefile under Git (or your preferred VCS).  </li>
 <li><strong>CI Integration</strong> – In your CI pipeline, a single step like <code>make all</code> can replace a long list of script commands.  </li>
@@ -6435,7 +6433,7 @@ Yes, a Makefile is a core DevOps tool. It isn’t limited to compiling C progr
 <li><strong>Modularisation</strong> – Split large Makefiles into logical directories (as shown in the previous chapter) and include them with <code>include path/to/Other.mk</code>.  </li>
 </ol>
 <hr>
-<h2 id="when-to-prefer-a-makefile-over-other-tools">When to Prefer a Makefile Over Other Tools<a class="headerlink" href="#when-to-prefer-a-makefile-over-other-tools" title="Permanent link">§</a></h2>
+<h2 id="when-to-prefer-a-makefile-over-other-tools">When to Prefer a Makefile Over Other Tools<a class="headerlink" href="#when-to-prefer-a-makefile-over-other-tools" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6473,7 +6471,7 @@ Yes, a Makefile is a core DevOps tool. It isn’t limited to compiling C progr
 </tbody>
 </table>
 <hr>
-<h2 id="checklist-is-makefile-a-devops-tool-for-my-project">Checklist – “Is Makefile a DevOps Tool for My Project?”<a class="headerlink" href="#checklist-is-makefile-a-devops-tool-for-my-project" title="Permanent link">§</a></h2>
+<h2 id="checklist-is-makefile-a-devops-tool-for-my-project">Checklist – “Is Makefile a DevOps Tool for My Project?”<a class="headerlink" href="#checklist-is-makefile-a-devops-tool-for-my-project" title="Permanent link">¶</a></h2>
 <ul>
 <li>[ ] <strong>Automation needed?</strong> – If you have repeatable shell commands, a Makefile can orchestrate them.  </li>
 <li>[ ] <strong>Version‑controlled workflow?</strong> – Makefiles live comfortably in Git.  </li>
@@ -6530,8 +6528,6 @@ Yes, a Makefile is a core DevOps tool. It isn’t limited to compiling C progr
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../assets/slides/js/slides.js"></script>
       
     
   

@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../custom.css">
     
-      <link rel="stylesheet" href="../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5843,7 +5841,7 @@
   
 
 
-<h1 id="securing-network-communications-with-python-ssltls">Securing Network Communications with Python SSL/TLS<a class="headerlink" href="#securing-network-communications-with-python-ssltls" title="Permanent link">§</a></h1>
+<h1 id="securing-network-communications-with-python-ssltls">Securing Network Communications with Python SSL/TLS<a class="headerlink" href="#securing-network-communications-with-python-ssltls" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <p>By the end of this chapter, you will be able to:
@@ -5855,17 +5853,17 @@
 </div>
 <p>In cloud computing, nearly all communication between management scripts, orchestration tools, and cloud provider APIs occurs over HTTPS. HTTPS is essentially HTTP wrapped in a Secure Sockets Layer (SSL) or Transport Layer Security (TLS) tunnel. This encryption is critical for protecting sensitive data, such as API keys, administrative credentials, and proprietary configuration data, from being intercepted during transit.</p>
 <p>Python's <code>ssl</code> module provides a high-level wrapper around the OpenSSL library, the industry standard for implementing TLS. By using this module, developers can ensure that their network clients are not only encrypting data but also verifying the identity of the servers they connect to.</p>
-<h2 id="fundamentals-of-ssltls-in-python">Fundamentals of SSL/TLS in Python<a class="headerlink" href="#fundamentals-of-ssltls-in-python" title="Permanent link">§</a></h2>
+<h2 id="fundamentals-of-ssltls-in-python">Fundamentals of SSL/TLS in Python<a class="headerlink" href="#fundamentals-of-ssltls-in-python" title="Permanent link">¶</a></h2>
 <p>The core of Python's SSL implementation is the <code>SSLContext</code> object. The context serves as a configuration factory; it defines the security settings, trusted certificates, and protocol versions that will be applied to every socket created from that context.</p>
-<h3 id="the-role-of-the-certificate-authority-ca">The Role of the Certificate Authority (CA)<a class="headerlink" href="#the-role-of-the-certificate-authority-ca" title="Permanent link">§</a></h3>
+<h3 id="the-role-of-the-certificate-authority-ca">The Role of the Certificate Authority (CA)<a class="headerlink" href="#the-role-of-the-certificate-authority-ca" title="Permanent link">¶</a></h3>
 <p>SSL/TLS relies on a Trust Model based on Certificate Authorities. A CA is a trusted third party that signs a server's certificate, vouching for the server's identity. When a Python client connects to a server:
 1. The server presents its certificate.
 2. The client checks its local "trust store" (a collection of CA certificates) to see if the server's certificate was signed by a trusted CA.
 3. If the signature is valid and the hostname matches the certificate, the connection is established.</p>
 <p>If this validation is skipped, the connection is vulnerable to man-in-the-middle (MITM) attacks, where an attacker intercepts the traffic by pretending to be the destination server.</p>
-<h2 id="implementing-a-secure-ssl-client">Implementing a Secure SSL Client<a class="headerlink" href="#implementing-a-secure-ssl-client" title="Permanent link">§</a></h2>
+<h2 id="implementing-a-secure-ssl-client">Implementing a Secure SSL Client<a class="headerlink" href="#implementing-a-secure-ssl-client" title="Permanent link">¶</a></h2>
 <p>Creating a secure client requires transitioning a standard TCP socket into an SSL-encrypted socket. The recommended approach is to use <code>ssl.create_default_context()</code>, which applies secure defaults based on the current OpenSSL version.</p>
-<h3 id="basic-secure-connection-implementation">Basic Secure Connection Implementation<a class="headerlink" href="#basic-secure-connection-implementation" title="Permanent link">§</a></h3>
+<h3 id="basic-secure-connection-implementation">Basic Secure Connection Implementation<a class="headerlink" href="#basic-secure-connection-implementation" title="Permanent link">¶</a></h3>
 <p>The following example demonstrates how to connect to a secure endpoint, perform a basic HTTP request, and verify the connection parameters.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">ssl</span>
@@ -5898,15 +5896,15 @@
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Socket Error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span></code></pre></div>
-<h3 id="analysis-of-the-implementation">Analysis of the Implementation<a class="headerlink" href="#analysis-of-the-implementation" title="Permanent link">§</a></h3>
+<h3 id="analysis-of-the-implementation">Analysis of the Implementation<a class="headerlink" href="#analysis-of-the-implementation" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong><code>ssl.create_default_context()</code></strong>: This function is the primary way to initialize security settings. It enables <code>CERT_REQUIRED</code> (forcing the server to provide a certificate) and <code>check_hostname = True</code> (ensuring the certificate matches the requested domain).</li>
 <li><strong><code>wrap_socket()</code></strong>: This method performs the SSL handshake. It negotiates the protocol version and cipher suite with the server and upgrades the plaintext TCP connection to an encrypted one.</li>
 <li><strong><code>server_hostname</code></strong>: Passing the hostname to <code>wrap_socket</code> is essential for Server Name Indication (SNI), allowing a single IP address to host multiple SSL certificates for different domains.</li>
 </ul>
-<h2 id="advanced-ssl-configurations">Advanced SSL Configurations<a class="headerlink" href="#advanced-ssl-configurations" title="Permanent link">§</a></h2>
+<h2 id="advanced-ssl-configurations">Advanced SSL Configurations<a class="headerlink" href="#advanced-ssl-configurations" title="Permanent link">¶</a></h2>
 <p>In professional environments, you may encounter servers with self-signed certificates or private CAs (common in internal corporate clouds). In these cases, the default system trust store is insufficient.</p>
-<h3 id="loading-custom-ca-certificates">Loading Custom CA Certificates<a class="headerlink" href="#loading-custom-ca-certificates" title="Permanent link">§</a></h3>
+<h3 id="loading-custom-ca-certificates">Loading Custom CA Certificates<a class="headerlink" href="#loading-custom-ca-certificates" title="Permanent link">¶</a></h3>
 <p>To trust a private CA, you must explicitly tell the <code>SSLContext</code> where to find the CA certificate file (usually a <code>.pem</code> or <code>.crt</code> file).</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">ssl</span>
@@ -5927,7 +5925,7 @@
 </span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="k">except</span> <span class="n">ssl</span><span class="o">.</span><span class="n">SSLError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Verification failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span></code></pre></div>
-<h3 id="managing-verification-levels">Managing Verification Levels<a class="headerlink" href="#managing-verification-levels" title="Permanent link">§</a></h3>
+<h3 id="managing-verification-levels">Managing Verification Levels<a class="headerlink" href="#managing-verification-levels" title="Permanent link">¶</a></h3>
 <p>While it is possible to disable certificate verification for debugging, this should never be done in production code.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># WARNING: This configuration is insecure and vulnerable to MITM attacks</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">()</span>
@@ -5945,7 +5943,7 @@
 <li>[ ] Used <code>load_verify_locations()</code> when connecting to services using private CAs.</li>
 </ul>
 </div>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6027,8 +6025,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../assets/slides/js/slides.js"></script>
       
     
   

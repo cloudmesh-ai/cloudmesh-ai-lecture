@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../../custom.css">
     
-      <link rel="stylesheet" href="../../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -6311,10 +6309,10 @@
   
 
 
-<h1 id="containers-on-jetstream2">Containers on Jetstream2<a class="headerlink" href="#containers-on-jetstream2" title="Permanent link">§</a></h1>
+<h1 id="containers-on-jetstream2">Containers on Jetstream2<a class="headerlink" href="#containers-on-jetstream2" title="Permanent link">¶</a></h1>
 <p>This document is a hands on tutorial on how to use Docker or Kubernetes on Jetstream 2   </p>
 <p>Jetstream 2 is an NSF‑funded research cloud that runs <strong>OpenStack</strong> (Newton → Ussuri).  It gives you the same IaaS primitives you’d find on any OpenStack cloud, plus the <strong>Magnum</strong> service for managed Kubernetes clusters and the <strong>Zun</strong> service for “Docker‑as‑a‑service”.  </p>
-<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">§</a></h2>
+<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <p>By the end of this tutorial, participants will be able to:</p>
@@ -6365,7 +6363,7 @@
 </tbody>
 </table>
 <hr>
-<h2 id="0-prerequisites">0 Prerequisites<a class="headerlink" href="#0-prerequisites" title="Permanent link">§</a></h2>
+<h2 id="0-prerequisites">0 Prerequisites<a class="headerlink" href="#0-prerequisites" title="Permanent link">¶</a></h2>
 <p>!!! Assignment clouds.yaml
     instead of the rc file document  how to get the clouds.yaml file. Also locate the bug to get the rc file in the outline and replace it with where you realy find it.</p>
 <table>
@@ -6402,17 +6400,17 @@
 </tr>
 </tbody>
 </table>
-<h3 id="load-the-rc-file">Load the RC file<a class="headerlink" href="#load-the-rc-file" title="Permanent link">§</a></h3>
+<h3 id="load-the-rc-file">Load the RC file<a class="headerlink" href="#load-the-rc-file" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">source</span><span class="w"> </span>~/Downloads/jetstream-2-openrc.sh<span class="w">   </span><span class="c1"># path where you saved the file</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Verify you can talk to the cloud</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>openstack<span class="w"> </span>catalog<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
 </span></code></pre></div>
 <p>You should see a list of services (e.g., <code>compute</code>, <code>network</code>, <code>image</code>, <code>magnum</code>, <code>zun</code>).</p>
 <hr>
-<h2 id="1-spin-a-plain-vm-and-run-docker-via-cloudinit">1 Spin a plain VM and run Docker via <strong>cloud‑init</strong><a class="headerlink" href="#1-spin-a-plain-vm-and-run-docker-via-cloudinit" title="Permanent link">§</a></h2>
+<h2 id="1-spin-a-plain-vm-and-run-docker-via-cloudinit">1 Spin a plain VM and run Docker via <strong>cloud‑init</strong><a class="headerlink" href="#1-spin-a-plain-vm-and-run-docker-via-cloudinit" title="Permanent link">¶</a></h2>
 <p><strong>Why?</strong><br>
 A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun.  You’ll see how a <em>single</em> VM can become a container host.</p>
-<h3 id="11-choose-an-image-and-flavor">1.1 Choose an image and flavor<a class="headerlink" href="#11-choose-an-image-and-flavor" title="Permanent link">§</a></h3>
+<h3 id="11-choose-an-image-and-flavor">1.1 Choose an image and flavor<a class="headerlink" href="#11-choose-an-image-and-flavor" title="Permanent link">¶</a></h3>
 <p>Jetstream 2 ships with a few ready‑to‑use images.  The easiest for Docker is <strong>Rocky 8</strong> (or <strong>CentOS 8</strong>).  Use the flavor <strong><code>m1.medium</code></strong> (2 vCPU, 4 GB RAM) – enough for a tiny web server.
 </p><div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># List images (look for “Rocky”)</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>openstack<span class="w"> </span>image<span class="w"> </span>list<span class="w"> </span>--public<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>rocky
@@ -6420,7 +6418,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># List flavors</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>openstack<span class="w"> </span>flavor<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>m1.medium
 </span></code></pre></div>
-<h3 id="12-write-a-cloudinit-script">1.2 Write a cloud‑init script<a class="headerlink" href="#12-write-a-cloudinit-script" title="Permanent link">§</a></h3>
+<h3 id="12-write-a-cloudinit-script">1.2 Write a cloud‑init script<a class="headerlink" href="#12-write-a-cloudinit-script" title="Permanent link">¶</a></h3>
 <p>Save the following into a file called <code>docker-cloudinit.yaml</code>:
 </p><div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">#cloud-config</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">package_update</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -6434,7 +6432,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">docker</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">run</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-d</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-p</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"80:80"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">--name</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">nginx</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">nginx</span><span class="w"> </span><span class="p p-Indicator">]</span><span class="w">   </span><span class="c1"># pull &amp; run nginx</span>
 </span></code></pre></div>
-<h3 id="13-create-the-instance">1.3 Create the instance<a class="headerlink" href="#13-create-the-instance" title="Permanent link">§</a></h3>
+<h3 id="13-create-the-instance">1.3 Create the instance<a class="headerlink" href="#13-create-the-instance" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>openstack<span class="w"> </span>server<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--flavor<span class="w"> </span>m1.medium<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--image<span class="w"> </span>&lt;ROCKY_IMAGE_ID&gt;<span class="w"> </span><span class="se">\</span>
@@ -6445,7 +6443,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </span></code></pre></div>
 <p>Replace <code>&lt;ROCKY_IMAGE_ID&gt;</code> and <code>&lt;YOUR_KEY_NAME&gt;</code> with the IDs you obtained earlier.</p>
 <p><strong>Wait</strong> until the server goes to <code>ACTIVE</code> (you can monitor with <code>openstack server list -c Name -c Status</code>).</p>
-<h3 id="14-verify-the-service-on-the-vm">1.4 Verify the service on the VM<a class="headerlink" href="#14-verify-the-service-on-the-vm" title="Permanent link">§</a></h3>
+<h3 id="14-verify-the-service-on-the-vm">1.4 Verify the service on the VM<a class="headerlink" href="#14-verify-the-service-on-the-vm" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Get the floating IP (or assign one if you don’t have)</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>openstack<span class="w"> </span>floating<span class="w"> </span>ip<span class="w"> </span>create<span class="w"> </span>public<span class="w">   </span><span class="c1"># creates a new floating IP</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>openstack<span class="w"> </span>server<span class="w"> </span>add<span class="w"> </span>floating<span class="w"> </span>ip<span class="w"> </span>demo-docker-host<span class="w"> </span>&lt;FLOATING_IP&gt;
@@ -6464,14 +6462,14 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <code>openstack security group rule create --proto tcp --dst-port 80:80 default</code></p>
 </div>
 <hr>
-<h2 id="2-deploy-a-managed-kubernetes-cluster-with-magnum">2 Deploy a Managed Kubernetes Cluster with <strong>Magnum</strong><a class="headerlink" href="#2-deploy-a-managed-kubernetes-cluster-with-magnum" title="Permanent link">§</a></h2>
+<h2 id="2-deploy-a-managed-kubernetes-cluster-with-magnum">2 Deploy a Managed Kubernetes Cluster with <strong>Magnum</strong><a class="headerlink" href="#2-deploy-a-managed-kubernetes-cluster-with-magnum" title="Permanent link">¶</a></h2>
 <p>Magnum lets you spin up a full‑featured K8s cluster (control‑plane + workers) in a single command.  </p>
-<h3 id="21-verify-magnum-is-available">2.1 Verify Magnum is available<a class="headerlink" href="#21-verify-magnum-is-available" title="Permanent link">§</a></h3>
+<h3 id="21-verify-magnum-is-available">2.1 Verify Magnum is available<a class="headerlink" href="#21-verify-magnum-is-available" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>openstack<span class="w"> </span>coe<span class="w"> </span>cluster<span class="w"> </span>template<span class="w"> </span>list<span class="w">   </span><span class="c1"># should show at least one template</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>openstack<span class="w"> </span>coe<span class="w"> </span>cluster<span class="w"> </span>list<span class="w">            </span><span class="c1"># empty for now</span>
 </span></code></pre></div>
 <p>If there are <em>no</em> templates, you can create a simple one (the commands below do that).</p>
-<h3 id="22-create-a-cluster-template">2.2 Create a <strong>Cluster Template</strong><a class="headerlink" href="#22-create-a-cluster-template" title="Permanent link">§</a></h3>
+<h3 id="22-create-a-cluster-template">2.2 Create a <strong>Cluster Template</strong><a class="headerlink" href="#22-create-a-cluster-template" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>openstack<span class="w"> </span>coe<span class="w"> </span>cluster<span class="w"> </span>template<span class="w"> </span>create<span class="w"> </span>k8s-jetstream<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>--image<span class="w"> </span>&lt;ROCKY_IMAGE_ID&gt;<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--keypair<span class="w"> </span>&lt;YOUR_KEY_NAME&gt;<span class="w"> </span><span class="se">\</span>
@@ -6491,7 +6489,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <p><strong>Worker flavor</strong>: <code>m1.medium</code> (2 vCPU, 4 GB RAM).  </p>
 </li>
 </ul>
-<h3 id="23-create-the-kubernetes-cluster">2.3 Create the <strong>Kubernetes Cluster</strong><a class="headerlink" href="#23-create-the-kubernetes-cluster" title="Permanent link">§</a></h3>
+<h3 id="23-create-the-kubernetes-cluster">2.3 Create the <strong>Kubernetes Cluster</strong><a class="headerlink" href="#23-create-the-kubernetes-cluster" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>openstack<span class="w"> </span>coe<span class="w"> </span>cluster<span class="w"> </span>create<span class="w"> </span>jetstream-k8s<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>--cluster-template<span class="w"> </span>k8s-jetstream<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--node-count<span class="w"> </span><span class="m">2</span><span class="w">   </span><span class="c1"># two workers + one master</span>
@@ -6500,13 +6498,13 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </p><div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>watch<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">"openstack coe cluster show jetstream-k8s -c status -c stack_id"</span>
 </span></code></pre></div>
 <p>When <code>status</code> becomes <strong><code>CREATE_COMPLETE</code></strong>, the cluster is ready.</p>
-<h3 id="24-retrieve-the-kubeconfig">2.4 Retrieve the <strong>kubeconfig</strong><a class="headerlink" href="#24-retrieve-the-kubeconfig" title="Permanent link">§</a></h3>
+<h3 id="24-retrieve-the-kubeconfig">2.4 Retrieve the <strong>kubeconfig</strong><a class="headerlink" href="#24-retrieve-the-kubeconfig" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>openstack<span class="w"> </span>coe<span class="w"> </span>cluster<span class="w"> </span>config<span class="w"> </span>jetstream-k8s<span class="w"> </span>&gt;<span class="w"> </span>jetstream-k8s.kubeconfig
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/jetstream-k8s.kubeconfig
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
 </span></code></pre></div>
 <p>You should see three nodes (1 master, 2 workers) in <code>Ready</code> state.</p>
-<h3 id="25-deploy-a-sample-app">2.5 Deploy a Sample App<a class="headerlink" href="#25-deploy-a-sample-app" title="Permanent link">§</a></h3>
+<h3 id="25-deploy-a-sample-app">2.5 Deploy a Sample App<a class="headerlink" href="#25-deploy-a-sample-app" title="Permanent link">¶</a></h3>
 <p>Create a file <code>hello.yaml</code>:
 </p><div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
@@ -6551,17 +6549,17 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </p><div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>hello-svc
 </span></code></pre></div>
 <p>When the <code>EXTERNAL-IP</code> field shows an IP (usually allocated from the <code>public</code> neutron network), open it in a browser – you’ll see the nginx welcome page served by the two pods.</p>
-<h3 id="26-optional-enable-kuryr-for-neutronnative-networking">2.6 (Optional) Enable <strong>Kuryr</strong> for Neutron‑native networking<a class="headerlink" href="#26-optional-enable-kuryr-for-neutronnative-networking" title="Permanent link">§</a></h3>
+<h3 id="26-optional-enable-kuryr-for-neutronnative-networking">2.6 (Optional) Enable <strong>Kuryr</strong> for Neutron‑native networking<a class="headerlink" href="#26-optional-enable-kuryr-for-neutronnative-networking" title="Permanent link">¶</a></h3>
 <p>If your Jetstream 2 deployment has the <strong>Kuryr</strong> service enabled, you can replace <code>--network-driver flannel</code> with <code>--network-driver kuryr</code>.  This will give each pod a <strong>real Neutron port</strong>, allowing you to apply security‑group rules directly to pods.</p>
 <hr>
-<h2 id="3-run-a-container-directly-with-zun">3 Run a Container Directly with <strong>Zun</strong><a class="headerlink" href="#3-run-a-container-directly-with-zun" title="Permanent link">§</a></h2>
+<h2 id="3-run-a-container-directly-with-zun">3 Run a Container Directly with <strong>Zun</strong><a class="headerlink" href="#3-run-a-container-directly-with-zun" title="Permanent link">¶</a></h2>
 <p>Zun implements a <strong>Docker‑compatible REST API</strong> on top of OpenStack services.  It’s handy for short‑lived jobs or when you don’t need a full K8s stack.</p>
-<h3 id="31-verify-zun-service">3.1 Verify Zun service<a class="headerlink" href="#31-verify-zun-service" title="Permanent link">§</a></h3>
+<h3 id="31-verify-zun-service">3.1 Verify Zun service<a class="headerlink" href="#31-verify-zun-service" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>openstack<span class="w"> </span>container<span class="w"> </span>service<span class="w"> </span>list
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># You should see something like:</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1">#  ID | Name | Enabled |</span>
 </span></code></pre></div>
-<h3 id="32-upload-a-container-image-if-not-already-in-glance">3.2 Upload a container image (if not already in Glance)<a class="headerlink" href="#32-upload-a-container-image-if-not-already-in-glance" title="Permanent link">§</a></h3>
+<h3 id="32-upload-a-container-image-if-not-already-in-glance">3.2 Upload a container image (if not already in Glance)<a class="headerlink" href="#32-upload-a-container-image-if-not-already-in-glance" title="Permanent link">¶</a></h3>
 <p>Zun pulls images from the OpenStack Image service (Glance).  Let’s upload a tiny <code>alpine</code> image:
 </p><div class="highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Pull the image locally first (if you have Docker)</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>docker<span class="w"> </span>pull<span class="w"> </span>alpine:latest
@@ -6575,7 +6573,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">  </span>--public
 </span></code></pre></div>
 <p><em>(If your cloud already provides a public <code>alpine</code> image you can skip the upload.)</em></p>
-<h3 id="33-create-start-a-container">3.3 Create &amp; start a container<a class="headerlink" href="#33-create-start-a-container" title="Permanent link">§</a></h3>
+<h3 id="33-create-start-a-container">3.3 Create &amp; start a container<a class="headerlink" href="#33-create-start-a-container" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Create (but do not start) the container</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>openstack<span class="w"> </span>container<span class="w"> </span>create<span class="w"> </span>my-alpine<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span>--image<span class="w"> </span>alpine<span class="w"> </span><span class="se">\</span>
@@ -6588,11 +6586,11 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="c1"># Run a command inside (similar to `docker exec`)</span>
 </span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>openstack<span class="w"> </span>container<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>my-alpine<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Hello from Zun!"</span>
 </span></code></pre></div>
-<h3 id="34-inspect-logs">3.4 Inspect logs<a class="headerlink" href="#34-inspect-logs" title="Permanent link">§</a></h3>
+<h3 id="34-inspect-logs">3.4 Inspect logs<a class="headerlink" href="#34-inspect-logs" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>openstack<span class="w"> </span>container<span class="w"> </span>logs<span class="w"> </span>my-alpine
 </span></code></pre></div>
 <p>You’ll see the “Hello from Zun!” line.</p>
-<h3 id="35-delete-the-container">3.5 Delete the container<a class="headerlink" href="#35-delete-the-container" title="Permanent link">§</a></h3>
+<h3 id="35-delete-the-container">3.5 Delete the container<a class="headerlink" href="#35-delete-the-container" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>openstack<span class="w"> </span>container<span class="w"> </span>delete<span class="w"> </span>my-alpine
 </span></code></pre></div>
 <div class="admonition note">
@@ -6600,7 +6598,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <p>Zun containers are <strong>first‑class OpenStack resources</strong> – they obey the same quotas, RBAC, and billing as VMs. You can also attach floating IPs, security groups, etc., just like a regular instance.</p>
 </div>
 <hr>
-<h2 id="4-cleanup">4 Clean‑up<a class="headerlink" href="#4-cleanup" title="Permanent link">§</a></h2>
+<h2 id="4-cleanup">4 Clean‑up<a class="headerlink" href="#4-cleanup" title="Permanent link">¶</a></h2>
 <p>Never leave resources running when you’re done; Jetstream 2 quota is limited.
 </p><div class="highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># 1 Delete the Docker VM</span>
 </span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>openstack<span class="w"> </span>server<span class="w"> </span>delete<span class="w"> </span>demo-docker-host
@@ -6619,8 +6617,8 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>openstack<span class="w"> </span>floating<span class="w"> </span>ip<span class="w"> </span>list<span class="w">   </span><span class="c1"># should be empty or only those you intentionally keep</span>
 </span></code></pre></div>
 <hr>
-<h2 id="5-extras">5 Extras<a class="headerlink" href="#5-extras" title="Permanent link">§</a></h2>
-<h3 id="51-quick-reference-cheatsheet">5.1 Quick reference cheat‑sheet<a class="headerlink" href="#51-quick-reference-cheatsheet" title="Permanent link">§</a></h3>
+<h2 id="5-extras">5 Extras<a class="headerlink" href="#5-extras" title="Permanent link">¶</a></h2>
+<h3 id="51-quick-reference-cheatsheet">5.1 Quick reference cheat‑sheet<a class="headerlink" href="#51-quick-reference-cheatsheet" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1">#  Common OpenStack CLI shortcuts -----</span>
 </span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="c1"># Load credentials</span>
 </span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="nb">source</span><span class="w"> </span>~/jetstream-2-openrc.sh
@@ -6637,7 +6635,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="c1"># Security group rule for HTTP</span>
 </span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>openstack<span class="w"> </span>security<span class="w"> </span>group<span class="w"> </span>rule<span class="w"> </span>create<span class="w"> </span>--proto<span class="w"> </span>tcp<span class="w"> </span>--dst-port<span class="w"> </span><span class="m">80</span>:80<span class="w"> </span>default
 </span></code></pre></div>
-<h3 id="52-python-helper-print-jetstream-2-flavor-table">5.2 Python helper – print Jetstream 2 flavor table<a class="headerlink" href="#52-python-helper-print-jetstream-2-flavor-table" title="Permanent link">§</a></h3>
+<h3 id="52-python-helper-print-jetstream-2-flavor-table">5.2 Python helper – print Jetstream 2 flavor table<a class="headerlink" href="#52-python-helper-print-jetstream-2-flavor-table" title="Permanent link">¶</a></h3>
 <p>The snippet below pulls the flavor list from the API and prints a tidy markdown table so you can decide which flavor to use for containers.
 </p><div class="highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="o">,</span><span class="w"> </span><span class="nn">textwrap</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">shlex</span><span class="o">,</span><span class="w"> </span><span class="nn">re</span><span class="o">,</span><span class="w"> </span><span class="nn">pprint</span><span class="o">,</span><span class="w"> </span><span class="nn">math</span><span class="o">,</span><span class="w"> </span><span class="nn">datetime</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">itertools</span><span class="o">,</span><span class="w"> </span><span class="nn">collections</span><span class="o">,</span><span class="w"> </span><span class="nn">typing</span><span class="o">,</span><span class="w"> </span><span class="nn">random</span><span class="o">,</span><span class="w"> </span><span class="nn">string</span><span class="o">,</span><span class="w"> </span><span class="nn">hashlib</span><span class="o">,</span><span class="w"> </span><span class="nn">base64</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="o">,</span><span class="w"> </span><span class="nn">pathlib</span><span class="o">,</span><span class="w"> </span><span class="nn">ssl</span><span class="o">,</span><span class="w"> </span><span class="nn">socket</span><span class="o">,</span><span class="w"> </span><span class="nn">gzip</span><span class="o">,</span><span class="w"> </span><span class="nn">csv</span><span class="o">,</span><span class="w"> </span><span class="nn">io</span><span class="o">,</span><span class="w"> </span><span class="nn">statistics</span><span class="o">,</span><span class="w"> </span><span class="nn">fractions</span><span class="o">,</span><span class="w"> </span><span class="nn">decimal</span><span class="o">,</span><span class="w"> </span><span class="nn">inspect</span><span class="o">,</span><span class="w"> </span><span class="nn">uuid</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="o">,</span><span class="w"> </span><span class="nn">itertools</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">subprocess</span><span class="o">,</span><span class="w"> </span><span class="nn">datetime</span><span class="o">,</span><span class="w"> </span><span class="nn">typing</span><span class="o">,</span><span class="w"> </span><span class="nn">textwrap</span><span class="o">,</span><span class="w"> </span><span class="nn">collections</span><span class="o">,</span><span class="w"> </span><span class="nn">random</span><span class="o">,</span><span class="w"> </span><span class="nn">string</span><span class="o">,</span><span class="w"> </span><span class="nn">hashlib</span><span class="o">,</span><span class="w"> </span><span class="nn">base64</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="o">,</span><span class="w"> </span><span class="nn">pathlib</span><span class="o">,</span><span class="w"> </span><span class="nn">ssl</span><span class="o">,</span><span class="w"> </span><span class="nn">socket</span><span class="o">,</span><span class="w"> </span><span class="nn">gzip</span><span class="o">,</span><span class="w"> </span><span class="nn">csv</span><span class="o">,</span><span class="w"> </span><span class="nn">io</span><span class="o">,</span><span class="w"> </span><span class="nn">statistics</span><span class="o">,</span><span class="w"> </span><span class="nn">fractions</span><span class="o">,</span><span class="w"> </span><span class="nn">decimal</span><span class="o">,</span><span class="w"> </span><span class="nn">inspect</span><span class="o">,</span><span class="w"> </span><span class="nn">uuid</span>
 </span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span><span class="o">,</span><span class="w"> </span><span class="nn">subprocess</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">textwrap</span><span class="o">,</span><span class="w"> </span><span class="nn">datetime</span><span class="o">,</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="o">,</span><span class="w"> </span><span class="nn">base64</span><span class="o">,</span><span class="w"> </span><span class="nn">hashlib</span><span class="o">,</span><span class="w"> </span><span class="nn">random</span><span class="o">,</span><span class="w"> </span><span class="nn">string</span><span class="o">,</span><span class="w"> </span><span class="nn">itertools</span><span class="o">,</span><span class="w"> </span><span class="nn">collections</span><span class="o">,</span><span class="w"> </span><span class="nn">typing</span><span class="o">,</span><span class="w"> </span><span class="nn">math</span><span class="o">,</span><span class="w"> </span><span class="nn">re</span><span class="o">,</span><span class="w"> </span><span class="nn">pathlib</span><span class="o">,</span><span class="w"> </span><span class="nn">csv</span><span class="o">,</span><span class="w"> </span><span class="nn">io</span><span class="o">,</span><span class="w"> </span><span class="nn">statistics</span><span class="o">,</span><span class="w"> </span><span class="nn">fractions</span><span class="o">,</span><span class="w"> </span><span class="nn">decimal</span><span class="o">,</span><span class="w"> </span><span class="nn">inspect</span><span class="o">,</span><span class="w"> </span><span class="nn">uuid</span><span class="o">,</span><span class="w"> </span><span class="nn">ssl</span><span class="o">,</span><span class="w"> </span><span class="nn">socket</span><span class="o">,</span><span class="w"> </span><span class="nn">gzip</span>
@@ -6697,7 +6695,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>...
 </span></code></pre></div>
 <p>Feel free to copy‑paste the table into your README or a Jupyter notebook.</p>
-<h3 id="53-using-cloudinit-to-install-any-container-runtime">5.3 Using <strong>cloud‑init</strong> to install <em>any</em> container runtime<a class="headerlink" href="#53-using-cloudinit-to-install-any-container-runtime" title="Permanent link">§</a></h3>
+<h3 id="53-using-cloudinit-to-install-any-container-runtime">5.3 Using <strong>cloud‑init</strong> to install <em>any</em> container runtime<a class="headerlink" href="#53-using-cloudinit-to-install-any-container-runtime" title="Permanent link">¶</a></h3>
 <p>If you prefer <strong>containerd</strong> or <strong>CRI‑O</strong> instead of Docker, replace the <code>packages</code> and <code>runcmd</code> sections:
 </p><div class="highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1">#cloud-config</span>
 </span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nt">packages</span><span class="p">:</span>
@@ -6712,7 +6710,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="nv">ctr</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">run</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-d</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">--net-host</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">docker.io/library/nginx</span><span class="p p-Indicator">:</span><span class="nv">alpine</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">nginx</span><span class="w"> </span><span class="p p-Indicator">]</span>
 </span></code></pre></div>
 <p>Just point <code>--user-data</code> to that file when you create the VM.</p>
-<h3 id="54-debugging-tips">5.4 Debugging tips<a class="headerlink" href="#54-debugging-tips" title="Permanent link">§</a></h3>
+<h3 id="54-debugging-tips">5.4 Debugging tips<a class="headerlink" href="#54-debugging-tips" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
@@ -6750,7 +6748,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </tbody>
 </table>
 <hr>
-<h2 id="assignments">Assignments<a class="headerlink" href="#assignments" title="Permanent link">§</a></h2>
+<h2 id="assignments">Assignments<a class="headerlink" href="#assignments" title="Permanent link">¶</a></h2>
 <p>Goal is to conduct the following assignments:</p>
 <div class="admonition assignment">
 <p class="admonition-title">Assignment 1. <strong>clouds.yaml</strong></p>
@@ -6773,7 +6771,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <p>Create a table comparing the startup time and resource overhead of a Zun container vs. a Magnum node on Jetstream 2. This includes not only features, but also billing.</p>
 </div>
 <hr>
-<h2 id="youre-done">You’re done!<a class="headerlink" href="#youre-done" title="Permanent link">§</a></h2>
+<h2 id="youre-done">You’re done!<a class="headerlink" href="#youre-done" title="Permanent link">¶</a></h2>
 <p>You now have three <strong>different ways</strong> to run containers on Jetstream 2:</p>
 <table>
 <thead>
@@ -6797,7 +6795,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </tr>
 </tbody>
 </table>
-<h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h1>
+<h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h1>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge of the concepts covered in this section.</p>
@@ -6866,8 +6864,6 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../../assets/slides/js/slides.js"></script>
       
     
   

@@ -45,8 +45,6 @@
     
       <link rel="stylesheet" href="../../../../custom.css">
     
-      <link rel="stylesheet" href="../../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -6279,14 +6277,14 @@
   
 
 
-<h1 id="student-project-multi-cloud-openstack-networking-with-a-site-to-site-vpn">Student Project: Multi-Cloud OpenStack Networking with a Site-to-Site VPN<a class="headerlink" href="#student-project-multi-cloud-openstack-networking-with-a-site-to-site-vpn" title="Permanent link">§</a></h1>
+<h1 id="student-project-multi-cloud-openstack-networking-with-a-site-to-site-vpn">Student Project: Multi-Cloud OpenStack Networking with a Site-to-Site VPN<a class="headerlink" href="#student-project-multi-cloud-openstack-networking-with-a-site-to-site-vpn" title="Permanent link">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>this is not the complete project, but an idea</p>
 <p>technically you could use AI services and clusters hosted in the cloud they are expensive however, so using openstack is a good abstration</p>
 <p>a related questions could this already be achieved with kubernetes where some stuff is on one cloud while other is on another.</p>
 </div>
-<h2 id="1-project-overview">1. Project Overview<a class="headerlink" href="#1-project-overview" title="Permanent link">§</a></h2>
+<h2 id="1-project-overview">1. Project Overview<a class="headerlink" href="#1-project-overview" title="Permanent link">¶</a></h2>
 <p>This project explores how two independent OpenStack cloud environments can be connected using a secure, software-defined site-to-site VPN.</p>
 <p>The goal is to create a small multi-cloud infrastructure in which virtual machines (VMs) running in two separate OpenStack clouds can communicate over private IP addresses, even though the clouds are located in different IP domains.</p>
 <p>Each cloud will contain:</p>
@@ -6300,7 +6298,7 @@
 </ul>
 <p>The NVIDIA GPUs in the project are intentionally <strong>independent</strong>. The project does not attempt to combine GPUs using NVLink, NVSwitch, or another hardware interconnect. Instead, the purpose is to provide ordinary IP connectivity between independent GPU-enabled VMs.</p>
 <hr>
-<h2 id="2-project-motivation">2. Project Motivation<a class="headerlink" href="#2-project-motivation" title="Permanent link">§</a></h2>
+<h2 id="2-project-motivation">2. Project Motivation<a class="headerlink" href="#2-project-motivation" title="Permanent link">¶</a></h2>
 <p>Modern computing environments increasingly use multiple cloud or data-center environments. Organizations may have separate OpenStack installations for different departments, locations, experiments, or infrastructure providers.</p>
 <p>A challenge appears when workloads in one cloud need to communicate with workloads in another cloud.</p>
 <p>For example:</p>
@@ -6322,9 +6320,9 @@
 <li>Ansible</li>
 </ul>
 <hr>
-<h2 id="3-project-scenario">3. Project Scenario<a class="headerlink" href="#3-project-scenario" title="Permanent link">§</a></h2>
+<h2 id="3-project-scenario">3. Project Scenario<a class="headerlink" href="#3-project-scenario" title="Permanent link">¶</a></h2>
 <p>The project assumes two separate OpenStack clouds.</p>
-<h3 id="cloud-a">Cloud A<a class="headerlink" href="#cloud-a" title="Permanent link">§</a></h3>
+<h3 id="cloud-a">Cloud A<a class="headerlink" href="#cloud-a" title="Permanent link">¶</a></h3>
 <p>Cloud A has:</p>
 <ul>
 <li>A public/external network</li>
@@ -6334,7 +6332,7 @@
 <li>Multiple workload VMs</li>
 <li>One or more NVIDIA GPU VMs</li>
 </ul>
-<h3 id="cloud-b">Cloud B<a class="headerlink" href="#cloud-b" title="Permanent link">§</a></h3>
+<h3 id="cloud-b">Cloud B<a class="headerlink" href="#cloud-b" title="Permanent link">¶</a></h3>
 <p>Cloud B has:</p>
 <ul>
 <li>A public/external network</li>
@@ -6353,7 +6351,7 @@
 <p>Note: <code>147.126.224.94</code> is treated in this project as an example public endpoint associated with Cloud A. A real deployment should verify ownership, routing, firewall policy, and authorization before using any public address.</p>
 </blockquote>
 <hr>
-<h2 id="4-high-level-architecture">4. High-Level Architecture<a class="headerlink" href="#4-high-level-architecture" title="Permanent link">§</a></h2>
+<h2 id="4-high-level-architecture">4. High-Level Architecture<a class="headerlink" href="#4-high-level-architecture" title="Permanent link">¶</a></h2>
 <p>The resulting architecture is:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>                         INTERNET / WAN
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                    │                   │
@@ -6374,7 +6372,7 @@
 <p>The VPN VMs provide the boundary between the public Internet and the private cloud networks.</p>
 <p>The workload VMs do not need to run VPN software.</p>
 <hr>
-<h2 id="5-core-design-principle">5. Core Design Principle<a class="headerlink" href="#5-core-design-principle" title="Permanent link">§</a></h2>
+<h2 id="5-core-design-principle">5. Core Design Principle<a class="headerlink" href="#5-core-design-principle" title="Permanent link">¶</a></h2>
 <p>The most important design decision is that the VPN is implemented as a <strong>site-to-site routed connection</strong>, rather than as a separate VPN connection on every workload VM.</p>
 <p>The intended traffic flow is:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>GPU-A
@@ -6409,10 +6407,10 @@
 </span></code></pre></div>
 <p>The exact subnets can be adjusted for the laboratory environment.</p>
 <hr>
-<h2 id="6-why-use-dedicated-vpn-vms">6. Why Use Dedicated VPN VMs?<a class="headerlink" href="#6-why-use-dedicated-vpn-vms" title="Permanent link">§</a></h2>
+<h2 id="6-why-use-dedicated-vpn-vms">6. Why Use Dedicated VPN VMs?<a class="headerlink" href="#6-why-use-dedicated-vpn-vms" title="Permanent link">¶</a></h2>
 <p>The VPN endpoints will run on dedicated virtual machines.</p>
 <p>Each VPN VM will have at least two network interfaces.</p>
-<h3 id="vpn-vm-a">VPN VM A<a class="headerlink" href="#vpn-vm-a" title="Permanent link">§</a></h3>
+<h3 id="vpn-vm-a">VPN VM A<a class="headerlink" href="#vpn-vm-a" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>NIC 1:
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  External/public network
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  Public IP: 147.126.224.94
@@ -6421,7 +6419,7 @@
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  Internal network
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>  Private IP: 10.10.0.5
 </span></code></pre></div>
-<h3 id="vpn-vm-b">VPN VM B<a class="headerlink" href="#vpn-vm-b" title="Permanent link">§</a></h3>
+<h3 id="vpn-vm-b">VPN VM B<a class="headerlink" href="#vpn-vm-b" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>NIC 1:
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  External/public network
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  Public IP: &lt;Cloud B public IP&gt;
@@ -6441,7 +6439,7 @@
 <li>The architecture resembles a real site-to-site cloud network.</li>
 </ol>
 <hr>
-<h2 id="7-wireguard">7. WireGuard<a class="headerlink" href="#7-wireguard" title="Permanent link">§</a></h2>
+<h2 id="7-wireguard">7. WireGuard<a class="headerlink" href="#7-wireguard" title="Permanent link">¶</a></h2>
 <p>WireGuard will be used as the VPN technology.</p>
 <p>WireGuard provides an encrypted Layer-3 tunnel between the two VPN VMs.</p>
 <p>Conceptually:</p>
@@ -6474,7 +6472,7 @@
 </span></code></pre></div>
 <p>The exact configuration should be generated by Ansible rather than manually maintained.</p>
 <hr>
-<h2 id="8-routing">8. Routing<a class="headerlink" href="#8-routing" title="Permanent link">§</a></h2>
+<h2 id="8-routing">8. Routing<a class="headerlink" href="#8-routing" title="Permanent link">¶</a></h2>
 <p>Routing is the key part of the project.</p>
 <p>Cloud A must know that the Cloud B private network is reachable through VPN VM A:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>172.29.0.0/16
@@ -6507,7 +6505,7 @@
 </span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>172.29.0.0/16
 </span></code></pre></div>
 <hr>
-<h2 id="9-openstack-networking">9. OpenStack Networking<a class="headerlink" href="#9-openstack-networking" title="Permanent link">§</a></h2>
+<h2 id="9-openstack-networking">9. OpenStack Networking<a class="headerlink" href="#9-openstack-networking" title="Permanent link">¶</a></h2>
 <p>The project uses OpenStack Neutron for networking.</p>
 <p>Each cloud should have an external network and one or more private networks.</p>
 <p>A simplified Cloud A topology is:</p>
@@ -6540,7 +6538,7 @@
 </span></code></pre></div>
 <p>Depending on the OpenStack environment, routing can be implemented using Neutron routers, subnet host routes, or another supported routing design.</p>
 <hr>
-<h2 id="10-security-groups">10. Security Groups<a class="headerlink" href="#10-security-groups" title="Permanent link">§</a></h2>
+<h2 id="10-security-groups">10. Security Groups<a class="headerlink" href="#10-security-groups" title="Permanent link">¶</a></h2>
 <p>Security groups should restrict access to the minimum required traffic.</p>
 <p>The VPN VMs need to accept WireGuard traffic on their public interfaces.</p>
 <p>For example:</p>
@@ -6569,7 +6567,7 @@
 </span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>  only between required hosts or subnets
 </span></code></pre></div>
 <hr>
-<h2 id="11-independent-nvidia-gpus">11. Independent NVIDIA GPUs<a class="headerlink" href="#11-independent-nvidia-gpus" title="Permanent link">§</a></h2>
+<h2 id="11-independent-nvidia-gpus">11. Independent NVIDIA GPUs<a class="headerlink" href="#11-independent-nvidia-gpus" title="Permanent link">¶</a></h2>
 <p>The GPUs in this project are independent.</p>
 <p>For example:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>GPU VM A
@@ -6614,9 +6612,9 @@
 </ul>
 <p>The VPN should therefore be considered a connectivity mechanism, not a replacement for local high-performance GPU interconnects.</p>
 <hr>
-<h2 id="12-example-multi-vm-environment">12. Example Multi-VM Environment<a class="headerlink" href="#12-example-multi-vm-environment" title="Permanent link">§</a></h2>
+<h2 id="12-example-multi-vm-environment">12. Example Multi-VM Environment<a class="headerlink" href="#12-example-multi-vm-environment" title="Permanent link">¶</a></h2>
 <p>A more realistic student laboratory could contain:</p>
-<h3 id="cloud-a_1">Cloud A<a class="headerlink" href="#cloud-a_1" title="Permanent link">§</a></h3>
+<h3 id="cloud-a_1">Cloud A<a class="headerlink" href="#cloud-a_1" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>VPN-A       10.10.0.5
 </span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>App-A1      10.10.1.10
 </span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>App-A2      10.10.1.11
@@ -6624,7 +6622,7 @@
 </span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>GPU-A1      10.10.3.10
 </span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>GPU-A2      10.10.3.11
 </span></code></pre></div>
-<h3 id="cloud-b_1">Cloud B<a class="headerlink" href="#cloud-b_1" title="Permanent link">§</a></h3>
+<h3 id="cloud-b_1">Cloud B<a class="headerlink" href="#cloud-b_1" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>VPN-B       172.29.0.5
 </span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>App-B1      172.29.1.10
 </span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>App-B2      172.29.1.11
@@ -6640,7 +6638,7 @@
 </span></code></pre></div>
 <p>while management networks remain isolated.</p>
 <hr>
-<h2 id="13-ansible-automation">13. Ansible Automation<a class="headerlink" href="#13-ansible-automation" title="Permanent link">§</a></h2>
+<h2 id="13-ansible-automation">13. Ansible Automation<a class="headerlink" href="#13-ansible-automation" title="Permanent link">¶</a></h2>
 <p>A major objective of the project is to make the entire environment reproducible with Ansible.</p>
 <p>Instead of manually creating VMs, networks, routes, security groups, and WireGuard configuration, Ansible should perform the deployment.</p>
 <p>A proposed repository structure is:</p>
@@ -6674,7 +6672,7 @@
 <div class="highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>ansible-playbook<span class="w"> </span>playbooks/site.yml
 </span></code></pre></div>
 <hr>
-<h2 id="14-openstack-credentials">14. OpenStack Credentials<a class="headerlink" href="#14-openstack-credentials" title="Permanent link">§</a></h2>
+<h2 id="14-openstack-credentials">14. OpenStack Credentials<a class="headerlink" href="#14-openstack-credentials" title="Permanent link">¶</a></h2>
 <p>The Ansible deployment should use OpenStack authentication information through a secure mechanism such as <code>clouds.yaml</code>, environment variables, or Ansible Vault.</p>
 <p>Credentials must not be committed to Git.</p>
 <p>For example:</p>
@@ -6690,15 +6688,15 @@
 </span></code></pre></div>
 <p>rather than stored in the repository.</p>
 <hr>
-<h2 id="15-suggested-ansible-workflow">15. Suggested Ansible Workflow<a class="headerlink" href="#15-suggested-ansible-workflow" title="Permanent link">§</a></h2>
+<h2 id="15-suggested-ansible-workflow">15. Suggested Ansible Workflow<a class="headerlink" href="#15-suggested-ansible-workflow" title="Permanent link">¶</a></h2>
 <p>The deployment can be divided into several stages.</p>
-<h3 id="stage-1-requirements">Stage 1: Requirements<a class="headerlink" href="#stage-1-requirements" title="Permanent link">§</a></h3>
+<h3 id="stage-1-requirements">Stage 1: Requirements<a class="headerlink" href="#stage-1-requirements" title="Permanent link">¶</a></h3>
 <p>Install the required Ansible collections.</p>
 <p>For example:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>openstack.cloud
 </span></code></pre></div>
 <p>and any Linux/WireGuard-related collections required by the implementation.</p>
-<h3 id="stage-2-openstack-networks">Stage 2: OpenStack Networks<a class="headerlink" href="#stage-2-openstack-networks" title="Permanent link">§</a></h3>
+<h3 id="stage-2-openstack-networks">Stage 2: OpenStack Networks<a class="headerlink" href="#stage-2-openstack-networks" title="Permanent link">¶</a></h3>
 <p>Create or verify:</p>
 <ul>
 <li>External network</li>
@@ -6708,7 +6706,7 @@
 <li>Router interfaces</li>
 <li>Security groups</li>
 </ul>
-<h3 id="stage-3-vpn-vms">Stage 3: VPN VMs<a class="headerlink" href="#stage-3-vpn-vms" title="Permanent link">§</a></h3>
+<h3 id="stage-3-vpn-vms">Stage 3: VPN VMs<a class="headerlink" href="#stage-3-vpn-vms" title="Permanent link">¶</a></h3>
 <p>Create:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>VPN-A
 </span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>VPN-B
@@ -6720,7 +6718,7 @@
 <li>Appropriate security groups</li>
 <li>Static/private addressing where appropriate</li>
 </ul>
-<h3 id="stage-4-operating-system-configuration">Stage 4: Operating System Configuration<a class="headerlink" href="#stage-4-operating-system-configuration" title="Permanent link">§</a></h3>
+<h3 id="stage-4-operating-system-configuration">Stage 4: Operating System Configuration<a class="headerlink" href="#stage-4-operating-system-configuration" title="Permanent link">¶</a></h3>
 <p>Configure:</p>
 <ul>
 <li>IP forwarding</li>
@@ -6729,16 +6727,16 @@
 <li>WireGuard interface</li>
 <li>Persistent configuration</li>
 </ul>
-<h3 id="stage-5-vpn-configuration">Stage 5: VPN Configuration<a class="headerlink" href="#stage-5-vpn-configuration" title="Permanent link">§</a></h3>
+<h3 id="stage-5-vpn-configuration">Stage 5: VPN Configuration<a class="headerlink" href="#stage-5-vpn-configuration" title="Permanent link">¶</a></h3>
 <p>Generate WireGuard keys and peer configuration.</p>
 <p>The public keys can be exchanged through Ansible variables.</p>
 <p>Private keys should be protected using Ansible Vault or another secret-management mechanism.</p>
-<h3 id="stage-6-routing">Stage 6: Routing<a class="headerlink" href="#stage-6-routing" title="Permanent link">§</a></h3>
+<h3 id="stage-6-routing">Stage 6: Routing<a class="headerlink" href="#stage-6-routing" title="Permanent link">¶</a></h3>
 <p>Configure:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>Cloud A -&gt; 172.29.0.0/16 -&gt; VPN-A
 </span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>Cloud B -&gt; 10.10.0.0/16 -&gt; VPN-B
 </span></code></pre></div>
-<h3 id="stage-7-testing">Stage 7: Testing<a class="headerlink" href="#stage-7-testing" title="Permanent link">§</a></h3>
+<h3 id="stage-7-testing">Stage 7: Testing<a class="headerlink" href="#stage-7-testing" title="Permanent link">¶</a></h3>
 <p>Verify connectivity between selected VMs.</p>
 <p>For example:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>ping<span class="w"> </span><span class="m">172</span>.29.3.10
@@ -6748,38 +6746,38 @@
 </span></code></pre></div>
 <p>from GPU-B.</p>
 <hr>
-<h2 id="16-testing-plan">16. Testing Plan<a class="headerlink" href="#16-testing-plan" title="Permanent link">§</a></h2>
+<h2 id="16-testing-plan">16. Testing Plan<a class="headerlink" href="#16-testing-plan" title="Permanent link">¶</a></h2>
 <p>The project should have measurable tests.</p>
-<h3 id="test-1-vpn-reachability">Test 1: VPN Reachability<a class="headerlink" href="#test-1-vpn-reachability" title="Permanent link">§</a></h3>
+<h3 id="test-1-vpn-reachability">Test 1: VPN Reachability<a class="headerlink" href="#test-1-vpn-reachability" title="Permanent link">¶</a></h3>
 <p>Verify that the two WireGuard endpoints can communicate.</p>
 <p>Expected result:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>VPN-A &lt;-&gt; VPN-B
 </span></code></pre></div>
-<h3 id="test-2-private-network-routing">Test 2: Private Network Routing<a class="headerlink" href="#test-2-private-network-routing" title="Permanent link">§</a></h3>
+<h3 id="test-2-private-network-routing">Test 2: Private Network Routing<a class="headerlink" href="#test-2-private-network-routing" title="Permanent link">¶</a></h3>
 <p>From a VM in Cloud A:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>ping<span class="w"> </span><span class="m">172</span>.29.1.10
 </span></code></pre></div>
 <p>Expected result:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>successful
 </span></code></pre></div>
-<h3 id="test-3-reverse-routing">Test 3: Reverse Routing<a class="headerlink" href="#test-3-reverse-routing" title="Permanent link">§</a></h3>
+<h3 id="test-3-reverse-routing">Test 3: Reverse Routing<a class="headerlink" href="#test-3-reverse-routing" title="Permanent link">¶</a></h3>
 <p>From Cloud B:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>ping<span class="w"> </span><span class="m">10</span>.10.1.10
 </span></code></pre></div>
 <p>Expected result:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>successful
 </span></code></pre></div>
-<h3 id="test-4-ssh">Test 4: SSH<a class="headerlink" href="#test-4-ssh" title="Permanent link">§</a></h3>
+<h3 id="test-4-ssh">Test 4: SSH<a class="headerlink" href="#test-4-ssh" title="Permanent link">¶</a></h3>
 <p>Verify that authorized VMs can connect using their private IP addresses.</p>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>ssh<span class="w"> </span>user@172.29.1.10
 </span></code></pre></div>
-<h3 id="test-5-gpu-connectivity">Test 5: GPU Connectivity<a class="headerlink" href="#test-5-gpu-connectivity" title="Permanent link">§</a></h3>
+<h3 id="test-5-gpu-connectivity">Test 5: GPU Connectivity<a class="headerlink" href="#test-5-gpu-connectivity" title="Permanent link">¶</a></h3>
 <p>Verify that the GPU VMs can communicate:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>ping<span class="w"> </span><span class="m">172</span>.29.3.10
 </span></code></pre></div>
 <p>Then test the actual distributed software selected for the project.</p>
-<h3 id="test-6-isolation">Test 6: Isolation<a class="headerlink" href="#test-6-isolation" title="Permanent link">§</a></h3>
+<h3 id="test-6-isolation">Test 6: Isolation<a class="headerlink" href="#test-6-isolation" title="Permanent link">¶</a></h3>
 <p>Verify that blocked networks remain inaccessible.</p>
 <p>For example:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>Cloud A management network
@@ -6787,10 +6785,10 @@
 </span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>Cloud B management network
 </span></code></pre></div>
 <hr>
-<h2 id="17-performance-measurements">17. Performance Measurements<a class="headerlink" href="#17-performance-measurements" title="Permanent link">§</a></h2>
+<h2 id="17-performance-measurements">17. Performance Measurements<a class="headerlink" href="#17-performance-measurements" title="Permanent link">¶</a></h2>
 <p>Because the VPN adds an additional networking layer, the project should measure its impact.</p>
 <p>Useful measurements include:</p>
-<h3 id="latency">Latency<a class="headerlink" href="#latency" title="Permanent link">§</a></h3>
+<h3 id="latency">Latency<a class="headerlink" href="#latency" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>ping<span class="w"> </span>&lt;remote-private-ip&gt;
 </span></code></pre></div>
 <p>Compare:</p>
@@ -6799,15 +6797,15 @@
 <p>against:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>cross-cloud VPN latency
 </span></code></pre></div>
-<h3 id="bandwidth">Bandwidth<a class="headerlink" href="#bandwidth" title="Permanent link">§</a></h3>
+<h3 id="bandwidth">Bandwidth<a class="headerlink" href="#bandwidth" title="Permanent link">¶</a></h3>
 <p>Use a controlled test tool such as <code>iperf3</code>.</p>
 <p>Measure:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>VM-A -&gt; VM-B
 </span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>VM-B -&gt; VM-A
 </span></code></pre></div>
-<h3 id="packet-loss">Packet Loss<a class="headerlink" href="#packet-loss" title="Permanent link">§</a></h3>
+<h3 id="packet-loss">Packet Loss<a class="headerlink" href="#packet-loss" title="Permanent link">¶</a></h3>
 <p>Measure packet loss under normal and high traffic conditions.</p>
-<h3 id="gpu-workload-performance">GPU Workload Performance<a class="headerlink" href="#gpu-workload-performance" title="Permanent link">§</a></h3>
+<h3 id="gpu-workload-performance">GPU Workload Performance<a class="headerlink" href="#gpu-workload-performance" title="Permanent link">¶</a></h3>
 <p>If a distributed GPU application is used, compare:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>single-GPU performance
 </span></code></pre></div>
@@ -6816,7 +6814,7 @@
 </span></code></pre></div>
 <p>The objective is not necessarily to achieve local-NVLink performance, but to understand the cost of cross-cloud networking.</p>
 <hr>
-<h2 id="18-security-considerations">18. Security Considerations<a class="headerlink" href="#18-security-considerations" title="Permanent link">§</a></h2>
+<h2 id="18-security-considerations">18. Security Considerations<a class="headerlink" href="#18-security-considerations" title="Permanent link">¶</a></h2>
 <p>This project intentionally places VPN endpoints on public networks.</p>
 <p>Therefore:</p>
 <ol>
@@ -6831,9 +6829,9 @@
 </ol>
 <p>The public address <code>147.126.224.94</code> should only be used if the student has authorization to operate infrastructure using that address.</p>
 <hr>
-<h2 id="19-learning-objectives">19. Learning Objectives<a class="headerlink" href="#19-learning-objectives" title="Permanent link">§</a></h2>
+<h2 id="19-learning-objectives">19. Learning Objectives<a class="headerlink" href="#19-learning-objectives" title="Permanent link">¶</a></h2>
 <p>By completing this project, a student should gain practical experience with:</p>
-<h3 id="openstack">OpenStack<a class="headerlink" href="#openstack" title="Permanent link">§</a></h3>
+<h3 id="openstack">OpenStack<a class="headerlink" href="#openstack" title="Permanent link">¶</a></h3>
 <ul>
 <li>Projects</li>
 <li>Networks</li>
@@ -6843,7 +6841,7 @@
 <li>Floating/public IPs</li>
 <li>VM provisioning</li>
 </ul>
-<h3 id="linux-networking">Linux Networking<a class="headerlink" href="#linux-networking" title="Permanent link">§</a></h3>
+<h3 id="linux-networking">Linux Networking<a class="headerlink" href="#linux-networking" title="Permanent link">¶</a></h3>
 <ul>
 <li>Routing</li>
 <li>IP forwarding</li>
@@ -6851,7 +6849,7 @@
 <li>Network interfaces</li>
 <li>Private versus public addressing</li>
 </ul>
-<h3 id="vpn-technology">VPN Technology<a class="headerlink" href="#vpn-technology" title="Permanent link">§</a></h3>
+<h3 id="vpn-technology">VPN Technology<a class="headerlink" href="#vpn-technology" title="Permanent link">¶</a></h3>
 <ul>
 <li>WireGuard</li>
 <li>Public/private keys</li>
@@ -6860,7 +6858,7 @@
 <li>Allowed IPs</li>
 <li>Routing through VPN interfaces</li>
 </ul>
-<h3 id="automation">Automation<a class="headerlink" href="#automation" title="Permanent link">§</a></h3>
+<h3 id="automation">Automation<a class="headerlink" href="#automation" title="Permanent link">¶</a></h3>
 <ul>
 <li>Ansible</li>
 <li>Ansible roles</li>
@@ -6869,7 +6867,7 @@
 <li>Idempotent infrastructure deployment</li>
 <li>OpenStack automation</li>
 </ul>
-<h3 id="gpu-computing">GPU Computing<a class="headerlink" href="#gpu-computing" title="Permanent link">§</a></h3>
+<h3 id="gpu-computing">GPU Computing<a class="headerlink" href="#gpu-computing" title="Permanent link">¶</a></h3>
 <ul>
 <li>NVIDIA GPU VMs</li>
 <li>CUDA environments</li>
@@ -6878,7 +6876,7 @@
 <li>Limitations of IP networking compared with NVLink</li>
 </ul>
 <hr>
-<h2 id="20-proposed-deliverables">20. Proposed Deliverables<a class="headerlink" href="#20-proposed-deliverables" title="Permanent link">§</a></h2>
+<h2 id="20-proposed-deliverables">20. Proposed Deliverables<a class="headerlink" href="#20-proposed-deliverables" title="Permanent link">¶</a></h2>
 <p>The completed student project should produce:</p>
 <ol>
 <li><strong>Architecture diagram</strong></li>
@@ -6896,9 +6894,9 @@
 </ol>
 <p>The final repository should allow another student to reproduce the environment with their own authorized OpenStack credentials.</p>
 <hr>
-<h2 id="21-possible-extensions">21. Possible Extensions<a class="headerlink" href="#21-possible-extensions" title="Permanent link">§</a></h2>
+<h2 id="21-possible-extensions">21. Possible Extensions<a class="headerlink" href="#21-possible-extensions" title="Permanent link">¶</a></h2>
 <p>Once the basic system works, several extensions could be explored.</p>
-<h3 id="extension-a-more-than-two-clouds">Extension A: More Than Two Clouds<a class="headerlink" href="#extension-a-more-than-two-clouds" title="Permanent link">§</a></h3>
+<h3 id="extension-a-more-than-two-clouds">Extension A: More Than Two Clouds<a class="headerlink" href="#extension-a-more-than-two-clouds" title="Permanent link">¶</a></h3>
 <p>Add a third OpenStack environment:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>             Cloud A
 </span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>                |
@@ -6909,7 +6907,7 @@
 </span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a>             Cloud C
 </span></code></pre></div>
 <p>This could become a small multi-site network.</p>
-<h3 id="extension-b-selective-routing">Extension B: Selective Routing<a class="headerlink" href="#extension-b-selective-routing" title="Permanent link">§</a></h3>
+<h3 id="extension-b-selective-routing">Extension B: Selective Routing<a class="headerlink" href="#extension-b-selective-routing" title="Permanent link">¶</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>this is a mus</p>
@@ -6921,7 +6919,7 @@
 <div class="highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>10.10.3.0/24 &lt;-&gt; 172.29.3.0/24
 </span></code></pre></div>
 <p>This demonstrates network segmentation.</p>
-<h3 id="extension-c-high-availability">Extension C: High Availability<a class="headerlink" href="#extension-c-high-availability" title="Permanent link">§</a></h3>
+<h3 id="extension-c-high-availability">Extension C: High Availability<a class="headerlink" href="#extension-c-high-availability" title="Permanent link">¶</a></h3>
 <p>Deploy two VPN VMs per cloud:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>Cloud A                  Cloud B
 </span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>
@@ -6929,7 +6927,7 @@
 </span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>VPN-A2 ═══════════════ VPN-B2
 </span></code></pre></div>
 <p>This introduces redundancy and failover.</p>
-<h3 id="extension-d-monitoring">Extension D: Monitoring<a class="headerlink" href="#extension-d-monitoring" title="Permanent link">§</a></h3>
+<h3 id="extension-d-monitoring">Extension D: Monitoring<a class="headerlink" href="#extension-d-monitoring" title="Permanent link">¶</a></h3>
 <p>Add monitoring for:</p>
 <ul>
 <li>VPN status</li>
@@ -6940,10 +6938,10 @@
 <li>CPU utilization</li>
 <li>GPU utilization</li>
 </ul>
-<h3 id="extension-e-distributed-gpu-applications">Extension E: Distributed GPU Applications<a class="headerlink" href="#extension-e-distributed-gpu-applications" title="Permanent link">§</a></h3>
+<h3 id="extension-e-distributed-gpu-applications">Extension E: Distributed GPU Applications<a class="headerlink" href="#extension-e-distributed-gpu-applications" title="Permanent link">¶</a></h3>
 <p>Run a distributed application across independent GPU VMs and investigate how latency and bandwidth affect performance.</p>
 <hr>
-<h2 id="22-expected-final-architecture">22. Expected Final Architecture<a class="headerlink" href="#22-expected-final-architecture" title="Permanent link">§</a></h2>
+<h2 id="22-expected-final-architecture">22. Expected Final Architecture<a class="headerlink" href="#22-expected-final-architecture" title="Permanent link">¶</a></h2>
 <p>The final architecture should resemble:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>                              PUBLIC INTERNET
 </span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>                         │                     │
@@ -6969,7 +6967,7 @@
 <p><strong>Use dedicated VPN VMs to create a secure routed connection between two independent OpenStack private networks, while allowing multiple ordinary and GPU-enabled VMs to communicate across the clouds without installing VPN software on every workload VM.</strong></p>
 </blockquote>
 <hr>
-<h2 id="23-conclusion">23. Conclusion<a class="headerlink" href="#23-conclusion" title="Permanent link">§</a></h2>
+<h2 id="23-conclusion">23. Conclusion<a class="headerlink" href="#23-conclusion" title="Permanent link">¶</a></h2>
 <p>This project demonstrates a practical multi-cloud networking architecture using two independent OpenStack environments.</p>
 <p>The project separates responsibilities into three layers:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>OpenStack
@@ -6988,9 +6986,9 @@
 <p>The main engineering challenge is instead <strong>secure, automated, routed connectivity between the two OpenStack environments</strong>.</p>
 <p>Ansible provides the automation layer that makes the infrastructure reproducible, testable, and suitable for a student project.</p>
 <p>A successful implementation should demonstrate that a VM in Cloud A can communicate with an authorized VM in Cloud B using private IP addresses, while public IP addresses are used only for establishing the encrypted VPN connection and approved management access.</p>
-<h2 id="appendix">Appendix<a class="headerlink" href="#appendix" title="Permanent link">§</a></h2>
+<h2 id="appendix">Appendix<a class="headerlink" href="#appendix" title="Permanent link">¶</a></h2>
 <p>Yes — but <strong>SSH and Kubernetes solve different problems</strong>, and neither is a direct replacement for a routed VPN.</p>
-<h3 id="1-ssh-tunneling-possible">1. SSH tunneling — possible<a class="headerlink" href="#1-ssh-tunneling-possible" title="Permanent link">§</a></h3>
+<h3 id="1-ssh-tunneling-possible">1. SSH tunneling — possible<a class="headerlink" href="#1-ssh-tunneling-possible" title="Permanent link">¶</a></h3>
 <p>If you only need <strong>a few specific services</strong> between the clouds, you can avoid a VPN entirely.</p>
 <p>For example:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>Cloud A                         Cloud B
@@ -7014,7 +7012,7 @@
 <p><strong>Good for:</strong> SSH, databases, APIs, individual TCP services.</p>
 <p><strong>Bad for:</strong> making <code>10.10.0.0/16</code> and <code>172.29.0.0/16</code> behave like interconnected networks, especially with many VMs.</p>
 <hr>
-<h3 id="2-kubernetes-also-possible-but-its-not-the-vpn">2. Kubernetes — also possible, but it's not the VPN<a class="headerlink" href="#2-kubernetes-also-possible-but-its-not-the-vpn" title="Permanent link">§</a></h3>
+<h3 id="2-kubernetes-also-possible-but-its-not-the-vpn">2. Kubernetes — also possible, but it's not the VPN<a class="headerlink" href="#2-kubernetes-also-possible-but-its-not-the-vpn" title="Permanent link">¶</a></h3>
 <p>You could put Kubernetes nodes in both OpenStack clouds:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>             Kubernetes cluster
 </span><span id="__span-56-2"><a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>
@@ -7032,7 +7030,7 @@
 <p>Your CNI/networking solution still has to solve cross-cloud connectivity.</p>
 <p>Some approaches can create an overlay between nodes, meaning you may effectively get something VPN-like underneath.</p>
 <hr>
-<h3 id="3-for-your-student-project-theres-an-interesting-third-option">3. For your student project, there's an interesting third option<a class="headerlink" href="#3-for-your-student-project-theres-an-interesting-third-option" title="Permanent link">§</a></h3>
+<h3 id="3-for-your-student-project-theres-an-interesting-third-option">3. For your student project, there's an interesting third option<a class="headerlink" href="#3-for-your-student-project-theres-an-interesting-third-option" title="Permanent link">¶</a></h3>
 <p>If your actual goal is:</p>
 <blockquote>
 <p>"I have multiple VMs in two OpenStack clouds, and I want selected applications/GPU workloads to communicate."</p>
@@ -7093,7 +7091,7 @@
 </span><span id="__span-57-10"><a id="__codelineno-57-10" name="__codelineno-57-10" href="#__codelineno-57-10"></a>   ↓
 </span><span id="__span-57-11"><a id="__codelineno-57-11" name="__codelineno-57-11" href="#__codelineno-57-11"></a>Ansible
 </span></code></pre></div>
-<h3 id="the-important-distinction">The important distinction<a class="headerlink" href="#the-important-distinction" title="Permanent link">§</a></h3>
+<h3 id="the-important-distinction">The important distinction<a class="headerlink" href="#the-important-distinction" title="Permanent link">¶</a></h3>
 <p>You don't necessarily need a VPN <strong>if you don't need network-to-network connectivity</strong>.</p>
 <p>For example:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>                  Public Internet
@@ -7157,8 +7155,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../../assets/slides/js/slides.js"></script>
       
     
   

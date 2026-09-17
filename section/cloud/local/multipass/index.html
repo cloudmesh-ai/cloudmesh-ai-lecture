@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../../custom.css">
     
-      <link rel="stylesheet" href="../../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -6121,7 +6119,7 @@
   
 
 
-<h1 id="virtual-machine-management-with-multipass">Virtual Machine Management with Multipass<a class="headerlink" href="#virtual-machine-management-with-multipass" title="Permanent link">§</a></h1>
+<h1 id="virtual-machine-management-with-multipass">Virtual Machine Management with Multipass<a class="headerlink" href="#virtual-machine-management-with-multipass" title="Permanent link">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Learning Outcome</p>
 <p>By the end of this section, you will be able to:</p>
@@ -6134,44 +6132,44 @@
 <p>Multipass is a lightweight command-line tool used to manage Ubuntu virtual machines on local developer workstations. By abstracting hypervisor complexities, it provides an instantaneous bridge between local experimentation and cloud-scale deployment, enabling a true infrastructure-as-code workflow.</p>
 <p>For comprehensive architectural documentation, visit the <a href="https://multipass.run/">official Multipass website</a>.</p>
 <hr>
-<h2 id="1-prerequisites">1. Prerequisites<a class="headerlink" href="#1-prerequisites" title="Permanent link">§</a></h2>
+<h2 id="1-prerequisites">1. Prerequisites<a class="headerlink" href="#1-prerequisites" title="Permanent link">¶</a></h2>
 <p>To run Multipass successfully, your environment must meet specific hardware virtualization, memory, and privilege requirements based on your operating system.</p>
-<h3 id="11-linux-ubuntu-debian-based">1.1 Linux (Ubuntu / Debian-based)<a class="headerlink" href="#11-linux-ubuntu-debian-based" title="Permanent link">§</a></h3>
+<h3 id="11-linux-ubuntu-debian-based">1.1 Linux (Ubuntu / Debian-based)<a class="headerlink" href="#11-linux-ubuntu-debian-based" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Hardware Virtualization</strong>: Hardware-assisted virtualization (Intel VT-x or AMD-V) must be enabled in your system's UEFI/BIOS settings. You can verify support via <code>lscpu | grep Virtualization</code>.</li>
 <li><strong>Memory</strong>: Minimum 2GB RAM per concurrent instance (4GB+ recommended for container workloads like Kubernetes or Docker). Ensure your host has sufficient unallocated RAM.</li>
 <li><strong>Privileges</strong>: Membership in the <code>sudoers</code> list or root access to manage the <code>snapd</code> daemon and network bridges.</li>
 </ul>
-<h3 id="12-macos">1.2 macOS<a class="headerlink" href="#12-macos" title="Permanent link">§</a></h3>
+<h3 id="12-macos">1.2 macOS<a class="headerlink" href="#12-macos" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Hardware Virtualization</strong>: Apple Silicon relies on the native Apple Virtualization Framework. On Intel Macs, Intel VT-x must be enabled in the BIOS/EFI.</li>
 <li><strong>Memory</strong>: Minimum 2GB RAM per concurrent instance. On Apple Silicon unified memory architectures, ensure sufficient headroom is reserved for the host macOS kernel.</li>
 <li><strong>Privileges</strong>: An administrator user account capable of installing Homebrew packages or running the <code>.pkg</code> installer and modifying system virtualization parameters via <code>sudo</code>.</li>
 </ul>
-<h3 id="13-windows-11">1.3 Windows 11<a class="headerlink" href="#13-windows-11" title="Permanent link">§</a></h3>
+<h3 id="13-windows-11">1.3 Windows 11<a class="headerlink" href="#13-windows-11" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Hardware Virtualization</strong>: Hardware virtualization (Intel VT-x or AMD-V) and nested virtualization support must be enabled in your UEFI/BIOS settings.</li>
 <li><strong>Memory</strong>: Minimum 2GB RAM per instance. When running Hyper-V alongside WSL2 or Docker Desktop, dynamic memory allocation can cause contention; ensure adequate physical RAM is installed (8GB absolute minimum; 16GB+ recommended).</li>
 <li><strong>Privileges</strong>: Administrative privileges in an elevated PowerShell or Command Prompt to enable Hyper-V features and control the Multipass Windows service.</li>
 </ul>
 <hr>
-<h2 id="2-installation-environment-configuration">2. Installation &amp; Environment Configuration<a class="headerlink" href="#2-installation-environment-configuration" title="Permanent link">§</a></h2>
+<h2 id="2-installation-environment-configuration">2. Installation &amp; Environment Configuration<a class="headerlink" href="#2-installation-environment-configuration" title="Permanent link">¶</a></h2>
 <p>For up-to-date core binaries, refer to the <a href="https://multipass.run/docs">official documentation</a>. </p>
-<h3 id="21-linux-ubuntu-debian-based">2.1 Linux (Ubuntu / Debian-based)<a class="headerlink" href="#21-linux-ubuntu-debian-based" title="Permanent link">§</a></h3>
+<h3 id="21-linux-ubuntu-debian-based">2.1 Linux (Ubuntu / Debian-based)<a class="headerlink" href="#21-linux-ubuntu-debian-based" title="Permanent link">¶</a></h3>
 <p>On Ubuntu, Multipass is packaged as a strict-confinement <a href="https://snapcraft.io/">snap</a>:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>snap<span class="w"> </span>install<span class="w"> </span>multipass<span class="w"> </span>--classic
 </span></code></pre></div>
 <p><em>Troubleshooting Note</em>: If you encounter permission errors with the snap socket, verify that the <code>snapd</code> service is running and restart your shell session:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>snapd.socket
 </span></code></pre></div>
-<h3 id="22-macos">2.2 macOS<a class="headerlink" href="#22-macos" title="Permanent link">§</a></h3>
+<h3 id="22-macos">2.2 macOS<a class="headerlink" href="#22-macos" title="Permanent link">¶</a></h3>
 <p>The standard method is via the official installer package, or via Homebrew cask:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>brew<span class="w"> </span>install<span class="w"> </span>--cask<span class="w"> </span>multipass
 </span></code></pre></div>
 <p><em>Driver Note</em>: macOS supports the Apple Virtualization Framework (default on Apple Silicon) and legacy backends like Hyperkit or VirtualBox. Switch drivers via:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>multipass<span class="w"> </span><span class="nb">set</span><span class="w"> </span>local.driver<span class="o">=</span>virtualization
 </span></code></pre></div>
-<h3 id="23-windows-11-hyper-v-wsl2-coexistence">2.3 Windows 11 (Hyper-V &amp; WSL2 Coexistence)<a class="headerlink" href="#23-windows-11-hyper-v-wsl2-coexistence" title="Permanent link">§</a></h3>
+<h3 id="23-windows-11-hyper-v-wsl2-coexistence">2.3 Windows 11 (Hyper-V &amp; WSL2 Coexistence)<a class="headerlink" href="#23-windows-11-hyper-v-wsl2-coexistence" title="Permanent link">¶</a></h3>
 <p>This may not work on Windows Home. However, we had students in the past that reported they got it to work on Windows EDU.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -6211,7 +6209,7 @@
   <div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">multipass</span> <span class="nb">set </span><span class="n">local</span><span class="p">.</span><span class="n">driver</span><span class="p">=</span><span class="n">hyperv</span>
 </span></code></pre></div></li>
 </ul>
-<h3 id="3-managing-resource-contention-hyper-v-wsl2">3. Managing Resource Contention (Hyper-V &amp; WSL2)<a class="headerlink" href="#3-managing-resource-contention-hyper-v-wsl2" title="Permanent link">§</a></h3>
+<h3 id="3-managing-resource-contention-hyper-v-wsl2">3. Managing Resource Contention (Hyper-V &amp; WSL2)<a class="headerlink" href="#3-managing-resource-contention-hyper-v-wsl2" title="Permanent link">¶</a></h3>
 <p>When running Docker Desktop (which relies on WSL2) and Multipass simultaneously under Hyper-V, they compete for RAM and CPU cores.</p>
 <ul>
 <li><strong>Dynamic Memory:</strong> Hyper-V can dynamically allocate RAM, but sudden spikes from Docker containers or Multipass instances can cause host stuttering.</li>
@@ -6228,15 +6226,15 @@
 </span></code></pre></div>
 </li>
 </ul>
-<h3 id="4-troubleshooting-common-coexistence-issues">4. Troubleshooting Common Coexistence Issues<a class="headerlink" href="#4-troubleshooting-common-coexistence-issues" title="Permanent link">§</a></h3>
+<h3 id="4-troubleshooting-common-coexistence-issues">4. Troubleshooting Common Coexistence Issues<a class="headerlink" href="#4-troubleshooting-common-coexistence-issues" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>"Hyper-V is not installed or enabled":</strong> Ensure virtualization is enabled in your computer's BIOS/UEFI settings (Intel VT-x or AMD-V).</li>
 <li><strong>Port Conflicts:</strong> If services inside your Multipass instance aren't reachable from the host, check your Hyper-V Virtual Switch settings. Multipass creates an external or default switch; ensure your firewall isn't blocking the virtual network adapter.</li>
 </ul>
-<h2 id="3-the-cloud-native-mindset-disposable-infrastructure">3. The Cloud-Native Mindset: Disposable Infrastructure<a class="headerlink" href="#3-the-cloud-native-mindset-disposable-infrastructure" title="Permanent link">§</a></h2>
+<h2 id="3-the-cloud-native-mindset-disposable-infrastructure">3. The Cloud-Native Mindset: Disposable Infrastructure<a class="headerlink" href="#3-the-cloud-native-mindset-disposable-infrastructure" title="Permanent link">¶</a></h2>
 <p>Unlike traditional servers that are maintained and run indefinitely, modern cloud development uses disposable, automated instances that can be easily replaced whenever needed. </p>
 <p>Multipass makes this easy by letting you isolate completely different environment requirements on the same computer. For example, if your chemistry professor requires a specific software stack that conflicts with the tools requested by your computer science or physics professors, you can instantly spin up a dedicated, independent virtual machine for each class without any software interference or dependency conflicts. </p>
-<h2 id="31-example-motivation-solving-the-conda-trap">3.1 Example motivation: Solving the Conda trap<a class="headerlink" href="#31-example-motivation-solving-the-conda-trap" title="Permanent link">§</a></h2>
+<h2 id="31-example-motivation-solving-the-conda-trap">3.1 Example motivation: Solving the Conda trap<a class="headerlink" href="#31-example-motivation-solving-the-conda-trap" title="Permanent link">¶</a></h2>
 <p>Often professors using conda may run into such issues. Conda is a powerful package and environment manager, but professors across different disciplines often run into severe conflicts when using it for a few core reasons:</p>
 <ul>
 <li>
@@ -6250,7 +6248,7 @@
 </li>
 </ul>
 <p>If possible avoid Conda.</p>
-<h2 id="4-core-lifecycle-commands">4. Core Lifecycle Commands<a class="headerlink" href="#4-core-lifecycle-commands" title="Permanent link">§</a></h2>
+<h2 id="4-core-lifecycle-commands">4. Core Lifecycle Commands<a class="headerlink" href="#4-core-lifecycle-commands" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Launch</strong>: <code>multipass launch --name ubuntu-lts</code></li>
 <li><strong>Execute</strong>: <code>multipass exec ubuntu-lts -- lsb_release -a</code></li>
@@ -6259,7 +6257,7 @@
 <li><strong>Teardown</strong>: <code>multipass delete --all &amp;&amp; multipass purge</code></li>
 </ul>
 <hr>
-<h2 id="5-instance-information-and-resource-monitoring-info">5. Instance Information and Resource Monitoring (<code>info</code>)<a class="headerlink" href="#5-instance-information-and-resource-monitoring-info" title="Permanent link">§</a></h2>
+<h2 id="5-instance-information-and-resource-monitoring-info">5. Instance Information and Resource Monitoring (<code>info</code>)<a class="headerlink" href="#5-instance-information-and-resource-monitoring-info" title="Permanent link">¶</a></h2>
 <p>To inspect detailed operational metrics, network configurations, and resource consumption of a specific virtual instance, use <code>multipass info</code>.</p>
 <ul>
 <li><strong>Viewing Instance Details:</strong>
@@ -6271,7 +6269,7 @@
 </p><div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>multipass<span class="w"> </span>info<span class="w"> </span>--all
 </span></code></pre></div>
 <hr>
-<h2 id="6-interactive-shell-access-shell">6. Interactive Shell Access (<code>shell</code>)<a class="headerlink" href="#6-interactive-shell-access-shell" title="Permanent link">§</a></h2>
+<h2 id="6-interactive-shell-access-shell">6. Interactive Shell Access (<code>shell</code>)<a class="headerlink" href="#6-interactive-shell-access-shell" title="Permanent link">¶</a></h2>
 <p>When you need an interactive terminal session inside a running instance rather than executing a single isolated command, use <code>multipass shell</code>. This command automatically handles SSH key exchange and logs you into the default user account (<code>ubuntu</code>) inside the virtual machine.</p>
 <ul>
 <li><strong>Opening an Interactive Shell:</strong></li>
@@ -6289,7 +6287,7 @@ If an instance is named <code>primary</code> (or if it is the only active instan
 To leave the virtual machine and return to your host terminal, simply type <code>exit</code> or press <code>Ctrl + D</code>.</li>
 </ul>
 <hr>
-<h2 id="7-data-transfer-and-directory-mounting-transfer-mount">7. Data Transfer and Directory Mounting (<code>transfer</code> &amp; <code>mount</code>)<a class="headerlink" href="#7-data-transfer-and-directory-mounting-transfer-mount" title="Permanent link">§</a></h2>
+<h2 id="7-data-transfer-and-directory-mounting-transfer-mount">7. Data Transfer and Directory Mounting (<code>transfer</code> &amp; <code>mount</code>)<a class="headerlink" href="#7-data-transfer-and-directory-mounting-transfer-mount" title="Permanent link">¶</a></h2>
 <p>Moving code, configuration files, or datasets between your host machine and isolated virtual environments is vital for day-to-day development and testing.</p>
 <ul>
 <li><strong>File Transfer:</strong> Use <code>multipass transfer</code> to securely copy individual scripts or configuration files directly into a running instance:</li>
@@ -6305,7 +6303,7 @@ To leave the virtual machine and return to your host terminal, simply type <code
 <div class="highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>multipass<span class="w"> </span>umount<span class="w"> </span>ubuntu-lts
 </span></code></pre></div>
 <hr>
-<h2 id="8-state-management-snapshots-and-recovery-snapshot">8. State Management: Snapshots and Recovery (<code>snapshot</code>)<a class="headerlink" href="#8-state-management-snapshots-and-recovery-snapshot" title="Permanent link">§</a></h2>
+<h2 id="8-state-management-snapshots-and-recovery-snapshot">8. State Management: Snapshots and Recovery (<code>snapshot</code>)<a class="headerlink" href="#8-state-management-snapshots-and-recovery-snapshot" title="Permanent link">¶</a></h2>
 <p>Mirroring the immutable infrastructure and checkpointing workflows used in enterprise cloud platforms, snapshots let you freeze a virtual machine's exact disk, memory, and configuration state at a specific moment.</p>
 <ul>
 <li><strong>Creating a Snapshot:</strong></li>
@@ -6323,7 +6321,7 @@ To leave the virtual machine and return to your host terminal, simply type <code
 <div class="highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>multipass<span class="w"> </span>restore<span class="w"> </span>ubuntu-lts.clean-base-state
 </span></code></pre></div>
 <hr>
-<h2 id="9-custom-networking-and-bridged-interfaces-networks">9. Custom Networking and Bridged Interfaces (<code>networks</code>)<a class="headerlink" href="#9-custom-networking-and-bridged-interfaces-networks" title="Permanent link">§</a></h2>
+<h2 id="9-custom-networking-and-bridged-interfaces-networks">9. Custom Networking and Bridged Interfaces (<code>networks</code>)<a class="headerlink" href="#9-custom-networking-and-bridged-interfaces-networks" title="Permanent link">¶</a></h2>
 <p>By default, Multipass instances sit behind an internal NAT (Network Address Translation) bridge, which isolates them from your local physical network. For multi-node cluster orchestration or service discovery testing, you can bridge instances directly to your physical network interface.</p>
 <ul>
 <li><strong>Inspecting Available Networks:</strong> List the physical and virtual interfaces available on your host machine:</li>
@@ -6336,7 +6334,7 @@ To leave the virtual machine and return to your host terminal, simply type <code
 <div class="highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>multipass<span class="w"> </span>launch<span class="w"> </span>--name<span class="w"> </span>worker-node<span class="w"> </span>--network<span class="w"> </span>bridge0
 </span></code></pre></div>
 <hr>
-<h2 id="10-advanced-automation-with-cloud-init">10. Advanced Automation with Cloud-Init<a class="headerlink" href="#10-advanced-automation-with-cloud-init" title="Permanent link">§</a></h2>
+<h2 id="10-advanced-automation-with-cloud-init">10. Advanced Automation with Cloud-Init<a class="headerlink" href="#10-advanced-automation-with-cloud-init" title="Permanent link">¶</a></h2>
 <p><code>cloud-init</code> standardizes bootstrap configuration. BeloNext we show a production-grade <code>cloud-config.yaml</code> that configures a non-root user, injects an SSH public key, updates packages, hardens basic firewall rules via <code>ufw</code>, and deploys an Apache service.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1">#cloud-config</span>
 </span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nt">users</span><span class="p">:</span>
@@ -6362,7 +6360,7 @@ To leave the virtual machine and return to your host terminal, simply type <code
 </span></code></pre></div>
 <p><em>Verification</em>: You can parse <code>/var/log/cloud-init-output.log</code> inside the instance to ensure execution completed without error.</p>
 <hr>
-<h2 id="11-troubleshooting-faq">11. Troubleshooting &amp; FAQ<a class="headerlink" href="#11-troubleshooting-faq" title="Permanent link">§</a></h2>
+<h2 id="11-troubleshooting-faq">11. Troubleshooting &amp; FAQ<a class="headerlink" href="#11-troubleshooting-faq" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6390,7 +6388,7 @@ To leave the virtual machine and return to your host terminal, simply type <code
 </tbody>
 </table>
 <hr>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6415,7 +6413,7 @@ To leave the virtual machine and return to your host terminal, simply type <code
 <summary>Why is Multipass preferred for testing cloud-init scripts locally?</summary>
 <p>Multipass's native support for <code>cloud-init</code> configurations makes it the ideal tool for verifying that automation scripts will work correctly before they are deployed to a production cloud environment.</p>
 </details>
-<h2 id="exercises">Exercises<a class="headerlink" href="#exercises" title="Permanent link">§</a></h2>
+<h2 id="exercises">Exercises<a class="headerlink" href="#exercises" title="Permanent link">¶</a></h2>
 <div class="admonition assignment">
 <p class="admonition-title">Exercise 1: Installation &amp; Verification</p>
 </div>
@@ -6525,8 +6523,6 @@ To leave the virtual machine and return to your host terminal, simply type <code
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../../assets/slides/js/slides.js"></script>
       
     
   

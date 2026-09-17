@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../custom.css">
     
-      <link rel="stylesheet" href="../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -6601,7 +6599,7 @@
   
 
 
-<h1 id="kubernetes-k8s-for-ai-production-grade-orchestration">Kubernetes (K8s) for AI: Production-Grade Orchestration<a class="headerlink" href="#kubernetes-k8s-for-ai-production-grade-orchestration" title="Permanent link">§</a></h1>
+<h1 id="kubernetes-k8s-for-ai-production-grade-orchestration">Kubernetes (K8s) for AI: Production-Grade Orchestration<a class="headerlink" href="#kubernetes-k8s-for-ai-production-grade-orchestration" title="Permanent link">¶</a></h1>
 <p>This chapter explores <strong>Kubernetes</strong>, the industry-standard container orchestration platform, and how it is applied to deploy, scale, and manage complex AI workloads.</p>
 <div class="admonition warning">
 <p class="admonition-title">Local first</p>
@@ -6617,9 +6615,9 @@
 5. Deploy a multi-tier AI application using Kubernetes manifests.</p>
 </div>
 <hr>
-<h2 id="1-introduction-to-kubernetes">1. Introduction to Kubernetes<a class="headerlink" href="#1-introduction-to-kubernetes" title="Permanent link">§</a></h2>
+<h2 id="1-introduction-to-kubernetes">1. Introduction to Kubernetes<a class="headerlink" href="#1-introduction-to-kubernetes" title="Permanent link">¶</a></h2>
 <p>While Docker provides the "container" (the package), <strong>Kubernetes (K8s)</strong> provides the "orchestra" (the management). In an AI context, you rarely run a single container. You typically have a pipeline: data ingestion $\rightarrow$ preprocessing $\rightarrow$ inference $\rightarrow$ frontend. Thes can be orchestrated with kubernetes.</p>
-<h3 id="the-ai-lifecycle-and-kubernetes">The AI Lifecycle and Kubernetes<a class="headerlink" href="#the-ai-lifecycle-and-kubernetes" title="Permanent link">§</a></h3>
+<h3 id="the-ai-lifecycle-and-kubernetes">The AI Lifecycle and Kubernetes<a class="headerlink" href="#the-ai-lifecycle-and-kubernetes" title="Permanent link">¶</a></h3>
 <p>AI is not just about the model; it is a lifecycle. Kubernetes provides the glue for each stage:</p>
 <ol>
 <li><strong>Data Engineering</strong>: Orchestrating Spark or Ray clusters to clean and preprocess terabytes of data.</li>
@@ -6627,7 +6625,7 @@
 <li><strong>Inference (Deployment)</strong>: Wrapping the trained model in a container (like vLLM) and scaling it based on real-time user requests.</li>
 <li><strong>Monitoring</strong>: Tracking "model drift" and GPU health to decide when to trigger a re-train.</li>
 </ol>
-<h3 id="why-kubernetes-for-ai">Why Kubernetes for AI?<a class="headerlink" href="#why-kubernetes-for-ai" title="Permanent link">§</a></h3>
+<h3 id="why-kubernetes-for-ai">Why Kubernetes for AI?<a class="headerlink" href="#why-kubernetes-for-ai" title="Permanent link">¶</a></h3>
 <p>AI workloads have unique requirements that make K8s useful:</p>
 <ul>
 <li><strong>GPU Orchestration</strong>: K8s can manage which pods get access to which GPUs, preventing multiple models from crashing the same card.</li>
@@ -6636,11 +6634,11 @@
 <li><strong>Infrastructure Abstraction</strong>: Whether running on Jetstream, Chameleon, or AWS, the K8s manifests remain mostly the same.</li>
 </ul>
 <p></p><figure id="_figure-1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/kubernetes-eco-chatgpt.png" data-desc-position="bottom"><img alt="Kubernetes Ecosystem" src="../images/kubernetes-eco-chatgpt.png"></a><figcaption>Figure 1: Kubernetes Ecosystem</figcaption></figure><p></p>
-<h2 id="_1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/kubernetes-chatgpt.png" data-desc-position="bottom"><img alt="Kubernetes Landscape" src="../images/kubernetes-chatgpt.png"></a><a class="headerlink" href="#_1" title="Permanent link">§</a></h2>
-<h2 id="2-kubernetes-core-architecture">2. Kubernetes Core Architecture<a class="headerlink" href="#2-kubernetes-core-architecture" title="Permanent link">§</a></h2>
+<h2 id="_1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/kubernetes-chatgpt.png" data-desc-position="bottom"><img alt="Kubernetes Landscape" src="../images/kubernetes-chatgpt.png"></a><a class="headerlink" href="#_1" title="Permanent link">¶</a></h2>
+<h2 id="2-kubernetes-core-architecture">2. Kubernetes Core Architecture<a class="headerlink" href="#2-kubernetes-core-architecture" title="Permanent link">¶</a></h2>
 <p>Kubernetes operates on a <strong>Cluster</strong> model consisting of a <strong>Control Plane</strong> and one or more <strong>Worker Nodes</strong>. This decoupled architecture ensures that the management of the cluster is separated from the execution of workloads, allowing the system to be highly scalable and resilient to individual node failures.</p>
 <p>For AI workloads, two components of this architecture are particularly critical:</p>
-<h3 id="21-the-control-plane-the-brain">2.1 The Control Plane (The Brain)<a class="headerlink" href="#21-the-control-plane-the-brain" title="Permanent link">§</a></h3>
+<h3 id="21-the-control-plane-the-brain">2.1 The Control Plane (The Brain)<a class="headerlink" href="#21-the-control-plane-the-brain" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>etcd</strong>: The \"source of truth.\" It is a distributed key-value store that ensures that even if the API server crashes, the state of the cluster (which pods are running where) is never lost. It uses the Raft consensus algorithm to ensure consistency.</li>
 <li><strong>kube-scheduler</strong>: For AI, the scheduler is critical. It performs <strong>Bin-Packing</strong>, attempting to fit as many pods as possible onto a node to maximize GPU utilization, or <strong>Spreading</strong>, to ensure that if one GPU node fails, the entire AI service doesn't go offline.</li>
@@ -6652,7 +6650,7 @@
 <li><strong>kube-scheduler</strong>: Decides which node a new pod should run on, considering resource requirements (e.g., "this pod needs 1 GPU").</li>
 <li><strong>kube-controller-manager</strong>: Handles cluster-level functions, like noticing when a node goes down and replacing the pods that were on it.</li>
 </ul>
-<h3 id="22-worker-nodes-the-muscle">2.2 Worker Nodes (The Muscle)<a class="headerlink" href="#22-worker-nodes-the-muscle" title="Permanent link">§</a></h3>
+<h3 id="22-worker-nodes-the-muscle">2.2 Worker Nodes (The Muscle)<a class="headerlink" href="#22-worker-nodes-the-muscle" title="Permanent link">¶</a></h3>
 <p>Worker nodes are the underlying compute machines—physical servers or virtual machines—where your actual workloads and applications run. While the control plane makes the global decisions, the worker nodes execute them.</p>
 <p>Every worker node runs three essential components required to host and manage pods:</p>
 <ul>
@@ -6661,7 +6659,7 @@
 <li><strong><code>Container Runtime</code> (The Execution Engine):</strong> The underlying software layer responsible for pulling container images from registries, setting up isolated namespaces/cgroups, and running the actual containers (common runtimes include <code>containerd</code> and <code>CRI-O</code>).</li>
 </ul>
 <hr>
-<h2 id="3-key-kubernetes-concepts">3. Key Kubernetes Concepts<a class="headerlink" href="#3-key-kubernetes-concepts" title="Permanent link">§</a></h2>
+<h2 id="3-key-kubernetes-concepts">3. Key Kubernetes Concepts<a class="headerlink" href="#3-key-kubernetes-concepts" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6704,9 +6702,9 @@
 </tbody>
 </table>
 <hr>
-<h2 id="4-compelling-ai-example-ai-powered-document-intelligence">4. Compelling AI Example: "AI-Powered Document Intelligence"<a class="headerlink" href="#4-compelling-ai-example-ai-powered-document-intelligence" title="Permanent link">§</a></h2>
+<h2 id="4-compelling-ai-example-ai-powered-document-intelligence">4. Compelling AI Example: "AI-Powered Document Intelligence"<a class="headerlink" href="#4-compelling-ai-example-ai-powered-document-intelligence" title="Permanent link">¶</a></h2>
 <p>To understand "Real-World" Kubernetes, let's design a <strong>Document Intelligence System</strong>. This system allows users to upload a PDF, indexes it into a vector database, and enables users to ask questions about the document using a Large Language Model (LLM).</p>
-<h3 id="41-the-ai-inference-pipeline-data-flow">4.1 The AI Inference Pipeline: Data Flow<a class="headerlink" href="#41-the-ai-inference-pipeline-data-flow" title="Permanent link">§</a></h3>
+<h3 id="41-the-ai-inference-pipeline-data-flow">4.1 The AI Inference Pipeline: Data Flow<a class="headerlink" href="#41-the-ai-inference-pipeline-data-flow" title="Permanent link">¶</a></h3>
 <p>Before looking at the manifests, let's trace a single user request through the system:</p>
 <ol>
 <li><strong>Request</strong>: The user uploads a PDF via the <strong>Streamlit Frontend</strong>.</li>
@@ -6717,7 +6715,7 @@
 <li><strong>Response</strong>: The LLM generates the answer, which flows back through the API $\rightarrow$ Frontend $\rightarrow$ User.</li>
 </ol>
 <hr>
-<h3 id="42-data-persistence-pv-pvc-for-model-weights">4.2 Data Persistence (PV &amp; PVC) for Model Weights<a class="headerlink" href="#42-data-persistence-pv-pvc-for-model-weights" title="Permanent link">§</a></h3>
+<h3 id="42-data-persistence-pv-pvc-for-model-weights">4.2 Data Persistence (PV &amp; PVC) for Model Weights<a class="headerlink" href="#42-data-persistence-pv-pvc-for-model-weights" title="Permanent link">¶</a></h3>
 <p>In AI workloads, the most critical assets are the <strong>Model Weights</strong>—billions of numerical parameters (tensors) stored in formats like <code>.safetensors</code> or PyTorch <code>.bin</code> files.</p>
 <p>In a production environment, these weights are rarely stored inside the container image because AI models are massive (several gigabytes), making images too slow to pull or rebuild. Instead, they are mirrored to a <strong>shared network file system</strong> (such as NFS, Azure Files, or Google Filestore).</p>
 <div class="admonition note">
@@ -6737,8 +6735,8 @@
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50Gi</span>
 </span></code></pre></div>
 <hr>
-<h3 id="43-kubernetes-manifest-design">4.3 Kubernetes Manifest Design<a class="headerlink" href="#43-kubernetes-manifest-design" title="Permanent link">§</a></h3>
-<h4 id="a-the-llm-engine-gpu-dependent-deployment">A. The LLM Engine (GPU-Dependent Deployment)<a class="headerlink" href="#a-the-llm-engine-gpu-dependent-deployment" title="Permanent link">§</a></h4>
+<h3 id="43-kubernetes-manifest-design">4.3 Kubernetes Manifest Design<a class="headerlink" href="#43-kubernetes-manifest-design" title="Permanent link">¶</a></h3>
+<h4 id="a-the-llm-engine-gpu-dependent-deployment">A. The LLM Engine (GPU-Dependent Deployment)<a class="headerlink" href="#a-the-llm-engine-gpu-dependent-deployment" title="Permanent link">¶</a></h4>
 <p>Because the LLM requires hardware acceleration, we must specify GPU resource limits:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
@@ -6773,7 +6771,7 @@
 </span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">        </span><span class="nt">persistentVolumeClaim</span><span class="p">:</span>
 </span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">          </span><span class="nt">claimName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">model-weights-pvc</span>
 </span></code></pre></div>
-<h4 id="b-the-orchestration-api-cpu-based-deployment">B. The Orchestration API (CPU-Based Deployment)<a class="headerlink" href="#b-the-orchestration-api-cpu-based-deployment" title="Permanent link">§</a></h4>
+<h4 id="b-the-orchestration-api-cpu-based-deployment">B. The Orchestration API (CPU-Based Deployment)<a class="headerlink" href="#b-the-orchestration-api-cpu-based-deployment" title="Permanent link">¶</a></h4>
 <p>The API layer is lightweight and can be scaled horizontally:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
@@ -6798,7 +6796,7 @@
 </span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
 </span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
 </span></code></pre></div>
-<h4 id="c-internal-networking-services">C. Internal Networking (Services)<a class="headerlink" href="#c-internal-networking-services" title="Permanent link">§</a></h4>
+<h4 id="c-internal-networking-services">C. Internal Networking (Services)<a class="headerlink" href="#c-internal-networking-services" title="Permanent link">¶</a></h4>
 <p>A Kubernetes Service provides a stable internal network endpoint so the API can reliably discover the LLM engine:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
@@ -6812,7 +6810,7 @@
 </span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span>
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">      </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span>
 </span></code></pre></div>
-<h4 id="d-public-access-ingress">D. Public Access (Ingress)<a class="headerlink" href="#d-public-access-ingress" title="Permanent link">§</a></h4>
+<h4 id="d-public-access-ingress">D. Public Access (Ingress)<a class="headerlink" href="#d-public-access-ingress" title="Permanent link">¶</a></h4>
 <p>An Ingress Controller (such as Nginx) manages external traffic entry points, routing paths and handling SSL termination:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.k8s.io/v1</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ingress</span>
@@ -6845,8 +6843,8 @@
 Scaling solely by CPU can be misleading for AI applications where GPUs operate at 100% capacity while CPUs idle. Advanced architectures use <strong>KEDA (Kubernetes Event-driven Autoscaling)</strong> to scale pods based on GPU VRAM utilization or active request queue lengths.</p>
 </blockquote>
 <hr>
-<h2 id="5-advanced-k8s-for-ai-ensuring-stability">5. Advanced K8s for AI: Ensuring Stability<a class="headerlink" href="#5-advanced-k8s-for-ai-ensuring-stability" title="Permanent link">§</a></h2>
-<h3 id="51-taints-and-tolerations">5.1 Taints and Tolerations<a class="headerlink" href="#51-taints-and-tolerations" title="Permanent link">§</a></h3>
+<h2 id="5-advanced-k8s-for-ai-ensuring-stability">5. Advanced K8s for AI: Ensuring Stability<a class="headerlink" href="#5-advanced-k8s-for-ai-ensuring-stability" title="Permanent link">¶</a></h2>
+<h3 id="51-taints-and-tolerations">5.1 Taints and Tolerations<a class="headerlink" href="#51-taints-and-tolerations" title="Permanent link">¶</a></h3>
 <p>To prevent general-purpose workloads (like standard web servers) from occupying expensive GPU nodes, we use taints and tolerations:</p>
 <ul>
 <li><strong>Taint</strong>: Marks a node so that ordinary pods cannot land on it unless explicitly allowed.</li>
@@ -6863,18 +6861,18 @@ Scaling solely by CPU can be misleading for AI applications where GPUs operate a
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="s">"NoSchedule"</span>
 </span></code></pre></div>
-<h3 id="52-resource-quotas-and-limitranges">5.2 Resource Quotas and LimitRanges<a class="headerlink" href="#52-resource-quotas-and-limitranges" title="Permanent link">§</a></h3>
+<h3 id="52-resource-quotas-and-limitranges">5.2 Resource Quotas and LimitRanges<a class="headerlink" href="#52-resource-quotas-and-limitranges" title="Permanent link">¶</a></h3>
 <p>In a shared cluster environment (such as a university research lab), resource governance prevents a single user from starving others:</p>
 <ul>
 <li><strong>ResourceQuotas</strong>: Sets hard limits on total resources consumed within a specific namespace (e.g., limiting a student project to a maximum of 2 GPUs total).</li>
 <li><strong>LimitRanges</strong>: Defines default and maximum constraints for individual pods (e.g., capping a single pod's VRAM request).</li>
 </ul>
-<h3 id="53-horizontal-pod-autoscaling-hpa">5.3 Horizontal Pod Autoscaling (HPA)<a class="headerlink" href="#53-horizontal-pod-autoscaling-hpa" title="Permanent link">§</a></h3>
+<h3 id="53-horizontal-pod-autoscaling-hpa">5.3 Horizontal Pod Autoscaling (HPA)<a class="headerlink" href="#53-horizontal-pod-autoscaling-hpa" title="Permanent link">¶</a></h3>
 <p>When API traffic spikes, Kubernetes can automatically adjust pod counts to maintain performance:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>autoscale<span class="w"> </span>deployment<span class="w"> </span>ai-api<span class="w"> </span>--cpu-percent<span class="o">=</span><span class="m">70</span><span class="w"> </span>--min<span class="o">=</span><span class="m">3</span><span class="w"> </span>--max<span class="o">=</span><span class="m">10</span>
 </span></code></pre></div>
 <hr>
-<h2 id="6-step-by-step-deployment-workflow">6. Step-by-Step Deployment Workflow<a class="headerlink" href="#6-step-by-step-deployment-workflow" title="Permanent link">§</a></h2>
+<h2 id="6-step-by-step-deployment-workflow">6. Step-by-Step Deployment Workflow<a class="headerlink" href="#6-step-by-step-deployment-workflow" title="Permanent link">¶</a></h2>
 <p>Deploying this AI architecture involves the following sequence:</p>
 <ol>
 <li><strong>Build and Push</strong>: Containerize the FastAPI and Streamlit apps and push images to a container registry.</li>
@@ -6885,21 +6883,21 @@ Scaling solely by CPU can be misleading for AI applications where GPUs operate a
 <li><strong>Verify</strong>: Run <code>kubectl get pods</code> to confirm all components show a <code>Running</code> status.</li>
 </ol>
 <hr>
-<h2 id="7-ai-observability-monitoring-the-engine">7. AI Observability: Monitoring the Engine<a class="headerlink" href="#7-ai-observability-monitoring-the-engine" title="Permanent link">§</a></h2>
+<h2 id="7-ai-observability-monitoring-the-engine">7. AI Observability: Monitoring the Engine<a class="headerlink" href="#7-ai-observability-monitoring-the-engine" title="Permanent link">¶</a></h2>
 <p>Knowing a pod is "Running" is insufficient for resource-heavy AI inference engines prone to thermal throttling, out-of-memory errors, or GPU fragmentation.</p>
-<h3 id="71-the-monitoring-stack">7.1 The Monitoring Stack<a class="headerlink" href="#71-the-monitoring-stack" title="Permanent link">§</a></h3>
+<h3 id="71-the-monitoring-stack">7.1 The Monitoring Stack<a class="headerlink" href="#71-the-monitoring-stack" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Prometheus</strong>: Periodically scrapes metrics from pods and stores them in a time-series database.</li>
 <li><strong>Grafana</strong>: Visualizes Prometheus metrics on custom dashboards.</li>
 </ul>
-<h3 id="72-gpu-metrics">7.2 GPU Metrics<a class="headerlink" href="#72-gpu-metrics" title="Permanent link">§</a></h3>
+<h3 id="72-gpu-metrics">7.2 GPU Metrics<a class="headerlink" href="#72-gpu-metrics" title="Permanent link">¶</a></h3>
 <p>Installing the <strong>NVIDIA Device Plugin</strong> and <strong>DCGM Exporter</strong> allows you to monitor critical hardware indicators:</p>
 <ul>
 <li><strong>GPU Utilization</strong>: Computes actual active processing power.</li>
 <li><strong>VRAM Usage</strong>: Detects memory overflows before out-of-memory crashes occur.</li>
 <li><strong>Temperature &amp; Power</strong>: Tracks thermal throttling risks under sustained load.</li>
 </ul>
-<h3 id="73-log-aggregation-the-efkloki-stack">7.3 Log Aggregation (The EFK/Loki Stack)<a class="headerlink" href="#73-log-aggregation-the-efkloki-stack" title="Permanent link">§</a></h3>
+<h3 id="73-log-aggregation-the-efkloki-stack">7.3 Log Aggregation (The EFK/Loki Stack)<a class="headerlink" href="#73-log-aggregation-the-efkloki-stack" title="Permanent link">¶</a></h3>
 <p>Python tracebacks and CUDA errors can be lost upon pod restarts. Production clusters aggregate logs using:</p>
 <ul>
 <li><strong>Fluentd / Promtail</strong>: Collect container log streams.</li>
@@ -6907,7 +6905,7 @@ Scaling solely by CPU can be misleading for AI applications where GPUs operate a
 <li><strong>Kibana / Grafana</strong>: Provide a unified UI to inspect logs across multiple pods simultaneously.</li>
 </ul>
 <hr>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6932,16 +6930,16 @@ Scaling solely by CPU can be misleading for AI applications where GPUs operate a
 <summary>How would you handle a scenario where the LLM engine requires a secret HuggingFace token?</summary>
 <p>Create a Kubernetes Secret (<code>kubectl create secret generic hf-token --from-literal=token=xxx</code>) and inject it into the LLM pod as an environment variable.</p>
 </details>
-<h2 id="appendix-manifest">Appendix: Manifest<a class="headerlink" href="#appendix-manifest" title="Permanent link">§</a></h2>
+<h2 id="appendix-manifest">Appendix: Manifest<a class="headerlink" href="#appendix-manifest" title="Permanent link">¶</a></h2>
 <p>In Kubernetes, a <strong>manifest</strong> is a specification of a desired state for a Kubernetes object, written in <strong>YAML or JSON</strong>.</p>
 <p>Think of it as a declarative blueprint or contract that you hand over to the Kubernetes control plane. It tells Kubernetes <em>what</em> you want the final system to look like (e.g., "Run 3 replicas of this Nginx container with port 80 open"), rather than giving it an imperative step-by-step script on how to build it.</p>
-<h3 id="key-characteristics-of-a-manifest">Key Characteristics of a Manifest:<a class="headerlink" href="#key-characteristics-of-a-manifest" title="Permanent link">§</a></h3>
+<h3 id="key-characteristics-of-a-manifest">Key Characteristics of a Manifest:<a class="headerlink" href="#key-characteristics-of-a-manifest" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Declarative:</strong> You define the goal state, and Kubernetes continuously works behind the scenes to make sure the cluster matches that state.</li>
 <li><strong>Version-Controlled:</strong> Because they are plain text files, manifests are typically stored in Git repositories, enabling GitOps, code reviews, and history tracking.</li>
 <li><strong>Idempotent:</strong> Applying the same manifest multiple times results in the same cluster state; if the cluster already matches the manifest, Kubernetes makes no changes.</li>
 </ul>
-<h3 id="1-internal-structure-of-a-single-yaml-file">1. Internal Structure of a Single YAML File<a class="headerlink" href="#1-internal-structure-of-a-single-yaml-file" title="Permanent link">§</a></h3>
+<h3 id="1-internal-structure-of-a-single-yaml-file">1. Internal Structure of a Single YAML File<a class="headerlink" href="#1-internal-structure-of-a-single-yaml-file" title="Permanent link">¶</a></h3>
 <p>Every Kubernetes manifest follows a standard structure defined by the Kubernetes API. A single file can also contain multiple resources separated by three dashes (<code>---</code>).</p>
 <p>A standard manifest is broken down into four main top-level fields:</p>
 <ul>
@@ -6974,7 +6972,7 @@ Scaling solely by CPU can be misleading for AI applications where GPUs operate a
 <p>GGGGGGGGGGGG</p>
 <p>Here is the improved, professionally structured version of your guide. The text has been reorganized to fix structural flow issues (such as misplaced sections and code snippets), enhance readability, and establish a clear, logical hierarchy from architecture to deployment and observability.</p>
 <hr>
-<h2 id="self-assessment_1">Self-Assessment<a class="headerlink" href="#self-assessment_1" title="Permanent link">§</a></h2>
+<h2 id="self-assessment_1">Self-Assessment<a class="headerlink" href="#self-assessment_1" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 </div>
@@ -7000,15 +6998,15 @@ Scaling solely by CPU can be misleading for AI applications where GPUs operate a
 </details>
 <p>Create a Kubernetes Secret (<code>kubectl create secret generic hf-token --from-literal=token=xxx</code>) and securely inject it into the LLM pod as an environment variable or volume mount.</p>
 <hr>
-<h2 id="appendix-kubernetes-manifest-basics">Appendix: Kubernetes Manifest Basics<a class="headerlink" href="#appendix-kubernetes-manifest-basics" title="Permanent link">§</a></h2>
+<h2 id="appendix-kubernetes-manifest-basics">Appendix: Kubernetes Manifest Basics<a class="headerlink" href="#appendix-kubernetes-manifest-basics" title="Permanent link">¶</a></h2>
 <p>In Kubernetes, a <strong>manifest</strong> is a declarative specification of a desired state written in YAML or JSON.</p>
-<h3 id="key-characteristics">Key Characteristics:<a class="headerlink" href="#key-characteristics" title="Permanent link">§</a></h3>
+<h3 id="key-characteristics">Key Characteristics:<a class="headerlink" href="#key-characteristics" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Declarative:</strong> You define the goal state, and Kubernetes continuously converges the cluster toward it.</li>
 <li><strong>Version-Controlled:</strong> Plain text files stored in Git repositories enable GitOps and code reviews.</li>
 <li><strong>Idempotent:</strong> Applying the same manifest multiple times yields identical cluster states without redundant alterations.</li>
 </ul>
-<h3 id="structure-of-a-manifest-file">Structure of a Manifest File<a class="headerlink" href="#structure-of-a-manifest-file" title="Permanent link">§</a></h3>
+<h3 id="structure-of-a-manifest-file">Structure of a Manifest File<a class="headerlink" href="#structure-of-a-manifest-file" title="Permanent link">¶</a></h3>
 <p>A standard manifest relies on four core top-level fields:</p>
 <ul>
 <li><strong><code>apiVersion</code></strong>: The target Kubernetes API version (e.g., <code>apps/v1</code>).</li>
@@ -7016,7 +7014,7 @@ Scaling solely by CPU can be misleading for AI applications where GPUs operate a
 <li><strong><code>metadata</code></strong>: Identifiers like <code>name</code>, <code>namespace</code>, and <code>labels</code>.</li>
 <li><strong><code>spec</code></strong>: The core configuration defining the desired operational state.</li>
 </ul>
-<h2 id="appendix-project-directory-organization-best-practices">Appendix: Project Directory Organization (Best Practices)<a class="headerlink" href="#appendix-project-directory-organization-best-practices" title="Permanent link">§</a></h2>
+<h2 id="appendix-project-directory-organization-best-practices">Appendix: Project Directory Organization (Best Practices)<a class="headerlink" href="#appendix-project-directory-organization-best-practices" title="Permanent link">¶</a></h2>
 <p>When managing dozens or hundreds of YAML files for an application across different environments, teams usually adopt one of three common organizational patterns:</p>
 <ul>
 <li>
@@ -7054,27 +7052,27 @@ Scaling solely by CPU can be misleading for AI applications where GPUs operate a
 </span></code></pre></div>
 </li>
 </ul>
-<h2 id="appendix-academia-may-not-use-kubernetes-for-ai-services">Appendix - Academia may not use kubernetes for AI services<a class="headerlink" href="#appendix-academia-may-not-use-kubernetes-for-ai-services" title="Permanent link">§</a></h2>
+<h2 id="appendix-academia-may-not-use-kubernetes-for-ai-services">Appendix - Academia may not use kubernetes for AI services<a class="headerlink" href="#appendix-academia-may-not-use-kubernetes-for-ai-services" title="Permanent link">¶</a></h2>
 <p>The divergence between <strong>SLURM</strong> (Simple Linux Utility for Resource Management) and <strong>Kubernetes</strong> in academic and national research centers comes down to a fundamental clash of paradigms: <strong>Batch-oriented High-Performance Computing (HPC)</strong> versus <strong>Cloud-native Service Orchestration</strong>.</p>
 <p>While Kubernetes dominates commercial cloud infrastructure and modern AI serving pipelines, academic centers heavily rely on SLURM for several architectural and historical reasons:</p>
-<h3 id="1-the-queueing-vs-always-on-model">1. The Queueing vs. "Always-On" Model<a class="headerlink" href="#1-the-queueing-vs-always-on-model" title="Permanent link">§</a></h3>
+<h3 id="1-the-queueing-vs-always-on-model">1. The Queueing vs. "Always-On" Model<a class="headerlink" href="#1-the-queueing-vs-always-on-model" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>SLURM (Batch Queue):</strong> HPC resources are scarce and expensive. SLURM operates on a strict <strong>queueing and allocation model</strong> with fair-share policies and backfill scheduling. A researcher submits a script requesting 128 nodes for 24 hours. Once the time limit expires, the job terminates, and resources are reclaimed for the next user.</li>
 <li><strong>Kubernetes (Stateful Services):</strong> Kubernetes assumes workloads are <strong>long-running services</strong> (APIs, databases, web apps) that should stay up indefinitely until explicitly updated or deleted. While K8s can run batch jobs via <code>Jobs</code> or <code>CronJobs</code>, managing complex scheduling queues, priority preemption, and wall-time limits natively has historically required external batch controllers.</li>
 </ul>
-<h3 id="2-high-performance-interconnects-and-bare-metal-speed">2. High-Performance Interconnects and Bare-Metal Speed<a class="headerlink" href="#2-high-performance-interconnects-and-bare-metal-speed" title="Permanent link">§</a></h3>
+<h3 id="2-high-performance-interconnects-and-bare-metal-speed">2. High-Performance Interconnects and Bare-Metal Speed<a class="headerlink" href="#2-high-performance-interconnects-and-bare-metal-speed" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>HPC (InfiniBand &amp; MPI):</strong> Traditional scientific simulations (weather modeling, molecular dynamics, physics) rely heavily on Message Passing Interface (MPI) running across thousands of tightly coupled nodes. SLURM launches these processes directly on <strong>bare-metal hardware</strong> connected via ultra-low-latency, high-bandwidth interconnects like InfiniBand or Omni-Path.</li>
 <li><strong>Kubernetes Network Overhead:</strong> Kubernetes historically introduced network virtualization layers (Container Network Interfaces / CNIs like Calico or Flannel) and overlay IPs. While modern HPC-K8s setups use SR-IOV, HostNetwork modes, and RDMA plugins to bypass this, tuning a K8s network to match bare-metal MPI performance remains significantly more complex than standard SLURM deployments.</li>
 </ul>
-<h3 id="3-multi-tenancy-and-resource-contention">3. Multi-Tenancy and Resource Contention<a class="headerlink" href="#3-multi-tenancy-and-resource-contention" title="Permanent link">§</a></h3>
+<h3 id="3-multi-tenancy-and-resource-contention">3. Multi-Tenancy and Resource Contention<a class="headerlink" href="#3-multi-tenancy-and-resource-contention" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>SLURM:</strong> Designed from the ground up for aggressive multi-tenancy where hundreds of researchers share a cluster without stepping on each other's toes. Its accounting and limits framework strictly enforces CPU, memory, and GPU quotas per project or user.</li>
 <li><strong>Kubernetes:</strong> While Kubernetes has namespaces and resource quotas, its multi-tenancy model is historically tailored to organizational teams sharing a microservices application stack, rather than hundreds of independent academic researchers executing arbitrary, unverified code concurrently.</li>
 </ul>
-<h3 id="4-legacy-scientific-software-ecosystem">4. Legacy Scientific Software Ecosystem<a class="headerlink" href="#4-legacy-scientific-software-ecosystem" title="Permanent link">§</a></h3>
+<h3 id="4-legacy-scientific-software-ecosystem">4. Legacy Scientific Software Ecosystem<a class="headerlink" href="#4-legacy-scientific-software-ecosystem" title="Permanent link">¶</a></h3>
 <p>Decades of scientific software—written in Fortran, C, and C++—are built specifically to interact with cluster resource managers via environment variables (<code>SLURM_JOB_ID</code>, <code>SLURM_NODEID</code>) and launcher commands (<code>srun</code>, <code>mpirun</code>). Rewiring or containerizing these monolithic pipelines just to run on a different scheduler offers little scientific ROI for a research lab.</p>
-<h3 id="5-the-modern-shift-hybrid-environments">5. The Modern Shift: Hybrid Environments<a class="headerlink" href="#5-the-modern-shift-hybrid-environments" title="Permanent link">§</a></h3>
+<h3 id="5-the-modern-shift-hybrid-environments">5. The Modern Shift: Hybrid Environments<a class="headerlink" href="#5-the-modern-shift-hybrid-environments" title="Permanent link">¶</a></h3>
 <p>Many academic and national labs are no longer choosing <em>either/or</em>, but rather adopting a <strong>hybrid approach</strong>:</p>
 <ul>
 <li><strong>SLURM</strong> remains the backbone for massive, tightly coupled numerical simulations and traditional MPI workloads.</li>
@@ -7128,8 +7126,6 @@ Scaling solely by CPU can be misleading for AI applications where GPUs operate a
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../assets/slides/js/slides.js"></script>
       
     
   

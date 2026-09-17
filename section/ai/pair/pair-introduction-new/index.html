@@ -45,8 +45,6 @@
     
       <link rel="stylesheet" href="../../../../custom.css">
     
-      <link rel="stylesheet" href="../../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5715,13 +5713,13 @@
   
 
 
-<h1 id="nvidia-ai-pair-comprehensive-architectural-overview">NVIDIA AI Pair: Comprehensive Architectural Overview<a class="headerlink" href="#nvidia-ai-pair-comprehensive-architectural-overview" title="Permanent link">§</a></h1>
-<h2 id="1-what-is-nvidia-ai-pair">1. What is NVIDIA AI Pair?<a class="headerlink" href="#1-what-is-nvidia-ai-pair" title="Permanent link">§</a></h2>
+<h1 id="nvidia-ai-pair-comprehensive-architectural-overview">NVIDIA AI Pair: Comprehensive Architectural Overview<a class="headerlink" href="#nvidia-ai-pair-comprehensive-architectural-overview" title="Permanent link">¶</a></h1>
+<h2 id="1-what-is-nvidia-ai-pair">1. What is NVIDIA AI Pair?<a class="headerlink" href="#1-what-is-nvidia-ai-pair" title="Permanent link">¶</a></h2>
 <p><strong>NVIDIA AI Pair (Personal AI Router)</strong> is a decentralized control plane and workload traffic controller designed for multi-agent AI systems. It transforms a collection of independent machines on a local network into a unified inference resource.</p>
 <p>Crucially, AI Pair is <strong>not</strong> a GPU-pooling technology. It does not merge VRAM or combine GPUs into a single larger logical device. Instead, it acts as an intelligent <strong>Proxy</strong> that intercepts requests from your applications and routes them to the most appropriate node in your network based on model availability and current hardware utilization.</p>
 <p>To your applications, AI Pair presents a single local endpoint that looks exactly like the inference engine they already speak to (e.g., Ollama or LM Studio), allowing existing tools to work unchanged while gaining the power of a multi-node cluster.</p>
 <hr>
-<h2 id="2-core-concepts-and-vocabulary">2. Core Concepts and Vocabulary<a class="headerlink" href="#2-core-concepts-and-vocabulary" title="Permanent link">§</a></h2>
+<h2 id="2-core-concepts-and-vocabulary">2. Core Concepts and Vocabulary<a class="headerlink" href="#2-core-concepts-and-vocabulary" title="Permanent link">¶</a></h2>
 <p>To understand how AI Pair operates, it is essential to use the following standardized terminology:</p>
 <table>
 <thead>
@@ -5766,17 +5764,17 @@
 </tbody>
 </table>
 <hr>
-<h2 id="3-detailed-architecture">3. Detailed Architecture<a class="headerlink" href="#3-detailed-architecture" title="Permanent link">§</a></h2>
-<h3 id="the-symmetric-peer-to-peer-model">The Symmetric Peer-to-Peer Model<a class="headerlink" href="#the-symmetric-peer-to-peer-model" title="Permanent link">§</a></h3>
+<h2 id="3-detailed-architecture">3. Detailed Architecture<a class="headerlink" href="#3-detailed-architecture" title="Permanent link">¶</a></h2>
+<h3 id="the-symmetric-peer-to-peer-model">The Symmetric Peer-to-Peer Model<a class="headerlink" href="#the-symmetric-peer-to-peer-model" title="Permanent link">¶</a></h3>
 <p>Unlike traditional server-client architectures, PAIR uses a <strong>Symmetric Clustering</strong> approach. Every node is an equal peer. This removes the single point of failure and allows any node to act as the entry point for an application.</p>
-<h3 id="process-architecture">Process Architecture<a class="headerlink" href="#process-architecture" title="Permanent link">§</a></h3>
+<h3 id="process-architecture">Process Architecture<a class="headerlink" href="#process-architecture" title="Permanent link">¶</a></h3>
 <p>The system is split into a frontend (Desktop or TUI) and a backend of Go-based services. The <strong>Broker</strong> is the heart of the node, supervising a fleet of specialized workers:
 - <strong>Proxies (<code>ollama-proxy</code>, <code>lmstudio-proxy</code>)</strong>: Handle the actual HTTP traffic and routing.
 - <strong>Scanner &amp; Info (<code>node-scanner</code>, <code>node-info</code>)</strong>: Handle LAN discovery and host telemetry.
 - <strong>Engine Manager</strong>: Manages the installation and lifecycle of Ollama/LM Studio.
 - <strong>Cluster Manager</strong>: Handles identity, pairing, and mutual TLS trust.
 - <strong>Job Scheduler</strong>: Tracks pending work and priority snapshots across the node.</p>
-<h3 id="the-routing-lifecycle">The Routing Lifecycle<a class="headerlink" href="#the-routing-lifecycle" title="Permanent link">§</a></h3>
+<h3 id="the-routing-lifecycle">The Routing Lifecycle<a class="headerlink" href="#the-routing-lifecycle" title="Permanent link">¶</a></h3>
 <ol>
 <li><strong>Discovery</strong>: Nodes announce themselves on the LAN.</li>
 <li><strong>Pairing</strong>: Users use a six-digit PIN to bootstrap trust and establish mutual TLS certificates.</li>
@@ -5788,7 +5786,7 @@
 <li><strong>Dispatch</strong>: The request is forwarded to the optimal node, and the result is streamed back to the user.</li>
 </ol>
 <hr>
-<h2 id="4-hard-architectural-boundaries-what-pair-does-not-do">4. Hard Architectural Boundaries (What PAIR Does NOT Do)<a class="headerlink" href="#4-hard-architectural-boundaries-what-pair-does-not-do" title="Permanent link">§</a></h2>
+<h2 id="4-hard-architectural-boundaries-what-pair-does-not-do">4. Hard Architectural Boundaries (What PAIR Does NOT Do)<a class="headerlink" href="#4-hard-architectural-boundaries-what-pair-does-not-do" title="Permanent link">¶</a></h2>
 <p>Understanding the limits of PAIR is critical for proper infrastructure planning:</p>
 <ul>
 <li><strong>No VRAM Pooling</strong>: If you have two nodes with 24GB VRAM, you <strong>cannot</strong> run a 40GB model. The model must fit entirely within one node's memory.</li>
@@ -5798,23 +5796,23 @@
 <li><strong>No Latency Reduction</strong>: Adding nodes increases <strong>throughput</strong> (how many requests you can handle at once) but does not make a single individual request process faster.</li>
 </ul>
 <hr>
-<h2 id="5-strategic-application-when-to-use-and-avoid">5. Strategic Application: When to Use and Avoid<a class="headerlink" href="#5-strategic-application-when-to-use-and-avoid" title="Permanent link">§</a></h2>
-<h3 id="use-ai-pair-when">Use AI Pair when:<a class="headerlink" href="#use-ai-pair-when" title="Permanent link">§</a></h3>
+<h2 id="5-strategic-application-when-to-use-and-avoid">5. Strategic Application: When to Use and Avoid<a class="headerlink" href="#5-strategic-application-when-to-use-and-avoid" title="Permanent link">¶</a></h2>
+<h3 id="use-ai-pair-when">Use AI Pair when:<a class="headerlink" href="#use-ai-pair-when" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Powering Multi-Agent Systems</strong>: When your application triggers multiple independent agents (coding, research, review) simultaneously.</li>
 <li><strong>Utilizing Heterogeneous Hardware</strong>: When you want to leverage a mix of high-end (DGX Blackwell) and mid-range (RTX 3090) hardware in one cluster.</li>
 <li><strong>Scaling Inference Capacity</strong>: When you need to increase the total tokens-per-second your local infrastructure can produce.</li>
 </ul>
-<h3 id="avoid-ai-pair-when">Avoid AI Pair when:<a class="headerlink" href="#avoid-ai-pair-when" title="Permanent link">§</a></h3>
+<h3 id="avoid-ai-pair-when">Avoid AI Pair when:<a class="headerlink" href="#avoid-ai-pair-when" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Model Size exceeds Hardware</strong>: When your target model is larger than your biggest single GPU's memory. (In this case, you need Tensor Parallelism/Sharding, not a router).</li>
 <li><strong>Extreme Low-Latency Requirements</strong>: When you only ever send one prompt and the slight overhead of a proxy is unacceptable.</li>
 </ul>
 <hr>
-<h2 id="6-networking-and-hardware-integration">6. Networking and Hardware Integration<a class="headerlink" href="#6-networking-and-hardware-integration" title="Permanent link">§</a></h2>
-<h3 id="security-and-trust">Security and Trust<a class="headerlink" href="#security-and-trust" title="Permanent link">§</a></h3>
+<h2 id="6-networking-and-hardware-integration">6. Networking and Hardware Integration<a class="headerlink" href="#6-networking-and-hardware-integration" title="Permanent link">¶</a></h2>
+<h3 id="security-and-trust">Security and Trust<a class="headerlink" href="#security-and-trust" title="Permanent link">¶</a></h3>
 <p>PAIR uses a <strong>Zero-Trust-ish</strong> approach for local networks. While discovery is open, the actual routing of inference traffic is restricted to paired nodes using <strong>mutual TLS (mTLS)</strong>. This ensures that only authorized machines in your cluster can exchange sensitive AI prompts.</p>
-<h3 id="the-grace-blackwell-dgx-spark-advantage">The Grace Blackwell (DGX Spark) Advantage<a class="headerlink" href="#the-grace-blackwell-dgx-spark-advantage" title="Permanent link">§</a></h3>
+<h3 id="the-grace-blackwell-dgx-spark-advantage">The Grace Blackwell (DGX Spark) Advantage<a class="headerlink" href="#the-grace-blackwell-dgx-spark-advantage" title="Permanent link">¶</a></h3>
 <p>While PAIR manages the routing <em>between</em> nodes, the hardware <em>inside</em> the node determines the capacity.
 - <strong>Discrete GPU Nodes (RTX)</strong>: Limited by VRAM and PCIe bandwidth.
 - <strong>Unified Memory Nodes (Grace Blackwell)</strong>: Because the CPU and GPU share a massive, high-speed memory pool, a single DGX Spark node can host models with hundreds of billions of parameters. In a PAIR cluster, these nodes act as the "super-nodes," handling the most complex, memory-intensive requests while smaller RTX nodes handle the lighter, faster tasks.</p>
@@ -5866,8 +5864,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../../assets/slides/js/slides.js"></script>
       
     
   

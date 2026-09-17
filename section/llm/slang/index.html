@@ -45,8 +45,6 @@
     
       <link rel="stylesheet" href="../../../custom.css">
     
-      <link rel="stylesheet" href="../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5732,7 +5730,7 @@
   
 
 
-<h1 id="handling-slang-dialects-and-colloquialisms-in-llms">Handling Slang, Dialects, and Colloquialisms in LLMs<a class="headerlink" href="#handling-slang-dialects-and-colloquialisms-in-llms" title="Permanent link">§</a></h1>
+<h1 id="handling-slang-dialects-and-colloquialisms-in-llms">Handling Slang, Dialects, and Colloquialisms in LLMs<a class="headerlink" href="#handling-slang-dialects-and-colloquialisms-in-llms" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -5745,17 +5743,17 @@
 </div>
 <p>Language is not static. In real-world applications—such as social media monitoring, customer support chatbots, and sentiment analysis—LLMs frequently encounter "non-standard" language. This includes slang (informal language used by a particular group), dialects (regional variations of a language), and colloquialisms (informal expressions).</p>
 <p>Most LLMs are trained on massive datasets derived from the internet, which includes both formal (Wikipedia, books, news) and informal (Reddit, Twitter, forums) text. However, there is often a "Standard Language Bias," where the model is more accurate when processing formal grammar. When encountering slang, LLMs may struggle with semantic shifts—where a word takes on a completely different meaning within a subculture—or morphological variations, where words are intentionally misspelled for stylistic effect.</p>
-<h2 id="the-challenge-of-non-standard-language">The Challenge of Non-Standard Language<a class="headerlink" href="#the-challenge-of-non-standard-language" title="Permanent link">§</a></h2>
+<h2 id="the-challenge-of-non-standard-language">The Challenge of Non-Standard Language<a class="headerlink" href="#the-challenge-of-non-standard-language" title="Permanent link">¶</a></h2>
 <p>Handling slang is complex because it differs from standard translation tasks in several key ways.</p>
-<h3 id="semantic-shift-and-ambiguity">Semantic Shift and Ambiguity<a class="headerlink" href="#semantic-shift-and-ambiguity" title="Permanent link">§</a></h3>
+<h3 id="semantic-shift-and-ambiguity">Semantic Shift and Ambiguity<a class="headerlink" href="#semantic-shift-and-ambiguity" title="Permanent link">¶</a></h3>
 <p>In slang, common words are often repurposed. For example, the word "sick" in a medical context means "unwell," but in a colloquial youth context, it can mean "excellent." An LLM must rely heavily on the surrounding context to disambiguate these meanings.</p>
-<h3 id="morphological-and-orthographic-variation">Morphological and Orthographic Variation<a class="headerlink" href="#morphological-and-orthographic-variation" title="Permanent link">§</a></h3>
+<h3 id="morphological-and-orthographic-variation">Morphological and Orthographic Variation<a class="headerlink" href="#morphological-and-orthographic-variation" title="Permanent link">¶</a></h3>
 <p>Slang often involves non-standard spelling to mimic speech or save time (e.g., "u" for "you," "omw" for "on my way," or "lit" as a descriptor). Tokenizers, which break text into sub-word units, may struggle with these variations, splitting a single slang word into multiple meaningless tokens, which can degrade the model's understanding.</p>
-<h3 id="community-specific-context">Community-Specific Context<a class="headerlink" href="#community-specific-context" title="Permanent link">§</a></h3>
+<h3 id="community-specific-context">Community-Specific Context<a class="headerlink" href="#community-specific-context" title="Permanent link">¶</a></h3>
 <p>Slang is often tied to specific identities, regions, or online communities. A term that is common in gaming culture may be entirely unknown to a model optimized for legal or medical documents. This creates a need for "context-aware" prompting to guide the LLM toward the correct linguistic framework.</p>
-<h2 id="normalization-and-translation">Normalization and Translation<a class="headerlink" href="#normalization-and-translation" title="Permanent link">§</a></h2>
+<h2 id="normalization-and-translation">Normalization and Translation<a class="headerlink" href="#normalization-and-translation" title="Permanent link">¶</a></h2>
 <p>Normalization is the process of converting non-standard text into a standard, formal version. This is essential for downstream tasks like database querying or formal reporting.</p>
-<h3 id="zero-shot-normalization">Zero-Shot Normalization<a class="headerlink" href="#zero-shot-normalization" title="Permanent link">§</a></h3>
+<h3 id="zero-shot-normalization">Zero-Shot Normalization<a class="headerlink" href="#zero-shot-normalization" title="Permanent link">¶</a></h3>
 <p>In zero-shot normalization, the LLM is asked to translate slang without any prior examples. This relies entirely on the model's internal training.</p>
 <p>Example: Zero-shot prompt for normalization.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Prompt: Rewrite the following informal text into standard, professional English. 
@@ -5764,7 +5762,7 @@
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Text: "Yo, that new update is mid. Fr fr, it just broke my setup."
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Output: "Hello, the new update is mediocre. In all honesty, it has caused my system to malfunction."
 </span></code></pre></div>
-<h3 id="few-shot-normalization">Few-Shot Normalization<a class="headerlink" href="#few-shot-normalization" title="Permanent link">§</a></h3>
+<h3 id="few-shot-normalization">Few-Shot Normalization<a class="headerlink" href="#few-shot-normalization" title="Permanent link">¶</a></h3>
 <p>Few-shot prompting provides the model with a few pairs of "Slang $\rightarrow$ Standard" mappings. This is significantly more effective for highly niche or new slang that the model might not have encountered during training.</p>
 <p>Example: Implementation of a normalization pipeline.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">openai</span>
@@ -5801,16 +5799,16 @@
 </span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="nb">print</span><span class="p">(</span><span class="n">normalize_slang</span><span class="p">(</span><span class="n">input_text</span><span class="p">,</span> <span class="n">slang_map</span><span class="p">))</span>
 </span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="c1"># Output: He said he won the lottery, but that is a lie.</span>
 </span></code></pre></div>
-<h2 id="style-transfer-and-generation">Style Transfer and Generation<a class="headerlink" href="#style-transfer-and-generation" title="Permanent link">§</a></h2>
+<h2 id="style-transfer-and-generation">Style Transfer and Generation<a class="headerlink" href="#style-transfer-and-generation" title="Permanent link">¶</a></h2>
 <p>Style transfer is the inverse of normalization: converting standard text into a specific slang or colloquial register. This is used to make AI agents feel more human or to target specific demographics.</p>
-<h3 id="persona-based-prompting">Persona-Based Prompting<a class="headerlink" href="#persona-based-prompting" title="Permanent link">§</a></h3>
+<h3 id="persona-based-prompting">Persona-Based Prompting<a class="headerlink" href="#persona-based-prompting" title="Permanent link">¶</a></h3>
 <p>The most effective way to generate slang is to assign the LLM a specific persona. Instead of asking for "slang," specify the demographic, region, or era.</p>
 <p>Example: Prompting for specific personas.</p>
 <ul>
 <li><strong>Persona A (Gen Z)</strong>: "Rewrite this technical alert as a Gen Z teenager would post it on X (Twitter)."</li>
 <li><strong>Persona B (1920s Detective)</strong>: "Rewrite this incident report in the style of a 1920s noir detective."</li>
 </ul>
-<h3 id="controlling-slang-intensity">Controlling Slang Intensity<a class="headerlink" href="#controlling-slang-intensity" title="Permanent link">§</a></h3>
+<h3 id="controlling-slang-intensity">Controlling Slang Intensity<a class="headerlink" href="#controlling-slang-intensity" title="Permanent link">¶</a></h3>
 <p>To prevent the LLM from over-using slang (which can look unnatural or "cringe"), you can implement a scale of intensity.</p>
 <p>Example: Implementation of a style transfer function.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">transfer_style</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">target_persona</span><span class="p">,</span> <span class="n">intensity</span><span class="o">=</span><span class="s2">"moderate"</span><span class="p">):</span>
@@ -5828,17 +5826,17 @@
 </span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">transfer_style</span><span class="p">(</span><span class="n">original_text</span><span class="p">,</span> <span class="s2">"a seasoned Silicon Valley engineer"</span><span class="p">,</span> <span class="s2">"Low"</span><span class="p">))</span>
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1"># Output: "The server is lagging pretty hard; we might be looking at a crash."</span>
 </span></code></pre></div>
-<h2 id="evaluation-and-benchmarking">Evaluation and Benchmarking<a class="headerlink" href="#evaluation-and-benchmarking" title="Permanent link">§</a></h2>
+<h2 id="evaluation-and-benchmarking">Evaluation and Benchmarking<a class="headerlink" href="#evaluation-and-benchmarking" title="Permanent link">¶</a></h2>
 <p>Evaluating an LLM's ability to handle slang is difficult because there is rarely a single "correct" translation.</p>
-<h3 id="semantic-similarity-vs-exact-match">Semantic Similarity vs. Exact Match<a class="headerlink" href="#semantic-similarity-vs-exact-match" title="Permanent link">§</a></h3>
+<h3 id="semantic-similarity-vs-exact-match">Semantic Similarity vs. Exact Match<a class="headerlink" href="#semantic-similarity-vs-exact-match" title="Permanent link">¶</a></h3>
 <p>Traditional metrics like BLEU or ROUGE (which check for exact word matches) are poor for slang evaluation. Instead, <strong>Cosine Similarity</strong> using embeddings is used. If the embedding of the normalized slang text is close to the embedding of the ground-truth standard text, the translation is considered successful.</p>
-<h3 id="the-risk-of-stereotyping">The Risk of Stereotyping<a class="headerlink" href="#the-risk-of-stereotyping" title="Permanent link">§</a></h3>
+<h3 id="the-risk-of-stereotyping">The Risk of Stereotyping<a class="headerlink" href="#the-risk-of-stereotyping" title="Permanent link">¶</a></h3>
 <p>When generating slang, LLMs risk falling into "linguistic stereotyping"—using outdated or exaggerated versions of a dialect. This can lead to offensive or unnatural outputs.</p>
 <div class="admonition warning">
 <p class="admonition-title">Evaluation Pitfall</p>
 <p>Avoid using "slang" as a binary (Correct vs. Incorrect). Instead, evaluate based on <strong>semantic preservation</strong> (did the meaning change?) and <strong>naturalness</strong> (would a native speaker of that dialect actually say this?).</p>
 </div>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -5931,8 +5929,6 @@ Verify that the technical instructions remain accurate across all three versions
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../assets/slides/js/slides.js"></script>
       
     
   

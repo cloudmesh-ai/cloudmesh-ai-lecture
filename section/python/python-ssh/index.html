@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../custom.css">
     
-      <link rel="stylesheet" href="../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -6065,7 +6063,7 @@
   
 
 
-<h1 id="remote-server-management-in-python">Remote Server Management in Python<a class="headerlink" href="#remote-server-management-in-python" title="Permanent link">§</a></h1>
+<h1 id="remote-server-management-in-python">Remote Server Management in Python<a class="headerlink" href="#remote-server-management-in-python" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -6078,20 +6076,20 @@
 </div>
 <p>Secure Shell (SSH) is the industry-standard protocol for managing remote Linux servers. In cloud environments, where management scripts typically run on a control node and target multiple virtual machines (VMs), SSH provides the encrypted channel necessary for configuration, administration, and monitoring.</p>
 <p>Python offers multiple ways to interact with remote servers, ranging from simple system calls to high-level orchestration frameworks. Choosing the right tool depends on the required level of control, the need for portability, and the scale of the infrastructure being managed.</p>
-<h2 id="fundamental-ssh-concepts">Fundamental SSH Concepts<a class="headerlink" href="#fundamental-ssh-concepts" title="Permanent link">§</a></h2>
+<h2 id="fundamental-ssh-concepts">Fundamental SSH Concepts<a class="headerlink" href="#fundamental-ssh-concepts" title="Permanent link">¶</a></h2>
 <p>Before implementing programmatic access, it is important to understand the underlying SSH mechanism. SSH uses a client-server architecture where the client authenticates itself to the server to establish a secure, encrypted tunnel.</p>
-<h3 id="authentication-mechanisms">Authentication Mechanisms<a class="headerlink" href="#authentication-mechanisms" title="Permanent link">§</a></h3>
+<h3 id="authentication-mechanisms">Authentication Mechanisms<a class="headerlink" href="#authentication-mechanisms" title="Permanent link">¶</a></h3>
 <p>SSH supports several methods of authentication:</p>
 <ul>
 <li><strong>Password Authentication</strong>: The user provides a password. This is generally discouraged for automation due to security risks and the difficulty of managing secrets.</li>
 <li><strong>Public Key Authentication</strong>: The user provides a private key that matches a public key stored on the server in the <code>authorized_keys</code> file. This is the standard for cloud automation.</li>
 <li><strong>Agent Forwarding</strong>: Using an SSH agent to manage keys, allowing the client to authenticate to multiple servers without storing private keys on intermediate jump hosts.</li>
 </ul>
-<h3 id="host-key-verification">Host Key Verification<a class="headerlink" href="#host-key-verification" title="Permanent link">§</a></h3>
+<h3 id="host-key-verification">Host Key Verification<a class="headerlink" href="#host-key-verification" title="Permanent link">¶</a></h3>
 <p>When a client connects to a server for the first time, the server presents a host key. The client must verify this key to prevent Man-in-the-Middle (MITM) attacks. In automated scripts, developers often use policies to handle unknown host keys, though these must be chosen based on the security requirements of the environment.</p>
-<h2 id="low-level-execution-with-subprocess">Low-Level Execution with subprocess<a class="headerlink" href="#low-level-execution-with-subprocess" title="Permanent link">§</a></h2>
+<h2 id="low-level-execution-with-subprocess">Low-Level Execution with subprocess<a class="headerlink" href="#low-level-execution-with-subprocess" title="Permanent link">¶</a></h2>
 <p>For simple, one-off commands where the local system's SSH configuration (such as <code>~/.ssh/config</code>) is already correctly set up, the <code>subprocess</code> module is the most direct approach. It invokes the system's own SSH binary, leveraging all local configurations and agents.</p>
-<h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">§</a></h3>
+<h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">¶</a></h3>
 <p>The <code>subprocess.run</code> function is used to execute the command and capture the output.</p>
 <p>Example: Running a basic command via system SSH.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
@@ -6108,14 +6106,14 @@
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="k">else</span><span class="p">:</span>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SSH Error:</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span></code></pre></div>
-<h3 id="trade-offs">Trade-offs<a class="headerlink" href="#trade-offs" title="Permanent link">§</a></h3>
+<h3 id="trade-offs">Trade-offs<a class="headerlink" href="#trade-offs" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Pros</strong>: No external dependencies, uses existing system SSH configs.</li>
 <li><strong>Cons</strong>: Limited control over the SSH session, difficult to handle interactive prompts, and requires the SSH binary to be installed on the host.</li>
 </ul>
-<h2 id="fine-grained-control-with-paramiko">Fine-Grained Control with Paramiko<a class="headerlink" href="#fine-grained-control-with-paramiko" title="Permanent link">§</a></h2>
+<h2 id="fine-grained-control-with-paramiko">Fine-Grained Control with Paramiko<a class="headerlink" href="#fine-grained-control-with-paramiko" title="Permanent link">¶</a></h2>
 <p><code>paramiko</code> is a native Python implementation of the SSHv2 protocol. It provides complete control over the SSH connection, including channel management and SFTP.</p>
-<h3 id="establishing-a-connection">Establishing a Connection<a class="headerlink" href="#establishing-a-connection" title="Permanent link">§</a></h3>
+<h3 id="establishing-a-connection">Establishing a Connection<a class="headerlink" href="#establishing-a-connection" title="Permanent link">¶</a></h3>
 <p>The <code>paramiko.SSHClient</code> class handles the connection lifecycle.</p>
 <p>Example: Connecting using a private key.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">paramiko</span>
@@ -6133,7 +6131,7 @@
 </span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SSH Connection failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span></code></pre></div>
-<h3 id="executing-commands-and-handling-streams">Executing Commands and Handling Streams<a class="headerlink" href="#executing-commands-and-handling-streams" title="Permanent link">§</a></h3>
+<h3 id="executing-commands-and-handling-streams">Executing Commands and Handling Streams<a class="headerlink" href="#executing-commands-and-handling-streams" title="Permanent link">¶</a></h3>
 <p>The <code>exec_command</code> method returns three streams: <code>stdin</code> for input, <code>stdout</code> for output, and <code>stderr</code> for errors.</p>
 <p>Example: Capturing remote output and handling errors.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">paramiko</span>
@@ -6153,7 +6151,7 @@
 </span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
 </span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </span></code></pre></div>
-<h3 id="remote-file-management-via-sftp">Remote File Management via SFTP<a class="headerlink" href="#remote-file-management-via-sftp" title="Permanent link">§</a></h3>
+<h3 id="remote-file-management-via-sftp">Remote File Management via SFTP<a class="headerlink" href="#remote-file-management-via-sftp" title="Permanent link">¶</a></h3>
 <p>Paramiko integrates SFTP for file transfers, allowing for <code>put</code> and <code>get</code> operations.</p>
 <p>Example: Uploading and downloading files.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">paramiko</span>
@@ -6172,9 +6170,9 @@
 <p class="admonition-title">Security Note on AutoAddPolicy</p>
 <p><code>paramiko.AutoAddPolicy()</code> accepts any host key, exposing the connection to MITM attacks. In production, use <code>RejectPolicy</code> and maintain a known hosts file.</p>
 </div>
-<h2 id="high-level-orchestration-with-fabric">High-Level Orchestration with Fabric<a class="headerlink" href="#high-level-orchestration-with-fabric" title="Permanent link">§</a></h2>
+<h2 id="high-level-orchestration-with-fabric">High-Level Orchestration with Fabric<a class="headerlink" href="#high-level-orchestration-with-fabric" title="Permanent link">¶</a></h2>
 <p>Fabric is a high-level library built on top of Paramiko. It is designed for application deployment and systems administration, providing a more intuitive API for executing tasks across multiple hosts.</p>
-<h3 id="connection-and-execution">Connection and Execution<a class="headerlink" href="#connection-and-execution" title="Permanent link">§</a></h3>
+<h3 id="connection-and-execution">Connection and Execution<a class="headerlink" href="#connection-and-execution" title="Permanent link">¶</a></h3>
 <p>Fabric simplifies the connection process using a <code>Connection</code> object.</p>
 <p>Example: Executing a command with Fabric.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fabric</span><span class="w"> </span><span class="kn">import</span> <span class="n">Connection</span>
@@ -6185,11 +6183,11 @@
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"uptime"</span><span class="p">,</span> <span class="n">hide</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Remote Output: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span></code></pre></div>
-<h3 id="task-based-orchestration">Task-Based Orchestration<a class="headerlink" href="#task-based-orchestration" title="Permanent link">§</a></h3>
+<h3 id="task-based-orchestration">Task-Based Orchestration<a class="headerlink" href="#task-based-orchestration" title="Permanent link">¶</a></h3>
 <p>Fabric is particularly useful for running the same sequence of commands across a fleet of servers, as it abstracts the underlying SSH channel management.</p>
-<h2 id="standardized-execution-with-cloudmesh-remoteexecutor">Standardized Execution with Cloudmesh RemoteExecutor<a class="headerlink" href="#standardized-execution-with-cloudmesh-remoteexecutor" title="Permanent link">§</a></h2>
+<h2 id="standardized-execution-with-cloudmesh-remoteexecutor">Standardized Execution with Cloudmesh RemoteExecutor<a class="headerlink" href="#standardized-execution-with-cloudmesh-remoteexecutor" title="Permanent link">¶</a></h2>
 <p>The <code>cloudmesh.ai.common.remote.RemoteExecutor</code> provides a standardized wrapper for SSH and SFTP operations within the Cloudmesh AI ecosystem. It integrates with global configuration settings for host key trust and output monitoring.</p>
-<h3 id="unified-remote-interface">Unified Remote Interface<a class="headerlink" href="#unified-remote-interface" title="Permanent link">§</a></h3>
+<h3 id="unified-remote-interface">Unified Remote Interface<a class="headerlink" href="#unified-remote-interface" title="Permanent link">¶</a></h3>
 <p><code>RemoteExecutor</code> simplifies the API by combining connection management and execution into a single object.</p>
 <p>Example: Using RemoteExecutor for commands and file transfers.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">cloudmesh.ai.common.remote</span><span class="w"> </span><span class="kn">import</span> <span class="n">RemoteExecutor</span>
@@ -6209,7 +6207,7 @@
 </span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># Upload a file using the helper method</span>
 </span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">remote</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="s2">"local_script.py"</span><span class="p">,</span> <span class="s2">"/tmp/remote_script.py"</span><span class="p">)</span>
 </span></code></pre></div>
-<h2 id="comparison-of-remote-management-methods">Comparison of Remote Management Methods<a class="headerlink" href="#comparison-of-remote-management-methods" title="Permanent link">§</a></h2>
+<h2 id="comparison-of-remote-management-methods">Comparison of Remote Management Methods<a class="headerlink" href="#comparison-of-remote-management-methods" title="Permanent link">¶</a></h2>
 <p>Choosing the right tool depends on the abstraction level and the specific requirements of the project.</p>
 <table>
 <thead>
@@ -6247,7 +6245,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="security-best-practices">Security Best Practices<a class="headerlink" href="#security-best-practices" title="Permanent link">§</a></h2>
+<h2 id="security-best-practices">Security Best Practices<a class="headerlink" href="#security-best-practices" title="Permanent link">¶</a></h2>
 <p>When automating SSH, security must be the priority to prevent unauthorized access to cloud infrastructure.</p>
 <ul>
 <li><strong>Avoid Hardcoding Credentials</strong>: Use environment variables or secret management services (e.g., HashiCorp Vault) instead of plain text keys.</li>
@@ -6265,7 +6263,7 @@
 <li>Followed the principle of least privilege for remote user accounts.</li>
 </ul>
 </div>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6351,8 +6349,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../assets/slides/js/slides.js"></script>
       
     
   

@@ -45,8 +45,6 @@
     
       <link rel="stylesheet" href="../../../../custom.css">
     
-      <link rel="stylesheet" href="../../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5601,7 +5599,7 @@
 <p>Switching to a multi-cloud Kubernetes architecture with a cross-cluster overlay network is a powerful approach, especially for distributed GPU workloads (like distributed model training or cross-region inference pipelines).</p>
 <p>Instead of routing raw VM traffic manually through a WireGuard gateway, Kubernetes handles container orchestration, while a multi-cluster networking layer bridges the pod networks across your two OpenStack clouds.</p>
 <hr>
-<h3 id="1-high-level-architecture-layout">1. High-Level Architecture Layout<a class="headerlink" href="#1-high-level-architecture-layout" title="Permanent link">§</a></h3>
+<h3 id="1-high-level-architecture-layout">1. High-Level Architecture Layout<a class="headerlink" href="#1-high-level-architecture-layout" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>               OpenStack Cloud A                       OpenStack Cloud B
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>         ┌───────────────────────────┐           ┌───────────────────────────┐
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>         │ Kubernetes Cluster A      │           │ Kubernetes Cluster B      │
@@ -5615,19 +5613,19 @@
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>                       └─────── Cross-Cluster Overlay ─────────┘
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>                                 (Submariner / Cilium)
 </span></code></pre></div>
-<h3 id="2-network-cidr-planning">2. Network &amp; CIDR Planning<a class="headerlink" href="#2-network-cidr-planning" title="Permanent link">§</a></h3>
+<h3 id="2-network-cidr-planning">2. Network &amp; CIDR Planning<a class="headerlink" href="#2-network-cidr-planning" title="Permanent link">¶</a></h3>
 <p>To make a multi-cloud Kubernetes overlay work seamlessly, your IP address spaces <strong>must not overlap</strong>:</p>
 <ul>
 <li><strong>Cloud A (OpenStack):</strong> Node Subnet <code>10.10.0.0/16</code>, Pod CIDR <code>10.200.0.0/16</code></li>
 <li><strong>Cloud B (OpenStack):</strong> Node Subnet <code>172.29.0.0/16</code>, Pod CIDR <code>10.201.0.0/16</code></li>
 </ul>
-<h3 id="3-choosing-the-cross-cluster-overlay-tool">3. Choosing the Cross-Cluster Overlay Tool<a class="headerlink" href="#3-choosing-the-cross-cluster-overlay-tool" title="Permanent link">§</a></h3>
+<h3 id="3-choosing-the-cross-cluster-overlay-tool">3. Choosing the Cross-Cluster Overlay Tool<a class="headerlink" href="#3-choosing-the-cross-cluster-overlay-tool" title="Permanent link">¶</a></h3>
 <p>For a multi-cloud setup spanning different OpenStack environments without native VPC peering, two tools excel:</p>
 <ol>
 <li><strong>Submariner:</strong> Designed specifically for cross-cluster connectivity. It connects clusters across public IPs or gateways, creating a secure tunnel that makes pods in Cluster A directly addressable from Cluster B.</li>
 <li><strong>Cilium Cluster Mesh:</strong> Uses eBPF to route traffic directly between clusters with high performance, provided worker nodes have direct IP connectivity (which can be bootstrapped via lightweight gateway nodes or public IPs).</li>
 </ol>
-<h3 id="4-handling-the-gpu-nodes">4. Handling the GPU Nodes<a class="headerlink" href="#4-handling-the-gpu-nodes" title="Permanent link">§</a></h3>
+<h3 id="4-handling-the-gpu-nodes">4. Handling the GPU Nodes<a class="headerlink" href="#4-handling-the-gpu-nodes" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Independent Node Pools:</strong> Provision GPU-backed instances natively in both OpenStack Cloud A and Cloud B via your infrastructure automation (Ansible or Terraform).</li>
 <li><strong>NVIDIA Device Plugin:</strong> Install the NVIDIA GPU Operator or device plugin on both clusters so Kubernetes recognizes <code>[nvidia.com/gpu](https://nvidia.com/gpu)</code> resources.</li>
@@ -5682,8 +5680,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../../assets/slides/js/slides.js"></script>
       
     
   

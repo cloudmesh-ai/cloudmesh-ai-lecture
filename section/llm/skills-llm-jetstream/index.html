@@ -45,8 +45,6 @@
     
       <link rel="stylesheet" href="../../../custom.css">
     
-      <link rel="stylesheet" href="../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5704,7 +5702,7 @@
   
 
 
-<h1 id="exposing-cline-skills-via-web-api-jetstream-integration">Exposing Cline Skills via Web API: JetStream Integration<a class="headerlink" href="#exposing-cline-skills-via-web-api-jetstream-integration" title="Permanent link">§</a></h1>
+<h1 id="exposing-cline-skills-via-web-api-jetstream-integration">Exposing Cline Skills via Web API: JetStream Integration<a class="headerlink" href="#exposing-cline-skills-via-web-api-jetstream-integration" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -5717,9 +5715,9 @@
 </div>
 <p>Local skills developed for Cline are designed for command-line execution. However, there is often a need to expose these capabilities to a wider audience or integrate them into web-based LLM interfaces, such as the JetStream LLM playground. </p>
 <p>The primary challenge is the interface mismatch: CLI skills expect command-line arguments and emit stdout, while web interfaces expect an HTTP API that follows a specific request and response schema. To bridge this gap, a wrapper service is required to act as a gateway, translating OpenAI-compatible API calls into local script executions and wrapping the results back into the expected JSON format.</p>
-<h2 id="the-openai-compatibility-layer">The OpenAI Compatibility Layer<a class="headerlink" href="#the-openai-compatibility-layer" title="Permanent link">§</a></h2>
+<h2 id="the-openai-compatibility-layer">The OpenAI Compatibility Layer<a class="headerlink" href="#the-openai-compatibility-layer" title="Permanent link">¶</a></h2>
 <p>Most modern LLM web interfaces, including JetStream, are built to communicate with the OpenAI Chat Completion API. To make a local skill appear as a "model" in these interfaces, the wrapper must strictly adhere to this protocol.</p>
-<h3 id="request-schema">Request Schema<a class="headerlink" href="#request-schema" title="Permanent link">§</a></h3>
+<h3 id="request-schema">Request Schema<a class="headerlink" href="#request-schema" title="Permanent link">¶</a></h3>
 <p>JetStream sends a <code>POST</code> request to the <code>/v1/chat/completions</code> endpoint with a body similar to the following:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lecture_builder"</span><span class="p">,</span>
@@ -5733,7 +5731,7 @@
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="nt">"temperature"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">}</span>
 </span></code></pre></div>
-<h3 id="response-schema">Response Schema<a class="headerlink" href="#response-schema" title="Permanent link">§</a></h3>
+<h3 id="response-schema">Response Schema<a class="headerlink" href="#response-schema" title="Permanent link">¶</a></h3>
 <p>The wrapper must return a response that matches the OpenAI <code>chat.completion</code> object. If the response shape is incorrect, the UI will fail to render the output.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chatcmpl-unique-id"</span><span class="p">,</span>
@@ -5757,15 +5755,15 @@
 </span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="p">}</span>
 </span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="p">}</span>
 </span></code></pre></div>
-<h2 id="implementing-the-fastapi-wrapper">Implementing the FastAPI Wrapper<a class="headerlink" href="#implementing-the-fastapi-wrapper" title="Permanent link">§</a></h2>
+<h2 id="implementing-the-fastapi-wrapper">Implementing the FastAPI Wrapper<a class="headerlink" href="#implementing-the-fastapi-wrapper" title="Permanent link">¶</a></h2>
 <p>FastAPI is the preferred framework for this wrapper due to its lightweight nature, automatic OpenAPI documentation, and native support for asynchronous execution.</p>
-<h3 id="wrapper-architecture">Wrapper Architecture<a class="headerlink" href="#wrapper-architecture" title="Permanent link">§</a></h3>
+<h3 id="wrapper-architecture">Wrapper Architecture<a class="headerlink" href="#wrapper-architecture" title="Permanent link">¶</a></h3>
 <p>The wrapper follows a linear processing pipeline:
 1. <strong>Request Reception</strong>: Accept the OpenAI-formatted JSON payload.
 2. <strong>Argument Extraction</strong>: Parse the <code>content</code> field of the last user message to extract CLI arguments.
 3. <strong>Skill Execution</strong>: Execute the target Python skill using a subprocess.
 4. <strong>Response Formatting</strong>: Wrap the skill's stdout into the OpenAI response schema.</p>
-<h3 id="complete-implementation">Complete Implementation<a class="headerlink" href="#complete-implementation" title="Permanent link">§</a></h3>
+<h3 id="complete-implementation">Complete Implementation<a class="headerlink" href="#complete-implementation" title="Permanent link">¶</a></h3>
 <p>The following code implements a robust wrapper for the <code>lecture_builder</code> skill.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -5840,9 +5838,9 @@
 </span><span id="__span-2-71"><a id="__codelineno-2-71" name="__codelineno-2-71" href="#__codelineno-2-71"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">uvicorn</span>
 </span><span id="__span-2-72"><a id="__codelineno-2-72" name="__codelineno-2-72" href="#__codelineno-2-72"></a>    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">"0.0.0.0"</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 </span></code></pre></div>
-<h2 id="integrating-with-jetstream">Integrating with JetStream<a class="headerlink" href="#integrating-with-jetstream" title="Permanent link">§</a></h2>
+<h2 id="integrating-with-jetstream">Integrating with JetStream<a class="headerlink" href="#integrating-with-jetstream" title="Permanent link">¶</a></h2>
 <p>Once the wrapper is deployed to an HTTPS-enabled endpoint, it can be integrated into JetStream via two primary methods.</p>
-<h3 id="method-1-custom-endpoint-configuration">Method 1: Custom Endpoint Configuration<a class="headerlink" href="#method-1-custom-endpoint-configuration" title="Permanent link">§</a></h3>
+<h3 id="method-1-custom-endpoint-configuration">Method 1: Custom Endpoint Configuration<a class="headerlink" href="#method-1-custom-endpoint-configuration" title="Permanent link">¶</a></h3>
 <p>This method registers the wrapper as a global model in the JetStream settings.</p>
 <ol>
 <li>Navigate to <strong>Settings</strong> $\rightarrow$ <strong>API Settings</strong>.</li>
@@ -5850,7 +5848,7 @@
 <li>Enter the URL of the wrapper (e.g., <code>https://my-skill-gateway.com/v1</code>).</li>
 <li>In the chat interface, select the model name that matches the <code>model</code> field in your wrapper (e.g., <code>lecture_builder</code>).</li>
 </ol>
-<h3 id="method-2-toolfunction-calling-per-conversation">Method 2: Tool/Function Calling (Per-Conversation)<a class="headerlink" href="#method-2-toolfunction-calling-per-conversation" title="Permanent link">§</a></h3>
+<h3 id="method-2-toolfunction-calling-per-conversation">Method 2: Tool/Function Calling (Per-Conversation)<a class="headerlink" href="#method-2-toolfunction-calling-per-conversation" title="Permanent link">¶</a></h3>
 <p>For users without administrative access to global settings, the function-calling mechanism allows for conversation-level integration.</p>
 <ol>
 <li><strong>Define the Tool</strong>: Use the <strong>+ Tool</strong> button in JetStream to provide a JSON schema for the skill.</li>
@@ -5884,7 +5882,7 @@
 <ol>
 <li><strong>Execute</strong>: Click the <strong>Run tool</strong> button next to the user prompt in the UI. JetStream will send the structured arguments to the function endpoint and display the result.</li>
 </ol>
-<h2 id="deployment-and-verification">Deployment and Verification<a class="headerlink" href="#deployment-and-verification" title="Permanent link">§</a></h2>
+<h2 id="deployment-and-verification">Deployment and Verification<a class="headerlink" href="#deployment-and-verification" title="Permanent link">¶</a></h2>
 <p>To ensure the wrapper is functioning correctly before integrating with the UI, verify the endpoint using <code>curl</code>.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://your-endpoint.com/v1/chat/completions<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">     </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
@@ -5904,7 +5902,7 @@
 <li>[ ] End-to-end flow from Web UI to local skill verified via <code>curl</code>.</li>
 </ul>
 </div>
-<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">§</a></h2>
+<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Exercise 1: Basic Wrapper Deployment</p>
 <p>Deploy the provided FastAPI wrapper for an existing skill (e.g., <code>lecture_builder</code>). Use <code>curl</code> to send a request and verify that the output is wrapped in the correct OpenAI response schema.</p>
@@ -5917,7 +5915,7 @@
 <p class="admonition-title">Exercise 3: Full Tool Integration</p>
 <p>Define a custom tool in JetStream using a JSON schema. Implement the corresponding <code>/function/</code> endpoint in your FastAPI app and verify that clicking "Run tool" in the UI generates the correct lecture outline.</p>
 </div>
-<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">§</a></h2>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
 <ul>
 <li>OpenAI API Reference (Chat Completions): https://platform.openai.com/docs/api-reference/chat</li>
 <li>FastAPI Documentation: https://fastapi.tiangolo.com/</li>
@@ -5971,8 +5969,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../assets/slides/js/slides.js"></script>
       
     
   

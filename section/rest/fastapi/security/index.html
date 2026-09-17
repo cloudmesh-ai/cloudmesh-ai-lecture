@@ -45,8 +45,6 @@
     
       <link rel="stylesheet" href="../../../../custom.css">
     
-      <link rel="stylesheet" href="../../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5854,11 +5852,11 @@
   
 
 
-<h1 id="progressive-tutorial-securing-fastapi-services-from-localhost-to-multi-layered-production-2fa">Progressive Tutorial: Securing FastAPI Services (From Localhost to Multi-Layered Production &amp; 2FA)<a class="headerlink" href="#progressive-tutorial-securing-fastapi-services-from-localhost-to-multi-layered-production-2fa" title="Permanent link">§</a></h1>
+<h1 id="progressive-tutorial-securing-fastapi-services-from-localhost-to-multi-layered-production-2fa">Progressive Tutorial: Securing FastAPI Services (From Localhost to Multi-Layered Production &amp; 2FA)<a class="headerlink" href="#progressive-tutorial-securing-fastapi-services-from-localhost-to-multi-layered-production-2fa" title="Permanent link">¶</a></h1>
 <p>This tutorial guides you through securing a FastAPI service across incremental stages: starting from an open local development setup, scaling up authentication mechanisms, configuring configuration-file-driven multi-user support, and hardening the stack for production using reverse proxies and 2FA.</p>
 <hr>
-<h2 id="stage-1-core-authentication-patterns">Stage 1: Core Authentication Patterns<a class="headerlink" href="#stage-1-core-authentication-patterns" title="Permanent link">§</a></h2>
-<h3 id="step-a-no-security-localhost-only">Step A: No Security (Localhost Only)<a class="headerlink" href="#step-a-no-security-localhost-only" title="Permanent link">§</a></h3>
+<h2 id="stage-1-core-authentication-patterns">Stage 1: Core Authentication Patterns<a class="headerlink" href="#stage-1-core-authentication-patterns" title="Permanent link">¶</a></h2>
+<h3 id="step-a-no-security-localhost-only">Step A: No Security (Localhost Only)<a class="headerlink" href="#step-a-no-security-localhost-only" title="Permanent link">¶</a></h3>
 <p>For initial local development, authentication can be bypassed by binding the server strictly to the loopback interface (<code>127.0.0.1</code>), ensuring access is restricted to the local machine.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -5873,7 +5871,7 @@
 <li><strong>Security Level:</strong> Network isolation via loopback interface.</li>
 </ul>
 <hr>
-<h3 id="step-b-password-protected-http-basic-auth">Step B: Password Protected (HTTP Basic Auth)<a class="headerlink" href="#step-b-password-protected-http-basic-auth" title="Permanent link">§</a></h3>
+<h3 id="step-b-password-protected-http-basic-auth">Step B: Password Protected (HTTP Basic Auth)<a class="headerlink" href="#step-b-password-protected-http-basic-auth" title="Permanent link">¶</a></h3>
 <p>For lightweight user validation (e.g., internal dashboards), FastAPI’s built-in <code>HTTPBasic</code> utility provides native credential prompts using constant-time string comparisons to prevent timing attacks.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">secrets</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">status</span>
@@ -5896,7 +5894,7 @@
 </span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Access granted via Password!"</span><span class="p">}</span>
 </span></code></pre></div>
 <hr>
-<h3 id="step-c-key-protected-api-key-header">Step C: Key Protected (API Key Header)<a class="headerlink" href="#step-c-key-protected-api-key-header" title="Permanent link">§</a></h3>
+<h3 id="step-c-key-protected-api-key-header">Step C: Key Protected (API Key Header)<a class="headerlink" href="#step-c-key-protected-api-key-header" title="Permanent link">¶</a></h3>
 <p>For server-to-server communications or external clients, API keys passed through custom headers are preferred over passwords via <code>APIKeyHeader</code>.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">Security</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.security.api_key</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIKeyHeader</span>
@@ -5920,7 +5918,7 @@
 </span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Access granted via API Key!"</span><span class="p">}</span>
 </span></code></pre></div>
 <hr>
-<h3 id="step-d-two-factor-authentication-2fa">Step D: Two-Factor Authentication (2FA)<a class="headerlink" href="#step-d-two-factor-authentication-2fa" title="Permanent link">§</a></h3>
+<h3 id="step-d-two-factor-authentication-2fa">Step D: Two-Factor Authentication (2FA)<a class="headerlink" href="#step-d-two-factor-authentication-2fa" title="Permanent link">¶</a></h3>
 <p>Two-Factor Authentication combines primary password validation with a time-based one-time password (TOTP) generator using the <code>pyotp</code> library.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pyotp</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">status</span>
@@ -5966,9 +5964,9 @@
 </span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>    <span class="p">}</span>
 </span></code></pre></div>
 <hr>
-<h2 id="stage-2-scaling-with-configuration-files-yaml">Stage 2: Scaling with Configuration Files (YAML)<a class="headerlink" href="#stage-2-scaling-with-configuration-files-yaml" title="Permanent link">§</a></h2>
+<h2 id="stage-2-scaling-with-configuration-files-yaml">Stage 2: Scaling with Configuration Files (YAML)<a class="headerlink" href="#stage-2-scaling-with-configuration-files-yaml" title="Permanent link">¶</a></h2>
 <p>To manage multiple users or roles cleanly without spinning up a full database, store user profiles in an external YAML configuration file.</p>
-<h3 id="1-create-configyaml">1. Create <code>config.yaml</code><a class="headerlink" href="#1-create-configyaml" title="Permanent link">§</a></h3>
+<h3 id="1-create-configyaml">1. Create <code>config.yaml</code><a class="headerlink" href="#1-create-configyaml" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">users</span><span class="p">:</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">admin</span><span class="p">:</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">"password123"</span>
@@ -5979,7 +5977,7 @@
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nt">totp_secret</span><span class="p">:</span><span class="w"> </span><span class="s">"GEZDGNBVGY3TQOJQ"</span>
 </span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="s">"dev"</span>
 </span></code></pre></div>
-<h3 id="2-multi-user-http-basic-application-mainpy">2. Multi-User HTTP Basic Application (<code>main.py</code>)<a class="headerlink" href="#2-multi-user-http-basic-application-mainpy" title="Permanent link">§</a></h3>
+<h3 id="2-multi-user-http-basic-application-mainpy">2. Multi-User HTTP Basic Application (<code>main.py</code>)<a class="headerlink" href="#2-multi-user-http-basic-application-mainpy" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">status</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPBasic</span><span class="p">,</span> <span class="n">HTTPBasicCredentials</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
@@ -6014,15 +6012,15 @@
 </span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>    <span class="p">}</span>
 </span></code></pre></div>
 <hr>
-<h2 id="stage-3-production-hardening-https-reverse-proxy">Stage 3: Production Hardening (HTTPS &amp; Reverse Proxy)<a class="headerlink" href="#stage-3-production-hardening-https-reverse-proxy" title="Permanent link">§</a></h2>
+<h2 id="stage-3-production-hardening-https-reverse-proxy">Stage 3: Production Hardening (HTTPS &amp; Reverse Proxy)<a class="headerlink" href="#stage-3-production-hardening-https-reverse-proxy" title="Permanent link">¶</a></h2>
 <p>In production, applications should run behind a reverse proxy to manage TLS termination (HTTPS) while binding Uvicorn strictly to localhost.</p>
-<h3 id="option-a-caddy-recommended">Option A: Caddy (Recommended)<a class="headerlink" href="#option-a-caddy-recommended" title="Permanent link">§</a></h3>
+<h3 id="option-a-caddy-recommended">Option A: Caddy (Recommended)<a class="headerlink" href="#option-a-caddy-recommended" title="Permanent link">¶</a></h3>
 <p>Create a <code>Caddyfile</code> in your project root:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>yourdomain.com {
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    reverse_proxy api:8000
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>}
 </span></code></pre></div>
-<h3 id="option-b-nginx">Option B: Nginx<a class="headerlink" href="#option-b-nginx" title="Permanent link">§</a></h3>
+<h3 id="option-b-nginx">Option B: Nginx<a class="headerlink" href="#option-b-nginx" title="Permanent link">¶</a></h3>
 <p>Configure a server block to proxy internal requests:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">server</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
@@ -6038,9 +6036,9 @@
 </span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">}</span>
 </span></code></pre></div>
 <hr>
-<h2 id="stage-4-containerization-with-docker-compose">Stage 4: Containerization with Docker Compose<a class="headerlink" href="#stage-4-containerization-with-docker-compose" title="Permanent link">§</a></h2>
+<h2 id="stage-4-containerization-with-docker-compose">Stage 4: Containerization with Docker Compose<a class="headerlink" href="#stage-4-containerization-with-docker-compose" title="Permanent link">¶</a></h2>
 <p>Containerize the entire stack to ensure consistent deployments.</p>
-<h3 id="1-dockerfile">1. <code>Dockerfile</code><a class="headerlink" href="#1-dockerfile" title="Permanent link">§</a></h3>
+<h3 id="1-dockerfile">1. <code>Dockerfile</code><a class="headerlink" href="#1-dockerfile" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.11-slim</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
@@ -6054,7 +6052,7 @@
 </span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
 </span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"uvicorn"</span><span class="p">,</span><span class="w"> </span><span class="s2">"main:app"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--host"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.0.0.0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--port"</span><span class="p">,</span><span class="w"> </span><span class="s2">"8000"</span><span class="p">]</span>
 </span></code></pre></div>
-<h3 id="2-docker-composeyml">2. <code>docker-compose.yml</code><a class="headerlink" href="#2-docker-composeyml" title="Permanent link">§</a></h3>
+<h3 id="2-docker-composeyml">2. <code>docker-compose.yml</code><a class="headerlink" href="#2-docker-composeyml" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.8'</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nt">services</span><span class="p">:</span>
@@ -6091,9 +6089,9 @@
 </span></code></pre></div>
 <p>To support your progressive workflow, here is how you can containerize your FastAPI service at each major stage of development—from a simple local container to a full production-ready multi-container stack.</p>
 <hr>
-<h2 id="dockerizing-stage-1-stage-2-standalone-fastapi-container">Dockerizing Stage 1 &amp; Stage 2: Standalone FastAPI Container<a class="headerlink" href="#dockerizing-stage-1-stage-2-standalone-fastapi-container" title="Permanent link">§</a></h2>
+<h2 id="dockerizing-stage-1-stage-2-standalone-fastapi-container">Dockerizing Stage 1 &amp; Stage 2: Standalone FastAPI Container<a class="headerlink" href="#dockerizing-stage-1-stage-2-standalone-fastapi-container" title="Permanent link">¶</a></h2>
 <p>During early development or when testing basic/API-key/2FA auth locally, you only need a single container running your FastAPI app and its configuration file.</p>
-<h3 id="1-dockerfile_1">1. <code>Dockerfile</code><a class="headerlink" href="#1-dockerfile_1" title="Permanent link">§</a></h3>
+<h3 id="1-dockerfile_1">1. <code>Dockerfile</code><a class="headerlink" href="#1-dockerfile_1" title="Permanent link">¶</a></h3>
 <p>Create this file in your project root:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.11-slim</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
@@ -6111,14 +6109,14 @@
 </span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="c"># Bind to all interfaces inside the container network</span>
 </span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"uvicorn"</span><span class="p">,</span><span class="w"> </span><span class="s2">"main:app"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--host"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.0.0.0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--port"</span><span class="p">,</span><span class="w"> </span><span class="s2">"8000"</span><span class="p">]</span>
 </span></code></pre></div>
-<h3 id="2-requirementstxt">2. <code>requirements.txt</code><a class="headerlink" href="#2-requirementstxt" title="Permanent link">§</a></h3>
+<h3 id="2-requirementstxt">2. <code>requirements.txt</code><a class="headerlink" href="#2-requirementstxt" title="Permanent link">¶</a></h3>
 <p>Make sure your dependencies match your chosen stage (e.g., including <code>pyyaml</code> and <code>pyotp</code> if using configuration files or 2FA):</p>
 <div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>fastapi
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>uvicorn
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>pyyaml
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>pyotp
 </span></code></pre></div>
-<h3 id="3-build-run-locally">3. Build &amp; Run Locally<a class="headerlink" href="#3-build-run-locally" title="Permanent link">§</a></h3>
+<h3 id="3-build-run-locally">3. Build &amp; Run Locally<a class="headerlink" href="#3-build-run-locally" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Build the image</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>fastapi-security-app<span class="w"> </span>.
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
@@ -6130,9 +6128,9 @@
 </span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span>fastapi-security-app
 </span></code></pre></div>
 <hr>
-<h2 id="dockerizing-stage-3-stage-4-production-stack-fastapi-caddy-reverse-proxy">Dockerizing Stage 3 &amp; Stage 4: Production Stack (FastAPI + Caddy Reverse Proxy)<a class="headerlink" href="#dockerizing-stage-3-stage-4-production-stack-fastapi-caddy-reverse-proxy" title="Permanent link">§</a></h2>
+<h2 id="dockerizing-stage-3-stage-4-production-stack-fastapi-caddy-reverse-proxy">Dockerizing Stage 3 &amp; Stage 4: Production Stack (FastAPI + Caddy Reverse Proxy)<a class="headerlink" href="#dockerizing-stage-3-stage-4-production-stack-fastapi-caddy-reverse-proxy" title="Permanent link">¶</a></h2>
 <p>For production deployment, you containerize both the FastAPI backend and the Caddy reverse proxy using <strong>Docker Compose</strong>. This ensures your application is shielded behind an internal network and exposed only via secure HTTPS.</p>
-<h3 id="1-project-directory-structure">1. Project Directory Structure<a class="headerlink" href="#1-project-directory-structure" title="Permanent link">§</a></h3>
+<h3 id="1-project-directory-structure">1. Project Directory Structure<a class="headerlink" href="#1-project-directory-structure" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>my-fastapi-app/
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>├── Dockerfile
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>├── docker-compose.yml
@@ -6141,13 +6139,13 @@
 </span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>├── requirements.txt
 </span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>└── Caddyfile
 </span></code></pre></div>
-<h3 id="2-caddyfile">2. <code>Caddyfile</code><a class="headerlink" href="#2-caddyfile" title="Permanent link">§</a></h3>
+<h3 id="2-caddyfile">2. <code>Caddyfile</code><a class="headerlink" href="#2-caddyfile" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a># Replace localhost with your domain name in production
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>localhost {
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    reverse_proxy api:8000
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>}
 </span></code></pre></div>
-<h3 id="3-docker-composeyml">3. <code>docker-compose.yml</code><a class="headerlink" href="#3-docker-composeyml" title="Permanent link">§</a></h3>
+<h3 id="3-docker-composeyml">3. <code>docker-compose.yml</code><a class="headerlink" href="#3-docker-composeyml" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">services</span><span class="p">:</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">api</span><span class="p">:</span>
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
@@ -6180,14 +6178,14 @@
 </span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a><span class="w">  </span><span class="nt">caddy_data</span><span class="p">:</span>
 </span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a><span class="w">  </span><span class="nt">caddy_config</span><span class="p">:</span>
 </span></code></pre></div>
-<h3 id="4-launch-the-production-stack">4. Launch the Production Stack<a class="headerlink" href="#4-launch-the-production-stack" title="Permanent link">§</a></h3>
+<h3 id="4-launch-the-production-stack">4. Launch the Production Stack<a class="headerlink" href="#4-launch-the-production-stack" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Build and start all services in the background</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>--build<span class="w"> </span>-d
 </span></code></pre></div>
 <ul>
 <li><strong>Security Benefit:</strong> The FastAPI <code>api</code> container has <strong>no open ports</strong> exposed to the host machine. All external traffic must pass through Caddy, which handles SSL certificates and proxies requests safely over the internal <code>app-net</code> bridge network.</li>
 </ul>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6260,8 +6258,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../../assets/slides/js/slides.js"></script>
       
     
   

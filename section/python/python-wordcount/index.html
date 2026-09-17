@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../custom.css">
     
-      <link rel="stylesheet" href="../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5790,7 +5788,7 @@
 </ul>
 </div>
 <p>We will demonstrate Python's <code>multiprocessing</code> API for parallel computation by writing a program that counts how many times each word in a collection of documents appear.</p>
-<h2 id="generating-a-document-collection">Generating a Document Collection<a class="headerlink" href="#generating-a-document-collection" title="Permanent link">§</a></h2>
+<h2 id="generating-a-document-collection">Generating a Document Collection<a class="headerlink" href="#generating-a-document-collection" title="Permanent link">¶</a></h2>
 <p>Before we begin, let us write a script that will generate document collections by specifying the number of documents and the number of words per document. This will make benchmarking straightforward.</p>
 <p>To keep it simple, the vocabulary of the document collection will consist of random numbers rather than the words of an actual language:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>'''Usage: generate_nums.py [-h] NUM_LISTS INTS_PER_LIST MIN_INT MAX_INT DEST_DIR
@@ -5847,7 +5845,7 @@
 <p>You can generate a document collection with this script as follows:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python generate_nums.py 1000 10000 0 100 docs-1000-10000
 </span></code></pre></div>
-<h2 id="serial-implementation">Serial Implementation<a class="headerlink" href="#serial-implementation" title="Permanent link">§</a></h2>
+<h2 id="serial-implementation">Serial Implementation<a class="headerlink" href="#serial-implementation" title="Permanent link">¶</a></h2>
 <p>A first serial implementation of wordcount is straightforward:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>'''Usage: wordcount.py [-h] DATA_DIR
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
@@ -5887,7 +5885,7 @@
 </span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>   counts = wordcount(glob.glob(os.path.join(args['DATA_DIR'], '*.txt')))
 </span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>   logging.debug(counts)
 </span></code></pre></div>
-<h2 id="serial-implementation-using-map-and-reduce">Serial Implementation Using map and reduce<a class="headerlink" href="#serial-implementation-using-map-and-reduce" title="Permanent link">§</a></h2>
+<h2 id="serial-implementation-using-map-and-reduce">Serial Implementation Using map and reduce<a class="headerlink" href="#serial-implementation-using-map-and-reduce" title="Permanent link">¶</a></h2>
 <p>We can improve the serial implementation in anticipation of parallelizing the program by making use of Python's <code>map</code> and <code>reduce</code> functions.</p>
 <p>In short, you can use <code>map</code> to apply the same function to the members of a collection. For example, to convert a list of numbers to strings, you could do:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>import random
@@ -5959,7 +5957,7 @@
 </span><span id="__span-6-47"><a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a>   counts = reduce(merge_counts, [{}] + per_doc_counts)
 </span><span id="__span-6-48"><a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a>   logging.debug(counts)
 </span></code></pre></div>
-<h2 id="parallel-implementation">Parallel Implementation<a class="headerlink" href="#parallel-implementation" title="Permanent link">§</a></h2>
+<h2 id="parallel-implementation">Parallel Implementation<a class="headerlink" href="#parallel-implementation" title="Permanent link">¶</a></h2>
 <p>Drawing on the previous implementation using <code>map</code> and <code>reduce</code>, we can parallelize the implementation using Python's <code>multiprocessing</code> API:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>'''Usage: wordcount_mapreduce_parallel.py [-h] DATA_DIR NUM_PROCESSES
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
@@ -5995,12 +5993,12 @@
 </span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>   counts = reduce(merge_counts, [{}] + per_doc_counts)
 </span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>   logging.debug(counts)
 </span></code></pre></div>
-<h2 id="benchmarking">Benchmarking<a class="headerlink" href="#benchmarking" title="Permanent link">§</a></h2>
+<h2 id="benchmarking">Benchmarking<a class="headerlink" href="#benchmarking" title="Permanent link">¶</a></h2>
 <p>To time each of the examples, enter it into its own Python file and use Linux's <code>time</code> command:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>python<span class="w"> </span>wordcount.py<span class="w"> </span>docs-1000-10000
 </span></code></pre></div>
 <p>The output contains the real run time and the user run time. real is wall clock time - time from start to finish of the call. user is the amount of CPU time spent in user-mode code (outside the kernel) within the process, that is, only actual CPU time used in executing the process.</p>
-<h2 id="excersises">Excersises<a class="headerlink" href="#excersises" title="Permanent link">§</a></h2>
+<h2 id="excersises">Excersises<a class="headerlink" href="#excersises" title="Permanent link">¶</a></h2>
 <p>E.python.wordcount.1:</p>
 <blockquote>
 <p>Run the three different programs (serial, serial w/ map and reduce, parallel) and answer the following questions:</p>
@@ -6010,12 +6008,12 @@
 <li>Experiment with different numbers of processes for the parallel example, starting with 1. What is the performance gain when you goal from 1 to 2 processes? From 2 to 3? When do you stop seeing improvement? (this will depend on your machine architecture)</li>
 </ol>
 </blockquote>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">§</a></h2>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="http://book.pythontips.com/en/latest/map_filter.html">Map, Filter and Reduce</a></li>
 <li><a href="https://docs.python.org/2/library/multiprocessing.html">multiprocessing API</a></li>
 </ul>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6083,8 +6081,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../assets/slides/js/slides.js"></script>
       
     
   

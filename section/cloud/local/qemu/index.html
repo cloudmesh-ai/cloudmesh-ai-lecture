@@ -49,8 +49,6 @@
     
       <link rel="stylesheet" href="../../../../custom.css">
     
-      <link rel="stylesheet" href="../../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -6113,7 +6111,7 @@
   
 
 
-<h1 id="hardware-emulation-and-virtualization-with-qemu">Hardware Emulation and Virtualization with QEMU<a class="headerlink" href="#hardware-emulation-and-virtualization-with-qemu" title="Permanent link">§</a></h1>
+<h1 id="hardware-emulation-and-virtualization-with-qemu">Hardware Emulation and Virtualization with QEMU<a class="headerlink" href="#hardware-emulation-and-virtualization-with-qemu" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -6126,9 +6124,9 @@
 </div>
 <p>Virtualization allows a single physical machine to run multiple isolated operating systems, but not all virtualization is the same. Most modern tools provide virtualization, where the guest OS runs on the same CPU architecture as the host, leveraging a hypervisor to execute instructions at near-native speed. However, there are cases where a developer needs to run software designed for an entirely different processor, such as testing a binary for an ARM-based Raspberry Pi on an x86-64 workstation.</p>
 <p>QEMU (Quick Emulator) is a versatile, open-source tool that provides both full system emulation and virtualized execution. Unlike specialized hypervisors that only support the host's native architecture, QEMU can emulate a wide array of CPUs, memory controllers, and peripherals. When paired with a hardware accelerator like KVM (Kernel-based Virtual Machine) on Linux or WHPX (Windows Hypervisor Platform) on Windows, QEMU transforms from a software emulator into a high-performance virtualization engine.</p>
-<h2 id="installation-and-environment-setup">Installation and Environment Setup<a class="headerlink" href="#installation-and-environment-setup" title="Permanent link">§</a></h2>
+<h2 id="installation-and-environment-setup">Installation and Environment Setup<a class="headerlink" href="#installation-and-environment-setup" title="Permanent link">¶</a></h2>
 <p>QEMU is available across most major operating systems, though the installation process and acceleration capabilities vary.</p>
-<h3 id="linux-installation">Linux Installation<a class="headerlink" href="#linux-installation" title="Permanent link">§</a></h3>
+<h3 id="linux-installation">Linux Installation<a class="headerlink" href="#linux-installation" title="Permanent link">¶</a></h3>
 <p>On Ubuntu or Debian-based systems, QEMU is typically installed alongside KVM to ensure optimal performance.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>qemu-system-x86<span class="w"> </span>qemu-kvm<span class="w"> </span>libvirt-daemon-system<span class="w"> </span>libvirt-clients<span class="w"> </span>bridge-utils
@@ -6137,23 +6135,23 @@
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>kvm,libvirt<span class="w"> </span><span class="nv">$USER</span>
 </span></code></pre></div>
 <p>Note that a logout and login are required for these group membership changes to take effect.</p>
-<h3 id="macos-installation">macOS Installation<a class="headerlink" href="#macos-installation" title="Permanent link">§</a></h3>
+<h3 id="macos-installation">macOS Installation<a class="headerlink" href="#macos-installation" title="Permanent link">¶</a></h3>
 <p>On macOS, QEMU can be installed via Homebrew:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>brew<span class="w"> </span>install<span class="w"> </span>qemu
 </span></code></pre></div>
 <p>While macOS does not use KVM, QEMU can leverage the native macOS Virtualization.framework or QEMU's own acceleration hooks to improve performance.</p>
-<h2 id="managing-virtual-storage">Managing Virtual Storage<a class="headerlink" href="#managing-virtual-storage" title="Permanent link">§</a></h2>
+<h2 id="managing-virtual-storage">Managing Virtual Storage<a class="headerlink" href="#managing-virtual-storage" title="Permanent link">¶</a></h2>
 <p>Before a virtual machine can be launched, it requires a virtual hard disk. QEMU uses the <code>qemu-img</code> utility to create and manipulate these disk images.</p>
-<h3 id="the-qcow2-format">The qcow2 Format<a class="headerlink" href="#the-qcow2-format" title="Permanent link">§</a></h3>
+<h3 id="the-qcow2-format">The qcow2 Format<a class="headerlink" href="#the-qcow2-format" title="Permanent link">¶</a></h3>
 <p>QEMU supports several disk formats, but <code>qcow2</code> (QEMU Copy-On-Write version 2) is the standard. The primary advantage of <code>qcow2</code> is that it is a sparse file. If you create a 20GB disk, the file on your physical host will initially be very small (a few kilobytes). It only grows as the guest OS actually writes data to the disk.</p>
-<h3 id="creating-a-virtual-disk">Creating a Virtual Disk<a class="headerlink" href="#creating-a-virtual-disk" title="Permanent link">§</a></h3>
+<h3 id="creating-a-virtual-disk">Creating a Virtual Disk<a class="headerlink" href="#creating-a-virtual-disk" title="Permanent link">¶</a></h3>
 <p>To create a 20GB virtual disk in the <code>qcow2</code> format, use the following command:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>qemu-img<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>qcow2<span class="w"> </span>virtual-disk.qcow2<span class="w"> </span>20G
 </span></code></pre></div>
 <p>This command creates <code>virtual-disk.qcow2</code>, which acts as the primary storage for the guest operating system.</p>
-<h2 id="deploying-a-virtual-machine">Deploying a Virtual Machine<a class="headerlink" href="#deploying-a-virtual-machine" title="Permanent link">§</a></h2>
+<h2 id="deploying-a-virtual-machine">Deploying a Virtual Machine<a class="headerlink" href="#deploying-a-virtual-machine" title="Permanent link">¶</a></h2>
 <p>Launching a VM in QEMU involves specifying the hardware resources, the storage, and the boot media.</p>
-<h3 id="the-installation-process">The Installation Process<a class="headerlink" href="#the-installation-process" title="Permanent link">§</a></h3>
+<h3 id="the-installation-process">The Installation Process<a class="headerlink" href="#the-installation-process" title="Permanent link">¶</a></h3>
 <p>To install a Linux distribution (e.g., Ubuntu 22.04 LTS), you must boot from an ISO image and install it onto the virtual disk created previously.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>qemu-system-x86_64<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span>-m<span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="se">\</span>
@@ -6164,7 +6162,7 @@
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span>-hda<span class="w"> </span>virtual-disk.qcow2<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span>-cdrom<span class="w"> </span>ubuntu-22.04-live-server-amd64.iso
 </span></code></pre></div>
-<h3 id="command-breakdown">Command Breakdown<a class="headerlink" href="#command-breakdown" title="Permanent link">§</a></h3>
+<h3 id="command-breakdown">Command Breakdown<a class="headerlink" href="#command-breakdown" title="Permanent link">¶</a></h3>
 <ul>
 <li><code>-m 2048</code>: Allocates 2048MB (2GB) of RAM to the virtual machine.</li>
 <li><code>-smp 2</code>: Allocates 2 CPU cores to the virtual machine.</li>
@@ -6174,7 +6172,7 @@
 <li><code>-hda virtual-disk.qcow2</code>: Specifies the virtual hard disk image.</li>
 <li><code>-cdrom ubuntu-22.04-live-server-amd64.iso</code>: Specifies the installation media.</li>
 </ul>
-<h3 id="booting-the-installed-system">Booting the Installed System<a class="headerlink" href="#booting-the-installed-system" title="Permanent link">§</a></h3>
+<h3 id="booting-the-installed-system">Booting the Installed System<a class="headerlink" href="#booting-the-installed-system" title="Permanent link">¶</a></h3>
 <p>Once the installation is complete, you can boot directly from the hard drive by removing the <code>-cdrom</code> option and changing the boot order:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>qemu-system-x86_64<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span>-m<span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="se">\</span>
@@ -6183,21 +6181,21 @@
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span>-netdev<span class="w"> </span>user,id<span class="o">=</span>net0<span class="w"> </span>-device<span class="w"> </span>e1000,netdev<span class="o">=</span>net0<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span>-hda<span class="w"> </span>virtual-disk.qcow2
 </span></code></pre></div>
-<h2 id="hardware-acceleration">Hardware Acceleration<a class="headerlink" href="#hardware-acceleration" title="Permanent link">§</a></h2>
+<h2 id="hardware-acceleration">Hardware Acceleration<a class="headerlink" href="#hardware-acceleration" title="Permanent link">¶</a></h2>
 <p>The performance of a QEMU VM depends entirely on whether it is emulated or virtualized.</p>
-<h3 id="kvm-kernel-based-virtual-machine">KVM (Kernel-based Virtual Machine)<a class="headerlink" href="#kvm-kernel-based-virtual-machine" title="Permanent link">§</a></h3>
+<h3 id="kvm-kernel-based-virtual-machine">KVM (Kernel-based Virtual Machine)<a class="headerlink" href="#kvm-kernel-based-virtual-machine" title="Permanent link">¶</a></h3>
 <p>KVM is a Linux kernel module that turns the kernel into a Type-1 hypervisor. When QEMU uses <code>-enable-kvm</code>, it offloads the execution of guest instructions directly to the host CPU, provided the CPU supports virtualization extensions (Intel VT-x or AMD-V).</p>
-<h3 id="whpx-windows-hypervisor-platform">WHPX (Windows Hypervisor Platform)<a class="headerlink" href="#whpx-windows-hypervisor-platform" title="Permanent link">§</a></h3>
+<h3 id="whpx-windows-hypervisor-platform">WHPX (Windows Hypervisor Platform)<a class="headerlink" href="#whpx-windows-hypervisor-platform" title="Permanent link">¶</a></h3>
 <p>On Windows, QEMU can use the Windows Hypervisor Platform (WHPX). This allows QEMU to leverage Microsoft's hypervisor layer, providing similar performance gains as KVM on Linux.</p>
 <div class="admonition warning">
 <p class="admonition-title">Acceleration Requirements</p>
 <p>Hardware acceleration requires that virtualization is enabled in the host's BIOS/UEFI settings. If disabled, QEMU will default to software emulation, resulting in extreme performance degradation.</p>
 </div>
-<h2 id="cross-architecture-emulation">Cross-Architecture Emulation<a class="headerlink" href="#cross-architecture-emulation" title="Permanent link">§</a></h2>
+<h2 id="cross-architecture-emulation">Cross-Architecture Emulation<a class="headerlink" href="#cross-architecture-emulation" title="Permanent link">¶</a></h2>
 <p>One of QEMU's most distinct features is its ability to run code for different CPU architectures.</p>
-<h3 id="emulating-arm-raspberry-pi">Emulating ARM (Raspberry Pi)<a class="headerlink" href="#emulating-arm-raspberry-pi" title="Permanent link">§</a></h3>
+<h3 id="emulating-arm-raspberry-pi">Emulating ARM (Raspberry Pi)<a class="headerlink" href="#emulating-arm-raspberry-pi" title="Permanent link">¶</a></h3>
 <p>To run a Raspberry Pi image on an x86-64 host, QEMU must emulate the ARM CPU. This process is slower than native virtualization because every ARM instruction must be translated to an x86-64 instruction.</p>
-<h3 id="launching-an-arm-vm">Launching an ARM VM<a class="headerlink" href="#launching-an-arm-vm" title="Permanent link">§</a></h3>
+<h3 id="launching-an-arm-vm">Launching an ARM VM<a class="headerlink" href="#launching-an-arm-vm" title="Permanent link">¶</a></h3>
 <p>Emulating ARM often requires an external kernel file that QEMU can use to boot the image.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>qemu-system-arm<span class="w"> </span>-kernel<span class="w"> </span>./kernel-qemu-4.4.34-jessie<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span>-append<span class="w"> </span><span class="s2">"root=/dev/sda2 panic=1 rootfstype=ext4 rw"</span><span class="w"> </span><span class="se">\</span>
@@ -6205,14 +6203,14 @@
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span>-cpu<span class="w"> </span>arm1176<span class="w"> </span>-m<span class="w"> </span><span class="m">256</span><span class="w"> </span>-machine<span class="w"> </span>versatilepb<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span>-no-reboot<span class="w"> </span>-serial<span class="w"> </span>stdio
 </span></code></pre></div>
-<h3 id="command-breakdown_1">Command Breakdown<a class="headerlink" href="#command-breakdown_1" title="Permanent link">§</a></h3>
+<h3 id="command-breakdown_1">Command Breakdown<a class="headerlink" href="#command-breakdown_1" title="Permanent link">¶</a></h3>
 <ul>
 <li><code>-cpu arm1176</code>: Emulates the specific ARM CPU used in early Raspberry Pi models.</li>
 <li><code>-machine versatilepb</code>: Specifies the machine type to be emulated.</li>
 <li><code>-kernel</code>: Points to the pre-built Linux kernel required for booting the ARM image.</li>
 <li><code>-append</code>: Passes boot arguments to the kernel.</li>
 </ul>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6237,7 +6235,7 @@
 <summary>Why is hardware acceleration (like KVM or WHPX) critical for QEMU performance?</summary>
 <p>Without acceleration, QEMU must emulate every CPU instruction in software, which is extremely slow. Acceleration offloads these instructions to the physical CPU, enabling near-native execution speeds.</p>
 </details>
-<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">§</a></h2>
+<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Exercise 1: Basic Virtualization</p>
 <p>Install QEMU on your system. Create a 10GB <code>qcow2</code> disk image. Download a lightweight Linux ISO (such as Alpine Linux) and boot it using QEMU. Verify that you can reach the shell.</p>
@@ -6250,7 +6248,7 @@
 <p class="admonition-title">Exercise 3: Cross-Platform Testing</p>
 <p>Obtain a Raspberry Pi OS image and a compatible QEMU ARM kernel. Emulate the ARM architecture and boot the image. Run <code>uname -m</code> inside the VM to verify that the system reports an ARM architecture despite running on an x86 host.</p>
 </div>
-<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">§</a></h2>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
 <ul>
 <li>QEMU Official Documentation: https://www.qemu.org/documentation/</li>
 <li>KVM Project: https://www.linux-kvm.org/</li>
@@ -6304,8 +6302,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../../assets/slides/js/slides.js"></script>
       
     
   

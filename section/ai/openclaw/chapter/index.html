@@ -45,8 +45,6 @@
     
       <link rel="stylesheet" href="../../../../custom.css">
     
-      <link rel="stylesheet" href="../../../../assets/slides/css/slides.css">
-    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -5747,10 +5745,10 @@
   
 
 
-<h1 id="openclaw-chapter-generator-for-graduate-lectures">OpenClaw Chapter Generator for Graduate Lectures<a class="headerlink" href="#openclaw-chapter-generator-for-graduate-lectures" title="Permanent link">§</a></h1>
+<h1 id="openclaw-chapter-generator-for-graduate-lectures">OpenClaw Chapter Generator for Graduate Lectures<a class="headerlink" href="#openclaw-chapter-generator-for-graduate-lectures" title="Permanent link">¶</a></h1>
 <p><strong>Purpose</strong> – This document describes how to build a reusable OpenClaw project that automatically creates structured chapter outlines (titles, subtitles, summaries, and key take‑aways) from graduate‑level lecture material (slides, transcripts, PDFs, or recordings). The solution leverages OpenClaw’s low‑code pipeline, a custom Python action that calls a large‑language model (LLM), and the platform’s dataset, model‑registry, and deployment capabilities.  </p>
 <hr>
-<h2 id="1-project-overview">1. Project Overview<a class="headerlink" href="#1-project-overview" title="Permanent link">§</a></h2>
+<h2 id="1-project-overview">1. Project Overview<a class="headerlink" href="#1-project-overview" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -5782,7 +5780,7 @@
 </tbody>
 </table>
 <hr>
-<h2 id="2-prerequisites">2. Prerequisites<a class="headerlink" href="#2-prerequisites" title="Permanent link">§</a></h2>
+<h2 id="2-prerequisites">2. Prerequisites<a class="headerlink" href="#2-prerequisites" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -5814,7 +5812,7 @@
 </tbody>
 </table>
 <hr>
-<h2 id="3-dataset-design">3. Dataset Design<a class="headerlink" href="#3-dataset-design" title="Permanent link">§</a></h2>
+<h2 id="3-dataset-design">3. Dataset Design<a class="headerlink" href="#3-dataset-design" title="Permanent link">¶</a></h2>
 <p>Create a dataset called <strong><code>lecture_material</code></strong> with the following columns:</p>
 <table>
 <thead>
@@ -5869,8 +5867,8 @@
 </table>
 <p><strong>Tip:</strong> Enable versioning on the dataset so you can keep a historical record of each generation run.</p>
 <hr>
-<h2 id="4-custom-action-llm-chapter-generator">4. Custom Action – LLM Chapter Generator<a class="headerlink" href="#4-custom-action-llm-chapter-generator" title="Permanent link">§</a></h2>
-<h3 id="41-directory-layout">4.1. Directory Layout<a class="headerlink" href="#41-directory-layout" title="Permanent link">§</a></h3>
+<h2 id="4-custom-action-llm-chapter-generator">4. Custom Action – LLM Chapter Generator<a class="headerlink" href="#4-custom-action-llm-chapter-generator" title="Permanent link">¶</a></h2>
+<h3 id="41-directory-layout">4.1. Directory Layout<a class="headerlink" href="#41-directory-layout" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>custom_actions/
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>└─ chapter_generator/
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   ├─ Dockerfile
@@ -5878,7 +5876,7 @@
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   ├─ main.py
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   └─ prompt.txt
 </span></code></pre></div>
-<h3 id="42-prompt-template-prompttxt">4.2. Prompt Template (<code>prompt.txt</code>)<a class="headerlink" href="#42-prompt-template-prompttxt" title="Permanent link">§</a></h3>
+<h3 id="42-prompt-template-prompttxt">4.2. Prompt Template (<code>prompt.txt</code>)<a class="headerlink" href="#42-prompt-template-prompttxt" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>You are an expert academic writer. Given the full text of a graduate‑level lecture, produce a structured chapter outline.
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Output format (JSON):
@@ -5902,14 +5900,14 @@
 </span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>- Key points must be short (≤ 12 words) and actionable.
 </span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>- Preserve domain‑specific terminology.
 </span></code></pre></div>
-<h3 id="43-requirementstxt">4.3. <code>requirements.txt</code><a class="headerlink" href="#43-requirementstxt" title="Permanent link">§</a></h3>
+<h3 id="43-requirementstxt">4.3. <code>requirements.txt</code><a class="headerlink" href="#43-requirementstxt" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>fastapi==0.110.*
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>uvicorn[standard]==0.29.*
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>pydantic==2.7.*
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>openai==1.30.*   # or anthropic, or huggingface_hub
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python-dotenv==1.0.*
 </span></code></pre></div>
-<h3 id="44-dockerfile">4.4. Dockerfile<a class="headerlink" href="#44-dockerfile" title="Permanent link">§</a></h3>
+<h3 id="44-dockerfile">4.4. Dockerfile<a class="headerlink" href="#44-dockerfile" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.11-slim</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">builder</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">COPY</span><span class="w"> </span>requirements.txt<span class="w"> </span>.
@@ -5922,7 +5920,7 @@
 </span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"uvicorn"</span><span class="p">,</span><span class="w"> </span><span class="s2">"main:app"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--host"</span><span class="p">,</span><span class="w"> </span><span class="s2">"0.0.0.0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--port"</span><span class="p">,</span><span class="w"> </span><span class="s2">"8000"</span><span class="p">]</span>
 </span></code></pre></div>
-<h3 id="45-core-logic-mainpy">4.5. Core Logic (<code>main.py</code>)<a class="headerlink" href="#45-core-logic-mainpy" title="Permanent link">§</a></h3>
+<h3 id="45-core-logic-mainpy">4.5. Core Logic (<code>main.py</code>)<a class="headerlink" href="#45-core-logic-mainpy" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -5996,7 +5994,7 @@
 <li><strong>Error handling</strong> – All exceptions are logged and transformed into a 500 HTTP response, which OpenClaw’s audit log captures automatically.</li>
 </ul>
 <hr>
-<h2 id="5-registering-the-action-in-openclaw">5. Registering the Action in OpenClaw<a class="headerlink" href="#5-registering-the-action-in-openclaw" title="Permanent link">§</a></h2>
+<h2 id="5-registering-the-action-in-openclaw">5. Registering the Action in OpenClaw<a class="headerlink" href="#5-registering-the-action-in-openclaw" title="Permanent link">¶</a></h2>
 <ol>
 <li><strong>Create a secret</strong> named <code>openai-secret</code> with key <code>OPENAI_API_KEY</code>.  </li>
 <li>In the OpenClaw UI, navigate to <strong>Project → Custom Actions → New Action</strong>.  </li>
@@ -6008,7 +6006,7 @@
 <li>Click <strong>Build &amp; Deploy</strong>. OpenClaw builds the image, stores it in the internal registry, and creates an endpoint URL (e.g., <code>https://api.myorg.com/v1/endpoints/chapter_generator/predict</code>).  </li>
 </ol>
 <hr>
-<h2 id="6-pipeline-orchestration">6. Pipeline Orchestration<a class="headerlink" href="#6-pipeline-orchestration" title="Permanent link">§</a></h2>
+<h2 id="6-pipeline-orchestration">6. Pipeline Orchestration<a class="headerlink" href="#6-pipeline-orchestration" title="Permanent link">¶</a></h2>
 <p>Create a <strong>pipeline</strong> that ties the dataset and the custom action together:</p>
 <ol>
 <li><strong>Ingestion step</strong> – Upload or stream lecture PDFs → use OpenClaw’s built‑in OCR connector to fill the <code>content</code> column.  </li>
@@ -6019,7 +6017,7 @@
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>[Dataset: lecture_material] → [Action: chapter_generator] → [Dataset: lecture_material (update)]
 </span></code></pre></div>
 <hr>
-<h2 id="7-evaluation-quality-assurance">7. Evaluation &amp; Quality Assurance<a class="headerlink" href="#7-evaluation-quality-assurance" title="Permanent link">§</a></h2>
+<h2 id="7-evaluation-quality-assurance">7. Evaluation &amp; Quality Assurance<a class="headerlink" href="#7-evaluation-quality-assurance" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6048,7 +6046,7 @@
 </table>
 <p>Store the evaluation results in a separate dataset (<code>chapter_evaluation</code>) to track improvements over time.</p>
 <hr>
-<h2 id="8-monitoring-alerting">8. Monitoring &amp; Alerting<a class="headerlink" href="#8-monitoring-alerting" title="Permanent link">§</a></h2>
+<h2 id="8-monitoring-alerting">8. Monitoring &amp; Alerting<a class="headerlink" href="#8-monitoring-alerting" title="Permanent link">¶</a></h2>
 <p>Add the following Prometheus metrics to <code>main.py</code> (insert after the imports):</p>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">prometheus_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">Histogram</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
@@ -6079,7 +6077,7 @@
 </span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    summary: "Chapter generation latency &gt; 10 s for 90 % of requests"
 </span></code></pre></div>
 <hr>
-<h2 id="9-extending-the-generator">9. Extending the Generator<a class="headerlink" href="#9-extending-the-generator" title="Permanent link">§</a></h2>
+<h2 id="9-extending-the-generator">9. Extending the Generator<a class="headerlink" href="#9-extending-the-generator" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6111,7 +6109,7 @@
 </tbody>
 </table>
 <hr>
-<h2 id="10-deployment-checklist">10. Deployment Checklist<a class="headerlink" href="#10-deployment-checklist" title="Permanent link">§</a></h2>
+<h2 id="10-deployment-checklist">10. Deployment Checklist<a class="headerlink" href="#10-deployment-checklist" title="Permanent link">¶</a></h2>
 <ol>
 <li><strong>Secrets</strong> – Verify that <code>OPENAI_API_KEY</code> (or alternative) is present in OpenClaw’s secret store.  </li>
 <li><strong>Docker image</strong> – Ensure the custom action builds without errors (<code>docker build .</code>).  </li>
@@ -6121,7 +6119,7 @@
 <li><strong>Access control</strong> – Grant the “Lecturer” role <code>execute</code> permission on the <code>chapter_generator</code> action; restrict “Student” role to read‑only access on the dataset.  </li>
 </ol>
 <hr>
-<h2 id="11-reference-implementation-optional">11. Reference Implementation (Optional)<a class="headerlink" href="#11-reference-implementation-optional" title="Permanent link">§</a></h2>
+<h2 id="11-reference-implementation-optional">11. Reference Implementation (Optional)<a class="headerlink" href="#11-reference-implementation-optional" title="Permanent link">¶</a></h2>
 <p>Below is a minimal Python script that can be run locally to test the prompt and JSON extraction logic before packaging it into the OpenClaw action. It uses the same <code>prompt.txt</code> and OpenAI API.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">json</span><span class="o">,</span><span class="w"> </span><span class="nn">openai</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
@@ -6153,7 +6151,7 @@
 </span></code></pre></div>
 <p>Running this script yields a JSON object matching the schema defined in Section 4.2. Use it to iterate on prompt wording before committing the version to OpenClaw.</p>
 <hr>
-<h2 id="12-summary">12. Summary<a class="headerlink" href="#12-summary" title="Permanent link">§</a></h2>
+<h2 id="12-summary">12. Summary<a class="headerlink" href="#12-summary" title="Permanent link">¶</a></h2>
 <p><em>Define a versioned dataset for lecture content.</em><br>
 <em>Implement a lightweight custom action that calls an LLM with a clear, reusable prompt.</em><br>
 <em>Expose the action as a REST endpoint and build an OpenClaw pipeline to automate the end‑to‑end flow.</em><br>
@@ -6207,8 +6205,6 @@
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
         <script src="../../../../javascripts/move_presentation_button.js"></script>
-      
-        <script src="../../../../assets/slides/js/slides.js"></script>
       
     
   
