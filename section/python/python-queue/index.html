@@ -5921,7 +5921,7 @@
   
 
 
-<h1 id="task-queues-and-message-processing-in-python">Task Queues and Message Processing in Python</h1>
+<h1 id="task-queues-and-message-processing-in-python">Task Queues and Message Processing in Python<a class="headerlink" href="#task-queues-and-message-processing-in-python" title="Permanent link">§</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -5934,17 +5934,17 @@
 </div>
 <p>In cloud automation, many operations—such as provisioning virtual machines, creating storage snapshots, or deploying containerized applications—are time-consuming. If these operations are executed synchronously, the main application remains blocked until the cloud provider's API returns a response, leading to poor responsiveness and inefficiency.</p>
 <p>To solve this, developers use queues to decouple the request (the Producer) from the execution (the Consumer). A queue acts as a buffer, allowing the system to accept new requests immediately while worker threads process them in the background at their own pace. This architecture, known as the Producer-Consumer pattern, is fundamental for building scalable and resilient cloud management tools.</p>
-<h2 id="fundamental-queue-types">Fundamental Queue Types</h2>
+<h2 id="fundamental-queue-types">Fundamental Queue Types<a class="headerlink" href="#fundamental-queue-types" title="Permanent link">§</a></h2>
 <p>Depending on the requirements of the automation task, different queue disciplines are used to determine the order in which items are processed.</p>
-<h3 id="fifo-first-in-first-out">FIFO (First-In, First-Out)</h3>
+<h3 id="fifo-first-in-first-out">FIFO (First-In, First-Out)<a class="headerlink" href="#fifo-first-in-first-out" title="Permanent link">§</a></h3>
 <p>The most common queue type, implemented via <code>queue.Queue</code>. The first item added to the queue is the first one to be removed. This is the standard for fair task processing.</p>
-<h3 id="lifo-last-in-first-out">LIFO (Last-In, First-Out)</h3>
+<h3 id="lifo-last-in-first-out">LIFO (Last-In, First-Out)<a class="headerlink" href="#lifo-last-in-first-out" title="Permanent link">§</a></h3>
 <p>Implemented via <code>queue.LifoQueue</code>. The last item added is the first one removed, behaving like a stack. This is useful for scenarios where the most recent data is the most relevant, such as undo operations in an editor.</p>
-<h3 id="priority-queue">Priority Queue</h3>
+<h3 id="priority-queue">Priority Queue<a class="headerlink" href="#priority-queue" title="Permanent link">§</a></h3>
 <p>Implemented via <code>queue.PriorityQueue</code>. Items are retrieved based on a priority score rather than the order of arrival. In cloud management, this is critical for ensuring that "Emergency Security Patches" are processed before "Routine Log Rotations."</p>
-<h2 id="thread-safe-queues-with-the-queue-module">Thread-Safe Queues with the <code>queue</code> Module</h2>
+<h2 id="thread-safe-queues-with-the-queue-module">Thread-Safe Queues with the <code>queue</code> Module<a class="headerlink" href="#thread-safe-queues-with-the-queue-module" title="Permanent link">§</a></h2>
 <p>The <code>queue</code> module provides synchronized classes that are safe for use by multiple threads without requiring manual lock management (e.g., using <code>threading.Lock</code>).</p>
-<h3 id="the-task-lifecycle">The Task Lifecycle</h3>
+<h3 id="the-task-lifecycle">The Task Lifecycle<a class="headerlink" href="#the-task-lifecycle" title="Permanent link">§</a></h3>
 <p>A typical task lifecycle in a thread-safe queue involves four primary methods:</p>
 <ol>
 <li><strong><code>put(item)</code></strong>: Adds an item to the queue. If the queue has a <code>maxsize</code> and is full, this method blocks until a slot becomes available.</li>
@@ -5974,9 +5974,9 @@
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="n">pq</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="s2">"Medium Priority Update"</span><span class="p">))</span>
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Priority: </span><span class="si">{</span><span class="n">pq</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># Output: Critical Security Patch</span>
 </span></code></pre></div>
-<h2 id="the-producer-consumer-pattern">The Producer-Consumer Pattern</h2>
+<h2 id="the-producer-consumer-pattern">The Producer-Consumer Pattern<a class="headerlink" href="#the-producer-consumer-pattern" title="Permanent link">§</a></h2>
 <p>The Producer-Consumer pattern separates the logic of generating work from the logic of executing it. This allows the system to handle bursts of requests without crashing and enables horizontal scaling by adding more worker threads.</p>
-<h3 id="multi-worker-cloud-task-processor">Multi-Worker Cloud Task Processor</h3>
+<h3 id="multi-worker-cloud-task-processor">Multi-Worker Cloud Task Processor<a class="headerlink" href="#multi-worker-cloud-task-processor" title="Permanent link">§</a></h3>
 <p>In this implementation, a single producer submits VM maintenance tasks, and multiple worker threads process them concurrently. We use a "Sentinel" value (<code>None</code>) to signal the workers to shut down gracefully.</p>
 <p>Example: Cloud Resource Orchestrator.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">queue</span>
@@ -6045,9 +6045,9 @@
 </span><span id="__span-1-64"><a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>
 </span><span id="__span-1-65"><a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"[Main] All cloud tasks processed and workers shut down."</span><span class="p">)</span>
 </span></code></pre></div>
-<h2 id="lightweight-queues-with-collectionsdeque">Lightweight Queues with <code>collections.deque</code></h2>
+<h2 id="lightweight-queues-with-collectionsdeque">Lightweight Queues with <code>collections.deque</code><a class="headerlink" href="#lightweight-queues-with-collectionsdeque" title="Permanent link">§</a></h2>
 <p>While <code>queue.Queue</code> is essential for multi-threaded environments, it introduces locking overhead. For single-threaded applications or scenarios where you only need fast appends and pops from both ends, <code>collections.deque</code> (double-ended queue) is more efficient.</p>
-<h3 id="comparison-queuequeue-vs-collectionsdeque">Comparison: <code>queue.Queue</code> vs. <code>collections.deque</code></h3>
+<h3 id="comparison-queuequeue-vs-collectionsdeque">Comparison: <code>queue.Queue</code> vs. <code>collections.deque</code><a class="headerlink" href="#comparison-queuequeue-vs-collectionsdeque" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -6091,7 +6091,7 @@
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Current buffer: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">recent_logs</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Only the last 3 entries are kept automatically</span>
 </span></code></pre></div>
-<h2 id="scaling-beyond-in-memory-queues">Scaling Beyond In-Memory Queues</h2>
+<h2 id="scaling-beyond-in-memory-queues">Scaling Beyond In-Memory Queues<a class="headerlink" href="#scaling-beyond-in-memory-queues" title="Permanent link">§</a></h2>
 <p>In-memory queues are limited by the memory of a single machine and are lost if the process crashes. For production-grade cloud automation, distributed message brokers are used.</p>
 <ul>
 <li><strong>Redis</strong>: An in-memory data structure store often used as a fast, lightweight queue.</li>
@@ -6113,7 +6113,7 @@
 <div class="admonition note">
 <p class="admonition-title">Exercise 1: Basic Task Processor</p>
 </div>
-<h2 id="self-assessment">Self-Assessment</h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>

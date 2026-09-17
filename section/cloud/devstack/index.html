@@ -6130,10 +6130,10 @@
   
 
 
-<h1 id="running-openstack-locally-with-devstack">Running OpenStack Locally with DevStack</h1>
+<h1 id="running-openstack-locally-with-devstack">Running OpenStack Locally with DevStack<a class="headerlink" href="#running-openstack-locally-with-devstack" title="Permanent link">§</a></h1>
 <p><em>Author’s Note: This chapter is a self‑contained guide to the official DevStack documentation (https://docs.openstack.org/devstack/latest/). All the material has been reorganised, expanded, and presented in a narrative format suitable for readers who want to set up a functional OpenStack development environment on a single machine.</em></p>
 <hr>
-<h2 id="1-introduction">1. Introduction</h2>
+<h2 id="1-introduction">1. Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">§</a></h2>
 <p>DevStack is an <strong>automated script collection</strong> that builds a complete OpenStack cloud from source on a fresh Ubuntu, Fedora, or CentOS host. It is primarily intended for <strong>development, testing, and learning</strong>, not for production deployments. By cloning the DevStack repository and running a handful of commands, a developer can obtain a working OpenStack installation that includes the core services:</p>
 <table>
 <thead>
@@ -6189,8 +6189,8 @@
 <li>Teaching OpenStack fundamentals in a lab setting.</li>
 </ul>
 <hr>
-<h2 id="2-prerequisites">2. Prerequisites</h2>
-<h3 id="21-hardware-requirements">2.1 Hardware Requirements</h3>
+<h2 id="2-prerequisites">2. Prerequisites<a class="headerlink" href="#2-prerequisites" title="Permanent link">§</a></h2>
+<h3 id="21-hardware-requirements">2.1 Hardware Requirements<a class="headerlink" href="#21-hardware-requirements" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -6223,7 +6223,7 @@
 </tbody>
 </table>
 <p>DevStack performs a full source checkout, compilation of some components (e.g., Nova compute, Neutron plugins), and launches multiple services, so lack of memory or CPU will result in long build times or unstable operation.</p>
-<h3 id="22-operating-system">2.2 Operating System</h3>
+<h3 id="22-operating-system">2.2 Operating System<a class="headerlink" href="#22-operating-system" title="Permanent link">§</a></h3>
 <p>Supported distributions (as of the latest documentation) are:</p>
 <ul>
 <li><strong>Ubuntu LTS</strong> – 22.04 (Jammy Jellyfish) and 20.04 (Focal Fossa)  </li>
@@ -6231,7 +6231,7 @@
 <li><strong>CentOS / Rocky Linux</strong> – versions that provide systemd and the required package versions  </li>
 </ul>
 <p>The OS must be a <strong>clean installation</strong> (no conflicting OpenStack services) and should be updated (<code>apt update &amp;&amp; apt upgrade</code> or equivalent) before proceeding.</p>
-<h3 id="23-software-dependencies">2.3 Software Dependencies</h3>
+<h3 id="23-software-dependencies">2.3 Software Dependencies<a class="headerlink" href="#23-software-dependencies" title="Permanent link">§</a></h3>
 <p>DevStack automates most dependency installation, but the host must provide:</p>
 <table>
 <thead>
@@ -6272,7 +6272,7 @@
 </tbody>
 </table>
 <p>All required packages are listed in DevStack’s <code>tools/install_prereqs.sh</code> script and are installed automatically when the <code>stack.sh</code> script is executed with root privileges.</p>
-<h3 id="24-user-account">2.4 User Account</h3>
+<h3 id="24-user-account">2.4 User Account<a class="headerlink" href="#24-user-account" title="Permanent link">§</a></h3>
 <p>DevStack expects a <strong>non‑root user</strong> named <code>stack</code>. The usual workflow:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># As root</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>adduser<span class="w"> </span>--disabled-password<span class="w"> </span>--gecos<span class="w"> </span><span class="s2">""</span><span class="w"> </span>stack
@@ -6283,7 +6283,7 @@
 </span></code></pre></div>
 <p>The <code>stack</code> user will own the DevStack working directory (<code>/opt/devstack</code> by default) and run all subsequent scripts.</p>
 <hr>
-<h2 id="3-acquiring-devstack">3. Acquiring DevStack</h2>
+<h2 id="3-acquiring-devstack">3. Acquiring DevStack<a class="headerlink" href="#3-acquiring-devstack" title="Permanent link">§</a></h2>
 <p>The canonical source is the official Git repository:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># As the stack user</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://opendev.org/openstack/devstack.git
@@ -6332,8 +6332,8 @@
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>stable/2024.1
 </span></code></pre></div>
 <hr>
-<h2 id="4-configuring-devstack">4. Configuring DevStack</h2>
-<h3 id="41-the-localconf-file">4.1 The <code>local.conf</code> File</h3>
+<h2 id="4-configuring-devstack">4. Configuring DevStack<a class="headerlink" href="#4-configuring-devstack" title="Permanent link">§</a></h2>
+<h3 id="41-the-localconf-file">4.1 The <code>local.conf</code> File<a class="headerlink" href="#41-the-localconf-file" title="Permanent link">§</a></h3>
 <p>DevStack is intentionally <em>opinionated</em> but fully configurable via a single <strong><code>local.conf</code></strong> file placed in the top‑level DevStack directory. The file follows the INI‑style syntax with sections and key/value pairs. A minimal configuration might look like:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">[[local|localrc]]</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">ADMIN_PASSWORD</span><span class="o">=</span><span class="s">secretadmin</span>
@@ -6349,7 +6349,7 @@
 <li><strong>HOST_IP</strong> – Explicitly set the management interface IP; DevStack otherwise attempts to auto‑detect it.  </li>
 <li><strong>LOGFILE</strong> – Useful for post‑mortem debugging; the default location is <code>$HOME/devstack.log</code>.  </li>
 </ul>
-<h3 id="42-enablingdisabling-services">4.2 Enabling/Disabling Services</h3>
+<h3 id="42-enablingdisabling-services">4.2 Enabling/Disabling Services<a class="headerlink" href="#42-enablingdisabling-services" title="Permanent link">§</a></h3>
 <p>To tailor the cloud, you can toggle services with <code>enable_service</code> and <code>disable_service</code> directives:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">[[local|localrc]]</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="na">enable_service horizon</span>
@@ -6378,13 +6378,13 @@
 </tr>
 </tbody>
 </table>
-<h3 id="43-customizing-hypervisors">4.3 Customizing Hypervisors</h3>
+<h3 id="43-customizing-hypervisors">4.3 Customizing Hypervisors<a class="headerlink" href="#43-customizing-hypervisors" title="Permanent link">§</a></h3>
 <p>By default DevStack uses <strong>KVM/QEMU</strong> with the <code>libvirt</code> driver. To switch to the LXC driver, add:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[[local|localrc]]</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">LIBVIRT_TYPE</span><span class="o">=</span><span class="s">lxc</span>
 </span></code></pre></div>
 <p>For use of <strong>bare-metal</strong> bare‑metal (Ironic) or <strong>Docker</strong> as a compute driver, refer to the “Advanced Compute” section in the official docs and add the corresponding plugins.</p>
-<h3 id="44-network-configuration">4.4 Network Configuration</h3>
+<h3 id="44-network-configuration">4.4 Network Configuration<a class="headerlink" href="#44-network-configuration" title="Permanent link">§</a></h3>
 <p>Neutron can be launched in several modes:</p>
 <table>
 <thead>
@@ -6418,11 +6418,11 @@
 </tbody>
 </table>
 <p>The default VXLAN mode works on most single‑node setups; it requires the kernel module <code>vxlan</code> and appropriate iptables rules, which DevStack configures automatically.</p>
-<h3 id="45-persistent-configuration">4.5 Persistent Configuration</h3>
+<h3 id="45-persistent-configuration">4.5 Persistent Configuration<a class="headerlink" href="#45-persistent-configuration" title="Permanent link">§</a></h3>
 <p>Because DevStack rebuilds the environment each time <code>stack.sh</code> runs, configuration edits should be done <strong>only</strong> in <code>local.conf</code>. Avoid editing files under <code>/etc/</code> directly; they will be overwritten on the next <code>stack.sh</code> invocation.</p>
 <hr>
-<h2 id="5-running-devstack">5. Running DevStack</h2>
-<h3 id="51-the-main-script">5.1 The Main Script</h3>
+<h2 id="5-running-devstack">5. Running DevStack<a class="headerlink" href="#5-running-devstack" title="Permanent link">§</a></h2>
+<h3 id="51-the-main-script">5.1 The Main Script<a class="headerlink" href="#51-the-main-script" title="Permanent link">§</a></h3>
 <p>All installation steps are performed by executing <strong><code>./stack.sh</code></strong> as the <code>stack</code> user:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>./stack.sh
 </span></code></pre></div>
@@ -6438,7 +6438,7 @@
 <p>The script logs progress to both the console and the file defined by <code>LOGFILE</code>. Completion is signaled by the message:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>stack.sh screen log file is /opt/devstack/logs/stack.sh.log
 </span></code></pre></div>
-<h3 id="52-verifying-the-installation">5.2 Verifying the Installation</h3>
+<h3 id="52-verifying-the-installation">5.2 Verifying the Installation<a class="headerlink" href="#52-verifying-the-installation" title="Permanent link">§</a></h3>
 <p>After <code>stack.sh</code> finishes:</p>
 <ul>
 <li><strong>Dashboard</strong> – Open a browser and navigate to <code>http://&lt;HOST_IP&gt;/dashboard</code>. Log in with username <code>admin</code> and the password set in <code>ADMIN_PASSWORD</code>.  </li>
@@ -6451,7 +6451,7 @@
 <ul>
 <li><strong>Service Status</strong> – Use <code>systemctl</code> or <code>ps aux | grep nova</code> to verify that the daemons are running.  </li>
 </ul>
-<h3 id="53-common-postinstallation-tasks">5.3 Common Post‑Installation Tasks</h3>
+<h3 id="53-common-postinstallation-tasks">5.3 Common Post‑Installation Tasks<a class="headerlink" href="#53-common-postinstallation-tasks" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -6488,13 +6488,13 @@
 </table>
 <p>These commands illustrate that the core services are operational and ready for experimentation.</p>
 <hr>
-<h2 id="6-managing-the-devstack-lifecycle">6. Managing the DevStack Lifecycle</h2>
-<h3 id="61-stopping-services-unstacksh">6.1 Stopping Services (<code>unstack.sh</code>)</h3>
+<h2 id="6-managing-the-devstack-lifecycle">6. Managing the DevStack Lifecycle<a class="headerlink" href="#6-managing-the-devstack-lifecycle" title="Permanent link">§</a></h2>
+<h3 id="61-stopping-services-unstacksh">6.1 Stopping Services (<code>unstack.sh</code>)<a class="headerlink" href="#61-stopping-services-unstacksh" title="Permanent link">§</a></h3>
 <p>When you need to halt the cloud without destroying the configuration (e.g., to free system resources), run:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>./unstack.sh
 </span></code></pre></div>
 <p><code>unstack.sh</code> stops all OpenStack processes <strong>gracefully</strong> using the generated systemd unit files. The databases and configuration files remain intact, allowing a quick <code>./stack.sh</code> later.</p>
-<h3 id="62-cleaning-up-cleansh">6.2 Cleaning Up (<code>clean.sh</code>)</h3>
+<h3 id="62-cleaning-up-cleansh">6.2 Cleaning Up (<code>clean.sh</code>)<a class="headerlink" href="#62-cleaning-up-cleansh" title="Permanent link">§</a></h3>
 <p>To bring the host back to a pristine state (useful before reinstalling or repurposing the machine), execute:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>./clean.sh
 </span></code></pre></div>
@@ -6506,14 +6506,14 @@
 <li>Any residual network bridges or iptables rules created by Neutron.</li>
 </ul>
 <p>After <code>clean.sh</code> the host is effectively a clean OS box, ready for a fresh DevStack run.</p>
-<h3 id="63-updating-devstack">6.3 Updating DevStack</h3>
+<h3 id="63-updating-devstack">6.3 Updating DevStack<a class="headerlink" href="#63-updating-devstack" title="Permanent link">§</a></h3>
 <p>To pull the latest changes from the upstream repository:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>git<span class="w"> </span>pull
 </span></code></pre></div>
 <p>Then re‑run <code>./stack.sh</code>. DevStack detects existing resources and will upgrade the services as needed. For major version changes you may prefer to <code>clean.sh</code> first to avoid incompatibilities.</p>
 <hr>
-<h2 id="7-extending-devstack">7. Extending DevStack</h2>
-<h3 id="71-adding-plugins">7.1 Adding Plugins</h3>
+<h2 id="7-extending-devstack">7. Extending DevStack<a class="headerlink" href="#7-extending-devstack" title="Permanent link">§</a></h2>
+<h3 id="71-adding-plugins">7.1 Adding Plugins<a class="headerlink" href="#71-adding-plugins" title="Permanent link">§</a></h3>
 <p>DevStack’s extensibility revolves around the <code>extras.d/</code> directory and the <code>enable_plugin</code> directive in <code>local.conf</code>. The workflow for an external service (e.g., <strong>Magnum</strong> for container orchestration) is:</p>
 <ol>
 <li><strong>Add the plugin line</strong> to <code>local.conf</code>:</li>
@@ -6524,7 +6524,7 @@
 <li><strong>Optionally provide configuration</strong> in <code>local.conf</code> (e.g., <code>MAGNUM_HOST=...</code>).  </li>
 <li><strong>Re‑run</strong> <code>./stack.sh</code>. During the “Extras” phase DevStack clones the plugin repository, installs its dependencies, and registers the service with Keystone.</li>
 </ol>
-<h3 id="72-overriding-service-defaults">7.2 Overriding Service Defaults</h3>
+<h3 id="72-overriding-service-defaults">7.2 Overriding Service Defaults<a class="headerlink" href="#72-overriding-service-defaults" title="Permanent link">§</a></h3>
 <p>You can override any service-specific configuration by placing a snippet in the <code>local.conf</code> section named after the service. For example, to change Nova’s compute driver:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">[[local|localrc]]</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="na">NOVA_COMPUTE_DRIVER</span><span class="o">=</span><span class="s">libvirt.LibvirtDriver</span>
@@ -6534,16 +6534,16 @@
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="na">Q_ML2_PLUGIN_MECHANISM_DRIVERS</span><span class="o">=</span><span class="s">linuxbridge</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="na">Q_AGENT</span><span class="o">=</span><span class="s">linuxbridge</span>
 </span></code></pre></div>
-<h3 id="73-running-tests">7.3 Running Tests</h3>
+<h3 id="73-running-tests">7.3 Running Tests<a class="headerlink" href="#73-running-tests" title="Permanent link">§</a></h3>
 <p>DevStack integrates <strong>Tempest</strong>, the official OpenStack integration test suite. To run the baseline tests:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">cd</span><span class="w"> </span>/opt/stack/tempest
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>tempest<span class="w"> </span>run<span class="w"> </span>--smoke
 </span></code></pre></div>
 <p>Pass <code>--regex</code> or <code>--exclude-list</code> to focus on or omit specific test sets. This is valuable for validating patches before submitting them upstream.</p>
 <hr>
-<h2 id="8-troubleshooting">8. Troubleshooting</h2>
+<h2 id="8-troubleshooting">8. Troubleshooting<a class="headerlink" href="#8-troubleshooting" title="Permanent link">§</a></h2>
 <p>Below is a collection of frequent failure modes and recommended remediation steps.</p>
-<h3 id="81-stack-script-aborts-early">8.1 Stack Script Aborts Early</h3>
+<h3 id="81-stack-script-aborts-early">8.1 Stack Script Aborts Early<a class="headerlink" href="#81-stack-script-aborts-early" title="Permanent link">§</a></h3>
 <p><em>Symptom</em>: <code>stack.sh</code> exits with a non‑zero status after the <em>“Running in screen…”</em> message.  </p>
 <p><em>Root Causes &amp; Fixes</em>:</p>
 <table>
@@ -6569,7 +6569,7 @@
 </tbody>
 </table>
 <p>Inspect the tail of <code>stack.sh.log</code> for the exact traceback.</p>
-<h3 id="82-keystone-authentication-fails">8.2 Keystone Authentication Fails</h3>
+<h3 id="82-keystone-authentication-fails">8.2 Keystone Authentication Fails<a class="headerlink" href="#82-keystone-authentication-fails" title="Permanent link">§</a></h3>
 <p><em>Symptom</em>: <code>openstack token issue</code> returns <code>HTTP 401 Unauthorized</code>.  </p>
 <p><em>Checks</em>:</p>
 <ol>
@@ -6578,7 +6578,7 @@
 <li>Confirm the Keystone service is up: <code>systemctl status devstack@keystone.service</code>.  </li>
 </ol>
 <p>If Keystone is down, restart it with <code>sudo systemctl restart devstack@keystone.service</code> and inspect <code>/var/log/keystone/keystone.log</code>.</p>
-<h3 id="83-neutron-network-not-created">8.3 Neutron Network Not Created</h3>
+<h3 id="83-neutron-network-not-created">8.3 Neutron Network Not Created<a class="headerlink" href="#83-neutron-network-not-created" title="Permanent link">§</a></h3>
 <p><em>Symptom</em>: <code>openstack network create</code> returns <code>Network creation failed</code>.  </p>
 <p><em>Typical Reasons</em>:</p>
 <table>
@@ -6604,7 +6604,7 @@
 </tbody>
 </table>
 <p>After fixing, run <code>./unstack.sh &amp;&amp; ./stack.sh</code> to rebuild the networking stack.</p>
-<h3 id="84-horizon-returns-502-bad-gateway">8.4 Horizon Returns 502 Bad Gateway</h3>
+<h3 id="84-horizon-returns-502-bad-gateway">8.4 Horizon Returns 502 Bad Gateway<a class="headerlink" href="#84-horizon-returns-502-bad-gateway" title="Permanent link">§</a></h3>
 <p><em>Symptom</em>: Browser shows a 502 error for <code>http://&lt;HOST_IP&gt;/dashboard</code>.  </p>
 <p><em>Diagnose</em>:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>apache2<span class="w">      </span><span class="c1"># Ubuntu</span>
@@ -6616,7 +6616,7 @@
 <li><strong>Permission errors on <code>/var/lib/horizon</code></strong> – ensure the <code>stack</code> user owns the directory.</li>
 </ul>
 <p>Restart Apache after fixing: <code>sudo systemctl restart apache2</code>.</p>
-<h3 id="85-image-upload-fails">8.5 Image Upload Fails</h3>
+<h3 id="85-image-upload-fails">8.5 Image Upload Fails<a class="headerlink" href="#85-image-upload-fails" title="Permanent link">§</a></h3>
 <p><em>Symptom</em>: <code>openstack image create</code> ends with <code>Cannot allocate memory</code> or <code>InvalidImageBadMagic</code>.  </p>
 <p><em>Resolution</em>:</p>
 <ul>
@@ -6624,7 +6624,7 @@
 <li>For “BadMagic”, verify the image format matches the command line flags (<code>--disk-format qcow2</code>). Use <code>qemu-img info &lt;image&gt;</code> to confirm.</li>
 </ul>
 <hr>
-<h2 id="9-best-practices-for-a-devstack-lab">9. Best Practices for a DevStack Lab</h2>
+<h2 id="9-best-practices-for-a-devstack-lab">9. Best Practices for a DevStack Lab<a class="headerlink" href="#9-best-practices-for-a-devstack-lab" title="Permanent link">§</a></h2>
 <ol>
 <li><strong>Isolate the DevStack host</strong> – Use a dedicated VM or physical machine; avoid installing other services that may conflict with ports 80, 443, 5000, 8774, etc.  </li>
 <li><strong>Version Pinning</strong> – If you need repeatability, checkout a specific tag (<code>git checkout tags/2024.1</code>) and lock the <code>requirements.txt</code> files.  </li>
@@ -6634,7 +6634,7 @@
 <li><strong>Automate with CI</strong> – Wrap <code>stack.sh</code> and <code>unstack.sh</code> in a Jenkins or GitHub Actions pipeline to run integration tests on each patch.  </li>
 </ol>
 <hr>
-<h2 id="10-summary">10. Summary</h2>
+<h2 id="10-summary">10. Summary<a class="headerlink" href="#10-summary" title="Permanent link">§</a></h2>
 <p>DevStack transforms a clean Linux host into a <strong>fully functional OpenStack cloud</strong> with a single command. By understanding its workflow—prerequisite installation, <code>local.conf</code>‑driven configuration, the <code>stack.sh</code> orchestration script, and the management utilities (<code>unstack.sh</code>, <code>clean.sh</code>)—developers can quickly prototype features, validate patches, and gain hands‑on experience with OpenStack’s myriad services.</p>
 <p>Key takeaways:</p>
 <ul>
@@ -6645,11 +6645,11 @@
 <li><strong>Troubleshooting</strong>: The log files (<code>devstack.log</code>, service‑specific logs under <code>/var/log/</code>) are the first line of defense when something goes wrong.  </li>
 </ul>
 <p>With these concepts mastered, the reader can confidently spin up, modify, and dismantle OpenStack environments for development, testing, or instructional purposes—exactly as the official DevStack documentation intends.</p>
-<h2 id="devstck-in-docker">DevStck in docker</h2>
-<h2 id="running-devstack-inside-docker">Running DevStack inside Docker</h2>
+<h2 id="devstck-in-docker">DevStck in docker<a class="headerlink" href="#devstck-in-docker" title="Permanent link">§</a></h2>
+<h2 id="running-devstack-inside-docker">Running DevStack inside Docker<a class="headerlink" href="#running-devstack-inside-docker" title="Permanent link">§</a></h2>
 <p>DevStack is primarily intended to be executed on a clean host OS, but it can also be built and started inside a Docker container. The container must be given a level of privilege that allows it to create network bridges, manage libvirt/KVM, and run system services. Below is a practical, step‑by‑step guide that shows how to create a reproducible Docker image, start a DevStack instance, and access the OpenStack services from the host.</p>
 <hr>
-<h3 id="1-why-run-devstack-in-docker">1. Why run DevStack in Docker?</h3>
+<h3 id="1-why-run-devstack-in-docker">1. Why run DevStack in Docker?<a class="headerlink" href="#1-why-run-devstack-in-docker" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -6680,7 +6680,7 @@
 <p><strong>Caveat</strong> – Because DevStack needs to manipulate kernel networking (iptables, bridges) and the hypervisor, the container must run in <strong>privileged mode</strong> (or be granted a specific set of capabilities). This means the container is not suitable for untrusted users or for production workloads.</p>
 </blockquote>
 <hr>
-<h3 id="2-prerequisites-on-the-host">2. Prerequisites on the Host</h3>
+<h3 id="2-prerequisites-on-the-host">2. Prerequisites on the Host<a class="headerlink" href="#2-prerequisites-on-the-host" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -6712,7 +6712,7 @@
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>newgrp<span class="w"> </span>docker
 </span></code></pre></div>
 <hr>
-<h3 id="3-dockerfile-building-a-devstack-image">3. Dockerfile – Building a DevStack Image</h3>
+<h3 id="3-dockerfile-building-a-devstack-image">3. Dockerfile – Building a DevStack Image<a class="headerlink" href="#3-dockerfile-building-a-devstack-image" title="Permanent link">§</a></h3>
 <p>Below is a minimal, production‑ready Dockerfile that follows the official DevStack documentation. It is based on Ubuntu 22.04, installs all required packages, clones the DevStack repository, and provides a default <code>local.conf</code> that can be overridden at run‑time.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c"># --------------------------------------------------------------</span>
 </span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c"># Dockerfile – DevStack in Docker</span>
@@ -6808,14 +6808,14 @@
 <li><strong>Entry point</strong> – Runs <code>stack.sh</code>; after the installation finishes it tails the DevStack log so the container does not exit.</li>
 </ul>
 <hr>
-<h3 id="4-building-the-image">4. Building the Image</h3>
+<h3 id="4-building-the-image">4. Building the Image<a class="headerlink" href="#4-building-the-image" title="Permanent link">§</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>devstack:latest<span class="w"> </span>.
 </span></code></pre></div>
 <p>The build takes 15‑30 minutes on a typical workstation because it compiles a few components and pulls a large number of packages. When the build completes you will have a <code>devstack:latest</code> image ready for launch.</p>
 <hr>
-<h3 id="5-running-the-container">5. Running the Container</h3>
+<h3 id="5-running-the-container">5. Running the Container<a class="headerlink" href="#5-running-the-container" title="Permanent link">§</a></h3>
 <p>Because DevStack needs to manipulate networking and the hypervisor, the container must be launched with elevated privileges. There are two common approaches:</p>
-<h4 id="51-hostnetwork-mode-simplest">5.1 Host‑network mode (simplest)</h4>
+<h4 id="51-hostnetwork-mode-simplest">5.1 Host‑network mode (simplest)<a class="headerlink" href="#51-hostnetwork-mode-simplest" title="Permanent link">§</a></h4>
 <div class="highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span>--name<span class="w"> </span>devstack<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span>--privileged<span class="w"> </span><span class="se">\</span>
@@ -6829,7 +6829,7 @@
 <li><code>--privileged</code> grants all capabilities, including <code>CAP_NET_ADMIN</code> and <code>CAP_SYS_MODULE</code>, which DevStack needs for bridge and OVS setup.  </li>
 <li>Environment variables can be used to override the passwords defined in the image.</li>
 </ul>
-<h4 id="52-bridged-network-with-explicit-port-mapping">5.2 Bridged network with explicit port mapping</h4>
+<h4 id="52-bridged-network-with-explicit-port-mapping">5.2 Bridged network with explicit port mapping<a class="headerlink" href="#52-bridged-network-with-explicit-port-mapping" title="Permanent link">§</a></h4>
 <p>If you prefer not to use host networking, map the required ports explicitly:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span>--name<span class="w"> </span>devstack<span class="w"> </span><span class="se">\</span>
@@ -6860,7 +6860,7 @@
 </span><span id="__span-22-16"><a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="w">    </span>devstack:latest
 </span></code></pre></div>
 <hr>
-<h3 id="6-accessing-the-openstack-cloud">6. Accessing the OpenStack Cloud</h3>
+<h3 id="6-accessing-the-openstack-cloud">6. Accessing the OpenStack Cloud<a class="headerlink" href="#6-accessing-the-openstack-cloud" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -6903,7 +6903,7 @@
 </span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>openstack<span class="w"> </span>server<span class="w"> </span>list
 </span></code></pre></div>
 <hr>
-<h3 id="7-stopping-and-cleaning-up">7. Stopping and Cleaning Up</h3>
+<h3 id="7-stopping-and-cleaning-up">7. Stopping and Cleaning Up<a class="headerlink" href="#7-stopping-and-cleaning-up" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -6932,7 +6932,7 @@
 </table>
 <p>Because the container runs <code>stack.sh</code> each time it starts, you do <strong>not</strong> need to invoke <code>unstack.sh</code> or <code>clean.sh</code> manually; the container is destroyed and recreated from the image.</p>
 <hr>
-<h3 id="8-known-limitations-gotchas">8. Known Limitations &amp; Gotchas</h3>
+<h3 id="8-known-limitations-gotchas">8. Known Limitations &amp; Gotchas<a class="headerlink" href="#8-known-limitations-gotchas" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -6970,7 +6970,7 @@
 </tbody>
 </table>
 <hr>
-<h3 id="9-alternative-approaches">9. Alternative Approaches</h3>
+<h3 id="9-alternative-approaches">9. Alternative Approaches<a class="headerlink" href="#9-alternative-approaches" title="Permanent link">§</a></h3>
 <p>If the privileged‑container model feels too “heavy”, consider the following more production‑oriented projects that also provide a Docker‑based OpenStack deployment:</p>
 <table>
 <thead>
@@ -6996,7 +6996,7 @@
 </table>
 <p>These alternatives are recommended when you eventually need to experiment with scaling, HA, or integration with orchestration platforms.</p>
 <hr>
-<h3 id="10-quick-reference-cheatsheet">10. Quick Reference Cheat‑Sheet</h3>
+<h3 id="10-quick-reference-cheatsheet">10. Quick Reference Cheat‑Sheet<a class="headerlink" href="#10-quick-reference-cheatsheet" title="Permanent link">§</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># 1️⃣ Build the image</span>
 </span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>devstack:latest<span class="w"> </span>.
 </span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
@@ -7016,7 +7016,7 @@
 </span><span id="__span-25-17"><a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a>docker<span class="w"> </span>stop<span class="w"> </span>devstack<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>rm<span class="w"> </span>devstack
 </span></code></pre></div>
 <hr>
-<h2 id="11-tldr">11. TL;DR</h2>
+<h2 id="11-tldr">11. TL;DR<a class="headerlink" href="#11-tldr" title="Permanent link">§</a></h2>
 <p><em>Yes, you can run DevStack in Docker.</em><br>
 Create a Dockerfile (see Section 3), build the image, and launch the container with <code>--privileged</code> (and preferably <code>--network host</code>). After the container finishes its startup routine, Horizon is reachable on port 80 and the OpenStack CLI works after sourcing the generated <code>openrc</code>. The setup is fully reproducible, easy to tear down, and can be integrated into CI pipelines, but it requires privileged access and sufficient host resources.  </p>
 <p>Feel free to adapt the <code>local.conf</code> template to enable extra services (Swift, Heat, Magnum) or to bind persistent volumes for images and block storage. If you later need a more granular, multi‑node deployment, explore Kolla‑Ansible or OpenStack‑Helm.</p>

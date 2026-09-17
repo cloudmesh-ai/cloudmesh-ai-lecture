@@ -5615,10 +5615,10 @@
   
 
 
-<h1 id="osx">OSX</h1>
+<h1 id="osx">OSX<a class="headerlink" href="#osx" title="Permanent link">§</a></h1>
 <p>NVIDIA PAIR on macOS will not automatically install Ollama or LM Studio for you in the background; rather, <strong>you must install the inference engine manually on your Mac first</strong> for PAIR to recognize it and route traffic to it.</p>
 <p>While documentation states that PAIR helps manage engine configurations, on macOS security boundaries and application packaging models prevent PAIR from autonomously downloading and bootstrapping third-party apps like Ollama or LM Studio directly.</p>
-<h3 id="how-to-fix-it">How to fix it:</h3>
+<h3 id="how-to-fix-it">How to fix it:<a class="headerlink" href="#how-to-fix-it" title="Permanent link">§</a></h3>
 <ol>
 <li><strong>Download and install an engine manually:</strong></li>
 <li>
@@ -5635,14 +5635,14 @@
 </li>
 <li>Quit and reopen NVIDIA PAIR. It will scan your localhost, discover the running engine instance, and allow you to link it inside your node settings.</li>
 </ol>
-<h2 id="safety-on-osx">safety on osx</h2>
+<h2 id="safety-on-osx">safety on osx<a class="headerlink" href="#safety-on-osx" title="Permanent link">§</a></h2>
 <p><strong>By default, Ollama is completely safe</strong> because it binds strictly to <code>127.0.0.1</code> (localhost) on port <code>11434</code>. This means it only accepts connections originating from your local Mac, and external machines on your network cannot see or talk to it directly.</p>
 <p>However, depending on your setup, you need to be mindful of how bindings and network access are handled:</p>
-<h3 id="1-localhost-is-secure-standard-setup">1. Localhost is Secure (Standard Setup)</h3>
+<h3 id="1-localhost-is-secure-standard-setup">1. Localhost is Secure (Standard Setup)<a class="headerlink" href="#1-localhost-is-secure-standard-setup" title="Permanent link">§</a></h3>
 <p>If Ollama is running locally on your Mac and NVIDIA PAIR is communicating with it via <code>http://localhost:11434</code>, <strong>no extra port protection is needed</strong>. Because the API has no built-in authentication layer, keeping it bound to localhost ensures that only local processes (like PAIR or your local terminal) can send prompts to it.</p>
-<h3 id="2-the-danger-of-ollama_host0000">2. The Danger of <code>OLLAMA_HOST=0.0.0.0</code></h3>
+<h3 id="2-the-danger-of-ollama_host0000">2. The Danger of <code>OLLAMA_HOST=0.0.0.0</code><a class="headerlink" href="#2-the-danger-of-ollama_host0000" title="Permanent link">§</a></h3>
 <p>If you ever change Ollama's environment variables to bind to <code>0.0.0.0</code> (to allow external machines to connect directly), <strong>anyone on your local network—or the internet, if your router has port forwarding enabled—can read your chat history, send prompts, or drain your system resources without authentication.</strong></p>
-<h3 id="how-nvidia-pair-handles-this-safely">How NVIDIA PAIR Handles This Safely</h3>
+<h3 id="how-nvidia-pair-handles-this-safely">How NVIDIA PAIR Handles This Safely<a class="headerlink" href="#how-nvidia-pair-handles-this-safely" title="Permanent link">§</a></h3>
 <p>NVIDIA PAIR is designed to bypass the need to expose raw engine ports across your network. When you link multiple machines in PAIR, it uses secure mDNS discovery and bootstraps encrypted communication channels (mTLS with generated certificates) for node-to-node routing. This means your underlying engines (like Ollama) can safely stay bound strictly to <code>127.0.0.1</code> locally, while PAIR safely handles any cross-device proxying.</p>
 <p>No, NVIDIA PAIR does not officially support vLLM out of the box.  Officially, PAIR's routing and management layer is hardcoded specifically to integrate with Ollama and LM Studio as its supported inference backends.  Because vLLM typically runs via Docker containers or custom Python environments on Linux/DGX systems rather than desktop application runtimes, PAIR's native UI and auto-discovery features cannot control or manage it directly.  WorkaroundsAdvanced users looking to route traffic to a vLLM backend have bypassed this limitation by manually editing PAIR's internal, declarative JSON manifests and overriding configuration files (such as mapping health probes to vLLM's /v1/models endpoint). However, because this requires tricking the router into treating a custom endpoint as a supported service, it is entirely unofficial and prone to breaking with updates.  If you want a seamless, natively supported plug-and-play experience with PAIR, you will need to use Ollama or LM Studio.  </p>
 

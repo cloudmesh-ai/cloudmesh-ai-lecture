@@ -5754,7 +5754,7 @@
   
 
 
-<h1 id="building-custom-skills-for-cline-the-lecture-builder">Building Custom Skills for Cline: The Lecture Builder</h1>
+<h1 id="building-custom-skills-for-cline-the-lecture-builder">Building Custom Skills for Cline: The Lecture Builder<a class="headerlink" href="#building-custom-skills-for-cline-the-lecture-builder" title="Permanent link">§</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -5767,9 +5767,9 @@
 </div>
 <p>Cline skills are modular, executable scripts that extend the agent's capabilities by allowing it to perform specialized tasks outside the core LLM loop. By implementing a skill, developers can create a deterministic interface for complex operations, ensuring consistent output formats and reducing the token overhead associated with prompting for structured data.</p>
 <p>The "Lecture Builder" is a practical example of such a skill. It transforms a high-level specification—consisting of a topic, target audience, duration, and depth—into a structured lecture outline. By outputting this data in JSON format, the skill acts as a vendor-agnostic content generator that can be integrated into various downstream pipelines, such as slide generators (Marp, Reveal.js) or document converters.</p>
-<h2 id="architecture-of-a-cline-skill">Architecture of a Cline Skill</h2>
+<h2 id="architecture-of-a-cline-skill">Architecture of a Cline Skill<a class="headerlink" href="#architecture-of-a-cline-skill" title="Permanent link">§</a></h2>
 <p>A Cline skill is essentially any executable file located in a designated directory that the Cline agent can invoke via the shell.</p>
-<h3 id="discovery-and-execution">Discovery and Execution</h3>
+<h3 id="discovery-and-execution">Discovery and Execution<a class="headerlink" href="#discovery-and-execution" title="Permanent link">§</a></h3>
 <p>Cline discovers skills based on the following mechanism:</p>
 <ol>
 <li><strong>Skill Directory</strong>: By default, Cline looks for executable files in a <code>skills/</code> folder located in the project root. Alternatively, the <code>CLINE_SKILLS_PATH</code> environment variable can be used to specify a custom directory.</li>
@@ -5777,9 +5777,9 @@
 <li><strong>Invocation</strong>: When a user or the agent calls <code>cline &lt;skill_name&gt;</code>, Cline executes the corresponding file in the skills directory, passing any provided arguments directly to the script.</li>
 <li><strong>Standard Output</strong>: The primary communication channel is the standard output (stdout). Skills should emit their results—typically as JSON or plain text—to stdout, which Cline then captures and presents to the user.</li>
 </ol>
-<h2 id="implementing-the-lecture-builder-skill">Implementing the Lecture Builder Skill</h2>
+<h2 id="implementing-the-lecture-builder-skill">Implementing the Lecture Builder Skill<a class="headerlink" href="#implementing-the-lecture-builder-skill" title="Permanent link">§</a></h2>
 <p>The Lecture Builder skill is implemented in Python, utilizing the standard library to ensure maximum portability without requiring external dependencies.</p>
-<h3 id="step-1-cli-interface-design">Step 1: CLI Interface Design</h3>
+<h3 id="step-1-cli-interface-design">Step 1: CLI Interface Design<a class="headerlink" href="#step-1-cli-interface-design" title="Permanent link">§</a></h3>
 <p>The skill uses the <code>argparse</code> module to define a strict contract for inputs. This ensures that the skill receives all necessary parameters to generate a viable outline.</p>
 <ul>
 <li><code>--topic</code>: The subject of the lecture.</li>
@@ -5787,9 +5787,9 @@
 <li><code>--duration</code>: The length of the session in minutes.</li>
 <li><code>--depth</code>: The level of interactivity, which determines if a quiz is generated.</li>
 </ul>
-<h3 id="step-2-outline-generation-logic">Step 2: Outline Generation Logic</h3>
+<h3 id="step-2-outline-generation-logic">Step 2: Outline Generation Logic<a class="headerlink" href="#step-2-outline-generation-logic" title="Permanent link">§</a></h3>
 <p>The core logic resides in a generation function that maps the input parameters to a structured dictionary. While the basic implementation uses a template, the architecture allows this function to be replaced with an LLM API call for dynamic content generation while maintaining the same output schema.</p>
-<h3 id="step-3-the-complete-implementation">Step 3: The Complete Implementation</h3>
+<h3 id="step-3-the-complete-implementation">Step 3: The Complete Implementation<a class="headerlink" href="#step-3-the-complete-implementation" title="Permanent link">§</a></h3>
 <p>Below is the full implementation of the <code>lecture_builder.py</code> skill.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="ch">#!/usr/bin/env python3</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -5899,9 +5899,9 @@
 </span><span id="__span-0-106"><a id="__codelineno-0-106" name="__codelineno-0-106" href="#__codelineno-0-106"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 </span><span id="__span-0-107"><a id="__codelineno-0-107" name="__codelineno-0-107" href="#__codelineno-0-107"></a>    <span class="n">main</span><span class="p">()</span>
 </span></code></pre></div>
-<h2 id="skill-integration-and-configuration">Skill Integration and Configuration</h2>
+<h2 id="skill-integration-and-configuration">Skill Integration and Configuration<a class="headerlink" href="#skill-integration-and-configuration" title="Permanent link">§</a></h2>
 <p>To integrate the skill into a Cline project, follow the structural and configuration steps below.</p>
-<h3 id="directory-structure">Directory Structure</h3>
+<h3 id="directory-structure">Directory Structure<a class="headerlink" href="#directory-structure" title="Permanent link">§</a></h3>
 <p>The skill must be placed in a <code>skills/</code> directory at the root of the project:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>my-cline-project/
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│
@@ -5912,7 +5912,7 @@
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>└─ README.md
 </span></code></pre></div>
-<h3 id="registration-via-clineyaml">Registration via cline.yaml</h3>
+<h3 id="registration-via-clineyaml">Registration via cline.yaml<a class="headerlink" href="#registration-via-clineyaml" title="Permanent link">§</a></h3>
 <p>While Cline can automatically execute any file in the <code>skills/</code> folder, registering the skill in <code>cline.yaml</code> allows for richer help text and explicit argument definitions.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">skills</span><span class="p">:</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">lecture_builder</span><span class="p">:</span>
@@ -5939,25 +5939,25 @@
 </span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">"overview"</span>
 </span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">        </span><span class="nt">help</span><span class="p">:</span><span class="w"> </span><span class="s">"Level</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">interactivity"</span>
 </span></code></pre></div>
-<h3 id="execution-and-verification">Execution and Verification</h3>
+<h3 id="execution-and-verification">Execution and Verification<a class="headerlink" href="#execution-and-verification" title="Permanent link">§</a></h3>
 <p>After setting the executable permission, the skill can be invoked from the terminal:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>skills/lecture_builder.py
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cline<span class="w"> </span>lecture_builder<span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Introduction to Python for Data Science"</span><span class="w"> </span>--audience<span class="w"> </span><span class="s2">"undergraduate beginners"</span><span class="w"> </span>--duration<span class="w"> </span><span class="m">90</span><span class="w"> </span>--depth<span class="w"> </span>hands-on
 </span></code></pre></div>
-<h2 id="consuming-skill-output">Consuming Skill Output</h2>
+<h2 id="consuming-skill-output">Consuming Skill Output<a class="headerlink" href="#consuming-skill-output" title="Permanent link">§</a></h2>
 <p>The decision to use JSON as the output format enables the skill to be integrated into broader automation workflows.</p>
-<h3 id="filtering-with-jq">Filtering with jq</h3>
+<h3 id="filtering-with-jq">Filtering with jq<a class="headerlink" href="#filtering-with-jq" title="Permanent link">§</a></h3>
 <p>The <code>jq</code> utility can be used to extract specific parts of the generated outline for quick inspection:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>cline<span class="w"> </span>lecture_builder<span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Git Basics"</span><span class="w"> </span>--audience<span class="w"> </span><span class="s2">"Devs"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.sections[].title'</span>
 </span></code></pre></div>
-<h3 id="downstream-integration">Downstream Integration</h3>
+<h3 id="downstream-integration">Downstream Integration<a class="headerlink" href="#downstream-integration" title="Permanent link">§</a></h3>
 <p>Because the output is structured, it can be piped into other tools:</p>
 <ul>
 <li><strong>Markdown Conversion</strong>: A simple script can iterate through the <code>sections</code> array to create <code>##</code> headings.</li>
 <li><strong>Slide Generation</strong>: The JSON can be mapped to a Marp or Reveal.js template to automatically generate presentation slides.</li>
 <li><strong>Database Storage</strong>: The output can be stored in a database to track and version different iterations of a course outline.</li>
 </ul>
-<h2 id="extending-skill-functionality">Extending Skill Functionality</h2>
+<h2 id="extending-skill-functionality">Extending Skill Functionality<a class="headerlink" href="#extending-skill-functionality" title="Permanent link">§</a></h2>
 <p>The basic template-driven approach can be expanded to create more sophisticated tools.</p>
 <table>
 <thead>
@@ -6000,7 +6000,7 @@
 <li>[ ] JSON output validated for schema consistency.</li>
 </ul>
 </div>
-<h2 id="practical-exercises">Practical Exercises</h2>
+<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">§</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Exercise 1: Basic Skill Deployment</p>
 <p>Implement the <code>lecture_builder.py</code> skill in a new Cline project. Run the skill using the CLI to generate an outline for a topic of your choice (e.g., "Introduction to Docker") and verify that the JSON output is correctly formatted.</p>
@@ -6013,7 +6013,7 @@
 <p class="admonition-title">Exercise 3: JSON to Markdown Pipeline</p>
 <p>Create a small Python wrapper script that calls the <code>lecture_builder</code> skill using the <code>subprocess</code> module, parses the resulting JSON, and writes it to a file named <code>lecture.md</code>. The resulting markdown file should have the topic as the <code>#</code> title and each section as a <code>##</code> heading.</p>
 </div>
-<h2 id="further-reading">Further Reading</h2>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">§</a></h2>
 <ul>
 <li>Python <code>argparse</code> Documentation: https://docs.python.org/3/library/argparse.html</li>
 <li><code>jq</code> Manual: https://stedolan.github.io/jq/manual/</li>

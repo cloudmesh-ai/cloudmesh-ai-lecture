@@ -6079,7 +6079,7 @@
   
 
 
-<h1 id="securing-your-automation-github-actions-security">Securing Your Automation: GitHub Actions Security</h1>
+<h1 id="securing-your-automation-github-actions-security">Securing Your Automation: GitHub Actions Security<a class="headerlink" href="#securing-your-automation-github-actions-security" title="Permanent link">§</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -6092,60 +6092,60 @@
 </ul>
 </div>
 <p>As organizations shift toward "everything as code," the CI/CD pipeline becomes the most critical piece of infrastructure. Because a GitHub Action often has the power to deploy code to production, access databases, and manage cloud resources, it is a <strong>high-value target</strong> for attackers. A single compromised workflow or a leaked secret can lead to a full-scale cloud breach.</p>
-<h2 id="1-secrets-management-and-the-risk-of-leakage">1. Secrets Management and the Risk of Leakage</h2>
+<h2 id="1-secrets-management-and-the-risk-of-leakage">1. Secrets Management and the Risk of Leakage<a class="headerlink" href="#1-secrets-management-and-the-risk-of-leakage" title="Permanent link">§</a></h2>
 <p>Secrets (API keys, SSH keys, passwords) are the keys to your kingdom. If they are leaked, your security is gone.</p>
-<h3 id="common-leakage-scenarios">Common Leakage Scenarios</h3>
+<h3 id="common-leakage-scenarios">Common Leakage Scenarios<a class="headerlink" href="#common-leakage-scenarios" title="Permanent link">§</a></h3>
 <ul>
 <li><strong>Logging Secrets</strong>: Using <code>echo</code> or printing a variable that contains a secret. While GitHub attempts to mask secrets in logs (replacing them with <code>***</code>), an attacker can bypass this by encoding the secret (e.g., Base64) or printing it character by character.</li>
 <li><strong>Insecure Variable Passing</strong>: Passing secrets as environment variables to scripts that might log their environment or crash and dump a core file.</li>
 <li><strong>Commit History</strong>: Accidentally committing a secret to the repository before moving it to GitHub Secrets.</li>
 </ul>
-<h3 id="best-practices-for-secrets">Best Practices for Secrets</h3>
+<h3 id="best-practices-for-secrets">Best Practices for Secrets<a class="headerlink" href="#best-practices-for-secrets" title="Permanent link">§</a></h3>
 <ul>
 <li><strong>Use GitHub Secrets</strong>: Never hardcode credentials. Store them in <strong>Settings $\rightarrow$ Secrets and variables $\rightarrow$ Actions</strong>.</li>
 <li><strong>Avoid <code>echo</code></strong>: Never print secrets. If you must debug, use a tool that masks output or a dedicated secret-scanning tool.</li>
 <li><strong>Rotation</strong>: Regularly rotate your secrets. If a developer leaves the team or a laptop is lost, change the keys immediately.</li>
 </ul>
-<h2 id="2-supply-chain-security-third-party-actions">2. Supply Chain Security: Third-Party Actions</h2>
+<h2 id="2-supply-chain-security-third-party-actions">2. Supply Chain Security: Third-Party Actions<a class="headerlink" href="#2-supply-chain-security-third-party-actions" title="Permanent link">§</a></h2>
 <p>Most developers use community-made actions (e.g., <code>actions/checkout</code> or <code>docker/login-action</code>). This introduces a <strong>supply chain risk</strong>: if the maintainer of a popular action is compromised, they could push a malicious update that steals your secrets.</p>
-<h3 id="the-danger-of-version-tags">The Danger of Version Tags</h3>
+<h3 id="the-danger-of-version-tags">The Danger of Version Tags<a class="headerlink" href="#the-danger-of-version-tags" title="Permanent link">§</a></h3>
 <p>Most people use tags to version actions:
 </p><div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span><span class="w"> </span><span class="c1"># DANGEROUS</span>
 </span></code></pre></div>
 Tags are <strong>mutable</strong>. An attacker who gains access to the <code>actions/checkout</code> repository can move the <code>v4</code> tag to a malicious commit, and your pipeline will automatically pull the malicious code on the next run.
-<h3 id="the-solution-commit-sha-pinning">The Solution: Commit SHA Pinning</h3>
+<h3 id="the-solution-commit-sha-pinning">The Solution: Commit SHA Pinning<a class="headerlink" href="#the-solution-commit-sha-pinning" title="Permanent link">§</a></h3>
 <p>The only way to guarantee that the code you are running is the code you reviewed is to pin the action to a specific <strong>Commit SHA</strong>.</p>
 <p></p><div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@b4ffde65f46336ab88eb53be808477ut</span><span class="w"> </span><span class="c1"># Fixed SHA for v4.1.1</span>
 </span></code></pre></div>
 While SHAs are harder to read, they are <strong>immutable</strong>. To keep things maintainable, many teams use a dependency bot (like Dependabot) to automatically update these SHAs.
-<h2 id="3-the-pull_request-vs-pull_request_target-trap">3. The <code>pull_request</code> vs. <code>pull_request_target</code> Trap</h2>
+<h2 id="3-the-pull_request-vs-pull_request_target-trap">3. The <code>pull_request</code> vs. <code>pull_request_target</code> Trap<a class="headerlink" href="#3-the-pull_request-vs-pull_request_target-trap" title="Permanent link">§</a></h2>
 <p>Understanding how GitHub handles permissions for different events is critical to preventing <strong>Privilege Escalation</strong>.</p>
-<h3 id="on-pull_request-safe"><code>on: pull_request</code> (Safe)</h3>
+<h3 id="on-pull_request-safe"><code>on: pull_request</code> (Safe)<a class="headerlink" href="#on-pull_request-safe" title="Permanent link">§</a></h3>
 <p>When a workflow is triggered by a PR from a fork, it runs in the context of the <strong>merge commit</strong>. It has <strong>read-only</strong> access to the repository and <strong>no access</strong> to secrets. This is the safe default.</p>
-<h3 id="on-pull_request_target-dangerous"><code>on: pull_request_target</code> (Dangerous)</h3>
+<h3 id="on-pull_request_target-dangerous"><code>on: pull_request_target</code> (Dangerous)<a class="headerlink" href="#on-pull_request_target-dangerous" title="Permanent link">§</a></h3>
 <p>This event triggers the workflow in the context of the <strong>base branch</strong> (usually <code>main</code>). It has <strong>write access</strong> and <strong>access to secrets</strong>.
 <strong>The Risk</strong>: If your <code>pull_request_target</code> workflow checks out the code from the PR and then runs a script from that code, an attacker can submit a PR that modifies that script to steal your secrets and send them to a remote server.</p>
 <p><strong>Rule of Thumb</strong>: Never use <code>pull_request_target</code> to execute code provided by a contributor unless you have a very strict review process.</p>
-<h2 id="4-the-principle-of-least-privilege-github_token">4. The Principle of Least Privilege: <code>GITHUB_TOKEN</code></h2>
+<h2 id="4-the-principle-of-least-privilege-github_token">4. The Principle of Least Privilege: <code>GITHUB_TOKEN</code><a class="headerlink" href="#4-the-principle-of-least-privilege-github_token" title="Permanent link">§</a></h2>
 <p>Every workflow is automatically provided with a <code>GITHUB_TOKEN</code>. By default, this token may have broad permissions.</p>
-<h3 id="hardening-the-token">Hardening the Token</h3>
+<h3 id="hardening-the-token">Hardening the Token<a class="headerlink" href="#hardening-the-token" title="Permanent link">§</a></h3>
 <p>You should explicitly define the permissions your workflow needs at the top of your YAML file. If your workflow only needs to read the code and push to the <code>gh-pages</code> branch, do not give it full write access to the entire repository.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">permissions</span><span class="p">:</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span><span class="w">   </span><span class="c1"># Can read the repo</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">pages</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w">     </span><span class="c1"># Can update GitHub Pages</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w">  </span><span class="c1"># Required for OIDC cloud authentication</span>
 </span></code></pre></div>
-<h2 id="5-runner-security-hosted-vs-self-hosted">5. Runner Security: Hosted vs. Self-Hosted</h2>
-<h3 id="github-hosted-runners">GitHub-Hosted Runners</h3>
+<h2 id="5-runner-security-hosted-vs-self-hosted">5. Runner Security: Hosted vs. Self-Hosted<a class="headerlink" href="#5-runner-security-hosted-vs-self-hosted" title="Permanent link">§</a></h2>
+<h3 id="github-hosted-runners">GitHub-Hosted Runners<a class="headerlink" href="#github-hosted-runners" title="Permanent link">§</a></h3>
 <p>These are clean, ephemeral VMs provided by GitHub. They are generally secure because they are destroyed after every job, preventing "persistence" by an attacker.</p>
-<h3 id="self-hosted-runners">Self-Hosted Runners</h3>
+<h3 id="self-hosted-runners">Self-Hosted Runners<a class="headerlink" href="#self-hosted-runners" title="Permanent link">§</a></h3>
 <p>When you run an agent on your own server, you gain control but lose isolation:
 - <strong>Persistence</strong>: A malicious PR could modify a file on the self-hosted runner's disk, affecting all subsequent jobs.
 - <strong>Network Access</strong>: A self-hosted runner often has access to your internal corporate network, making it a prime target for lateral movement.</p>
 <p><strong>Recommendation</strong>: If using self-hosted runners, use <strong>ephemeral runners</strong> (e.g., using the Action Runner Controller on Kubernetes) that are destroyed after a single job.</p>
-<h2 id="6-provisioning-cloud-vms-via-github-actions-the-should-you-discussion">6. Provisioning Cloud VMs via GitHub Actions: The "Should You?" Discussion</h2>
+<h2 id="6-provisioning-cloud-vms-via-github-actions-the-should-you-discussion">6. Provisioning Cloud VMs via GitHub Actions: The "Should You?" Discussion<a class="headerlink" href="#6-provisioning-cloud-vms-via-github-actions-the-should-you-discussion" title="Permanent link">§</a></h2>
 <p>A common question in DevOps is: <em>"Should I use my GitHub Action to spin up a VM in AWS/Azure/GCP for testing or deployment?"</em></p>
-<h3 id="the-arguments">The Arguments</h3>
+<h3 id="the-arguments">The Arguments<a class="headerlink" href="#the-arguments" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -6167,7 +6167,7 @@ While SHAs are harder to read, they are <strong>immutable</strong>. To keep thin
 </tr>
 </tbody>
 </table>
-<h3 id="the-verdict-do-it-but-do-it-right">The Verdict: Do it, but do it Right</h3>
+<h3 id="the-verdict-do-it-but-do-it-right">The Verdict: Do it, but do it Right<a class="headerlink" href="#the-verdict-do-it-but-do-it-right" title="Permanent link">§</a></h3>
 <p>Provisioning VMs via GitHub Actions is a powerful pattern, but it must follow these three security mandates:</p>
 <ol>
 <li><strong>No Static Keys (Use OIDC)</strong>: Never store <code>AWS_ACCESS_KEY_ID</code> in GitHub Secrets. Use <strong>OpenID Connect (OIDC)</strong> to allow GitHub to authenticate directly with the cloud provider using a short-lived token.</li>
@@ -6192,8 +6192,8 @@ While SHAs are harder to read, they are <strong>immutable</strong>. To keep thin
 </span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform destroy -auto-approve</span>
 </span></code></pre></div>
 <hr>
-<h2 id="learning-wrap-up">🎓 Learning Wrap-up</h2>
-<h1 id="self-assessment">Self-Assessment</h1>
+<h2 id="learning-wrap-up">🎓 Learning Wrap-up<a class="headerlink" href="#learning-wrap-up" title="Permanent link">§</a></h2>
+<h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h1>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>

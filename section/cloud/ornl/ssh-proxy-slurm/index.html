@@ -5696,7 +5696,7 @@
   
 
 
-<h2 id="ssh-proxy-via-batch-job">SSH Proxy via Batch Job</h2>
+<h2 id="ssh-proxy-via-batch-job">SSH Proxy via Batch Job<a class="headerlink" href="#ssh-proxy-via-batch-job" title="Permanent link">§</a></h2>
 <p>Running a Gemma‑4 (or any LLM) on a Frontier compute node from a batch job and exposing a local port on your laptop via an SSH tunnel.</p>
 <p>The workflow is:</p>
 <ol>
@@ -5716,7 +5716,7 @@
 </ol>
 <p>All commands are written for a typical Frontier user (ROCm‑enabled <code>pytorch‑rocm</code> container).  Adjust paths, project IDs and ports to suit your own environment.</p>
 <hr>
-<h2 id="1-batch-script-that-launches-the-llm-and-records-the-worker-node-name">1.  Batch script that launches the LLM and records the worker node name</h2>
+<h2 id="1-batch-script-that-launches-the-llm-and-records-the-worker-node-name">1.  Batch script that launches the LLM and records the worker node name<a class="headerlink" href="#1-batch-script-that-launches-the-llm-and-records-the-worker-node-name" title="Permanent link">§</a></h2>
 <p>Save the following as <strong><code>run_gemma4_batch.slurm</code></strong> (you can rename it, just keep the <code>.slurm</code> suffix).</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="ch">#!/bin/bash</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">#</span>
@@ -5768,7 +5768,7 @@
 </span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="c1"># When the server exits (job ends or you cancel), clean up the heartbeat file.</span>
 </span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>rm<span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$HEARTBEAT</span><span class="s2">"</span>
 </span></code></pre></div>
-<h3 id="what-the-script-does">What the script does</h3>
+<h3 id="what-the-script-does">What the script does<a class="headerlink" href="#what-the-script-does" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -5808,7 +5808,7 @@
 </span></code></pre></div>
 <p>Take note of the <strong>SLURM job id</strong> that <code>sbatch</code> prints (e.g. <code>12345678</code>). You will need it for the next step.</p>
 <hr>
-<h2 id="2-helper-script-on-the-laptop-discover-the-node-and-open-the-tunnel">2.  Helper script on the laptop – discover the node and open the tunnel</h2>
+<h2 id="2-helper-script-on-the-laptop-discover-the-node-and-open-the-tunnel">2.  Helper script on the laptop – discover the node and open the tunnel<a class="headerlink" href="#2-helper-script-on-the-laptop-discover-the-node-and-open-the-tunnel" title="Permanent link">§</a></h2>
 <p>Create a small Bash helper on your laptop called <strong><code>ssh-gemma4-tunnel.sh</code></strong>.  It takes the SLURM job id as an argument, waits for the heartbeat file to appear, extracts the worker‑node name, and spawns an SSH tunnel that forwards the remote port (<code>8000</code>) to a local port of your choice.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># -------------------------------------------------</span>
@@ -5871,7 +5871,7 @@
 </span><span id="__span-2-59"><a id="__codelineno-2-59" name="__codelineno-2-59" href="#__codelineno-2-59"></a><span class="nb">kill</span><span class="w"> </span><span class="nv">$TUNNEL_PID</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
 </span><span id="__span-2-60"><a id="__codelineno-2-60" name="__codelineno-2-60" href="#__codelineno-2-60"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Tunnel closed."</span>
 </span></code></pre></div>
-<h3 id="how-to-use-the-helper">How to use the helper</h3>
+<h3 id="how-to-use-the-helper">How to use the helper<a class="headerlink" href="#how-to-use-the-helper" title="Permanent link">§</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 1) Submit the batch job (if you haven’t already)</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sbatch<span class="w"> </span>run_gemma4_batch.slurm<span class="w">   </span><span class="c1"># note the job id printed, e.g. 12345678</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
@@ -5886,7 +5886,7 @@
 </ol>
 <p>The tunnel runs in the background; when you press <strong>Enter</strong> the script kills the SSH process and exits.</p>
 <hr>
-<h2 id="3-verify-that-the-llm-server-is-reachable">3.  Verify that the LLM server is reachable</h2>
+<h2 id="3-verify-that-the-llm-server-is-reachable">3.  Verify that the LLM server is reachable<a class="headerlink" href="#3-verify-that-the-llm-server-is-reachable" title="Permanent link">§</a></h2>
 <p>While the tunnel is active, run any OpenAI‑compatible client against <code>http://127.0.0.1:8000</code>.  Example using <code>curl</code>:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8000/v1/models<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
 </span></code></pre></div>
@@ -5912,7 +5912,7 @@
 </span></code></pre></div>
 <p>If you see a populated <code>choices[0].text</code> field, the server is up and the tunnel works.</p>
 <hr>
-<h2 id="4-cleanup">4.  Clean‑up</h2>
+<h2 id="4-cleanup">4.  Clean‑up<a class="headerlink" href="#4-cleanup" title="Permanent link">§</a></h2>
 <p>When you are finished:</p>
 <ol>
 <li><strong>Terminate the tunnel</strong> – press <strong>Enter</strong> in the helper script (or <code>kill</code> the PID shown).  </li>
@@ -5922,7 +5922,7 @@
 </span></code></pre></div>
 <p>The batch script’s <code>rm -f $HEARTBEAT</code> will delete the heartbeat file, so future runs will not pick up a stale node name.</p>
 <hr>
-<h2 id="5-full-picture-what-happens-behind-the-scenes">5.  Full picture – what happens behind the scenes</h2>
+<h2 id="5-full-picture-what-happens-behind-the-scenes">5.  Full picture – what happens behind the scenes<a class="headerlink" href="#5-full-picture-what-happens-behind-the-scenes" title="Permanent link">§</a></h2>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Laptop (localport 8000)  &lt;--SSH tunnel--&gt;  frontier-login.olcf.ornl.gov
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>                               |
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>                               |--- SSH forward ---&gt;  nid0XXXXX (worker node) :8000
@@ -5933,7 +5933,7 @@
 <li>The <strong>two‑hop tunnel</strong> (<code>ssh -J</code>) uses the login node as a jump host; the final destination (<code>nid0XXXXX</code>) is resolved by the login node’s internal DNS, which knows the compute‑node hostnames.  </li>
 </ul>
 <hr>
-<h2 id="6-optional-automated-oneliner-if-you-prefer-a-single-command">6.  Optional: Automated one‑liner (if you prefer a single command)</h2>
+<h2 id="6-optional-automated-oneliner-if-you-prefer-a-single-command">6.  Optional: Automated one‑liner (if you prefer a single command)<a class="headerlink" href="#6-optional-automated-oneliner-if-you-prefer-a-single-command" title="Permanent link">§</a></h2>
 <p>If you want to avoid a separate helper script, you can combine the steps in a one‑liner on the laptop (replace placeholders accordingly):</p>
 <div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">JOBID</span><span class="o">=</span><span class="k">$(</span>sbatch<span class="w"> </span>run_gemma4_batch.slurm<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $4}'</span><span class="k">)</span><span class="w">   </span><span class="c1"># capture job id</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">HEARTBEAT</span><span class="o">=</span><span class="s2">"/gpfs/fs2/PROJECT_ID/your_user/gemma4_node_</span><span class="si">${</span><span class="nv">JOBID</span><span class="si">}</span><span class="s2">.txt"</span>
@@ -5952,7 +5952,7 @@
 </span></code></pre></div>
 <p>Press <code>Ctrl‑C</code> (or <code>kill %1</code>) to stop the tunnel and the job will end automatically when the wall‑time expires or when you <code>scancel $JOBID</code>.</p>
 <hr>
-<h2 id="7-things-to-watch-out-for">7.  Things to watch out for</h2>
+<h2 id="7-things-to-watch-out-for">7.  Things to watch out for<a class="headerlink" href="#7-things-to-watch-out-for" title="Permanent link">§</a></h2>
 <table>
 <thead>
 <tr>
@@ -5990,7 +5990,7 @@
 </tbody>
 </table>
 <hr>
-<h2 id="8-references">8.  References</h2>
+<h2 id="8-references">8.  References<a class="headerlink" href="#8-references" title="Permanent link">§</a></h2>
 <table>
 <thead>
 <tr>
@@ -6032,7 +6032,7 @@
 <li>exposing the worker‑node hostname via a shared heartbeat file, and  </li>
 <li>creating a secure SSH tunnel from your laptop that lets you interact with the model as if it were running locally.  </li>
 </ul>
-<h1 id="self-assessment">Self-Assessment</h1>
+<h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h1>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge of the concepts covered in this section.</p>

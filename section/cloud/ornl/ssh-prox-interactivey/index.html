@@ -5731,7 +5731,7 @@
   
 
 
-<h1 id="gemma4-inference-server-on-a-frontier-compute-worker-node">Gemma‑4 inference server on a Frontier compute (worker) node</h1>
+<h1 id="gemma4-inference-server-on-a-frontier-compute-worker-node">Gemma‑4 inference server on a Frontier compute (worker) node<a class="headerlink" href="#gemma4-inference-server-on-a-frontier-compute-worker-node" title="Permanent link">§</a></h1>
 <p>Goal: <strong>Access the server from your laptop</strong> through an SSH tunnel that “proxies” the connection via the Frontier login node (and, if needed, a bastion node).  </p>
 <p>The workflow is:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Laptop  &lt;--SSH tunnel--&gt;  frontier-login.olcf.ornl.gov  &lt;--SSH tunnel--&gt;  Worker‑node (allocated by SLURM)
@@ -5739,7 +5739,7 @@
 <p>The tunnel forwards a local port on your laptop (e.g., 8000) to the port on the worker node where the Gemma‑4 server is listening (e.g., 8000).<br>
 All traffic is encrypted and passes through the OLCF network; you never expose a port on the public Internet.</p>
 <hr>
-<h2 id="prerequisites">Prerequisites</h2>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">§</a></h2>
 <table>
 <thead>
 <tr>
@@ -5782,7 +5782,7 @@ All traffic is encrypted and passes through the OLCF network; you never expose a
 </tbody>
 </table>
 <hr>
-<h2 id="1-reserve-an-interactive-worker-node">1. Reserve an interactive worker node</h2>
+<h2 id="1-reserve-an-interactive-worker-node">1. Reserve an interactive worker node<a class="headerlink" href="#1-reserve-an-interactive-worker-node" title="Permanent link">§</a></h2>
 <p>We need a node that stays alive while we develop locally. Use <code>salloc</code> (interactive SLURM allocation) and request a <strong>single node</strong> (or more, if you want multi‑node serving).</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Request 1 node with 8 MI‑250X GPUs, 2 h wall‑time</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>salloc<span class="w"> </span><span class="se">\</span>
@@ -5797,16 +5797,16 @@ All traffic is encrypted and passes through the OLCF network; you never expose a
 </span></code></pre></div>
 <p>If the allocation is granted, you will be dropped into a <strong>Shell on the login node</strong> <em>inside</em> the allocation. Any <code>srun</code> you launch from here will execute on the <strong>worker node</strong>.</p>
 <hr>
-<h2 id="2-start-the-gemma4-inference-server-on-the-worker-node">2. Start the Gemma‑4 inference server on the worker node</h2>
+<h2 id="2-start-the-gemma4-inference-server-on-the-worker-node">2. Start the Gemma‑4 inference server on the worker node<a class="headerlink" href="#2-start-the-gemma4-inference-server-on-the-worker-node" title="Permanent link">§</a></h2>
 <p>We will use the <strong>vLLM</strong> server (ROCm build) because it provides an OpenAI‑compatible REST API that is easy to call from a laptop.</p>
-<h3 id="21-load-modules-define-paths">2.1 Load modules &amp; define paths</h3>
+<h3 id="21-load-modules-define-paths">2.1 Load modules &amp; define paths<a class="headerlink" href="#21-load-modules-define-paths" title="Permanent link">§</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>module<span class="w"> </span>purge
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>module<span class="w"> </span>load<span class="w"> </span>singularity<span class="w"> </span>rocm/6.2.0<span class="w">   </span><span class="c1"># provides ROCm libraries</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nv">SING_IMG</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/pytorch-rocm_2.2.1.sif"</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nv">MODEL_DIR</span><span class="o">=</span><span class="s2">"/gpfs/fs1/LLM/models/gemma-4b-it"</span>
 </span></code></pre></div>
-<h3 id="22-launch-the-server-with-srun">2.2 Launch the server with <code>srun</code></h3>
+<h3 id="22-launch-the-server-with-srun">2.2 Launch the server with <code>srun</code><a class="headerlink" href="#22-launch-the-server-with-srun" title="Permanent link">§</a></h3>
 <p><code>vllm</code> must be started <strong>inside the allocation</strong> (so it runs on the worker node). The command below binds the model directory, runs the container, and starts the server listening on <strong>all interfaces</strong> (<code>0.0.0.0</code>) inside the node on port <strong>8000</strong>.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Run on the *login node* of the allocation – srun will execute on the worker node</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>srun<span class="w"> </span><span class="se">\</span>
@@ -5855,15 +5855,15 @@ All traffic is encrypted and passes through the OLCF network; you never expose a
 </span></code></pre></div>
 <p>Leave this terminal <strong>open</strong>; the server will keep running until the allocation expires or you <code>Ctrl‑C</code> it.</p>
 <hr>
-<h2 id="3-create-an-ssh-tunnel-from-your-laptop-to-the-worker-node">3. Create an SSH tunnel from your laptop to the worker node</h2>
+<h2 id="3-create-an-ssh-tunnel-from-your-laptop-to-the-worker-node">3. Create an SSH tunnel from your laptop to the worker node<a class="headerlink" href="#3-create-an-ssh-tunnel-from-your-laptop-to-the-worker-node" title="Permanent link">§</a></h2>
 <p>Because the worker node has <strong>no direct inbound network access</strong>, we forward the port through the login node (the “jump host”).</p>
-<h3 id="31-identify-the-worker-nodes-hostname">3.1 Identify the worker node’s hostname</h3>
+<h3 id="31-identify-the-worker-nodes-hostname">3.1 Identify the worker node’s hostname<a class="headerlink" href="#31-identify-the-worker-nodes-hostname" title="Permanent link">§</a></h3>
 <p>While the server is running, run (in a separate shell <em>on the login node</em> of the allocation):</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># This prints the allocated node name, e.g. nid001234</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>scontrol<span class="w"> </span>show<span class="w"> </span>hostnames<span class="w"> </span><span class="nv">$SLURM_JOB_NODELIST</span>
 </span></code></pre></div>
 <p>Save the result; we’ll call it <code>WORKER_NODE</code>.</p>
-<h3 id="32-build-a-twohop-tunnel">3.2 Build a two‑hop tunnel</h3>
+<h3 id="32-build-a-twohop-tunnel">3.2 Build a two‑hop tunnel<a class="headerlink" href="#32-build-a-twohop-tunnel" title="Permanent link">§</a></h3>
 <p><strong>Option A – Single‑hop (most common)</strong><br>
 If your allocation was granted <strong>on a single node</strong>, the login node you’re currently on is the same host that will forward traffic to the worker node. You can tunnel directly:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># On your laptop</span>
@@ -5909,7 +5909,7 @@ If your allocation was granted <strong>on a single node</strong>, the login node
 </span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1">#    localhost:9000 on your laptop as the endpoint.</span>
 </span></code></pre></div>
 <p><em>Note</em>: Replace <code>9000</code> with any free local port if 8000 is already in use on your laptop.</p>
-<h3 id="33-verify-the-tunnel">3.3 Verify the tunnel</h3>
+<h3 id="33-verify-the-tunnel">3.3 Verify the tunnel<a class="headerlink" href="#33-verify-the-tunnel" title="Permanent link">§</a></h3>
 <p>On your laptop (while the tunnel is active):</p>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8000/v1/models<span class="w">  </span><span class="c1"># vLLM endpoint for model list</span>
 </span></code></pre></div>
@@ -5930,7 +5930,7 @@ If your allocation was granted <strong>on a single node</strong>, the login node
 <li>The server on the worker node is still alive (<code>squeue</code> still shows your allocation).  </li>
 </ol>
 <hr>
-<h2 id="4-call-gemma4-from-your-laptop">4. Call Gemma‑4 from your laptop</h2>
+<h2 id="4-call-gemma4-from-your-laptop">4. Call Gemma‑4 from your laptop<a class="headerlink" href="#4-call-gemma4-from-your-laptop" title="Permanent link">§</a></h2>
 <p>Now you can treat the forwarded port as a local OpenAI‑compatible API. Example using <code>curl</code>:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8000/v1/completions<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
@@ -5961,7 +5961,7 @@ If your allocation was granted <strong>on a single node</strong>, the login node
 </span></code></pre></div>
 <p>All traffic travels through the encrypted SSH tunnel, keeping the model and data inside the OLCF network.</p>
 <hr>
-<h2 id="5-cleanup">5. Clean‑up</h2>
+<h2 id="5-cleanup">5. Clean‑up<a class="headerlink" href="#5-cleanup" title="Permanent link">§</a></h2>
 <p>When you are finished:</p>
 <ol>
 <li><strong>Stop the server</strong> – go to the terminal on the login node where <code>srun</code> launched vLLM and press <code>Ctrl‑C</code>.  </li>
@@ -5973,7 +5973,7 @@ If your allocation was granted <strong>on a single node</strong>, the login node
 <li><strong>Terminate the tunnel</strong> – simply kill the <code>ssh</code> process on your laptop (e.g., <code>pkill -f "ssh -L 8000"</code> or close the terminal window).  </li>
 </ol>
 <hr>
-<h2 id="6-full-example-copypaste-script-workflow">6. Full example – copy‑paste script workflow</h2>
+<h2 id="6-full-example-copypaste-script-workflow">6. Full example – copy‑paste script workflow<a class="headerlink" href="#6-full-example-copypaste-script-workflow" title="Permanent link">§</a></h2>
 <p>Below is a <strong>single‑file script</strong> you can paste into a terminal on your laptop.<br>
 It automates the allocation, starts the server, opens the tunnel, and leaves you with a ready‑to‑use endpoint. Adjust the variables (<code>PROJECT_ID</code>, <code>LOCAL_PORT</code>, <code>REMOTE_PORT</code>) as needed.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="ch">#!/usr/bin/env bash</span>
@@ -6066,7 +6066,7 @@ It automates the allocation, starts the server, opens the tunnel, and leaves you
 <li>Clean everything up when you press <strong>Enter</strong>.</li>
 </ol>
 <hr>
-<h2 id="7-common-pitfalls-troubleshooting">7. Common pitfalls &amp; troubleshooting</h2>
+<h2 id="7-common-pitfalls-troubleshooting">7. Common pitfalls &amp; troubleshooting<a class="headerlink" href="#7-common-pitfalls-troubleshooting" title="Permanent link">§</a></h2>
 <table>
 <thead>
 <tr>
@@ -6114,14 +6114,14 @@ It automates the allocation, starts the server, opens the tunnel, and leaves you
 </tbody>
 </table>
 <hr>
-<h2 id="8-security-note">8. Security note</h2>
+<h2 id="8-security-note">8. Security note<a class="headerlink" href="#8-security-note" title="Permanent link">§</a></h2>
 <ul>
 <li><strong>Never open the worker‑node port to the public Internet.</strong> The tunnel ensures the port is only reachable from your laptop via authenticated SSH.  </li>
 <li>The OLCF login node enforces two‑factor authentication for SSH; keep your private key protected with a passphrase.  </li>
 <li>The vLLM server does <strong>not</strong> enforce API‑key authentication. If you need stricter access control, wrap the endpoint in a lightweight reverse‑proxy (e.g., <code>nginx</code> with basic auth) on the login node, then forward the tunnel to that proxy instead.</li>
 </ul>
 <hr>
-<h2 id="9-references">9. References</h2>
+<h2 id="9-references">9. References<a class="headerlink" href="#9-references" title="Permanent link">§</a></h2>
 <table>
 <thead>
 <tr>
@@ -6161,7 +6161,7 @@ It automates the allocation, starts the server, opens the tunnel, and leaves you
 </tbody>
 </table>
 <hr>
-<h1 id="self-assessment">Self-Assessment</h1>
+<h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h1>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge of the concepts covered in this section.</p>

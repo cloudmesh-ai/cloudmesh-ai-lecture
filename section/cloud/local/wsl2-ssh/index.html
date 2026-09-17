@@ -6001,7 +6001,7 @@
   
 
 
-<h1 id="ssh-key-management-in-wsl2-and-windows-11">SSH Key Management in WSL2 and Windows 11</h1>
+<h1 id="ssh-key-management-in-wsl2-and-windows-11">SSH Key Management in WSL2 and Windows 11<a class="headerlink" href="#ssh-key-management-in-wsl2-and-windows-11" title="Permanent link">§</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <p>After completing this chapter, you will be able to:
@@ -6010,26 +6010,26 @@
 - Manage secure permissions for SSH keys within a Linux environment.
 - Use a Windows-generated SSH key to authenticate with remote OpenStack instances from WSL2.</p>
 </div>
-<h2 id="contextual-overview">Contextual Overview</h2>
+<h2 id="contextual-overview">Contextual Overview<a class="headerlink" href="#contextual-overview" title="Permanent link">§</a></h2>
 <p>When working with a hybrid environment like Windows 11 and WSL2 (Windows Subsystem for Linux), managing SSH keys can become redundant if you maintain separate keys for each environment. By leveraging the way WSL2 mounts the Windows file system, you can create a single source of truth for your identities, allowing you to use the same keys regardless of whether you are executing commands in PowerShell or an Ubuntu terminal. This streamlines your workflow, simplifies key rotation, and ensures consistent access across your local development tools.</p>
-<h2 id="shared-ssh-architecture">Shared SSH Architecture</h2>
-<h3 id="why-this-matters">Why this matters</h3>
+<h2 id="shared-ssh-architecture">Shared SSH Architecture<a class="headerlink" href="#shared-ssh-architecture" title="Permanent link">§</a></h2>
+<h3 id="why-this-matters">Why this matters<a class="headerlink" href="#why-this-matters" title="Permanent link">§</a></h3>
 <p>Maintaining duplicate SSH keys increases the risk of losing a key or failing to rotate one of them, leading to authentication failures. A shared architecture ensures consistency across your local development environments and reduces the overhead of managing multiple identity files.</p>
 <p>The primary mechanism for sharing keys is the <code>/mnt/c</code> mount point in WSL2, which exposes your Windows <code>C:</code> drive to the Linux environment.</p>
 <div class="admonition warning">
 <p class="admonition-title">Permission Sensitivity</p>
 <p>SSH clients are extremely strict about file permissions. If a private key is "too open" (e.g., readable by others), the SSH client will reject the key and fail to connect to protect your identity.</p>
 </div>
-<h3 id="implementation-linking-windows-ssh-to-wsl2">Implementation: Linking Windows SSH to WSL2</h3>
+<h3 id="implementation-linking-windows-ssh-to-wsl2">Implementation: Linking Windows SSH to WSL2<a class="headerlink" href="#implementation-linking-windows-ssh-to-wsl2" title="Permanent link">§</a></h3>
 <p>To achieve this single source of truth, follow these steps to link your Windows identity to your Linux environment.</p>
-<h3 id="step-1-generating-the-key-pair-on-windows">Step 1: Generating the Key Pair on Windows</h3>
+<h3 id="step-1-generating-the-key-pair-on-windows">Step 1: Generating the Key Pair on Windows<a class="headerlink" href="#step-1-generating-the-key-pair-on-windows" title="Permanent link">§</a></h3>
 <p>Instead of generating keys in both environments, start with the Windows host. This ensures your primary identity is anchored to your main OS.</p>
 <p><em>(Note: <code>&lt;you&gt;</code> in the following examples refers to your Windows system username, which may differ from your WSL2 username).</em></p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c"># Generate a high-entropy RSA 4096-bit key pair</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">ssh-keygen</span> <span class="n">-t</span> <span class="n">rsa</span> <span class="n">-b</span> <span class="n">4096</span>
 </span></code></pre></div>
 <p>When prompted, press Enter to accept the default file location (<code>C:\Users\&lt;you&gt;\.ssh\id_rsa</code>) and optionally enter a passphrase for additional security.</p>
-<h3 id="step-2-establishing-the-symbolic-link-in-wsl2">Step 2: Establishing the Symbolic Link in WSL2</h3>
+<h3 id="step-2-establishing-the-symbolic-link-in-wsl2">Step 2: Establishing the Symbolic Link in WSL2<a class="headerlink" href="#step-2-establishing-the-symbolic-link-in-wsl2" title="Permanent link">§</a></h3>
 <p>Rather than copying files—which creates synchronization issues whenever you update a key—use a symbolic link. This makes WSL2 treat the Windows <code>.ssh</code> folder as its own native directory.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># 1. Back up existing .ssh directory if it exists to avoid data loss</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>mv<span class="w"> </span>~/.ssh<span class="w"> </span>~/.ssh.bak
@@ -6039,7 +6039,7 @@
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>ln<span class="w"> </span>-s<span class="w"> </span>/mnt/c/Users/&lt;you&gt;/.ssh<span class="w"> </span>~/.ssh
 </span></code></pre></div>
 <p><strong>Verification:</strong> Run <code>ls -la ~/.ssh</code> in WSL2. You should see the directory pointing to the <code>/mnt/c/</code> path.</p>
-<h3 id="step-3-securing-the-keys">Step 3: Securing the Keys</h3>
+<h3 id="step-3-securing-the-keys">Step 3: Securing the Keys<a class="headerlink" href="#step-3-securing-the-keys" title="Permanent link">§</a></h3>
 <p>Because the Windows filesystem (NTFS) and Linux filesystem (ext4) handle permissions differently, you must ensure the private key has the correct Linux permissions. SSH will ignore keys that are world-readable. Even though the file physically resides on a Windows drive, the WSL2 translation layer allows you to set the permissions necessary to satisfy the SSH client.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Set read/write permissions for the owner only (REQUIRED for SSH)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~/.ssh/id_rsa
@@ -6052,9 +6052,9 @@
 <p class="admonition-title">Professional Shortcut</p>
 <p>If you frequently switch between multiple SSH identities, consider creating a <code>config</code> file in your Windows <code>.ssh</code> folder. Since you've symlinked the directory, your WSL2 environment will automatically inherit these aliases and configurations.</p>
 </div>
-<h2 id="deploying-keys-to-openstack">Deploying Keys to OpenStack</h2>
+<h2 id="deploying-keys-to-openstack">Deploying Keys to OpenStack<a class="headerlink" href="#deploying-keys-to-openstack" title="Permanent link">§</a></h2>
 <p>Once your local environment is configured, you must provide the public half of your key to the cloud provider to enable passwordless authentication.</p>
-<h3 id="step-4-importing-the-public-key">Step 4: Importing the Public Key</h3>
+<h3 id="step-4-importing-the-public-key">Step 4: Importing the Public Key<a class="headerlink" href="#step-4-importing-the-public-key" title="Permanent link">§</a></h3>
 <ol>
 <li>Log in to your <strong>OpenStack Horizon</strong> dashboard.</li>
 <li>Navigate to <strong>Compute</strong> &gt; <strong>Key Pairs</strong>.</li>
@@ -6065,18 +6065,18 @@
 <p class="admonition-title">Import vs. Create</p>
 <p>When using OpenStack, always prefer <strong>Import Public Key</strong>. This allows you to keep your private key secure on your own machine rather than letting the cloud provider generate and store it for you.</p>
 </div>
-<h3 id="step-5-launching-and-connecting">Step 5: Launching and Connecting</h3>
+<h3 id="step-5-launching-and-connecting">Step 5: Launching and Connecting<a class="headerlink" href="#step-5-launching-and-connecting" title="Permanent link">§</a></h3>
 <p>When creating a new VM instance in OpenStack Horizon, select the imported key pair during the launch process. Once the instance is running and has an IP address, connect from your WSL2 terminal:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Connect to the VM using the shared key</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># The -i flag explicitly points to the identity file</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>ssh<span class="w"> </span>-i<span class="w"> </span>~/.ssh/id_rsa<span class="w"> </span>ubuntu@&lt;VM-IP&gt;
 </span></code></pre></div>
-<h2 id="direct-windows-access">Direct Windows Access</h2>
+<h2 id="direct-windows-access">Direct Windows Access<a class="headerlink" href="#direct-windows-access" title="Permanent link">§</a></h2>
 <p>While the WSL2 workflow is ideal for development, you can connect directly from Windows (using PowerShell or Windows Terminal) by referencing the same private key. This proves that the identity is managed centrally.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c"># Using Windows Terminal or PowerShell</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">ssh</span> <span class="n">-i</span> <span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\&lt;</span><span class="n">you</span><span class="p">&gt;\.</span><span class="n">ssh</span><span class="p">\</span><span class="n">id_rsa</span> <span class="n">ubuntu</span><span class="p">@&lt;</span><span class="n">VM-IP</span><span class="p">&gt;</span>
 </span></code></pre></div>
-<h3 id="using-git-bash">Using Git Bash</h3>
+<h3 id="using-git-bash">Using Git Bash<a class="headerlink" href="#using-git-bash" title="Permanent link">§</a></h3>
 <p>For those who prefer a Unix-like shell on Windows, Git Bash is an excellent alternative. It uses a slightly different path syntax to reference the Windows drive.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Using Git Bash</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>ssh<span class="w"> </span>-i<span class="w"> </span>/c/Users/&lt;you&gt;/.ssh/id_rsa<span class="w"> </span>ubuntu@&lt;VM-IP&gt;
@@ -6085,7 +6085,7 @@
 <p class="admonition-title">Git Bash Pathing</p>
 <p>Git Bash maps Windows drives to a root-level directory. Instead of <code>C:\</code>, use <code>/c/</code>. This allows you to use standard Bash commands and paths while still accessing your Windows-hosted SSH keys.</p>
 </div>
-<h3 id="path-reference-summary">Path Reference Summary</h3>
+<h3 id="path-reference-summary">Path Reference Summary<a class="headerlink" href="#path-reference-summary" title="Permanent link">§</a></h3>
 <p>To help you navigate between different environments, use this table as a quick reference for the SSH key paths.</p>
 <table>
 <thead>
@@ -6123,7 +6123,7 @@
 <li>[ ] Successful connection verified from WSL2, PowerShell, and Git Bash.</li>
 </ul>
 </div>
-<h2 id="practical-exercises">Practical Exercises</h2>
+<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">§</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Exercise 1: Basic Setup</p>
 <p>Generate a new SSH key pair on your Windows host and verify that both <code>id_rsa</code> and <code>id_rsa.pub</code> are created in the <code>.ssh</code> folder.</p>
@@ -6136,7 +6136,7 @@
 <p class="admonition-title">Exercise 3: Advanced Troubleshooting</p>
 <p>Intentionally change the permissions of your <code>id_rsa</code> file to be world-readable using <code>chmod 777 ~/.ssh/id_rsa</code> and attempt to SSH into a server. Observe the "unprotected private key file" error message, then restore the permissions to <code>600</code> and verify the connection works again.</p>
 </div>
-<h2 id="self-assessment">Self-Assessment</h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6161,7 +6161,7 @@
 <p>'Create Key Pair' allows OpenStack to generate the key and provide the private key for you to download. 'Import Public Key' allows you to generate your own key locally (which is a security best practice) and upload only the public part to the cloud.</p>
 </details>
 </div>
-<h2 id="appendix-integrated-ssh-lifecycle-workflow">Appendix: Integrated SSH Lifecycle Workflow</h2>
+<h2 id="appendix-integrated-ssh-lifecycle-workflow">Appendix: Integrated SSH Lifecycle Workflow<a class="headerlink" href="#appendix-integrated-ssh-lifecycle-workflow" title="Permanent link">§</a></h2>
 <p>This section provides a linear, step-by-step walkthrough of the entire process—from local key creation to accessing a cloud instance—as visualized in the architectural diagram. To make it easier, a diagram is provided as a visual aid. This section demonstrates how a single set of keys on the Windows host can be accessed by both the host OS and the WSL2 distribution.</p>
 <p></p><figure id="_figure-1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/wsl2-ssh-nice-chatgpt.png" data-desc-position="bottom"><img alt="Accessing a VM using a single key from windows" src="../images/wsl2-ssh-nice-chatgpt.png"></a><figcaption>Figure 1: Accessing a VM using a single key from windows</figcaption></figure><p></p>
 <!-- HTML entity (works in most places) -->

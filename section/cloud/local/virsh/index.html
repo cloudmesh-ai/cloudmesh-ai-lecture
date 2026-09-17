@@ -6025,7 +6025,7 @@
   
 
 
-<h1 id="virtual-machine-management-with-virsh">Virtual Machine Management with virsh</h1>
+<h1 id="virtual-machine-management-with-virsh">Virtual Machine Management with virsh<a class="headerlink" href="#virtual-machine-management-with-virsh" title="Permanent link">§</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -6038,25 +6038,25 @@
 </div>
 <p>In a Linux-based virtualization environment, managing virtual machines (VMs) often requires interacting with the hypervisor. While graphical tools exist, professional system administrators rely on the command line for automation, remote management, and precision.</p>
 <p><code>virsh</code> is the primary command-line interface (CLI) tool for managing guest virtual machines. It acts as a frontend for <code>libvirt</code>, an open-source API that provides a consistent way to manage different virtualization technologies, such as KVM (Kernel-based Virtual Machine), QEMU, and Xen. By using <code>libvirt</code>, <code>virsh</code> abstracts the underlying hypervisor complexities, allowing administrators to use the same set of commands regardless of the specific virtualization backend.</p>
-<h2 id="connecting-to-the-hypervisor">Connecting to the Hypervisor</h2>
+<h2 id="connecting-to-the-hypervisor">Connecting to the Hypervisor<a class="headerlink" href="#connecting-to-the-hypervisor" title="Permanent link">§</a></h2>
 <p>Before managing VMs, <code>virsh</code> must establish a connection to the <code>libvirtd</code> daemon. This connection is defined by a URI (Uniform Resource Identifier).</p>
-<h3 id="understanding-connection-uris">Understanding Connection URIs</h3>
+<h3 id="understanding-connection-uris">Understanding Connection URIs<a class="headerlink" href="#understanding-connection-uris" title="Permanent link">§</a></h3>
 <p>The URI tells <code>virsh</code> which hypervisor to talk to and what permission level to use:</p>
 <ul>
 <li><code>qemu:///system</code>: Connects to the system-wide instance of QEMU/KVM. This is the most common URI, as it manages VMs that are available to all users and start automatically on boot.</li>
 <li><code>qemu:///session</code>: Connects to a user-specific instance. VMs created here are only visible to the user who created them.</li>
 <li><code>qemu+ssh://user@remote-host/system</code>: Connects to a remote hypervisor via SSH.</li>
 </ul>
-<h3 id="establishing-a-connection">Establishing a Connection</h3>
+<h3 id="establishing-a-connection">Establishing a Connection<a class="headerlink" href="#establishing-a-connection" title="Permanent link">§</a></h3>
 <p>To connect to the local system hypervisor, use the <code>connect</code> command:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>virsh<span class="w"> </span>connect<span class="w"> </span>qemu:///system
 </span></code></pre></div>
 <p>If you need to inspect a system without the risk of making accidental changes, you can initiate a read-only connection:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>virsh<span class="w"> </span>connect<span class="w"> </span>qemu:///system<span class="w"> </span>-readonly
 </span></code></pre></div>
-<h2 id="monitoring-guest-virtual-machines">Monitoring Guest Virtual Machines</h2>
+<h2 id="monitoring-guest-virtual-machines">Monitoring Guest Virtual Machines<a class="headerlink" href="#monitoring-guest-virtual-machines" title="Permanent link">§</a></h2>
 <p>Once connected, the first step is typically to identify which VMs are available and what their current status is.</p>
-<h3 id="listing-guest-vms">Listing Guest VMs</h3>
+<h3 id="listing-guest-vms">Listing Guest VMs<a class="headerlink" href="#listing-guest-vms" title="Permanent link">§</a></h3>
 <p>The <code>list</code> command provides a snapshot of the current domains (VMs) managed by the hypervisor.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># List only currently running VMs</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>virsh<span class="w"> </span>list
@@ -6065,14 +6065,14 @@
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>virsh<span class="w"> </span>list<span class="w"> </span>--all
 </span></code></pre></div>
 <p>The output includes the VM ID, name, and state (e.g., <code>running</code>, <code>shut off</code>, or <code>paused</code>).</p>
-<h3 id="inspecting-detailed-domain-information">Inspecting Detailed Domain Information</h3>
+<h3 id="inspecting-detailed-domain-information">Inspecting Detailed Domain Information<a class="headerlink" href="#inspecting-detailed-domain-information" title="Permanent link">§</a></h3>
 <p>To get a comprehensive overview of a specific VM's configuration, such as its CPU allocation, memory usage, and UUID, use the <code>dominfo</code> command:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>virsh<span class="w"> </span>dominfo<span class="w"> </span>&lt;vm_name&gt;
 </span></code></pre></div>
 <p>This command is essential for verifying if a VM has the correct resources allocated before performing heavy workloads.</p>
-<h2 id="lifecycle-orchestration">Lifecycle Orchestration</h2>
+<h2 id="lifecycle-orchestration">Lifecycle Orchestration<a class="headerlink" href="#lifecycle-orchestration" title="Permanent link">§</a></h2>
 <p>Managing the power state of a VM is a fundamental task. <code>virsh</code> provides several ways to change the state of a guest.</p>
-<h3 id="starting-and-stopping-vms">Starting and Stopping VMs</h3>
+<h3 id="starting-and-stopping-vms">Starting and Stopping VMs<a class="headerlink" href="#starting-and-stopping-vms" title="Permanent link">§</a></h3>
 <p>To boot a VM that is currently defined but inactive:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>virsh<span class="w"> </span>start<span class="w"> </span>&lt;vm_name&gt;
 </span></code></pre></div>
@@ -6087,7 +6087,7 @@
 </ol>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>virsh<span class="w"> </span>destroy<span class="w"> </span>&lt;vm_name&gt;
 </span></code></pre></div>
-<h3 id="rebooting-and-pausing">Rebooting and Pausing</h3>
+<h3 id="rebooting-and-pausing">Rebooting and Pausing<a class="headerlink" href="#rebooting-and-pausing" title="Permanent link">§</a></h3>
 <p>To restart a guest machine:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>virsh<span class="w"> </span>reboot<span class="w"> </span>&lt;vm_name&gt;
 </span></code></pre></div>
@@ -6095,14 +6095,14 @@
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>virsh<span class="w"> </span><span class="nb">suspend</span><span class="w"> </span>&lt;vm_name&gt;
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>virsh<span class="w"> </span>resume<span class="w"> </span>&lt;vm_name&gt;
 </span></code></pre></div>
-<h2 id="configuration-management">Configuration Management</h2>
+<h2 id="configuration-management">Configuration Management<a class="headerlink" href="#configuration-management" title="Permanent link">§</a></h2>
 <p>Every VM in <code>libvirt</code> is defined by an XML configuration file. This file specifies the hardware allocated to the VM, including the disk paths, network interfaces, and memory limits.</p>
-<h3 id="editing-the-vm-definition">Editing the VM Definition</h3>
+<h3 id="editing-the-vm-definition">Editing the VM Definition<a class="headerlink" href="#editing-the-vm-definition" title="Permanent link">§</a></h3>
 <p>Instead of manually editing XML files on the filesystem, <code>virsh</code> provides an <code>edit</code> command that opens the configuration in the system's default text editor (e.g., <code>vi</code> or <code>nano</code>) and validates the XML before saving.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>virsh<span class="w"> </span>edit<span class="w"> </span>&lt;vm_name&gt;
 </span></code></pre></div>
 <p>Common changes made via <code>edit</code> include increasing the memory limit or adding a new virtual disk.</p>
-<h3 id="defining-and-undefining-vms">Defining and Undefining VMs</h3>
+<h3 id="defining-and-undefining-vms">Defining and Undefining VMs<a class="headerlink" href="#defining-and-undefining-vms" title="Permanent link">§</a></h3>
 <p>A VM can exist in two states: <strong>active</strong> (running) and <strong>defined</strong> (the XML configuration exists on disk).</p>
 <ul>
 <li><strong>Define</strong>: To create a VM from an existing XML file:</li>
@@ -6114,15 +6114,15 @@
 </ul>
 <div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>virsh<span class="w"> </span>undefine<span class="w"> </span>&lt;vm_name&gt;
 </span></code></pre></div>
-<h2 id="direct-guest-interaction">Direct Guest Interaction</h2>
+<h2 id="direct-guest-interaction">Direct Guest Interaction<a class="headerlink" href="#direct-guest-interaction" title="Permanent link">§</a></h2>
 <p>When network access to a VM is lost or the VM is failing to boot, you can use the serial console to interact with the guest.</p>
-<h3 id="accessing-the-console">Accessing the Console</h3>
+<h3 id="accessing-the-console">Accessing the Console<a class="headerlink" href="#accessing-the-console" title="Permanent link">§</a></h3>
 <p>The <code>console</code> command connects your terminal directly to the VM's serial port:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>virsh<span class="w"> </span>console<span class="w"> </span>&lt;vm_name&gt;
 </span></code></pre></div>
 <p><em>Note: For this to work, the guest OS must be configured to send its output to the serial console (e.g., via GRUB configuration in Linux).</em></p>
 <p>To exit the console and return to the host terminal, press <code>Ctrl + ]</code>.</p>
-<h2 id="self-assessment">Self-Assessment</h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6147,7 +6147,7 @@
 <summary>When would you use <code>virsh console</code> instead of SSH?</summary>
 <p><code>virsh console</code> is used for direct interaction with the VM's serial port, which is critical when network access (SSH) is unavailable or when troubleshooting boot-time failures.</p>
 </details>
-<h2 id="practical-exercises">Practical Exercises</h2>
+<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">§</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Exercise 1: Basic Inspection</p>
 <p>Connect to your local hypervisor. List all virtual machines, including inactive ones. Select one VM and display its detailed resource information. Note the amount of memory allocated and the current CPU state.</p>

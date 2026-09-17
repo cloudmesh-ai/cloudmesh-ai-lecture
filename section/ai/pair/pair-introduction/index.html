@@ -5743,14 +5743,14 @@
   
 
 
-<h1 id="nvidia-ai-pair-architectural-overview-and-strategic-implementation">NVIDIA AI Pair: Architectural Overview and Strategic Implementation</h1>
-<h2 id="1-what-is-nvidia-ai-pair">1. What is NVIDIA AI Pair?</h2>
+<h1 id="nvidia-ai-pair-architectural-overview-and-strategic-implementation">NVIDIA AI Pair: Architectural Overview and Strategic Implementation<a class="headerlink" href="#nvidia-ai-pair-architectural-overview-and-strategic-implementation" title="Permanent link">§</a></h1>
+<h2 id="1-what-is-nvidia-ai-pair">1. What is NVIDIA AI Pair?<a class="headerlink" href="#1-what-is-nvidia-ai-pair" title="Permanent link">§</a></h2>
 <p><strong>NVIDIA AI Pair (Personal AI Router)</strong> is not a single model or a GPU-pooling technology; rather, it is a high-performance <strong>workload traffic controller</strong> designed for multi-agent AI systems. Its primary purpose is to orchestrate independent AI requests across a decentralized network of GPU-enabled nodes.</p>
 <p>While many assume that "pairing" GPUs allows them to combine VRAM to run a single massive model, AI Pair operates differently. It acts as an intelligent proxy that intercepts requests from an application and routes them to the most appropriate node in your network based on model availability and current GPU utilization.</p>
 <hr>
-<h2 id="2-the-router-architecture-how-it-works">2. The Router Architecture: How it Works</h2>
+<h2 id="2-the-router-architecture-how-it-works">2. The Router Architecture: How it Works<a class="headerlink" href="#2-the-router-architecture-how-it-works" title="Permanent link">§</a></h2>
 <p>AI Pair transforms a collection of independent machines into a <strong>Symmetric Peer-to-Peer Cluster</strong>. Instead of a master-slave configuration, every machine running PAIR is a "Node" and an equal peer.</p>
-<h3 id="the-data-flow">The Data Flow</h3>
+<h3 id="the-data-flow">The Data Flow<a class="headerlink" href="#the-data-flow" title="Permanent link">§</a></h3>
 <p>When a multi-agent application sends requests, the flow follows this path:</p>
 <p><code>[ Multi-Agent App ]</code> $\rightarrow$ <code>[ NVIDIA PAIR Proxy Server ]</code> $\rightarrow$ <code>[ Target GPU Node ]</code></p>
 <ol>
@@ -5777,7 +5777,7 @@
 </span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>└───────────────────────────┘   └───────────────────────────┘
 </span></code></pre></div>
 <hr>
-<h2 id="3-hard-architectural-boundaries-what-pair-does-not-do">3. Hard Architectural Boundaries: What PAIR Does NOT Do</h2>
+<h2 id="3-hard-architectural-boundaries-what-pair-does-not-do">3. Hard Architectural Boundaries: What PAIR Does NOT Do<a class="headerlink" href="#3-hard-architectural-boundaries-what-pair-does-not-do" title="Permanent link">§</a></h2>
 <p>To avoid common misconceptions, it is critical to understand the hard limits of the PAIR architecture. <strong>PAIR is a router, not a fabric.</strong></p>
 <ul>
 <li><strong>NO VRAM Pooling</strong>: If you have two machines with 16GB VRAM each, PAIR <strong>cannot</strong> combine them to run a 32GB model. The model must fit entirely within the VRAM of a single node.</li>
@@ -5785,37 +5785,37 @@
 <li><strong>NO Single-Prompt Acceleration</strong>: Sending one massive prompt to PAIR will not make it process faster. PAIR improves <strong>throughput</strong> (handling many requests at once), not the <strong>latency</strong> of a single request.</li>
 </ul>
 <hr>
-<h2 id="4-the-value-proposition-why-use-ai-pair">4. The Value Proposition: Why Use AI Pair?</h2>
+<h2 id="4-the-value-proposition-why-use-ai-pair">4. The Value Proposition: Why Use AI Pair?<a class="headerlink" href="#4-the-value-proposition-why-use-ai-pair" title="Permanent link">§</a></h2>
 <p>The strength of AI Pair lies in its ability to manage <strong>concurrency and heterogeneity</strong>.</p>
-<h3 id="orchestrating-multi-agent-systems">Orchestrating Multi-Agent Systems</h3>
+<h3 id="orchestrating-multi-agent-systems">Orchestrating Multi-Agent Systems<a class="headerlink" href="#orchestrating-multi-agent-systems" title="Permanent link">§</a></h3>
 <p>In modern AI workflows, you often have multiple agents (e.g., one for coding, one for research, one for quality control) working in parallel. AI Pair allows these agents to run on different physical hardware while appearing to the application as a single, unified API endpoint.</p>
-<h3 id="hardware-aware-load-balancing">Hardware-Aware Load Balancing</h3>
+<h3 id="hardware-aware-load-balancing">Hardware-Aware Load Balancing<a class="headerlink" href="#hardware-aware-load-balancing" title="Permanent link">§</a></h3>
 <p>By routing requests based on GPU utilization, AI Pair prevents any single node from becoming a bottleneck, ensuring that your entire hardware investment is utilized efficiently.</p>
-<h3 id="seamless-engine-integration">Seamless Engine Integration</h3>
+<h3 id="seamless-engine-integration">Seamless Engine Integration<a class="headerlink" href="#seamless-engine-integration" title="Permanent link">§</a></h3>
 <p>Because it intercepts standard ports, PAIR works with existing tools like Ollama and LM Studio without requiring the user to rewrite their application code to handle multiple IP addresses.</p>
 <hr>
-<h2 id="5-strategic-application-when-to-use-and-avoid-ai-pair">5. Strategic Application: When to Use and Avoid AI Pair</h2>
-<h3 id="use-ai-pair-when">Use AI Pair when:</h3>
+<h2 id="5-strategic-application-when-to-use-and-avoid-ai-pair">5. Strategic Application: When to Use and Avoid AI Pair<a class="headerlink" href="#5-strategic-application-when-to-use-and-avoid-ai-pair" title="Permanent link">§</a></h2>
+<h3 id="use-ai-pair-when">Use AI Pair when:<a class="headerlink" href="#use-ai-pair-when" title="Permanent link">§</a></h3>
 <ul>
 <li><strong>Running Multi-Agent Workflows</strong>: When your app fires off many independent prompts simultaneously.</li>
 <li><strong>Managing Heterogeneous Hardware</strong>: When you have a mix of devices (e.g., a Grace Blackwell server and an RTX 4090 desktop) and want to utilize all of them.</li>
 <li><strong>Scaling Throughput</strong>: When the goal is to increase the number of tokens generated per second across the whole cluster.</li>
 </ul>
-<h3 id="avoid-ai-pair-when">Avoid AI Pair when:</h3>
+<h3 id="avoid-ai-pair-when">Avoid AI Pair when:<a class="headerlink" href="#avoid-ai-pair-when" title="Permanent link">§</a></h3>
 <ul>
 <li><strong>Your Model Exceeds Your Largest GPU</strong>: If your model requires 100GB of VRAM and your biggest node only has 80GB, PAIR cannot help you; you would need a different solution like Tensor Parallelism (TP).</li>
 <li><strong>Latency is the Only Metric</strong>: If you only ever send one prompt at a time and need it to finish as fast as possible, a router adds negligible but unnecessary overhead.</li>
 </ul>
 <hr>
-<h2 id="6-networking-and-connectivity-architecture">6. Networking and Connectivity Architecture</h2>
-<h3 id="the-proxy-mechanism">The Proxy Mechanism</h3>
+<h2 id="6-networking-and-connectivity-architecture">6. Networking and Connectivity Architecture<a class="headerlink" href="#6-networking-and-connectivity-architecture" title="Permanent link">§</a></h2>
+<h3 id="the-proxy-mechanism">The Proxy Mechanism<a class="headerlink" href="#the-proxy-mechanism" title="Permanent link">§</a></h3>
 <p>AI Pair employs a <strong>Proxy-based Networking</strong> model. The "Router" sits as a gateway. The application believes it is talking to a local instance of an inference engine, but the Proxy server redirects that traffic over the network to the optimal peer node.</p>
-<h3 id="communication-layer">Communication Layer</h3>
+<h3 id="communication-layer">Communication Layer<a class="headerlink" href="#communication-layer" title="Permanent link">§</a></h3>
 <ul>
 <li><strong>Control Plane</strong>: Managed via SSH and API calls to monitor node health and model status.</li>
 <li><strong>Data Plane</strong>: High-speed TCP/UDP traffic carrying prompts and completions between the Proxy and the Peer Nodes.</li>
 </ul>
-<h3 id="the-role-of-unified-memory-grace-blackwell">The Role of Unified Memory (Grace Blackwell)</h3>
+<h3 id="the-role-of-unified-memory-grace-blackwell">The Role of Unified Memory (Grace Blackwell)<a class="headerlink" href="#the-role-of-unified-memory-grace-blackwell" title="Permanent link">§</a></h3>
 <p>While PAIR handles the routing <em>between</em> nodes, the performance <em>within</em> a node is still governed by its architecture. 
 - On an <strong>RTX 3090</strong>, the model is limited by the discrete VRAM pool and the PCIe bus.
 - On a <strong>DGX Spark (Grace Blackwell)</strong>, the unified memory allows the node to host significantly larger models (hundreds of billions of parameters) that can serve as the "heavy lifter" in a PAIR cluster, handling the most complex requests while smaller nodes handle simpler tasks.</p>

@@ -5793,7 +5793,7 @@
   
 
 
-<h1 id="running-large-language-models-on-cpu">Running Large Language Models on CPU</h1>
+<h1 id="running-large-language-models-on-cpu">Running Large Language Models on CPU<a class="headerlink" href="#running-large-language-models-on-cpu" title="Permanent link">§</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -5806,9 +5806,9 @@
 </div>
 <p>Large Language Models (LLMs) are typically designed to run on powerful GPUs with high-bandwidth memory (VRAM). However, the high cost and availability of GPUs often make CPU-only execution a necessity for local development, edge computing, or resource-constrained environments. The primary challenge of CPU inference is the significant difference in memory bandwidth and compute throughput compared to GPUs.</p>
 <p>To make LLMs viable on CPUs, two primary techniques are used: quantization and optimized inference engines. Quantization reduces the precision of model weights (e.g., from 16-bit floating point to 4-bit integers), which drastically lowers the RAM requirement and increases execution speed without a proportional loss in accuracy. By utilizing optimized engines like <code>llama.cpp</code> or <code>Ollama</code>, developers can run models with billions of parameters on standard consumer hardware.</p>
-<h2 id="model-selection-and-ram-requirements">Model Selection and RAM Requirements</h2>
+<h2 id="model-selection-and-ram-requirements">Model Selection and RAM Requirements<a class="headerlink" href="#model-selection-and-ram-requirements" title="Permanent link">§</a></h2>
 <p>The feasibility of running an LLM on a CPU depends entirely on the model's parameter count and its quantization level. If a model exceeds the available system RAM, the operating system will use swap space on the disk, leading to a catastrophic drop in performance.</p>
-<h3 id="ram-estimation-and-quantization">RAM Estimation and Quantization</h3>
+<h3 id="ram-estimation-and-quantization">RAM Estimation and Quantization<a class="headerlink" href="#ram-estimation-and-quantization" title="Permanent link">§</a></h3>
 <p>The following table illustrates the approximate RAM requirements for common model sizes in both full precision (FP16) and 4-bit quantization.</p>
 <table>
 <thead>
@@ -5846,11 +5846,11 @@
 </tr>
 </tbody>
 </table>
-<h3 id="selection-rule-of-thumb">Selection Rule of Thumb</h3>
+<h3 id="selection-rule-of-thumb">Selection Rule of Thumb<a class="headerlink" href="#selection-rule-of-thumb" title="Permanent link">§</a></h3>
 <p>For a typical laptop or desktop with 8-16 GB of RAM, the recommended limit is models with 7 billion parameters or fewer, using 4-bit quantization. Models larger than 7B typically require 32 GB of RAM or more to avoid system instability and extreme latency.</p>
-<h2 id="rapid-deployment-with-ollama">Rapid Deployment with Ollama</h2>
+<h2 id="rapid-deployment-with-ollama">Rapid Deployment with Ollama<a class="headerlink" href="#rapid-deployment-with-ollama" title="Permanent link">§</a></h2>
 <p>Ollama is a streamlined tool designed to simplify the deployment of LLMs on macOS, Linux, and Windows. It bundles the model weights, configuration, and a high-performance inference engine into a single service.</p>
-<h3 id="installation">Installation</h3>
+<h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">§</a></h3>
 <p>Ollama can be installed using the following methods:</p>
 <ul>
 <li><strong>Linux and macOS</strong>:
@@ -5858,7 +5858,7 @@
 </span></code></pre></div></li>
 <li><strong>Windows</strong>: Download the installer from the official Ollama website.</li>
 </ul>
-<h3 id="model-management-and-execution">Model Management and Execution</h3>
+<h3 id="model-management-and-execution">Model Management and Execution<a class="headerlink" href="#model-management-and-execution" title="Permanent link">§</a></h3>
 <p>Once installed, the <code>ollama</code> command-line tool is used to manage models.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Pull a 7B LLaMA-2 model with 4-bit quantization</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>ollama<span class="w"> </span>pull<span class="w"> </span>llama2:7b-q4_0
@@ -5869,31 +5869,31 @@
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Launch an interactive chat session</span>
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>ollama<span class="w"> </span>run<span class="w"> </span>llama2:7b-q4_0
 </span></code></pre></div>
-<h3 id="programmatic-access-via-rest-api">Programmatic Access via REST API</h3>
+<h3 id="programmatic-access-via-rest-api">Programmatic Access via REST API<a class="headerlink" href="#programmatic-access-via-rest-api" title="Permanent link">§</a></h3>
 <p>Ollama runs as a background service that exposes a REST API, allowing other applications to generate text without managing the model weights manually.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:11434/api/chat<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">'{"model":"llama2:7b-q4_0","messages":[{"role":"user","content":"Explain the difference between RAM and VRAM."}]}'</span>
 </span></code></pre></div>
-<h3 id="performance-tuning">Performance Tuning</h3>
+<h3 id="performance-tuning">Performance Tuning<a class="headerlink" href="#performance-tuning" title="Permanent link">§</a></h3>
 <p>To prevent the LLM from consuming all available CPU resources and making the host system unresponsive, you can limit the number of threads used by the inference engine:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OLLAMA_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
 </span></code></pre></div>
-<h2 id="high-performance-inference-with-llamacpp">High-Performance Inference with llama.cpp</h2>
+<h2 id="high-performance-inference-with-llamacpp">High-Performance Inference with llama.cpp<a class="headerlink" href="#high-performance-inference-with-llamacpp" title="Permanent link">§</a></h2>
 <p>For applications that require a lightweight, embeddable solution without a background service, <code>llama.cpp</code> is the industry standard. It is written in C++ and designed specifically for CPU inference.</p>
-<h3 id="architecture-and-gguf-format">Architecture and GGUF Format</h3>
+<h3 id="architecture-and-gguf-format">Architecture and GGUF Format<a class="headerlink" href="#architecture-and-gguf-format" title="Permanent link">§</a></h3>
 <p><code>llama.cpp</code> utilizes the GGUF (GPT-Generated Unified Format) file format, which stores both the model weights and the required metadata in a single binary. This allows for extremely fast loading and precise control over memory mapping.</p>
-<h3 id="running-inference">Running Inference</h3>
+<h3 id="running-inference">Running Inference<a class="headerlink" href="#running-inference" title="Permanent link">§</a></h3>
 <p>Once the <code>llama-cli</code> binary is obtained and a GGUF model is downloaded, inference can be started directly from the terminal:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>./llama-cli<span class="w"> </span>-m<span class="w"> </span>tinyllama-q4_0.gguf<span class="w"> </span>-p<span class="w"> </span><span class="s2">"The capital of France is"</span><span class="w"> </span>-n<span class="w"> </span><span class="m">128</span>
 </span></code></pre></div>
 <p>The <code>-m</code> flag specifies the model path, <code>-p</code> provides the prompt, and <code>-n</code> sets the number of tokens to generate.</p>
-<h2 id="programmatic-control-with-python-transformers">Programmatic Control with Python Transformers</h2>
+<h2 id="programmatic-control-with-python-transformers">Programmatic Control with Python Transformers<a class="headerlink" href="#programmatic-control-with-python-transformers" title="Permanent link">§</a></h2>
 <p>For developers who need full control over the model's behavior or wish to integrate LLMs into a larger Python pipeline, the Hugging Face <code>transformers</code> library is the most flexible option.</p>
-<h3 id="installation_1">Installation</h3>
+<h3 id="installation_1">Installation<a class="headerlink" href="#installation_1" title="Permanent link">§</a></h3>
 <p>The following libraries are required for CPU-based generation:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip<span class="w"> </span>install<span class="w"> </span>torch<span class="w"> </span>transformers
 </span></code></pre></div>
-<h3 id="implementing-a-generation-pipeline">Implementing a Generation Pipeline</h3>
+<h3 id="implementing-a-generation-pipeline">Implementing a Generation Pipeline<a class="headerlink" href="#implementing-a-generation-pipeline" title="Permanent link">§</a></h3>
 <p>The following script demonstrates how to load a small, CPU-compatible model and generate text.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForCausalLM</span>
@@ -5930,9 +5930,9 @@
 </span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Generated: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Performance: </span><span class="si">{</span><span class="n">tps</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> tokens per second"</span><span class="p">)</span>
 </span></code></pre></div>
-<h2 id="optimization-and-troubleshooting">Optimization and Troubleshooting</h2>
+<h2 id="optimization-and-troubleshooting">Optimization and Troubleshooting<a class="headerlink" href="#optimization-and-troubleshooting" title="Permanent link">§</a></h2>
 <p>Running LLMs on CPUs often requires specific tuning to balance speed and stability.</p>
-<h3 id="common-issues-and-solutions">Common Issues and Solutions</h3>
+<h3 id="common-issues-and-solutions">Common Issues and Solutions<a class="headerlink" href="#common-issues-and-solutions" title="Permanent link">§</a></h3>
 <table>
 <thead>
 <tr>
@@ -5963,7 +5963,7 @@
 <p class="admonition-title">CPU vs GPU Transition</p>
 <p>While the logic remains the same, moving from CPU to GPU requires updating the <code>torch</code> installation to a CUDA-enabled version and changing the model device to <code>cuda</code> or using <code>device_map="auto"</code>.</p>
 </div>
-<h2 id="self-assessment">Self-Assessment</h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -5988,7 +5988,7 @@
 <summary>How can you prevent an LLM process from making your entire system laggy?</summary>
 <p>Limit the number of CPU threads used by the inference engine (e.g., via <code>OMP_NUM_THREADS</code> or <code>OLLAMA_NUM_THREADS</code>) to leave cores available for the OS.</p>
 </details>
-<h2 id="practical-exercises">Practical Exercises</h2>
+<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">§</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Exercise 1: Rapid Deployment</p>
 <p>Install Ollama and pull a model with fewer than 2 billion parameters (e.g., <code>tinyllama</code>). Run an interactive session and verify that the response time is acceptable for your hardware.</p>
@@ -6001,7 +6001,7 @@
 <p class="admonition-title">Exercise 3: Custom Python Pipeline</p>
 <p>Implement a Python script using the <code>transformers</code> library that takes a prompt from the user, generates a response, and prints the total time elapsed and the tokens per second. Test the script with <code>distilgpt2</code> and observe the impact of changing the <code>temperature</code> parameter.</p>
 </div>
-<h2 id="further-reading">Further Reading</h2>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">§</a></h2>
 <ul>
 <li>Ollama Documentation: https://ollama.com/library</li>
 <li>llama.cpp GitHub: https://github.com/ggerganov/llama.cpp</li>

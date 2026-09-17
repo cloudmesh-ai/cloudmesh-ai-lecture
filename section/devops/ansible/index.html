@@ -6133,7 +6133,7 @@
   
 
 
-<h1 id="automating-infrastructure-with-ansible">Automating Infrastructure with Ansible</h1>
+<h1 id="automating-infrastructure-with-ansible">Automating Infrastructure with Ansible<a class="headerlink" href="#automating-infrastructure-with-ansible" title="Permanent link">§</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -6150,7 +6150,7 @@
 <p class="admonition-title">Why this matters</p>
 <p>In a professional DevOps pipeline, "Infrastructure as Code" (IaC) is a requirement. Ansible allows you to treat your server configurations as code, which can be version-controlled in Git, reviewed by peers, and tested in staging before being applied to production. This eliminates "configuration drift" and ensures that every server in a cluster is configured identically.</p>
 </div>
-<h2 id="core-capabilities-of-ansible">Core Capabilities of Ansible</h2>
+<h2 id="core-capabilities-of-ansible">Core Capabilities of Ansible<a class="headerlink" href="#core-capabilities-of-ansible" title="Permanent link">§</a></h2>
 <p>Ansible is versatile and can be used across the entire software delivery lifecycle:</p>
 <ul>
 <li><strong>Provisioning</strong>: Setting up the base virtual machines or cloud instances that form your infrastructure.</li>
@@ -6158,13 +6158,13 @@
 <li><strong>Service Management</strong>: Starting, stopping, or restarting services and managing system updates.</li>
 <li><strong>Application Deployment</strong>: Automating the rollout of application code in a way that integrates with CI/CD strategies.</li>
 </ul>
-<h2 id="getting-started-with-ansible">Getting Started with Ansible</h2>
-<h3 id="prerequisites">Prerequisites</h3>
+<h2 id="getting-started-with-ansible">Getting Started with Ansible<a class="headerlink" href="#getting-started-with-ansible" title="Permanent link">§</a></h2>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">§</a></h3>
 <p>To follow the examples in this chapter, you will need:
 - An Ubuntu (e.g., 18.04+) virtual machine installed on VirtualBox or a cloud provider.
 - Ability to install software via <code>apt-get</code>.
 - SSH credentials and the ability to log in to your target virtual machines without manual password entry (using SSH keys).</p>
-<h3 id="installation-and-setup">Installation and Setup</h3>
+<h3 id="installation-and-setup">Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Permanent link">§</a></h3>
 <p>First, update your local package index and install Ansible:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>ansible
@@ -6173,7 +6173,7 @@
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkdir<span class="w"> </span>ansible-apache
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>ansible-apache
 </span></code></pre></div>
-<h3 id="managing-target-hosts-the-inventory">Managing Target Hosts (The Inventory)</h3>
+<h3 id="managing-target-hosts-the-inventory">Managing Target Hosts (The Inventory)<a class="headerlink" href="#managing-target-hosts-the-inventory" title="Permanent link">§</a></h3>
 <p>Ansible needs to know which servers it is managing. This is handled by an <strong>Inventory</strong> file. By default, Ansible looks for <code>/etc/ansible/hosts</code>, but for project-specific work, it is better to use a local configuration.</p>
 <p>Create a file named <code>inventory.cfg</code> to specify a custom host file:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">[defaults]</span>
@@ -6184,9 +6184,9 @@
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">&lt;server_ip&gt; ansible_ssh_user</span><span class="o">=</span><span class="s">&lt;server_username&gt;</span>
 </span></code></pre></div>
 <p>Replace <code>&lt;server_ip&gt;</code> and <code>&lt;server_username&gt;</code> with your actual VM details. By grouping servers, you can target all machines in the <code>apache</code> group with a single command.</p>
-<h2 id="creating-your-first-playbook">Creating Your First Playbook</h2>
+<h2 id="creating-your-first-playbook">Creating Your First Playbook<a class="headerlink" href="#creating-your-first-playbook" title="Permanent link">§</a></h2>
 <p>An Ansible <strong>Playbook</strong> is a YAML file that describes the desired state of your systems. It tells Ansible <em>what</em> to do, rather than <em>how</em> to do it.</p>
-<h3 id="example-installing-apache">Example: Installing Apache</h3>
+<h3 id="example-installing-apache">Example: Installing Apache<a class="headerlink" href="#example-installing-apache" title="Permanent link">§</a></h3>
 <p>Create a file named <code>apache.yml</code>. This playbook ensures that the Apache2 web server is installed and the package cache is updated.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nn">---</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apache</span>
@@ -6203,7 +6203,7 @@
 - <code>become: yes</code>: Tells Ansible to execute the tasks with root privileges (sudo).
 - <code>tasks</code>: A list of actions to perform.
 - <code>apt</code>: The Ansible <strong>module</strong> used to manage packages on Debian/Ubuntu systems.</p>
-<h3 id="executing-the-playbook">Executing the Playbook</h3>
+<h3 id="executing-the-playbook">Executing the Playbook<a class="headerlink" href="#executing-the-playbook" title="Permanent link">§</a></h3>
 <p>Run the playbook using the <code>ansible-playbook</code> command:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>hosts.txt<span class="w"> </span>apache.yml
 </span></code></pre></div>
@@ -6211,7 +6211,7 @@
 <p class="admonition-title">Why this matters</p>
 <p>One of Ansible's most powerful features is <strong>idempotence</strong>. If you run the same playbook a second time, Ansible will detect that Apache is already installed and will report <code>ok</code> instead of <code>changed</code>. This allows you to run playbooks frequently to ensure servers haven't drifted from their intended configuration.</p>
 </div>
-<h2 id="advanced-implementation-deploying-mariadb">Advanced Implementation: Deploying MariaDB</h2>
+<h2 id="advanced-implementation-deploying-mariadb">Advanced Implementation: Deploying MariaDB<a class="headerlink" href="#advanced-implementation-deploying-mariadb" title="Permanent link">§</a></h2>
 <p>For more complex services, you may need to perform multiple steps, such as importing GPG keys and adding external repositories.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nn">---</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db_servers</span>
@@ -6238,7 +6238,7 @@
 </span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">started</span>
 </span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yes</span>
 </span></code></pre></div>
-<h3 id="understanding-the-handled-logic">Understanding the "Handled" Logic</h3>
+<h3 id="understanding-the-handled-logic">Understanding the "Handled" Logic<a class="headerlink" href="#understanding-the-handled-logic" title="Permanent link">§</a></h3>
 <p>In a real-world scenario, you might want to restart a service only if a configuration file was changed. This is where <strong>Handlers</strong> come in. A handler is a special task that only runs when "notified" by another task.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update MariaDB configuration</span>
@@ -6253,7 +6253,7 @@
 </span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mariadb</span>
 </span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restarted</span>
 </span></code></pre></div>
-<h2 id="key-ansible-terminology">Key Ansible Terminology</h2>
+<h2 id="key-ansible-terminology">Key Ansible Terminology<a class="headerlink" href="#key-ansible-terminology" title="Permanent link">§</a></h2>
 <p>To master Ansible, you must understand these core concepts:</p>
 <ul>
 <li><strong>Module</strong>: A small program that Ansible pushes to the target node to execute a specific task (e.g., <code>apt</code>, <code>copy</code>, <code>service</code>).</li>
@@ -6302,25 +6302,25 @@
 <p class="admonition-title">Exercise 3: Multi-Service Deployment</p>
 <p>Develop a playbook that installs both a database (e.g., PostgreSQL) and a web application. Use a handler to ensure the web application restarts only after the database configuration is successfully updated.</p>
 </div>
-<h2 id="references">References</h2>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">§</a></h2>
 <ul>
 <li>Ansible Official Documentation: <a href="http://docs.ansible.com">docs.ansible.com</a></li>
 <li>Ansible Module Index: <a href="http://docs.ansible.com/modules_by_category.html">modules_by_category</a></li>
 </ul>
 <hr>
-<h2 id="appendix-local-deployment-of-the-course-site">Appendix: Local Deployment of the Course Site</h2>
-<h3 id="0-clone-the-repository">0. Clone the Repository</h3>
+<h2 id="appendix-local-deployment-of-the-course-site">Appendix: Local Deployment of the Course Site<a class="headerlink" href="#appendix-local-deployment-of-the-course-site" title="Permanent link">§</a></h2>
+<h3 id="0-clone-the-repository">0. Clone the Repository<a class="headerlink" href="#0-clone-the-repository" title="Permanent link">§</a></h3>
 <p>Before running the automation, clone the course repository to your local machine:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cloudmesh-ai/cloudmesh-ai-lecture.git
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">cd</span><span class="w"> </span>cloudmesh-ai-lecture
 </span></code></pre></div>
 <p>As a practical exercise in "Localhost Automation," you can use Ansible to set up the environment and launch this very lecture site on your own machine. This demonstrates how Ansible can be used not just for remote servers, but for standardizing local development environments.</p>
-<h3 id="1-local-inventory">1. Local Inventory</h3>
+<h3 id="1-local-inventory">1. Local Inventory<a class="headerlink" href="#1-local-inventory" title="Permanent link">§</a></h3>
 <p>Since we are targeting the machine we are currently on, we use a special local inventory. Create a file named <code>local_inventory</code> with the following content:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">[local]</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">localhost ansible_connection</span><span class="o">=</span><span class="s">local</span>
 </span></code></pre></div>
-<h3 id="2-the-deployment-playbook">2. The Deployment Playbook</h3>
+<h3 id="2-the-deployment-playbook">2. The Deployment Playbook<a class="headerlink" href="#2-the-deployment-playbook" title="Permanent link">§</a></h3>
 <p>Create a playbook named <code>deploy_site.yml</code>. This playbook ensures that all required Python dependencies for the MkDocs site are installed and then launches the server in the background.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nn">---</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
@@ -6357,18 +6357,18 @@
 </span><span id="__span-10-33"><a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a><span class="w">      </span><span class="nt">shell</span><span class="p">:</span><span class="w"> </span><span class="s">"open</span><span class="nv"> </span><span class="s">http://localhost:8000"</span>
 </span><span id="__span-10-34"><a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a><span class="w">      </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">no</span><span class="w"> </span><span class="c1"># 'open' command should be run as the regular user, not root</span>
 </span></code></pre></div>
-<h3 id="3-execution">3. Execution</h3>
+<h3 id="3-execution">3. Execution<a class="headerlink" href="#3-execution" title="Permanent link">§</a></h3>
 <p>Run the following command from the root of the <code>cloudmesh-ai-lecture</code> directory:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>local_inventory<span class="w"> </span>deploy_site.yml
 </span></code></pre></div>
-<h3 id="what-happens-under-the-hood">What happens under the hood?</h3>
+<h3 id="what-happens-under-the-hood">What happens under the hood?<a class="headerlink" href="#what-happens-under-the-hood" title="Permanent link">§</a></h3>
 <ol>
 <li><strong><code>ansible_connection=local</code></strong>: This tells Ansible to bypass SSH and execute commands directly on the local shell.</li>
 <li><strong><code>async: 10, poll: 0</code></strong>: Because <code>mkdocs serve</code> is a blocking process (it stays open to serve requests), we tell Ansible to launch it as an asynchronous task and not wait for it to finish.</li>
 <li><strong><code>nohup</code></strong>: Ensures that the server continues to run even after the Ansible session ends.</li>
 <li><strong><code>become: no</code></strong>: We switch back to the regular user for the <code>open</code> command so the browser launches in your user session rather than as the root user.</li>
 </ol>
-<h3 id="4-alternative-using-a-makefile-for-local-deployment">4. Alternative: Using a Makefile for Local Deployment</h3>
+<h3 id="4-alternative-using-a-makefile-for-local-deployment">4. Alternative: Using a Makefile for Local Deployment<a class="headerlink" href="#4-alternative-using-a-makefile-for-local-deployment" title="Permanent link">§</a></h3>
 <p>While Ansible is powerful for orchestration, for simple local tasks, a <code>Makefile</code> is often the industry standard. It provides a short, memorable interface for complex shell commands.</p>
 <p>Create a file named <code>Makefile</code> in the root of the project:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nv">PORT</span><span class="o">=</span><span class="m">8000</span>
@@ -6397,11 +6397,11 @@
 </span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a><span class="w">    </span>pkill<span class="w"> </span>-f<span class="w"> </span><span class="s2">"mkdocs serve"</span>
 </span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="w">    </span>rm<span class="w"> </span>-f<span class="w"> </span>mkdocs.log
 </span></code></pre></div>
-<h4 id="execution">Execution</h4>
+<h4 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">§</a></h4>
 <p>To deploy and view the site in one go, simply run:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>make<span class="w"> </span>all
 </span></code></pre></div>
-<h4 id="ansible-vs-makefile-which-one-to-use">Ansible vs. Makefile: Which one to use?</h4>
+<h4 id="ansible-vs-makefile-which-one-to-use">Ansible vs. Makefile: Which one to use?<a class="headerlink" href="#ansible-vs-makefile-which-one-to-use" title="Permanent link">§</a></h4>
 <table>
 <thead>
 <tr>
@@ -6439,7 +6439,7 @@
 </tbody>
 </table>
 <p>For this local course site, the <code>Makefile</code> is faster and more lightweight, but the Ansible approach prepares you for managing a fleet of production servers.</p>
-<h1 id="self-assessment">Self-Assessment</h1>
+<h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h1>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>

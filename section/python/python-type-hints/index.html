@@ -5885,14 +5885,14 @@
   
 
 
-<h1 id="type-hinting-and-static-analysis-for-largescale-cloud-projects">Type Hinting and Static Analysis for Large‑Scale Cloud Projects</h1>
+<h1 id="type-hinting-and-static-analysis-for-largescale-cloud-projects">Type Hinting and Static Analysis for Large‑Scale Cloud Projects<a class="headerlink" href="#type-hinting-and-static-analysis-for-largescale-cloud-projects" title="Permanent link">§</a></h1>
 <hr>
-<h2 id="1-introduction">1. Introduction</h2>
+<h2 id="1-introduction">1. Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">§</a></h2>
 <p>Python’s dynamic typing makes rapid prototyping easy, but in cloud‑native systems that span many services, teams, and data stores, the lack of explicit contracts can lead to subtle bugs that surface only in production.<br>
 Type hints (the <code>typing</code> module) and static‑analysis tools such as <strong>mypy</strong>, <strong>pyright</strong>, and <strong>ruff</strong> give a <em>compile‑time</em> view of those contracts. They let you detect mismatched data shapes, incorrect return types, and API‑boundary violations before the code is executed in a live environment.  </p>
 <p><strong>Why this matters</strong> – In a distributed cloud architecture a single mis‑typed field can cause cascading failures across downstream Lambdas, Kubernetes pods, or data pipelines, inflating latency and increasing incident response time. Deterministic typing reduces those risks and makes automated refactoring safe, which is essential when you need to roll out schema changes across many micro‑services.  </p>
 <hr>
-<h2 id="2-core-typehinting-concepts">2. Core Type‑Hinting Concepts</h2>
+<h2 id="2-core-typehinting-concepts">2. Core Type‑Hinting Concepts<a class="headerlink" href="#2-core-typehinting-concepts" title="Permanent link">§</a></h2>
 <table>
 <thead>
 <tr>
@@ -5945,9 +5945,9 @@ Type hints (the <code>typing</code> module) and static‑analysis tools such as 
 </tbody>
 </table>
 <hr>
-<h2 id="3-realworld-cloud-example">3. Real‑World Cloud Example</h2>
+<h2 id="3-realworld-cloud-example">3. Real‑World Cloud Example<a class="headerlink" href="#3-realworld-cloud-example" title="Permanent link">§</a></h2>
 <p>The following example shows a serverless function that receives an AWS SQS event, validates the JSON payload, and writes a record to DynamoDB. The payload schema is expressed with <code>TypedDict</code>, and the function is fully typed.  </p>
-<h3 id="31-payload-definition">3.1 Payload definition</h3>
+<h3 id="31-payload-definition">3.1 Payload definition<a class="headerlink" href="#31-payload-definition" title="Permanent link">§</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">OrderItem</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
@@ -5961,7 +5961,7 @@ Type hints (the <code>typing</code> module) and static‑analysis tools such as 
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">priority</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">'low'</span><span class="p">,</span> <span class="s1">'normal'</span><span class="p">,</span> <span class="s1">'high'</span><span class="p">]</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">coupon_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>   <span class="c1"># May be omitted</span>
 </span></code></pre></div>
-<h3 id="32-typed-entry-point">3.2 Typed entry point</h3>
+<h3 id="32-typed-entry-point">3.2 Typed entry point<a class="headerlink" href="#32-typed-entry-point" title="Permanent link">§</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">process_order</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">"""</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="sd">    Validate an OrderPayload received from SQS and store it in DynamoDB.</span>
@@ -5995,7 +5995,7 @@ Type hints (the <code>typing</code> module) and static‑analysis tools such as 
 <blockquote>
 <p><strong>Tip</strong> – The <code># type: ignore[assignment]</code> comment silences mypy for the dynamic cast. In production code replace the cast with a small helper that validates the dict against the <code>TypedDict</code> or use a <code>pydantic.BaseModel</code>, which provides both runtime validation and static type information.  </p>
 </blockquote>
-<h3 id="33-quick-local-test">3.3 Quick local test</h3>
+<h3 id="33-quick-local-test">3.3 Quick local test<a class="headerlink" href="#33-quick-local-test" title="Permanent link">§</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">sample_event</span> <span class="o">=</span> <span class="p">{</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        <span class="s2">"body"</span><span class="p">:</span> <span class="p">{</span>
@@ -6010,7 +6010,7 @@ Type hints (the <code>typing</code> module) and static‑analysis tools such as 
 </span></code></pre></div>
 <p>Running the module prints a confirmation line and demonstrates that the static type information is available to the type checker while the runtime validation guards against malformed input.  </p>
 <hr>
-<h2 id="4-tooling-landscape">4. Tooling Landscape</h2>
+<h2 id="4-tooling-landscape">4. Tooling Landscape<a class="headerlink" href="#4-tooling-landscape" title="Permanent link">§</a></h2>
 <table>
 <thead>
 <tr>
@@ -6053,7 +6053,7 @@ Type hints (the <code>typing</code> module) and static‑analysis tools such as 
 </tbody>
 </table>
 <hr>
-<h2 id="5-integrating-static-analysis-into-ci">5. Integrating Static Analysis into CI</h2>
+<h2 id="5-integrating-static-analysis-into-ci">5. Integrating Static Analysis into CI<a class="headerlink" href="#5-integrating-static-analysis-into-ci" title="Permanent link">§</a></h2>
 <p>Below is a minimal GitHub Actions workflow that runs <code>mypy</code> in strict mode for every pull request.  </p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Type Check</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">pull_request</span><span class="p p-Indicator">]</span>
@@ -6079,7 +6079,7 @@ Type hints (the <code>typing</code> module) and static‑analysis tools such as 
 <p><strong>Warning</strong> – Skipping the <code>--strict</code> flag removes many useful checks (e.g., implicit <code>Any</code>). Keep the job mandatory for merging to avoid type regressions.  </p>
 </blockquote>
 <hr>
-<h2 id="6-common-pitfalls-and-best-practices">6. Common Pitfalls and Best Practices</h2>
+<h2 id="6-common-pitfalls-and-best-practices">6. Common Pitfalls and Best Practices<a class="headerlink" href="#6-common-pitfalls-and-best-practices" title="Permanent link">§</a></h2>
 <p>:::warning<br>
 Overusing <code># type: ignore</code> silences the type checker and defeats the purpose of static analysis. Use it only when interacting with genuinely dynamic APIs (e.g., third‑party libraries without type stubs).<br>
 :::  </p>
@@ -6115,7 +6115,7 @@ Overusing <code># type: ignore</code> silences the type checker and defeats the 
 </tbody>
 </table>
 <hr>
-<h2 id="7-knowledgecheck-checklist">7. Knowledge‑Check Checklist</h2>
+<h2 id="7-knowledgecheck-checklist">7. Knowledge‑Check Checklist<a class="headerlink" href="#7-knowledgecheck-checklist" title="Permanent link">§</a></h2>
 <ul>
 <li>[ ] I can write basic (<code>int</code>, <code>str</code>) and compound (<code>List[int]</code>, <code>Union</code>, <code>Literal</code>) type hints.  </li>
 <li>[ ] I know when to choose <code>TypedDict</code> vs. a <code>pydantic.BaseModel</code> for JSON payloads.  </li>
@@ -6125,7 +6125,7 @@ Overusing <code># type: ignore</code> silences the type checker and defeats the 
 <li>[ ] I can complement static checks with lightweight runtime assertions for external data sources.  </li>
 </ul>
 <hr>
-<h2 id="self-assessment">Self-Assessment</h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6142,7 +6142,7 @@ Overusing <code># type: ignore</code> silences the type checker and defeats the 
 <summary>Why is it important to avoid the <code>Any</code> type in public function signatures?</summary>
 <p>Using <code>Any</code> effectively disables type checking for that variable, allowing any type to be passed or returned. This propagates unchecked data throughout the codebase, defeating the purpose of static analysis and increasing the likelihood of runtime <code>TypeError</code> exceptions.</p>
 </details>
-<h2 id="8-summary">8. Summary</h2>
+<h2 id="8-summary">8. Summary<a class="headerlink" href="#8-summary" title="Permanent link">§</a></h2>
 <p>Type hinting paired with static analysis transforms Python from a purely dynamic language into a <strong>gradually typed</strong> ecosystem that is well‑suited for large, distributed cloud applications. By explicitly modeling data contracts, enforcing them at build time, and optionally validating them at runtime, teams gain:</p>
 <ul>
 <li><strong>Early detection of contract violations</strong> – reducing costly production incidents.  </li>

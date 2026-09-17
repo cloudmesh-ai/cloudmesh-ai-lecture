@@ -5987,7 +5987,7 @@
   
 
 
-<h1 id="command-line-interfaces-with-python-click">Command Line Interfaces with Python Click</h1>
+<h1 id="command-line-interfaces-with-python-click">Command Line Interfaces with Python Click<a class="headerlink" href="#command-line-interfaces-with-python-click" title="Permanent link">§</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
 <ul>
@@ -6001,13 +6001,13 @@
 </div>
 <p>The Command Line Interface (CLI) remains a fundamental tool for system administrators, DevOps engineers, and developers. While graphical interfaces are useful for discovery, the CLI is superior for automation, scripting, and remote management. In Python, the standard way to handle command-line arguments is the <code>argparse</code> module. While functional, <code>argparse</code> requires a significant amount of boilerplate code to define arguments, handle types, and generate help text.</p>
 <p>Click (Command Line Interface Creation Kit) is a package that allows for the creation of composable command-line interfaces. Instead of manually defining a parser object, Click uses a declarative approach based on Python decorators. This allows developers to wrap standard Python functions and transform them into full-fledged CLI commands with minimal overhead. By automating the generation of help pages and handling type conversion, Click allows the developer to focus on the business logic of the tool rather than the mechanics of argument parsing.</p>
-<h2 id="introduction-to-click">Introduction to Click</h2>
+<h2 id="introduction-to-click">Introduction to Click<a class="headerlink" href="#introduction-to-click" title="Permanent link">§</a></h2>
 <p>Click is designed to be intuitive and highly composable. It replaces the imperative style of <code>argparse</code> with a declarative style.</p>
-<h3 id="installation">Installation</h3>
+<h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">§</a></h3>
 <p>The <code>click</code> library can be installed via pip:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>click
 </span></code></pre></div>
-<h3 id="the-basic-command">The Basic Command</h3>
+<h3 id="the-basic-command">The Basic Command<a class="headerlink" href="#the-basic-command" title="Permanent link">§</a></h3>
 <p>The core of any Click application is the <code>@click.command()</code> decorator. This decorator tells Click that the following function should be treated as a command-line tool.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">click</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
@@ -6020,9 +6020,9 @@
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">hello</span><span class="p">()</span>
 </span></code></pre></div>
 <p>In the example above, <code>click.echo</code> is used instead of the standard <code>print</code> function. <code>click.echo</code> is preferred because it ensures consistent output across different terminals and operating systems, handling character encoding and color formatting more reliably.</p>
-<h2 id="options-and-arguments">Options and Arguments</h2>
+<h2 id="options-and-arguments">Options and Arguments<a class="headerlink" href="#options-and-arguments" title="Permanent link">§</a></h2>
 <p>Click distinguishes between "Arguments" and "Options". Understanding this distinction is key to designing a professional CLI.</p>
-<h3 id="arguments">Arguments</h3>
+<h3 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">§</a></h3>
 <p>Arguments are mandatory inputs that usually represent the "object" the command operates on, such as a filename or a URL.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">'filename'</span><span class="p">)</span>
@@ -6030,7 +6030,7 @@
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="sd">"""Reads the content of a specified FILE."""</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Reading file: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span></code></pre></div>
-<h3 id="options">Options</h3>
+<h3 id="options">Options<a class="headerlink" href="#options" title="Permanent link">§</a></h3>
 <p>Options are optional parameters that modify the behavior of the command. They are prefixed with dashes (e.g., <code>--count</code> or <code>-c</code>).</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">'--count'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">'Number of greetings.'</span><span class="p">)</span>
@@ -6043,7 +6043,7 @@
 <p>In this example:
 - <code>default=1</code> provides a fallback value if the user does not specify the count.
 - <code>prompt='Your name'</code> makes the CLI interactive; if the user forgets the <code>--name</code> option, Click will pause and ask for it.</p>
-<h3 id="type-validation">Type Validation</h3>
+<h3 id="type-validation">Type Validation<a class="headerlink" href="#type-validation" title="Permanent link">§</a></h3>
 <p>Click provides built-in type validation to ensure the inputs are correct before the function is even executed.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">'--port'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">'Port to listen on.'</span><span class="p">)</span>
@@ -6053,9 +6053,9 @@
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting server on port </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2"> mode."</span><span class="p">)</span>
 </span></code></pre></div>
 <p>If a user provides a string for the <code>--port</code> option, Click will automatically generate an error message and the help page without the developer needing to write a single <code>try-except</code> block.</p>
-<h2 id="building-complex-clis-with-groups">Building Complex CLIs with Groups</h2>
+<h2 id="building-complex-clis-with-groups">Building Complex CLIs with Groups<a class="headerlink" href="#building-complex-clis-with-groups" title="Permanent link">§</a></h2>
 <p>Real-world tools, such as <code>git</code> or <code>docker</code>, do not have a single command. Instead, they have a primary entry point with many subcommands (e.g., <code>git commit</code>, <code>git push</code>). Click implements this through the <code>group</code> concept.</p>
-<h3 id="implementing-a-group">Implementing a Group</h3>
+<h3 id="implementing-a-group">Implementing a Group<a class="headerlink" href="#implementing-a-group" title="Permanent link">§</a></h3>
 <p>A group is a special type of command that can have other commands attached to it.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@click</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">cli</span><span class="p">():</span>
@@ -6080,12 +6080,12 @@
 - <code>python tool.py status</code>
 - <code>python tool.py restart nginx</code>
 - <code>python tool.py --help</code> (shows all available subcommands)</p>
-<h2 id="interactive-shells-with-click-shell">Interactive Shells with click-shell</h2>
+<h2 id="interactive-shells-with-click-shell">Interactive Shells with click-shell<a class="headerlink" href="#interactive-shells-with-click-shell" title="Permanent link">§</a></h2>
 <p>For tools that require frequent interaction, restarting the Python process for every command is inefficient. The <code>click-shell</code> extension allows Click commands to be run within a persistent interactive shell.</p>
-<h3 id="installation_1">Installation</h3>
+<h3 id="installation_1">Installation<a class="headerlink" href="#installation_1" title="Permanent link">§</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pip<span class="w"> </span>install<span class="w"> </span>click-shell
 </span></code></pre></div>
-<h3 id="creating-a-shell">Creating a Shell</h3>
+<h3 id="creating-a-shell">Creating a Shell<a class="headerlink" href="#creating-a-shell" title="Permanent link">§</a></h3>
 <p>To create a shell, use the <code>@shell</code> decorator instead of <code>@click.group()</code>.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">click_shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">shell</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">click</span>
@@ -6109,7 +6109,7 @@
 </span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>    <span class="n">my_shell</span><span class="p">()</span>
 </span></code></pre></div>
 <p>Once launched, the user remains inside <code>my-shell &gt;</code> and can execute <code>hello</code> or <code>greet</code> repeatedly without exiting the program.</p>
-<h2 id="self-assessment">Self-Assessment</h2>
+<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
@@ -6134,7 +6134,7 @@
 <summary>How do you implement a persistent interactive shell for a set of Click commands?</summary>
 <p>Install the <code>click-shell</code> extension and replace <code>@click.group()</code> with the <code>@shell</code> decorator.</p>
 </details>
-<h2 id="practical-exercises">Practical Exercises</h2>
+<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">§</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Exercise 1: Basic Greeting Tool</p>
 <p>Create a CLI tool called <code>greeter.py</code>. It should have one argument (<code>name</code>) and one option (<code>--formal</code>, a boolean flag). If <code>--formal</code> is present, the tool should output "Good day, [name]". Otherwise, it should output "Hi, [name]!".</p>
@@ -6153,7 +6153,7 @@ Ensure that the <code>read</code> command handles the case where the file does n
 2. <code>mem</code>: Displays the current memory usage.
 The shell should start with a custom intro message and a prompt like <code>sysmon &gt;&gt;</code>.</p>
 </div>
-<h2 id="further-reading">Further Reading</h2>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">§</a></h2>
 <ul>
 <li>Click Official Documentation: http://click.pocoo.org/</li>
 <li>click-shell GitHub Repository: https://github.com/clarkperkins/click-shell</li>

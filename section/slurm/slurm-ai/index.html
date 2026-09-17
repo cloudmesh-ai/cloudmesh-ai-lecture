@@ -5629,7 +5629,7 @@
   
 
 
-<h2 id="introduction-to-slurm-and-its-core-architecture">Introduction to Slurm and Its Core Architecture</h2>
+<h2 id="introduction-to-slurm-and-its-core-architecture">Introduction to Slurm and Its Core Architecture<a class="headerlink" href="#introduction-to-slurm-and-its-core-architecture" title="Permanent link">§</a></h2>
 <p>The <strong>Slurm Workload Manager</strong> (originally Simple Linux Utility for Resource Management) is an open-source cluster management and job scheduling system tailored for large-scale high-performance computing (HPC) clusters. Unlike standard cloud schedulers, Slurm is engineered to squeeze maximum throughput out of bare-metal hardware.</p>
 <ul>
 <li><strong><code>slurmctld</code> (Central Controller):</strong> Manages system state, tracks available resources, and coordinates the prioritized job queue across the entire cluster.</li>
@@ -5637,7 +5637,7 @@
 <li><strong>Partitions and Priorities:</strong> Nodes are organized into logical partitions (queues) with strict administrative controls, backfill capabilities, and tiered preemption policies.</li>
 </ul>
 <hr>
-<h2 id="why-slurm-is-indispensable-in-the-age-of-ai">Why Slurm is Indispensable in the Age of AI</h2>
+<h2 id="why-slurm-is-indispensable-in-the-age-of-ai">Why Slurm is Indispensable in the Age of AI<a class="headerlink" href="#why-slurm-is-indispensable-in-the-age-of-ai" title="Permanent link">§</a></h2>
 <p>With the explosion of Large Language Models (LLMs) and massive multi-modal neural networks, training infrastructure has shifted toward dense GPU clusters. Slurm remains the industry standard for research and foundational model training due to several critical capabilities:</p>
 <ul>
 <li><strong>Strict Gang-Scheduling:</strong> Modern distributed training (using frameworks like PyTorch FSDP, DeepSpeed, or Megatron-LM) requires all nodes to start synchronously. Slurm ensures an "all-or-nothing" launch, preventing partial executions that stall synchronization.</li>
@@ -5645,7 +5645,7 @@
 <li><strong>Deterministic Resource Control:</strong> Slurm grants exclusive node access, eliminating "noisy neighbor" disruptions that degrade training iteration times in shared cloud environments.</li>
 </ul>
 <hr>
-<h2 id="core-workflow-practical-slurm-command-tutorial">Core Workflow &amp; Practical Slurm Command Tutorial</h2>
+<h2 id="core-workflow-practical-slurm-command-tutorial">Core Workflow &amp; Practical Slurm Command Tutorial<a class="headerlink" href="#core-workflow-practical-slurm-command-tutorial" title="Permanent link">§</a></h2>
 <p>Interacting with a Slurm cluster relies on command-line utilities for submission, monitoring, and administrative oversight.</p>
 <ul>
 <li><strong>Submitting Jobs (<code>sbatch</code>):</strong> Users submit batch scripts containing resource directives (<code>#SBATCH</code>) that define time limits, GPU counts, and partition targets.</li>
@@ -5664,20 +5664,20 @@
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>srun<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>torch.distributed.run<span class="w"> </span>train_model.py
 </span></code></pre></div>
 <hr>
-<h2 id="alternatives-to-slurm-in-modern-ai-infrastructure">Alternatives to Slurm in Modern AI Infrastructure</h2>
+<h2 id="alternatives-to-slurm-in-modern-ai-infrastructure">Alternatives to Slurm in Modern AI Infrastructure<a class="headerlink" href="#alternatives-to-slurm-in-modern-ai-infrastructure" title="Permanent link">§</a></h2>
 <p>While Slurm dominates academic and dedicated government/enterprise supercomputing centers, modern cloud-native ecosystems offer alternative orchestration approaches:</p>
 <ul>
 <li><strong>Kubernetes with Batch Extensions (Volcano / Kueue):</strong> Traditional Kubernetes lacks native batch scheduling, but CNCF projects like <strong>Volcano</strong> and Kubernetes SIG's <strong>Kueue</strong> introduce gang-scheduling, quota sharing, and queue-based preemption, bridging the gap for containerized AI pipelines.</li>
 <li><strong>Cloud-Native Frameworks (SkyPilot):</strong> Designed for multi-cloud environments, frameworks like SkyPilot abstract underlying infrastructure, automatically finding and spinning up the cheapest or most available GPU resources across various clouds.</li>
 <li><strong>Distributed Execution Engines (Ray):</strong> While not a direct bare-metal scheduler replacement, Ray natively handles elastic distributed Python tasks and model-serving workloads across dynamic clusters.</li>
 </ul>
-<h2 id="architectural-paradigms-centralized-batch-vs-declarative-cloud-native">Architectural Paradigms: Centralized Batch vs. Declarative Cloud-Native</h2>
+<h2 id="architectural-paradigms-centralized-batch-vs-declarative-cloud-native">Architectural Paradigms: Centralized Batch vs. Declarative Cloud-Native<a class="headerlink" href="#architectural-paradigms-centralized-batch-vs-declarative-cloud-native" title="Permanent link">§</a></h2>
 <ul>
 <li><strong>Slurm:</strong> Relies on a centralized state engine (<code>slurmctld</code>) designed to optimize execution across static, bare-metal infrastructure. It treats jobs as monolithic batch tasks and maps resource assignments directly to physical hardware topology (GPUs, NUMA domains, and InfiniBand fabrics) with microsecond-level decision loops.</li>
 <li><strong>Kueue:</strong> Operates as a Kubernetes-native batch and queueing controller. Rather than acting as a standalone scheduler, Kueue functions as an admission controller that manages job queues (<code>ClusterQueue</code> / <code>LocalQueue</code>), resource quotas, and preemption policies before handing pods over to the standard Kubernetes scheduler.</li>
 </ul>
 <hr>
-<h2 id="key-trade-offs-for-multi-node-training">Key Trade-Offs for Multi-Node Training</h2>
+<h2 id="key-trade-offs-for-multi-node-training">Key Trade-Offs for Multi-Node Training<a class="headerlink" href="#key-trade-offs-for-multi-node-training" title="Permanent link">§</a></h2>
 <ul>
 <li><strong>Gang-Scheduling &amp; All-or-Nothing Launch:</strong></li>
 <li><em>Slurm:</em> Provides native, rock-solid gang-scheduling. All nodes and GPUs lock simultaneously before execution begins, avoiding partial allocations that stall multi-node distributed training frameworks.</li>
@@ -5697,7 +5697,7 @@
 <li><em>Slurm:</em> Exceptionally straightforward for dedicated training clusters, but lacks native microservice capabilities (such as serving APIs, web dashboards, or dynamic scaling).</li>
 <li><em>Kueue:</em> Integrates directly into the broader Kubernetes MLOps ecosystem. The same cluster can manage data engineering pipelines, distributed training queues via Kueue, and downstream model-serving endpoints, though it introduces a steeper operational learning curve and control-plane complexity.</li>
 </ul>
-<h1 id="self-assessment">Self-Assessment</h1>
+<h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">§</a></h1>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
 <p>Test your knowledge by expanding the questions below.</p>
