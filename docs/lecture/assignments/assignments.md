@@ -16,11 +16,33 @@
     4. Update the `README.md` with the list of assignments that are posted each week.
     5. You can add a subbullet with - [ ] Other and check what other things you did. If there are relevant links in GitHub, make sure to post them here.
 
-## Week 4:  Due Sep 24, 2026, 9am
+
+## Week 5:  Due Oct 1, 2026, 9am
 
 ??? note "Click here to see a draft version of the Assignments Week 3, Sept 17, 2026 (not yet due)"
 
     Assignments not yet available
+
+## Week 4:  Due Sep 24, 2026, 9am
+
+!!! note note "Assignment W3.1 VM on local machine via Makefile"
+
+    1. Pick a local VM farmework. Make sur it is installed.
+    2. Write a Makfile with all the targets that you need (which are they?) to manage a single VM
+    3. Can you manage multiple machines? How.
+    4. How do you organize differrent Makefiles for different local and cloud environments (tip directories) there re other ways to do this, but direcorie sae easy
+
+!!! note note "Assignment W3.1 VM on Jetstream 2"
+
+    1. Pick a local VM farmework. Make sur it is installed.
+    2. Write a Makfile with all the targets that you need (which are they?) to manage a single VM
+    3. Can you manage multiple machines? How.
+
+!!! note note "Assignment W3.1 VM on Chameleon Cloud"
+
+    1. Pick a local VM farmework. Make sur it is installed.
+    2. Write a Makfile with all the targets that you need (which are they?) to manage a single VM
+
 
 ## Week 3:  Due Sep 17, 2026, 9am
 
@@ -34,7 +56,7 @@
     But make sure you do also the `README.md` update
 
 
-!!! note "Assignment W3.1 VM on Jetstream"
+!!! note "Assignment W3.1 VM on Jetstream Horizon"
 
     Start a vm on jetstream and follow the tutorial provided. If you see issues, improve the tutorial while creating pull requests in the Lecture notes.
 
@@ -48,7 +70,7 @@
     ```
 
 
-!!! note "Assignment W3.2 VM on Chameleon Cloud"
+!!! note "Assignment W3.2 VM on Chameleon Cloud Horizon"
 
     Although you may wish to use other clouds for your project, we want you to start up a single VM on Chameleon Cloud for a very brief time.
 
