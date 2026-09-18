@@ -4,14 +4,14 @@ title: "StopWatch"
 
 Often you find yourself in a situation where you like to measure the time between two events. We provide a simple `StopWatch` that allows you not only to measure a number of times but also to print them out in a convenient format.
 
-The `cloudmesh.common.StopWatch` module provides a robust mechanism for measuring execution time, managing benchmarks, and logging progress in Python applications. It is particularly useful for researchers and developers working in high-performance computing (HPC) and cloud environments.
+The `cloudmesh.ai.common.StopWatch` module provides a robust mechanism for measuring execution time, managing benchmarks, and logging progress in Python applications. It is particularly useful for researchers and developers working in high-performance computing (HPC) and cloud environments.
 
 ### Basic Usage
 
 The simplest way to use `StopWatch` is via the `start` and `stop` class methods. Timers are referenced by a unique string name.
 
 ```         
-from cloudmesh.common.StopWatch import StopWatch
+from cloudmesh.ai.common.StopWatch import StopWatch
 import time
 
 # Start a named timer
@@ -34,14 +34,14 @@ To print a summary of the results instead of a specific value, you can simply al
 StopWatch.benchmark()
 ```
 
-For more features, please see [StopWatch](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html?highlight=stopwatch#module-cloudmesh.common.StopWatch)
+For more features, please see [StopWatch](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html?highlight=stopwatch#module-cloudmesh.ai.common.StopWatch)
 
 ### The Context Manager (`StopWatchBlock`)
 
 For smaller blocks of code, the `StopWatchBlock` provides a cleaner `with` statement interface. This ensures the timer is automatically stopped even if an exception occurs.
 
 ```         
-from cloudmesh.common.StopWatch import StopWatchBlock
+from cloudmesh.ai.common.StopWatch import StopWatchBlock
 
 with StopWatchBlock("total-runtime"):
     # Code to benchmark
@@ -65,7 +65,7 @@ with StopWatchBlock("io-operation", data=metadata, log="benchmark.log", mode="a"
 If you want to benchmark entire functions, you can use the `@benchmark` decorator. This automatically creates a timer using the function's name.
 
 ```         
-from cloudmesh.common.StopWatch import benchmark
+from cloudmesh.ai.common.StopWatch import benchmark
 
 @benchmark
 def expensive_computation():
@@ -117,7 +117,7 @@ print(f"Total duration: {StopWatch.sum('loop-step')}s")
 The `progress()` function creates standardized log entries for monitoring long-running tasks, compatible with SLURM and LSF job IDs. It is used to write the result to STDOUT so you can include them in logg files that you can then parse.
 
 ```         
-from cloudmesh.common.StopWatch import progress
+from cloudmesh.ai.common.StopWatch import progress
 
 progress(status="processing", progress=50, filename="job.progress")
 # Output: 

@@ -203,10 +203,10 @@ openssl rsautl -decrypt -inkey ~/.ssh/id_rsa -in secret.txt
 
 #### Python Implementation via Cloudmesh
 
-The `cloudmesh.common.ssh.encrypt` module simplifies this process by wrapping the OpenSSL logic into a Python class.
+The `cloudmesh.ai.common.ssh.encrypt` module simplifies this process by wrapping the OpenSSL logic into a Python class.
 
 ```python
-from cloudmesh.common.ssh.encrypt import EncryptFile
+from cloudmesh.ai.common.ssh.encrypt import EncryptFile
 
 # Initialize with source and destination paths
 e = EncryptFile('file.txt', 'secret.txt')

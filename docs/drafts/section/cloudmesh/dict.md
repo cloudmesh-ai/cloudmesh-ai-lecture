@@ -5,7 +5,7 @@ Dictionaries
 For complex configuration or status dictionaries, we can simplify the notation using `.` instead of `[]`. This is achieved with `dotdict`:
 
 ```         
-from cloudmesh.common.dotdict import dotdict
+from cloudmesh.ai.common.dotdict import dotdict
 
 data = {
     "host": "login-01",
@@ -34,7 +34,7 @@ if node.status == "active":
 When dealing with nested hardware specifications (e.g., CPU or GPU details within a node), `FlatDict` can flatten the hierarchy into a single level.
 
 ```         
-from cloudmesh.common.FlatDict import FlatDict
+from cloudmesh.ai.common.FlatDict import FlatDict
 
 node_data = {
     "host": "compute-001",
@@ -64,7 +64,7 @@ The resulting structure will use the separator to represent the nesting:
 To visualize a cluster's state or a list of nodes, the `Printer` class handles various formats including YAML, JSON, Table, and CSV. It can also automatically flatten nested data for table output.
 
 ```         
-from cloudmesh.common.Printer import Printer
+from cloudmesh.ai.common.Printer import Printer
 
 cluster = [
     {

@@ -7,7 +7,7 @@ Python provides a sophisticated method for starting background processes. Howeve
 Let us review some examples where `result` is set to the output of the command being executed.
 
 ``` python
-from cloudmesh.common.Shell import Shell
+from cloudmesh.ai.common.Shell import Shell
 
 result = Shell.execute('pwd')
 print(result)
@@ -22,7 +22,7 @@ print(result)
 Sometimes it may just be more convenient to use a string instead of the array for passing the command. Here you can use
 
 ``` python
-from cloudmesh.common.Shell import Shell
+from cloudmesh.ai.common.Shell import Shell
 
 result = Shell.run('pwd')
 print(result)
@@ -99,4 +99,7 @@ The list includes (naturally the commands that must be available on your OS. If 
 - `version(cls, name)`
 - `which(cls, command)`
 
-For more features, please see [Shell](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html?highlight=shell#module-cloudmesh.common.Shell)
+!!! warning
+    The following link is outdated
+    
+For more features, please see [Shell](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html?highlight=shell#module-cloudmesh.ai.common.Shell)

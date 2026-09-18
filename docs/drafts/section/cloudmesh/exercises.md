@@ -2,33 +2,33 @@
 
 When doing your assignment, make sure you label the programs appropriately with comments that clearly identify the assignment. Place all assignments in a folder on GitHub named "cloudmesh-exercises"
 
-For example, name the program solving E.Cloudmesh.Common.1 `e-cloudmesh-1.py` and so on. For more complex assignments you can name them as you like, as long as in the file you have a comment such as
+For example, name the program solving E.cloudmesh.ai.common.1 `e-cloudmesh-1.py` and so on. For more complex assignments you can name them as you like, as long as in the file you have a comment such as
 
-`# fa19-516-000 E.Cloudmesh.Common.1`
+`# fa19-516-000 E.cloudmesh.ai.common.1`
 
 at the beginning of the file. Please **do not store** any screenshots in your GitHub repository of your working program.
 
 ## Cloudmesh Common
 
-E.Cloudmesh.Common.1
+E.cloudmesh.ai.common.1
 
 > Develop a program that demonstrates the use of `banner`, `HEADING`, and `VERBOSE`.
 
-E.Cloudmesh.Common.2
+E.cloudmesh.ai.common.2
 
 > Develop a program that demonstrates the use of `dotdict`.
 
-E.Cloudmesh.Common.3
+E.cloudmesh.ai.common.3
 
 > Develop a program that demonstrates the use of `FlatDict`.
 
-E.Cloudmesh.Common.4
+E.cloudmesh.ai.common.4
 
-> Develop a program that demonstrates the use of `cloudmesh.common.Shell`.
+> Develop a program that demonstrates the use of `cloudmesh.ai.common.Shell`.
 
-E.Cloudmesh.Common.5
+E.cloudmesh.ai.common.5
 
-> Develop a program that demonstrates the use of `cloudmesh.common.StopWatch`.
+> Develop a program that demonstrates the use of `cloudmesh.ai.common.StopWatch`.
 
 ## Cloudmesh Shell
 

@@ -6,15 +6,15 @@ Cloudmesh provides a number of convenient API's to make the output easier or mor
 
 These API's include
 
-- [Console](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html#module-cloudmesh.common.console)
-- [Banner](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html?highlight=banner#cloudmesh.common.util.banner)
-- [Heading](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html?highlight=heading#cloudmesh.common.util.HEADING)
-- [VERBOSE](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html?highlight=verbose#cloudmesh.common.debug.VERBOSE)
+- [Console](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html#module-cloudmesh.ai.common.console)
+- [Banner](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html?highlight=banner#cloudmesh.ai.common.util.banner)
+- [Heading](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html?highlight=heading#cloudmesh.ai.common.util.HEADING)
+- [VERBOSE](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html?highlight=verbose#cloudmesh.ai.common.debug.VERBOSE)
 
 Print is the usual function to output to the terminal. However, often we like to have colored output that helps us in the notification to the user. For this reason, we have a simple `Console` class that has several built-in features. You can even switch and define your own color schemes.
 
 ``` python
-from cloudmesh.common.console import Console
+from cloudmesh.ai.common.console import Console
 
 msg = "my message"
 Console.ok(msg) # prins a green message
@@ -33,7 +33,7 @@ The prefix can be switched on and off with the `prefix` flag, while the `tracefl
 The verbosity of the output is controlled via variables that are stored in the `~/.cloudmesh` directory.
 
 ``` python
-from cloudmesh.common.variables import Variables
+from cloudmesh.ai.common.variables import Variables
 
 variables = Variables()
 
@@ -42,19 +42,19 @@ variables['trace'] = True
 variables['verbose'] = 10
 ```
 
-For more features, see API: [Console](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html#module-cloudmesh.common.console)
+For more features, see API: [Console](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html#module-cloudmesh.ai.common.console)
 
 ## Banner
 
 In case you need a banner you can do this with
 
 ``` python
-from cloudmesh.common.util import banner
+from cloudmesh.ai.common.util import banner
 
 banner("my text")
 ```
 
-For more features, see API: [Banner](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html?highlight=banner#cloudmesh.common.util.banner)
+For more features, see API: [Banner](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html?highlight=banner#cloudmesh.ai.common.util.banner)
 
 ## Heading
 
@@ -62,7 +62,7 @@ A particularly useful function is `HEADING()` which prints the method name.
 
 ``` python
 
-from cloudmesh.common.util import HEADING
+from cloudmesh.ai.common.util import HEADING
 
 class Example(object):
 
@@ -73,7 +73,7 @@ class Example(object):
 
 The invocation of the `HEADING()` function doit prints a banner with the name information. The reason we did not do it as a decorator is that you can place the `HEADING()` function in an arbitrary location of the method body.
 
-For more features, see API: [Heading](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html?highlight=heading#cloudmesh.common.util.HEADING)
+For more features, see API: [Heading](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html?highlight=heading#cloudmesh.ai.common.util.HEADING)
 
 ## VERBOSE
 
@@ -84,13 +84,13 @@ VERBOSE is a very useful method allowing you to print a dictionary. Not only wil
 To use this you will have to enable the debugging methods for cloudmesh as discussed in @sec:cloudmesh-console
 
 ``` python
-from cloudmesh.common.debug import VERBOSE
+from cloudmesh.ai.common.debug import VERBOSE
 
 m = {"key": "value"}
 VERBOSE(m)
 ```
 
-For more features, please see [VERBOSE](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.common.html?highlight=verbose#cloudmesh.common.debug.VERBOSE)
+For more features, please see [VERBOSE](https://cloudmesh.github.io/cloudmesh-manual/api/cloudmesh.ai.common.html?highlight=verbose#cloudmesh.ai.common.debug.VERBOSE)
 
 ## Using print and pprint
 
