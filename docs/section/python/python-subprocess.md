@@ -22,7 +22,7 @@ In computing, a **process** is an independent instance of a program in execution
 
 When you use the `subprocess` module, your Python script becomes the **parent process**, and it spawns a **child process**. The parent can control the child, feed it data, read its output, and eventually wait for it to terminate.
 
-### The Holy Trinity of I/O: Standard Streams
+### The Three Standard Streams
 
 Every process created by the operating system is automatically given three communication channels, known as **standard streams**:
 
@@ -34,7 +34,7 @@ Understanding these streams is the key to mastering the `subprocess` module.
 
 ---
 
-## The "Quick and Dirty" Way: `os.system`
+## Simple Execution: `os.system`
 
 For years, `os.system()` was the go-to method for running shell commands. It is simple: you pass a string, and the system executes it.
 
@@ -60,7 +60,7 @@ While convenient, `os.system()` has several major drawbacks:
 
 ---
 
-## The Cloudmesh Shortcut: `Shell.run`
+## The Cloudmesh Wrapper: `Shell.run`
 
 In the Cloudmesh ecosystem, we often prioritize development speed. The `Shell` wrapper provides a high-level abstraction that handles the most common frustration of subprocesses: converting raw bytes into usable Python strings.
 
@@ -128,7 +128,7 @@ except subprocess.CalledProcessError as e:
 
 ---
 
-## The Power User's Toolkit: `Popen`
+## The Advanced Process Control: `Popen`
 
 `subprocess.run()` is great, but it is **blocking**—your script stops until the command is done. What if you need to run a long-running process (like a server) in the background, or read output line-by-line while the process is still running? 
 

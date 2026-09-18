@@ -27,42 +27,42 @@
 
 !!! note note "Assignment W3.1 VM on local machine via Makefile"
 
-    1. Pick a local VM farmework. Make sur it is installed.
-    2. Write a Makfile with all the targets that you need (which are they?) to manage a single VM
+    1. Pick a local VM framework. Make sure it is installed.
+    2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
     3. Can you manage multiple machines? How.
-    4. How do you organize differrent Makefiles for different local and cloud environments (tip directories) there re other ways to do this, but direcorie sae easy
+    4. How do you organize different Makefiles for different local and cloud environments (tip directories) there re other ways to do this, but directories are easy
 
 !!! note note "Assignment W3.2 VM on Jetstream 2"
 
-    1. Pick a local VM farmework. Make sur it is installed.
-    2. Write a Makfile with all the targets that you need (which are they?) to manage a single VM
+    1. Pick a local VM framework. Make sure it is installed.
+    2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
     3. Can you manage multiple machines? How.
 
 !!! note note "Assignment W3.3 VM on Chameleon Cloud"
 
-    1. Pick a local VM farmework. Make sur it is installed.
-    2. Write a Makfile with all the targets that you need (which are they?) to manage a single VM
+    1. Pick a local VM framework. Make sure it is installed.
+    2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
 
 !!! note note "Assignment W3.4 Review Python"
 
-    In preparation for the upcomming weeks, please review your python knowledge. You can any resource you like, but we have provided a large amount of information about puthon (which you do not need all of it.) Therfore we recommend to strategically review sections that will be instrumental to Clouds, DevOps, and AI.
-    If there are any issues, please use Piazza to ask and we can narrow it down. This is a relatively simple activity and it should not take long. If it takes more then 3 hours  please use Piazza to find out where you may need some more help.
+    In preparation for the upcoming weeks, please review your python knowledge. You can any resource you like, but we have provided a large amount of information about python (which you do not need all of it.) Therefore we recommend to strategically review sections that will be instrumental to Clouds, DevOps, and AI.
+    If there are any issues, please use Piazza to ask and we can narrow it down. This is a relatively simple activity and it should not take long. If it takes more than 3 hours  please use Piazza to find out where you may need some more help.
 
     Please review:
         
     1. Setting up  python virtual environment. 
-        * You can use the one you use usually use suc as venv or pyenv.
-        * Typically we discourace using conda and miniconda due to the potential that 
-            hundrests of unneaded libraries may be downloaded or a low level conflict may arise. For your project you will be asked not to use conda to keep the vms and containers clean. Use of conda has to be jsutified in a detailed justification and outline why other python virtualization technologies can not be used. 
-        * please not thet the openstack commandline tool must be installed with pipx 
+        * You can use the one you use usually use such as venv or pyenv.
+        * Typically we discourage using conda and miniconda due to the potential that 
+            hundreds of unneeded libraries may be downloaded or a low level conflict may arise. For your project you will be asked not to use conda to keep the vms and containers clean. Use of conda has to be justified in a detailed justification and outline why other python virtualization technologies can not be used. 
+        * please not that the openstack commandline tool must be installed with pipx 
     
-        See: [link](/section/python/python-install/#venv)
+        See: [link](/section/python/python-install.md/#venv)
     2. Using 
         
         * pip install
         * pipx install
 
-        See: [link](/section/python/python-pipx/)
+        See: [link](/section/python/python-pipx.md)
 
     3. Review how to use import statements such as `os.system`
         Write a program that uses os.sytem("ls") (windows users must be in gitbash to make that work or in a vm using Linux.
@@ -76,9 +76,14 @@
     !!! tip 
         I recommend click instead of argparse as there is a direct correlation between function name and parameters. click provides ease augmentations befor the function to transform it for you to a commanline interface. In other frameworks you have to do much more.
             
-    2. Write a Makfile with all the targets that you need (which are they?) to manage a single VM
+        See: [link](/section/python/python-click.md)
 
+    6. Review how to run shell commands from within python 
 
+        See: [link](/Users/grey/work/cloudmesh-ai-lecture/docs/section/python/python-subprocess.md)
+
+        Focus on `os.system()` and `supbrocess.run()`
+    
 
 
 ## Week 3:  Due Sep 17, 2026, 9am
