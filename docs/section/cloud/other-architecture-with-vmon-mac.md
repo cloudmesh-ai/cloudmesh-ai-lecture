@@ -2,6 +2,7 @@
 
 !!! info "Learning Objectives"
     By the end of this chapter, you will be able to:
+
     - **Differentiate** between software emulation (QEMU) and hardware-assisted virtualization (Parallels, VMware, Apple VF) on Apple Silicon.
     - **Identify** the only tool capable of cross-architecture (e.g., x86_64 to ARM) virtualization on macOS.
     - **Select** the appropriate hypervisor for running Raspberry Pi images and Android VMs.
@@ -22,9 +23,9 @@ Below is a comparison of the main options you’ll encounter on an ARM-based Mac
 <a id="1-qemu-apple-silicon-native-or-via-front-ends"></a>
 ## 1. QEMU + Apple Silicon (native or via front-ends)
 
-:::info "Why this matters"
-Software emulation allows developers to maintain a single physical machine while testing software across multiple CPU architectures (x86, ARM, RISC-V, etc.). This is critical for cross-platform development and legacy system maintenance.
-:::
+!!! info "Why this matters"
+    Software emulation allows developers to maintain a single physical machine while testing software across multiple CPU architectures (x86, ARM, RISC-V, etc.). This is critical for cross-platform development and legacy system maintenance.
+
 
 | Feature | Details |
 |---|---|
@@ -39,18 +40,18 @@ Software emulation allows developers to maintain a single physical machine while
 - It does **software translation** (TCG – Tiny Code Generator) of guest instructions to host instructions, so it is not limited by the host’s CPU ISA.
 - Apple’s own `hvf` (Hypervisor.framework) can be layered on top to accelerate *ARM-to-ARM* virtualization, but the translation layer stays for *ARM-to-x86*.
 
-:::tip "Pro Tip: Choosing the Right Acceleration"
-When running an ARM64 guest on Apple Silicon, always use `-accel hvf` in your QEMU command line. Without it, QEMU will use TCG (emulation), and your VM will feel incredibly slow. With it, you are using hardware-assisted virtualization.
-:::
+!!! tip "Pro Tip: Choosing the Right Acceleration"
+    When running an ARM64 guest on Apple Silicon, always use `-accel hvf` in your QEMU command line. Without it, QEMU will use TCG (emulation), and your VM will feel incredibly slow. With it, you are using hardware-assisted virtualization.
+
 
 ---
 
 <a id="2-parallels-desktop-for-mac-apple-silicon-edition"></a>
 ## 2. Parallels Desktop for Mac (Apple Silicon edition)
 
-:::info "Why this matters"
-For developers who need to run Windows or Linux on their Mac for daily productivity, hardware-assisted virtualization provides the necessary performance to make the VM feel like a native application.
-:::
+!!! info "Why this matters"
+    For developers who need to run Windows or Linux on their Mac for daily productivity, hardware-assisted virtualization provides the necessary performance to make the VM feel like a native application.
+
 
 | Feature | Details |
 |---|---|

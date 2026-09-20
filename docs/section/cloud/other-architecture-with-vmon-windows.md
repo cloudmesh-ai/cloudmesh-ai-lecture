@@ -18,9 +18,9 @@ Below is a comparison of the main options you’ll encounter on a Windows x86_64
 <a id="1-qemu-windows-native-or-via-front-ends"></a>
 ## 1. QEMU + Windows (native or via front-ends)
 
-:::info "Why this matters"
-Software emulation allows developers to maintain a single physical machine while testing software across multiple CPU architectures (ARM, RISC-V, PowerPC, etc.). This is critical for cross-platform development, embedded systems testing, and legacy maintenance.
-:::
+!!! info "Why this matters"
+    Software emulation allows developers to maintain a single physical machine while testing software across multiple CPU architectures (ARM, RISC-V, PowerPC, etc.). This is critical for cross-platform development, embedded systems testing, and legacy maintenance.
+
 
 | Feature | Details |
 |---|---|
@@ -35,9 +35,9 @@ Software emulation allows developers to maintain a single physical machine while
 - It uses **software translation** (TCG – Tiny Code Generator) to translate guest instructions (e.g., ARM) into host instructions (x86_64), meaning it is not limited by the host’s CPU ISA.
 - Windows' `whpx` (Windows Hypervisor Platform) can be used to accelerate *x86-to-x86* virtualization, but the translation layer (TCG) must be used for *x86-to-ARM*.
 
-:::tip "Pro Tip: Choosing the Right Acceleration"
-When running an x86_64 guest on Windows via QEMU, always use `-accel whpx` (if Hyper-V/WHPX is enabled in Windows Features) or `-accel haxm` (for older Intel systems) to avoid the massive performance penalty of software emulation.
-:::
+!!! tip "Pro Tip: Choosing the Right Acceleration"
+    When running an x86_64 guest on Windows via QEMU, always use `-accel whpx` (if Hyper-V/WHPX is enabled in Windows Features) or `-accel haxm` (for older Intel systems) to avoid the massive performance penalty of software emulation.
+
 
 ### Example: Launching an ARM64 Guest via QEMU CLI on Windows
 ```powershell
