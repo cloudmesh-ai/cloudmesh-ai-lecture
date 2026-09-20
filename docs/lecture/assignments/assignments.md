@@ -19,31 +19,99 @@
 
 ## Week 5:  Due Oct 1, 2026, 9am
 
-??? note "Click here to see a draft version of the Assignments Week 3, Sept 17, 2026 (not yet due)"
+??? note "Click here to see a draft version of the Assignments Week 5, Oct 1 , 2026 (not yet due)"
 
-    Assignments not yet available
+    !!! Warning 
+        The list of assignments is not finalized. The assignments   listed here are just some ideas. I am sure they will change. However you can start working ahed if you wish, but do not be angry, or disapointed if the assignments change.
+    
+        !!! note note "Assignment W5.1 VMs via python (libcloud)"
+
+            In <https://github.com/cloudmesh-ai/cloudmesh-ai-vm> 
+            we are providing the template to a multicloud management tool. This tool has not been tested and only provides the framework. Some function such as starting vms on multipass should work.
+            
+            Your task is it to engage with the entire class to learn ho wto use github with a larger group as part of devops development activities, but also to improve the code so you can integrate it in your devops projects.
+
+            1. decide which clouds you like to implement the command for or improve. This can be multiple.
+
+            2. Understand the structure of the code, which included
+                * a configuration file for all clouds
+                * the commandline based on click
+                * the various Cloud provider interfaces
+                
+              Typically you only have to improve the implamentation and the configuration file. Please note that in case of openstack you also deal with another file in ~/.config/openstack/clouds.yml
+              which is different from ~/.config/cloudmesh/clouds.yml
+            
+                ```
+                username: gregor
+                couter: 0
+                clouds:
+                jetstream:
+                    flavour: ...
+                    image: ...
+                    security group:
+                        ...
+                    auth: path to the credentials
+                    keys:
+                        ...
+                        ...
+                ...
+                ```
+            YOu will be responsible for implementing all commands as much as possible and showcase that they work with a simple shell script. Demonstrating wich command succeeds and which failes. The hope is that all will succeed.
+
+            If tike allows also update the markdown documentation with examples for the clouds you have picked.
+
+            You can get the manual page with 
+
+            ```bash
+            cmc man vm 
+            ```
+
+            Example comamnds include 
+
+            * cmc vm set multipass # wsl2, VBox, ... to set the default cloud
+            * cmc vm start [--name=NAME]# starts a vm and names the vm <username><counter+1> or the one defined by name
+            if no name is provided the counter in the yaml file is incremented.
+            * cmc vm --name=the name # overwrites the naming and does not increment counter
+            cmc stop [--name=NAME] # stops the last started vm or the one with the name
+            * cmc vm login [--name=NAME]# logs into the last started vm
+            * cmc vm suspend ...
+            * cmc vm retart ...
+            * cmc vm delete ...
+            * cmc vm list [--jason|--yaml|--csv|--table]
+
+            !!! note
+                you will need to create a fork and clone it into your own directory.
+
+                Readup in google how to work on a forked repo with a colleague.
+            
+            !!! tip 
+
+                Pair programming could help if needed
+
+                Ask on piazza and communicate with each other.
+            
 
 ## Week 4:  Due Sep 24, 2026, 9am
 
-!!! note note "Assignment W3.1 VM on local machine via Makefile"
+!!! note note "Assignment W4.1 VM on local machine via Makefile"
 
     1. Pick a local VM framework. Make sure it is installed.
     2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
     3. Can you manage multiple machines? How.
     4. How do you organize different Makefiles for different local and cloud environments (tip directories) there re other ways to do this, but directories are easy
 
-!!! note note "Assignment W3.2 VM on Jetstream 2"
+!!! note note "Assignment W4.2 VM on Jetstream 2"
 
     1. Pick a local VM framework. Make sure it is installed.
     2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
     3. Can you manage multiple machines? How.
 
-!!! note note "Assignment W3.3 VM on Chameleon Cloud"
+!!! note note "Assignment W4.3 VM on Chameleon Cloud"
 
     1. Pick a local VM framework. Make sure it is installed.
     2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
 
-!!! note note "Assignment W3.4 Review Python"
+!!! note note "Assignment W4.4 Review Python"
 
     In preparation for the upcoming weeks, please review your python knowledge. You can any resource you like, but we have provided a large amount of information about python (which you do not need all of it.) Therefore we recommend to strategically review sections that will be instrumental to Clouds, DevOps, and AI.
     If there are any issues, please use Piazza to ask and we can narrow it down. This is a relatively simple activity and it should not take long. If it takes more than 3 hours  please use Piazza to find out where you may need some more help.
