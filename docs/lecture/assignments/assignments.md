@@ -19,78 +19,91 @@
 
 ## Week 5:  Due Oct 1, 2026, 9am
 
-??? note "Click here to see a draft version of the Assignments Week 5, Oct 1 , 2026 (not yet due)"
 
-    !!! Warning 
-        There may be more assignments coming. 
-    
-        !!! note note "Assignment W5.1 VMs via python (libcloud)"
+!!! Warning 
+    This assignment takes effort. We will assess how far you got on Oct 1st. Self assesment her is important. This includes mentioning tasks you could comolete, task you could not complete, and tasks that you did not undertsand and are missing background to complete.
 
-            In <https://github.com/cloudmesh-ai/cloudmesh-ai-vm> 
-            we are providing the template to a hybrid multicloud management tool. This tool is a draft tool to help you not only understand how to access multiple cloud virtual machines, but also how to integrate them. It is often useful to be able to develop advanced commandline interfaces.
-            It also serves as an example on how to use github with the students from the class.
+    The project uses a fairly common use pattern of dynamically integrating commandline tools in a directoory hierarchy, but it may be to complex for some. That is no issue. The individual Providers can be tested outside of the commandline interface.
 
-            Your task is to engage with the entire class to learn how to use github with a larger group as part of devops development activities, but also to improve the code so you can integrate it in your devops projects.
+    So let me know if you have issues with the click integration and Gregor can help. In principal it is simple. As there are enough working commands and provider functions implemented in multipass and lima.
 
-            1. decide which clouds you like to implement the command for or improve. This can be multiple.
 
-            2. Understand the structure of the code, which included
-                * a configuration file for all clouds
-                * the commandline based on click
-                * the various Cloud provider interfaces
-                
-              Typically you only have to improve the implementation and the configuration file. Please note that in case of openstack you also deal with another file in ~/.config/openstack/clouds.yml
-              which is different from ~/.config/cloudmesh/clouds.yml
-            
-                ```
-                username: gregor
-                counter: 0
-                clouds:
-                jetstream:
-                    flavour: ...
-                    image: ...
-                    security group:
-                        ...
-                    auth: path to the credentials
-                    keys:
-                        ...
-                        ...
-                ...
-                ```
-            You will be responsible for implementing all commands as much as possible and showcase that they work with a simple shell script. Demonstrating which command succeeds and which fails. The hope is that all will succeed.
+!!! note "Assignment W5.1: VMs via python (libcloud)"
 
-            If time allows also update the markdown documentation with examples for the clouds you have picked.
+    In <https://github.com/cloudmesh-ai/cloudmesh-ai-vm> 
+    we are providing the template to a hybrid multicloud management tool. This tool is a draft tool to help you not only understand how to access multiple cloud virtual machines from python and the commandline, but also how to integrate them. It also serves as an example on how to use github with the students from the class.
 
-            You can get the manual page with 
+    **Goal 1: Collaboration.** Your task is to engage with the entire class to learn how to use github with a larger group as part of devops development activities, but also to improve the code so you can integrate it in your devops projects.
 
-            ```bash
-            cmc man vm 
-            ```
+    **Goal 2: Improvement of the tool.** The goal is to transform this draft tool into a robust hybrid multicloud management utility.
 
-            Example commands include 
+    **Goal 3: Understand Pythons libcloud.** It ahs advantages and disadvantages. Limitations may be overcome with libraries such as opensdk, boto, ...
 
-            * cmc vm set multipass # wsl2, VBox, ... to set the default cloud
-            * cmc vm start [--name=NAME]# starts a vm and names the vm <username><counter+1> or the one defined by name
-            if no name is provided the counter in the yaml file is incremented.
-            * cmc vm --name=the name # overwrites the naming and does not increment counter
-            cmc stop [--name=NAME] # stops the last started vm or the one with the name
-            * cmc vm login [--name=NAME]# logs into the last started vm
-            * cmc vm suspend ...
-            * cmc vm restart ...
-            * cmc vm delete ...
-            * cmc vm list [--json|--yaml|--csv|--table]
+    **Goal 4: GitHub Project.** Does the class want to utilize a github Project, such as setting up Kanban? The class decides.
 
-            !!! note
-                you will need to create a fork and clone it into your own directory.
+      **1. Objectives**
 
-                Read up on Google how to work on a forked repo with a colleague.
-            
-            !!! tip 
+      The primary goal is to engage in DevOps development activities, improve the codebase, and ensure consistent functionality across multiple cloud providers.
 
-                Pair programming could help if needed
+      **1.1 Core Requirements**
 
-                Ask on piazza and communicate with each other.
-            
+      1. **Cloud Implementation**: Implement or improve commands for one or more cloud providers (Local, OpenStack, or Hyperscalers).
+      2. **Code Understanding**: Master the interaction between the Click-based CLI, the `clouds.yaml` configuration, and the provider interfaces.
+      3. **Feature Completeness**: Implement all mentioned commands and ensure they work across selected clouds.
+      4. **Validation**: Create a shell script that demonstrates the success or failure of each command.
+      5. **Collaboration**: Use GitHub (forking, cloning, and Pull Requests) to collaborate with peers. Use Piazza, engage in team programming.
+      6. **Documentation**: Update the markdown documentation with cloud-specific examples.
+
+      **2. Improvement Roadmap**
+
+      Based on the current state of the project, here are the recommended areas for improvement:
+
+      **2.1 Feature Gaps (High Priority)**
+
+      Some commands mentioned in the assignment are currently missing or incomplete:
+      - **Implement missing commands**: Identify which commands are missing and implement them. Before implementation discuss on Piazza.
+      - **Enhance commands**: Evaluate a command such as `cmx vm list`: Implement missing features and options. An example is to implement output formatting options (`--json`, `--yaml`, `--csv`, `--table`) to allow for better integration with other tools.
+      - **Refine Naming Logic**: Ensure that `cmx vm start` correctly handles the `{username}-{counter}` logic and that the `--name` override works without incrementing the counter.
+
+        **2.2 Provider-Specific Improvements**
+
+        Depending on the chosen clouds, focus on:
+
+        - **OpenStack**: The OpenStack provider for Jetstream and Chameleon Cloud have not been tested and are only drafted. Make sure to provide a complete implementation of all the commands.
+        - **Hyperscalers**: (Optional) Improve the `libcloud` abstraction to ensure consistency between AWS, Azure, and Google.
+        - **Local Providers**: Ensure Multipass, WSL2, and VirtualBox share a consistent lifecycle (start, stop, delete). Figure out what to do with shelve/unshelve.
+
+        **2.3 Quality Assurance & Testing**
+
+        - **Shell Script Validation**: Create a `verify_vm.sh` script that iterates through all commands:
+          ```bash
+          # Example verification loop
+          COMMANDS=("start" "info" "stop" "delete")
+          for cmd in "${COMMANDS[@]}"; do
+            echo "Testing cmx vm $cmd..."
+            cmx vm $cmd || echo "FAILED"
+          done
+          ```
+
+        - **Unit Testing**: (Optional) Increase coverage in `tests/unit` and `tests/smoke` for new provider implementations.
+
+        **2.4 Documentation & User Experience**
+
+        - **Expand Provider Guides**: Add real-world usage examples and common troubleshooting tips to the `docs/providers/` pages.
+        - **Manual Page**: Ensure `docs/manual.md` is always up-to-date with the latest CLI changes.
+
+        **3. Collaboration Guide (GitHub Flow)**
+
+        To work effectively with a larger group, follow these DevOps practices:
+
+        - **Communicate**: Although you use git, communication is important. Work needs to be split up and tasks need to be assigned. Create GitHub issues to coordinate the tasks.
+        - **Fork and Clone**: Fork the repository to your own account and clone it locally.
+        - **Feature Branches**: Never work directly on `main`. Create a branch for each feature:
+           `git checkout -b feature/add-login-command`
+        - **Atomic Commits**: Make small, frequent commits with descriptive messages.
+        - **Pull Requests (PRs)**: Submit PRs to the original repository. Provide a clear description of the changes and evidence (logs/screenshots) that the commands work.
+        - **Peer Review**: Review your colleagues' PRs to learn from their implementation and ensure code quality.
+
 
 ## Week 4:  Due Sep 24, 2026, 9am
 
