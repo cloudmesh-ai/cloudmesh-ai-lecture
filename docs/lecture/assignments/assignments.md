@@ -22,14 +22,15 @@
 ??? note "Click here to see a draft version of the Assignments Week 5, Oct 1 , 2026 (not yet due)"
 
     !!! Warning 
-        The list of assignments is not finalized. The assignments   listed here are just some ideas. I am sure they will change. However you can start working ahed if you wish, but do not be angry, or disapointed if the assignments change.
+        There may be more assignments comming. 
     
         !!! note note "Assignment W5.1 VMs via python (libcloud)"
 
             In <https://github.com/cloudmesh-ai/cloudmesh-ai-vm> 
-            we are providing the template to a multicloud management tool. This tool has not been tested and only provides the framework. Some function such as starting vms on multipass should work.
-            
-            Your task is it to engage with the entire class to learn ho wto use github with a larger group as part of devops development activities, but also to improve the code so you can integrate it in your devops projects.
+            we are providing the template to a hybrid multicloud management tool. This tool is a a draft toll to help you not only understanding how to access multiple cloud virtual machines, but also how to integrate them. It is often useful to be able to develop advanced commandline interfaces.
+            It also serves as an example on how to use github with the students from the class.
+
+            Your task is it to engage with the entire class to learn how to use github with a larger group as part of devops development activities, but also to improve the code so you can integrate it in your devops projects.
 
             1. decide which clouds you like to implement the command for or improve. This can be multiple.
 
@@ -102,14 +103,18 @@
 
 !!! note note "Assignment W4.2 VM on Jetstream 2"
 
-    1. Pick a local VM framework. Make sure it is installed.
+    1. Install the openstack commandline client
     2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
-    3. Can you manage multiple machines? How.
+    3. Can you manage multiple machines? 
+    4. Check it into your repository
 
 !!! note note "Assignment W4.3 VM on Chameleon Cloud"
 
-    1. Pick a local VM framework. Make sure it is installed.
-    2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
+    1. Install the openstack commandline client
+    2. Install python-chi
+    3. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
+    4. Can you manage multiple machines? 
+    5. Check it into your repository
 
 !!! note note "Assignment W4.4 Review Python"
 
