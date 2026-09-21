@@ -22,15 +22,15 @@
 ??? note "Click here to see a draft version of the Assignments Week 5, Oct 1 , 2026 (not yet due)"
 
     !!! Warning 
-        There may be more assignments comming. 
+        There may be more assignments coming. 
     
         !!! note note "Assignment W5.1 VMs via python (libcloud)"
 
             In <https://github.com/cloudmesh-ai/cloudmesh-ai-vm> 
-            we are providing the template to a hybrid multicloud management tool. This tool is a a draft toll to help you not only understanding how to access multiple cloud virtual machines, but also how to integrate them. It is often useful to be able to develop advanced commandline interfaces.
+            we are providing the template to a hybrid multicloud management tool. This tool is a draft tool to help you not only understand how to access multiple cloud virtual machines, but also how to integrate them. It is often useful to be able to develop advanced commandline interfaces.
             It also serves as an example on how to use github with the students from the class.
 
-            Your task is it to engage with the entire class to learn how to use github with a larger group as part of devops development activities, but also to improve the code so you can integrate it in your devops projects.
+            Your task is to engage with the entire class to learn how to use github with a larger group as part of devops development activities, but also to improve the code so you can integrate it in your devops projects.
 
             1. decide which clouds you like to implement the command for or improve. This can be multiple.
 
@@ -39,12 +39,12 @@
                 * the commandline based on click
                 * the various Cloud provider interfaces
                 
-              Typically you only have to improve the implamentation and the configuration file. Please note that in case of openstack you also deal with another file in ~/.config/openstack/clouds.yml
+              Typically you only have to improve the implementation and the configuration file. Please note that in case of openstack you also deal with another file in ~/.config/openstack/clouds.yml
               which is different from ~/.config/cloudmesh/clouds.yml
             
                 ```
                 username: gregor
-                couter: 0
+                counter: 0
                 clouds:
                 jetstream:
                     flavour: ...
@@ -57,9 +57,9 @@
                         ...
                 ...
                 ```
-            YOu will be responsible for implementing all commands as much as possible and showcase that they work with a simple shell script. Demonstrating wich command succeeds and which failes. The hope is that all will succeed.
+            You will be responsible for implementing all commands as much as possible and showcase that they work with a simple shell script. Demonstrating which command succeeds and which fails. The hope is that all will succeed.
 
-            If tike allows also update the markdown documentation with examples for the clouds you have picked.
+            If time allows also update the markdown documentation with examples for the clouds you have picked.
 
             You can get the manual page with 
 
@@ -67,7 +67,7 @@
             cmc man vm 
             ```
 
-            Example comamnds include 
+            Example commands include 
 
             * cmc vm set multipass # wsl2, VBox, ... to set the default cloud
             * cmc vm start [--name=NAME]# starts a vm and names the vm <username><counter+1> or the one defined by name
@@ -76,14 +76,14 @@
             cmc stop [--name=NAME] # stops the last started vm or the one with the name
             * cmc vm login [--name=NAME]# logs into the last started vm
             * cmc vm suspend ...
-            * cmc vm retart ...
+            * cmc vm restart ...
             * cmc vm delete ...
-            * cmc vm list [--jason|--yaml|--csv|--table]
+            * cmc vm list [--json|--yaml|--csv|--table]
 
             !!! note
                 you will need to create a fork and clone it into your own directory.
 
-                Readup in google how to work on a forked repo with a colleague.
+                Read up on Google how to work on a forked repo with a colleague.
             
             !!! tip 
 
@@ -99,7 +99,7 @@
     1. Pick a local VM framework. Make sure it is installed.
     2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
     3. Can you manage multiple machines? How.
-    4. How do you organize different Makefiles for different local and cloud environments (tip directories) there re other ways to do this, but directories are easy
+    4. How do you organize different Makefiles for different local and cloud environments (tip directories) there are other ways to do this, but directories are easy
 
 !!! note note "Assignment W4.2 VM on Jetstream 2"
 
@@ -118,8 +118,8 @@
 
 !!! note note "Assignment W4.4 Review Python"
 
-    In preparation for the upcoming weeks, please review your python knowledge. You can any resource you like, but we have provided a large amount of information about python (which you do not need all of it.) Therefore we recommend to strategically review sections that will be instrumental to Clouds, DevOps, and AI.
-    If there are any issues, please use Piazza to ask and we can narrow it down. This is a relatively simple activity and it should not take long. If it takes more than 3 hours  please use Piazza to find out where you may need some more help.
+    In preparation for the upcoming weeks, please review your python knowledge. You can use any resource you like, but we have provided a large amount of information about python (of which you do not need all). Therefore we recommend to strategically review sections that will be instrumental to Clouds, DevOps, and AI.
+    If there are any issues, please use Piazza to ask and we can narrow it down. This is a relatively simple activity and it should not take long. If it takes more than 3 hours, please use Piazza to find out where you may need some more help.
 
     Please review:
         
@@ -127,7 +127,7 @@
         * You can use the one you use usually use such as venv or pyenv.
         * Typically we discourage using conda and miniconda due to the potential that 
             hundreds of unneeded libraries may be downloaded or a low level conflict may arise. For your project you will be asked not to use conda to keep the vms and containers clean. Use of conda has to be justified in a detailed justification and outline why other python virtualization technologies can not be used. 
-        * please not that the openstack commandline tool must be installed with pipx 
+        * please note that the openstack commandline tool must be installed with pipx 
     
         See: [link](/section/python/python-install.md/#venv)
     2. Using 
@@ -329,7 +329,7 @@
         5. Real world consequences applying to others.
 
     !!! warning 
-        Backing up your computer could cost significant time. In the instructors case it took almost 2 days. So plan ahead and use days where you do not need your computer, or break the backup in smaller chinks. In some cases restrict the backup. If you use a physical backup drive, do not move your computer or drive during the backup.
+        Backing up your computer could cost significant time. In the instructor's case it took almost 2 days. So plan ahead and use days where you do not need your computer, or break the backup in smaller chunks. In some cases restrict the backup. If you use a physical backup drive, do not move your computer or drive during the backup.
         
 
 !!! note "Assignment W.2.4: Local VM"
