@@ -6028,48 +6028,48 @@ we are providing the template to a hybrid multicloud management tool. This tool 
 <p>Based on the current state of the project, here are the recommended areas for improvement:</p>
 <p><strong>2.1 Feature Gaps (High Priority)</strong></p>
 <p>Some commands mentioned in the assignment are currently missing or incomplete:
-  - <strong>Implement missing commands</strong>: Identify which commands are missing and implement them. Before implementation discuss on Piazza.
-  - <strong>Enhance commands</strong>: Evaluate a command such as <code>cmx vm list</code>: Implement missing features and options. An example is to implement output formatting options (<code>--json</code>, <code>--yaml</code>, <code>--csv</code>, <code>--table</code>) to allow for better integration with other tools.
-  - <strong>Refine Naming Logic</strong>: Ensure that <code>cmx vm start</code> correctly handles the <code>{username}-{counter}</code> logic and that the <code>--name</code> override works without incrementing the counter.</p>
-<div class="highlight"><pre><span></span><code>**2.2 Provider-Specific Improvements**
-
-Depending on the chosen clouds, focus on:
-
-- **OpenStack**: The OpenStack provider for Jetstream and Chameleon Cloud have not been tested and are only drafted. Make sure to provide a complete implementation of all the commands.
-- **Hyperscalers**: (Optional) Improve the `libcloud` abstraction to ensure consistency between AWS, Azure, and Google.
-- **Local Providers**: Ensure Multipass, WSL2, and VirtualBox share a consistent lifecycle (start, stop, delete). Figure out what to do with shelve/unshelve.
-
-**2.3 Quality Assurance &amp; Testing**
-
-- **Shell Script Validation**: Create a `verify_vm.sh` script that iterates through all commands:
-  ```bash
-  # Example verification loop
-  COMMANDS=("start" "info" "stop" "delete")
-  for cmd in "${COMMANDS[@]}"; do
-    echo "Testing cmx vm $cmd..."
-    cmx vm $cmd || echo "FAILED"
-  done
-  ```
-
-- **Unit Testing**: (Optional) Increase coverage in `tests/unit` and `tests/smoke` for new provider implementations.
-
-**2.4 Documentation &amp; User Experience**
-
-- **Expand Provider Guides**: Add real-world usage examples and common troubleshooting tips to the `docs/providers/` pages.
-- **Manual Page**: Ensure `docs/manual.md` is always up-to-date with the latest CLI changes.
-
-**3. Collaboration Guide (GitHub Flow)**
-
-To work effectively with a larger group, follow these DevOps practices:
-
-- **Communicate**: Although you use git, communication is important. Work needs to be split up and tasks need to be assigned. Create GitHub issues to coordinate the tasks.
-- **Fork and Clone**: Fork the repository to your own account and clone it locally.
-- **Feature Branches**: Never work directly on `main`. Create a branch for each feature:
-   `git checkout -b feature/add-login-command`
-- **Atomic Commits**: Make small, frequent commits with descriptive messages.
-- **Pull Requests (PRs)**: Submit PRs to the original repository. Provide a clear description of the changes and evidence (logs/screenshots) that the commands work.
-- **Peer Review**: Review your colleagues' PRs to learn from their implementation and ensure code quality.
-</code></pre></div>
+- <strong>Implement missing commands</strong>: Identify which commands are missing and implement them. Before implementation discuss on Piazza.
+- <strong>Enhance commands</strong>: Evaluate a command such as <code>cmx vm list</code>: Implement missing features and options. An example is to implement output formatting options (<code>--json</code>, <code>--yaml</code>, <code>--csv</code>, <code>--table</code>) to allow for better integration with other tools.
+- <strong>Refine Naming Logic</strong>: Ensure that <code>cmx vm start</code> correctly handles the <code>{username}-{counter}</code> logic and that the <code>--name</code> override works without incrementing the counter.</p>
+<p><strong>2.2 Provider-Specific Improvements</strong></p>
+<p>Depending on the chosen clouds, focus on:</p>
+<ul>
+<li><strong>OpenStack</strong>: The OpenStack provider for Jetstream and Chameleon Cloud have not been tested and are only drafted. Make sure to provide a complete implementation of all the commands.</li>
+<li><strong>Hyperscalers</strong>: (Optional) Improve the <code>libcloud</code> abstraction to ensure consistency between AWS, Azure, and Google.</li>
+<li><strong>Local Providers</strong>: Ensure Multipass, WSL2, and VirtualBox share a consistent lifecycle (start, stop, delete). Figure out what to do with shelve/unshelve.</li>
+</ul>
+<p><strong>2.3 Quality Assurance &amp; Testing</strong></p>
+<ul>
+<li>
+<p><strong>Shell Script Validation</strong>: Create a <code>verify_vm.sh</code> script that iterates through all commands:
+    </p><div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Example verification loop</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">COMMANDS</span><span class="o">=(</span><span class="s2">"start"</span><span class="w"> </span><span class="s2">"info"</span><span class="w"> </span><span class="s2">"stop"</span><span class="w"> </span><span class="s2">"delete"</span><span class="o">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">for</span><span class="w"> </span>cmd<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">COMMANDS</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Testing cmx vm </span><span class="nv">$cmd</span><span class="s2">..."</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>cmx<span class="w"> </span>vm<span class="w"> </span><span class="nv">$cmd</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"FAILED"</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">done</span>
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Unit Testing</strong>: (Optional) Increase coverage in <code>tests/unit</code> and <code>tests/smoke</code> for new provider implementations.</p>
+</li>
+</ul>
+<p><strong>2.4 Documentation &amp; User Experience</strong></p>
+<ul>
+<li><strong>Expand Provider Guides</strong>: Add real-world usage examples and common troubleshooting tips to the <code>docs/providers/</code> pages.</li>
+<li><strong>Manual Page</strong>: Ensure <code>docs/manual.md</code> is always up-to-date with the latest CLI changes.</li>
+</ul>
+<p><strong>3. Collaboration Guide (GitHub Flow)</strong></p>
+<p>To work effectively with a larger group, follow these DevOps practices:</p>
+<ul>
+<li><strong>Communicate</strong>: Although you use git, communication is important. Work needs to be split up and tasks need to be assigned. Create GitHub issues to coordinate the tasks.</li>
+<li><strong>Fork and Clone</strong>: Fork the repository to your own account and clone it locally.</li>
+<li><strong>Feature Branches</strong>: Never work directly on <code>main</code>. Create a branch for each feature:
+    <code>git checkout -b feature/add-login-command</code></li>
+<li><strong>Atomic Commits</strong>: Make small, frequent commits with descriptive messages.</li>
+<li><strong>Pull Requests (PRs)</strong>: Submit PRs to the original repository. Provide a clear description of the changes and evidence (logs/screenshots) that the commands work.</li>
+<li><strong>Peer Review</strong>: Review your colleagues' PRs to learn from their implementation and ensure code quality.</li>
+</ul>
 </div>
 <h2 id="week-4-due-sep-24-2026-9am">Week 4:  Due Sep 24, 2026, 9am<a class="headerlink" href="#week-4-due-sep-24-2026-9am" title="Permanent link">¶</a></h2>
 <div class="admonition note">
