@@ -2,7 +2,13 @@
 
 !!! warning "All assignments are due on *Thursdays 9am*. This is 9am in the morning so I can attempt to review your assignments before class"
 
-!!! warning "Do not start VMs or containers or use other resources from access-ci jetstream or chameleon cloud yet."
+!!! warning 
+    * **Chameleon Cloud**: "When using Chameleon Cloud please only use **KVM@TACC**. Please use the smallest possible VM for your work. You must shelve or delete your VM when done. It is not sufficient to stop the VM that costs." 
+    
+    * **Jetstream**: Please use the smallest possible VM for your work. You must shelve or delete your VM when done. It is not sufficient to stop the VM that costs." 
+
+    * **Avoid Jetstream**: Please avoid using jetstream as much as possible as the hours you work on it will take away hours from the public clouds.
+   
 
 !!! info "Teamwork is allowed on any assignment."
 
@@ -21,11 +27,12 @@
 
 
 !!! Warning 
-    This assignment takes effort. We will assess how far you got on Oct 1st. Self assesment her is important. This includes mentioning tasks you could comolete, task you could not complete, and tasks that you did not undertsand and are missing background to complete.
+    This assignment takes effort. We will assess how far you got on Oct 1st. Self assessment here is important. This includes mentioning tasks you could complete, task you could not complete, and tasks that you did not understand and are missing background to complete, and tasks you thought you needed to be done but were already finished.
 
-    The project uses a fairly common use pattern of dynamically integrating commandline tools in a directoory hierarchy, but it may be to complex for some. That is no issue. The individual Providers can be tested outside of the commandline interface.
-
-    So let me know if you have issues with the click integration and Gregor can help. In principal it is simple. As there are enough working commands and provider functions implemented in multipass and lima.
+    The project uses a fairly common use pattern of dynamically integrating commandline tools in a directory hierarchy.
+    However, it is best to just focus first on a simple use case and use and implement functionality of interfacing with the clouds as part of providers rather than the commandline. 
+    
+    If you have issues with the click integration remember Gregor can help and if needed even will do it for you. In principle it is simple. As there are enough working example commands and provider functions implemented in multipass, lima, OpenStack, Chameleon Cloud, and Jetstream. 
 
 
 !!! note "Assignment W5.1: VMs via python (libcloud)"
@@ -37,7 +44,7 @@
 
     **Goal 2: Improvement of the tool.** The goal is to transform this draft tool into a robust hybrid multicloud management utility.
 
-    **Goal 3: Understand Pythons libcloud.** It ahs advantages and disadvantages. Limitations may be overcome with libraries such as opensdk, boto, ...
+    **Goal 3: Understand Pythons libcloud.** It has advantages and disadvantages. Limitations may be overcome with libraries such as opensdk, boto, ...
 
     **Goal 4: GitHub Project.** Does the class want to utilize a github Project, such as setting up Kanban? The class decides.
 
@@ -107,21 +114,21 @@
 
 ## Week 4:  Due Sep 24, 2026, 9am
 
-!!! note note "Assignment W4.1 VM on local machine via Makefile"
+!!! note "Assignment W4.1 VM on local machine via Makefile"
 
     1. Pick a local VM framework. Make sure it is installed.
     2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
     3. Can you manage multiple machines? How.
     4. How do you organize different Makefiles for different local and cloud environments (tip directories) there are other ways to do this, but directories are easy
 
-!!! note note "Assignment W4.2 VM on Jetstream 2"
+!!! note "Assignment W4.2 VM on Jetstream 2"
 
     1. Install the openstack commandline client
     2. Write a Makefile with all the targets that you need (which are they?) to manage a single VM
     3. Can you manage multiple machines? 
     4. Check it into your repository
 
-!!! note note "Assignment W4.3 VM on Chameleon Cloud"
+!!! note "Assignment W4.3 VM on Chameleon Cloud"
 
     1. Install the openstack commandline client
     2. Install python-chi
@@ -129,7 +136,7 @@
     4. Can you manage multiple machines? 
     5. Check it into your repository
 
-!!! note note "Assignment W4.4 Review Python"
+!!! note "Assignment W4.4 Review Python"
 
     In preparation for the upcoming weeks, please review your python knowledge. You can use any resource you like, but we have provided a large amount of information about python (of which you do not need all). Therefore we recommend to strategically review sections that will be instrumental to Clouds, DevOps, and AI.
     If there are any issues, please use Piazza to ask and we can narrow it down. This is a relatively simple activity and it should not take long. If it takes more than 3 hours, please use Piazza to find out where you may need some more help.
@@ -137,7 +144,7 @@
     Please review:
         
     1. Setting up  python virtual environment. 
-        * You can use the one you use usually use such as venv or pyenv.
+        * You can use the one you usually use such as venv or pyenv.
         * Typically we discourage using conda and miniconda due to the potential that 
             hundreds of unneeded libraries may be downloaded or a low level conflict may arise. For your project you will be asked not to use conda to keep the vms and containers clean. Use of conda has to be justified in a detailed justification and outline why other python virtualization technologies can not be used. 
         * please note that the openstack commandline tool must be installed with pipx 
@@ -151,7 +158,7 @@
         See: [link](/section/python/python-pipx.md)
 
     3. Review how to use import statements such as `os.system`
-        Write a program that uses os.sytem("ls") (windows users must be in gitbash to make that work or in a vm using Linux.
+        Write a program that uses os.system("ls") (windows users must be in gitbash to make that work or in a vm using Linux.
 
     4. Review how to create a __main__ 
 
@@ -160,7 +167,7 @@
     5. Review how to pass arguments to the python program from commandline.
 
     !!! tip 
-        I recommend click instead of argparse as there is a direct correlation between function name and parameters. click provides ease augmentations befor the function to transform it for you to a commanline interface. In other frameworks you have to do much more.
+        I recommend click instead of argparse as there is a direct correlation between function name and parameters. click provides easy augmentations before the function to transform it for you to a commandline interface. In other frameworks you have to do much more.
             
         See: [link](/section/python/python-click.md)
 
@@ -168,7 +175,7 @@
 
         See: [link](/Users/grey/work/cloudmesh-ai-lecture/docs/section/python/python-subprocess.md)
 
-        Focus on `os.system()` and `supbrocess.run()`
+        Focus on `os.system()` and `subprocess.run()`
     
 
 
@@ -192,7 +199,7 @@
 
     Put the solution in file vms.md
     ```
-    # Jestream VM
+    # Jetstream VM
 
     ![Jetstream](jetstream.png)
     ```
@@ -214,7 +221,7 @@
 
     Put the solution in file vms.md
     ```
-    # Chamelon Cloud VM
+    # Chameleon Cloud VM
 
     ![Chameleon](chameleon.png)
     ```
@@ -240,7 +247,7 @@
     ```
     # Comparing VM Creation
 
-    write a nice comparision, do not use I
+    write a nice comparison, do not use I
     ```
 
 
@@ -251,13 +258,13 @@
 
         * <https://github.com/cloudmesh-ai-luc/example/blob/main/README.md>
 
-    2. Fill out the checkboxes. only fill them out when they are done. The have the purpose to selfevaluate and document the progress. you make.
+    2. Fill out the checkboxes. Only fill them out when they are done. They have the purpose to self-evaluate and document the progress you make.
 
-    3. This is kept up to date by you every week from assignments posted in the Lecture notes. It is part of each weeks assignment. It is your responsibility. I will only review assignments that are linked to this document. So make sure the URLs are also included.
+    3. This is kept up to date by you every week from assignments posted in the Lecture notes. It is part of each week's assignment. It is your responsibility. I will only review assignments that are linked to this document. So make sure the URLs are also included.
     
 !!! note "Assignment W3.6 git from commandline"
 
-    We created a project.md use th git command lines to sharpen your skills to do all git interactions from commandline. This is important as on cloud services we do not have GUIs and we need to use git form multiple services. Use:
+    We created a project.md. Use the git command lines to sharpen your skills to do all git interactions from commandline. This is important as on cloud services we do not have GUIs and we need to use git from multiple services. Use:
 
     * Work with a fork (GUI)
 
@@ -291,7 +298,7 @@
     ```
     Albert Zweistein (azweistein@luc.edu)
     ```
-    This is the message boddy in the post.
+    This is the message body in the post.
 
     ```
     class: 488
@@ -320,7 +327,7 @@
 
     Computers store the work, photos, and projects you’ve spent time creating including that of your classes. If a virus, hardware failure, or accidental delete occurs, those files can disappear forever. A regular backup gives you a safe copy that you can restore instantly, protecting both your effort and your grades. Think of a backup as a “reset button” that saves you from losing everything.
    
-    1. Write a one‑paragraph explanation (4‑6 sentences) of why backing up of your own up a computer is important, using the ideas discussed earlier.
+    1. Write a one‑paragraph explanation (4‑6 sentences) of why backing up your own computer is important, using the ideas discussed earlier.
 
     2. List three real‑world consequences that apply to you of not having a backup (e.g., lost homework, corrupted projects, costly data recovery).
 
@@ -328,8 +335,8 @@
 
     4. Create a weekly backup schedule (day, time, and what to back up). 
 
-    5. Research an example from cloud Computing where a missing backup strategy lead to issues. (Example: Loss of data by NPR dur to Vendor shutting down [[1]](https://www.stlpr.org/news-briefs/2026-08-20/nine-pbs-70-years-programming-history)) 
-    Are there other examples? Write a short incidence case and how it could have been avoided.
+    5. Research an example from cloud Computing where a missing backup strategy led to issues. (Example: Loss of data by NPR due to Vendor shutting down [[1]](https://www.stlpr.org/news-briefs/2026-08-20/nine-pbs-70-years-programming-history)) 
+    Are there other examples? Write a short incident case and how it could have been avoided.
     
     **Submission:**  
     
@@ -345,7 +352,7 @@
         Backing up your computer could cost significant time. In the instructor's case it took almost 2 days. So plan ahead and use days where you do not need your computer, or break the backup in smaller chunks. In some cases restrict the backup. If you use a physical backup drive, do not move your computer or drive during the backup.
         
 
-!!! note "Assignment W.2.4: Local VM"
+!!! note "Assignment W2.4: Local VM"
 
     **Goal:**  Set up a local virtual machine (VM) on your own computer, prove that you can log in, and produce a short, up‑to‑date tutorial that anyone else can follow.
 
@@ -357,7 +364,7 @@
     | **2** | **Pick a VM framework** | Choose a hypervisor that runs on your hardware and that you like. Typical options are: <br>• *VirtualBox* (free, cross‑platform) <br>• *VMware Workstation/Player* <br>• *Microsoft Hyper‑V* (Windows Pro) <br>• *Multipass* (lightweight CLI) <br>Make sure the download size fits on your drive. |
     | **3** | **Create and start a VM** | • Follow the hypervisor’s wizard or CLI to create a minimal VM (e.g., Ubuntu 22.04). <br>• Boot the VM, log in at least once, and verify that the terminal works. |
     | **4** | **Capture proof of login** | Take a screenshot of the VM’s terminal **≤ 800 × 600 px**. The image must show:<br>• Your prompt (username/hostname) <br>• At least one command you ran (e.g., `uname -a` or `ls -la`). |
-    | **5** | **Write / update the tutorial** | • In your repository, create (or edit) a file named **`local-vm.md`**. <br>• The file should contain a concise, step‑by‑step guide that includes:<br>   1. Prerequisites (Git Bash, chosen hypervisor, etc.)<br>   2. Installation of the hypervisor<br>   3. VM creation commands (or GUI instructions) and how to log in<br>   4. The screenshot (embed it or link to `vm-login.png`)<br>   5. Any system‑specific quirks you encountered<br>   6. A “Contributing” section that tells others how to submit a PR if the official lecture notes need fixing. <br> **Note**: Do not waste your time to duplicate a tutorial if it is already in the Lecture Notes, create a pull request if you see something is wrong.|
+    | **5** | **Write / update the tutorial** | • In your repository, create (or edit) a file named **`local-vm.md`**. <br>• The file should contain a concise, step‑by‑step guide that includes:<br>   1. Prerequisites (Git Bash, chosen hypervisor, etc.)<br>   2. Installation of the hypervisor<br>   3. VM creation commands (or GUI instructions) and how to log in<br>   4. The screenshot (embed it or link to `vm-login.png`)<br>   5. Any system‑specific quirks you encountered<br>   6. A “Contributing” section that tells others how to submit a PR if the official lecture notes need fixing. <br> **Note**: Do not waste your time duplicating a tutorial if it is already in the Lecture Notes; create a pull request if you see something is wrong.|
     | **6** | **Submit** | • Add the screenshot (e.g., `vm-login.png`). <br>• Commit **`local-vm.md`** and the screenshot to your repository. <br>• If the lecture notes already contain a tutorial, verify it works on your machine. <br>   – If you found errors, open a pull request to correct them. <br>   – If it works, simply note any differences in your `local‑vm.md`. <br>• If no tutorial exists, your `local‑vm.md` becomes the canonical guide. |
 
     **Deliverables**

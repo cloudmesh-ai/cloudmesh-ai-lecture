@@ -75,10 +75,12 @@ In Libcloud, a virtual machine is referred to as a **Node**. To create a node, y
 By treating size and image as objects, Libcloud allows you to programmatically query available flavors across different clouds and select the best one based on your requirements.
 
 ### Storage Buckets and Objects
-Libcloud abstracts object storage using **StorageBuckets** (the containers) and **Objects** (the files). Whether it is an S3 bucket or an Azure Blob container, the interaction remains the same. This uniformity allows you to write a single backup script that uploads logs to any supported object storage provider without modification.
+Libcloud abstracts object storage using **StorageBuckets** (the containers) and **Objects** (the files). Whether it is an S3 bucket or an Azure Blob container, the interaction remains the same.
+* *Why this matters*: You can write a single backup script that uploads logs to any supported object storage provider.
 
 ### Credential Handling
-Credentials (keys, secrets, tokens) are passed to the driver's constructor. While the Mock driver accepts dummy strings, real drivers require valid provider credentials. Centrally managing credentials at the driver instantiation level makes it easier to rotate keys or integrate with secret management services.
+Credentials (keys, secrets, tokens) are passed to the driver's constructor. While the Mock driver accepts dummy strings, real drivers require valid provider credentials.
+* *Why this matters*: Centrally managing credentials at the driver instantiation level makes it easier to rotate keys or integrate with secret management services.
 
 ---
 
@@ -310,17 +312,27 @@ Ensure you can answer these questions before proceeding to the assignments:
 
 ### Assignment C: Multi-Cloud Abstraction
 
-Revies the `cloudmesh-ai-vm` package and im
+Revies the `cloudmesh-ai-vm` package and improve it.
 
-1. **The Wrapper**: Create a class `UnifiedCloud` that takes configurations for two different providers (e.g., Mock and AWS).
-2. **Implementation**: Implement the following methods:
-    - `create_vm(provider_key, name)`
-    - `list_vms(provider_key)`
-    - `upload_to_storage(provider_key, bucket_name, file_path)`
-3. **Demonstration**: Use the wrapper to create a VM on "Provider A" and upload a file to "Provider B".
-4. **Testing**: Write a small test suite using `unittest` or `pytest` to verify that the wrapper correctly routes requests to the specified provider.
+* Make sure cloud vms are fully supported
+    * multipass
+    * lima
+    * wsl2
+    * jetstream
+    * chameleon
+    * AWS
+    * Azure
+    * Google
+    * Others
+* Enhance it to integrate storage
+* Enhance it to integrate networks
+* Enhance the it with caching
+* Enhance it with manageing multiple VMs through hostname[1-10]
+* Enhance it with unit tests
+* Enhance the unit tests with a mock service using libcloud.
+* Enhance it with integration of cloud init at startup of the vm
 
----
+
 
 ## Further Reading & Resources
 
