@@ -173,7 +173,7 @@
 
     6. Review how to run shell commands from within python 
 
-        See: [link](/Users/grey/work/cloudmesh-ai-lecture/docs/section/python/python-subprocess.md)
+        See: [link](/section/python/python-subprocess.md)
 
         Focus on `os.system()` and `subprocess.run()`
     
