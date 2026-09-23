@@ -241,6 +241,64 @@ Here are the most useful `utmctl` commands for daily management:
     - A screenshot of the web page being accessed from the macOS browser.
     - A terminal log showing the successful output of `make status` and `utmctl ip-address`.
 
+## Appendix: Guest Tools Automation
+
+Since `utmctl` and shared directories rely on the guest agent being installed inside the VM, you can automate this process using a `Makefile` and SSH.
+
+### Guest Tools Bootstrap Makefile
+
+Create a file named `Makefile.guest` in your project directory:
+
+```makefile
+# Guest Tools Installation Makefile
+# 
+
+# Configuration variables
+VM_USER ?= ubuntu
+VM_IP   ?= 192.168.64.x  # Replace with your VM's current IP
+SSH_CMD = ssh -o StrictHostKeyChecking=no $(VM_USER)@$(VM_IP)
+
+.PHONY: help install verify clean
+
+help:
+	@echo "Guest Tools Automation"
+	@echo "======================="
+	@echo "Target: $(VM_USER)@$(VM_IP)"
+	@echo ""
+	@echo "Available Commands:"
+	@echo "  make install   - Install spice-vdagent and qemu-guest-agent"
+	@echo "  make verify    - Verify agent installation via utmctl"
+	@echo ""
+
+install:
+	@echo "Installing guest tools on $(VM_IP)..."
+	@$(SSH_CMD) "sudo apt update && sudo apt install -y spice-vdagent qemu-guest-agent"
+	@echo "Installation complete. Please reboot the VM for changes to take effect."
+
+verify:
+	@echo "Verifying guest tools for VM..."
+	@/Applications/UTM.app/Contents/MacOS/utmctl ip-address
+	@echo "If the IP address was returned successfully, the agent is running."
+
+clean:
+	@echo "Nothing to clean."
+```
+
+### Using the Bootstrap Makefile
+
+Because you cannot use `utmctl` to install the agent (as the agent is required for `utmctl` to work), this Makefile uses SSH to bootstrap the VM.
+
+1.  **Find the IP**: Use the UTM GUI to find the IP address of your running VM.
+2.  **Run Installation**:
+    ```bash
+    make -f Makefile.guest install VM_IP="192.168.64.5"
+    ```
+3.  **Reboot**: Reboot the VM via the UTM GUI.
+4.  **Verify**:
+    ```bash
+    make -f Makefile.guest verify
+    ```
+
 ## Appendix: VM Automation
 
 To simplify the management of virtual machines, you can use a `Makefile`. This allows you to create shorthand commands for frequently used `utmctl` operations.

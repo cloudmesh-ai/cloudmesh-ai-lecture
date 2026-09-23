@@ -410,3 +410,91 @@ Extend the Multipass provider by inheriting from the `ComputeNodeABC` abstract c
 ```
 
 ```
+
+## Appendix: VM Automation with Makefile
+
+To simplify the management of Multipass instances, especially when dealing with multiple nodes for a k3s cluster or development environments, you can use a `Makefile`. This allows you to create shorthand commands for frequently used Multipass operations.
+
+### Multipass Management Makefile
+
+Create a file named `Makefile` in your project directory and paste the following content:
+
+```makefile
+# Multipass VM Management Makefile
+# 
+
+# Configuration variables (override via command line: make start VM_NAME="dev-node")
+VM_NAME ?= primary
+MULTIPASS = multipass
+
+.PHONY: help list start stop stop-all delete shell info purge
+
+help:
+	@echo 
+	@echo " Multipass VM CLI Automation"
+	@echo "==========================="
+	@echo "Target VM Configuration: '$(VM_NAME)'"
+	@echo ""
+	@echo "Available Commands:"
+	@echo "  make list            - List all Multipass instances"
+	@echo "  make start           - Start the target VM"
+	@echo "  make stop            - Stop the target VM"
+	@echo "  make stop-all        - Stop all running instances"
+	@echo "  make delete          - Delete the target VM"
+	@echo "  make shell           - Open a shell in the target VM"
+	@echo "  make info            - Show detailed info for the target VM"
+	@echo "  make purge           - Delete all instances and purge cached images"
+	@echo ""
+
+list:
+	@$(MULTIPASS) list
+
+start:
+	@echo "Starting $(VM_NAME)..."
+	@$(MULTIPASS) start $(VM_NAME)
+
+stop:
+	@echo "Stopping $(VM_NAME)..."
+	@$(MULTIPASS) stop $(VM_NAME)
+
+stop-all:
+	@echo "Stopping all instances..."
+	@$(MULTIPASS) list | grep -v "Name" | awk '{print $$1}' | xargs -I {} $(MULTIPASS) stop {}
+
+delete:
+	@echo "Deleting $(VM_NAME)..."
+	@$(MULTIPASS) delete $(VM_NAME)
+	@$(MULTIPASS) purge
+
+shell:
+	@$(MULTIPASS) shell $(VM_NAME)
+
+info:
+	@$(MULTIPASS) info $(VM_NAME)
+
+purge:
+	@echo "Purging all instances and images..."
+	@$(MULTIPASS) delete --all
+	@$(MULTIPASS) purge
+```
+
+### Using the Makefile
+
+With this `Makefile`, you can manage your Ubuntu instances with simple commands:
+
+- **Start your primary VM**:
+  ```bash
+  make start
+  ```
+- **Start a specific dev node**:
+  ```bash
+  make start VM_NAME="dev-node-1"
+  ```
+- **Jump directly into the shell**:
+  ```bash
+  make shell
+  ```
+- **Quickly wipe everything to start over**:
+  ```bash
+  make purge
+  ```
