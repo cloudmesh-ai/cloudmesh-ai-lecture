@@ -64,9 +64,39 @@ UTM uses a guided wizard to simplify the configuration of virtual hardware.
 
 After the wizard completes, click the **Play** button in the UTM sidebar to start the VM. The VM will boot from the mapped ISO, and the user must follow the standard installation prompts of the guest operating system to install it onto the virtual hard disk.
 
+
+## Performance Tuning
+
+To move beyond the basic configuration and achieve maximum efficiency, you should optimize the virtual hardware settings.
+
+### VirtIO: The Gold Standard for I/O
+By default, UTM may use generic emulated hardware for compatibility. However, for near-native performance, you should use **VirtIO** drivers for both networking and storage. VirtIO is a virtualization standard for network and disk device drivers that reduces the overhead of emulation.
+
+- **Storage**: In the VM settings, ensure the disk interface is set to `VirtIO`.
+- **Network**: Set the network interface to `VirtIO-net`.
+
+### GPU Acceleration
+For VMs requiring a graphical desktop, the default display can feel sluggish. Enabling **VirtIO-GPU** with OpenGL acceleration (where supported) significantly improves the smoothness of the guest UI.
+
+### CPU Model Selection
+When using "Emulate" mode, the choice of CPU model affects both compatibility and speed. While `qemu64` is the safest default, selecting a more modern CPU model (like `host` if virtualizing) can unlock advanced instruction sets (e.g., AVX) that speed up computational tasks in the guest.
+
 ## Managing the Guest Environment
 
 UTM provides several tools to manage the VM once it is running.
+
+### Installing Guest Tools
+
+Many advanced features, such as shared directories, dynamic resolution, and the `utmctl` command-line interface, require a guest agent to be installed inside the virtual machine. Without these tools, the host cannot communicate deeply with the guest OS.
+
+For Linux guests (Ubuntu/Debian), install the agents by running:
+
+```bash
+sudo apt update
+sudo apt install spice-vdagent qemu-guest-agent
+```
+
+After installation, restart the VM to ensure the services are active.
 
 ### Console and Headless Mode
 
@@ -87,6 +117,62 @@ UTM supports different networking modes to control how the VM communicates with 
 
 To move files between macOS and the guest OS without using network transfers, UTM supports shared directories. By adding a folder in the VM settings under the "Sharing" tab, UTM uses the VirtFS (9p) protocol to map a macOS folder into the guest's filesystem.
 
+## Snapshotting and State Management
+
+Virtualization allows you to save the exact state of a machine, providing a safety net for experimentation.
+
+### Suspending vs. Snapshotting
+It is important to distinguish between these two concepts:
+
+- **Suspending (Save State)**: This is like putting a laptop to sleep. UTM saves the current RAM state to disk and stops the CPU. When you resume, you are exactly where you left off.
+- **Snapshotting**: This is a permanent point-in-time recovery image. A snapshot records the state of the virtual disk and configuration. You can return to a snapshot multiple times, even after you have continued working and made further changes.
+
+### Creating and Restoring Snapshots
+In the UTM sidebar, you can right-click a VM and select **Snapshots**. From here, you can create a named snapshot (e.g., "Before System Update") and restore the VM to that state if something goes wrong.
+
+## Portability and Backup
+
+UTM makes it easy to move virtual machines between different macOS devices or share them with collaborators.
+
+### Exporting VMs
+You can export a VM as a `.utm` package. This package contains the virtual disk images and the configuration file. To export, right-click the VM in the sidebar and select **Export**.
+
+### Importing and Sharing
+A `.utm` file can be imported into any UTM installation. This is the ideal way to distribute "pre-baked" development environments to a team, ensuring everyone is working on the exact same OS version and configuration.
+
+## Command-Line Interface (utmctl)
+
+For users who prefer the terminal or need to automate VM management, UTM provides a powerful command-line utility called `utmctl`. This tool allows you to perform most of the actions available in the GUI directly from the macOS terminal.
+
+### Accessing utmctl
+
+The `utmctl` binary is bundled within the UTM application package. You can run it using its absolute path:
+
+```bash
+/Applications/UTM.app/Contents/MacOS/utmctl --help
+```
+
+To make it easier to use, you can add an alias to your shell configuration (e.g., `.zshrc`):
+
+```bash
+alias utmctl='/Applications/UTM.app/Contents/MacOS/utmctl'
+```
+
+### Common Commands
+
+Here are the most useful `utmctl` commands for daily management:
+
+| Command | Description | Example |
+| :--- | :--- | :--- |
+| `list` | Lists all configured virtual machines | `utmctl list` |
+| `start` | Starts or resumes a specific VM | `utmctl start "Ubuntu"` |
+| `stop` | Requests a graceful shutdown | `utmctl stop "Ubuntu" --request` |
+| `status` | Displays the current state of a VM | `utmctl status "Ubuntu"` |
+| `ip-address` | Retrieves the guest OS IP address | `utmctl ip-address "Ubuntu"` |
+| `exec` | Executes a command inside the guest | `utmctl exec "Ubuntu" -- uptime` |
+| `suspend` | Suspends the VM state | `utmctl suspend "Ubuntu"` |
+| `dict` | Displays detailed VM configuration | `utmctl dict "Ubuntu"` |
+
 ## Self-Assessment
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
@@ -106,6 +192,9 @@ To move files between macOS and the guest OS without using network transfers, UT
 ??? question "What is the relationship between UTM and QEMU?"
     UTM is a graphical user interface (GUI) wrapper around QEMU and Apple's Virtualization framework, making the power of QEMU accessible through a visual wizard.
 
+??? question "How can you manage UTM virtual machines from the command line?"
+    You can use the `utmctl` utility, located at `/Applications/UTM.app/Contents/MacOS/utmctl`, to perform tasks like starting, stopping, and listing VMs without using the GUI.
+
 ## Practical Exercises
 
 !!! note "Exercise 1: Basic Native Virtualization"
@@ -117,8 +206,129 @@ To move files between macOS and the guest OS without using network transfers, UT
 !!! note "Exercise 3: Host-Guest Integration"
     In the settings of your Linux VM, configure a shared directory that points to a folder on your macOS desktop. Inside the Linux guest, mount the shared folder and create a text file. Verify that the file appears instantly on your macOS desktop.
 
+!!! note "Assignment: Hosting a Web Service"
+    This assignment synthesizes all the concepts covered in this chapter. You will move from a GUI installation to a fully automated, headless web server.
+
+    **Objective.** Deploy a Linux server that hosts a public-facing web page, managed entirely via the command line.
+
+    **Task Sequence**
+
+    1. **Provisioning**: 
+       - Create a new Ubuntu Server VM using the "Virtualize" option.
+       - Configure it to start in **headless mode**.
+
+    2. **Environment Setup**:
+       - Boot the VM and install the **Guest Tools** (`spice-vdagent` and `qemu-guest-agent`).
+       - Reboot the VM.
+
+    3. **Infrastructure Discovery**:
+       - Use the macOS terminal and `utmctl ip-address "Your-VM-Name"` to find the internal IP address of the server.
+
+    4. **Service Deployment**:
+       - SSH into the VM: `ssh username@guest-ip`.
+       - Install a web server: `sudo apt install nginx -y`.
+       - Create a simple HTML page in `/var/www/html/index.html` that says "Hello from UTM Virtualized Server!".
+
+    5. **Verification**:
+       - Open a web browser on your macOS host and navigate to the VM's IP address. Verify that your web page is visible.
+
+    6. **Automation Integration**:
+       - Add your VM's name to the `Makefile` provided in the previous appendix.
+       - Verify that you can start, stop, and check the status of your web server using `make start`, `make stop`, and `make status`.
+
+    **Submission Criteria**
+
+    - A screenshot of the web page being accessed from the macOS browser.
+    - A terminal log showing the successful output of `make status` and `utmctl ip-address`.
+
+## Appendix: VM Automation
+
+To simplify the management of virtual machines, you can use a `Makefile`. This allows you to create shorthand commands for frequently used `utmctl` operations.
+
+### UTM Management Makefile
+
+Create a file named `Makefile` in your project directory and paste the following content:
+
+```makefile
+# UTM Virtual Machine Management Makefile
+# 
+
+# Configuration variables (override via command line: make start VM_NAME="Ubuntu")
+
+VM_NAME ?= Ubuntu 24.04
+UTMCTL  ?= /Applications/UTM.app/Contents/MacOS/utmctl
+
+.PHONY: help list status start stop suspend-disk suspend-mem ip-address exec-demo info
+
+# Default target
+help:
+	@echo 
+	@echo " UTM Virtual Machine CLI Automation (utmctl)"
+	@echo "==================================="
+	@echo "Target VM Configuration: '$(VM_NAME)'"
+	@echo ""
+	@echo "Available Commands:"
+	@echo "  make list            - List all available virtual machines"
+	@echo "  make status          - Check the status of the target VM"
+	@echo "  make start           - Start or resume the target VM (GUI/Headless)"
+	@echo "  make stop            - Gracefully stop/request shutdown via guest agent"
+	@echo "  make suspend-disk    - Suspend VM and save state to disk"
+	@echo "  make suspend-mem     - Suspend VM to memory only"
+	@echo "  make ip-address      - Retrieve the guest IP address"
+	@echo "  make exec-demo       - Run a test command inside the guest OS"
+	@echo "  make info            - Show detailed configuration info for the VM"
+	@echo ""
+
+list:
+	@echo "Listing all configured UTM virtual machines..."
+	@$(UTMCTL) list
+
+status:
+	@echo "Checking status of '$(VM_NAME)'..."
+	@$(UTMCTL) status "$(VM_NAME)"
+
+start:
+	@echo "Starting '$(VM_NAME)'..."
+	@$(UTMCTL) start "$(VM_NAME)"
+
+stop:
+	@echo "Sending graceful shutdown request to '$(VM_NAME)'..."
+	@$(UTMCTL) stop "$(VM_NAME)" --request
+
+suspend-disk:
+	@echo "Suspending '$(VM_NAME)' and saving state to disk..."
+	@$(UTMCTL) suspend "$(VM_NAME)" --force
+
+suspend-mem:
+	@echo "Suspending '$(VM_NAME)' to memory..."
+	@$(UTMCTL) suspend "$(VM_NAME)"
+
+ip-address:
+	@echo "Fetching IP address for '$(VM_NAME)'..."
+	@$(UTMCTL) ip-address "$(VM_NAME)"
+
+exec-demo:
+	@echo "Executing command inside '$(VM_NAME)' via guest agent..."
+	@$(UTMCTL) exec "$(VM_NAME)" -- uname -a
+	@$(UTMCTL) exec "$(VM_NAME)" -- uptime
+
+info:
+	@echo "Displaying configuration details for '$(VM_NAME)'..."
+	@$(UTMCTL) dict "$(VM_NAME)"
+```
+
+Using this Makefile, you can start your VM with a simple command:
+```bash
+make start
+```
+Or target a different VM:
+```bash
+make start VM_NAME="Debian"
+```
+
 ## Further Reading
 
+- UTM Official Website: https://mac.getutm.app/
 - UTM Official Documentation: https://getutm.app/support/
 - Apple Virtualization Framework: https://developer.apple.com/documentation/virtualization
 - QEMU Project: https://www.qemu.org/
