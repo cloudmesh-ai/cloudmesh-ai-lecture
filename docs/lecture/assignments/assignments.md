@@ -111,11 +111,11 @@
     - **Pull Requests (PRs)**: Submit PRs to the original repository. Provide a clear description of the changes and evidence (logs/screenshots) that the commands work.
     - **Peer Review**: Review your colleagues' PRs to learn from their implementation and ensure code quality.
 
-    !!! tip "adding a new Provider
+    !!! tip "adding a new Provider"
 
         To add a new provider you must be sure it is loaded. This can be controlled with 
 
-        * The [cloudmesh/ai/vm/providers/__init__.py](https://github.com/cloudmesh-ai/cloudmesh-ai-vm/blob/main/src/cloudmesh/ai/vm/providers/__init__.py)
+        * The [cloudmesh/ai/vm/providers/\_\_init\_\_.py](https://github.com/cloudmesh-ai/cloudmesh-ai-vm/blob/main/src/cloudmesh/ai/vm/providers/__init__.py)
 
         * Then you just need to create 
 
