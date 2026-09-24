@@ -368,14 +368,14 @@ The following guide gives a quick overview how to chose the CIDR.
     ```python
     import ipaddress
     cidr = ipaddress.ip_network('10.0.0.0/16')
-    print(f\"Network bits: {cidr.prefixlen}\")
-    print(f\"Host bits: {32 - cidr.prefixlen}\")
-    print(f\"Total IPs: {cidr.num_addresses}\")
+    print(f"Network bits: {cidr.prefixlen}")
+    print(f"Host bits: {32 - cidr.prefixlen}")
+    print(f"Total IPs: {cidr.num_addresses}")
     ```
 
     **Task**: Execute this code and try different combinations (e.g., `/8`, `/24`, `/28`, `/32`). Observe how the number of available IPs changes drastically with just a small change in the prefix number.
 
-    !!! tip \"Solution\"
+    ??? tip "Solution"
 
         ```
         Network bits: 16
@@ -447,7 +447,7 @@ The following guide gives a quick overview how to chose the CIDR.
 
     How can the output from this program be interpreted?
 
-    !!! tip "Solution"
+    ??? tip "Solution"
 
         * The two rows flagged with **⚠️** are risky because they expose **SSH** (22) and **RDP** (3389) to the entire Internet.  
         * Port 80/443 are allowed from `0.0.0.0/0`—that is fine for some public web services.  
