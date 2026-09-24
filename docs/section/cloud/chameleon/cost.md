@@ -2,6 +2,7 @@
 
 !!! info "Learning Objectives"
     By the end of this chapter, you will be able to:
+
     - **Define** the Service Unit (SU) and explain its role as a normalized currency for cloud resources.
     - **Calculate** the hourly and monthly SU cost for various virtual machine configurations.
     - **Differentiate** between the costs of compute, block storage, object storage, and data egress.
@@ -47,6 +48,7 @@ The hourly cost of a standard instance is calculated as:
 ### Practical Example: The "m1.medium" Flavor
 
 Consider an instance with 2 vCPUs and 4 GB of RAM:
+
 - **CPU Cost**: 2 cores * 1.0 = 2.0 SU/hr
 - **RAM Cost**: 4 GB * 0.5 = 2.0 SU/hr
 - **Total**: 4.0 SU/hr
@@ -95,6 +97,7 @@ One of the most effective ways to reduce costs is by using **pre-emptible instan
 ### Storage and Egress Efficiency
 
 While compute costs often dominate the budget, storage can become a "silent killer" if not managed.
+
 - **Delete unused volumes**: Block storage is charged as long as the volume exists, even if the VM is deleted.
 - **Use Object Storage**: For large datasets that do not require a filesystem, Swift (Object Storage) is more cost-effective than Block Storage.
 
