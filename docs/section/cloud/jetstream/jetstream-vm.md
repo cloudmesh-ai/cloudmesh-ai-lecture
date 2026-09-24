@@ -348,6 +348,24 @@ Before creating the server, you need to find the names or IDs of the hardware si
   +-----------------------+----------------------+
   ```
 
+* **Upload your SSH key with a name:**
+
+Although we mentioned to upload the keypair via horizon, you do not have to use horizon for it. You can do it directly from the commandline. This is especially useful if for some reason the previous command returns that no key could be found.
+
+Use the following command:
+
+```bash
+openstack keypair create --public-key ~/.ssh/id_rsa.pub your-ssh-key-name
+```
+
+!!! note
+    * `~/.ssh/id_rsa.pub` is the path to your local public key file. You can use a different key if you like
+
+    * `your-ssh-key-name:` The name you want to assign to the keypair inside OpenStack (which will appear in your openstack keypair list output).
+    In **group projects** you should use your github or other easy to identifying prefix for the name, firstnames ma also do.
+    The project PI will ask you to change the name if it can not be easily identified. Naming it id_rsa is obviously wrong as we can not identify from the name to whom it belongs.
+
+
 ### 2. Create and Launch the Server
 Run the `openstack server create` command. 
 
