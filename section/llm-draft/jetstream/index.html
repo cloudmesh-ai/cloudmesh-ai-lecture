@@ -20,7 +20,7 @@
     
     
       
-        <title>NVIDIA DGX Spark: Hardware and Operational Implementation - Lecture Notes: CloudComputing, DevOps, and AI</title>
+        <title>Running &amp; Integrating LLMs on Jetstream 2 - Lecture Notes: CloudComputing, DevOps, and AI</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#nvidia-dgx-spark-hardware-and-operational-implementation" class="md-skip">
+        <a href="#running-integrating-llms-on-jetstream-2" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              NVIDIA DGX Spark: Hardware and Operational Implementation
+              Running &amp; Integrating LLMs on Jetstream 2
             
           </span>
         </div>
@@ -6056,22 +6056,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#dgx-spark-at-a-glance" class="md-nav__link">
+  <a href="#for-the-impatient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DGX Spark – At a Glance
+        For the impatient
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="DGX Spark – At a Glance">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#performance-highlights" class="md-nav__link">
+  <a href="#option-a-central-inference-service" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Performance Highlights
+        Option A – Central Inference Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-selfhosted-gpu-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B – Self‑Hosted GPU Instance
       
     </span>
   </a>
@@ -6084,44 +6117,295 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#typical-dgx-spark-workflows" class="md-nav__link">
+  <a href="#obtaining-an-open-webui-api-token-option-a" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Typical DGX Spark Workflows
+        Obtaining an Open WebUI API Token (Option A)
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-whatif-calculations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick “What‑If” Calculations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps-how-i-can-help" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps – How I Can Help
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Next Steps – How I Can Help">
+    <nav class="md-nav" aria-label="Obtaining an Open WebUI API Token (Option A)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#what-would-you-like-to-explore-next" class="md-nav__link">
+  <a href="#1-log-in-to-the-open-webui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What would you like to explore next?
+        1. Log in to the Open WebUI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-navigate-to-the-tokencreation-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Navigate to the token‑creation page
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-token-lifespan-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Token lifespan &amp; rotation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-safely-storing-the-token-locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Safely storing the token locally
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-a-central-inference-service-recommended-for-most-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A – Central Inference Service (recommended for most users)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Option A – Central Inference Service (recommended for most users)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-access-via-the-open-webui-proxy-public-tokenprotected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Access via the Open WebUI proxy (public, token‑protected)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Access via the Open WebUI proxy (public, token‑protected)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-test-with-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick test with curl
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-direct-backend-endpoints-internal-network-or-ssh-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Direct backend endpoints (internal network or SSH tunnel)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-b-selfhosting-on-a-jetstream-2-gpu-instance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B – Self‑Hosting on a Jetstream 2 GPU Instance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Option B – Self‑Hosting on a Jetstream 2 GPU Instance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-provision-the-gpu-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Provision the GPU VM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-install-the-serving-stack-example-with-llamacpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Install the serving stack (example with llama.cpp)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-run-the-openaicompatible-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Run the OpenAI‑compatible server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-expose-the-service-over-https-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Expose the service over HTTPS (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrating-jetstream-llms-into-continue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrating Jetstream LLMs into Continue
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integrating Jetstream LLMs into Continue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-an-environment-variable-safer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using an environment variable (safer)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrating-jetstream-llms-into-cline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrating Jetstream LLMs into Cline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integrating Jetstream LLMs into Cline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-a-json-settings-file-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using a JSON settings file (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-sanitycheck-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick sanity‑check command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performancetuning-cheatsheet-selfhosted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance‑tuning cheat‑sheet (self‑hosted)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references-further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References &amp; Further Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="References &amp; Further Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#youre-ready" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        You’re ready!
       
     </span>
   </a>
@@ -6150,7 +6434,7 @@
 
 
   
-    <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture/edit/main/docs/section/llm/llm-spark.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture/edit/main/docs/section/llm-draft/jetstream.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -6158,986 +6442,662 @@
   
 
 
-<h1 id="nvidia-dgx-spark-hardware-and-operational-implementation">NVIDIA DGX Spark: Hardware and Operational Implementation<a class="headerlink" href="#nvidia-dgx-spark-hardware-and-operational-implementation" title="Permanent link">¶</a></h1>
-<div class="admonition info">
-<p class="admonition-title">Learning Objectives</p>
+<h1 id="running-integrating-llms-on-jetstream-2">Running &amp; Integrating LLMs on Jetstream 2<a class="headerlink" href="#running-integrating-llms-on-jetstream-2" title="Permanent link">¶</a></h1>
+<h2 id="for-the-impatient">For the impatient<a class="headerlink" href="#for-the-impatient" title="Permanent link">¶</a></h2>
+<div class="admonition note instant llm chat">
+<p class="admonition-title">Note</p>
+<p>For most users the zero‑cost central service at </p>
+<ul>
+<li><a href="https://llm.jetstream-cloud.org">https://llm.jetstream-cloud.org</a> </li>
+</ul>
+<p>is the fastest way to start querying Llama 4 Scout, DeepSeek‑R1, or GPT‑OSS‑120B.</p>
 </div>
+<p></p><figure id="_figure-1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/jetstream-arch-llm-Gemini_Generated_Image_bpdlncbpdlncbpdl.jpeg" data-desc-position="bottom"><img alt="Jetstream 2 through either the Central Inference Service (Proxy) or a Self-Hosted GPU Instance." src="images/jetstream-arch-llm-Gemini_Generated_Image_bpdlncbpdlncbpdl.jpeg"></a><figcaption>Figure 1: Jetstream 2 through either the Central Inference Service (Proxy) or a Self-Hosted GPU Instance.*</figcaption></figure><p></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The document contains secrets such as tokens. They should never be hard‑coded.  All token usage must reference the </p>
 <ul>
-<li>Understand the hardware specifications of the NVIDIA DGX Spark.</li>
-<li>Identify appropriate LLM workflows for single and multi-node DGX Spark deployments.</li>
-<li>Calculate the operational costs and revenue potential for a DGX Spark-based service.</li>
-<li>Implement a basic job submission and billing monitoring pipeline.</li>
-<li>Deploy secure agents using the NemoClaw and OpenShell stack.</li>
+<li><strong>$JETSTREAM_API_TOKEN</strong> </li>
 </ul>
-<p>Here’s a quick‑look‑over of the NVIDIA DGX Spark’s main hardware and software capabilities, followed by a few ideas of how you might want to use the system. Let me know which of these (or any other) areas you’d like to dive deeper into.</p>
+<p>environment variable (see the <em>Safely storing the token locally</em> section).  If the document is not clear on that studenst are responsible to update it so others can benefit from it.</p>
+</div>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
+<p>Jetstream 2 gives you <strong>two distinct ways</strong> to run Large Language Models (LLMs). Both expose an <strong>OpenAI‑compatible HTTP API</strong>, but they differ in how the request is routed:</p>
+<table>
+<thead>
+<tr>
+<th>Routing path</th>
+<th>What it is</th>
+<th>Authentication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Through the Open WebUI proxy</strong></td>
+<td>Public gateway that forwards the call to Jetstream’s managed inference service.</td>
+<td>Requires a JWT <strong>API token</strong> (generated in the Open WebUI).</td>
+</tr>
+<tr>
+<td><strong>Direct backend (vLLM / SGLang)</strong></td>
+<td>Calls the native backend containers directly.</td>
+<td>No token required (you may supply any non‑empty string if your client insists on an <code>apiKey</code>).</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note in short">
+<p class="admonition-title">Note</p>
+<p>The proxy route uses the public API gateway and needs your token; the direct route hits the native vLLM/SGLang server without authentication.</p>
+</div>
+<p>To help you decide, the table below compares the two deployment models.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><strong>Option A – Central Inference Service</strong></th>
+<th><strong>Option B – Self‑Hosted GPU Instance</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Zero‑cost allocation (only your compute quota)</td>
+<td>Pay‑as‑you‑go GPU time</td>
+</tr>
+<tr>
+<td><strong>Setup time</strong></td>
+<td>&lt; 5 min (no VM provisioning)</td>
+<td>Hours (GPU instance, OS, serving stack)</td>
+</tr>
+<tr>
+<td><strong>Model catalogue</strong></td>
+<td>Pre‑deployed, high‑end open models (Llama 4 Scout, DeepSeek‑R1, GPT‑OSS‑120B)</td>
+<td>Any model you upload (GGUF, full‑precision, LoRA, …)</td>
+</tr>
+<tr>
+<td><strong>Flexibility</strong></td>
+<td>Fixed backend versions, managed scaling</td>
+<td>Full control over environment, custom training, fine‑tuning</td>
+</tr>
+<tr>
+<td><strong>Network access</strong></td>
+<td>Public API (token‑auth) <em>or</em> internal‑only direct endpoints</td>
+<td>Public only if you expose via TLS/SG; otherwise internal only</td>
+</tr>
+<tr>
+<td><strong>Typical use‑case</strong></td>
+<td>Quick prototyping, API‑first apps</td>
+<td>Custom weights, experimental quantisation, training pipelines</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do <strong>not</strong> use Option B unless you are prepared for GPU charges.  </p>
+</div>
 <hr>
-<h2 id="dgx-spark-at-a-glance">DGX Spark – At a Glance<a class="headerlink" href="#dgx-spark-at-a-glance" title="Permanent link">¶</a></h2>
-<table>
-<thead>
-<tr>
-<th>Category</th>
-<th>Key Spec</th>
-<th>What It Means for You</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>CPU</strong></td>
-<td>20‑core Arm (10 × Cortex‑X925 + 10 × Cortex‑A725)</td>
-<td>Strong single‑thread performance for data‑pre‑processing, orchestration, and inference‑side control loops.</td>
-</tr>
-<tr>
-<td><strong>GPU</strong></td>
-<td>NVIDIA GB10 Grace Blackwell Superchip – Blackwell‑Gen GPU + integrated CPU</td>
-<td>Up to <strong>1 PFLOP FP4</strong> (with sparsity) → massive throughput for transformer‑style generative models.</td>
-</tr>
-<tr>
-<td><strong>Tensor Cores</strong></td>
-<td>5th‑Gen</td>
-<td>Optimized for FP8, FP16, BF16, and sparsity‑accelerated FP4.</td>
-</tr>
-<tr>
-<td><strong>Memory</strong></td>
-<td>128 GB LPDDR5x, coherent unified system memory (256‑bit, 273 GB/s)</td>
-<td>One‑shot loading of very large models (up to ~200 B parameters) without CPU‑GPU copies.</td>
-</tr>
-<tr>
-<td><strong>Storage</strong></td>
-<td>4 TB NVMe M.2 (self‑encrypting)</td>
-<td>Fast checkpoint I/O, dataset staging, and multi‑model serving.</td>
-</tr>
-<tr>
-<td><strong>Networking</strong></td>
-<td>ConnectX‑7 NIC @ 200 Gbps, 10 GbE RJ‑45</td>
-<td>Scale‑out clusters of up to four DGX Spark nodes → &gt; 700 B‑parameter models across the fabric.</td>
-</tr>
-<tr>
-<td><strong>Display / I/O</strong></td>
-<td>HDMI 2.1a + up to 3 × DP‑Alt‑Mode over USB‑C, USB 4 (4×), Wi‑Fi 7, BT 5.4</td>
-<td>Full desktop workstation experience; can also be headless in rack‑mount enclosures.</td>
-</tr>
-<tr>
-<td><strong>Power / Thermal</strong></td>
-<td>240 W PSU, GB10 TDP ≈ 140 W</td>
-<td>Compact, always‑on, low‑noise (≈ 30 dB SPL) for office or lab.</td>
-</tr>
-<tr>
-<td><strong>OS / Software</strong></td>
-<td>NVIDIA DGX™ OS (Ubuntu‑based) pre‑installed with AI Enterprise, NIM, NemoClaw, OpenShell, DGX Spark Playbooks</td>
-<td>Turn‑key stack for prototyping, fine‑tuning, inference, and secure agent deployment.</td>
-</tr>
-<tr>
-<td><strong>Form factor</strong></td>
-<td>150 mm × 150 mm × 50.5 mm, 1.2 kg</td>
-<td>Desktop‑friendly “PC‑Supercomputer”.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="performance-highlights">Performance Highlights<a class="headerlink" href="#performance-highlights" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>FP4 TOPS:</strong> ~1 PFLOP (with 2× sparsity) → ~2× speed‑up vs. prior DGX Station for many transformer workloads.</li>
-<li><strong>Memory bandwidth:</strong> 273 GB/s → excellent for bandwidth‑bound attention kernels.</li>
-<li><strong>NVENC/NVDEC:</strong> 1‑encoder / 1‑decoder – good for multimodal pipelines (e.g., video‑LLM generation).</li>
-</ul>
-<hr>
-<h2 id="typical-dgx-spark-workflows">Typical DGX Spark Workflows<a class="headerlink" href="#typical-dgx-spark-workflows" title="Permanent link">¶</a></h2>
-<table>
-<thead>
-<tr>
-<th>Workflow</th>
-<th>What You Can Do on a Single DGX Spark</th>
-<th>How to Scale</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Prototype / R&amp;D</strong></td>
-<td>Train medium‑size (≤ 10 B) models, run quick‑iteration LoRA fine‑tuning, launch JupyterLab with pre‑installed libraries.</td>
-<td>Use DGX Spark Playbooks → clone a repo, spin up a container, start training.</td>
-</tr>
-<tr>
-<td><strong>Fine‑tuning 70 B‑parameter models</strong></td>
-<td>Load the full model into unified memory, apply LoRA/QLoRA adapters, run a few epochs on a custom dataset.</td>
-<td>For multi‑epoch training of &gt; 70 B, connect 2‑4 DGX Spark nodes via ConnectX‑7 to form a 200‑Gbps fabric.</td>
-</tr>
-<tr>
-<td><strong>Inference of 200 B‑parameter models</strong></td>
-<td>Serve a single, always‑on agent locally (e.g., autonomous assistant, code‑assistant) with latency &lt; 100 ms per token (FP4 + sparsity).</td>
-<td>Deploy a load‑balanced inference cluster (up to 4 nodes) for high‑throughput serving.</td>
-</tr>
-<tr>
-<td><strong>Edge‑AI development</strong></td>
-<td>Build and test NVIDIA Isaac™ or Metropolis pipelines that will later run on Jetson/Orin devices.</td>
-<td>Use the same Docker containers on the DGX Spark and then push to edge devices.</td>
-</tr>
-<tr>
-<td><strong>Secure, privacy‑preserving agents</strong></td>
-<td>Run NemoClaw + OpenShell stack to sandbox LLMs, enforce data‑handling policies, and encrypt model checkpoints.</td>
-<td>Integrate with on‑prem key‑management (KMIP) for multi‑node deployments.</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="quick-whatif-calculations">Quick “What‑If” Calculations<a class="headerlink" href="#quick-whatif-calculations" title="Permanent link">¶</a></h2>
-<p>Below are a few useful back‑of‑the‑envelope numbers you might want to reference. (All are approximate; actual throughput depends on model sparsity, batch size, and software stack.)</p>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Approximate Value</th>
-<th>How to interpret</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Peak FP4 operations</strong></td>
-<td>1 PFLOP = 1 × 10¹⁵ ops / s</td>
-<td>Equivalent to ~25 × RTX 4090 (40 TFLOP), ~33 × RTX 3090 (30 TFLOP), or ~12 × RTX 5090 (est. 80 TFLOP).</td>
-</tr>
-<tr>
-<td><strong>Model size that fits in memory</strong></td>
-<td>128 GB LPDDR5x (unified) → ~100 B parameters at 1 byte/param (FP8) or ~50 B at 2 bytes/param (BF16).</td>
-<td>For 200 B‑parameter models, you’ll need to use tensor‑parallelism or model‑sharding across multiple nodes.</td>
-</tr>
-<tr>
-<td><strong>Bandwidth‑limited attention</strong></td>
-<td>273 GB/s → ~1 × 10⁹ tokens / s for 16‑byte per token (rough estimate).</td>
-<td>Real‑world LLM inference usually limited by compute, not bandwidth, thanks to sparsity.</td>
-</tr>
-<tr>
-<td><strong>Power efficiency</strong></td>
-<td>1 PFLOP / 140 W ≈ <strong>7.1 TFLOP/W</strong> (FP4)</td>
-<td>Very high – good for always‑on workloads.</td>
-</tr>
-</tbody>
-</table>
-<p>If you have a concrete workload (e.g., “run LLaMA‑2‑70B with 4‑bit quantization at 30 tokens/s”), I can run a more detailed estimate or even spin up a small‑scale benchmark script (using the code‑interpreter) to demonstrate expected latency.</p>
-<hr>
-<h2 id="next-steps-how-i-can-help">Next Steps – How I Can Help<a class="headerlink" href="#next-steps-how-i-can-help" title="Permanent link">¶</a></h2>
-<table>
-<thead>
-<tr>
-<th>Need</th>
-<th>What I Can Provide</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Sizing &amp; cost‑benefit</strong></td>
-<td>Compare DGX Spark vs. cloud GPU instances (e.g., p5e.48xlarge) for a given number of inference requests per month.</td>
-</tr>
-<tr>
-<td><strong>Benchmark scripts</strong></td>
-<td>Generate Docker‑file + Python benchmark (e.g., <code>torchrun</code> with HuggingFace <code>transformers</code>) to measure throughput on a similar local system (you can run it on your DGX Spark).</td>
-</tr>
-<tr>
-<td><strong>Security hardening</strong></td>
-<td>Walk‑through of installing NemoClaw, configuring OpenShell policies, and enabling encrypted NVMe.</td>
-</tr>
-<tr>
-<td><strong>Cluster setup</strong></td>
-<td>Step‑by‑step guide to connect 2–4 DGX Spark nodes with ConnectX‑7 (RDMA, NCCL, infiniband‑like config).</td>
-</tr>
-<tr>
-<td><strong>Model‑parallel training</strong></td>
-<td>Example of using DeepSpeed‑ZeRO‑3 or Megatron‑LM to split a 200 B‑parameter model across 2 nodes.</td>
-</tr>
-<tr>
-<td><strong>Application ideas</strong></td>
-<td>Brainstorm specific autonomous‑agent use‑cases (e.g., real‑time code‑assistant, scientific‑simulation controller, secure knowledge‑base query engine).</td>
-</tr>
-<tr>
-<td><strong>Performance tuning</strong></td>
-<td>Tips for FP8/FP4 configuration, sparsity masks, and tensor‑core utilization.</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h3 id="what-would-you-like-to-explore-next">What would you like to explore next?<a class="headerlink" href="#what-would-you-like-to-explore-next" title="Permanent link">¶</a></h3>
-<ul>
-<li>Do you need a <strong>detailed performance estimate</strong> for a particular model (e.g., LLaMA‑2‑70B, Mistral‑7B, or a custom 200 B model)?</li>
-<li>Are you interested in <strong>setting up a secure agent stack</strong> with NemoClaw/OpenShell?</li>
-<li>Would a <strong>cost‑comparison</strong> against cloud‑based alternatives be useful?</li>
-<li>Or perhaps you’d like a <strong>step‑by‑step guide</strong> to launch a multi‑node DGX Spark cluster?</li>
-</ul>
-<p>Just let me know which direction (or any other question) you’d like to go, and I’ll dive right into the specifics!</p>
-<h1 id="cost-comparison">Cost Comparison<a class="headerlink" href="#cost-comparison" title="Permanent link">¶</a></h1>
-<p>Below is a <strong>cost‑comparison</strong> that pits a single NVIDIA DGX Spark (on‑prem) against the most comparable cloud GPU instance (an 8 × A100 80 GB machine, e.g. AWS p5e.48xlarge / GCP a2‑mega / Azure ND96asr_v4). 
-The analysis looks at:</p>
-<table>
-<thead>
-<tr>
-<th>Item</th>
-<th>DGX Spark (on‑prem)</th>
-<th>8 × A100 Cloud Instance</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Hardware / Instance</strong></td>
-<td>NVIDIA DGX Spark (GB10 Grace Blackwell, 1 PFLOP FP4, 128 GB unified memory)</td>
-<td>8 × NVIDIA A100 80 GB GPUs, 2 × Intel Xeon (96 vCPU), 1 TB RAM</td>
-</tr>
-<tr>
-<td><strong>List Price</strong></td>
-<td><strong>≈ $35 k</strong> (typical OEM MSRP)</td>
-<td><strong>$0 (you only pay per‑hour)</strong></td>
-</tr>
-<tr>
-<td><strong>Annual Support / Warranty</strong></td>
-<td>$5 k / yr (NVIDIA AI Enterprise + hardware warranty)</td>
-<td>Included in on‑demand price</td>
-</tr>
-<tr>
-<td><strong>Power Consumption</strong></td>
-<td>~300 W (average under load)</td>
-<td>Cloud provider’s data‑center power is baked into the hourly rate</td>
-</tr>
-<tr>
-<td><strong>Electricity Cost</strong></td>
-<td>$0.12 /kWh (U.S. avg) → <strong>≈ $315 / yr</strong></td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><strong>Depreciation / Capital Cost</strong></td>
-<td>3‑yr straight‑line depreciation = $35 k / 3 ≈ $11.7 k / yr</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><strong>Total 3‑yr TCO</strong></td>
-<td><strong>≈ $51 k</strong> (hardware + 3 yr support + 3 yr electricity)</td>
-<td>–</td>
-</tr>
-<tr>
-<td><strong>On‑Demand Hourly Rate</strong></td>
-<td>–</td>
-<td><strong>$45 / hr</strong> (AWS p5e.48xlarge, 8 × A100 80 GB)</td>
-</tr>
-<tr>
-<td><strong>Spot / Preemptible Rate</strong></td>
-<td>–</td>
-<td><strong>≈ $15 / hr</strong> (typical spot discount 65‑70 %)</td>
-</tr>
-<tr>
-<td><strong>Break‑Even Hours (3‑yr TCO ÷ hourly rate)</strong></td>
-<td>–</td>
-<td><strong>On‑Demand:</strong> 51 000 ÷ 45 ≈ 1 132 hr <br><strong>Spot:</strong> 51 000 ÷ 15 ≈ 3 400 hr</td>
-</tr>
-<tr>
-<td><strong>Break‑Even Months (assuming 730 hr/mo)</strong></td>
-<td>–</td>
-<td><strong>On‑Demand:</strong> ≈ 1.6 mo <br><strong>Spot:</strong> ≈ 4.6 mo</td>
-</tr>
-</tbody>
-</table>
-<h3 id="how-the-numbers-were-derived">How the numbers were derived<a class="headerlink" href="#how-the-numbers-were-derived" title="Permanent link">¶</a></h3>
-<p></p><div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># ---- DGX Spark 3‑year TCO ----</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">price_hw</span> <span class="o">=</span> <span class="mi">35000</span> <span class="c1"># USD, typical list price</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">support_per_year</span> <span class="o">=</span> <span class="mi">5000</span> <span class="c1"># USD/yr</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">power_watts</span> <span class="o">=</span> <span class="mi">300</span> <span class="c1"># average draw under load</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">kwh_per_year</span> <span class="o">=</span> <span class="n">power_watts</span><span class="o">/</span><span class="mi">1000</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">365</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">elec_rate</span> <span class="o">=</span> <span class="mf">0.12</span> <span class="c1"># $/kWh (US avg)</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">elec_cost_per_year</span> <span class="o">=</span> <span class="n">kwh_per_year</span><span class="o">*</span><span class="n">elec_rate</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># 3‑year totals</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">tco_3yr</span> <span class="o">=</span> <span class="n">price_hw</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">support_per_year</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">elec_cost_per_year</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">tco_3yr</span>
-</span></code></pre></div>
-<strong>Result:</strong> <code>≈ $50,950</code>
-<p></p><div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># ---- Cloud break‑even hours ----</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">hourly_ondemand</span> <span class="o">=</span> <span class="mi">45</span> <span class="c1"># $/hr (AWS p5e.48xlarge on‑demand)</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">hourly_spot</span> <span class="o">=</span> <span class="mi">15</span> <span class="c1"># $/hr (typical spot price)</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">break_even_ondemand</span> <span class="o">=</span> <span class="n">tco_3yr</span> <span class="o">/</span> <span class="n">hourly_ondemand</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">break_even_spot</span> <span class="o">=</span> <span class="n">tco_3yr</span> <span class="o">/</span> <span class="n">hourly_spot</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">break_even_ondemand</span><span class="p">,</span> <span class="n">break_even_spot</span>
-</span></code></pre></div>
-<strong>Result:</strong> 
-<em>On‑Demand ≈ 1 132 hr</em> → ~1.6 months of full‑time use (24 h × 30 d). 
-<em>Spot ≈ 3 400 hr</em> → ~4.6 months of full‑time use.
-<h3 id="what-the-comparison-tells-you">What the comparison tells you<a class="headerlink" href="#what-the-comparison-tells-you" title="Permanent link">¶</a></h3>
-<table>
-<thead>
-<tr>
-<th>Scenario</th>
-<th>When DGX Spark is cheaper</th>
-<th>When Cloud is cheaper</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Heavy, continuous usage</strong> (≥ 1 200 hr/yr ≈ 100 hr/mo)</td>
-<td>After ~1.5 months of full‑time on‑demand use (or 4–5 months on spot) the on‑prem capital investment pays off.</td>
-<td>If you only need the hardware for occasional spikes (&lt; 200 hr/yr) cloud remains cheaper.</td>
-</tr>
-<tr>
-<td><strong>Burst‑or‑seasonal workloads</strong> (e.g., a few weeks of training per year)</td>
-<td>Not cost‑effective; you’d spend the same or more on hardware you sit idle most of the time.</td>
-<td>Spot/Reserved instances give you the flexibility to spin up only when needed.</td>
-</tr>
-<tr>
-<td><strong>Long‑term, always‑on agents</strong> (e.g., autonomous assistants, private LLM serving)</td>
-<td>DGX Spark shines – you avoid paying $45 / hr 24/7 (≈ $394 k/yr) and keep power at ~$315 / yr.</td>
-<td>Cloud would be prohibitively expensive for an always‑on service.</td>
-</tr>
-<tr>
-<td><strong>Compliance / data‑privacy</strong> (needs data to stay on‑prem)</td>
-<td>On‑prem hardware is mandatory regardless of cost.</td>
-<td>Cloud may be impossible or require costly VPC‑isolated setups.</td>
-</tr>
-<tr>
-<td><strong>Rapid scaling to &gt; 700 B‑parameter models</strong></td>
-<td>You can link up to 4 DGX Spark nodes (200 Gbps ConnectX‑7) – capital cost grows linearly.</td>
-<td>Cloud can instantly add more A100 nodes, but price per added node is linear too.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="quick-whatif-calculator">Quick “What‑if” calculator<a class="headerlink" href="#quick-whatif-calculator" title="Permanent link">¶</a></h3>
-<p>If you know <strong>your projected yearly GPU‑hours</strong>, you can plug them into the simple formulas below to see which option wins:</p>
-<table>
-<thead>
-<tr>
-<th>Yearly GPU‑hours</th>
-<th>On‑Demand Cloud Cost (<code>$45 × hrs</code>)</th>
-<th>Spot Cloud Cost (<code>$15 × hrs</code>)</th>
-<th>DGX Spark 3‑yr TCO (amortized per year ≈ $17 k)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>100 hr</td>
-<td>$4,500</td>
-<td>$1,500</td>
-<td>$17 k (still cheaper to own)</td>
-</tr>
-<tr>
-<td>500 hr</td>
-<td>$22,500</td>
-<td>$7,500</td>
-<td>$17 k (on‑prem cheaper)</td>
-</tr>
-<tr>
-<td>1,000 hr</td>
-<td>$45,000</td>
-<td>$15,000</td>
-<td>$17 k (on‑prem cheaper)</td>
-</tr>
-<tr>
-<td>2,500 hr</td>
-<td>$112,500</td>
-<td>$37,500</td>
-<td>$17 k (on‑prem much cheaper)</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p><strong>Rule of thumb:</strong> once you exceed <strong>≈ 350 – 400 GPU‑hours per year</strong> on <strong>on‑demand</strong> pricing, the DGX Spark’s 3‑yr TCO (≈ $17 k / yr) becomes the lower cost option. With spot pricing the crossover point is roughly <strong>≈ 1 200 GPU‑hours per year</strong>.</p>
-</blockquote>
-<hr>
-<h2 id="next-steps-for-you">Next Steps for You<a class="headerlink" href="#next-steps-for-you" title="Permanent link">¶</a></h2>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h3 id="option-a-central-inference-service">Option A – Central Inference Service<a class="headerlink" href="#option-a-central-inference-service" title="Permanent link">¶</a></h3>
 <ol>
-<li><strong>Plug in your actual workload</strong> (estimated GPU‑hours per month) and we can refine the break‑even analysis. </li>
-<li>If you plan to <strong>scale beyond a single node</strong>, I can model a 2‑node or 4‑node DGX Spark cluster and compare against the equivalent cloud cluster cost. </li>
-<li>Want a <strong>detailed cash‑flow projection</strong> (including tax, depreciation, financing interest, or leasing)? I can generate a spreadsheet‑style table. </li>
-<li>Need <strong>recommendations for cloud‑right‑sizing</strong> (e.g., mixed on‑prem + spot strategy) or a <strong>run‑book for converting your existing Docker/conda environment</strong> to DGX Spark? </li>
+<li>
+<p>An active Jetstream 2 account.  </p>
+</li>
+<li>
+<p><strong>API token (JWT)</strong> generated from the Open WebUI – see the “Obtaining an Open WebUI API Token” section below.  </p>
+</li>
+<li>
+<p>Ability to make outbound HTTPS requests from your workstation (no firewall blocks).</p>
+</li>
 </ol>
-<p>Let me know which angle you’d like to dive into, and I’ll provide the precise numbers or implementation steps you need.</p>
-<h1 id="performance">performance<a class="headerlink" href="#performance" title="Permanent link">¶</a></h1>
-<p>Below is a quick‐and‑dirty performance “back‑of‑the‑envelope” estimate for three models you mentioned when run on a <strong>single NVIDIA DGX Spark</strong> (GB10 Grace Blackwell Superchip). </p>
-<p>The calculation follows these steps:</p>
+<h3 id="option-b-selfhosted-gpu-instance">Option B – Self‑Hosted GPU Instance<a class="headerlink" href="#option-b-selfhosted-gpu-instance" title="Permanent link">¶</a></h3>
 <ol>
-<li><strong>FLOPs per token</strong> – For a decoder‑only transformer the inference cost is roughly <strong>2 × parameter‑count</strong> FLOPs per token (QKV + feed‑forward). </li>
-<li><strong>Sparsity boost</strong> – DGX Spark’s FP4 + 2× sparsity (the typical 2 : 1 sparsity pattern) cuts the effective FLOPs in half, so we treat the cost as <strong>≈ parameter‑count</strong> FLOPs per token. </li>
-<li><strong>Peak compute</strong> – The GB10 Superchip can sustain <strong>≈ 1 PFLOP = 10¹⁵ FLOPs / s</strong> (FP4, sparsity enabled). </li>
-<li><strong>Tokens‑per‑second</strong> – <code>tokens_per_sec = 1e15 / (effective_FLOPs_per_token)</code> </li>
-<li><strong>Latency per token</strong> – <code>latency_ms = 1000 / tokens_per_sec</code> </li>
+<li>
+<p>GPU quota (e.g. a <code>g3.medium</code> node or larger) and a project that permits GPU allocations.  </p>
+</li>
+<li>
+<p>Familiarity with SSH, <code>git</code>, and a Linux shell.  </p>
+</li>
+<li>
+<p>(Optional but recommended) a domain name or Jetstream sub‑domain and a TLS terminator (Caddy, Nginx, Traefik).</p>
+</li>
 </ol>
-<p>The script prints a concise table and then I interpret the results.</p>
-<p>Below is a <strong>first‑order performance estimate</strong> for the three models you asked about when run on a <strong>single NVIDIA DGX Spark</strong> (GB10 Grace Blackwell Superchip). </p>
-<h3 id="how-the-numbers-were-derived_1">How the numbers were derived<a class="headerlink" href="#how-the-numbers-were-derived_1" title="Permanent link">¶</a></h3>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Assumption</th>
-<th>Rationale</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>FLOPs / token</strong></td>
-<td>≈ 2 × parameter‑count (the classic “QKV + FFN” cost)</td>
-<td>Standard rule‑of‑thumb for decoder‑only transformers.</td>
-</tr>
-<tr>
-<td><strong>Sparsity boost</strong></td>
-<td>2 : 1 sparsity (FP4) → effective FLOPs ≈ ½ × 2 × params = <strong>params</strong></td>
-<td>DGX Spark’s FP4 + sparsity halves the compute needed per token.</td>
-</tr>
-<tr>
-<td><strong>Peak compute</strong></td>
-<td><strong>1 PFLOP = 10¹⁵ FLOPs /s</strong> (FP4 with sparsity)</td>
-<td>Specified in the DGX Spark data sheet.</td>
-</tr>
-<tr>
-<td><strong>Tokens / sec</strong></td>
-<td><code>tokens/sec = 1e15 / (params × 10⁹)</code></td>
-<td>Direct division of peak FLOPs by FLOPs‑per‑token.</td>
-</tr>
-<tr>
-<td><strong>Latency per token</strong></td>
-<td><code>latency = 1000 ms / tokens/sec</code></td>
-<td>Simple conversion to ms.</td>
-</tr>
-</tbody>
-</table>
-<p>The Python snippet that performed the calculation printed the table you see below.</p>
-<h3 id="raw-theoretical-numbers">Raw (theoretical) numbers<a class="headerlink" href="#raw-theoretical-numbers" title="Permanent link">¶</a></h3>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Parameters (B)</th>
-<th>Tokens / sec (theoretical)</th>
-<th>Latency per token</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>LLaMA‑2‑70B</strong></td>
-<td>70</td>
-<td><strong>≈ 14 285 tokens / s</strong></td>
-<td><strong>≈ 0.07 ms</strong></td>
-</tr>
-<tr>
-<td><strong>Mistral‑7B</strong></td>
-<td>7</td>
-<td><strong>≈ 142 857 tokens / s</strong></td>
-<td><strong>≈ 0.01 ms</strong></td>
-</tr>
-<tr>
-<td><strong>Custom 200 B</strong></td>
-<td>200</td>
-<td><strong>≈ 5 000 tokens / s</strong></td>
-<td><strong>≈ 0.20 ms</strong></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p><strong>Note:</strong> These numbers assume <em>perfectly</em> saturated compute (no memory stalls, zero software overhead, batch size = 1, and 100 % FP4 + sparsity utilization).</p>
-</blockquote>
-<h3 id="why-realworld-throughput-will-be-lower">Why real‑world throughput will be lower<a class="headerlink" href="#why-realworld-throughput-will-be-lower" title="Permanent link">¶</a></h3>
-<table>
-<thead>
-<tr>
-<th>Factor</th>
-<th>Typical impact (approx.)</th>
-<th>What it means for the above figures</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Memory bandwidth limits</strong> (273 GB/s)</td>
-<td>~30 %‑40 % slowdown for large‑model attention kernels</td>
-<td>Tokens‑/sec may drop to 60 %‑70 % of the theoretical value.</td>
-</tr>
-<tr>
-<td><strong>Kernel launch &amp; scheduler overhead</strong></td>
-<td>~5 %‑10 % penalty per inference step</td>
-<td>Adds a few µs per token, especially at very low batch sizes.</td>
-</tr>
-<tr>
-<td><strong>Batch size scaling</strong></td>
-<td>Throughput rises roughly linearly up to the point where memory is saturated. A batch of 8–16 can often double the effective tokens / sec.</td>
-<td>For batch = 1 the numbers above are a lower bound; batch = 8 could reach 1.5 ×‑2 × the values.</td>
-</tr>
-<tr>
-<td><strong>Model‑parallel sharding</strong> (for &gt; 128 GB models)</td>
-<td>Introduces inter‑node communication latency (≈ 10–20 µs per token per hop).</td>
-<td>A 200 B model spread across 2 DGX Spark nodes would see a modest extra latency, but still stay in the sub‑millisecond range.</td>
-</tr>
-<tr>
-<td><strong>Quantization beyond FP4 (e.g., INT4)</strong></td>
-<td>Can shave another 30 %‑40 % FLOPs, but incurs extra de‑quantization cost.</td>
-<td>If you go to INT4 you could push the 200 B model toward ~6 000 tokens / s.</td>
-</tr>
-<tr>
-<td><strong>Power &amp; thermal throttling</strong> (sustained 300 W)</td>
-<td>Small (≤ 5 %) reduction under continuous load.</td>
-<td>Negligible for typical inference workloads (hours, not days).</td>
-</tr>
-</tbody>
-</table>
-<p>Applying a <strong>conservative 40 % overall reduction</strong> to account for the above factors gives a more realistic ballpark:</p>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Adjusted tokens / sec</th>
-<th>Adjusted latency</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>LLaMA‑2‑70B</td>
-<td><strong>≈ 8 500 tokens / s</strong></td>
-<td><strong>≈ 0.12 ms</strong></td>
-</tr>
-<tr>
-<td>Mistral‑7B</td>
-<td><strong>≈ 85 000 tokens / s</strong></td>
-<td><strong>≈ 0.012 ms</strong></td>
-</tr>
-<tr>
-<td>Custom 200 B</td>
-<td><strong>≈ 3 000 tokens / s</strong></td>
-<td><strong>≈ 0.33 ms</strong></td>
-</tr>
-</tbody>
-</table>
-<p>Even with a generous safety margin, <strong>all three models stay comfortably below 1 ms per token</strong>, which is more than enough for most “always‑on” agentic AI use‑cases (real‑time chat, code‑assistant, multimodal inference, etc.).</p>
-<h3 id="practical-recommendations">Practical recommendations<a class="headerlink" href="#practical-recommendations" title="Permanent link">¶</a></h3>
-<table>
-<thead>
-<tr>
-<th>Goal</th>
-<th>Suggested configuration on DGX Spark</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Interactive chat / code‑assistant</strong> (≤ 7 B)</td>
-<td>Run Mistral‑7B at batch = 8–16, FP8 or FP4, achieving &gt; 50 k tokens / s (≈ 0.02 ms per token).</td>
-</tr>
-<tr>
-<td><strong>Fine‑tuning / few‑shot prompting</strong> (70 B)</td>
-<td>Load LLaMA‑2‑70B in unified memory, use LoRA/QLoRA adapters (tiny &lt; 1 GB). Expect ~8‑10 k tokens / s (≈ 0.1 ms).</td>
-</tr>
-<tr>
-<td><strong>Always‑on 200 B agents</strong></td>
-<td>Deploy the model across <strong>2 DGX Spark nodes</strong> (ConnectX‑7 fabric). The per‑token latency will be ~0.3‑0.4 ms, still sub‑millisecond.</td>
-</tr>
-<tr>
-<td><strong>Batch‑heavy inference (e.g., summarizing many documents)</strong></td>
-<td>Increase batch size to 32–64; the system’s 273 GB/s memory bandwidth comfortably handles the traffic, pushing effective throughput &gt; 20 k tokens / s for 70 B.</td>
-</tr>
-<tr>
-<td><strong>Maximum energy efficiency</strong></td>
-<td>Use FP4 + 2× sparsity + INT4 quantization (where accuracy permits). This can cut the FLOP count by an additional ~40 % and drive latency toward 0.07 ms for 70 B.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="next-steps-you-might-want">Next steps you might want<a class="headerlink" href="#next-steps-you-might-want" title="Permanent link">¶</a></h3>
+<hr>
+<h2 id="obtaining-an-open-webui-api-token-option-a">Obtaining an Open WebUI API Token (Option A)<a class="headerlink" href="#obtaining-an-open-webui-api-token-option-a" title="Permanent link">¶</a></h2>
+<p>Jetstream 2’s central inference service protects the public gateway with a <strong>JWT API token</strong> that you generate in the Open WebUI. The steps below are current as of August 2026; if the UI changes, look for a <strong>“API keys”</strong> section under your user profile.</p>
+<h3 id="1-log-in-to-the-open-webui">1. Log in to the Open WebUI<a class="headerlink" href="#1-log-in-to-the-open-webui" title="Permanent link">¶</a></h3>
 <ol>
-<li><strong>Run a concrete benchmark</strong> – I can generate a ready‑to‑run Dockerfile that pulls a HuggingFace model (e.g., <code>meta-llama/Llama-2-70b-chat-hf</code>), applies FP4/INT4 quantization (via <code>bitsandbytes</code>), and reports latency for batch = 1 and batch = 8. </li>
-<li><strong>Scale‑out planning</strong> – If you intend to run &gt; 700 B‑parameter models, let me compute the required number of DGX Spark nodes and the expected inter‑node bandwidth impact. </li>
-<li><strong>Cost vs. performance</strong> – Combine the performance numbers with the TCO analysis already provided to see the “tokens‑per‑USD” metric for on‑prem vs. cloud. </li>
-<li><strong>Security‑focused deployment</strong> – Show how to integrate NemoClaw/OpenShell while keeping the latency impact minimal (typically &lt; 5 %). </li>
+<li>
+<p>Open a browser and go to <a href="https://llm.jetstream-cloud.org">https://llm.jetstream-cloud.org</a>.  </p>
+</li>
+<li>
+<p>Sign in with your Jetstream 2 credentials (institutional login or Jetstream password).</p>
+</li>
 </ol>
-<p><strong>What would you like to dive into next?</strong> 
-- A runnable benchmark script for one of the models? 
-- A deeper scaling analysis for a 200 B model across multiple nodes? 
-- An energy‑efficiency vs. throughput trade‑off study? </p>
-<p>Just let me know, and I’ll generate the exact artefacts you need.</p>
-<h1 id="buisiness">Buisiness<a class="headerlink" href="#buisiness" title="Permanent link">¶</a></h1>
-<p>Below is a <strong>step‑by‑step guide</strong> for turning the compute capacity of a single NVIDIA DGX Spark (or a small fleet of them) into an <strong>online “GPU‑as‑a‑Service”</strong> that you can sell to customers. 
-I’ve broken the workflow into three logical layers:</p>
+<h3 id="2-navigate-to-the-tokencreation-page">2. Navigate to the token‑creation page<a class="headerlink" href="#2-navigate-to-the-tokencreation-page" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
-<th>Layer</th>
-<th>What you need to do</th>
-<th>Typical tools / services</th>
+<th>UI element</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>** Product &amp; Pricing**</td>
-<td>Define the service you’ll expose (e.g., “interactive LLM inference”, “batch fine‑tuning”, “GPU‑accelerated data‑science notebooks”). Set a price per GPU‑hour and calculate your cost‑recovery target.</td>
-<td>Spreadsheet or a tiny Python pricing‑calculator (see code below).</td>
+<td><strong>User‑profile icon</strong> (lower‑left corner)</td>
+<td>Click it.</td>
 </tr>
 <tr>
-<td>** Platform &amp; Automation**</td>
-<td>Build a secure, multi‑tenant gateway that hands out <strong>GPU time</strong> on demand, tracks usage, and triggers billing.</td>
-<td>• Container runtime (Docker / NVIDIA Container Toolkit) <br>• Orchestration (Kubernetes + GPU device plugin, or Slurm) <br>• Scheduler / quota API (Kube‑Scheduler, <code>kubectl</code> or a custom Flask API) <br>• Billing gateway (Stripe, Paddle, PayPal).</td>
+<td><strong>Settings</strong></td>
+<td>Choose it from the pop‑up menu.</td>
 </tr>
 <tr>
-<td>** Go‑to‑Market &amp; Operations**</td>
-<td>Publish the service, handle onboarding, SLA, support, and compliance.</td>
-<td>• Marketplace (AWS Marketplace, GCP Marketplace, Upwork, Fiverr, or a self‑hosted website) <br>• Monitoring &amp; metering (Prometheus + Grafana, NVIDIA&nbsp;DCGM) <br>• Security (NemoClaw + OpenShell, encrypted NVMe, IAM).</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="define-the-offer-price">Define the Offer &amp; Price<a class="headerlink" href="#define-the-offer-price" title="Permanent link">¶</a></h2>
-<h3 id="11-typical-service-packages">1.1 Typical Service Packages<a class="headerlink" href="#11-typical-service-packages" title="Permanent link">¶</a></h3>
-<table>
-<thead>
-<tr>
-<th>Package</th>
-<th>Typical Use‑case</th>
-<th>GPU allocation</th>
-<th>Max wall‑time per job</th>
-<th>Example price (USD / hour)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Interactive LLM Inference</strong></td>
-<td>Chatbot/Code‑assistant, low‑latency</td>
-<td>1 GPU (full‑GPU)</td>
-<td>Unlimited (on‑demand)</td>
-<td><strong>$45 / hr</strong> (covers hardware, support, electricity)</td>
+<td><strong>Account</strong> tab</td>
+<td>Switch to the “Account” tab inside Settings.</td>
 </tr>
 <tr>
-<td><strong>Batch Fine‑Tuning</strong></td>
-<td>LoRA/QLoRA on 70 B models</td>
-<td>1‑2 GPUs (shared)</td>
-<td>Up to 12 hr per batch</td>
-<td><strong>$30 / hr</strong> (discount for longer runs)</td>
+<td><strong>API keys</strong> section</td>
+<td>Scroll down until you see <strong>API keys</strong>.</td>
 </tr>
 <tr>
-<td><strong>Data‑Science Notebook</strong></td>
-<td>JupyterLab with GPU‑accelerated libraries</td>
-<td>1 GPU (dedicated)</td>
-<td>8 hr per session (auto‑pause)</td>
-<td><strong>$25 / hr</strong></td>
+<td><strong>Create new secret key</strong> button</td>
+<td>Click it.</td>
 </tr>
 <tr>
-<td><strong>Enterprise Reserved</strong></td>
-<td>100 – 500 GPU‑hrs/mo, SLA 99.9 %</td>
-<td>1‑4 GPUs (reserved)</td>
-<td>Unlimited</td>
-<td><strong>$20 / hr</strong> (volume discount)</td>
+<td><strong>Name / description</strong> (optional)</td>
+<td>Give the key a memorable name, e.g. <code>continue‑dev‑token</code>.</td>
+</tr>
+<tr>
+<td><strong>Create</strong></td>
+<td>Press the <strong>Create</strong> button.</td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>Why these numbers?</strong> 
-In the earlier cost‑comparison we computed a 3‑year TCO of ≈ $51 k, i.e. <strong>≈ $17 k / year</strong> → <strong>≈ $2 / hour</strong> of pure hardware cost. Adding electricity, support, platform ops, and a modest profit margin lands you comfortably in the <strong>$20‑$45 / hr</strong> range. </p>
-</blockquote>
-<h3 id="12-quick-whatif-pricing-calculator">1.2 Quick “What‑If” Pricing Calculator<a class="headerlink" href="#12-quick-whatif-pricing-calculator" title="Permanent link">¶</a></h3>
-<p>Below is a tiny Python script you can run locally (or embed in a web page) to see:</p>
+<p>A modal appears with a long string that looks like <code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…</code>. <strong>Copy it immediately</strong> – you will not be able to see the full token again.</p>
+<h3 id="3-token-lifespan-rotation">3. Token lifespan &amp; rotation<a class="headerlink" href="#3-token-lifespan-rotation" title="Permanent link">¶</a></h3>
 <ul>
-<li><strong>Break‑even hourly price</strong> for a given annual usage target. </li>
-<li><strong>Projected profit</strong> for any price you set.</li>
+<li>The generated JWT is <strong>valid for 30 days</strong>. After it expires the API will return <code>401 Unauthorized</code>.  </li>
+<li>When you get a warning in your client (or see a <code>401</code>), repeat the steps above to generate a fresh token.  </li>
+<li>For production‑like workflows store the token in a secret manager (e.g. a <code>.env</code> file, GitHub Secrets, or a Vault) and rotate it before the 30‑day expiry.</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># ---- Input assumptions -------------------------------------------------</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">hardware_price</span> <span class="o">=</span> <span class="mi">35000</span> <span class="c1"># USD – list price of one DGX Spark</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">support_per_year</span> <span class="o">=</span> <span class="mi">5000</span> <span class="c1"># USD – NVIDIA AI Enterprise + warranty</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">electricity_per_year</span> <span class="o">=</span> <span class="mi">315</span> <span class="c1"># USD – 300 W @ $0.12/kWh (full‑time)</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">depr_years</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># straight‑line depreciation</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># Annualized fixed cost (hardware + support + electricity)</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">annual_fixed</span> <span class="o">=</span> <span class="n">hardware_price</span> <span class="o">/</span> <span class="n">depr_years</span> <span class="o">+</span> <span class="n">support_per_year</span> <span class="o">+</span> <span class="n">electricity_per_year</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># ---- Usage scenarios ---------------------------------------------------</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Define a list of yearly GPU‑hour volumes you might sell</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">usage_hours</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">]</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># Desired profit margin (as a fraction of revenue)</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="n">margin</span> <span class="o">=</span> <span class="mf">0.30</span> <span class="c1"># 30 %</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="c1"># Compute breakeven price and price to hit the margin</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="k">for</span> <span class="n">hrs</span> <span class="ow">in</span> <span class="n">usage_hours</span><span class="p">:</span>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a> <span class="n">breakeven</span> <span class="o">=</span> <span class="n">annual_fixed</span> <span class="o">/</span> <span class="n">hrs</span> <span class="c1"># $/GPU‑hr just to cover cost</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a> <span class="n">price_for_margin</span> <span class="o">=</span> <span class="n">breakeven</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">margin</span><span class="p">)</span> <span class="c1"># $/GPU‑hr to earn 30 % profit</span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a> <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a> <span class="s2">"GPU‑hrs / yr"</span><span class="p">:</span> <span class="n">hrs</span><span class="p">,</span>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a> <span class="s2">"Annual Fixed Cost ($)"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">annual_fixed</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a> <span class="s2">"Breakeven $/hr"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">breakeven</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a> <span class="s2">"Price @30 % margin $/hr"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">price_for_margin</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a> <span class="p">})</span>
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<h3 id="4-safely-storing-the-token-locally">4. Safely storing the token locally<a class="headerlink" href="#4-safely-storing-the-token-locally" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># ~/.ssh/jetstream.env   (file owner‑only, 600 permissions)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">JETSTREAM_API_TOKEN</span><span class="o">=</span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…"</span>
 </span></code></pre></div>
-<p><strong>Result (sample run):</strong></p>
-<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a> GPU‑hrs / yr Annual Fixed Cost ($) Breakeven $/hr Price @30 % margin $/hr
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a> 200 51150.0 255.75 365.36
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a> 500 51150.0 102.30 146.14
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a> 1000 51150.0 51.15 73.07
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a> 2000 51150.0 25.58 36.54
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a> 3000 51150.0 17.05 24.36
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a> 4000 51150.0 12.79 18.27
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a> 5000 51150.0 10.23 14.61
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Load it for the current shell (add to ~/.bashrc or ~/.zshrc)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">export</span><span class="w"> </span>JETSTREAM_API_TOKEN
 </span></code></pre></div>
-<p><em>Interpretation</em> </p>
-<ul>
-<li>If you expect to sell <strong>~2 000 GPU‑hrs / yr</strong> (≈ 5 hrs / day on average), a <strong>$36 / hr</strong> price gives you a 30 % profit margin. </li>
-<li>For low‑volume “pay‑as‑you‑go” (e.g., 200 hrs / yr) you must charge <strong>$365 / hr</strong> just to break even – obviously not viable, so you’d need to bundle those hours into a higher‑value offering (e.g., premium consulting, custom model development). </li>
-</ul>
-<p>Feel free to change <code>margin</code>, <code>hardware_price</code>, or the usage list to explore other scenarios.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Never commit the token to a public repository. If you accidentally do, revoke the key immediately from the Open WebUI and generate a new one.</p>
+</div>
 <hr>
-<h2 id="build-the-service-platform">Build the Service Platform<a class="headerlink" href="#build-the-service-platform" title="Permanent link">¶</a></h2>
-<h3 id="21-architecture-sketch">2.1 Architecture Sketch<a class="headerlink" href="#21-architecture-sketch" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>+------------------------+ +-------------------+ +-------------------+
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>| Customer Front‑end | &lt;---&gt; | Billing / Auth | &lt;---&gt; | Scheduler API |
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>| (Web portal, API) | | (Stripe, OAuth) | | (K8s / Slurm) |
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>+------------------------+ +-------------------+ +-------------------+
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a> | | |
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a> v v v
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>+------------------------+ +-------------------+ +-------------------+
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>| Container Runtime | &lt;---&gt; | GPU Resource | &lt;---&gt; | Monitoring / |
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>| (Docker + NVIDIA) | | Manager (DCGM) | | Metering (Prom.)|
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>+------------------------+ +-------------------+ +-------------------+
-</span></code></pre></div>
-<ul>
-<li><strong>Front‑end</strong> – A simple web portal (React / Flask) where users sign up, view pricing, and launch jobs. </li>
-<li><strong>Billing / Auth</strong> – Use <strong>Stripe Checkout</strong> (or Paddle) for payment, store a <code>customer_id</code> and a <code>usage_quota</code> in a database (PostgreSQL). </li>
-<li><strong>Scheduler API</strong> – Expose a <strong>REST endpoint</strong> (<code>POST /jobs</code>) that receives a container image name, GPU count, and max runtime. The API validates the user’s remaining quota, then creates a <strong>Kubernetes Job</strong> (or Slurm allocation) that mounts a per‑user encrypted volume. </li>
-<li><strong>GPU Resource Manager</strong> – NVIDIA <strong>DCGM</strong> + <strong>Prometheus</strong> scrapes per‑GPU utilisation (<code>gpu_utilization</code>, <code>memory_used</code>). These metrics feed the billing engine to <em>meter</em> actual GPU‑seconds. </li>
-<li><strong>Security</strong> – Deploy every user job in its own <strong>GPU‑isolated container</strong> (NVIDIA Container Runtime). Wrap the container with <strong>NemoClaw/OpenShell</strong> to enforce network egress rules, disable root access, and encrypt any persisted data on the host’s self‑encrypting NVMe. </li>
-</ul>
-<h3 id="22-minimal-gpuasaservice-prototype-docker-flask">2.2 Minimal “GPU‑as‑a‑Service” Prototype (Docker + Flask)<a class="headerlink" href="#22-minimal-gpuasaservice-prototype-docker-flask" title="Permanent link">¶</a></h3>
-<p>Below is a <strong>single‑file Flask app</strong> you can run on the DGX Spark (or a VM that has <code>nvidia-docker2</code> installed). It:</p>
-<ol>
-<li>Accepts a POST with <code>duration_minutes</code> and <code>gpu_count</code>. </li>
-<li>Starts a Docker container that runs <code>nvidia-smi</code> (just as a placeholder for your real workload). </li>
-<li>Returns a job ID and a rough cost estimate (based on a hard‑coded price $45/hr). </li>
-</ol>
-<p>You can copy‑paste this into <code>app.py</code>, <code>pip install flask docker</code>, then run <code>python app.py</code>.</p>
-<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">uuid</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">docker</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">client</span> <span class="o">=</span> <span class="n">docker</span><span class="o">.</span><span class="n">from_env</span><span class="p">()</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># ---- Configuration ---------------------------------------------------------</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">PRICE_PER_HOUR</span> <span class="o">=</span> <span class="mf">45.0</span> <span class="c1"># $ per GPU‑hour (adjust to your pricing)</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">MAX_GPUS</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># DGX Spark has 4 GPU devices exposed as 0‑3</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># ---- Helper: compute cost ---------------------------------------------------</span>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">cost_for</span><span class="p">(</span><span class="n">job_minutes</span><span class="p">,</span> <span class="n">gpu_count</span><span class="p">):</span>
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a> <span class="n">hrs</span> <span class="o">=</span> <span class="n">job_minutes</span> <span class="o">/</span> <span class="mf">60.0</span>
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a> <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">hrs</span> <span class="o">*</span> <span class="n">gpu_count</span> <span class="o">*</span> <span class="n">PRICE_PER_HOUR</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1"># ---- Endpoint: request a GPU job -------------------------------------------</span>
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">'/run'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">'POST'</span><span class="p">])</span>
-</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">run_job</span><span class="p">():</span>
-</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a> <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
-</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a> <span class="n">minutes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'duration_minutes'</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a> <span class="n">gpus</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'gpu_count'</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a> <span class="k">if</span> <span class="n">gpus</span> <span class="o">&gt;</span> <span class="n">MAX_GPUS</span><span class="p">:</span>
-</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a> <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">'error'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'Max </span><span class="si">{</span><span class="n">MAX_GPUS</span><span class="si">}</span><span class="s1"> GPUs per job'</span><span class="p">}),</span> <span class="mi">400</span>
-</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
-</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a> <span class="c1"># Build a simple Docker command – replace with your real image later</span>
-</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a> <span class="n">image</span> <span class="o">=</span> <span class="s1">'nvidia/cuda:12.4.1-runtime-ubuntu22.04'</span> <span class="c1"># has nvidia-smi</span>
-</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a> <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"bash -c 'nvidia-smi &amp;&amp; sleep </span><span class="si">{</span><span class="n">minutes</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">'"</span>
-</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>
-</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a> <span class="c1"># Run container with GPU device request</span>
-</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a> <span class="k">try</span><span class="p">:</span>
-</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a> <span class="n">container</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">containers</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a> <span class="n">image</span><span class="p">,</span>
-</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a> <span class="n">command</span><span class="p">,</span>
-</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a> <span class="n">detach</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a> <span class="n">runtime</span><span class="o">=</span><span class="s1">'nvidia'</span><span class="p">,</span>
-</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a> <span class="n">device_requests</span><span class="o">=</span><span class="p">[</span><span class="n">docker</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">DeviceRequest</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">gpus</span><span class="p">,</span> <span class="n">capabilities</span><span class="o">=</span><span class="p">[[</span><span class="s1">'gpu'</span><span class="p">]])],</span>
-</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">"dgxjob-</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
-</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a> <span class="p">)</span>
-</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a> <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">'error'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}),</span> <span class="mi">500</span>
-</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>
-</span><span id="__span-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a> <span class="n">cost</span> <span class="o">=</span> <span class="n">cost_for</span><span class="p">(</span><span class="n">minutes</span><span class="p">,</span> <span class="n">gpus</span><span class="p">)</span>
-</span><span id="__span-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a> <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
-</span><span id="__span-5-45"><a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a> <span class="s1">'job_id'</span><span class="p">:</span> <span class="n">container</span><span class="o">.</span><span class="n">id</span><span class="p">[:</span><span class="mi">12</span><span class="p">],</span>
-</span><span id="__span-5-46"><a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a> <span class="s1">'status'</span><span class="p">:</span> <span class="s1">'running'</span><span class="p">,</span>
-</span><span id="__span-5-47"><a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a> <span class="s1">'estimated_cost_usd'</span><span class="p">:</span> <span class="n">cost</span><span class="p">,</span>
-</span><span id="__span-5-48"><a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a> <span class="s1">'message'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'Container started for </span><span class="si">{</span><span class="n">minutes</span><span class="si">}</span><span class="s1"> min on </span><span class="si">{</span><span class="n">gpus</span><span class="si">}</span><span class="s1"> GPU(s).'</span>
-</span><span id="__span-5-49"><a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a> <span class="p">})</span>
-</span><span id="__span-5-50"><a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a>
-</span><span id="__span-5-51"><a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a><span class="c1"># ---- Simple health‑check ----------------------------------------------------</span>
-</span><span id="__span-5-52"><a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">'/health'</span><span class="p">)</span>
-</span><span id="__span-5-53"><a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a><span class="k">def</span><span class="w"> </span><span class="nf">health</span><span class="p">():</span>
-</span><span id="__span-5-54"><a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a> <span class="k">return</span> <span class="s1">'OK'</span><span class="p">,</span> <span class="mi">200</span>
-</span><span id="__span-5-55"><a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a>
-</span><span id="__span-5-56"><a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
-</span><span id="__span-5-57"><a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a> <span class="c1"># Expose on all network interfaces (adjust firewall as needed)</span>
-</span><span id="__span-5-58"><a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a> <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">'0.0.0.0'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</span></code></pre></div>
-<p><strong>How it works</strong></p>
+<h2 id="option-a-central-inference-service-recommended-for-most-users">Option A – Central Inference Service <em>(recommended for most users)</em><a class="headerlink" href="#option-a-central-inference-service-recommended-for-most-users" title="Permanent link">¶</a></h2>
+<h3 id="1-access-via-the-open-webui-proxy-public-tokenprotected">1. Access via the <strong>Open WebUI proxy</strong> (public, token‑protected)<a class="headerlink" href="#1-access-via-the-open-webui-proxy-public-tokenprotected" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
-<th>Step</th>
-<th>What happens on the DGX Spark</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Client POST <code>/run</code> (JSON)</td>
-<td><code>{"duration_minutes":30, "gpu_count":2}</code></td>
-</tr>
-<tr>
-<td>Flask validates the request, computes an <strong>estimated cost</strong>.</td>
-<td></td>
-</tr>
-<tr>
-<td>Docker daemon launches a container with the requested <strong>GPU device count</strong> (via the NVIDIA runtime).</td>
-<td></td>
-</tr>
-<tr>
-<td>The container runs <code>nvidia-smi</code> (shows GPU health) then sleeps the requested minutes – replace the <code>command</code> string with your actual workload (e.g., <code>python inference.py</code>).</td>
-<td></td>
-</tr>
-<tr>
-<td>You can later query Docker (<code>container.status</code>) or hook into <strong>DCGM</strong> to measure actual GPU‑seconds for precise billing.</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><em>Next steps to turn this into a production service</em> </p>
-<ul>
-<li>Add <strong>authentication</strong> (JWT + Stripe customer ID). </li>
-<li>Persist <strong>job metadata</strong> (start‑time, gpu‑seconds) in a DB for invoicing. </li>
-<li>Replace the demo container with <strong>your own image</strong> that bundles the LLM runtime (e.g., <code>ghcr.io/nvidia/llama2-inference:fp4</code>). </li>
-<li>Wrap the container start in a <strong>NemoClaw sandbox</strong> (<code>nemo-claw run …</code>) to enforce privacy and network egress rules. </li>
-</ul>
-<h3 id="23-scaling-to-multiple-dgx-sparks">2.3 Scaling to Multiple DGX Sparks<a class="headerlink" href="#23-scaling-to-multiple-dgx-sparks" title="Permanent link">¶</a></h3>
-<p>If you eventually add a second (or four) DGX Spark nodes:</p>
-<ol>
-<li><strong>Deploy a single Kubernetes cluster</strong> that spans all nodes (use <code>kubeadm</code> or a managed distro like Rancher). </li>
-<li>Install the <strong>NVIDIA GPU device plugin</strong> – it will automatically expose each node’s 4 GPUs to the scheduler. </li>
-<li>Configure <strong>Pod‑Affinity</strong> rules if you want to keep a user’s job on a single node (important for &gt; 128 GB models). </li>
-<li>Use <strong>Cluster Autoscaler</strong> (or a custom script) to spin up additional Spark nodes on demand if you have spare rack space. </li>
-</ol>
-<p>The same Flask gateway can keep a <strong>global view</strong> of usage across the whole fleet by pulling GPU‑second metrics from Prometheus (<code>sum(rate(gpu_utilization_seconds_total[1m]))</code>).</p>
-<hr>
-<h2 id="gotomarket-operational-checklist">Go‑to‑Market &amp; Operational Checklist<a class="headerlink" href="#gotomarket-operational-checklist" title="Permanent link">¶</a></h2>
-<table>
-<thead>
-<tr>
-<th>Area</th>
-<th>Action Items</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Legal / Compliance</strong></td>
-<td>• Draft <strong>Terms of Service</strong> that state data residency (on‑prem, encrypted) <br>• Offer a <strong>Data Processing Addendum (DPA)</strong> for GDPR / CCPA customers <br>• Ensure <strong>PCI‑DSS</strong> compliance if you accept credit‑card payments (Stripe handles most of this).</td>
-</tr>
-<tr>
-<td><strong>SLA / Support</strong></td>
-<td>• Define a <strong>99.9 % uptime</strong> SLA (GPU‑level) – you can meet it with a single DGX Spark if you schedule maintenance windows. <br>• Provide a <strong>ticketing portal</strong> (Zendesk, Github Issues) for troubleshooting.</td>
-</tr>
-<tr>
-<td><strong>Marketing</strong></td>
-<td>• Publish a <strong>pricing page</strong> with the calculator (embed the Python script output or a simple JavaScript widget). <br>• Write <strong>use‑case blog posts</strong> (e.g., “Run LLaMA‑2‑70B locally for $0.12 per token”). <br>• Offer a <strong>free trial</strong> of 1 GPU‑hour (use a coupon code in Stripe).</td>
-</tr>
-<tr>
-<td><strong>Monitoring &amp; Alerting</strong></td>
-<td>• Grafana dashboards: GPU utilisation, temperature, queue length, billing lag. <br>• Alert on <strong>GPU temperature &gt; 80 °C</strong> or <strong>job failures</strong> (email/SMS).</td>
-</tr>
-<tr>
-<td><strong>Security</strong></td>
-<td>• Deploy <strong>NemoClaw</strong> as the runtime wrapper – it creates a sandbox with restricted network, encrypted <code>/tmp</code>, and prevents data exfiltration. <br>• Turn on <strong>self‑encrypting NVMe</strong> (already on the DGX Spark) and destroy the key on de‑provisioning.</td>
-</tr>
-<tr>
-<td><strong>Customer On‑boarding</strong></td>
-<td>• Automated <strong>email verification → Stripe checkout → API key</strong> generation. <br>• Provide a <strong>CLI wrapper</strong> (<code>dgxspark-cli submit …</code>) that handles authentication and job submission.</td>
-</tr>
-<tr>
-<td><strong>Finance</strong></td>
-<td>• Reconcile Stripe payouts weekly, generate <strong>monthly invoices</strong> from the usage DB. <br>• Set aside a <strong>maintenance reserve</strong> (≈ 10 % of revenue) for hardware warranty renewals.</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="quick-revenue-forecast-example">Quick “Revenue Forecast” Example<a class="headerlink" href="#quick-revenue-forecast-example" title="Permanent link">¶</a></h2>
-<p>Assume you sell <strong>2 000 GPU‑hours per month</strong> at <strong>$36 / hr</strong> (the breakeven price for 2 000 hrs/yr from the calculator). </p>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
+<th>Parameter</th>
 <th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Monthly revenue</td>
-<td>2 000 hr × $36 = $72 000</td>
+<td><strong>Base URL</strong></td>
+<td><code>https://llm.jetstream-cloud.org/api/</code></td>
 </tr>
 <tr>
-<td>Annual revenue</td>
-<td>$864 000</td>
+<td><strong>Auth header</strong></td>
+<td><code>Authorization: Bearer $JETSTREAM_API_TOKEN</code></td>
 </tr>
 <tr>
-<td>Annual fixed cost (hardware + support + electricity)</td>
-<td>$51 000</td>
-</tr>
-<tr>
-<td>Gross profit (before taxes, ops)</td>
-<td>$813 000</td>
-</tr>
-<tr>
-<td>Estimated ops / marketing / payroll (30 % of revenue)</td>
-<td>$259 200</td>
-</tr>
-<tr>
-<td><strong>Net profit (approx.)</strong></td>
-<td><strong>$553 800</strong></td>
+<td><strong>Supported models</strong></td>
+<td><code>llama-4-scout</code>, <code>deepseek-r1</code>, <code>gpt-oss-120b</code> (full catalog on the Jetstream portal)</td>
 </tr>
 </tbody>
 </table>
-<p>Even if you sell <strong>only 1 000 hrs/mo</strong>, you’d still net ~~$250 k / yr after a modest ops budget. The numbers scale linearly – the key is to <strong>keep utilisation above ~1 200 hrs/yr</strong> (≈ 3 hrs/day) to stay profitable.</p>
+<h4 id="quick-test-with-curl">Quick test with <code>curl</code><a class="headerlink" href="#quick-test-with-curl" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://llm.jetstream-cloud.org/api/v1/chat/completions<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$JETSTREAM_API_TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s1">    "model": "llama-4-scout",</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="s1">    "messages": [</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="s1">      {</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="s1">        "role": "user",</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="s1">        "content": "Say hello"</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="s1">      }</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="s1">    ]</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="s1">  }'</span>
+</span></code></pre></div>
+<h3 id="2-direct-backend-endpoints-internal-network-or-ssh-tunnel">2. Direct backend endpoints (internal network or SSH tunnel)<a class="headerlink" href="#2-direct-backend-endpoints-internal-network-or-ssh-tunnel" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Direct endpoint</th>
+<th>Model ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Llama 4 Scout</strong></td>
+<td><code>https://llm.jetstream-cloud.org/llama-4-scout/v1/</code></td>
+<td><code>llama-4-scout</code></td>
+</tr>
+<tr>
+<td><strong>DeepSeek‑R1</strong></td>
+<td><code>https://llm.jetstream-cloud.org/sglang/v1/</code></td>
+<td><code>deepseek-r1</code></td>
+</tr>
+<tr>
+<td><strong>GPT‑OSS‑120B</strong></td>
+<td><code>https://llm.jetstream-cloud.org/gpt-oss-120b/v1/</code></td>
+<td><code>gpt-oss-120b</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>CORS / Network note</strong> – These URLs are reachable <strong>only from Jetstream’s internal network</strong> (or via an SSH tunnel). If your client library requires an <code>apiKey</code>, any non‑empty string (e.g. <code>"dummy"</code> ) will satisfy it.</p>
+</blockquote>
 <hr>
-<h2 id="your-next-moves">Your Next Moves<a class="headerlink" href="#your-next-moves" title="Permanent link">¶</a></h2>
+<h2 id="option-b-selfhosting-on-a-jetstream-2-gpu-instance">Option B – Self‑Hosting on a Jetstream 2 GPU Instance<a class="headerlink" href="#option-b-selfhosting-on-a-jetstream-2-gpu-instance" title="Permanent link">¶</a></h2>
+<h3 id="1-provision-the-gpu-vm">1. Provision the GPU VM<a class="headerlink" href="#1-provision-the-gpu-vm" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>How to do it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open <strong>Exosphere</strong> → <em>Create Instance</em> → choose a <strong>GPU flavor</strong> (<code>g3.medium</code> or larger)</td>
+<td>UI</td>
+</tr>
+<tr>
+<td>Attach a <strong>security group</strong> that allows inbound <strong>TCP 8080</strong> (or the port you’ll use)</td>
+<td>UI</td>
+</tr>
+<tr>
+<td>(Optional) Assign a <strong>floating IP</strong> or use the Jetstream DNS sub‑domain <code>&lt;name&gt;.projects.jetstream-cloud.org</code></td>
+<td>UI</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-install-the-serving-stack-example-with-llamacpp">2. Install the serving stack (example with <code>llama.cpp</code>)<a class="headerlink" href="#2-install-the-serving-stack-example-with-llamacpp" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 1. Install Miniforge (lightweight conda)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>curl<span class="w"> </span>-LO<span class="w"> </span>https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>bash<span class="w"> </span>Miniforge3-Linux-x86_64.sh<span class="w"> </span>-b<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/mf
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/mf/bin:<span class="nv">$PATH</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># 2. Install the Python bindings with server support</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"llama-cpp-python[server]"</span><span class="w">   </span><span class="c1"># pulls the compiled llama.cpp binary</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># 3. Download a GGUF model (example: Llama‑3‑8B‑Instruct)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>wget<span class="w"> </span>-O<span class="w"> </span>model.gguf<span class="w"> </span>https://huggingface.co/&lt;repo&gt;/model.gguf
+</span></code></pre></div>
+<h3 id="3-run-the-openaicompatible-server">3. Run the OpenAI‑compatible server<a class="headerlink" href="#3-run-the-openaicompatible-server" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python<span class="w"> </span>-m<span class="w"> </span>llama_cpp.server<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span>--model<span class="w"> </span>./model.gguf<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span>--port<span class="w"> </span><span class="m">8080</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span>--n_ctx<span class="w"> </span><span class="m">8192</span><span class="w">   </span><span class="c1"># adjust to fit your GPU’s VRAM</span>
+</span></code></pre></div>
+<p>The server advertises an OpenAI‑compatible endpoint at <code>http://&lt;instance‑ip&gt;:8080/v1/</code>.</p>
+<h3 id="4-expose-the-service-over-https-recommended">4. Expose the service over HTTPS (recommended)<a class="headerlink" href="#4-expose-the-service-over-https-recommended" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># /etc/caddy/Caddyfile</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p p-Indicator">{</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nv">email you@example.com</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p p-Indicator">}</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="l l-Scalar l-Scalar-Plain">&lt;your‑domain&gt; {</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">reverse_proxy * localhost:8080</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">encode gzip</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="l l-Scalar l-Scalar-Plain">}</span>
+</span></code></pre></div>
+<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Quick Caddy install</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>curl<span class="w"> </span>-1sLf<span class="w"> </span><span class="s1">'https://dl.cloudsmith.io/public/caddy/stable/gpg.key'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>apt-key<span class="w"> </span>add<span class="w"> </span>-
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>curl<span class="w"> </span>-1sLf<span class="w"> </span><span class="s1">'https://dl.cloudsmith.io/public/caddy/stable/deb.deb.txt'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/caddy-stable.list
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>caddy
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>caddy
+</span></code></pre></div>
+<blockquote>
+<p><strong>Tip</strong> – If you don’t own a domain, Jetstream provides a free sub‑domain like <code>my‑llm.projects.jetstream-cloud.org</code>. Point the Caddy block to that hostname.</p>
+</blockquote>
+<hr>
+<h2 id="integrating-jetstream-llms-into-continue">Integrating Jetstream LLMs into <strong>Continue</strong><a class="headerlink" href="#integrating-jetstream-llms-into-continue" title="Permanent link">¶</a></h2>
+<p><code>continue.dev</code> reads a JSON file (<code>~/.continue/config.json</code>). Add a model entry that points at the OpenAI‑compatible endpoint you chose.</p>
+<blockquote>
+<p><strong>Authentication rule</strong> –<br>
+<em> </em><em>Proxy endpoints</em><em>: set <code>apiKey</code> to <code>$JETSTREAM_API_TOKEN</code>.<br>
+</em> <strong>Direct or self‑hosted endpoints</strong>: <code>apiKey</code> can be <code>"dummy"</code> or omitted.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">"models"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jetstream – Llama‑4‑Scout (central proxy)"</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">      </span><span class="nt">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openai"</span><span class="p">,</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">      </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"llama-4-scout"</span><span class="p">,</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">      </span><span class="nt">"apiBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://llm.jetstream-cloud.org/api/v1"</span><span class="p">,</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">      </span><span class="nt">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$JETSTREAM_API_TOKEN"</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jetstream – My Custom GGUF (self‑hosted)"</span><span class="p">,</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">      </span><span class="nt">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openai"</span><span class="p">,</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">      </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-gguf-model"</span><span class="p">,</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">      </span><span class="nt">"apiBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://my-llm.projects.jetstream-cloud.org/v1"</span><span class="p">,</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">      </span><span class="nt">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dummy"</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">  </span><span class="nt">"tabAutocompleteModel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jetstream – Qwen‑2.5‑Coder"</span><span class="p">,</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">    </span><span class="nt">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openai"</span><span class="p">,</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">    </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qwen-2.5-coder"</span><span class="p">,</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">    </span><span class="nt">"apiBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://llm.jetstream-cloud.org/api/v1"</span><span class="p">,</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">    </span><span class="nt">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$JETSTREAM_API_TOKEN"</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="p">}</span>
+</span></code></pre></div>
+<blockquote>
+<p><strong>Note</strong> – <code>continue</code> automatically appends <code>/chat/completions</code> to the <code>apiBase</code>, so you don’t need to include it manually.</p>
+</blockquote>
+<h3 id="using-an-environment-variable-safer">Using an environment variable (safer)<a class="headerlink" href="#using-an-environment-variable-safer" title="Permanent link">¶</a></h3>
 <ol>
-<li><strong>Run the pricing calculator</strong> (copy the Python block into your own IDE) and plug in the utilisation you think you can achieve. </li>
-<li><strong>Spin up the Flask demo</strong> on your DGX Spark (or a test VM) to verify container‑GPU launching works. </li>
-<li>Decide whether you’ll <strong>sell on a marketplace</strong> (AWS, GCP) or <strong>run a self‑hosted portal</strong> with Stripe. </li>
-<li>Draft a <strong>minimal Terms of Service</strong> and set up a <strong>Stripe product</strong> for the chosen price tier. </li>
-<li>(Optional) If you need help wiring the Flask app to <strong>Stripe webhooks</strong> or <strong>Prometheus billing</strong>, let me know – I can generate a second snippet for that integration.</li>
+<li>
+<p>Store the token as shown in <strong>Safely storing the token locally</strong> and export <code>JETSTREAM_API_TOKEN</code>.  </p>
+</li>
+<li>
+<p>In the JSON, set <code>apiKey</code> to an empty string – Continue will fall back to the environment variable:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">"models"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jetstream – Llama‑4‑Scout (central proxy)"</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">      </span><span class="nt">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openai"</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">      </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"llama-4-scout"</span><span class="p">,</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">      </span><span class="nt">"apiBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://llm.jetstream-cloud.org/api/v1"</span><span class="p">,</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">      </span><span class="nt">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr>
+<h2 id="integrating-jetstream-llms-into-cline">Integrating Jetstream LLMs into <strong>Cline</strong><a class="headerlink" href="#integrating-jetstream-llms-into-cline" title="Permanent link">¶</a></h2>
+<ol>
+<li>
+<p>Open <strong>Cline</strong> → <em>Settings</em> (gear icon).  </p>
+</li>
+<li>
+<p>Set <strong>Provider</strong> → <strong>OpenAI Compatible</strong>.  </p>
+</li>
+<li>
+<p>Fill in the fields:</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Base URL</strong></td>
+<td><code>https://llm.jetstream-cloud.org/api/v1</code> (central proxy) <br>or <code>https://my-llm.projects.jetstream-cloud.org/v1</code> (self‑hosted)</td>
+</tr>
+<tr>
+<td><strong>API Key</strong></td>
+<td><code>$JETSTREAM_API_TOKEN</code> (proxy) <br>or <code>dummy</code> / blank (direct/self‑hosted)</td>
+</tr>
+<tr>
+<td><strong>Model ID</strong></td>
+<td><code>llama-4-scout</code> (proxy) <br><code>my-gguf-model</code> (self‑hosted)</td>
+</tr>
+<tr>
+<td><strong>Context window</strong></td>
+<td><code>8192</code> for 8 B models, <code>32768</code> for 70 B‑class (adjust to GPU memory)</td>
+</tr>
+</tbody>
+</table>
+<p>Press <strong>Save</strong>, start a new Cline chat, and you should see responses from the selected model.</p>
+<h3 id="using-a-json-settings-file-optional">Using a JSON settings file (optional)<a class="headerlink" href="#using-a-json-settings-file-optional" title="Permanent link">¶</a></h3>
+<p>Cline can also read a workspace‑level <code>settings.json</code>. Reference the environment variable directly:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">"openai"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nt">"apiBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://llm.jetstream-cloud.org/api/v1"</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nt">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${env:JETSTREAM_API_TOKEN}"</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"llama-4-scout"</span><span class="p">,</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">"maxTokens"</span><span class="p">:</span><span class="w"> </span><span class="mi">8192</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>If <code>${env:…}</code> cannot be resolved, Cline will fall back to an empty string, resulting in a <code>401</code>. Ensure the variable is exported before launching VS Code.</p>
+<hr>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CORS error</strong> in a browser‑based tool</td>
+<td>Direct endpoint accessed from outside Jetstream’s network</td>
+<td>Switch to the proxy endpoint or create an SSH tunnel (<code>ssh -L 8080:llm.jetstream-cloud.org:8080 &lt;user&gt;@jetstream-cloud.org</code>).</td>
+</tr>
+<tr>
+<td><strong>401 Unauthorized</strong> on central API</td>
+<td>Missing, malformed, or expired JWT</td>
+<td>Regenerate a fresh token (see <em>Obtaining an Open WebUI API Token</em>) and ensure you use <code>$JETSTREAM_API_TOKEN</code>.</td>
+</tr>
+<tr>
+<td><strong>OOM / “context length too large”</strong> on self‑hosted server</td>
+<td><code>--n_ctx</code> exceeds GPU VRAM</td>
+<td>Lower <code>--n_ctx</code> or use a higher‑compression GGUF (e.g., <code>q4_0</code>).</td>
+</tr>
+<tr>
+<td><strong>Cannot reach <code>https://my-llm…</code></strong></td>
+<td>Security group blocks inbound 443/8080</td>
+<td>Add a rule allowing inbound TCP on the port you bound (0.0.0.0/0 or restrict to your IP).</td>
+</tr>
+<tr>
+<td><strong><code>502 Bad Gateway</code></strong> after adding Caddy</td>
+<td>Caddy not reloaded</td>
+<td><code>sudo systemctl reload caddy</code> (or restart the reverse‑proxy service).</td>
+</tr>
+<tr>
+<td><strong>Model not found</strong> (<code>model_not_found</code>)</td>
+<td>Wrong model identifier in client config</td>
+<td>Run <code>curl https://&lt;endpoint&gt;/v1/models</code> to see the exact model ID.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="quick-sanitycheck-command">Quick sanity‑check command<a class="headerlink" href="#quick-sanitycheck-command" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://llm.jetstream-cloud.org/api/v1/chat/completions<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$JETSTREAM_API_TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"model":"llama-4-scout","messages":[{"role":"user","content":"Hello Jetstream!"}]}'</span>
+</span></code></pre></div>
+<p>A valid response contains a <code>choices</code> array. If you get <code>401</code>, double‑check the token’s expiry and that <code>$JETSTREAM_API_TOKEN</code> is correctly exported.</p>
+<hr>
+<h2 id="performancetuning-cheatsheet-selfhosted">Performance‑tuning cheat‑sheet (self‑hosted)<a class="headerlink" href="#performancetuning-cheatsheet-selfhosted" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Typical values</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--n_ctx</code></td>
+<td>2048–32768 (depends on VRAM)</td>
+<td>Larger context → more memory usage.</td>
+</tr>
+<tr>
+<td><code>--gpu-layers</code></td>
+<td><code>-1</code> (auto) or <code>30</code> on an 8 GB GPU</td>
+<td>Number of transformer layers executed on GPU; lower values shift work to CPU.</td>
+</tr>
+<tr>
+<td><code>--batch-size</code></td>
+<td>8–32</td>
+<td>Bigger batch improves throughput but consumes more memory.</td>
+</tr>
+<tr>
+<td>Quantization</td>
+<td><code>q4_0</code>, <code>q4_1</code>, <code>q5_0</code>, <code>q8_0</code></td>
+<td>Higher compression → lower VRAM, slight accuracy loss.</td>
+</tr>
+<tr>
+<td><code>--temp</code> / <code>--top_p</code></td>
+<td>Default <code>0.7</code> / <code>0.95</code></td>
+<td>Controls randomness of generation.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="references-further-reading">References &amp; Further Reading<a class="headerlink" href="#references-further-reading" title="Permanent link">¶</a></h2>
+<ol>
+<li>Jetstream 2 Inference Service Overview – <a href="https://docs.jetstream-cloud.org/inference-service/overview/">https://docs.jetstream-cloud.org/inference-service/overview/</a>  </li>
+<li>Running LLMs on Jetstream 2 – <a href="https://docs.jetstream-cloud.org/general/running-llm/">https://docs.jetstream-cloud.org/general/running-llm/</a>  </li>
+<li>OpenAI API Reference – <a href="https://platform.openai.com/docs/api-reference">https://platform.openai.com/docs/api-reference</a>  </li>
+<li><code>llama.cpp</code> repository – <a href="https://github.com/ggerganov/llama.cpp">https://github.com/ggerganov/llama.cpp</a>  </li>
+<li><code>continue.dev</code> configuration docs – <a href="https://continue.dev/docs/configuration">https://continue.dev/docs/configuration</a>  </li>
+<li><code>cline</code> GitHub repository – <a href="https://github.com/cline/cline">https://github.com/cline/cline</a></li>
 </ol>
 <hr>
-<p><strong>Anything specific you’d like to see next?</strong> </p>
+<h3 id="youre-ready">You’re ready!<a class="headerlink" href="#youre-ready" title="Permanent link">¶</a></h3>
+<p><em>Pick the path that matches your needs:</em>  </p>
 <ul>
-<li>A more elaborate <strong>Kubernetes‑based job scheduler</strong> example. </li>
-<li>A <strong>billing‑pipeline</strong> that reads DCGM metrics and creates Stripe invoices automatically. </li>
-<li>A <strong>marketing landing‑page mock‑up</strong> with the price‑calculator widget. </li>
+<li><strong>Central service</strong> – <code>https://llm.jetstream-cloud.org</code> for instant, zero‑cost, managed inference.  </li>
+<li><strong>Self‑hosted GPU</strong> – launch a Jetstream instance when you need full control, custom weights, or want to experiment with quantisation.</li>
 </ul>
-<p>Just point me at the piece you want to flesh out, and I’ll provide the code or detailed instructions.</p>
-<h2 id="practical-exercises">Practical Exercises<a class="headerlink" href="#practical-exercises" title="Permanent link">¶</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Exercise 1: Hardware Audit</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only use the Central service as no cost arise</p>
 </div>
-<p>Write a Python script using <code>pynvml</code> to output the current temperature and power usage of the GB10 GPU. Compare these values under idle and load conditions.</p>
-<div class="admonition note">
-<p class="admonition-title">Exercise 2: Fine-tuning Setup</p>
+<h1 id="appendix">Appendix<a class="headerlink" href="#appendix" title="Permanent link">¶</a></h1>
+<p>Integrating the Jetstream2 LLM Inference Service (<code>[https://llm.jetstream-cloud.org/](https://llm.jetstream-cloud.org/)</code>) into Cline is straightforward because the service exposes standard <strong>OpenAI-compatible endpoints</strong>.<br>
+You generally <strong>do not need an SSH proxy</strong> to connect to it from your laptop, as the service is publicly accessible via HTTPS over the internet for the research/academic community (secured via your standard credentials/ACCESS allocation where applicable, though the API routes themselves accept an <code>"empty"</code> or placeholder API key depending on the endpoint setup).</p>
+<h3 id="step-1-choose-your-model-and-base-url">Step 1: Choose your Model and Base URL<a class="headerlink" href="#step-1-choose-your-model-and-base-url" title="Permanent link">¶</a></h3>
+<p>Jetstream hosts multiple models under distinct subpaths. Select the Base URL and Model ID matching the model you want to use:</p>
+<ul>
+<li>
+<p><strong>Llama 4 Scout</strong>  </p>
+<ul>
+<li><strong>Provider Type:</strong> OpenAI Compatible  </li>
+<li><strong>Base URL:</strong> <code>https://llm.jetstream-cloud.org/llama-4-scout/v1</code>  </li>
+<li><strong>Model ID:</strong> <code>llama-4-scout</code>  </li>
+<li><strong>API Key:</strong> <code>empty</code> (or any dummy string like <code>not-needed</code>)  </li>
+</ul>
+</li>
+<li>
+<p><strong>DeepSeek‑R1</strong>  </p>
+<ul>
+<li><strong>Provider Type:</strong> OpenAI Compatible  </li>
+<li><strong>Base URL:</strong> <code>https://llm.jetstream-cloud.org/sglang/v1</code>  </li>
+<li><strong>Model ID:</strong> <code>deepseek-r1</code>  </li>
+<li><strong>API Key:</strong> <code>empty</code>  </li>
+</ul>
+</li>
+<li>
+<p><strong>GPT‑OSS‑120B</strong>  </p>
+<ul>
+<li><strong>Provider Type:</strong> OpenAI Compatible  </li>
+<li><strong>Base URL:</strong> <code>https://llm.jetstream-cloud.org/gpt-oss-120b/v1</code>  </li>
+<li><strong>Model ID:</strong> <code>gpt-oss-120b</code>  </li>
+<li><strong>API Key:</strong> <code>empty</code>  </li>
+</ul>
+</li>
+</ul>
+<h3 id="step-2-configure-cline-in-vs-code">Step 2: Configure Cline in VS Code<a class="headerlink" href="#step-2-configure-cline-in-vs-code" title="Permanent link">¶</a></h3>
+<ol>
+<li>Open <strong>VS Code</strong>.  </li>
+<li>Click on the <strong>Cline</strong> icon in the sidebar to open the extension panel.  </li>
+<li>Click the <strong>Gear icon (Settings)</strong> at the top of the Cline panel.  </li>
+<li>Set the <strong>API Provider</strong> dropdown to <strong><code>OpenAI Compatible</code></strong>.  </li>
+<li>
+<p>Fill in the connection details:  </p>
+</li>
+<li>
+<p><strong>Base URL:</strong> Enter the appropriate endpoint URL (e.g., <code>https://llm.jetstream-cloud.org/llama-4-scout/v1</code>).  </p>
+</li>
+<li><strong>API Key:</strong> Type <code>empty</code> or any random placeholder string (the field usually requires a non‑empty string).  </li>
+<li>
+<p><strong>Model ID:</strong> Enter the matching model identifier (e.g., <code>llama-4-scout</code> or <code>deepseek-r1</code>).  </p>
+</li>
+<li>
+<p>Click <strong>Save</strong>, start a new Cline chat, and you should see responses from the selected model.</p>
+</li>
+</ol>
+<h3 id="when-would-you-need-an-ssh-tunnelproxy">When would you need an SSH tunnel/proxy?<a class="headerlink" href="#when-would-you-need-an-ssh-tunnelproxy" title="Permanent link">¶</a></h3>
+<p>You would only need an SSH proxy if:</p>
+<ol>
+<li>You spun up your <em>own</em> private vLLM or <code>llama.cpp</code> instance manually on a Jetstream2 VM (e.g., a <code>g3.xl</code> or <code>g3.medium</code> instance) instead of using the public managed service <code>llm.jetstream-cloud.org</code>.  </li>
+<li>Your local network or institution firewall blocks outbound traffic to custom HTTPS ports (though Jetstream's service runs over standard port 443/HTTPS, so this is rare).</li>
+</ol>
+<p>If you <em>are</em> connecting to a custom‑spun instance on a private Jetstream VM, you can open an SSH tunnel from your laptop terminal like this:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>ssh<span class="w"> </span>-i<span class="w"> </span>/path/to/key<span class="w"> </span>-L<span class="w"> </span><span class="m">8000</span>:localhost:8000<span class="w"> </span>exouser@&lt;your-jetstream-vm-ip&gt;
+</span></code></pre></div>
+<p>Then configure Cline to point to <code>http://localhost:8000/v1</code> with an OpenAI‑compatible provider. Otherwise, for the public multi‑tenant service, the direct HTTPS URL works out‑of‑the‑box.</p>
+<h2 id="appendix_1">Appendix<a class="headerlink" href="#appendix_1" title="Permanent link">¶</a></h2>
+<h3 id="generating-a-jetstream-2-api-token-with-the-cli">Generating a Jetstream 2 API Token with the CLI<a class="headerlink" href="#generating-a-jetstream-2-api-token-with-the-cli" title="Permanent link">¶</a></h3>
+<p>You can obtain a JWT API token directly from the command line using Jetstream’s official CLI.</p>
+<h4 id="prerequisites_1">Prerequisites<a class="headerlink" href="#prerequisites_1" title="Permanent link">¶</a></h4>
+<ul>
+<li>A Jetstream 2 account (username / password or password‑based SSO).  </li>
+<li>A terminal with <strong><code>curl</code></strong> and <strong><code>jq</code></strong> installed.  </li>
+<li>(Optional) the Jetstream CLI installed via <code>pip</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Install the CLI (run once)</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>pip<span class="w"> </span>install<span class="w"> </span>jetstream-cli
+</span></code></pre></div>
+<h4 id="stepbystep">Step‑by‑step<a class="headerlink" href="#stepbystep" title="Permanent link">¶</a></h4>
+<ol>
+<li><strong>Log in and retrieve the token</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>jetstream<span class="w"> </span>login<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>--username<span class="w"> </span>&lt;your‑username&gt;<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span>--password<span class="w"> </span>&lt;your‑password&gt;<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span>--output<span class="w"> </span>login.json
+</span></code></pre></div>
+<p>The command contacts the Jetstream authentication endpoint, validates your credentials, and writes a JSON file (<code>login.json</code>) containing the JWT.</p>
+<ol>
+<li><strong>Extract the JWT and store it securely</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Extract the token value</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.access_token'</span><span class="w"> </span>login.json<span class="w"> </span>&gt;<span class="w"> </span>~/.ssh/jetstream.env
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Restrict permissions so only you can read it</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~/.ssh/jetstream.env
+</span></code></pre></div>
+<ol>
+<li><strong>Export the token for the current shell (or add it to your rc file)</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">JETSTREAM_API_TOKEN</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>~/.ssh/jetstream.env<span class="k">)</span>
+</span></code></pre></div>
+<p>After exporting, any subsequent command can reference <code>$JETSTREAM_API_TOKEN</code>, e.g.:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://llm.jetstream-cloud.org/api/v1/chat/completions<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$JETSTREAM_API_TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"model":"llama-4-scout","messages":[{"role":"user","content":"Hello!"}]}'</span>
+</span></code></pre></div>
+<p>You now have a <code>$JETSTREAM_API_TOKEN</code> environment variable that can be used with any Jetstream OpenAI‑compatible endpoint.</p>
+<div class="admonition warning security reminder">
+<p class="admonition-title">Warning</p>
+<ul>
+<li><strong>Never</strong> commit <code>~/.ssh/jetstream.env</code> (or any file containing the JWT) to version control.  </li>
+<li>Keep the file permission at <code>600</code> to prevent other users on the same host from reading the token.  </li>
+<li>Rotate the token regularly (the default lifetime is 30 days) and delete old keys from the Open WebUI “API keys” page.  </li>
+</ul>
 </div>
-<p>Configure a QLoRA fine-tuning environment for a 7B parameter model on a single DGX Spark. Document the memory usage during the first epoch to verify the efficiency of the unified memory.</p>
-<div class="admonition note">
-<p class="admonition-title">Exercise 3: Cost Model Implementation</p>
-</div>
-<p>Implement a CLI tool that accepts <code>hardware_cost</code>, <code>electricity_rate</code>, and <code>target_utilization</code> as arguments and calculates the required hourly rate to reach breakeven within one year.</p>
-<h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
-<div class="admonition tip">
-<p class="admonition-title">Self-Assessment</p>
-</div>
-<p>Test your knowledge by expanding the questions below.</p>
-<details class="question">
-<summary>What is the primary advantage of the unified memory architecture in the DGX Spark?</summary>
-</details>
-<p>It allows the GPU and CPU to share a coherent memory pool, enabling the loading of very large models (up to 200B parameters) without the need for expensive and slow CPU-to-GPU memory copies.</p>
-<details class="question">
-<summary>How does ConnectX-7 facilitate the scaling of DGX Spark nodes?</summary>
-</details>
-<p>It provides high-speed networking (200 Gbps) that allows multiple DGX Spark nodes to be clustered together, effectively increasing the total available GPU memory and compute for models exceeding the capacity of a single node.</p>
-<details class="question">
-<summary>What is the purpose of the NemoClaw stack in a production environment?</summary>
-</details>
-<p>NemoClaw serves as a secure runtime wrapper that sandboxes LLMs, enforces data-handling policies, and prevents data exfiltration, which is critical when running third-party or untrusted models.</p>
-<details class="question">
-<summary>In the context of GPU-as-a-Service, why is tracking GPU-seconds more accurate than tracking wall-clock time?</summary>
-</details>
-<p>GPU-seconds account for actual resource utilization. Since jobs may be queued or may not use the GPU 100% of the time, billing based on actual GPU usage ensures fairness and reflects the true cost of the resource.</p>
-<details class="question">
-<summary>What is the recommended way to handle multi-node deployments for 70B+ parameter models?</summary>
-</details>
-<p>Connect 2-4 DGX Spark nodes via a 200-Gbps ConnectX-7 fabric to form a cluster, allowing the model to be sharded across the combined memory of the nodes.</p>
+<p>!!! note Assignment Jetstream.1
+    If something does not work please try to improve</p>
 
 
 
