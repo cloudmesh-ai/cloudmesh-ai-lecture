@@ -111,7 +111,22 @@
     - **Pull Requests (PRs)**: Submit PRs to the original repository. Provide a clear description of the changes and evidence (logs/screenshots) that the commands work.
     - **Peer Review**: Review your colleagues' PRs to learn from their implementation and ensure code quality.
 
+    !!! tip "adding a new Provider
 
+        To add a new provider you must be sure it is loaded. This can be controlled with 
+
+        * The [cloudmesh/ai/vm/providers/__init__.py](https://github.com/cloudmesh-ai/cloudmesh-ai-vm/blob/main/src/cloudmesh/ai/vm/providers/__init__.py)
+
+        * Then you just need to create 
+
+        a new provider in 
+
+        * [cloudmesh-ai-vm/tree/main/src/cloudmesh/ai/vm](https://github.com/cloudmesh-ai/cloudmesh-ai-vm/tree/main/src/cloudmesh/ai/vm)
+
+        Make sure to place the provider in the right subdir. Also there is no reason to reinvent one, but to improve on the existing ones. 
+
+        An easy provider to add is UTM for macOS.
+        
 ## Week 4:  Due Sep 24, 2026, 9am
 
 !!! note "Assignment W4.1 VM on local machine via Makefile"
