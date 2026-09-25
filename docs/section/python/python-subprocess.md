@@ -9,13 +9,14 @@
 
 ## Introduction: Why Subprocesses?
 
-Python is a remarkably powerful language with a vast ecosystem of libraries. However, in the real world of system administration and DevOps, you will frequently encounter tools that are simply better suited for specific tasks than any Python library. 
+Python is a remarkably powerful language with a vast ecosystem of libraries. However, in the real world of system administration and DevOps, you will frequently encounter tools that are simply better suited for specific tasks than any Python library.
 
 Whether it is the speed of `grep`, the robustness of `git`, the processing power of `ffmpeg`, or the system-level access of `ipconfig`, the ability to "shell out" from Python allows you to leverage the entire history of Unix and Windows utilities.
 
 ### What is a Process?
 
 In computing, a **process** is an independent instance of a program in execution. Each process has its own:
+
 - **Memory Space**: It cannot access another process's memory directly.
 - **Process ID (PID)**: A unique identifier assigned by the operating system.
 - **Execution State**: It can be running, sleeping, or terminated.
@@ -26,9 +27,9 @@ When you use the `subprocess` module, your Python script becomes the **parent pr
 
 Every process created by the operating system is automatically given three communication channels, known as **standard streams**:
 
-1.  **`stdin` (Standard Input)**: The channel through which the process receives data (typically from the keyboard or a file).
-2.  **`stdout` (Standard Output)**: The channel through which the process sends its successful results (typically the terminal screen).
-3.  **`stderr` (Standard Error)**: A separate channel dedicated to error messages. This ensures that errors don't get mixed in with valid data output.
+1. **`stdin` (Standard Input)**: The channel through which the process receives data (typically from the keyboard or a file).
+2. **`stdout` (Standard Output)**: The channel through which the process sends its successful results (typically the terminal screen).
+3. **`stderr` (Standard Error)**: A separate channel dedicated to error messages. This ensures that errors don't get mixed in with valid data output.
 
 Understanding these streams is the key to mastering the `subprocess` module.
 
@@ -51,12 +52,13 @@ print(f"Command finished with exit code: {exit_code}")
 ### Why is it considered legacy?
 
 While convenient, `os.system()` has several major drawbacks:
-* **No Output Capture**: You cannot easily capture the text the command prints to the screen; you only get the exit code.
-* **Shell Dependency**: It spawns a full system shell (like `/bin/sh` or `cmd.exe`) to run the command. This is slower and introduces security risks.
-* **Blocking**: Your Python script completely pauses until the command finishes.
+
+- **No Output Capture**: You cannot easily capture the text the command prints to the screen; you only get the exit code.
+- **Shell Dependency**: It spawns a full system shell (like `/bin/sh` or `cmd.exe`) to run the command. This is slower and introduces security risks.
+- **Blocking**: Your Python script completely pauses until the command finishes.
 
 !!! tip "Best Practice"
-     Use `os.system()` only for trivial tasks like clearing the screen or running a command where you don't care about the output. For everything else, use `subprocess`.
+    Use `os.system()` only for trivial tasks like clearing the screen or running a command where you don't care about the output. For everything else, use `subprocess`.
 
 ---
 
@@ -78,13 +80,13 @@ for line in lines:
         print(f"Processing: {line}")
 ```
 
-This wrapper is ideal for rapid prototyping. Shell.run was invented before `subprocess.run()` existed. It is still very useful.
+This wrapper is ideal for rapid prototyping. `Shell.run` was invented before `subprocess.run()` existed and remains useful for simple string-based output.
 
 ---
 
 ## The new `subprocess.run()` in Python
 
-Introduced in Python 3.5, `subprocess.run()` is a common function for many automation tasks. It is a synchronous function that wraps the more complex `Popen` class into a single, easy-to-use call.
+Introduced in Python 3.5, `subprocess.run()` is the recommended function for most automation tasks. It is a synchronous function that wraps the more complex `Popen` class into a single, easy-to-use call.
 
 ### Basic Usage
 
@@ -130,19 +132,19 @@ except subprocess.CalledProcessError as e:
 
 ## The Advanced Process Control: `Popen`
 
-`subprocess.run()` is great, but it is **blocking**—your script stops until the command is done. What if you need to run a long-running process (like a server) in the background, or read output line-by-line while the process is still running? 
+`subprocess.run()` is **blocking**—your script stops until the command is done. If you need to run a long-running process in the background or read output line-by-line, use the `Popen` class.
 
-This is where the `Popen` class comes in. `Popen` is **asynchronous**; it starts the process and immediately returns control to your Python script.
+`Popen` is **asynchronous**; it starts the process and immediately returns control to your Python script.
 
 ### Managing Streams and Deadlocks
 
 When using `Popen`, you often set `stdout=subprocess.PIPE`. This creates a "pipe"—a small memory buffer in the OS.
 
-**The Deadlock Trap:** If the child process writes a huge amount of data to the pipe and the parent process doesn't read it, the pipe fills up. The child process then "blocks" (pauses), waiting for space to open up. If the parent is simultaneously waiting for the child to finish (`process.wait()`), neither will ever move. This is a **deadlock**.
+**The Deadlock Trap:** If the child process writes a huge amount of data to the pipe and the parent process doesn't read it, the pipe fills up. The child process then "blocks" (pauses). If the parent is simultaneously waiting for the child to finish (`process.wait()`), neither will ever move. This is a **deadlock**.
 
 ### The Solution: `communicate()`
 
-The `communicate()` method is designed to prevent deadlocks. It reads all data from `stdout` and `stderr` into memory and waits for the process to terminate.
+The `communicate()` method prevents deadlocks by reading all data from `stdout` and `stderr` into memory and then waiting for the process to terminate.
 
 ```python
 from subprocess import Popen, PIPE
@@ -160,7 +162,7 @@ print(f"Process finished. Output:\n{stdout}")
 
 ## Security: The Danger of `shell=True`
 
-One of the most common arguments in `subprocess` is `shell=True`. This tells Python to run the command through the system shell. While it allows you to use shell features like wildcards (`*`) and pipes (`|`), it opens a massive security hole called **Shell Injection**.
+Setting `shell=True` tells Python to run the command through the system shell. While this allows shell features like wildcards (`*`) and pipes (`|`), it introduces a critical security vulnerability: **Shell Injection**.
 
 ### The Attack Vector
 
@@ -168,15 +170,12 @@ Imagine a script that lets a user list a directory:
 
 ```python
 # DANGEROUS CODE
+import subprocess
 user_input = "my_folder; rm -rf /" 
 subprocess.run(f"ls {user_input}", shell=True)
 ```
 
-Because `shell=True` is used, the shell sees two commands separated by a semicolon:
-1. `ls my_folder`
-2. `rm -rf /`
-
-The attacker has just gained the ability to execute any command on your system.
+Because `shell=True` is used, the shell executes two separate commands: `ls my_folder` followed by `rm -rf /`.
 
 ### The Defense: Use Lists
 
@@ -184,27 +183,34 @@ The secure way is to pass the command as a **list** and leave `shell=False` (the
 
 ```python
 # SECURE CODE
+import subprocess
 user_input = "my_folder; rm -rf /"
 subprocess.run(["ls", user_input]) 
 ```
 
-In this case, Python tells the OS to execute the `ls` program and pass the entire string `my_folder; rm -rf /` as a single literal argument. `ls` will simply report that a directory with that weird name does not exist.
+In this case, Python tells the OS to execute the `ls` program and pass the entire string `my_folder; rm -rf /` as a single literal argument.
 
 ---
 
-## Self Assessment
+## Assignments
 
-??? question "Self Assessment"
-    Expand the questions below to verify your understanding.
+!!! note "Assignment: Subprocess Automation"
+    1. **System Auditor**: Write a script that runs `df -h` (disk usage) and `free -m` (memory usage). Parse the output to identify if any partition is over 80% full or if available memory is below 500MB. If so, print a warning to `stderr`.
+    2. **Log Processor**: Use `Popen` to run a command that generates a continuous stream of output (e.g., `ping google.com` or `tail -f /var/log/syslog`). Read the output line-by-line in real-time and print only the lines that contain the word "ERROR" or "timeout".
+    3. **Secure Wrapper**: Create a function `safe_execute(cmd_list)` that wraps `subprocess.run`. It should implement a timeout of 10 seconds, capture all output, and return a custom dictionary containing the status, stdout, and stderr.
 
-    ??? question "What happens if a subprocess fills its output pipe buffer and the parent isn't reading?"
-        The child process will block (pause) and wait for the OS pipe buffer to be cleared. If the parent is waiting for the child to finish without reading the buffer, the system enters a deadlock.
+---
 
-    ??? question "When is `subprocess.run()` a better choice than `Popen`?"
-        When the task is short-lived, and you only need the final result after the command has finished. It is simpler, safer, and less prone to deadlocks.
+## Self-Evaluation
 
-    ??? question "Why is passing a list to `subprocess.run` safer than passing a string with `shell=True`?"
-        Passing a list bypasses the system shell entirely. The arguments are passed directly to the OS exec call, meaning special shell characters (like `;`, `&`, `|`) are treated as literal text rather than command separators.
+??? note "What happens if a subprocess fills its output pipe buffer and the parent isn't reading?"
+    The child process will block (pause) and wait for the OS pipe buffer to be cleared. If the parent is waiting for the child to finish without reading the buffer, the system enters a deadlock.
 
-    ??? question "What is the difference between `stdout` and `stderr`?"
-        `stdout` is for the successful output of a program, while `stderr` is reserved for error messages and diagnostics. This allows users to redirect errors to a log file while keeping the main output on the screen.
+??? note "When is `subprocess.run()` a better choice than `Popen`?"
+    When the task is short-lived, and you only need the final result after the command has finished. It is simpler, safer, and less prone to deadlocks.
+
+??? note "Why is passing a list to `subprocess.run` safer than passing a string with `shell=True`?"
+    Passing a list bypasses the system shell entirely. The arguments are passed directly to the OS exec call, meaning special shell characters (like `;`, `&`, `|`) are treated as literal text rather than command separators.
+
+??? note "What is the difference between `stdout` and `stderr`?"
+    `stdout` is for the successful output of a program, while `stderr` is reserved for error messages and diagnostics. This allows users to redirect errors to a log file while keeping the main output on the screen.

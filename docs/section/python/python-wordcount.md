@@ -1,14 +1,11 @@
 # Word Count with Parallel Python
 
-!!! info "Learning Objectives"
-    After completing this tutorial, you will be able to:
+!!! info "Learning Outcomes"
     - Build automated document generation scripts to create custom data collections for benchmarking and testing.
     - Implement serial word-count algorithms using standard loops and functional programming patterns (`map` and `reduce`).
     - Scale data processing pipelines in parallel using `multiprocessing.Pool` and evaluate performance gains through system timing tools.
 
 We will demonstrate Python's `multiprocessing` API for parallel computation by writing a program that counts how many times each word in a collection of documents appear.
-
----
 
 ## Generating a Document Collection
 
@@ -63,20 +60,18 @@ if __name__ == '__main__':
    curr_list = 1
    for lst in lists:
       with open(os.path.join(dest_dir, '%d.txt' % curr_list), 'w') as f:
-         f.write(os.linesep.join(map(str, lst)))
-      curr_list += 1
+       f.write(os.linesep.join(map(str, lst)))
+    curr_list += 1
    logging.debug('Numbers written.')
 ```
 
-Notice that we are using the `docopt` module to make the script easy to run from the command line.
+Notice that we are using the [docopt](https://pypi.python.org/pypi/docopt) module to make the script easy to run from the command line.
 
 You can generate a document collection with this script as follows:
 
 ```bash
 python generate_nums.py 1000 10000 0 100 docs-1000-10000
 ```
-
----
 
 ## Serial Implementation
 
@@ -105,11 +100,11 @@ def wordcount(files):
    counts = {}
    for filepath in files:
       with open(filepath, 'r') as f:
-         words = [word.strip() for word in f.read().split()]
-         for word in words:
-            if word not in counts:
-               counts[word] = 0
-            counts[word] += 1
+       words = [word.strip() for word in f.read().split()]
+       for word in words:
+          if word not in counts:
+             counts[word] = 0
+          counts[word] += 1
    return counts
 
 
@@ -122,8 +117,6 @@ if __name__ == '__main__':
    logging.debug(counts)
 ```
 
----
-
 ## Serial Implementation Using map and reduce
 
 We can improve the serial implementation in anticipation of parallelizing the program by making use of Python's `map` and `reduce` functions.
@@ -135,13 +128,15 @@ import random
 nums = [random.randint(1, 2) for _ in range(10)]
 print(nums)
 # [2, 1, 1, 1, 2, 2, 2, 2, 2, 2]
-print(map(str, nums))
+print(list(map(str, nums)))
 # ['2', '1', '1', '1', '2', '2', '2', '2', '2', '2']
 ```
 
-We can use `reduce` to apply the same function cumulatively to the items of a sequence. For example, to find the total of the numbers in our list, we could use `reduce` as follows:
+We can use `reduce` to apply the same function cumulatively to the items of a sequence. For example, to find the total of the numbers in our list:
 
 ```python
+from functools import reduce
+
 def add(x, y):
     return x + y
 
@@ -155,6 +150,8 @@ We can simplify this even more by using a lambda function:
 print(reduce(lambda x, y: x + y, nums))
 # 17
 ```
+
+You can read more about [Python's lambda function in the docs](https://docs.python.org/2.7/tutorial/controlflow.html#lambda-expressions).
 
 With this in mind, we can reimplement the wordcount example as follows:
 
@@ -174,6 +171,7 @@ Options:
 
 import os, glob, logging
 from docopt import docopt
+from functools import reduce
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -192,8 +190,8 @@ def count_words(filepath):
 def merge_counts(counts1, counts2):
    for word, count in counts2.items():
       if word not in counts1:
-         counts1[word] = 0
-      counts1[word] += counts2[word]
+       counts1[word] = 0
+   counts1[word] += counts2[word]
    return counts1
 
 
@@ -205,11 +203,9 @@ if __name__ == '__main__':
    per_doc_counts = map(count_words,
                         glob.glob(os.path.join(args['DATA_DIR'],
                         '*.txt')))
-   counts = reduce(merge_counts, [{}] + per_doc_counts)
+   counts = reduce(merge_counts, [{}] + list(per_doc_counts))
    logging.debug(counts)
 ```
-
----
 
 ## Parallel Implementation
 
@@ -233,6 +229,7 @@ import os, glob, logging
 from docopt import docopt
 from wordcount_mapreduce import count_words, merge_counts
 from multiprocessing import Pool
+from functools import reduce
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -251,37 +248,29 @@ if __name__ == '__main__':
    logging.debug(counts)
 ```
 
----
-
 ## Benchmarking
 
 To time each of the examples, enter it into its own Python file and use Linux's `time` command:
 
 ```bash
-$ time python wordcount.py docs-1000-10000
+time python wordcount.py docs-1000-10000
 ```
 
-The output contains the real run time and the user run time. Real is wall clock time - time from start to finish of the call. User is the amount of CPU time spent in user-mode code (outside the kernel) within the process, that is, only actual CPU time used in executing the process.
+The output contains the real run time and the user run time. `real` is wall clock time - time from start to finish of the call. `user` is the amount of CPU time spent in user-mode code (outside the kernel) within the process.
 
----
+## Assignment
 
-## Assignments
-
-!!! note "Assignment: Word Count Performance Analysis"
+!!! note "Assignment wordcount"
     Run the three different programs (serial, serial w/ map and reduce, parallel) and answer the following questions:
 
     1. Is there any performance difference between the different versions of the program?
     2. Does user time significantly differ from real time for any of the versions of the program?
     3. Experiment with different numbers of processes for the parallel example, starting with 1. What is the performance gain when you go from 1 to 2 processes? From 2 to 3? When do you stop seeing improvement?
 
----
-
 ## References
 
 - [Map, Filter and Reduce](http://book.pythontips.com/en/latest/map_filter.html)
 - [multiprocessing API](https://docs.python.org/2/library/multiprocessing.html)
-
----
 
 ## Self-Evaluation
 

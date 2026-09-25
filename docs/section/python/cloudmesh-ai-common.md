@@ -2,25 +2,25 @@
 
 The `cloudmesh-ai-common` library is the foundational layer for the Cloudmesh AI ecosystem. It provides a standardized set of shared utilities for system introspection, structured telemetry, configuration management, and remote execution, ensuring consistency across all AI components.
 
-## Learning Objectives
-
-By the end of this chapter, you will be able to:
-- Manage complex, nested configurations using `DotDict` and `FlatDict`.
-- Execute shell commands and transfer files on remote hosts using `RemoteExecutor`.
-- Perform system introspection to detect hardware capabilities and OS environment.
-- Implement structured telemetry to record and aggregate performance metrics.
-- Manage local shell operations and administrative privileges using `Shell` and `Sudo`.
-- Utilize general helpers for I/O, GitHub integration, and performance benchmarking.
+!!! info "Learning Objectives"
+    - Manage complex, nested configurations using `DotDict` and `FlatDict`.
+    - Execute shell commands and transfer files on remote hosts using `RemoteExecutor`.
+    - Perform system introspection to detect hardware capabilities and OS environment.
+    - Implement structured telemetry to record and aggregate performance metrics.
+    - Manage local shell operations and administrative privileges using `Shell` and `Sudo`.
+    - Utilize general helpers for I/O, GitHub integration, and performance benchmarking.
 
 ---
 
 ## 0. Prerequisites
 
-Install cloudmesh-ai-common in a Python virtual environment with  
+Install `cloudmesh-ai-common` in a Python virtual environment with:
 
 ```bash
 pip install cloudmesh-ai-common
 ```
+
+---
 
 ## 1. Configuration Management
 
@@ -36,6 +36,7 @@ AI projects often require deeply nested configurations. `cloudmesh-ai-common` pr
 | **Use Case** | Clean access to nested data. | Mapping to env vars/external vars. | Persistent config files. |
 
 ### DotDict: Attribute-Style Access
+
 `DotDict` allows accessing nested values using dot notation. It also supports `merge()` for recursive updates and `smart_get()` for searching keys recursively.
 
 ```python
@@ -54,7 +55,9 @@ print(config.cloudmesh.ai.timeout)     # 30
 ```
 
 ### FlatDict: Flattening and Expansion
+
 `FlatDict` turns nested structures into flat maps (e.g., `{"a.b.c": 1}`). Its most powerful feature is `expand_config_parameters`, which supports:
+
 - **Internal**: `{key}` replaced by another value in the dict.
 - **OS Env**: `{os.VARIABLE}` replaced by system environment variables.
 - **Cloudmesh**: `{cm.VAR}` replaced by Cloudmesh registry.
@@ -77,6 +80,7 @@ print(flat.nodes)  # '8'
 ```
 
 ### The Config Class: File-Based Management
+
 The `Config` class is a high-level wrapper that manages the lifecycle of a configuration file (typically YAML). It handles loading from disk, applying `DEFAULTS`, and allowing environment variables to override specific values.
 
 ```python
@@ -106,6 +110,7 @@ config.save()
 The `RemoteExecutor` provides a high-level wrapper around SSH and SFTP, designed to be used as a context manager.
 
 ### Basic Command Execution
+
 ```python
 from cloudmesh.ai.common.remote import RemoteExecutor
 
@@ -117,6 +122,7 @@ with RemoteExecutor(host) as executor:
 ```
 
 ### Live Streaming and File Transfers
+
 For long-running tasks, `monitor_output=True` streams output in real-time.
 
 ```python
@@ -140,6 +146,7 @@ with RemoteExecutor(host, monitor_output=True) as executor:
 The `sys` module provides cross-platform tools to detect hardware and OS environments.
 
 ### OS and Hardware Detection
+
 ```python
 from cloudmesh.ai.common.sys import os_is_linux, systeminfo, has_window_manager
 
@@ -161,6 +168,7 @@ if has_window_manager():
 Telemetry is used to record performance metrics (e.g., inference latency) and system state.
 
 ### Recording Metrics
+
 ```python
 from cloudmesh.ai.common.telemetry import Telemetry
 
@@ -174,6 +182,7 @@ t.emit(metrics={"tokens_per_sec": 45.2, "gpu_util": 88}, status="completed")
 ```
 
 ### Analyzing Data with Aggregator
+
 The `TelemetryAggregator` transforms raw records into statistical summaries.
 
 ```python
@@ -195,6 +204,7 @@ print(f"Average Latency: {stats['avg']}")
 `Shell` and `Sudo` simplify local system operations and administrative tasks.
 
 ### Local Shell Execution
+
 ```python
 from cloudmesh.ai.common.Shell import Shell
 
@@ -209,6 +219,7 @@ Shell.browser("https://github.com/cloudmesh-ai/cloudmesh-ai-common")
 ```
 
 ### Privileged Operations
+
 The `Sudo` class handles password caching and root-level file access.
 
 ```python
@@ -227,6 +238,7 @@ Sudo.writefile("/etc/hostname", "ai-node-01")
 ## 6. General Utilities
 
 ### I/O and Path Handling
+
 ```python
 from cloudmesh.ai.common.io import path_expand, load_yaml, dump_yaml
 from pathlib import Path
@@ -245,6 +257,7 @@ dump_yaml(config_path, data)
 The `StopWatch` utility is a thread-aware benchmarking suite. Each thread maintains its own set of timers using `threading.local()`, allowing for precise measurement of concurrent operations.
 
 #### Core Timing Methods
+
 - `StopWatch.start(name)`: Starts a timer.
 - `StopWatch.stop(name)`: Stops a timer and records elapsed time.
 - `StopWatch.get(name, precision=3)`: Returns the last recorded elapsed time for the timer.
@@ -326,6 +339,7 @@ StopWatch.benchmark(sysinfo=True)
 ```
 
 **What this example demonstrates:**
+
 - **`@benchmark`**: Automatically wraps `preprocess_data` to track every time it is called.
 - **Automatic Naming**: The second `StopWatch.timer()` call doesn't have a name, so it uses the function name `run_ai_pipeline` automatically.
 - **Accumulation**: By using the same name `"inference"` inside a loop, `StopWatch` tracks both the individual duration of the last call (`get`) and the cumulative time spent in that block (`sum`).
@@ -333,35 +347,35 @@ StopWatch.benchmark(sysinfo=True)
 
 ---
 
+## Assignments
 
-## Self-Assessment
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+!!! note "Assignment: Cloudmesh Common Utilities"
+    1. **Configuration Mastery**: Create a `FlatDict` that uses OS environment variables to define a project path and expand it. Use a `DotDict` to store the result and access it using attribute notation.
+    2. **Remote System Audit**: Write a script using `RemoteExecutor` to connect to a remote host, run `df -h` and `free -m`, and save the output to a local file using `Sudo.writefile` for restricted paths.
+    3. **Performance Profiling**: Implement a function that processes a list of strings and use the `@benchmark` decorator to measure its performance. Use `StopWatch.benchmark(sysinfo=True)` to generate a final report.
+    4. **Telemetry Integration**: Create a loop that emits "api_response_time" metrics using `Telemetry` and then use `TelemetryAggregator` to calculate the average response time.
 
-??? question "How does `DotDict` simplify access to nested dictionary values?"
+---
+
+## Self-Evaluation
+
+??? note "How does `DotDict` simplify access to nested dictionary values?"
     `DotDict` allows you to access nested values using attribute notation (e.g., `config.cloudmesh.ai.server`) instead of traditional bracket notation (e.g., `config['cloudmesh']['ai']['server']`), making the code cleaner and more readable.
 
-??? question "How does `FlatDict` handle environment variable expansion?"
+??? note "How does `FlatDict` handle environment variable expansion?"
     `FlatDict` uses a special syntax within strings (e.g., `{os.VARIABLE}`) to automatically replace placeholders with the corresponding value from the system's environment variables during the expansion process.
 
-??? question "What is the primary purpose of `RemoteExecutor`, and how does it handle command output?"
+??? note "What is the primary purpose of `RemoteExecutor`, and how does it handle command output?"
     `RemoteExecutor` allows for programmatic SSH-based management of remote hosts. It can execute commands and return their output as a string or stream the output in real-time using `execute_stream`, allowing the caller to process logs as they are generated.
 
-??? question "Which function in `cloudmesh-ai-common` provides hardware and OS introspection (e.g., CPU and RAM)?"
-    The `systeminfo()` function provides a comprehensive dictionary containing details about the host's operating system, CPU, RAM, and available GPUs.
+??? note "Which function in `cloudmesh-ai-common` provides hardware and OS introspection (e.g., CPU and RAM)?"
+    The `systeminfo()` function provides a comprehensive dictionary containing details about the host's operating system, CPU and RAM.
 
-??? question "Contrast the roles of `Telemetry` and `TelemetryAggregator` in monitoring AI system performance."
+??? note "Contrast the roles of `Telemetry` and `TelemetryAggregator` in monitoring AI system performance."
     `Telemetry` is used to **record** individual data points (metrics) as they occur during runtime. `TelemetryAggregator` is used to **analyze** those records, calculating summary statistics such as the average, maximum, and minimum values over a set of recorded metrics.
 
-??? question "How does the `Sudo` class enable administrative operations on a system?"
+??? note "How does the `Sudo` class enable administrative operations on a system?"
     The `Sudo` class provides a wrapper around shell commands that requests root privileges, allowing the execution of administrative tasks (like `apt-get update`) that would otherwise be denied to a standard user.
 
-??? question "How does the `@benchmark` decorator help in profiling AI utility functions?"
+??? note "How does the `@benchmark` decorator help in profiling AI utility functions?"
     The `@benchmark` decorator automatically wraps a function to track its execution time every time it is called, accumulating the results in the `StopWatch` registry without requiring manual timer placement inside the function body.
-
-## Assignments
-1. **Config Expansion**: Create a `FlatDict` with placeholders for your username and home directory, and expand them.
-2. **Remote Monitor**: Write a script that connects to a remote host, runs `nvidia-smi`, and saves the output to a local file.
-3. **Benchmarking Suite**: Create a function that simulates a heavy AI workload (e.g., a large loop) and use `StopWatch` to report the elapsed time.
-4. **Telemetry Pipeline**: Implement a simple loop that emits a random "inference_time" metric every second for 10 seconds, then use `TelemetryAggregator` to find the average time.
-

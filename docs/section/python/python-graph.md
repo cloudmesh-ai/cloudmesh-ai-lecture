@@ -1,13 +1,10 @@
----
-title: "Infrastructure Diagram"
-format: html
----
+# Infrastructure Diagram
 
 !!! info "Learning Outcomes"
     - Programmatically generate system architecture and infrastructure diagrams using Python libraries like `diagrams`, `blockdiag`, and `matplotlib`.
     - Analyze the Flask request-response lifecycle and AWS web service topologies through visual blueprints.
     - Implement custom layout plotting scripts to visualize server inventory and rack configurations dynamically.
-    
+
 ## The Flask Request-Response Cycle
 
 The following diagram illustrates how a Flask application handles an incoming request using the `diagrams` Python library.
@@ -194,7 +191,6 @@ print(a)
 b = 2 + a
 print(b)
 ```
-
 
 ## Self Assessment
 

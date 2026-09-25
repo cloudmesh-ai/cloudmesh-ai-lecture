@@ -6,12 +6,12 @@
     - Configure environment variables and shell profiles for automatic virtual environment activation.
     - Verify Python and pip installations to ensure version compatibility with AI and cloud frameworks.
 
-!!! info "Version Compatibility"
+!!! tip "Version Compatibility"
     Based on the requirements as of 2026, we recommend using **Python 3.12**. This version is fully compatible with the latest stable releases of the core AI frameworks, including **PyTorch**, **TensorFlow**, and **Keras**.
-    
+
     Using Python 3.12 ensures you have access to the latest language features and performance improvements while maintaining stability across the AI ecosystem.
 
-In this section, we explain how to install Python 3.12.x on a computer. Likely, much of the code will work with earlier versions, but we do the development in Python on the newest version of Python available at <https://www.python.org/downloads> .
+In this section, we explain how to install Python 3.12.x on a computer. Likely, much of the code will work with earlier versions, but we do the development in Python on the newest version of Python available at <https://www.python.org/downloads>.
 
 ## Hardware
 
@@ -19,13 +19,13 @@ In general, using Python does not require any special hardware. We have installe
 
 However, there are some things to consider when developing code. If you use many programs on your desktop and run them all at the same time, you will discover that in an up-to-date operating system, you will quickly run out of memory. This is not really a Python issue, but is caused by other programs you may run on your computer. This is especially true if you use web browsers and editors such as PyCharm, which we highly recommend. Furthermore, as you likely have lots of disk access, make sure to use a fast HDD; we recommend using SSDs or NVMe storage.
 
-A typical modern developer PC or Laptop has *16GB RAM* and an *SSD*. You can certainly do Python on a \$35-\$75 Raspberry PI, but you probably will not be able to run PyCharm. There are many alternative editors with a smaller memory footprint available.
+A typical modern developer PC or Laptop has *16GB RAM* and an *SSD*. You can certainly do Python on a $35-$75 Raspberry PI, but you probably will not be able to run PyCharm. There are many alternative editors with a smaller memory footprint available.
 
 ## Python 3.12.9 from Source
 
 To install Python 3.12.9 from source, you can use the following commands. Please note that the parameter behind -j specifies a parallelism for the compile. Please only use the number of processors for your computer.
 
-``` bash
+```bash
 # Prepare the build directory
 cd ~
 mkdir -p tmp
@@ -59,32 +59,32 @@ Here we discuss how to install Python 3.12 on your operating system. It is typic
 
 [![Video](../../assets/images/video.png) (5:28) Mac Python Installation Video Tutorial](https://youtu.be/TttmzM-EDmk)
 
-First, you want to install a number of useful tools on your macOS. This includes git, make, and a C compiler. All this can be installed with Xcode, which is available from
+First, you want to install a number of useful tools on your macOS. This includes git, make, and a C compiler. All this can be installed with Xcode, which is available from:
 
 - <https://apps.apple.com/us/app/xcode/id497799835>
 
 Once you have installed it, you need to install macOS XCode command-line tools:
 
-``` bash
-$ xcode-select --install
+```bash
+xcode-select --install
 ```
 
-The easiest installation of Python is to use the installation from <https://www.python.org/downloads>. Please, visit the page and follow the instructions to install the Python `.pkg` file. After this install, you have python3 available from the command line.
+The easiest installation of Python is to use the installation from <https://www.python.org/downloads>. Please visit the page and follow the instructions to install the Python `.pkg` file. After this install, you have python3 available from the command line.
 
 #### Python 3.12 on macOS via Homebrew
 
 Homebrew provides you with an alternative installation. However, we noticed that Homebrew may not provide you with the newest version, so we recommend using the install from python.org if you can.
 
-To use this installation method, you need to install Homebrew first. Start the process by installing first `homebrew` as documented on their [Web page](https://brew.sh/#install):
+To use this installation method, you need to install Homebrew first. Start the process by installing `homebrew` as documented on their [Web page](https://brew.sh/#install):
 
-``` bash
-$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```bash
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
 Now you can install Python using:
 
-``` bash
-$ brew install python@3.12
+```bash
+brew install python@3.12
 ```
 
 ### Python 3.12 on Windows
@@ -97,7 +97,7 @@ Follow the instructions provided by the installer. It is critical that you selec
 
 Once installed, open a terminal (cmd or PowerShell) and execute:
 
-``` bash
+```bash
 python --version
 ```
 
@@ -119,13 +119,13 @@ To install Python 3.12.9 from source on Ubuntu 24.04, follow these steps. This p
 
 #### 1. Install Build Dependencies
 
-Before compiling, you must install the libraries required for Python’s modules (like SSL, SQLite, and Readline) to work.
+Before compiling, you must install the libraries required for Python's modules (like SSL, SQLite, and Readline) to work.
 
-``` bash
+```bash
 sudo apt update
 sudo apt install -y \
     build-essential libssl-dev zlib1g-dev \
-    libncurses5-dev libncursesw5-dev lib readline-dev libsqlite3-dev \
+    libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev \
     libgdbm-dev libdb5.3-dev libbz2-dev libexpat1-dev liblzma-dev \
     libffi-dev uuid-dev tk-dev wget curl
 ```
@@ -134,7 +134,7 @@ sudo apt install -y \
 
 The `-j` parameter passed via the make command specifies the parallelism for the compile. Use the number of logical processors for your computer (e.g., **16**, yours may be different).
 
-``` bash
+```bash
 # Prepare the temporary build directory
 cd ~
 mkdir -p tmp
@@ -161,7 +161,7 @@ sudo make altinstall
 
 #### 3. Verify the Installation
 
-``` bash
+```bash
 python3.12 --version
 ```
 
@@ -173,16 +173,16 @@ As a developer, you must use a python virtual environment to avoid affecting you
 
 We assume that you use the directory `~/ENV3`.
 
-``` bash
-$ python3.12 -m venv ~/ENV3
-$ source ~/ENV3/bin/activate
+```bash
+python3.12 -m venv ~/ENV3
+source ~/ENV3/bin/activate
 ```
 
 ### Automating Activation
 
 To activate it when you start a new terminal, add the following line to your `.bashrc` (Ubuntu) or `.bash_profile`/`.zprofile` (macOS) file:
 
-``` bash
+```bash
 source ~/ENV3/bin/activate
 ```
 
@@ -191,12 +191,12 @@ source ~/ENV3/bin/activate
 On Windows, you can set Git Bash to automatically use this venv:
 
 1. Open `.bashrc` using vi:
-   ``` bash
-   $ cd ~
-   $ vi .bashrc
+   ```bash
+   cd ~
+   vi .bashrc
    ```
 2. Add the following line:
-   ``` vim
+   ```vim
    source ~/ENV3/Scripts/activate
    ```
 3. Save and exit (`:wq`).
@@ -205,14 +205,14 @@ On Windows, you can set Git Bash to automatically use this venv:
 
 Check if you have the right version of Python installed:
 
-``` bash
-$ python --version
+```bash
+python --version
 ```
 
 To make sure you have an up-to-date version of pip, issue the command:
 
-``` bash
-$ pip install pip -U
+```bash
+pip install pip -U
 ```
 
 ### Contrast: Python Virtual Environments vs. Virtual Machines
@@ -227,12 +227,11 @@ It is important to distinguish between a **Python Virtual Environment** (`venv`)
 | **Boot Time** | Instant (just activating a script). | Minutes (booting a full kernel). |
 | **Use Case** | Managing different library versions for different Python projects. | Running a different OS or isolating an entire system. |
 
-
 ## Install Python via Anaconda or Miniconda
 
 We are not recommending the use of conda or Anaconda for this course. However, if you choose to use them, be aware that Anaconda installs additional tools that may be considered bloat.
 
-!!! warning
+!!! warning "Conda Path Warning"
     When installing Anaconda, do NOT add it to the path or run `conda init`. This modifies your command prompt to register the `(base)` environment by default, which adversely interacts with other Python installations.
 
 #### Configuring `conda` to be on the path (Safe Method)
@@ -240,31 +239,31 @@ We are not recommending the use of conda or Anaconda for this course. However, i
 To prevent polluting the command line path, only expose the `conda` command:
 
 **Windows:**
-``` batch
+```batch
 setx PATH <path_to_conda_install>\condabin;%PATH%
 ```
 
 **Linux / MacOS:**
 Add to `.bashrc`, `.bash_profile`, or `.zprofile`:
-``` bash
+```bash
 source <path_to_conda_install>/etc/profile.d/conda.sh
 ```
 
 #### Installing Python via `conda`
 
-``` bash
-$ conda create -n ENV3 -c conda-forge python=3.12 pip
+```bash
+conda create -n ENV3 -c conda-forge python=3.12 pip
 ```
 
 #### Activating and Deactivating Conda
 
 To activate our `ENV3` environment:
-``` bash
+```bash
 conda activate ENV3
 ```
 
 To deactivate:
-``` bash
+```bash
 conda deactivate
 ```
 
@@ -272,25 +271,29 @@ conda deactivate
 
 Regardless of the installation method, verify your versions:
 
-``` bash
-$ python --version
-$ pip --version
+```bash
+python --version
+pip --version
 ```
 
 Expected versions:
 - Python 3.12.9 (or similar)
 - pip 21.3.1 (or similar)
 
+## Assignments
 
-## Self-Assessment
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+!!! note "Assignment: Python Environment Setup"
+    1. **Installation Audit**: Install Python 3.12 using the method most appropriate for your OS. Verify the installation by printing the version and the location of the binary using `sys.executable`.
+    2. **Venv Lifecycle**: Create a virtual environment named `ai_lecture`. Install the `requests` library inside it, verify it is available, then deactivate the environment and verify that `requests` is *not* available in your system Python.
+    3. **Profile Automation**: Configure your shell profile (`.bashrc`, `.zprofile`, etc.) so that your `ai_lecture` environment activates automatically upon opening a new terminal. Verify this by opening a new tab and checking the shell prompt.
 
-??? question "What is the purpose of `make altinstall` when installing Python from source?"
+## Self-Evaluation
+
+??? note "What is the purpose of `make altinstall` when installing Python from source?"
     It prevents the installer from overwriting the system's default `python3` binary. This is critical because many OS-level tools depend on the system Python, and overwriting it could break the operating system.
 
-??? question "Contrast a Python Virtual Environment (`venv`) with a Virtual Machine (VM) in terms of isolation and overhead."
+??? note "Contrast a Python Virtual Environment (`venv`) with a Virtual Machine (VM) in terms of isolation and overhead."
     `venv` provides dependency isolation at the runtime level with negligible overhead. A VM provides full system isolation by virtualizing the entire hardware and OS, which involves significantly higher resource overhead.
 
-??? question "Why is it generally recommended to avoid adding Anaconda to the system PATH via `conda init`?"
+??? note "Why is it generally recommended to avoid adding Anaconda to the system PATH via `conda init`?"
     It modifies the shell prompt to use the `(base)` environment by default, which can conflict with other Python installations, interfere with system tools, and cause unexpected behavior in different shell profiles.
