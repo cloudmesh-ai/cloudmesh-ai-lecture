@@ -1,43 +1,37 @@
 # Python Hostlist
 
-!!! info "Learning Outcomes"
-    - Understand how to parse and manipulate Slurm-style hostlists using the `hostlist` library.
+!!! info "Learning Objectives"
+    After completing this tutorial, you will be able to:
+    - Parse and manipulate Slurm-style hostlists using the `hostlist` library.
     - Expand compressed hostlists into individual hostnames, handling padding and suffixes.
-    - Perform set-like operations on hostlists using both methods and Python operators.
+    - Perform set-like operations on hostlists using methods and Python operators.
     - Use the Collection API for indexing, slicing, and filtering hosts.
     - Use the command-line interface for quick hostlist manipulation and pipeline integration.
 
-## Introduction
+`hostlist` is a fully-typed Python library designed for parsing and manipulating Slurm-style hostlists. It handles host groups compressed using brackets (e.g., `node[01-03,07]`), which is common in High Performance Computing (HPC) environments.
 
-`hostlist` is a clean, modern, and fully-typed Python library designed for parsing and manipulating Slurm-style hostlists. It provides a powerful way to handle host groups that are often compressed using brackets (e.g., `node[01-03,07]`), which is common in High Performance Computing (HPC) environments.
-
-## Features
-
-- **Parsing & Expansion**: Supports plain and compressed Slurm-style hostlists, preserving zero-padding and suffixes.
-- **Compression**: Converts expanded lists back into the most compact Slurm-style representation.
-- **Set Operations**: Intuitive manipulation of host groups using operators like Union, Intersection, Difference, and Symmetric Difference.
-- **Collection API**: Behaves like a read-only sequence with helpful methods for search, slicing, and filtering.
-- **Template Formatting**: Generate customized strings (e.g., shell commands) for every host in a list.
-- **CLI Tools**: Direct shell access to expansion and compression utilities with pipeline support.
+---
 
 ## Installation
 
-You can install the `hostlist` library using pip:
+Install the `hostlist` library using pip:
 
 ```bash
 pip install hostlist
 ```
 
+---
+
 ## Usage: Python API
 
 The core of the library is the `Hostlist` class.
 
-### 1. Expansion
+### Expansion
 
 The `Hostlist.expand()` method converts a compressed string into a `Hostlist` object.
 
 #### Basic and Mixed Expansion
-You can combine multiple ranges and individual hosts. The library handles numeric ranges and literal hostnames automatically.
+Combine multiple ranges and individual hosts. The library handles numeric ranges and literal hostnames automatically.
 
 ```python
 from hostlist import Hostlist
@@ -52,7 +46,7 @@ hl_mixed = Hostlist.expand("node[1-3],headnode")
 ```
 
 #### Zero Padding and Suffixes
-The library automatically detects padding width to preserve leading zeros and maintains any suffixes (like domain names).
+The library detects padding width to preserve leading zeros and maintains any suffixes.
 
 ```python
 # Zero Padding
@@ -64,7 +58,7 @@ hl_suf = Hostlist.expand("node[1-3].cluster.local")
 # Result: ["node1.cluster.local", "node2.cluster.local", "node3.cluster.local"]
 ```
 
-### 2. Compression
+### Compression
 
 The `.compact()` method converts a `Hostlist` object back into a compressed Slurm-style string.
 
@@ -83,13 +77,13 @@ print(hl_mixed.compact()) # Output: "headnode,node[1-3]"
 print(hl.compact(compress=False)) # Output: "node1,node2,node03"
 ```
 
-### 3. Set Operations
+### Set Operations
 
 `hostlist` supports set operations using both method calls and Python operators.
 
 | Operation | Method | Operator | Description |
 | :--- | :--- | :---: | :--- |
-| **Union** | `.union()` | `\\|` | All hosts in either hostlist. |
+| **Union** | `.union()` | `\|` | All hosts in either hostlist. |
 | **Intersection** | `.intersect()` | `&` | Only hosts present in both hostlists. |
 | **Difference** | `.diff()` | `-` | Hosts in the first list but not the second. |
 | **Symmetric Diff** | `.xor()` | `^` | Hosts in either list, but not both. |
@@ -112,7 +106,7 @@ print((a ^ b).compact()) # Symmetric Difference: node[1-3,6-8]
 result = a | "node6" # Result: node[1-6]
 ```
 
-### 4. Collection API
+### Collection API
 
 A `Hostlist` object behaves like a read-only sequence of hostnames.
 
@@ -132,7 +126,7 @@ print(sub_hl.compact()) # "node[1-3]"
 - `nth(n)`: Returns the $n$-th host (**1-based indexing**).
 - `find(host)`: Returns the **1-based position** of a specific host.
 - `size(N)`: Returns a new `Hostlist` containing at most $N$ hosts. Use negative numbers for the last $N$ hosts.
-- `exclude(\*hosts)`: Returns a new `Hostlist` with specified hosts removed.
+- `exclude(*hosts)`: Returns a new `Hostlist` with specified hosts removed.
 
 ```python
 hl = Hostlist.expand("node[1-10]")
@@ -152,7 +146,7 @@ for host in hl:
     print(host)
 ```
 
-### 5. Template Formatting
+### Template Formatting
 
 The `.format()` method generates strings based on a template containing the `{host}` placeholder.
 
@@ -170,9 +164,11 @@ targets = hl.format("--node {host} ")
 # Result: ["--node node1 ", "--node node2 ", "--node node3 "]
 ```
 
+---
+
 ## Command Line Interface
 
-The `hostlist` CLI provides quick terminal access to these tools.
+The `hostlist` CLI provides terminal access to these tools.
 
 ### Expanding Hostlists
 ```bash
@@ -201,6 +197,31 @@ The CLI can read from `stdin`, making it ideal for shell pipelines:
 echo "node[1-3]" | hostlist expand
 ```
 
+---
+
+## Assignments
+
+!!! note "Assignment: HPC Inventory Manager"
+    1. **Parsing**: Expand a complex hostlist containing multiple ranges, zero-padding, and a domain suffix (e.g., `compute[001-005,010].cluster.local`).
+    2. **Filtering**: Use the `exclude()` method to remove a specific set of "maintenance" nodes from your expanded list.
+    3. **Command Generation**: Use `.format()` to create a list of `ping` commands for the remaining healthy nodes.
+    4. **CLI Integration**: Use the `hostlist` CLI in a bash script to compact a list of active nodes provided by an external command.
+
+---
+
+## Self-Evaluation
+
+??? note "How does the `hostlist` library handle zero-padding in compressed lists?"
+    The library automatically detects the padding width of the numeric range in the compressed string and preserves leading zeros when expanding the list into individual hostnames.
+
+??? note "What is the difference between `nth()` and standard Python indexing (e.g., `hl[0]`)?"
+    The `nth()` method uses 1-based indexing, whereas standard Python indexing (`hl[0]`) uses 0-based indexing.
+
+??? note "Which set operators are supported by the `Hostlist` class for combining host groups?"
+    The `Hostlist` class supports Union (`|`), Intersection (`&`), Difference (`-`), and Symmetric Difference (`^`).
+
+---
+
 ## Summary Table
 
 | Function / Method | Description | Example |
@@ -214,5 +235,5 @@ echo "node[1-3]" | hostlist expand
 | `nth(n)` | Returns $n$-th host (1-based) | `hl.nth(1)` |
 | `find(host)` | Returns 1-based position of host | `hl.find("node1")` |
 | `size(N)` | Returns first (or last) $N$ hosts | `hl.size(5)` |
-| `exclude(\*hosts)` | Removes specific hosts | `hl.exclude("node1")` |
+| `exclude(*hosts)` | Removes specific hosts | `hl.exclude("node1")` |
 | `format(tpl)` | Generates strings using `{host}` template | `hl.format("ping {host}")` |
