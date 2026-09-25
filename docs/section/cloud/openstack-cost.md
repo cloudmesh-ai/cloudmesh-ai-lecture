@@ -1,18 +1,21 @@
-## 🎯 Learning Objectives
 
-By the end of this section, you will be able to:
-* **Distinguish** between the `Shelve`, `Stop`, and `Suspend` states in OpenStack.
-* **Explain** the relationship between resource reservation and cloud billing.
-* **Calculate** resource consumption (SUs) for various states across Chameleon Cloud and Jetstream2.
-* **Determine** the optimal instance state for specific budget and performance constraints.
-
----
 
 
 # Reducing Cost in Openstack
 
 In cloud environments, maximizing utilization while controlling expenses is a core operational priority. OpenStack provides three distinct lifecycle mechanisms to pause or deactivate an active instance when it is not actively processing workloads: Shelve, Stop, and Suspend.
 While all three options stop the virtual machine from running, they treat the underlying compute infrastructure, memory states, and billing footprints fundamentally differently. Understanding these nuances is critical for administrators trying to free up hardware resources and users attempting to reduce cloud costs.
+
+!!! Learning Objectives
+
+    By the end of this section, you will be able to:
+    * **Distinguish** between the `Shelve`, `Stop`, and `Suspend` states in OpenStack.
+    * **Explain** the relationship between resource reservation and cloud billing.
+    * **Calculate** resource consumption (SUs) for various states across Chameleon Cloud and Jetstream2.
+    * **Determine** the optimal instance state for specific budget and performance constraints.
+
+---
+
 
 ![alt text](images/openstack-shelve-cost-chatgpt.png)
 
@@ -139,7 +142,7 @@ To optimize both performance and budget, use the following guidelines:
 
 ---
 
-## ✍️ Self-Assessment
+## Self-Assessment
 
 Test your knowledge of OpenStack instance states and their economic impacts.
 
@@ -162,46 +165,50 @@ Test your knowledge of OpenStack instance states and their economic impacts.
 
 ---
 
-## 🛠️ Assignments
+## Assignments
 
-### Assignment 1: The Lifecycle Lab
-Perform the following operations on a KVM instance and document the results:
-1. Start an instance and verify its status.
-2. `Stop` the instance $\rightarrow$ Check the status $\rightarrow$ Note the time to start it again.
-3. `Suspend` the instance $\rightarrow$ Check the status $\rightarrow$ Note the time to resume it.
-4. `Shelve` the instance $\rightarrow$ Wait for it to reach `Shelved` status $\rightarrow$ Note the time to `unshelve` it.
-5. **Report**: Create a table comparing the "Time to Return to Active" for each state.
+!!! "Assignment 1: The Lifecycle Lab"
+    Perform the following operations on a KVM instance and document the results:
+    1. Start an instance and verify its status.
+    2. `Stop` the instance $\rightarrow$ Check the status $\rightarrow$ Note the time to start it again.
+    3. `Suspend` the instance $\rightarrow$ Check the status $\rightarrow$ Note the time to resume it.
+    4. `Shelve` the instance $\rightarrow$ Wait for it to reach `Shelved` status $\rightarrow$ Note the time to `unshelve` it.
+    5. **Report**: Create a table comparing the "Time to Return to Active" for each state.
 
-### Assignment 2: The Cloud Cost Calculator (Python Project)
-**Goal:** Create a Python tool that calculates the total Service Units (SUs) consumed based on instance state and provider.
+!!! Assignment 2: The Cloud Cost Calculator (Python Project)
+    **Goal:** Create a Python tool that calculates the total Service Units (SUs) consumed based on instance state and provider.
 
-#### Project Requirements:
-Your program should allow the user to select a provider and input the instance details to calculate the total SU burn over a specified period.
+    **Project Requirements:**
+    Your program should allow the user to select a provider and input the instance details to calculate the total SU burn over a specified period.
 
-**1. Jetstream2 Module**
-Implement the following logic:
-*   **Inputs**: `vCPU_count`, `hours`, `instance_type` (Standard, LM, or GPU), and `state` (Active, Suspended, Stopped, Shelved).
-*   **Logic**:
-    *   Base Rate: 1 SU per vCPU_core-hour.
-    *   Multiplier: 2x for LM or GPU.
-    *   State Discount: Active (100%), Suspended (75%), Stopped (50%), Shelved (0%).
-*   **Formula**: $\text{SUs} = (\text{vCPU} \times \text{Multiplier} \times \text{Hours}) \times \text{State Discount}$
+    **1. Jetstream2 Module**
+    Implement the following logic:
 
-**2. Chameleon Cloud KVM Module**
-Implement the following logic:
-*   **Inputs**: `vCPU_count`, `hours`, and `state` (Active, Suspended, Stopped, Shelved).
-*   **Logic**: 
-    *   SUs = $\text{vCPU} \times \text{Hours}$ if state is NOT `Shelved`.
-    *   SUs = 0 if state is `Shelved`.
+    *   **Inputs**: `vCPU_count`, `hours`, `instance_type` (Standard, LM, or GPU), and `state` (Active, Suspended, Stopped, Shelved).
+    *   **Logic**:
+        *   Base Rate: 1 SU per vCPU_core-hour.
+        *   Multiplier: 2x for LM or GPU.
+        *   State Discount: Active (100%), Suspended (75%), Stopped (50%), Shelved (0%).
+    *   **Formula**: $\text{SUs} = (\text{vCPU} \times \text{Multiplier} \times \text{Hours}) \times \text{State Discount}$
 
-**3. Chameleon Cloud Bare Metal Module**
-Implement the following logic:
-*   **Inputs**: `lease_hours` and `instance_state`.
-*   **Logic**:
-    *   The cost is based on the lease, not the OpenStack state.
-    *   SUs = $\text{Lease Rate} \times \text{lease\_hours}$ regardless of whether the instance is Active, Stopped, Suspended, or Shelved.
+    **2. Chameleon Cloud KVM Module**
+    Implement the following logic:
 
-#### Deliverables:
-*   A Python script (`cost_calc.py`) that implements these three modules.
-*   A short test suite (or set of example inputs) demonstrating that the calculator handles state transitions and multipliers correctly.
+    *   **Inputs**: `vCPU_count`, `hours`, and `state` (Active, Suspended, Stopped, Shelved).
+    *   **Logic**: 
+        *   SUs = $\text{vCPU} \times \text{Hours}$ if state is NOT `Shelved`.
+        *   SUs = 0 if state is `Shelved`.
+
+    **3. Chameleon Cloud Bare Metal Module**
+    Implement the following logic:
+
+    *   **Inputs**: `lease_hours` and `instance_state`.
+    *   **Logic**:
+        *   The cost is based on the lease, not the OpenStack state.
+        *   SUs = $\text{Lease Rate} \times \text{lease\_hours}$ regardless of whether the instance is Active, Stopped, Suspended, or Shelved.
+
+    **Deliverables:**
+
+    *   A Python script (`cost_calc.py`) that implements these three modules.
+    *   A short test suite (or set of example inputs) demonstrating that the calculator handles state transitions and multipliers correctly.
 
