@@ -543,7 +543,7 @@ Simple rules:
 
 -   Add a chapter topic that your paper belongs to
 
-Exercises
+Assignments
 ---------
 
 [\[E:Report.1\]] Install latex and

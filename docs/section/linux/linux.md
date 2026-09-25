@@ -472,29 +472,29 @@ echo "/usr/local/bin/cleanup.sh" | at 02:30
 
 This schedules `cleanup.sh` to run once at 02:30 AM today (or tomorrow if the time has already passed).
 
-## Exercises
-!!! assignment "Exercise E.Linux.1"
+## Assignments
+!!! assignment "Assignment E.Linux.1"
     Familiarize yourself with the commands.
 
-!!! assignment "Exercise E.Linux.2"
+!!! assignment "Assignment E.Linux.2"
     Find more commands that you find useful and add them to this page.
 
-!!! assignment "Exercise E.Linux.3"
+!!! assignment "Assignment E.Linux.3"
     Use the `sort` command to sort all lines of a file while removing duplicates.
 
-!!! assignment "Exercise E.Linux.4"
+!!! assignment "Assignment E.Linux.4"
     Should there be other commands listed in the table with the Linux commands? If so which? Create a pull request for them.
 
-!!! assignment "Exercise E.Linux.5"
+!!! assignment "Assignment E.Linux.5"
     Write a section explaining `chmod`. Use letters not numbers.
 
-!!! assignment "Exercise E.Linux.6"
+!!! assignment "Assignment E.Linux.6"
     Write a section explaining `chown`. Use letters not numbers.
 
-!!! assignment "Exercise E.Linux.7"
+!!! assignment "Assignment E.Linux.7"
     Write a section explaining `su` and `sudo`.
 
-!!! assignment "Exercise E.Linux.8"
+!!! assignment "Assignment E.Linux.8"
 
 
 # Self-Assessment

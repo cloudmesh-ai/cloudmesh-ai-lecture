@@ -79,7 +79,7 @@ From there we find also the most simplest Hello World Graph>
 $ echo "digraph G " | dot -Tpng > hello.png
 ```
 
-## Exercises
+## Assignments
 
 !!! assignment "Graphviz 1"
     Develop a REST service that takes a graph as input and returns a rendered version of the graph in a specified format. Make sure you can pass the format as a parameter.

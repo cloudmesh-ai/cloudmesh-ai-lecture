@@ -160,13 +160,13 @@ Agentic AI introduces "Non-Deterministic Execution." Because the agent decides t
     - Implemented Human-in-the-Loop (HITL) for destructive actions.
     - Set strict iteration limits to prevent infinite loops.
 
-!!! note "Exercise 1: Basic Tool-Use Agent"
+!!! note "Assignment 1: Basic Tool-Use Agent"
     Implement a Python agent that can perform basic math (add, multiply) using tools. The agent should be able to solve a word problem like \"If I have 5 apples and buy 3 more, then double them, how many do I have?\" using a ReAct loop.
 
-!!! note "Exercise 2: Cloud Resource Auditor"
+!!! note "Assignment 2: Cloud Resource Auditor"
     Design an agent that takes a list of server IDs, checks their status using a mock API, and generates a summary report. If any server is in an \"Error\" state, the agent must automatically call a `get_logs` tool for that server and include the logs in the report.
 
-!!! note "Exercise 3: Multi-Agent Coding Team"
+!!! note "Assignment 3: Multi-Agent Coding Team"
     Architect a system with two agents: a **Coder** and a **Reviewer**.
     1. The Coder writes a Python function based on a user requirement.
     2. The Reviewer tests the code and provides feedback.

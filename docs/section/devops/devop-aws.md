@@ -67,15 +67,15 @@ While CloudWatch tells you *that* a system is slow, X-Ray tells you *where* it i
 ??? question "What is the 'NoOps' benefit of AWS Lambda?"
     AWS Lambda enables a \"NoOps\" (No Operations) model because it is a serverless platform. AWS handles all the underlying infrastructure management, including server provisioning, patching, scaling, and high availability. Developers only need to upload their code as functions, removing the operational burden of managing servers.
 
-!!! note "Exercise 1: Pipeline Design"
+!!! note "Assignment 1: Pipeline Design"
     Design a CI/CD pipeline for a Flask application. Specify which AWS CodeSuite tools you would use for:
     1. Triggering the build from GitHub.
     2. Running the unit tests.
     3. Deploying the app to an ECS cluster.
     4. Notifying the team via email if the deployment fails.
 
-!!! note "Exercise 2: Monitoring Strategy"
+!!! note "Assignment 2: Monitoring Strategy"
     You have a microservice architecture with five different services. One of your users reports that "the app feels slow." Describe how you would use Amazon CloudWatch and AWS X-Ray together to find the root cause.
 
-!!! note "Exercise 3: IaC Comparison"
+!!! note "Assignment 3: IaC Comparison"
     Compare AWS CloudFormation with HashiCorp Terraform. What are the pros and cons of using a cloud-specific tool (CloudFormation) versus a cloud-agnostic tool (Terraform)?

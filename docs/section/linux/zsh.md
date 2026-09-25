@@ -184,15 +184,14 @@ Zsh handles multiline commands more gracefully than bash. If a command is incomp
 ??? question "How does recursive globbing in Zsh differ from standard wildcards?"
     Using the `**` operator allows Zsh to search through all subdirectories recursively (e.g., `ls **/*.md`) without needing the `find` command.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Shell Setup"
+## Assignments
+!!! note "Assignment 1: Basic Shell Setup"
     Install Zsh and change your default shell. Create a `~/.zshrc` file and add three custom aliases that replace long commands you use frequently (e.g., a shortcut for `git commit -m`). Restart your terminal and verify the aliases work.
 
-!!! note "Exercise 2: Framework Integration"
+!!! note "Assignment 2: Framework Integration"
     Install the Oh My Zsh framework. Enable the `git` plugin and change your theme to any theme other than the default. Verify that your prompt now displays the current git branch when you navigate into a git repository.
 
-!!! note "Exercise 3: Advanced Workflow"
+!!! note "Assignment 3: Advanced Workflow"
     Create a nested directory structure with several `.txt` and `.md` files. Use recursive globbing to count how many `.md` files exist in the entire tree by piping the `ls **/*.md` command into `wc -l`. Use the Zsh tab-completion menu to navigate to the deepest directory in the structure.
 
 ## Further Reading

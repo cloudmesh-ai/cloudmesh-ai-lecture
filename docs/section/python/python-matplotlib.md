@@ -199,32 +199,33 @@ show(p)
     - [ ] Applied visual themes using `plt.style.use()`.
     - [ ] Identified the use case for interactive plotting via `Bokeh`.
 
-!!! note "Exercise 1: Sampling and Resolution"
+!!! note "Assignment 1: Sampling and Resolution"
 
     **Task**: Recreate the sine and cosine plot, but vary the third parameter of `np.linspace`. Compare the results using 5, 50, and 500 samples.
     **Goal**: Understand how sampling resolution affects the visual smoothness of a curve.
 
-!!! note "Exercise 2: Performance Comparison"
+!!! note "Assignment 2: Performance Comparison"
 
     **Task**: Create a bar chart that compares the response times (in milliseconds) of three different API endpoints (e.g., `/login`, `/search`, `/upload`). Use different colors for each bar.
     **Goal**: Practice representing categorical performance metrics.
 
-!!! note "Exercise 3: Multi-Plot Dashboard"
+!!! note "Assignment 3: Multi-Plot Dashboard"
 
     **Task**: Use `plt.subplot()` to create a single figure containing two plots: one showing a line graph of a function and another showing a bar chart of related categorical data.
     **Goal**: Master the layout of complex figures for comprehensive data reporting.
 
 
-## Self-Assessment
-!!! tip "Self-Assessment"
+## Self Assessment
+
+??? question "Self Assessment"
     Test your knowledge by expanding the questions below.
 
-??? question "How do you generate the x-axis coordinates for a smooth functional plot in Matplotlib?"
-    By using `np.linspace(start, stop, num)`, which creates an array of `num` evenly spaced samples over the specified interval.
+    ??? question "How do you generate the x-axis coordinates for a smooth functional plot in Matplotlib?"
+        By using `np.linspace(start, stop, num)`, which creates an array of `num` evenly spaced samples over the specified interval.
 
-??? question "What is the purpose of the `label` argument in `plt.plot()` and the `plt.legend()` function?"
-    The `label` argument assigns a name to a specific line, and `plt.legend()` renders a key on the plot that associates those names with their corresponding colors/styles.
+    ??? question "What is the purpose of the `label` argument in `plt.plot()` and the `plt.legend()` function?"
+        The `label` argument assigns a name to a specific line, and `plt.legend()` renders a key on the plot that associates those names with their corresponding colors/styles.
 
-??? question "When would you use `Bokeh` instead of `Matplotlib` for data visualization?"
-    You would use `Bokeh` when you need interactive visualizations (zooming, panning, hovering) that are rendered as HTML/JavaScript for use in a web browser, whereas `Matplotlib` is better for static, publication-quality images.
+    ??? question "When would you use `Bokeh` instead of `Matplotlib` for data visualization?"
+        You would use `Bokeh` when you need interactive visualizations (zooming, panning, hovering) that are rendered as HTML/JavaScript for use in a web browser, whereas `Matplotlib` is better for static, publication-quality images.
 

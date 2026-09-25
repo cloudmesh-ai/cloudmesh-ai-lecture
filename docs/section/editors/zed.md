@@ -103,9 +103,9 @@ You can choose your preferred AI backend in the **Agent Settings**:
 
 ---
 
-## Hands-on Exercise
+## Assignment
 
-!!! note "Zed Quick-Start Challenge"
+!!! note "Assignments: Using Zed"
     **Task:** Perform the following sequence to familiarize yourself with the editor:
     1. **Launch**: Open a project folder from your terminal using the `zed` command.
     2. **Configure**: Open settings and change your `buffer_font_size` to `16` and set `format_on_save` to `"on"`.

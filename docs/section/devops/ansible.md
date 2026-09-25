@@ -183,17 +183,17 @@ To master Ansible, you must understand these core concepts:
 ??? question "How do handlers manage service restarts based on configuration changes?"
     Handlers are special tasks that are only executed if they are \"notified\" by another task using the `notify` keyword. This is typically used when a configuration file is updated (e.g., via the `template` module); the task notifies the handler to restart the service, ensuring the service is only restarted when a change actually occurs, rather than on every playbook run.
 
-!!! note "Exercise 1: Basic Web Server"
+!!! note "Assignment 1: Basic Web Server"
     Set up a virtual machine and write an Ansible playbook to install Nginx. Ensure the playbook is idempotent and that you can verify the installation by visiting the server's IP in a browser.
 
-!!! note "Exercise 2: User and Security Management"
+!!! note "Assignment 2: User and Security Management"
     Create a playbook that performs the following on a target VM:
     1. Creates a new system user named `devops_user`.
     2. Adds the user to the `sudo` group.
     3. Copies a public SSH key to the user's `authorized_keys` file.
     4. Ensures the SSH service is running.
 
-!!! note "Exercise 3: Multi-Service Deployment"
+!!! note "Assignment 3: Multi-Service Deployment"
     Develop a playbook that installs both a database (e.g., PostgreSQL) and a web application. Use a handler to ensure the web application restarts only after the database configuration is successfully updated.
 
 ## References
@@ -214,7 +214,7 @@ cd cloudmesh-ai-lecture
 ```
 
 
-As a practical exercise in "Localhost Automation," you can use Ansible to set up the environment and launch this very lecture site on your own machine. This demonstrates how Ansible can be used not just for remote servers, but for standardizing local development environments.
+As a practical Assignment in "Localhost Automation," you can use Ansible to set up the environment and launch this very lecture site on your own machine. This demonstrates how Ansible can be used not just for remote servers, but for standardizing local development environments.
 
 ### 1. Local Inventory
 Since we are targeting the machine we are currently on, we use a special local inventory. Create a file named `local_inventory` with the following content:

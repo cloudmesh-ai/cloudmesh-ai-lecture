@@ -225,12 +225,12 @@ agent_executor.invoke({"input": "What is the status of the storage service?"})
     - [ ] Built a RAG pipeline using a Vector Store and Embeddings.
     - [ ] Defined custom tools and integrated them into an `AgentExecutor`.
 
-!!! note "Exercise 1: Dynamic Knowledge Bot"
+!!! note "Assignment 1: Dynamic Knowledge Bot"
 
     **Task**: Create a basic LCEL chain that takes a user's name and a technical topic, and returns a personalized explanation of that topic written in the style of a specific famous person.
     **Goal**: Practice using `PromptTemplates` and basic chain construction.
 
-!!! note "Exercise 2: Local Document RAG"
+!!! note "Assignment 2: Local Document RAG"
 
     **Task**: Implement a RAG pipeline that:
     1. Loads a local `.txt` file containing a set of project guidelines.
@@ -238,7 +238,7 @@ agent_executor.invoke({"input": "What is the status of the storage service?"})
     3. Uses a Vector Store to answer questions about the guidelines.
     **Goal**: Implement the full RAG lifecycle from loading to retrieval.
 
-!!! note "Exercise 3: Autonomous Cloud Auditor"
+!!! note "Assignment 3: Autonomous Cloud Auditor"
 
     **Task**: Create an Agent with two tools:
     1. `get_resource_count(cloud_provider)`: Returns a dummy number of VMs.

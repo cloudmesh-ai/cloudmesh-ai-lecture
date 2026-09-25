@@ -151,17 +151,17 @@ Professional best practice is to use a minimal CPython installation combined wit
     - [ ] Identified the appropriate GUI library (`guizero` vs `Kivy`) based on project needs.
     - [ ] Selected a lightweight Python distribution for production deployment.
 
-!!! note "Exercise 1: Library Management"
+!!! note "Assignment 1: Library Management"
 
     **Task**: Create a new project directory. Initialize a virtual environment, activate it, and install the `requests` and `pylint` libraries. Generate a `requirements.txt` file using `pip freeze`.
     **Goal**: Master the basic lifecycle of environment and dependency management.
 
-!!! note "Exercise 2: Code Refactoring"
+!!! note "Assignment 2: Code Refactoring"
 
     **Task**: Write a Python script with intentionally poor formatting (excessive whitespace, inconsistent indentation, and long lines). Use `autopep8` to format the file and `pylint` to analyze the remaining logical issues.
     **Goal**: Implement an automated code quality pipeline.
 
-!!! note "Exercise 3: Interactive Interface"
+!!! note "Assignment 3: Interactive Interface"
 
     **Task**: Use `guizero` to create a simple window with a text input field and a button. When the button is clicked, the application should print the content of the input field to the console.
     **Goal**: Implement a basic event-driven GUI application.
@@ -177,16 +177,17 @@ The following resources are recommended for further study of Python libraries an
 - [Learn Python the Hard Way](http://learnpythonthehardway.org/book/) - A practical approach to learning Python.
 
 
-## Self-Assessment
-!!! tip "Self-Assessment"
+## Self Assessment
+
+??? question "Self Assessment"
     Test your knowledge by expanding the questions below.
 
-??? question "What is the risk of installing Python libraries globally on an operating system?"
-    Global installation can lead to \"dependency hell,\" where two different projects require conflicting versions of the same library, or worse, it can break OS-level tools that rely on a specific version of the system Python.
+    ??? question "What is the risk of installing Python libraries globally on an operating system?"
+        Global installation can lead to \"dependency hell,\" where two different projects require conflicting versions of the same library, or worse, it can break OS-level tools that rely on a specific version of the system Python.
 
-??? question "How does a `requirements.txt` file facilitate the recreation of a virtual environment?"
-    A `requirements.txt` file lists all the packages and their versions used in a project. Another developer can recreate the exact same environment by running `pip install -r requirements.txt` within a fresh virtual environment.
+    ??? question "How does a `requirements.txt` file facilitate the recreation of a virtual environment?"
+        A `requirements.txt` file lists all the packages and their versions used in a project. Another developer can recreate the exact same environment by running `pip install -r requirements.txt` within a fresh virtual environment.
 
-??? question "When would you choose `Kivy` over `guizero` for building a Python GUI?"
-    You would choose `Kivy` for professional, touch-enabled, or cross-platform applications (Android/iOS), whereas `guizero` is better for simple, lightweight desktop tools and educational purposes.
+    ??? question "When would you choose `Kivy` over `guizero` for building a Python GUI?"
+        You would choose `Kivy` for professional, touch-enabled, or cross-platform applications (Android/iOS), whereas `guizero` is better for simple, lightweight desktop tools and educational purposes.
 

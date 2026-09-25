@@ -74,13 +74,13 @@ Implementing CircleCI generally follows these steps:
 ??? question "How do I trigger a build in CircleCI?"
     Builds in CircleCI are typically triggered automatically by events in the connected source control provider (e.g., a `git push` to any branch or a `pull_request` event). Once the `.circleci/config.yml` is pushed to the repository, CircleCI detects the change and initiates the pipeline.
 
-!!! note "Exercise 1: Project Framework"
+!!! note "Assignment 1: Project Framework"
     Develop a CircleCI framework for your current project. Define at least two jobs (e.g., `lint` and `test`) and organize them into a workflow where the `test` job only runs if the `lint` job succeeds.
 
-!!! note "Exercise 2: Optimizing with Caching"
+!!! note "Assignment 2: Optimizing with Caching"
     Research CircleCI's `save_cache` and `restore_cache` steps. Modify your configuration to cache your project's dependencies (e.g., `node_modules` or `venv`), and measure the difference in build time before and after adding the cache.
 
-!!! note "Exercise 3: Deploying to a Cloud Provider"
+!!! note "Assignment 3: Deploying to a Cloud Provider"
     Use an official Orb (e.g., the AWS or Azure orb) to add a `deploy` job to your workflow. Configure the job to run only when changes are pushed to the `main` branch, ensuring that only stable code reaches production.
 
 ---

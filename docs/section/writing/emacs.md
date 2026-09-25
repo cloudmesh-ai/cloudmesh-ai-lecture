@@ -161,11 +161,11 @@ This creates a near-instantaneous feedback loop similar to Overleaf, but with hi
     - Integrated Emacs with a remote terminal using the `-nw` flag.
     - Established a LaTeX compilation loop using LatexMk and a PDF viewer.
 
-!!! note "Exercise 1: Basic Navigation"
+!!! note "Assignment 1: Basic Navigation"
     Create a text file with 20 lines of random text. Practice moving to the beginning of the buffer, jumping to line 10 using `M-g g`, and moving to the end of the buffer.
 
-!!! note "Exercise 2: Macro Automation"
+!!! note "Assignment 2: Macro Automation"
     Create a file containing a list of 10 names and emails in the format: `Name <email@example.com>`. Use a macro to remove the `<` and `>` characters and the name, leaving only the email addresses.
 
-!!! note "Exercise 3: LaTeX Environment"
+!!! note "Assignment 3: LaTeX Environment"
     Install `latexmk` on your system. Create a simple LaTeX document in Emacs, launch `latexmk` in a separate terminal, and verify that the PDF updates automatically every time you save the file (`C-x C-s`).

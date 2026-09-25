@@ -59,11 +59,11 @@ You may find that you don't need Ansible if your environment fits these criteria
 ??? question "When does a managed service (like EKS, GKE, or AKS) remove the need for manual provisioning?"
     Managed services remove the need for manual provisioning because the cloud provider manages the underlying worker nodes' operating system, security patches, and container runtime. The user interacts with the Kubernetes API, and the provider handles the "bootstrapping" and maintenance of the nodes.
 
-!!! note "Exercise 1: Infrastructure Audit"
+!!! note "Assignment 1: Infrastructure Audit"
     Look at a hypothetical architecture consisting of: an AWS VPC, three EC2 instances running a K8s cluster, an external RDS database, and an S3 bucket. Identify which parts of this architecture would be managed by Terraform, which by Ansible, and which by Kubernetes.
 
-!!! note "Exercise 2: Bootstrapping Workflow"
+!!! note "Assignment 2: Bootstrapping Workflow"
     Describe the sequence of events required to take a "vanilla" Ubuntu VM and turn it into a Kubernetes worker node. Which of these steps are "provisioning" (Ansible) and which are "orchestration" (Kubernetes)?
 
-!!! note "Exercise 3: Managed vs. Self-Managed"
+!!! note "Assignment 3: Managed vs. Self-Managed"
     Compare the operational overhead of managing a K8s cluster via Kubespray (Ansible) versus using Google GKE. List two advantages and two disadvantages of each approach.

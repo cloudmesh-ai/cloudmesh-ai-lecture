@@ -152,9 +152,9 @@ pip install requests pandas
 Once a virtual environment is created, it must be linked to the editor:
 
 - **In PyCharm**: Go to `File` -> `Settings` -> `Project: [Name]` -> `Python Interpreter` and select the python binary located inside the `venv/bin` directory.
-- **In VS Code**: Press `Ctrl+Shift+P`, type \"Python: Select Interpreter\", and choose the environment associated with the project folder.
+- **In VS Code**: Press `Ctrl+Shift+P`, type "Python: Select Interpreter", and choose the environment associated with the project folder.
 
-!!! tip \"Summary Checklist\"
+!!! tip "Summary Checklist"
     - Evaluated the differences between text editors, IDEs, and notebooks.
     - Installed a preferred editor (VS Code or PyCharm).
     - Configured essential Python extensions.
@@ -162,26 +162,29 @@ Once a virtual environment is created, it must be linked to the editor:
     - Linked the virtual environment as the project interpreter in the IDE.
     - Verified the installation by running a simple Python script.
 
-!!! note \"Exercise 1: Environment Setup\"
+## Assignments
+
+!!! note "Assignment 1: Environment Setup"
     Install either VS Code or PyCharm. Create a new project directory and set up a virtual environment using the `venv` module. Verify that the IDE is using the virtual environment interpreter rather than the system Python.
 
-!!! note \"Exercise 2: Extension Configuration\"
+!!! note "Assignment 2: Extension Configuration"
     In VS Code, install the Pylance extension. Create a Python file and intentionally introduce a type error (e.g., adding a string to an integer). Observe how the editor highlights the error before the code is even executed.
 
-!!! note \"Exercise 3: Remote Development\"
-    Set up a remote development connection. Using the \"Remote-SSH\" extension in VS Code or the \"Remote Interpreter\" feature in PyCharm Professional, connect to a remote Linux VM and execute a script stored on the remote filesystem.
+!!! note "Assignment 3: Remote Development"
+    Set up a remote development connection. Using the "Remote-SSH" extension in VS Code or the "Remote Interpreter" feature in PyCharm Professional, connect to a remote Linux VM and execute a script stored on the remote filesystem.
 
 
-## Self-Assessment
-!!! tip "Self-Assessment"
+## Self Assessment
+
+??? question "Self Assessment"
     Test your knowledge by expanding the questions below.
 
-??? question "What are the primary differences between an IDE and a modal text editor like Vim?"
-    An IDE (e.g., PyCharm) provides a \"batteries-included\" experience with integrated debugging, testing, and deep static analysis. A modal editor (e.g., Vim) focuses on keyboard efficiency through different modes (Insert, Normal), offering a lightweight experience that requires more manual configuration.
+    ??? question "What are the primary differences between an IDE and a modal text editor like Vim?"
+        An IDE (e.g., PyCharm) provides a \"batteries-included\" experience with integrated debugging, testing, and deep static analysis. A modal editor (e.g., Vim) focuses on keyboard efficiency through different modes (Insert, Normal), offering a lightweight experience that requires more manual configuration.
 
-??? question "Why is using a virtual environment (`venv`) considered best practice in Python development?"
-    Virtual environments isolate project-specific dependencies from the global system Python. This prevents version conflicts between different projects and ensures that the environment is reproducible across different machines.
+    ??? question "Why is using a virtual environment (`venv`) considered best practice in Python development?"
+        Virtual environments isolate project-specific dependencies from the global system Python. This prevents version conflicts between different projects and ensures that the environment is reproducible across different machines.
 
-??? question "How do you configure a specific virtual environment as the project interpreter in VS Code?"
-    By pressing `Ctrl+Shift+P`, selecting \"Python: Select Interpreter\", and browsing to the python binary located inside the project's `.venv/bin` (or `Scripts` on Windows) directory.
+    ??? question "How do you configure a specific virtual environment as the project interpreter in VS Code?"
+        By pressing `Ctrl+Shift+P`, selecting \"Python: Select Interpreter\", and browsing to the python binary located inside the project's `.venv/bin` (or `Scripts` on Windows) directory.
 

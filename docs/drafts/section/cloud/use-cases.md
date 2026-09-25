@@ -55,13 +55,13 @@ Bioinformatics is another field where the cloud has become indispensable. The se
 ### Challenges in Bio-Cloud
 Bioinformatics faces unique challenges, particularly regarding **data privacy (HIPAA/GDPR)**. This necessitates the use of "Trusted Execution Environments" (TEEs) and strict encryption-at-rest and in-transit to protect sensitive patient genetic data.
 
-## Exercises
+## Assignments
 
-!!! assignment "Exercise 1: The Bottleneck Analysis"
+!!! assignment "Assignment 1: The Bottleneck Analysis"
     Given the NISAR example, calculate how long it would take to download 1,000 scenes (25 GB each) using a high-speed 1 Gbps connection. Compare this to the time it would take to process the same data using a cloud-native approach.
 
-!!! assignment "Exercise 2: Data Lake Design"
+!!! assignment "Assignment 2: Data Lake Design"
     You are tasked with designing a data lake for a new satellite mission. Which cloud services would you use for storage, indexing (metadata), and compute? Justify your choices based on the needs of both the data producers and the end-users.
 
-!!! assignment "Exercise 3: Privacy in the Cloud"
+!!! assignment "Assignment 3: Privacy in the Cloud"
     Research the concept of "Federated Learning." How can this technology allow bioinformaticians to train models on sensitive genetic data across different hospitals without the data ever leaving the hospital's own secure cloud environment?

@@ -162,13 +162,13 @@ When generating slang, LLMs risk falling into "linguistic stereotyping"—using 
 ??? question "What is 'linguistic stereotyping' and how can it manifest in LLM outputs?"
     Linguistic stereotyping occurs when an LLM uses outdated, exaggerated, or offensive versions of a dialect. It manifests as unnatural language that relies on clichés rather than how native speakers actually communicate.
 
-!!! note "Exercise 1: Slang Translator"
+!!! note "Assignment 1: Slang Translator"
     Create a prompt that acts as a "Gen Z to Professional" translator. Provide a list of five common slang phrases (e.g., "it's giving", "slay", "lowkey") and verify that the LLM can correctly translate them into a corporate email format.
 
-!!! note "Exercise 2: Dialect Detector"
+!!! note "Assignment 2: Dialect Detector"
     Build a system that identifies whether a piece of text is written in Standard English, AAVE (African American Vernacular English), or a regional dialect (e.g., Cockney or Southern US). The system should provide a confidence score for its classification.
 
-!!! note "Exercise 3: Cultural Bridge Pipeline"
+!!! note "Assignment 3: Cultural Bridge Pipeline"
     Develop a pipeline that takes a formal technical manual (e.g., "How to reset a router") and adapts it for three different target audiences:
     1. A professional IT technician (Formal).
     2. A non-technical teenager (High Slang).

@@ -218,7 +218,7 @@ observed over time done by students developing reports.
     IN how published you put a noun in that describes what it is. E.g.
     Webpage, Git repository, ...
 
-## Exercises
+## Assignments
 
 !!! assignment "Report 1"
     Install emacs, latex and jabref on your system.

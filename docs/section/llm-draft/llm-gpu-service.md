@@ -176,17 +176,17 @@ Additional VRAM is required for the KV cache, which grows with the context lengt
     - [ ] Evaluated and selected an inference engine (Ollama for ease, vLLM for throughput).
     - [ ] Calculated VRAM requirements to prevent Out-of-Memory (OOM) errors.
 
-!!! note "Exercise 1: Environment Validation"
+!!! note "Assignment 1: Environment Validation"
 
     **Task**: Install the CUDA-enabled version of PyTorch in a virtual environment. Write a Python script that prints the total VRAM of the first available GPU and its compute capability.
     **Goal**: Ensure the software stack is correctly linked to the hardware.
 
-!!! note "Exercise 2: vLLM Deployment"
+!!! note "Assignment 2: vLLM Deployment"
 
     **Task**: Deploy a 7B model using vLLM. Use a `curl` command to send a request to the `/v1/completions` endpoint and measure the time taken for the first token to appear (Time to First Token - TTFT).
     **Goal**: Implement a production-grade serving endpoint and measure latency.
 
-!!! note "Exercise 3: VRAM Benchmarking"
+!!! note "Assignment 3: VRAM Benchmarking"
 
     **Task**: Load the same model using Ollama and vLLM. Use `nvidia-smi -l 1` to monitor VRAM usage during inference. Compare how each engine handles memory allocation.
     **Goal**: Understand the difference between static memory allocation (vLLM) and dynamic loading (Ollama).

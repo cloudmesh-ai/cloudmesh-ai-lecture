@@ -229,13 +229,13 @@ If you have another VM in the same project network, try calling the API using it
     - [ ] Verified `403 Forbidden` for users on the deny list.
     - [ ] Verified successful access for permitted users via the `X-User` header.
 
-!!! note "Exercise 1: Basic Modification"
+!!! note "Assignment 1: Basic Modification"
     Update the `excluded_users` parameter in the stack to add your own username and verify that you are now blocked from the API.
 
-!!! note "Exercise 2: Network Adjustment"
+!!! note "Assignment 2: Network Adjustment"
     Modify the template to allow access to port 8000 from a second specific public IP (e.g., a colleague's IP) without opening it to the whole world.
 
-!!! note "Exercise 3: Logic Inversion"
+!!! note "Assignment 3: Logic Inversion"
     Modify the FastAPI `main.py` code in the template to implement a "Permit List" (White List) instead of a "Deny List", where only users in the parameter list are allowed access.
 
 ## Further Reading & Resources

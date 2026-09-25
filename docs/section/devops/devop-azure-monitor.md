@@ -72,11 +72,11 @@ Instead of watching a dashboard, you can set up alerts that notify the team via 
 ??? question "How do proactive alerts reduce the 'Mean Time to Recovery' (MTTR)?"
     Proactive alerts notify the operations team via email or SMS the moment a critical threshold is breached (e.g., a sudden spike in 500-series errors), often before the end-user even notices a problem. This immediate notification allows the team to begin troubleshooting and fixing the issue faster, which directly reduces the **Mean Time to Recovery (MTTR)**.
 
-!!! note "Exercise 1: Telemetry Integration"
+!!! note "Assignment 1: Telemetry Integration"
     You are developing a Python FastAPI application. Describe the steps required to integrate Azure Application Insights. What specific metrics would you track to ensure your "payment processing" endpoint is healthy?
 
-!!! note "Exercise 2: Designing a Dashboard"
+!!! note "Assignment 2: Designing a Dashboard"
     Imagine you are the SRE (Site Reliability Engineer) for a global e-commerce site. Design a dashboard for "Black Friday." List the five most critical metrics you would put on the front page and explain why each is important.
 
-!!! note "Exercise 3: Alerting Logic"
+!!! note "Assignment 3: Alerting Logic"
     Create a logic flow for a proactive alert system. For example: *If [Metric X] exceeds [Threshold Y] for [Z minutes], then [Action A] and [Notify Person B].* Apply this logic to a scenario where your application's memory usage is steadily climbing (a memory leak).

@@ -196,15 +196,16 @@ print(b)
 ```
 
 
-## Self-Assessment
-!!! tip "Self-Assessment"
+## Self Assessment
+
+??? question "Self Assessment"
     Test your knowledge by expanding the questions below.
 
-??? question "Which Python library is best suited for creating cloud infrastructure blueprints programmatically?"
-    The `diagrams` library is specifically designed for this purpose, providing pre-defined icons for major cloud providers (AWS, GCP, Azure) and on-premises components.
+    ??? question "Which Python library is best suited for creating cloud infrastructure blueprints programmatically?"
+        The `diagrams` library is specifically designed for this purpose, providing pre-defined icons for major cloud providers (AWS, GCP, Azure) and on-premises components.
 
-??? question "What is the purpose of `blockdiag` in infrastructure visualization?"
-    `blockdiag` allows for the creation of simple, text-based diagrams (block diagrams) that describe the flow of data or processes between different components without needing to manually place elements.
+    ??? question "What is the purpose of `blockdiag` in infrastructure visualization?"
+        `blockdiag` allows for the creation of simple, text-based diagrams (block diagrams) that describe the flow of data or processes between different components without needing to manually place elements.
 
-??? question "How can you visualize a physical server rack layout using `matplotlib`?"
-    By using `matplotlib.patches.Rectangle` to draw the rack frame and the individual servers, and then adding text labels for hostnames, you can create a logical representation of the rack's physical occupancy.
+    ??? question "How can you visualize a physical server rack layout using `matplotlib`?"
+        By using `matplotlib.patches.Rectangle` to draw the rack frame and the individual servers, and then adding text labels for hostnames, you can create a logical representation of the rack's physical occupancy.

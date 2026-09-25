@@ -140,17 +140,17 @@ output "vm_ip" {
 ??? question "How can Terraform be used to provision both cloud and local resources?"
     Terraform is provider-agnostic, meaning it can use different providers in the same configuration. You can use an AWS provider to provision a cloud-based VPC and EC2 instance, while simultaneously using a Docker or Multipass provider to provision local containers or VMs on your own machine, all using the same HCL language and workflow.
 
-!!! note "Exercise 1: The Lifecycle Challenge"
+!!! note "Assignment 1: The Lifecycle Challenge"
     Create a Terraform script to provision a local Docker container. Run the `init`, `plan`, and `apply` commands. Once verified, use `terraform destroy` to remove the container and explain what happens to the `.tfstate` file after destruction.
 
-!!! note "Exercise 2: Multi-Provider Architecture"
+!!! note "Assignment 2: Multi-Provider Architecture"
     Design a Terraform configuration that uses two different providers simultaneously (e.g., one to create a local Multipass VM and another to create a Docker container inside that VM). Describe how Terraform handles the dependencies between these two providers.
 
-!!! note "Exercise 3: State Recovery"
+!!! note "Assignment 3: State Recovery"
     Imagine your `.tfstate` file was accidentally deleted, but your resources still exist in AWS. Research the `terraform import` command and describe the steps you would take to recover the state file without destroying the existing infrastructure.
 
 
-!!! note "Exercise 4: Using Terraform on your local computer"
+!!! note "Assignment 4: Using Terraform on your local computer"
 
     * Create s terraform local installation script and instructions are provided.
     * Verify if it works on your computer.

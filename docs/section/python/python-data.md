@@ -235,7 +235,7 @@ For structured data that requires complex querying, flat files are replaced by d
     - [ ] Implemented RSA encryption for sensitive files using `EncryptFile`.
     - [ ] Selected the appropriate storage (CSV, JSON, or SQLite) based on data complexity.
 
-!!! note "Exercise 1: Format Conversion"
+!!! note "Assignment 1: Format Conversion"
 
 
 ## Self-Assessment
@@ -255,12 +255,12 @@ For structured data that requires complex querying, flat files are replaced by d
     **Task**: Create a CSV file with three columns (Name, Role, Email). Write a Python script that reads this CSV and converts it into a JSON array of objects.
     **Goal**: Practice basic data transformation between two common interchange formats.
 
-!!! note "Exercise 2: Web Data Extraction"
+!!! note "Assignment 2: Web Data Extraction"
 
     **Task**: Write a script using `BeautifulSoup` to fetch a webpage and extract all links (`<a>` tags) that have a specific class or are located within a specific `div` ID.
     **Goal**: Master the use of CSS selectors and the DOM tree for data extraction.
 
-!!! note "Exercise 3: Secure Data Pipeline"
+!!! note "Assignment 3: Secure Data Pipeline"
 
     **Task**: Implement a pipeline that:
     1. Reads a sensitive configuration from a YAML file.

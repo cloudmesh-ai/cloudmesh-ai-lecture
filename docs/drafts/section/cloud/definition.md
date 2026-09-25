@@ -67,13 +67,13 @@ The cloud ecosystem changes rapidly—often every six months. To survive and thr
 *   **Leap Detection (L)**: Recognize "technology leaps." Some changes are incremental, but others (like the shift to LLMs) are leaps that fundamentally change how we solve problems.
 *   **Learning Willingness (L)**: Commit to lifelong learning. The willingness to unlearn old habits and learn new tools is the most valuable skill in cloud computing.
 
-## Exercises
+## Assignments
 
-!!! assignment "Exercise 1: Comparing Definitions"
+!!! assignment "Assignment 1: Comparing Definitions"
     Find a definition of "Cloud Computing" from a major provider (AWS, Azure, or GCP). Compare it to the NIST definition. Which elements are emphasized? Is the provider's definition more technical or more business-oriented?
 
-!!! assignment "Exercise 2: Identifying Trends"
+!!! assignment "Assignment 2: Identifying Trends"
     Find a recent news article or blog post about a new trend in cloud computing (e.g., Edge Computing, Green Cloud, or AI-native infrastructure). Explain how this trend fits into the "CaaS" or "FaaS" models discussed in this section.
 
-!!! assignment "Exercise 3: Data Engineer vs. Data Scientist"
+!!! assignment "Assignment 3: Data Engineer vs. Data Scientist"
     Imagine you are building a real-time weather alert system. Describe the specific tasks a **Data Engineer** would handle versus the tasks a **Data Scientist** would handle in this project.

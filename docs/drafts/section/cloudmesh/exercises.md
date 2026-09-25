@@ -1,4 +1,4 @@
-# Exercises
+# Assignments
 
 When doing your assignment, make sure you label the programs appropriately with comments that clearly identify the assignment. Place all assignments in a folder on GitHub named "cloudmesh-exercises"
 

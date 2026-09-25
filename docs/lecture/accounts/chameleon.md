@@ -1,6 +1,6 @@
 # Chameleon Cloud Account Setup
 
-To participate in the course exercises that require a public cloud environment, you will need an account on [Chameleon Cloud](https://chameleoncloud.org). Chameleon Cloud is a testbed for cloud computing research and education.
+To participate in the course Assignments that require a public cloud environment, you will need an account on [Chameleon Cloud](https://chameleoncloud.org). Chameleon Cloud is a testbed for cloud computing research and education.
 
 ## Step-by-Step Application Process
 
@@ -14,7 +14,7 @@ To participate in the course exercises that require a public cloud environment, 
    - **Institutional Affiliation**: Enter your university and department.
    - **Project Description**: 
      - You will be asked why you need an account. 
-     - **For Students**: State that you are a student in the "Cloud Computing/DevOps/AI" course and that you need the account to perform course exercises and labs.
+     - **For Students**: State that you are a student in the "Cloud Computing/DevOps/AI" course and that you need the account to perform course Assignments and labs.
      - Mention that you will be learning about cloud infrastructure, virtualization, and automation.
 4. **Submit and Wait**:
    - After submitting your application, it will be reviewed by the Chameleon Cloud administrators.
@@ -48,7 +48,7 @@ Once your account is approved:
 
     **Validation:**
 
-    - The exercise is considered complete when you receive the **approval email** from Chameleon Cloud and can log in to the portal.
+    - The Assignment is considered complete when you receive the **approval email** from Chameleon Cloud and can log in to the portal.
     - Verify that you can see the `cloudmesh` project in your project list within the Horizon Dashboard.
 
 
@@ -64,5 +64,5 @@ Once your account is approved:
         Applications from institutional emails (e.g., `.edu`) are more likely to be approved, as applications from generic providers like Gmail or Yahoo are more likely to be scrutinized or rejected.
 
     ??? question "What information should students include in their project description to increase the chance of approval?"
-        Students should clearly state that they are in a specific course (e.g., \"Cloud Computing/DevOps/AI\") and explain that they need the account for course exercises and labs involving cloud infrastructure and automation.
+        Students should clearly state that they are in a specific course (e.g., \"Cloud Computing/DevOps/AI\") and explain that they need the account for course Assignments and labs involving cloud infrastructure and automation.
 

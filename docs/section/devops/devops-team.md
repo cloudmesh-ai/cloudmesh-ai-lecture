@@ -136,12 +136,12 @@ By integrating peer collaboration into cloud automation and AI workflows, engine
 !!! warning
     Do not reveal any information from your current or past employer. Keep it hypothetical. You may not be able to share this information based on your contract. 
 
-!!! note "Exercise 1: Team Topology Mapping"
+!!! note "Assignment 1: Team Topology Mapping"
     Analyze your current organizational structure. Map your teams to the four Team Topologies types (Stream-Aligned, Platform, Enabling, and Complicated-Subsystem). Identify one "bottleneck" team where requests often pile up and suggest how to transition them toward a Platform or Enabling model.
 
-!!! note "Exercise 2: Guardrail Design"
+!!! note "Assignment 2: Guardrail Design"
     Identify one manual approval process ("gate") currently existing in your software delivery lifecycle. Design a specific automated policy ("guardrail")—including the tool and the logic—that could replace this gate while maintaining the same level of security/quality.
 
-!!! note "Exercise 3: Metric Dashboard"
+!!! note "Assignment 3: Metric Dashboard"
     Draft a mockup of a shared dashboard containing 3 metrics that would force a developer and a security engineer to collaborate on the same goal. Explain why these specific metrics discourage siloed thinking.
 

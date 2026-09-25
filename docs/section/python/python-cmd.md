@@ -148,39 +148,38 @@ class DocumentedShell(cmd.Cmd):
 
 When the user types `help status`, the `help_status` method is executed, providing the user with specific instructions.
 
-## Self-Assessment
+## Self Assessment
 
-!!! tip "Self-Assessment"
+??? question "Self Assessment"
     Test your knowledge by expanding the questions below.
 
-??? question "How does the `cmd` module identify which methods should be treated as shell commands?"
-    It uses a naming convention: any method starting with the prefix `do_` (e.g., `do_greet`) is automatically mapped to a command (`greet`).
+    ??? question "How does the `cmd` module identify which methods should be treated as shell commands?"
+        It uses a naming convention: any method starting with the prefix `do_` (e.g., `do_greet`) is automatically mapped to a command (`greet`).
 
-??? question "How do you signal the `cmdloop()` to terminate and exit the interactive shell?"
-    A command method (such as `do_EOF` or `do_exit`) must return `True`.
+    ??? question "How do you signal the `cmdloop()` to terminate and exit the interactive shell?"
+        A command method (such as `do_EOF` or `do_exit`) must return `True`.
 
-??? question "What is the difference between a 'documented' and an 'undocumented' command in the `cmd` module?"
-    An undocumented command is just a `do_` method; a documented command has a corresponding `help_` method that provides detailed usage instructions.
+    ??? question "What is the difference between a 'documented' and an 'undocumented' command in the `cmd` module?"
+        An undocumented command is just a `do_` method; a documented command has a corresponding `help_` method that provides detailed usage instructions.
 
-??? question "How can you customize the initial experience of a user entering your `cmd` shell?"
-    Override the `prompt` attribute for the input line and the `intro` attribute for the welcome message.
+    ??? question "How can you customize the initial experience of a user entering your `cmd` shell?"
+        Override the `prompt` attribute for the input line and the `intro` attribute for the welcome message.
 
-??? question "How do you handle arguments passed to a command in a `cmd.Cmd` subclass?"
-    The command method receives a `line` string containing everything typed after the command; this string can be parsed using `line.split()` or libraries like `shlex`.
+    ??? question "How do you handle arguments passed to a command in a `cmd.Cmd` subclass?"
+        The command method receives a `line` string containing everything typed after the command; this string can be parsed using `line.split()` or libraries like `shlex`.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Shell Setup"
+## Assignments
+!!! note "Assignment 1: Basic Shell Setup"
     Create a shell called `SimpleShell`. Implement two commands: `hello` (which prints a greeting) and `exit` (which closes the shell). Ensure the shell has a custom prompt like `(Simple) > `.
 
-!!! note "Exercise 2: Interactive Task Manager"
+!!! note "Assignment 2: Interactive Task Manager"
     Build a task management shell. Implement the following commands:
     1. `add [task]`: Adds a task to a Python list.
     2. `list`: Displays all current tasks with their index.
     3. `done [index]`: Removes a task from the list by its index.
     Include a `help_` method for each command to explain the usage.
 
-!!! note "Exercise 3: Virtual Storage Simulator"
+!!! note "Assignment 3: Virtual Storage Simulator"
     Create a shell that simulates a key-value store. Use a dictionary to store data. Implement:
     1. `set [key] [value]`: Stores a value associated with a key.
     2. `get [key]`: Retrieves the value for a given key.

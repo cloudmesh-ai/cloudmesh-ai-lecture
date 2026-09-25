@@ -132,15 +132,15 @@ scheduler.run()
 ??? question "What is the risk of calling `scheduler.run()` in the main thread of a production API?"
     Since `run()` is a blocking call, it will freeze the main thread until all scheduled events are processed. In an API, this would prevent the server from responding to any new requests. The scheduler should instead be run in a background thread.
 
-!!! note "Exercise 1: Basic Timer"
+!!! note "Assignment 1: Basic Timer"
     Create a script that schedules three different messages to be printed at 2, 5, and 10 seconds respectively. Ensure the messages are printed in the correct order.
 
-!!! note "Exercise 2: Delayed VM Shutdown Sequence"
+!!! note "Assignment 2: Delayed VM Shutdown Sequence"
     Implement a cloud maintenance script that executes a graceful shutdown sequence:
     1. Schedule a "Notification" event to be sent to users 60 seconds from now.
     2. Schedule a "Stop Application" event 120 seconds from now.
     3. Schedule a "Power Off VM" event 180 seconds from now.
     4. Ensure the script prints a timestamp for each event as it occurs.
 
-!!! note "Exercise 3: Priority-Based Task Manager"
+!!! note "Assignment 3: Priority-Based Task Manager"
     Create a scheduler that handles two types of tasks: "Critical" (priority 1) and "Routine" (priority 2). Schedule five tasks with overlapping times and verify that Critical tasks are executed first when target times are identical.

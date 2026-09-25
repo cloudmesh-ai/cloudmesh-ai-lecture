@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Meeting Countdown Widget
 Usage:
@@ -26,6 +26,7 @@ Example (new compact syntax):
 import argparse
 import logging
 import sys
+import webbrowser
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -174,13 +175,15 @@ def parse_day_time(day_str: str,
 
 
 # ----------------------------------------------------------------------
-# Data model – now understands the compact syntax & optional timezone
+# Data model – supports compact syntax, optional timezone, url, & username
 # ----------------------------------------------------------------------
 @dataclass
 class Meeting:
     name: str
     start: datetime                 # stored internally as UTC
     stop: datetime                  # stored internally as UTC
+    url: Optional[str] = None
+    username: Optional[str] = None
     _raw: dict = field(default_factory=dict, repr=False)
 
     @staticmethod
@@ -195,33 +198,41 @@ class Meeting:
     @classmethod
     def from_dict(cls, raw: dict) -> "Meeting":
         """
-        Accepts both the *compact* layout (with optional ``timezone``) and the
-        legacy ISO‑8601 layout.  The optional ``timezone`` key, when present,
-        is used to interpret the times; otherwise the local timezone is assumed.
+        Accepts both the *compact* layout (with optional ``timezone``, ``url``,
+        and ``username``) and the legacy ISO‑8601 layout.
         """
         tz_name = raw.get("timezone")          # may be None
+        url = raw.get("url")
+        username = raw.get("username")
 
         if "day" in raw and "start" in raw and "stop" in raw:
             day = raw["day"]
             start = parse_day_time(day, raw["start"], tz_name)
             stop = parse_day_time(day, raw["stop"], tz_name)
-            return cls(name=raw["name"], start=start, stop=stop, _raw=raw)
+            return cls(name=raw["name"], start=start, stop=stop, url=url, username=username, _raw=raw)
 
         # Legacy format – timestamps may be ISO‑8601 *or* plain strings
         return cls(
             name=raw["name"],
             start=cls._to_utc(raw["start"], tz_name),
             stop=cls._to_utc(raw["stop"], tz_name),
+            url=url,
+            username=username,
             _raw=raw,
         )
 
     def to_dict(self) -> dict:
-        """When persisting, always write ISO‑8601 UTC timestamps."""
-        return {
+        """When persisting, always write ISO‑8601 UTC timestamps, plus url/username if present."""
+        data = {
             "name": self.name,
             "start": self.start.isoformat(),
             "stop": self.stop.isoformat(),
         }
+        if self.url:
+            data["url"] = self.url
+        if self.username:
+            data["username"] = self.username
+        return data
 
     @property
     def duration(self) -> timedelta:
@@ -229,7 +240,7 @@ class Meeting:
 
 
 # ----------------------------------------------------------------------
-# Small utility helpers (unchanged)
+# Small utility helpers
 # ----------------------------------------------------------------------
 def fmt_td(td: timedelta) -> str:
     secs = int(td.total_seconds())
@@ -241,7 +252,7 @@ def fmt_td(td: timedelta) -> str:
 def build_layout(meetings: List[Meeting]) -> List[List[sg.Element]]:
     names = [m.name for m in meetings] or ["<no meetings>"]
     
-    # Tab 1: Dominant Countdown View
+    # Tab 1: Dominant Countdown View with Zoom/URL controls
     countdown_tab = [
         [sg.Text("", key="-STATUS-", size=(40, 1), font=("Helvetica", 11, "bold"))],
         [
@@ -263,6 +274,14 @@ def build_layout(meetings: List[Meeting]) -> List[List[sg.Element]]:
                 bar_color=("#00509e", "#d3d3d3"),
             )
         ],
+        [sg.HorizontalSeparator()],
+        [
+            sg.Text("Zoom User:", size=(10, 1)),
+            sg.Text("", key="-DISP-USER-", font=("Helvetica", 10, "italic"), expand_x=True)
+        ],
+        [
+            sg.Button("🚀 Join Zoom / URL", key="-JOIN-", button_color=("white", "#2D8CFF"), expand_x=True, visible=False)
+        ],
     ]
 
     # Tab 2: Edit & Form Details View
@@ -280,6 +299,8 @@ def build_layout(meetings: List[Meeting]) -> List[List[sg.Element]]:
             sg.Button("+30 m", key="-PLUS30-"),
             sg.Button("+60 m", key="-PLUS60-"),
         ],
+        [sg.Text("URL:", size=(9, 1)), sg.Input(key="-URL-IN-", size=(30, 1))],
+        [sg.Text("Username:", size=(9, 1)), sg.Input(key="-USER-IN-", size=(30, 1))],
         [sg.Button("Save", button_color=("white", "#00509e"), expand_x=True)],
     ]
 
@@ -317,7 +338,7 @@ def build_layout(meetings: List[Meeting]) -> List[List[sg.Element]]:
 
 
 def sync_ui(win: sg.Window, meeting: Meeting) -> None:
-    """Populate the input fields with a meeting’s data."""
+    """Populate the input fields and view elements with a meeting’s data."""
     win["-NAME-"].update(meeting.name)
     win["-START-"].update(
         meeting.start.astimezone().strftime("%Y-%m-%d %H:%M:%S")
@@ -325,6 +346,14 @@ def sync_ui(win: sg.Window, meeting: Meeting) -> None:
     win["-STOP-"].update(
         meeting.stop.astimezone().strftime("%Y-%m-%d %H:%M:%S")
     )
+    win["-URL-IN-"].update(meeting.url or "")
+    win["-USER-IN-"].update(meeting.username or "")
+    win["-DISP-USER-"].update(meeting.username or "None specified")
+    
+    if meeting.url:
+        win["-JOIN-"].update(visible=True)
+    else:
+        win["-JOIN-"].update(visible=False)
 
 
 def refresh_combo(win: sg.Window, meetings: List[Meeting]) -> None:
@@ -340,7 +369,7 @@ def get_by_name(meetings: List[Meeting], name: str) -> Optional[Meeting]:
 
 
 # ----------------------------------------------------------------------
-# GUI – **THIS IS THE REAL IMPLEMENTATION**
+# GUI Implementation
 # ----------------------------------------------------------------------
 def run_gui(meetings: List[Meeting]) -> None:
     sg.theme("Topanga")
@@ -384,6 +413,11 @@ def run_gui(meetings: List[Meeting]) -> None:
             if current:
                 sync_ui(win, current)
 
+        elif event == "-JOIN-":
+            cur = ensure_current()
+            if cur.url:
+                webbrowser.open(cur.url)
+
         elif event == "-NOW-":
             cur = ensure_current()
             cur.start = datetime.now(timezone.utc)
@@ -392,12 +426,11 @@ def run_gui(meetings: List[Meeting]) -> None:
         elif event in ("-PLUS15-", "-PLUS30-", "-PLUS60-"):
             cur = ensure_current()
             minutes = int(event.split("-PLUS")[1].replace("-", ""))
-            # Try to respect a manually edited start time
             try:
                 start_local = datetime.strptime(
                     vals["-START-"].strip(), "%Y-%m-%d %H:%M:%S"
                 )
-                cur.start = start_local.replace(tzinfo=timezone.utc)
+                cur.start = as_utc(start_local)
             except Exception:
                 cur.start = datetime.now(timezone.utc)
             cur.stop = cur.start + timedelta(minutes=minutes)
@@ -407,16 +440,20 @@ def run_gui(meetings: List[Meeting]) -> None:
             cur = ensure_current()
             try:
                 cur.name = vals["-NAME-"].strip() or cur.name
-                cur.start = datetime.strptime(
+                cur.start = as_utc(datetime.strptime(
                     vals["-START-"].strip(), "%Y-%m-%d %H:%M:%S"
-                ).replace(tzinfo=timezone.utc)
-                cur.stop = datetime.strptime(
+                ))
+                cur.stop = as_utc(datetime.strptime(
                     vals["-STOP-"].strip(), "%Y-%m-%d %H:%M:%S"
-                ).replace(tzinfo=timezone.utc)
+                ))
+                cur.url = vals["-URL-IN-"].strip() or None
+                cur.username = vals["-USER-IN-"].strip() or None
+
                 if cur.start >= cur.stop:
                     raise ValueError("Start must be before stop")
                 refresh_combo(win, meetings)
                 win["-SELECT-"].update(value=cur.name)
+                sync_ui(win, cur)
                 sg.popup_ok("Meeting saved.", title="Success")
             except Exception as exc:
                 log.exception("Save failed")
@@ -445,9 +482,11 @@ def run_gui(meetings: List[Meeting]) -> None:
                     sync_ui(win, current)
                 else:
                     current = None
-                    for k in ("-NAME-", "-START-", "-STOP-"):
-                        win[k].update("")
+                    for k in ("-NAME-", "-START-", "-STOP-", "-URL-IN-", "-USER-IN-"):
+                        if k in win:
+                            win[k].update("")
                     win["-SELECT-"].update(value="")
+                    win["-JOIN-"].update(visible=False)
 
         # ------------------- Countdown logic -------------------
         cur = ensure_current()
@@ -479,10 +518,6 @@ def run_gui(meetings: List[Meeting]) -> None:
 # Argument‑parsing with argparse
 # ----------------------------------------------------------------------
 def build_parser() -> argparse.ArgumentParser:
-    """
-    Construct the top‑level parser and sub‑parsers that mimic the original
-    docopt usage.  The function returns the ready‑to‑use ``ArgumentParser``.
-    """
     parser = argparse.ArgumentParser(
         prog="session-timer.py",
         description="Meeting Countdown Widget",
@@ -523,14 +558,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     # ------------------- remove -------------------
     rm_parser = sub.add_parser("remove", help="Remove a meeting by name")
-    rm_parser.name = rm_parser.add_argument("name", help="Name of the meeting to delete")
+    rm_parser.add_argument("name", help="Name of the meeting to delete")
 
     return parser
 
 
-# ---------------------------------------------------
+# ----------------------------------------------------------------------
 # Entry point – parse args and dispatch sub‑commands
-# ---------------------------------------------------
+# ----------------------------------------------------------------------
 def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
@@ -579,4 +614,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

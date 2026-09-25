@@ -121,39 +121,38 @@ if __name__ == "__main__":
 
 Default values can be specified directly in the Options section of the docstring using the `[default: value]` syntax. Docopt will automatically populate the dictionary with these values if the user does not provide the option.
 
-## Self-Assessment
+## Self Assessment
 
-!!! tip "Self-Assessment"
+??? question "Self Assessment"
     Test your knowledge by expanding the questions below.
 
-??? question "What is 'documentation-driven development' in the context of Docopt?"
-    It is the practice of writing the help message (usage string) first and having the library automatically generate the argument parser from that documentation.
+    ??? question "What is 'documentation-driven development' in the context of Docopt?"
+        It is the practice of writing the help message (usage string) first and having the library automatically generate the argument parser from that documentation.
 
-??? question "How do you define a mandatory positional argument versus an optional flag in a Docopt usage string?"
-    Mandatory arguments are written in uppercase or angle brackets (e.g., `<name>`); optional flags are defined with dashes (e.g., `--verbose`).
+    ??? question "How do you define a mandatory positional argument versus an optional flag in a Docopt usage string?"
+        Mandatory arguments are written in uppercase or angle brackets (e.g., `<name>`); optional flags are defined with dashes (e.g., `--verbose`).
 
-??? question "How can you support multiple operational modes (e.g., `start` and `stop`) in a single Docopt application?"
-    Define multiple usage patterns on separate lines within the usage section of the docstring.
+    ??? question "How can you support multiple operational modes (e.g., `start` and `stop`) in a single Docopt application?"
+        Define multiple usage patterns on separate lines within the usage section of the docstring.
 
-??? question "How are default values for options handled in Docopt?"
-    They are specified directly in the Options section of the docstring using the `[default: value]` syntax.
+    ??? question "How are default values for options handled in Docopt?"
+        They are specified directly in the Options section of the docstring using the `[default: value]` syntax.
 
-??? question "What is the primary benefit of using Docopt over a traditional parser like `argparse`?"
-    It eliminates 'documentation drift' because the help text is the actual specification used to generate the parser.
+    ??? question "What is the primary benefit of using Docopt over a traditional parser like `argparse`?"
+        It eliminates 'documentation drift' because the help text is the actual specification used to generate the parser.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Input Parser"
+## Assignments
+!!! note "Assignment 1: Basic Input Parser"
     Create a CLI tool called `greet.py`. Design a usage string that requires a `<name>` argument and provides an optional `--formal` flag. If the flag is present, the output should be "Good day, [name]"; otherwise, "Hi, [name]!".
 
-!!! note "Exercise 2: Resource Management Tool"
+!!! note "Assignment 2: Resource Management Tool"
     Build a tool for managing a hypothetical "Cloud Storage" service. The usage string should support three patterns:
     1. `storage.py upload <file> <bucket>`
     2. `storage.py download <bucket> <file>`
     3. `storage.py list <bucket>`
     Implement the logic to print which action is being performed and which files/buckets are involved.
 
-!!! note "Exercise 3: Advanced Option Handling"
+!!! note "Assignment 3: Advanced Option Handling"
     Implement a CLI that takes a mandatory `<filename>` and supports mutually exclusive options: `--encrypt` and `--decrypt`. Use the usage pattern `tool.py (--encrypt | --decrypt) <filename>`. Ensure the program prints an error if both or neither are provided (Docopt should handle this automatically).
 
 ## Further Reading

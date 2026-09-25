@@ -88,19 +88,19 @@ source "amazon-ebs" "ubuntu-dev-aws" {
 
 By adding this to the `sources` list in the `build` block, Packer will launch instances in both GCP and AWS and provision them identically.
 
-## Exercises
+## Assignments
 
-!!! assignment "Exercise 1: Packer Installation"
+!!! assignment "Assignment 1: Packer Installation"
     Install Packer on your local machine and verify the installation by running `packer version`.
 
-!!! assignment "Exercise 2: Image Creation"
+!!! assignment "Assignment 2: Image Creation"
     Using a provider of your choice (VirtualBox, AWS, or GCP), create a Packer template that builds an Ubuntu 22.04 image with the following installed:
     1. `git`
     2. `curl`
     3. `python3-pip`
 
-!!! assignment "Exercise 3: Multi-Cloud Strategy"
+!!! assignment "Assignment 3: Multi-Cloud Strategy"
     Research how to use **Ansible** as a Packer provisioner instead of simple shell scripts. Write a short paragraph explaining the advantages of using a configuration management tool over shell scripts for image building.
 
-!!! assignment "Exercise 4: Image Validation"
+!!! assignment "Assignment 4: Image Validation"
     After building your image, launch a VM from that image and verify that all the software specified in your Packer template is present and correctly configured.

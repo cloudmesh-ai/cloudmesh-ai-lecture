@@ -281,13 +281,13 @@ curl http://localhost:8000/
     - [ ] `authorized_keys` injected into the backend server.
     - [ ] Team members configured `~/.ssh/config` with ProxyJump.
 
-!!! note "Exercise 1: Basic Modification"
+!!! note "Assignment 1: Basic Modification"
     Modify the template to add a second backend server (a replica) and ensure both are accessible through the same Bastion host.
 
-!!! note "Exercise 2: Network Hardening"
+!!! note "Assignment 2: Network Hardening"
     Change the `allowed_admin_cidr` to a specific IP instead of a range and verify that only that IP can SSH into the Bastion.
 
-!!! note "Exercise 3: Advanced Configuration"
+!!! note "Assignment 3: Advanced Configuration"
     Implement a load balancer (OS::Neutron::LBaaS) between the Bastion and the backend servers to distribute API traffic.
 
 ## Further Reading & Resources

@@ -104,13 +104,13 @@ These tools are optimized for a single provider and often support new features t
 ??? question "How do I identify the appropriate IaC tool for a specific cloud provider?"
     Depending on the needs, you can choose **Cloud-Specific tools** (like AWS CloudFormation, Azure ARM, or Google Deployment Manager) for deep integration and immediate support for new provider features, or **Cloud-Agnostic tools** (like Terraform) to maintain a consistent workflow and toolset across multiple cloud vendors.
 
-!!! note "Exercise 1: Procedural vs Declarative"
+!!! note "Assignment 1: Procedural vs Declarative"
     Write a simple shell script (procedural) to create a directory and a file. Now, explain why this script is NOT idempotent (what happens if you run it a second time?). Propose how a declarative tool would handle the same task.
 
-!!! note "Exercise 2: Designing a Multi-Cloud Strategy"
+!!! note "Assignment 2: Designing a Multi-Cloud Strategy"
     You are tasked with deploying a web app to both AWS and Azure for high availability. List the components you would need to define in your IaC (e.g., VPC, VM, Load Balancer). Discuss whether you would use cloud-specific tools or a tool like Terraform, and justify your choice.
 
-!!! note "Exercise 3: Audit for Environment Drift"
+!!! note "Assignment 3: Audit for Environment Drift"
     Imagine you have a production server that was configured manually two years ago. Describe a strategy to bring this server under IaC management without causing downtime. (Hint: Think about "importing" existing state).
 
 ## Further Reading

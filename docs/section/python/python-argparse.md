@@ -314,43 +314,44 @@ parser = argparse.ArgumentParser(
 
 ---
 
-## Self‑Assessment
-!!! tip "Self‑Assessment"
+## Self Assessment
+
+??? question "Self Assessment"
     Test your knowledge by answering the questions below.
 
-??? question "What is the primary advantage of using `argparse` over writing your own `sys.argv` parsing logic?"
-    `argparse` automatically handles type conversion, default values, help generation, and clear error messages, removing the need for repetitive boilerplate code.
+    ??? question "What is the primary advantage of using `argparse` over writing your own `sys.argv` parsing logic?"
+        `argparse` automatically handles type conversion, default values, help generation, and clear error messages, removing the need for repetitive boilerplate code.
 
-??? question "How do you declare an optional flag that does **not** take a value but merely toggles a Boolean?"
-    Use `action='store_true'` (or `action='store_false'`) in `add_argument`. Example: `parser.add_argument('-v', '--verbose', action='store_true')`.
+    ??? question "How do you declare an optional flag that does **not** take a value but merely toggles a Boolean?"
+        Use `action='store_true'` (or `action='store_false'`) in `add_argument`. Example: `parser.add_argument('-v', '--verbose', action='store_true')`.
 
-??? question "Explain how sub‑commands are created with `argparse`. What method is used, and how do you bind a function to a sub‑command?"
-    Call `parser.add_subparsers()` to obtain a sub‑parser object, then `add_parser()` for each sub‑command. Use `set_defaults(func=callback)` on each sub‑parser; after parsing, call `args.func(args)`.
+    ??? question "Explain how sub‑commands are created with `argparse`. What method is used, and how do you bind a function to a sub‑command?"
+        Call `parser.add_subparsers()` to obtain a sub‑parser object, then `add_parser()` for each sub‑command. Use `set_defaults(func=callback)` on each sub‑parser; after parsing, call `args.func(args)`.
 
-??? question "What happens when a user supplies an invalid value for an argument that has `type=int`?"
-    `argparse` catches the `ValueError`, prints an error like `argument -c/--count: invalid int value: 'abc'`, shows the usage line, and exits with status 2.
+    ??? question "What happens when a user supplies an invalid value for an argument that has `type=int`?"
+        `argparse` catches the `ValueError`, prints an error like `argument -c/--count: invalid int value: 'abc'`, shows the usage line, and exits with status 2.
 
-??? question "How can you ensure that two optional arguments cannot be used together?"
-    Place them in a mutually exclusive group via `parser.add_mutually_exclusive_group()` and add the arguments to that group.
+    ??? question "How can you ensure that two optional arguments cannot be used together?"
+        Place them in a mutually exclusive group via `parser.add_mutually_exclusive_group()` and add the arguments to that group.
 
 ---
 
-## Practical Exercises
+## Assignments
 
-!!! note "Exercise 1 – Simple Greeter"
+!!! note "Assignment 1 – Simple Greeter"
     Write a script `greeter.py` that:
 
     - Accepts a **positional** `name`.
     - Has an optional `--formal` flag (`action='store_true'`).
     - Prints `"Good day, <name>"` when `--formal` is present, otherwise `"Hi, <name>!"`.
 
-!!! note "Exercise 2 – File Utility with Sub‑Commands"
+!!! note "Assignment 2 – File Utility with Sub‑Commands"
     Build a CLI called `filetool.py` with a **sub‑command group**:
 
     1. `write <filename> <text>` – writes `text` to `filename`.
     2. `read <filename>` – prints the file contents, handling `FileNotFoundError` gracefully and exiting with a user‑friendly message.
 
-!!! note "Exercise 3 – System Monitor with Prompted Credentials"
+!!! note "Assignment 3 – System Monitor with Prompted Credentials"
     Create `monitor.py` that:
 
     - Requires `--user` (username) and `--pass` (password) options.

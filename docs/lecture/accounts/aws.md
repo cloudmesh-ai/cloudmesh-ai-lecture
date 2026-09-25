@@ -3,7 +3,7 @@
 !!! warning "Draft"
     This guide is to be completed by students of the class who have chosen to use Amazon Web Services (AWS) for their cloud environment. It has not yet been tested.
 
-To participate in the course exercises using AWS, you will need an AWS account. We recommend using the **AWS Free Tier** to avoid costs.
+To participate in the course Assignments using AWS, you will need an AWS account. We recommend using the **AWS Free Tier** to avoid costs.
 
 ## Step-by-Step Setup Process
 
@@ -30,7 +30,7 @@ To ensure you stay within the Free Tier and avoid unexpected charges:
 - **Monitor Usage**: Use the [AWS Billing Dashboard](https://console.aws.amazon.com/billing/home) to track your usage.
 - **Set Billing Alarms**: Create a billing alarm in AWS Budgets to notify you via email when your spending exceeds a small threshold (e.g., $1).
 - **Stick to Free Eligible Resources**: When launching instances, always look for the **"Free tier eligible"** label (e.g., `t2.micro` or `t3.micro` depending on the region).
-- **Clean Up**: Always terminate instances, delete volumes, and remove elastic IPs when you are finished with an exercise.
+- **Clean Up**: Always terminate instances, delete volumes, and remove elastic IPs when you are finished with an Assignment.
 
 ## After Setup
 
@@ -64,7 +64,7 @@ Once your account is active:
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 
-    ??? question "What is the recommended way to avoid costs when using AWS for course exercises?"
+    ??? question "What is the recommended way to avoid costs when using AWS for course Assignments?"
         Use the **AWS Free Tier** and always look for the 'Free tier eligible' label when selecting resources (e.g., `t2.micro` or `t3.micro`).
 
     ??? question "Why is it a best practice to create an IAM User instead of using the Root account for daily tasks?"

@@ -212,19 +212,19 @@ For those who prefer to stay within the terminal, tools such as `tldr` (simplifi
     - [ ] Utilized CLI-based tools (`tldr`, `cheat.sh`) for rapid command lookups.
     - [ ] Evaluated whether the task requires the determinism of a refcard or the synthesis of an LLM.
 
-!!! note "Exercise 1: Command Identification"
+!!! note "Assignment 1: Command Identification"
 
     **Task**: Use the provided Linux and Vim reference cards to identify the command for deleting a line in Vim and the Linux command for checking disk usage.
     **Goal**: Practice rapid information retrieval using condensed references.
 
-!!! note "Exercise 2: Syntax Comparison"
+!!! note "Assignment 2: Syntax Comparison"
 
     **Task**: Compare the provided Python 3 memento with a generic Python reference. Identify one feature or syntax rule that is present in one but missing in the other.
     **Goal**: Develop the ability to evaluate the completeness and accuracy of different reference sources.
 
-!!! note "Exercise 3: Personalized Reference Creation"
+!!! note "Assignment 3: Personalized Reference Creation"
 
-    **Task**: Based on the exercises performed in previous chapters, create a one-page markdown reference card containing the five most useful commands for text processing (sed, awk, etc.) and the five most useful commands for GPU deployment.
+    **Task**: Based on the Assignments performed in previous chapters, create a one-page markdown reference card containing the five most useful commands for text processing (sed, awk, etc.) and the five most useful commands for GPU deployment.
     **Goal**: Implement a personalized knowledge management system.
 
 

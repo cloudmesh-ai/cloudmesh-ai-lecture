@@ -321,7 +321,7 @@ The `scope="session"` setting on the `docker_service` fixture is critical; it en
     - [ ] I am aware of common pitfalls (test order dependence, hard-coded secrets) and how to mitigate them.
     - [ ] I can extend the suite to include integration and end-to-end tests that run inside Docker containers.
 
-!!! note "Exercise 1: Basic Unit Tests"
+!!! note "Assignment 1: Basic Unit Tests"
 
 
 ## Self-Assessment
@@ -339,8 +339,8 @@ The `scope="session"` setting on the `docker_service` fixture is critical; it en
 
     Create a simple Python module `math_utils.py` with functions for `multiply` and `power`. Write a corresponding `test_math_utils.py` using `pytest` to verify the correct output for basic positive and negative integers.
 
-!!! note "Exercise 2: Parametrized Testing"
+!!! note "Assignment 2: Parametrized Testing"
     Expand your `math_utils.py` to include a function that checks if a number is prime. Use `@pytest.mark.parametrize` to test this function with at least 10 different inputs, including prime numbers, composite numbers, and edge cases (e.g., 0, 1, and negative numbers).
 
-!!! note "Exercise 3: Mocking and Integration"
+!!! note "Assignment 3: Mocking and Integration"
     Create a function that fetches data from a public API (e.g., JSONPlaceholder). Write a test using `pytest-mock` to mock the `requests.get` call, simulating both a successful 200 OK response and a 404 Not Found error to verify your function's error handling.

@@ -195,15 +195,14 @@ Here are the most useful `utmctl` commands for daily management:
 ??? question "How can you manage UTM virtual machines from the command line?"
     You can use the `utmctl` utility, located at `/Applications/UTM.app/Contents/MacOS/utmctl`, to perform tasks like starting, stopping, and listing VMs without using the GUI.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Native Virtualization"
+## Assignments
+!!! note "Assignment 1: Basic Native Virtualization"
     Install UTM and create a new virtual machine using the "Virtualize" option. Use a native ARM64 Linux ISO (such as Ubuntu Server) to install the OS. Boot the VM and verify that it runs with native performance.
 
-!!! note "Exercise 2: Cross-Architecture Emulation"
-    Create a second virtual machine using the "Emulate" option. Choose an x86_64 architecture and boot a lightweight Linux distribution. Compare the boot time and general responsiveness of this VM against the virtualized VM from Exercise 1.
+!!! note "Assignment 2: Cross-Architecture Emulation"
+    Create a second virtual machine using the "Emulate" option. Choose an x86_64 architecture and boot a lightweight Linux distribution. Compare the boot time and general responsiveness of this VM against the virtualized VM from Assignment 1.
 
-!!! note "Exercise 3: Host-Guest Integration"
+!!! note "Assignment 3: Host-Guest Integration"
     In the settings of your Linux VM, configure a shared directory that points to a folder on your macOS desktop. Inside the Linux guest, mount the shared folder and create a text file. Verify that the file appears instantly on your macOS desktop.
 
 !!! note "Assignment: Hosting a Web Service"

@@ -224,15 +224,14 @@ A successful response should return a JSON object containing the skill output wi
     - [ ] Integration verified via Custom Endpoint or Tool calling.
     - [ ] End-to-end flow from Web UI to local skill verified via `curl`.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Wrapper Deployment"
+## Assignments
+!!! note "Assignment 1: Basic Wrapper Deployment"
     Deploy the provided FastAPI wrapper for an existing skill (e.g., `lecture_builder`). Use `curl` to send a request and verify that the output is wrapped in the correct OpenAI response schema.
 
-!!! note "Exercise 2: Multi-Skill Dispatcher"
+!!! note "Assignment 2: Multi-Skill Dispatcher"
     Modify the `chat_completions` route in the FastAPI app to handle multiple skills. Use the `model` field in the request to determine which script in the `skills/` directory should be executed.
 
-!!! note "Exercise 3: Full Tool Integration"
+!!! note "Assignment 3: Full Tool Integration"
     Define a custom tool in JetStream using a JSON schema. Implement the corresponding `/function/` endpoint in your FastAPI app and verify that clicking "Run tool" in the UI generates the correct lecture outline.
 
 ## Further Reading

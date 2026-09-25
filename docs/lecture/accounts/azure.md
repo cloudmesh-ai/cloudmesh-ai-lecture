@@ -3,7 +3,7 @@
 !!! warning "Draft"
     This guide is to be completed by students of the class who have chosen to use Microsoft Azure for their cloud environment. It has not yet been tested.
 
-To participate in the course exercises using Azure, you will need an Azure account. We recommend using the **Azure Free Account** and the **Azure for Students** offer.
+To participate in the course Assignments using Azure, you will need an Azure account. We recommend using the **Azure Free Account** and the **Azure for Students** offer.
 
 ## Step-by-Step Setup Process
 
@@ -25,7 +25,7 @@ To avoid unexpected charges:
 - **Use the Cost Management + Billing Tool**: Monitor your spending and remaining credits via the [Azure Portal](https://portal.azure.com/).
 - **Set Budget Alerts**: Create a budget in the **Cost Management** section to receive notifications when your spending reaches a certain percentage of your budget.
 - **Select Free Services**: Choose services labeled as **"Free for 12 months"** or **"Always free"** when creating resources.
-- **Clean Up**: Delete resource groups when you are finished with an exercise to ensure all associated resources are removed.
+- **Clean Up**: Delete resource groups when you are finished with an Assignment to ensure all associated resources are removed.
 
 ## After Setup
 

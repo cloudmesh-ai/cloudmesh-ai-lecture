@@ -373,7 +373,7 @@ $ pyenv ANA
 
 However, anaconda may modify your `.bashrc` or `.bash_profile` or or `.zprofile` files and may result in incompatibilities with other python versions. For this reason, we recommend not to use it. If you find ways to get it to work reliably with other versions, please let us know and we update this tutorial.
 
-## Exercises
+## Assignments
 
 E.Python.Install.1:
 

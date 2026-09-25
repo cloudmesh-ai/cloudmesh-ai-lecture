@@ -204,13 +204,13 @@ echo "VM $VM_NAME is now running headlessly."
 ??? question "How can you automate VM deployment in VirtualBox?"
     Automation is achieved by wrapping `VBoxManage` commands into shell scripts. These scripts can handle the entire lifecycle: creating the VM, allocating resources (CPU/RAM), creating and attaching virtual disks, and configuring the network, ensuring consistent and repeatable environment setup.
 
-!!! note "Exercise 1: Basic Setup"
+!!! note "Assignment 1: Basic Setup"
     Install Ubuntu Desktop on your computer using VirtualBox (GUI). Install Guest Additions and configure bidirectional copy-paste. Verify that you can move text between your host OS and the guest VM.
 
-!!! note "Exercise 2: CLI Configuration"
+!!! note "Assignment 2: CLI Configuration"
     Using `VBoxManage`, create a new VM named "Study-VM" with 2GB of RAM. Create a 10GB VDI disk, attach it to a SATA controller, and start the VM in headless mode.
     Verify it is registered using `VBoxManage list vms`.
 
-!!! note "Exercise 3: Infrastructure Automation"
+!!! note "Assignment 3: Infrastructure Automation"
     Write a bash script that creates and starts two identical VMs ("Node-1" and "Node-2") headlessly, each with 512MB of RAM. Ensure the script cleans up any existing VMs with those names before starting to avoid registration errors.
 

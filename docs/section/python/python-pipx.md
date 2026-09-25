@@ -119,17 +119,17 @@ By using `-e .`, the `cloudmesh-ai-llm` package is linked to the current directo
 ??? question "What is an 'editable install' (`pip install -e .`) and why is it critical for development?"
     An editable install links the installed package to the source code directory rather than copying the files. This allows developers to see the effects of code changes immediately without having to re-install the package.
 
-!!! note "Exercise 1: Application Isolation"
+!!! note "Assignment 1: Application Isolation"
 
     **Task**: Use `pipx` to install a common Python-based CLI tool (e.g., `black` or `httpie`). Verify that the tool is available globally but that its dependencies are not visible in your current `pyenv` or global `pip list`.
     **Goal**: Confirm the isolation mechanism of `pipx`.
 
-!!! note "Exercise 2: OpenStack CLI Setup"
+!!! note "Assignment 2: OpenStack CLI Setup"
 
     **Task**: Install the `python-openstackclient` using the steps in this chapter. Run `openstack --version` to verify installation, then check if `oslo.config` is present in your project's `pip list`.
     **Goal**: Verify that the application is functional while remaining isolated from the development environment.
 
-!!! note "Exercise 3: Editable Mode Verification"
+!!! note "Assignment 3: Editable Mode Verification"
 
     **Task**: In the `cloudmesh-ai-llm` project, add a simple print statement to one of the main functions. Execute the tool and verify the print statement appears without running `pip install` again.
     **Goal**: Demonstrate the efficiency of editable installs for rapid development.

@@ -130,15 +130,14 @@ By combining Lima with Apptainer, macOS developers can build and test high-perfo
 ??? question "Why is Lima useful for deploying software like Apptainer on macOS?"
     Because Lima provides a full Linux kernel, it allows macOS developers to install and run Linux-only software like Apptainer locally, which is critical for building and testing HPC containers.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Instance Setup"
+## Assignments
+!!! note "Assignment 1: Basic Instance Setup"
     Install Lima and QEMU. Launch a default Ubuntu instance. Use `limactl shell` to enter the VM and run `uname -a` to verify that you are running a Linux kernel on your Mac.
 
-!!! note "Exercise 2: Resource and Lifecycle Management"
+!!! note "Assignment 2: Resource and Lifecycle Management"
     Create a new instance named "test-vm". Use `limactl list` to verify its status. Stop the instance, then restart it. Finally, delete the instance to clean up your environment.
 
-!!! note "Exercise 3: Development Workflow Simulation"
+!!! note "Assignment 3: Development Workflow Simulation"
     1. Create a directory on your macOS desktop called `lima-test`.
     2. Create a simple text file inside that directory.
     3. Launch a Lima instance and enter the shell.

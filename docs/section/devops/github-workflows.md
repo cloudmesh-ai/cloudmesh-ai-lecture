@@ -153,10 +153,10 @@ Never hardcode API keys or passwords in your YAML files. Use **GitHub Secrets**:
 ??? question "How do I securely manage credentials using GitHub Secrets?"
     Credentials should be stored in **GitHub Secrets** (found in repository settings). These are encrypted and not visible in the YAML file. They are accessed using the \`${{ secrets.SECRET_NAME }}\` syntax, and GitHub automatically masks them in the workflow logs to prevent accidental exposure.
 
-!!! note "Exercise 1: The Linting Guard"
+!!! note "Assignment 1: The Linting Guard"
     Create a GitHub Actions workflow for a repository that prevents a Pull Request from being merged if the code doesn't pass a linter check (e.g., \`black\` or \`flake8\`).
 
-!!! note "Exercise 2: The Image Factory"
+!!! note "Assignment 2: The Image Factory"
     Design a workflow that builds a Docker image only when a new **Tag** (e.g., \`v1.0.0\`) is pushed to the repository, and then pushes that tagged image to a container registry.
 
 ---

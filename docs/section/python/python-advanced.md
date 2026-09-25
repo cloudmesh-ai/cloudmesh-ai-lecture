@@ -223,7 +223,7 @@ for i in range(10):
     - Used `PriorityQueue` to handle critical tasks ahead of routine maintenance.
     - Utilized `deque` for efficient memory management in streaming data scenarios.
 
-!!! note "Exercise 1: Concurrent Health Checker"
+!!! note "Assignment 1: Concurrent Health Checker"
 
 
 ## Self-Assessment
@@ -241,8 +241,8 @@ for i in range(10):
 
     Write a script that takes a list of 10 server IP addresses and checks if port 80 is open on each. Use `concurrent.futures.ThreadPoolExecutor` to perform these checks concurrently and print the results.
 
-!!! note "Exercise 2: Async API Aggregator"
+!!! note "Assignment 2: Async API Aggregator"
     Use `asyncio` and `aiohttp` to fetch data from three different public APIs simultaneously. Implement a timeout of 2 seconds for each request and ensure the script continues even if one of the APIs fails.
 
-!!! note "Exercise 3: Cloud Task Orchestrator"
+!!! note "Assignment 3: Cloud Task Orchestrator"
     Develop a system that accepts tasks with different priority levels (High, Medium, Low). Use a `PriorityQueue` to manage the tasks and a `ThreadPoolExecutor` to process them. Ensure that all "High" priority tasks are completed before any "Low" priority tasks begin.

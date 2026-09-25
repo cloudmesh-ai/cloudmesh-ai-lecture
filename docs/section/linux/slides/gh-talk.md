@@ -250,11 +250,11 @@ Mastering these five patterns removes the friction between writing code and mana
 
 ---
 
-## Practical Exercises
+## Assignments
 1. **Basic Setup**: Install `gh` $\rightarrow$ `auth login` $\rightarrow$ `auth status`
 2. **The PR Cycle**: `repo fork` $\rightarrow$ `repo clone` $\rightarrow$ Modify $\rightarrow$ `pr create`
 3. **Issue Lifecycle**: `issue create` $\rightarrow$ `issue list` $\rightarrow$ `issue close`
 
 <!-- speaker notes
-For Exercise 2, pay attention to the branch you are on when creating the PR. For Exercise 3, try using the --title and --body flags to avoid the interactive prompt.
+For Assignment 2, pay attention to the branch you are on when creating the PR. For Assignment 3, try using the --title and --body flags to avoid the interactive prompt.
 -->

@@ -67,11 +67,11 @@ Once the artifact is deployed to production, the focus shifts to operational exc
 ??? question "How does monitoring data influence the development planning process?"
     Monitoring data provides a real-world feedback loop. Instead of relying on assumptions, teams use production metrics (e.g., \"checkout failures\" or \"API latency\") to inform the **Planning** stage of the next cycle, allowing them to prioritize the most impactful optimizations and bug fixes based on actual user experience.
 
-!!! note "Exercise 1: Pipeline Mapping"
+!!! note "Assignment 1: Pipeline Mapping"
     Draw a diagram of a CI/CD/CM pipeline for a hypothetical web application. Label each stage and identify at least one tool (e.g., GitHub Actions, Prometheus, Jenkins) that could be used to automate that stage.
 
-!!! note "Exercise 2: Monitoring Strategy"
+!!! note "Assignment 2: Monitoring Strategy"
     You are deploying a microservice that experiences high spikes in traffic every Monday morning. Describe how you would implement "Continuous Monitoring" to detect these spikes and how "Continuous Improvement" would use this data to adjust the infrastructure.
 
-!!! note "Exercise 3: Analyzing Deployment Risks"
+!!! note "Assignment 3: Analyzing Deployment Risks"
     Compare a manual deployment process (where a developer SSHs into a server to update code) with a CI/CD process. List three specific risks associated with the manual process and explain how a CI/CD pipeline mitigates each risk.

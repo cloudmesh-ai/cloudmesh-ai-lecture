@@ -213,7 +213,7 @@ print(f"Pandas Sum: {pandas_sum}, Dask Sum: {dask_sum}")
     - Implemented custom text parsers using regex for semi-structured files.
     - Transitioned from Pandas to Dask for larger-than-memory datasets.
 
-!!! note "Exercise 1: Data Exploration"
+!!! note "Assignment 1: Data Exploration"
 
 
 ## Self-Assessment
@@ -231,8 +231,8 @@ print(f"Pandas Sum: {pandas_sum}, Dask Sum: {dask_sum}")
 
     Download a public dataset from data.gov. Use Pandas to load the data, identify columns with the most missing values, and generate a histogram for one of the numerical columns.
 
-!!! note "Exercise 2: Custom Log Parser"
+!!! note "Assignment 2: Custom Log Parser"
     Write a tool that parses a system log file. The tool should identify all lines containing "ERROR" or "CRITICAL", extract the timestamp, and output the results to a CSV file.
 
-!!! note "Exercise 3: Dask Performance Study"
+!!! note "Assignment 3: Dask Performance Study"
     Create a large CSV file (e.g., 1 million rows). Implement the same aggregation logic (e.g., mean of a column) using both Pandas and Dask. Measure the execution time and memory usage for both and report the findings.

@@ -163,15 +163,14 @@ qemu-system-arm -kernel ./kernel-qemu-4.4.34-jessie \
 ??? question "Why is hardware acceleration (like KVM or WHPX) critical for QEMU performance?"
     Without acceleration, QEMU must emulate every CPU instruction in software, which is extremely slow. Acceleration offloads these instructions to the physical CPU, enabling near-native execution speeds.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Virtualization"
+## Assignments
+!!! note "Assignment 1: Basic Virtualization"
     Install QEMU on your system. Create a 10GB `qcow2` disk image. Download a lightweight Linux ISO (such as Alpine Linux) and boot it using QEMU. Verify that you can reach the shell.
 
-!!! note "Exercise 2: Full System Deployment"
+!!! note "Assignment 2: Full System Deployment"
     Deploy a full Ubuntu Server installation. Allocate 4GB of RAM and 4 CPU cores. Ensure that KVM acceleration is enabled and verify that the VM has internet access by pinging a public DNS server (e.g., 8.8.8.8).
 
-!!! note "Exercise 3: Cross-Platform Testing"
+!!! note "Assignment 3: Cross-Platform Testing"
     Obtain a Raspberry Pi OS image and a compatible QEMU ARM kernel. Emulate the ARM architecture and boot the image. Run `uname -m` inside the VM to verify that the system reports an ARM architecture despite running on an x86 host.
 
 ## Further Reading

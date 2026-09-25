@@ -189,7 +189,6 @@ These tools allow multiple independent processes (potentially on different serve
     - Chose `collections.deque` for high-performance, single-threaded queue operations.
     - Identified when to transition from in-memory queues to distributed brokers like RabbitMQ or SQS.
 
-!!! note "Exercise 1: Basic Task Processor"
 
 
 ## Self-Assessment
@@ -205,13 +204,17 @@ These tools allow multiple independent processes (potentially on different serve
 ??? question "When should a developer transition from an in-memory queue to a distributed broker like RabbitMQ or Amazon SQS?"
     When the system needs to scale beyond a single machine, requires persistence (so tasks aren't lost on crash), or needs to coordinate task execution across multiple independent servers.
 
-    Write a Python script that uses a `queue.Queue` to process a list of 10 filenames. A worker thread should "process" each file by printing \"Processing [filename]...\" and sleeping for 0.1 seconds.
+## Assignments
 
-!!! note "Exercise 2: Priority Alert System"
+!!! note "Assignment 1: Basic Task Processor"
+    Write a Python script that uses a `queue.Queue` to process a list of 10 filenames. A worker thread should "process" each file by printing "Processing [filename]..." and sleeping for 0.1 seconds.
+
+
+!!! note "Assignment 2: Priority Alert System"
     Implement a cloud alert processor using `queue.PriorityQueue`. The system should accept alerts with priorities 1 (Critical), 2 (Warning), and 3 (Info). Ensure that regardless of arrival order, all Critical alerts are processed before any Warning or Info alerts.
 
-!!! note "Exercise 3: Cloud Image Deployment Pipeline"
+!!! note "Assignment 3: Cloud Image Deployment Pipeline"
     Develop a multi-producer, multi-consumer system. 
-    1. Create two producer threads that generate "Image Build" tasks (e.g., \"Ubuntu-22.04\", \"CentOS-9\").
+    1. Create two producer threads that generate "Image Build" tasks (e.g., "Ubuntu-22.04", "CentOS-9").
     2. Create three consumer threads that "build" these images.
     3. Implement a graceful shutdown mechanism where the producers signal completion and the consumers exit only after the queue is empty.

@@ -184,18 +184,17 @@ Once launched, the user remains inside `my-shell >` and can execute `hello` or `
 ??? question "How do you implement a persistent interactive shell for a set of Click commands?"
     Install the `click-shell` extension and replace `@click.group()` with the `@shell` decorator.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Greeting Tool"
+## Assignments
+!!! note "Assignment 1: Basic Greeting Tool"
     Create a CLI tool called `greeter.py`. It should have one argument (`name`) and one option (`--formal`, a boolean flag). If `--formal` is present, the tool should output "Good day, [name]". Otherwise, it should output "Hi, [name]!".
 
-!!! note "Exercise 2: Simple File Utility"
+!!! note "Assignment 2: Simple File Utility"
     Build a CLI with a group called `filetool`. Implement two subcommands:
     1. `write`: Takes a filename (argument) and text (argument) and writes the text to the file.
     2. `read`: Takes a filename (argument) and prints the content to the console.
     Ensure that the `read` command handles the case where the file does not exist.
 
-!!! note "Exercise 3: System Monitor Shell"
+!!! note "Assignment 3: System Monitor Shell"
     Using `click-shell`, create an interactive shell called `sysmon`. Implement two commands:
     1. `cpu`: Displays the current CPU usage (use the `psutil` library if available, or a mock value).
     2. `mem`: Displays the current memory usage.

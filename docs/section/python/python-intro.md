@@ -92,17 +92,17 @@ In production environments, bloated distributions like Anaconda are typically av
     - [ ] Understands the rationale for using `venv` or `pyenv` over global installations.
     - [ ] Knows how to select an appropriate IDE for professional development.
 
-!!! note "Exercise 1: Basic Syntax and Execution"
+!!! note "Assignment 1: Basic Syntax and Execution"
 
     **Task**: Write a Python script that defines a list of three cloud providers (e.g., "AWS", "Azure", "GCP") and uses a `for` loop to print each provider's name in uppercase.
     **Goal**: Practice basic data structures and loop syntax.
 
-!!! note "Exercise 2: Standard Library Exploration"
+!!! note "Assignment 2: Standard Library Exploration"
 
     **Task**: Use the `os` and `sys` modules to write a script that prints the current working directory and the Python version currently being used by the interpreter.
     **Goal**: Implement basic system-level interactions using the standard library.
 
-!!! note "Exercise 3: Environment Setup"
+!!! note "Assignment 3: Environment Setup"
 
     **Task**: Create a new directory, initialize a virtual environment using `python -m venv venv`, activate it, and install the `requests` library from PyPI. Verify the installation using `pip list`.
     **Goal**: Implement a professional, isolated development workflow.

@@ -131,17 +131,16 @@ After exiting the VM (`exit`), you can manage the state of the machine from your
 ??? question "How do synced folders help developers in a Vagrant workflow?"
     Synced folders map a host directory to a guest directory, allowing developers to use their preferred IDE on the host while the code executes within the isolated, production-like environment of the VM.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Environment Verification"
+## Assignments
+!!! note "Assignment 1: Environment Verification"
     Install Vagrant and VirtualBox. Initialize an Ubuntu 22.04 (`ubuntu/jammy64`) instance. Use `vagrant ssh` to enter the machine and run `lsb_release -a` to verify the OS version.
 
-!!! note "Exercise 2: Lifecycle and Provisioning"
+!!! note "Assignment 2: Lifecycle and Provisioning"
     Perform the following sequence of operations:
     1. Use `vagrant halt` to shut down the machine, then `vagrant status` to verify.
     2. Use `vagrant up` to restart it.
     3. SSH into the VM and install the `htop` system monitor using `sudo apt update && sudo apt install htop -y`.
     4. Use `vagrant suspend` and then `vagrant resume` to verify the state is preserved.
 
-!!! note "Exercise 3: Configuration as Code"
+!!! note "Assignment 3: Configuration as Code"
     Open the `Vagrantfile` in a text editor. Find the provider configuration section for VirtualBox. Modify the configuration to increase the VM's RAM to 2048MB. Save the file and run `vagrant reload` to apply the changes. Verify the new memory limit inside the VM using the `free -m` command.

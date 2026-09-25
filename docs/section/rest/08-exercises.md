@@ -1,11 +1,11 @@
-# 8. Exercises & Assignments
+# 8. Assignments
 
 !!! info "Instructions"
-    Complete these exercises to apply the concepts learned in this tutorial. Submit your solutions as a GitHub repository containing your code, tests, and documentation.
+    Complete these Assignments to apply the concepts learned in this tutorial. Submit your solutions as a GitHub repository containing your code, tests, and documentation.
 
 ---
 
-!!! note "Assignment 1: Design Exercise"
+!!! note "Assignment 1: Design Assignment"
     **Task**: Create a resource model for a simple e‑commerce system (Products, Orders, Customers). 
     - Sketch the URI hierarchy.
     - List the HTTP methods you would expose for each resource.

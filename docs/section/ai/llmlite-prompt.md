@@ -57,11 +57,11 @@ To handle varying loads, LLMlite can integrate with a monitoring system that dyn
     - [ ] I can identify the benefits of using a local model versus a cloud model for specific tasks.
     - [ ] I understand how dynamic scaling ensures high availability in LLM applications.
 
-!!! note "Exercise 1: Routing Logic"
+!!! note "Assignment 1: Routing Logic"
     Design a routing table for an AI assistant. Define three categories of prompts (Simple, Complex, Private) and specify which LLM backend (Local Ollama, Cloud GPT-4, or HPC vLLM) should handle each, including the reason for your choice.
 
-!!! note "Exercise 2: Evaluating Response Quality"
+!!! note "Assignment 2: Evaluating Response Quality"
     You have received three different answers to the same technical question from three different models. Describe a method (or a prompt for a "judge" model) that you would use to determine which of the three is the most accurate.
 
-!!! note "Exercise 3: Failover Strategy"
+!!! note "Assignment 3: Failover Strategy"
     Create a flow chart for a "High Availability" LLM system. What happens when the primary cloud API returns a 500 error? How does LLMlite detect this, and how does it transition the request to a local fallback model without the user noticing?

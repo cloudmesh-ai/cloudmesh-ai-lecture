@@ -110,17 +110,17 @@ In professional development, scripts should be named using meaningful, descripti
     - [ ] Navigated the `help()` documentation using the pager controls.
     - [ ] Created a `.py` file and executed it via the command line.
 
-!!! note "Exercise 1: Basic REPL Operations"
+!!! note "Assignment 1: Basic REPL Operations"
 
     **Task**: Start the Python interactive shell. Perform three different arithmetic operations (addition, multiplication, and exponentiation) and verify the results.
     **Goal**: Familiarize yourself with the basic REPL input/output flow.
 
-!!! note "Exercise 2: Object Exploration"
+!!! note "Assignment 2: Object Exploration"
 
     **Task**: Create a dictionary in the REPL (e.g., `user = {"name": "Alice", "id": 1}`). Use `type()` to verify it is a dictionary, then use `dir()` to find the method used to remove an item from a dictionary. Finally, use `help()` on that specific method to understand its arguments.
     **Goal**: Practice the introspection workflow (`type` $\rightarrow$ `dir` $\rightarrow$ `help`).
 
-!!! note "Exercise 3: Script Execution"
+!!! note "Assignment 3: Script Execution"
 
     **Task**: Write a Python script named `system_info.py` that prints the current date and time (using the `datetime` module). Execute the script from the terminal and verify the output.
     **Goal**: Transition from interactive experimentation to a persistent script file.

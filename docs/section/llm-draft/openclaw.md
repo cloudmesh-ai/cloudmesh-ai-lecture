@@ -185,17 +185,17 @@ Because agent outputs are often non-deterministic, OpenClaw developers use a sec
     - [ ] Analyzed an agent's failure mode by tracing the internal monologue.
     - [ ] Defined a success rubric for agent evaluation using the LLM-as-a-Judge pattern.
 
-!!! note "Exercise 1: Local Agent Deployment"
+!!! note "Assignment 1: Local Agent Deployment"
 
     **Task**: Install OpenClaw and connect it to a local Ollama instance running `llama3`. Configure a Discord channel and verify the agent can answer simple questions while running locally.
     **Goal**: Establish a fully local, private agentic loop.
 
-!!! note "Exercise 2: The 'Infrastructure Auditor' Skill"
+!!! note "Assignment 2: The 'Infrastructure Auditor' Skill"
 
     **Task**: Create a Tool that reads a local configuration file and a second Tool that checks if a specific network port is open. Combine these into a Skill that allows the agent to audit the local environment setup.
     **Goal**: Implement tool-chaining and environmental awareness.
 
-!!! note "Exercise 3: Secure Cross-Platform Orchestration"
+!!! note "Assignment 3: Secure Cross-Platform Orchestration"
 
     **Task**: Build a workflow where:
     1. The agent monitors a specific system log via a Tool.

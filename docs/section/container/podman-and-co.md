@@ -109,7 +109,7 @@ To understand the landscape, we must look at the **Open Container Initiative (OC
 ??? question "How do I choose between Docker and Podman based on security requirements?"
     If you are in a highly restricted environment where root access is forbidden, or if you want to minimize the host's attack surface by removing the daemon, **Podman** is the correct choice. If you are in a development environment where you need a comprehensive GUI (like Docker Desktop) and the security trade-off of a daemon is acceptable, **Docker** may be more convenient.
 
-!!! note "Exercise: The Runtime Swap"
+!!! note "Assignment: The Runtime Swap"
     1. Install both Docker and Podman on your machine.
     2. Run a simple `nginx` container using `docker run -d -p 8080:80 nginx`.
     3. Run the same container using `podman run -d -p 8080:80 nginx`.

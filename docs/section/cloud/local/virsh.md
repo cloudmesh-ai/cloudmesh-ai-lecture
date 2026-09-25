@@ -172,12 +172,11 @@ To exit the console and return to the host terminal, press `Ctrl + ]`.
 ??? question "When would you use `virsh console` instead of SSH?"
     `virsh console` is used for direct interaction with the VM's serial port, which is critical when network access (SSH) is unavailable or when troubleshooting boot-time failures.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Inspection"
+## Assignments
+!!! note "Assignment 1: Basic Inspection"
     Connect to your local hypervisor. List all virtual machines, including inactive ones. Select one VM and display its detailed resource information. Note the amount of memory allocated and the current CPU state.
 
-!!! note "Exercise 2: Lifecycle Management"
+!!! note "Assignment 2: Lifecycle Management"
     Create a test VM (or use an existing one). Perform the following sequence:
     1. Start the VM.
     2. Verify it is running using `virsh list`.
@@ -185,6 +184,6 @@ To exit the console and return to the host terminal, press `Ctrl + ]`.
     4. Forcefully stop the VM using `destroy`.
     5. Verify that the state has changed to `shut off`.
 
-!!! note "Exercise 3: Configuration Modification"
+!!! note "Assignment 3: Configuration Modification"
     Use `virsh edit` to modify the memory allocation of a VM (e.g., increase it by 512MB). Save the changes and restart the VM. Use `virsh dominfo` to verify that the new memory limit has been applied.
 

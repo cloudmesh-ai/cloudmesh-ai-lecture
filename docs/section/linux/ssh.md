@@ -315,7 +315,7 @@ graph LR
 * [The Secure Shell: The Definitive Guide, 2 Ed (O'Reilly and
   Associates)](http://shop.oreilly.com/product/9780596008956.do)
 
-## Exercises
+## Assignments
 
 !!! assignment "SSH.1 Keypair"
     Create an SSH key pair

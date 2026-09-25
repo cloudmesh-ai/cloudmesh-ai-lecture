@@ -3,7 +3,7 @@
 !!! warning "Draft"
     This guide is to be completed by students of the class who have chosen to use Google Cloud Platform (GCP) for their cloud environment. It has not yet been tested.
 
-To participate in the course exercises using GCP, you will need a Google Cloud account. We recommend using the **GCP Free Trial** and the **Always Free** tier.
+To participate in the course Assignments using GCP, you will need a Google Cloud account. We recommend using the **GCP Free Trial** and the **Always Free** tier.
 
 ## Step-by-Step Setup Process
 
@@ -25,7 +25,7 @@ To ensure you stay within the free limits and avoid charges:
 - **Monitor Credits**: Keep an eye on your free trial credits in the **Billing** section of the GCP Console.
 - **Set Budget Alerts**: Go to **Billing > Budgets & alerts** and create a budget to receive email notifications when your spending reaches a specific limit.
 - **Use "Always Free" Resources**: Select machine types that fall under the "Always Free" tier (e.g., `e2-micro` in specific US regions).
-- **Clean Up**: Delete your projects or specific instances when you are finished with an exercise to prevent ongoing costs.
+- **Clean Up**: Delete your projects or specific instances when you are finished with an Assignment to prevent ongoing costs.
 
 ## After Setup
 

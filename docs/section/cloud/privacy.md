@@ -119,7 +119,7 @@
     Test your knowledge by expanding the questions below.
 
 ??? question "True or False: Enabling encryption at rest on a cloud storage bucket automatically satisfies GDPR’s 'right to be forgotten'."
-    **False**. Encryption protects confidentiality, but it does **not** guarantee that data is fully erased from all backups, snapshots, and replicas when a user exercises their right to be forgotten.
+    **False**. Encryption protects confidentiality, but it does **not** guarantee that data is fully erased from all backups, snapshots, and replicas when a user Assignments their right to be forgotten.
 
 ??? question "Which attack vector exploits shared CPU caches in a multi-tenant environment?"
     The **Side-channel cache attack**. This occurs when co-resident VMs on the same physical hardware infer sensitive information by observing how the CPU cache is used by other tenants.

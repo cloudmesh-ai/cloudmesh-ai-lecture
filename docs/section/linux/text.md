@@ -147,17 +147,17 @@ python3 -c "import sys; [print(line.replace('\r\n', '\n'), end='') for line in s
     - [ ] Handled line ending differences (CRLF vs LF) using `tr` or `sed`.
     - [ ] Applied the correct language identifier to code blocks.
 
-!!! note "Exercise 1: Basic String Replacement"
+!!! note "Assignment 1: Basic String Replacement"
 
     **Task**: Create a text file containing the word "ENVIRONMENT=development" on multiple lines. Use `sed` to change all occurrences to "ENVIRONMENT=production".
     **Goal**: Master basic search-and-replace operations.
 
-!!! note "Exercise 2: Column Extraction"
+!!! note "Assignment 2: Column Extraction"
 
     **Task**: Use `awk` to process the output of the `ls -l` command. Extract only the file size (5th column) and the filename (9th column) for all files in the current directory.
     **Goal**: Practice field-based data extraction.
 
-!!! note "Exercise 3: Multi-file Pattern Update"
+!!! note "Assignment 3: Multi-file Pattern Update"
 
     **Task**: Write a Python one-liner that finds all `.txt` files in a directory and replaces every occurrence of the word "TODO" with "COMPLETED".
     **Goal**: Implement a multi-file update logic using Python's `glob` and `os` modules.

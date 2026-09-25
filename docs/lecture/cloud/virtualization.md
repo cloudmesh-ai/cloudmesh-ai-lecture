@@ -382,7 +382,7 @@ Note that we will not cover this topic in depth in this introductory class, but 
 
 ---
 
-## Exercises
+## Assignments
 
 !!! note "E.Virtualization.1"
     Install a virtualization framework on your local machine and experiment with it.

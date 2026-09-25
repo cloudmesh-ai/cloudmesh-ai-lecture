@@ -165,11 +165,11 @@ if __name__ == "__main__":
     - Identified strategic advantages of local deployment (privacy, latency).
     - Implemented local model serving using the LM Studio SDK.
 
-!!! note "Exercise 1: TCO Calculation"
+!!! note "Assignment 1: TCO Calculation"
     Calculate the annual TCO for a system containing two NVIDIA RTX 4090 GPUs. Assume a hardware cost of $4,000, electricity at $0.15/kWh, and $2,000 in annual support costs. Determine the cost per GPU-hour at 70% utilization.
 
-!!! note "Exercise 2: Throughput Projection"
+!!! note "Assignment 2: Throughput Projection"
     Estimate the real-world tokens per second for a 13B parameter model on a system capable of 0.5 PFLOPs. Apply the 40% real-world margin and calculate the total tokens the system can produce in a 24-hour window.
 
-!!! note "Exercise 3: Async Implementation"
+!!! note "Assignment 3: Async Implementation"
     Create a Python script using `lms.AsyncClient` that sends three different prompts to a local model concurrently and prints the results as they arrive.

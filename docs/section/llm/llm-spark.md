@@ -1,11 +1,11 @@
 # NVIDIA DGX Spark: Hardware and Operational Implementation
 
 !!! info "Learning Objectives"
-- Understand the hardware specifications of the NVIDIA DGX Spark.
-- Identify appropriate LLM workflows for single and multi-node DGX Spark deployments.
-- Calculate the operational costs and revenue potential for a DGX Spark-based service.
-- Implement a basic job submission and billing monitoring pipeline.
-- Deploy secure agents using the NemoClaw and OpenShell stack.
+    - Understand the hardware specifications of the NVIDIA DGX Spark.
+    - Identify appropriate LLM workflows for single and multi-node DGX Spark deployments.
+    - Calculate the operational costs and revenue potential for a DGX Spark-based service.
+    - Implement a basic job submission and billing monitoring pipeline.
+    - Deploy secure agents using the NemoClaw and OpenShell stack.
 
 
 
@@ -516,15 +516,14 @@ Even if you sell **only 1 000 hrs/mo**, you’d still net ~~$250 k / y
 
 Just point me at the piece you want to flesh out, and I’ll provide the code or detailed instructions.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Hardware Audit"
+## Assignments
+!!! note "Assignment 1: Hardware Audit"
  Write a Python script using `pynvml` to output the current temperature and power usage of the GB10 GPU. Compare these values under idle and load conditions.
 
-!!! note "Exercise 2: Fine-tuning Setup"
+!!! note "Assignment 2: Fine-tuning Setup"
  Configure a QLoRA fine-tuning environment for a 7B parameter model on a single DGX Spark. Document the memory usage during the first epoch to verify the efficiency of the unified memory.
 
-!!! note "Exercise 3: Cost Model Implementation"
+!!! note "Assignment 3: Cost Model Implementation"
  Implement a CLI tool that accepts `hardware_cost`, `electricity_rate`, and `target_utilization` as arguments and calculates the required hourly rate to reach breakeven within one year.
 
 

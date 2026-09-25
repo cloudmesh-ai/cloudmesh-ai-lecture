@@ -376,7 +376,7 @@ you may want to even include this handbook as a citation.
 
 
 
-Exercises
+Assignments
 ---------
 
 Report.1:

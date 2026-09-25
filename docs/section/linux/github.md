@@ -166,13 +166,12 @@ Modern IDEs integrate Git directly into their editor, reducing the need to switc
     * [ ] Use `gh` to create an issue or check PR status.
     * [ ] Resolve a merge conflict using an IDE tool.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Local Foundations"
+## Assignments
+!!! note "Assignment 1: Local Foundations"
     **Task:** Create a new folder, initialize it as a Git repository, create three different files, and commit them in two separate commits.
     **Deliverable:** Run `git log --oneline` and take a screenshot of the history.
 
-!!! note "Exercise 2: The Collaborative Loop"
+!!! note "Assignment 2: The Collaborative Loop"
     **Task:** 
     1. Fork a public repository on GitHub.
     2. Clone your fork locally.
@@ -181,7 +180,7 @@ Modern IDEs integrate Git directly into their editor, reducing the need to switc
     5. Use `gh pr create` to open a Pull Request to the original repository.
     **Deliverable:** The URL of the Pull Request.
 
-!!! note "Exercise 3: Conflict Resolution"
+!!! note "Assignment 3: Conflict Resolution"
     **Task:** 
     1. Create two branches from `main`.
     2. Modify the same line of the same file in both branches and commit.

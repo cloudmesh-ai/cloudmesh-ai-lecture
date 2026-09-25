@@ -354,25 +354,25 @@ multipass launch --name secured-web --cloud-init cloud-config.yaml
 ??? question "Why is Multipass preferred for testing cloud-init scripts locally?"
     Multipass's native support for `cloud-init` configurations makes it the ideal tool for verifying that automation scripts will work correctly before they are deployed to a production cloud environment.
 
-## Exercises
+## Assignments
 
-!!! assignment "Exercise 1: Installation & Verification"
+!!! assignment "Assignment 1: Installation & Verification"
 Install Multipass on your primary development operating system and verify functionality:
 
 ```bash
 multipass version
 ```
 
-!!! assignment "Exercise 1a: Documentation Improvement"
+!!! assignment "Assignment 1a: Documentation Improvement"
 Document any specific local firewall, proxy, or corporate VPN constraints encountered during your installation and how you routed around them.
 
-!!! assignment "Exercise 2: Multipass Concepts & 'Primary' Instance"
+!!! assignment "Assignment 2: Multipass Concepts & 'Primary' Instance"
 Research and explain the purpose and automatic creation behavior of the default "Primary" instance managed by Multipass.
 
-!!! assignment "Exercise 3: Snapcraft & Packaging"
+!!! assignment "Assignment 3: Snapcraft & Packaging"
 Explain what Snapcraft is, sandboxing limitations, and why snaps are chosen for Linux distribution of tools like Multipass.
 
-!!! assignment "Exercise 4: Bibliography & Citations"
+!!! assignment "Assignment 4: Bibliography & Citations"
 Generate BibTeX entries for all URLs referenced in this guide and append them to the project bibliography file: `multipass.bib`. Example entry format:
 
 ```bibtex
@@ -386,25 +386,25 @@ Generate BibTeX entries for all URLs referenced in this guide and append them to
 }
 ```
 
-!!! assignment "Exercise 5: Image Discovery"
+!!! assignment "Assignment 5: Image Discovery"
 Run `multipass find` and output the supported images in a structured Markdown table including columns for `Image Alias`, `Release Version`, and `Supported Architectures`.
 
-!!! assignment "Exercise 6: Advanced Cloud-Init"
+!!! assignment "Assignment 6: Advanced Cloud-Init"
 Write a complete `cloud-config` file that automatically provisions an environment capable of launching local lightweight workloads (e.g., pulling an Ollama model container on first boot).
 
-!!! assignment "Exercise 7: Kubernetes with MikroK8s"
+!!! assignment "Assignment 7: Kubernetes with MikroK8s"
 Provision a MikroK8s node inside a Multipass instance and write a 3-step verification guide confirming cluster health via `microk8s status`.
 
-!!! assignment "Exercise 8: Performance Benchmarking via Pytest"
+!!! assignment "Assignment 8: Performance Benchmarking via Pytest"
 Using the [cloudmesh-multipass](https://www.google.com/search?q=https://github.com/cloudmesh-community/cloudmesh-multipass) repository, write a `pytest` suite that measures image fetch and launch times under cold versus warm cache states. Output the results as a Markdown table containing: `Image`, `Hypervisor`, `Cache State`, `Fetch Time (s)`, `Launch Time (s)`, and `Execution Time (s)`, ensuring instances are purged between test cycles.
 
-!!! assignment "Exercise 9a: Understanding k3s"
+!!! assignment "Assignment 9a: Understanding k3s"
 Investigate [k3s.io](https://k3s.io/) and the Rancher documentation to summarize the architectural differences between standard Kubernetes and k3s for edge/local deployments.
 
-!!! assignment "Exercise 9b: Multi-Node k3s Cluster Deployment"
+!!! assignment "Assignment 9b: Multi-Node k3s Cluster Deployment"
 Implement a Cloudmesh command generator (`cloudmesh sys command generate k3s`) supporting options `--hypervisor` and `--names node[0-3]` to deploy, start, stop, purge, and delete a multi-node k3s cluster over Multipass nodes.
 
-!!! assignment "Exercise 10: ComputeNodeABC Provider Implementation"
+!!! assignment "Assignment 10: ComputeNodeABC Provider Implementation"
 Extend the Multipass provider by inheriting from the `ComputeNodeABC` abstract class in [cloudmesh-cloud](https://www.google.com/search?q=https://github.com/cloudmesh/cloudmesh-cloud). Implement core lifecycle methods (`create`, `destroy`, `stop`, `start`, `info`), parse responses via JSON, and submit your implementation via a Pull Request.
 
 ```

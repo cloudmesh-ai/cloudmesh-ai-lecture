@@ -228,10 +228,10 @@ When automating SSH, security must be the priority to prevent unauthorized acces
 ??? question "How does `RemoteExecutor` simplify remote management within the Cloudmesh AI ecosystem?"
     It provides a unified, high-level API that combines connection management and command execution, integrating with global configurations for host key trust and output monitoring.
 
-!!! note "Exercise 1: Basic Connectivity"
+!!! note "Assignment 1: Basic Connectivity"
     Write a Python script that connects to a remote server and prints the current system kernel version using the `uname -a` command. Handle the connection using a try-except block to catch authentication errors.
 
-!!! note "Exercise 2: Remote Cloud Auditor"
+!!! note "Assignment 2: Remote Cloud Auditor"
     Develop a script that performs the following tasks:
     1. Accepts a list of three remote VM IP addresses.
     2. Connects to each VM using a shared SSH private key.
@@ -239,7 +239,7 @@ When automating SSH, security must be the priority to prevent unauthorized acces
     4. Parses the output to determine the disk utilization percentage.
     5. Prints a warning message if any VM exceeds 80% disk usage.
 
-!!! note "Exercise 3: Automated Deployment Pipeline"
+!!! note "Assignment 3: Automated Deployment Pipeline"
     Implement a mini-deployment pipeline that:
     1. Connects to a remote server via SSH.
     2. Uses SFTP to upload a Python script named `app.py` to the `/tmp` directory.

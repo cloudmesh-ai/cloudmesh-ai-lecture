@@ -138,19 +138,19 @@ By setting `verify_mode` to `ssl.CERT_NONE`, the client accepts any certificate 
 ??? question "When should you use `load_verify_locations()` instead of `create_default_context()`?"
     `load_verify_locations()` is used when the server uses a private Certificate Authority (CA) or a self-signed certificate that is not present in the system's default trust store.
 
-!!! note "Exercise 1: Basic SSL Connectivity"
+!!! note "Assignment 1: Basic SSL Connectivity"
 
     **Task**: Write a script that connects to `aws.amazon.com` on port 443 and prints the SSL version and the cipher suite used for the connection.
     **Goal**: Familiarize yourself with the basic `ssl` module workflow.
 
-!!! note "Exercise 2: Multi-Endpoint Auditor"
+!!! note "Assignment 2: Multi-Endpoint Auditor"
 
     **Task**: Create a tool that takes a list of three cloud provider endpoints (e.g., `azure.microsoft.com`, `cloud.google.com`, `aws.amazon.com`) and attempts to connect to each. The script must:
     1. Print the SSL version for successful connections.
     2. Gracefully handle and log `ssl.SSLError` for any failed connections.
     **Goal**: Implement robust error handling for network-based SSL clients.
 
-!!! note "Exercise 3: Private Trust Implementation"
+!!! note "Assignment 3: Private Trust Implementation"
 
     **Task**: Simulate a private cloud environment by using a self-signed certificate. Write a client that fails to connect using `create_default_context()`, then modify it to succeed by loading the self-signed certificate using `load_verify_locations()`.
     **Goal**: Master the process of managing custom trust anchors for internal infrastructure.

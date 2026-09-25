@@ -255,21 +255,20 @@ To maintain a production-grade infrastructure, adhere to these guidelines:
     ??? question "What is the purpose of the OS::Heat::SoftwareConfig resource?"
         It is used to define the configuration logic (such as shell scripts or Ansible playbooks) that should be executed on a virtual machine after it has been provisioned.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Template Modification"
+## Assignments
+!!! note "Assignment 1: Basic Template Modification"
     **Goal:** Modify the provided `web_tier.yaml` to add a second web server.
     - Update the `resources` section to include `web_server_2`.
     - Ensure both servers are attached to the same network and security group.
     - Ensure `web_server_2` also uses the `prefix` parameter for its name.
     - Deploy the stack and verify both instances are running.
 
-!!! note "Exercise 2: Dynamic Configuration"
+!!! note "Assignment 2: Dynamic Configuration"
     **Goal:** Implement a parameter to control the number of servers.
     - Although basic HOT requires explicit resource definitions, try to use a `parameter` to change the `flavor` of the servers dynamically during stack creation.
     - Experiment with creating a template that accepts a `cidr` as a parameter for the subnet.
 
-!!! note "Exercise 3: Advanced Multi-Tier Architecture"
+!!! note "Assignment 3: Advanced Multi-Tier Architecture"
     **Goal:** Design a template for a two-tier application (Web and Database).
     - Create a private network for the database and a separate network for the web tier.
     - Ensure the database server is not accessible from the public internet.

@@ -359,8 +359,7 @@ StopWatch.benchmark(sysinfo=True)
 ??? question "How does the `@benchmark` decorator help in profiling AI utility functions?"
     The `@benchmark` decorator automatically wraps a function to track its execution time every time it is called, accumulating the results in the `StopWatch` registry without requiring manual timer placement inside the function body.
 
-## Practical Exercises
-
+## Assignments
 1. **Config Expansion**: Create a `FlatDict` with placeholders for your username and home directory, and expand them.
 2. **Remote Monitor**: Write a script that connects to a remote host, runs `nvidia-smi`, and saves the output to a local file.
 3. **Benchmarking Suite**: Create a function that simulates a heavy AI workload (e.g., a large loop) and use `StopWatch` to report the elapsed time.

@@ -212,9 +212,8 @@ gh issue close 123
     * **Pull Requests**: `gh pr create` $\rightarrow$ `gh pr checkout` $\rightarrow$ `gh pr review` $\rightarrow$ `gh pr merge`.
     * **Issues**: `gh issue create` for reporting and `gh issue list` for tracking.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Setup"
+## Assignments
+!!! note "Assignment 1: Basic Setup"
     **Task:** Install the `gh` CLI on your Linux machine, authenticate your account, and verify the connection.
     
     1. Run the installation script provided in the Installation section.
@@ -222,7 +221,7 @@ gh issue close 123
     3. Verify your status by running `gh auth status`.
     **Deliverable:** A screenshot of the terminal showing the output of `gh auth status`.
 
-!!! note "Exercise 2: The PR Cycle"
+!!! note "Assignment 2: The PR Cycle"
     **Task:** Perform a full contribution cycle from forking to PR creation.
     
     1. Find a public repository and fork it using `gh repo fork`.
@@ -232,7 +231,7 @@ gh issue close 123
     5. Verify the PR is open by running `gh pr list`.
     **Deliverable:** The URL of your created Pull Request.
 
-!!! note "Exercise 3: Issue Lifecycle"
+!!! note "Assignment 3: Issue Lifecycle"
     **Task:** Manage the lifecycle of a GitHub Issue using the CLI.
     
     1. Create a new issue in your forked repository using `gh issue create`.

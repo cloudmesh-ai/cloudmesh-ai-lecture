@@ -85,7 +85,7 @@ def generate_outline(topic, audience, duration, depth):
             "points": [
                 "Step-by-step code walkthrough",
                 "Live execution (Jupyter / REPL)",
-                "Student exercise"
+                "Student Assignment"
             ],
             "code_snippet": "# Example placeholder\nprint('Hello, data science!')"
         },
@@ -254,15 +254,14 @@ The basic template-driven approach can be expanded to create more sophisticated 
     - [ ] Skill execution verified via CLI output.
     - [ ] JSON output validated for schema consistency.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Skill Deployment"
+## Assignments
+!!! note "Assignment 1: Basic Skill Deployment"
     Implement the `lecture_builder.py` skill in a new Cline project. Run the skill using the CLI to generate an outline for a topic of your choice (e.g., "Introduction to Docker") and verify that the JSON output is correctly formatted.
 
-!!! note "Exercise 2: Modifying the Schema"
+!!! note "Assignment 2: Modifying the Schema"
     Modify the `lecture_builder.py` script to add a new command-line argument `--language` (e.g., "English", "French"). Update the `generate_outline` function to include this language in the final JSON output. Verify the change by running the skill with the new flag.
 
-!!! note "Exercise 3: JSON to Markdown Pipeline"
+!!! note "Assignment 3: JSON to Markdown Pipeline"
     Create a small Python wrapper script that calls the `lecture_builder` skill using the `subprocess` module, parses the resulting JSON, and writes it to a file named `lecture.md`. The resulting markdown file should have the topic as the `#` title and each section as a `##` heading.
 
 ## Further Reading

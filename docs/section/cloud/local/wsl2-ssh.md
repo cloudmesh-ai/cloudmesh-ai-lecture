@@ -133,15 +133,14 @@ To help you navigate between different environments, use this table as a quick r
     - [ ] Public key imported into OpenStack Horizon.
     - [ ] Successful connection verified from WSL2, PowerShell, and Git Bash.
 
-## Practical Exercises
-
-!!! note "Exercise 1: Basic Setup"
+## Assignments
+!!! note "Assignment 1: Basic Setup"
     Generate a new SSH key pair on your Windows host and verify that both `id_rsa` and `id_rsa.pub` are created in the `.ssh` folder.
 
-!!! note "Exercise 2: WSL2 Integration"
+!!! note "Assignment 2: WSL2 Integration"
     Create the symbolic link in WSL2 and use `ls -la ~/.ssh` to verify that the link correctly points to your Windows directory.
 
-!!! note "Exercise 3: Advanced Troubleshooting"
+!!! note "Assignment 3: Advanced Troubleshooting"
     Intentionally change the permissions of your `id_rsa` file to be world-readable using `chmod 777 ~/.ssh/id_rsa` and attempt to SSH into a server. Observe the "unprotected private key file" error message, then restore the permissions to `600` and verify the connection works again.
 
 ## Self-Assessment

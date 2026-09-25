@@ -220,7 +220,7 @@ Network virtualization allows hardware and software network resources as well as
 
 Note that we will not cover this topic in this introductory class.
 
-## Exercises
+## Assignments
 
 !!! note "E.Virtualization.1"
     Install a virtualization framework on your local machine and experiment with it.

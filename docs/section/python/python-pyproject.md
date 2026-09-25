@@ -174,6 +174,7 @@ line-length = 88
 profile = "black"
 ```
 
+
 !!! tip "Summary Checklist"
     - [ ] Created a `pyproject.toml` file in the project root.
     - [ ] Defined the `[build-system]` with a valid backend.
@@ -182,13 +183,15 @@ profile = "black"
     - [ ] Configured development tools under the `[tool]` section.
     - [ ] Verified the configuration using `pip install .` or a tool like `uv`.
 
-!!! note "Exercise 1: Basic Setup"
+## Assignments
+
+!!! note "Assignment 1: Basic Setup"
     Create a new directory for a project. Initialize a `pyproject.toml` file that defines a project named "my-first-lib", version "0.1.0", and uses `setuptools` as the build backend.
 
-!!! note "Exercise 2: Adding Metadata and Dependencies"
-    Extend your `pyproject.toml` from Exercise 1. Add a description, specify that it requires Python 3.9 or higher, and add `requests` as a dependency.
+!!! note "Assignment 2: Adding Metadata and Dependencies"
+    Extend your `pyproject.toml` from Assignment 1. Add a description, specify that it requires Python 3.9 or higher, and add `requests` as a dependency.
 
-!!! note "Exercise 3: Tool Integration"
+!!! note "Assignment 3: Tool Integration"
     Add a configuration section for `black` that sets the `line-length` to 100. Add a `dev` optional dependency group that includes `pytest`.
 
 
@@ -388,16 +391,17 @@ Dynamic versioning, whether file‑based (Hatch) or attribute‑based (Setuptool
 - [Setuptools Migration Guide](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)
 
 
-## Self-Assessment
-!!! tip "Self-Assessment"
+## Self Assessment
+
+??? question "Self Assessment"
     Test your knowledge by expanding the questions below.
 
-??? question "What was the 'chicken-and-egg' problem associated with `setup.py`?"
-    `setup.py` is an executable script. To find out what dependencies were needed to install a package, you had to run the script, but you might have needed those dependencies already installed to run the script.
+    ??? question "What was the 'chicken-and-egg' problem associated with `setup.py`?"
+        `setup.py` is an executable script. To find out what dependencies were needed to install a package, you had to run the script, but you might have needed those dependencies already installed to run the script.
 
-??? question "How does `pyproject.toml` solve the build-system dependency issue?"
-    It provides a static, declarative `[build-system]` table that tells the installer (like `pip`) exactly which packages are required to build the project, allowing the installer to create an isolated environment and install them before executing the build backend.
+    ??? question "How does `pyproject.toml` solve the build-system dependency issue?"
+        It provides a static, declarative `[build-system]` table that tells the installer (like `pip`) exactly which packages are required to build the project, allowing the installer to create an isolated environment and install them before executing the build backend.
 
-??? question "What is the difference between a static version and a dynamic version in `pyproject.toml`?"
-    A static version is explicitly written as a string in the `[project]` table. A dynamic version is fetched at build time from an external source, such as a `VERSION` text file or a variable in the source code.
+    ??? question "What is the difference between a static version and a dynamic version in `pyproject.toml`?"
+        A static version is explicitly written as a string in the `[project]` table. A dynamic version is fetched at build time from an external source, such as a `VERSION` text file or a variable in the source code.
 

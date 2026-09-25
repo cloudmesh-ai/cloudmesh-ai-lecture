@@ -350,15 +350,14 @@ Give it a try – start with **vLLM + a 4‑bit 13 B model**, run the benchmar
 
 Happy hacking!
 
-## Practical Exercises
-
-!!! note "Exercise 1: VRAM Calculation"
+## Assignments
+!!! note "Assignment 1: VRAM Calculation"
  Calculate the theoretical VRAM required for a 30B parameter model in 4-bit and 8-bit quantization, including a 2GB overhead for the KV-cache. Compare this to the capacity of an RTX 3090.
 
-!!! note "Exercise 2: Stack Comparison"
+!!! note "Assignment 2: Stack Comparison"
  Deploy the same 7B model using both Ollama and vLLM. Use the provided benchmark script to compare the tokens per second (throughput) and latency for a single request.
 
-!!! note "Exercise 3: Offloading Implementation"
+!!! note "Assignment 3: Offloading Implementation"
  Configure vLLM to run a model larger than 24GB (e.g., a 40B model) by implementing CPU offloading. Document the impact on latency compared to a model that fits entirely in VRAM.
 
 

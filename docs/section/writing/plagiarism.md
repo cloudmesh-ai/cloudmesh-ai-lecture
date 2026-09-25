@@ -122,7 +122,7 @@ In scientific and technical communities, the focus is often on the technology ra
 
 Please note that assignments in this course do not use APA style. We follow numbered ACM or IEEE proceedings and journal citation standards.
 
-## Exercises
+## Assignments
 
 !!! assignment "Plagiarism 1"
     Read this document thoroughly to understand the definition of plagiarism and the requirements for proper citation.

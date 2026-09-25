@@ -93,13 +93,13 @@ The primary configuration for Puppet is handled in the `puppet.conf` file. Key s
 ??? question "What is the purpose of SSL certificates in a Puppet architecture?"
     **SSL certificates** ensure that all communication between the Master and Agents is encrypted and authenticated. A new Agent must have its certificate signed by the Master's Certificate Authority (CA) before it can securely retrieve its configuration catalog, preventing unauthorized nodes from accessing the infrastructure.
 
-!!! note "Exercise 1: Architecture Design"
+!!! note "Assignment 1: Architecture Design"
     You are designing the infrastructure for a company with 50,000 servers across three global data centers. Would you choose a monolithic or split Puppet installation? Justify your answer based on scalability and availability.
 
-!!! note "Exercise 2: Drift Detection"
+!!! note "Assignment 2: Drift Detection"
     Imagine a developer manually changes the permissions of `/etc/passwd` on a production server to `777` for a quick fix. Describe exactly how Puppet detects this and what it does to resolve the issue.
 
-!!! note "Exercise 3: Tool Selection"
+!!! note "Assignment 3: Tool Selection"
     You have a choice between Ansible and Puppet for a new project. The project requires:
     1. Rapid prototyping (setup in 1 hour).
     2. No software installed on target nodes.
