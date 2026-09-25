@@ -1,12 +1,21 @@
 # Plagiarism
 
-Academic integrity is a cornerstone of scientific research and education. This section reviews the critical topic of plagiarism to ensure all students understand its definition, the policies governing it, and how to avoid it in their work.
+!!! info "Learning Objectives"
+    By the end of this section, you will be able to:
+    - Define plagiarism and identify its various forms.
+    - Understand institutional policies regarding academic integrity.
+    - Recognize patterns of plagiarism and non-plagiarism.
+    - Apply correct citation styles for scientific and technical writing.
+
+## Overview
+
+Academic integrity is a cornerstone of scientific research and education. This section reviews the definition of plagiarism, the policies governing it, and methods to avoid it in academic and professional work.
 
 ## Plagiarism Definition
 
 In academic and professional life, it is essential to understand and avoid plagiarism. According to [dictionary.com](https://www.dictionary.com):
 
-> **plagiarism**: "the practice of taking someone else's work or ideas and passing them off as one's own."
+> "plagiarism: the practice of taking someone else's work or ideas and passing them off as one's own."
 
 ## Plagiarism Policies
 
@@ -26,7 +35,7 @@ Faculty members are mandated by university policy to report suspected cases of p
 >
 > *(Faculty Council, May 2, 1961)*
 
-Reporting plagiarism is a professional obligation of the faculty. Consequently, the **primary responsibility for ensuring academic integrity lies with the authors of the document**. If you are working in a team, you are collectively responsible for ensuring that the entire team adheres to these standards.
+Reporting plagiarism is a professional obligation of the faculty. Consequently, the primary responsibility for ensuring academic integrity lies with the authors of the document. If you are working in a team, you are collectively responsible for ensuring that the entire team adheres to these standards.
 
 ### University of Virginia (UVA) Policies
 
@@ -34,26 +43,26 @@ The University of Virginia (UVA) treats plagiarism as academic fraud and an Hono
 
 **Policies and Definitions:**
 
-* **Honor Offense**: Plagiarism is defined as using someone else's language, ideas, or work without giving proper credit.
-* **Research Misconduct Policy**: Governed under UVA Policy RES-004, which defines formal institutional procedures for handling data fabrication, falsification, and plagiarism.
-* **Core Guidelines**: Detailed in the UVA Honor Committee Plagiarism Supplement, which outlines rules for proper quotation, in-text citation, and referencing.
+- **Honor Offense**: Plagiarism is defined as using someone else's language, ideas, or work without giving proper credit.
+- **Research Misconduct Policy**: Governed under UVA Policy RES-004, which defines formal institutional procedures for handling data fabrication, falsification, and plagiarism.
+- **Core Guidelines**: Detailed in the UVA Honor Committee Plagiarism Supplement, which outlines rules for proper quotation, in-text citation, and referencing.
 
 **Resources and Detection Tools:**
 
-* **iThenticate**: Provided by the Office of the Vice President for Research for faculty, staff, and graduate researchers to verify manuscripts and dissertations before submission.
-* **Student Guidance**: The Darden Business Library Plagiarism Guide provides independent tool suggestions and writing tips.
-* **Assistance**: Research compliance questions can be directed to the UVA Research Compliance Office.
+- **iThenticate**: Provided by the Office of the Vice President for Research for faculty, staff, and graduate researchers to verify manuscripts and dissertations before submission.
+- **Student Guidance**: The Darden Business Library Plagiarism Guide provides independent tool suggestions and writing tips.
+- **Assistance**: Research compliance questions can be directed to the UVA Research Compliance Office.
 
 ### Loyola University Chicago (LUC) Policies
 
-Loyola University Chicago (LUC) enforces strict academic integrity guidelines across all undergraduate, graduate, and professional programs. Violations are treated as academic dishonesty and carry severe disciplinary outcomes.
+Loyola University Chicago (LUC) enforces strict academic integrity guidelines across all undergraduate, graduate, and professional programs. Violations are treated as academic dishonesty and carry disciplinary outcomes.
 
 **Core Institutional Policies:**
 
-* **Definition of Plagiarism**: Plagiarism is defined as using the ideas, language, or work of another person without sufficient public acknowledgment.
-* **Lack of Intent**: An absence of intent to deceive does not serve as a valid defense against plagiarism charges. Students are expected to be proficient in proper citation styles before submitting work.
-* **AI-Generated Content**: The Office of the Provost restricts the use of AI-assisted software (such as ChatGPT) for any graded deliverables unless explicitly permitted by the instructor.
-* **Research Misconduct**: Governed by the LUC Misconduct in Scholarship Policy, which details formal administrative procedures for handling data falsification, fabrication, and plagiarism in advanced research.
+- **Definition of Plagiarism**: Plagiarism is defined as using the ideas, language, or work of another person without sufficient public acknowledgment.
+- **Lack of Intent**: An absence of intent to deceive does not serve as a valid defense against plagiarism charges. Students are expected to be proficient in proper citation styles before submitting work.
+- **AI-Generated Content**: The Office of the Provost restricts the use of AI-assisted software (such as ChatGPT) for any graded deliverables unless explicitly permitted by the instructor.
+- **Research Misconduct**: Governed by the LUC Misconduct in Scholarship Policy, which details formal administrative procedures for handling data falsification, fabrication, and plagiarism in advanced research.
 
 **Departmental Sanctions:**
 
@@ -65,22 +74,45 @@ Loyola University Chicago (LUC) enforces strict academic integrity guidelines ac
 
 **Detection Systems and Support:**
 
-* **Turnitin**: Major writing assignments are automatically processed through Turnitin to check for contextual text matches and AI-generated fingerprints.
-* **"Did I Plagiarize?" Flowchart**: An interactive tool provided by the LUC Center for Achieving College Excellence (ACE) to help students self-verify originality.
-* **Writing Program Resources**: Resources from the Council of Writing Program Administrators are promoted to help students organize citations.
-* **Library Research Guides**: The LUC Libraries ACE Guide provides instructional modules on citations and avoiding plagiarism.
+- **Turnitin**: Major writing assignments are automatically processed through Turnitin to check for contextual text matches and AI-generated fingerprints.
+- **"Did I Plagiarize?" Flowchart**: An interactive tool provided by the LUC Center for Achieving College Excellence (ACE) to help students self-verify originality.
+- **Writing Program Resources**: Resources from the Council of Writing Program Administrators are promoted to help students organize citations.
+- **Library Research Guides**: The LUC Libraries ACE Guide provides instructional modules on citations and avoiding plagiarism.
 
-If you are ever in doubt about whether a specific passage constitutes plagiarism, you should seek guidance from your instructor *before* submitting your work. Asking for clarification in advance is a sign of academic diligence and is not considered plagiarism.
+If you are ever in doubt about whether a specific passage constitutes plagiarism, you should seek guidance from your instructor before submitting your work. Asking for clarification in advance is a sign of academic diligence and is not considered plagiarism.
 
-## Plagiarism Resources
+## AI Integrity and Ethical Use
 
-The [School of Education at Indiana University](http://education.indiana.edu/) provides an extensive set of resources to help students and educators recognize and avoid plagiarism and includes a test you can take.
+The use of Large Language Models (LLMs) requires a clear distinction between assistive tools and academic dishonesty. Using LLMs for brainstorming, structuring outlines, or clarifying complex concepts is generally acceptable as part of the creative process. However, generating final text and presenting it as one's own work constitutes plagiarism unless explicitly permitted by the instructor.
+
+To maintain integrity, AI-generated content must be transparently cited. This includes referencing the specific model version used (e.g., GPT-4o, Claude 3.5 Sonnet) and providing the prompts that led to the generated output. These requirements align with the LUC Office of the Provost restrictions, which prohibit the use of AI-assisted software for graded deliverables without prior authorization.
+
+## Decision Flow
+
+```mermaid
+graph TD
+    Start --> Q1{Did you use the exact words?}
+    Q1 -- Yes --> Quote[Use quotation marks] --> Cite[Add in-text citation] --> Ref[Add reference entry] --> Correct[Correct]
+    Q1 -- No --> Q2{Is it your own original idea?}
+    Q2 -- Yes --> NoCite[No citation needed] --> Correct
+    Q2 -- No --> Para[Paraphrase in your own words] --> Cite
+```
 
 ## How to Recognize Plagiarism
 
-The following patterns of plagiarism are defined by the Indiana University plagiarism tutorial (<https://plagiarism.tedfrick.me/plagiarismPatterns//patterns.html>). 
+The following patterns of plagiarism are defined by the Indiana University plagiarism tutorial (<https://plagiarism.tedfrick.me/plagiarismPatterns/>).
 
-patternDeviousDupe.html
+### Comparison Examples
+
+The following examples illustrate the difference between plagiarized and correctly cited text.
+
+**Plagiarized (Crafty Cover-up / Clueless Quote) [^1]:**
+The development of artificial intelligence has led to significant breakthroughs in natural language processing, allowing machines to understand and generate human-like text with unprecedented accuracy.
+
+**Corrected:**
+"The development of artificial intelligence has led to significant breakthroughs in natural language processing, allowing machines to understand and generate human-like text with unprecedented accuracy" [@label].
+
+[^1]: See [Clueless Quote](https://plagiarism.tedfrick.me/plagiarismPatterns//patternCluelessQuote.html) and [Crafty Cover-up](https://plagiarism.tedfrick.me/plagiarismPatterns//patternCraftyCoverUp.html) for these patterns.
 
 ### Plagiarism Patterns [@www-plagiarism-pattern]
 
@@ -112,28 +144,56 @@ patternDeviousDupe.html
 
 ## Citation Styles
 
-Different journals, workshops, and books require different citation styles. While styles like APA and Harvard are common in some fields, they are often not used in scientific and technical writing. Therefore, you must carefully review the rules for your specific publication venue. Using the correct style improves readability and can reduce the space occupied by citations.
+Different journals, workshops, and books require different citation styles. While styles like APA and Harvard are common in some fields, they are often not used in scientific and technical writing. Review the rules for the specific publication venue. Using the correct style improves readability and reduces the space occupied by citations.
 
-For example, in APA style, you might write:
+For example, in APA style:
 > "John von Neumann (von Neumann, 1927) describes a Turing machine in his groundbreaking paper..."
 
-In scientific and technical communities, the focus is often on the technology rather than the author. Consequently, numbered citations are preferred:
+In scientific and technical communities, numbered citations are preferred:
 > "In [1], a Turing machine is introduced that can..."
 
-Please note that assignments in this course do not use APA style. We follow numbered ACM or IEEE proceedings and journal citation standards.
+Assignments in this course follow numbered ACM or IEEE proceedings and journal citation standards rather than APA style.
+
+## Summary Checklist
+
+- [ ] Defined plagiarism according to academic standards.
+- [ ] Reviewed institutional policies (IU, UVA, LUC).
+- [ ] Identified common plagiarism patterns (e.g., Clueless Quote, Deceptive Dupe).
+- [ ] Distinguished between proper paraphrasing and plagiarism.
+- [ ] Identified the preferred citation style for technical writing (ACM/IEEE).
 
 ## Assignments
 
-!!! assignment "Plagiarism 1"
+!!! note "Exercise 1"
     Read this document thoroughly to understand the definition of plagiarism and the requirements for proper citation.
 
-!!! assignment "Plagiarism 2"
-    Compare APA and IEEE citation styles. Why is numbered citation generally preferred in scientific and technical writing?
+!!! note "Exercise 2"
+    Compare APA and IEEE citation styles. Explain why numbered citation is generally preferred in scientific and technical writing.
 
-!!! assignment "Plagiarism 3"
-    Complete and pass the [plagiarism certification](https://www.indiana.edu/~academy/firstPrinciples/certificationTests/index.html). 
-    
-    This certification is mandatory for all students in this class. If you have not previously completed this certification in another course, you must do so now. Please use the materials provided on the Indiana University education web page to prepare for the test.
+!!! note "Exercise 3"
+    Complete and pass the [plagiarism certification](https://www.indiana.edu/~academy/firstPrinciples/certificationTests/index.html). This certification is mandatory for all students in this class.
 
-!!! assignment "Plagiarism 4 - LUC"
-    Identify the plagarism guidleines and policies at Loyola University Chicago.
+!!! note "Exercise 4"
+    Identify the plagiarism guidelines and policies at Loyola University Chicago.
+
+## Self-Evaluation
+
+??? note "What is the general definition of plagiarism?"
+    Plagiarism is the practice of taking someone else's work or ideas and passing them off as one's own.
+
+??? note "Does a lack of intent to deceive excuse a student from plagiarism charges?"
+    No. According to institutional policies (such as those at LUC), the absence of intent is not a valid defense; students are expected to be proficient in citation styles.
+
+??? note "What is the difference between a 'Correct Quote' and a 'Dippy Dupe'?"
+    A Correct Quote uses quotation marks, an in-text citation with a locator, and a reference. A Dippy Dupe has the citation and reference but misses the quotation marks.
+
+??? note "Which citation style is typically preferred in technical and scientific writing, and why?"
+    Numbered citations (e.g., ACM or IEEE) are preferred because they focus on the technology/content rather than the author and save space.
+
+## References
+
+- [Dictionary.com - Plagiarism](https://www.dictionary.com)
+- [Indiana University Plagiarism Tutorial](https://plagiarism.tedfrick.me/plagiarismPatterns//patterns.html)
+- [IU Plagiarism Policy](https://plagiarism.iu.edu/)
+- [LUC Academic Integrity Guidelines](https://www.luc.edu)
+- [UVA Honor System](https://www.virginia.edu)

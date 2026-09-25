@@ -1,17 +1,32 @@
 # Mermaid.js
 
+!!! info "Learning Objectives"
+    After completing this chapter, you will be able to:
+    - Define Mermaid.js and its utility in technical documentation.
+    - Create flowcharts, sequence diagrams, and Gantt charts using Mermaid syntax.
+    - Integrate Mermaid.js into an MkDocs environment.
+
+## Overview
+
 Mermaid is a JavaScript-based charting and diagramming tool that renders Markdown-inspired text definitions to create and modify diagrams dynamically.
 
-## Why use Mermaid?
-
-- **Version Control**: Diagrams are stored as text, making them easy to track in Git.
-- **Consistency**: Standardized styles across all diagrams.
-- **Efficiency**: No need to use external drawing tools and export images.
-
-## Common Diagram Types
+## Core Diagram Types
 
 ### Flowcharts
-Flowcharts are useful for representing infrastructure workflows and request routing, as shown in Figure 1.
+
+Flowcharts represent infrastructure workflows and request routing.
+
+~~~
+```mermaid
+graph TD
+    User((User)) --> LB[Load Balancer]
+    LB --> Web1[Web Server 1]
+    LB --> Web2[Web Server 2]
+    Web1 --> DB[(Database)]
+    Web2 --> DB
+    DB --> Cache[Redis Cache]
+```
+~~~
 
 ```mermaid
 graph TD
@@ -22,10 +37,28 @@ graph TD
     Web2 --> DB
     DB --> Cache[Redis Cache]
 ```
-Figure 1: Infrastructure request routing flow
 
 ### Sequence Diagrams
-Sequence diagrams show how microservices interact in a cloud environment (see Figure 2).
+
+Sequence diagrams illustrate how microservices interact within a cloud environment.
+
+~~~
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Client
+    participant Gateway as API Gateway
+    participant Auth as Auth Service
+    participant Backend as Backend Service
+
+    Client->>Gateway: Request Resource
+    Gateway->>Auth: Validate Token
+    Auth-->>Gateway: Token Valid
+    Gateway->>Backend: Fetch Data
+    Backend-->>Gateway: Resource Data
+    Gateway-->>Client: HTTP 200 OK (Data)
+```
+~~~
 
 ```mermaid
 sequenceDiagram
@@ -42,10 +75,27 @@ sequenceDiagram
     Backend-->>Gateway: Resource Data
     Gateway-->>Client: HTTP 200 OK (Data)
 ```
-Figure 2: Microservices interaction for resource request
 
 ### Gantt Charts
-Gantt charts are ideal for tracking cloud migration or deployment phases, as illustrated in Figure 3.
+
+Gantt charts track project timelines, such as cloud migration or deployment phases.
+
+~~~
+```mermaid
+gantt
+    title Cloud Migration Project
+    dateFormat  YYYY-MM-DD
+    section Planning
+    Infrastructure Audit    :a1, 2026-10-01, 3d
+    Architecture Design     :a2, after a1, 5d
+    section Execution
+    Data Migration          :a3, after a2, 7d
+    App Deployment          :a4, after a3, 3d
+    section Validation
+    UAT Testing             :a5, after a4, 3d
+    Go-Live                 :a6, after a5, 1d
+```
+~~~
 
 ```mermaid
 gantt
@@ -61,42 +111,68 @@ gantt
     UAT Testing             :a5, after a4, 3d
     Go-Live                 :a6, after a5, 1d
 ```
-Figure 3: Cloud migration project timeline
 
-## Integration
+## Integration and Configuration
 
-Mermaid is natively supported by GitHub, GitLab, and many Markdown editors (like Obsidian or VS Code with extensions).
+Mermaid is supported by GitHub, GitLab, and various Markdown editors.
 
-## Using Mermaid in MkDocs
+### MkDocs Configuration
 
-To use Mermaid diagrams in an MkDocs site, follow these steps:
+To implement Mermaid diagrams in an MkDocs site, perform the following steps:
 
-1. **Install `pymdown-extensions`**:
-   Ensure you have `pymdown-extensions` installed in your environment:
-   ```bash
-   pip install pymdown-extensions
-   ```
+1. Install `pymdown-extensions`:
 
-2. **Update `mkdocs.yml`**:
-   Enable the `superfences` extension in your configuration:
-   ```yaml
-   markdown_extensions:
-     - pymdownx.superfences:
-         custom_fences:
-           - name: mermaid
-             class: mermaid
-             format: !!python/name:pymdownx.superfences.fence_code_format
-   ```
+```bash
+pip install pymdown-extensions
+```
 
-3. **Add the Mermaid JS Library**:
-   Include the Mermaid JS script in your `mkdocs.yml` under `extra_javascript`:
-   ```yaml
-   extra_javascript:
-     - https://unpkg.com/mermaid/dist/mermaid.min.js
-   ```
+2. Update `mkdocs.yml` to enable the `superfences` extension:
 
-4. **Initialize Mermaid**:
-   You may need a small snippet of JavaScript to initialize the diagrams on the page. This can be added to a custom JS file:
-   ```javascript
-   mermaid.initialize({ startOnLoad: true });
-   ```
+```yaml
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+```
+
+3. Add the Mermaid JS library to `mkdocs.yml`:
+
+```yaml
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
+```
+
+4. Initialize Mermaid via a custom JavaScript file:
+
+```javascript
+mermaid.initialize({ startOnLoad: true });
+```
+
+## Summary Checklist
+
+- [ ] Define the purpose of Mermaid.js.
+- [ ] Create a flowchart using `graph TD`.
+- [ ] Create a sequence diagram using `sequenceDiagram`.
+- [ ] Create a Gantt chart using `gantt`.
+- [ ] Configure `mkdocs.yml` for Mermaid support.
+
+## Assignments
+
+!!! note "Assignment 1: Architecture Mapping"
+    Create a Mermaid flowchart that represents a three-tier architecture: a Client, an Application Load Balancer, an Auto Scaling Group of EC2 instances, and an RDS Database.
+
+!!! note "Assignment 2: Authentication Flow"
+    Create a sequence diagram showing the OAuth2 Authorization Code flow between a User, a Client Application, an Authorization Server, and a Resource Server.
+
+## Self-Evaluation
+
+??? note "What is the primary advantage of using Mermaid over static image files for diagrams?"
+    Diagrams are stored as text, allowing them to be managed via version control systems like Git, facilitating easier updates and tracking.
+
+??? note "Which MkDocs extension is required to render custom Mermaid fences?"
+    The `pymdownx.superfences` extension is required.
+
+??? note "How is a database represented in a Mermaid flowchart?"
+    Databases are typically represented using the `[(Database)]` cylinder shape syntax.
