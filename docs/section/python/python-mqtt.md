@@ -198,24 +198,25 @@ client.connect("secure-broker.example.com", 8883)
     - Set a Last Will and Testament (LWT) to monitor device availability.
     - Secured the connection using TLS/SSL and username/password authentication.
 
-!!! note "Assignment 1: Basic Telemetry System"
-    Create a publisher that sends a random "CPU Load" percentage every 2 seconds to the topic `cloudmesh/metrics/cpu`. Create a subscriber that prints these values in real-time.
-
 
 ## Self Assessment
 
-??? question "Self Assessment"
-    Test your knowledge by expanding the questions below.
+Test your knowledge by expanding the questions below.
 
-    ??? question "Contrast the Request-Response model with the Pub/Sub model used by MQTT."
-        In Request-Response (e.g., HTTP), a client explicitly asks for data and waits for a server's response. In Pub/Sub (MQTT), publishers send messages to topics on a broker, and any subscriber interested in that topic receives the message asynchronously, without the publisher knowing who the subscribers are.
+??? question "Contrast the Request-Response model with the Pub/Sub model used by MQTT."
+    In Request-Response (e.g., HTTP), a client explicitly asks for data and waits for a server's response. In Pub/Sub (MQTT), publishers send messages to topics on a broker, and any subscriber interested in that topic receives the message asynchronously, without the publisher knowing who the subscribers are.
 
-    ??? question "What is the purpose of MQTT wildcards, and how do `+` and `#` differ?"
-        Wildcards allow subscribers to monitor multiple topics. The single-level wildcard (`+`) matches exactly one level in the hierarchy, while the multi-level wildcard (`#`) matches all remaining levels from that point forward.
+??? question "What is the purpose of MQTT wildcards, and how do `+` and `#` differ?"
+    Wildcards allow subscribers to monitor multiple topics. The single-level wildcard (`+`) matches exactly one level in the hierarchy, while the multi-level wildcard (`#`) matches all remaining levels from that point forward.
 
-    ??? question "Explain the difference between QoS 0, QoS 1, and QoS 2."
-        QoS 0 (At most once) delivers the message once with no acknowledgment. QoS 1 (At least once) ensures delivery via acknowledgment but may result in duplicates. QoS 2 (Exactly once) uses a four-step handshake to ensure the message is delivered exactly once without duplicates.
+??? question "Explain the difference between QoS 0, QoS 1, and QoS 2."
+    QoS 0 (At most once) delivers the message once with no acknowledgment. QoS 1 (At least once) ensures delivery via acknowledgment but may result in duplicates. QoS 2 (Exactly once) uses a four-step handshake to ensure the message is delivered exactly once without duplicates.
 
+## Assignments
+
+
+!!! note "Assignment 1: Basic Telemetry System"
+    Create a publisher that sends a random "CPU Load" percentage every 2 seconds to the topic `cloudmesh/metrics/cpu`. Create a subscriber that prints these values in real-time.
 
 !!! note "Assignment 2: Multi-Sensor Monitor"
     Implement a subscriber that uses a wildcard to monitor all sensors in a building. Use the topic `cloudmesh/building_1/+/value`. The subscriber should print the sensor name (extracted from the topic) and the value.
