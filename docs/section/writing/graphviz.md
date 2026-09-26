@@ -69,6 +69,90 @@ For LaTeX documents, PDF output is recommended due to higher quality and smaller
 Detailed documentation is available at:
 - <https://graphviz.gitlab.io/documentation/>
 
+Here are a few examples of how to define and render graphs related to AI and DevOps.
+
+#### Example 1: AI LLM Routing Pipeline
+This example shows a request flowing from a user through a gateway and router to various LLM backends.
+
+```dot
+digraph G {
+    rankdir=LR;
+    splines=ortho;
+    nodesep=0.5;
+    ranksep=0.8;
+    
+    node [fontname="Helvetica", fontsize=12, shape=box, style="filled,rounded", color="#7fb3d5", fillcolor="#eaf2f8", penwidth=2];
+    edge [fontname="Helvetica", fontsize=10, color="#5d6d7e", penwidth=1.5];
+    
+    User [shape=ellipse, color="#f7dc6f", fillcolor="#fef9e7", label="User Request"];
+    Gateway [label="API Gateway\n(FastAPI)"];
+    Router [label="LLM Router\n(LiteLLM)"];
+    
+    subgraph cluster_backends {
+        label = "Inference Backends";
+        fontname="Helvetica-Bold";
+        fontsize=14;
+        style="filled,dashed";
+        color="#abb2b9";
+        fillcolor="#f8f9f9";
+        
+        Ollama [label="Ollama\n(Local Llama3)", fillcolor="#d5f5e3", color="#58d68d"];
+        JetStream [label="JetStream\n(TPU Gemma)", fillcolor="#d6eaf8", color="#5dade2"];
+        OpenAI [label="OpenAI\n(GPT-4o)", fillcolor="#fdedec", color="#ec7063"];
+    }
+    
+    User -> Gateway;
+    Gateway -> Router;
+    Router -> Ollama;
+    Router -> JetStream;
+    Router -> OpenAI;
+}
+```
+
+![AI Pipeline](images/ai_pipeline.png)
+
+#### Example 2: DevOps CI/CD Pipeline
+This example visualizes a typical software delivery pipeline.
+
+```dot
+digraph G {
+    rankdir=TB;
+    splines=ortho;
+    nodesep=0.6;
+    ranksep=0.6;
+    
+    node [fontname="Helvetica", fontsize=12, shape=box, style="filled,rounded", color="#7fb3d5", fillcolor="#eaf2f8", penwidth=2];
+    edge [fontname="Helvetica", fontsize=10, color="#5d6d7e", penwidth=1.5];
+    
+    Code [label="Source Code\n(GitHub)", shape=cylinder, color="#82e0aa", fillcolor="#d4efdf"];
+    CI [label="CI Pipeline\n(GitHub Actions)", fillcolor="#d6eaf8", color="#5dade2"];
+    
+    subgraph cluster_checks {
+        label = "Quality Gates";
+        fontname="Helvetica-Bold";
+        fontsize=14;
+        style="filled,dashed";
+        color="#abb2b9";
+        fillcolor="#f8f9f9";
+        
+        Test [label="Unit Tests\n(Pytest)", fillcolor="#fcf3cf", color="#f4d03f"];
+        Lint [label="Linting\n(Ruff)", fillcolor="#fcf3cf", color="#f4d03f"];
+    }
+    
+    CD [label="CD Pipeline\n(Terraform)", fillcolor="#d5f5e3", color="#58d68d"];
+    Prod [label="Production\n(AWS/Azure)", color="#f5b7b1", fillcolor="#fadbd8"];
+    
+    Code -> CI;
+    CI -> Test;
+    CI -> Lint;
+    Test -> CD [label=" Pass "];
+    Lint -> CD [label=" Pass "];
+    CD -> Prod;
+}
+```
+
+![DevOps Pipeline](images/devops_pipeline.png)
+
 Example of a minimal "Hello World" graph:
 
 ```bash
