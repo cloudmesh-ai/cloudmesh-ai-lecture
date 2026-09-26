@@ -11,7 +11,7 @@ The American Science Cloud (AmSC) is a national-scale scientific computing platf
 
 !!! info "Learning Objectives"
     By the end of this section, you should be able to:
-    
+
     * Describe the role of AmSC in the DOE national laboratory ecosystem.
     * Compare LLM inference performance (Tokens/sec) and context windows across different cloud providers (OpenAI, Anthropic, etc.).
     * Match specific LLM models to coding use cases, such as ultra-fast autocomplete versus deep research-grade synthesis.
@@ -125,7 +125,6 @@ The American Science Cloud (AmSC) is a national-scale scientific computing platf
 | **Budget‑heavy bulk generation** | GPT‑5 Nano, Nova Micro 1 | OpenAI (shared H100) / Replicate (T4) |
 | **Research‑grade long‑context synthesis** | Nemotron‑Super‑3, XHigh (not in the coding‑rank) | Self‑hosted (A100) or HuggingFace (A100/V100) |
 
-Feel free to ask for more detail on any model, pricing estimates, or how to integrate a chosen model into your development workflow!
 
 ## Self Assessment
 
@@ -139,13 +138,12 @@ Feel free to ask for more detail on any model, pricing estimates, or how to inte
 
 ## Assignment
 
-!!! info "Assignment"
-    ### Task 1: Model Selection Analysis
+!!! info "Assignment 1: Model Selection Analysis"
     Identify a real-world coding task you are currently working on (e.g., refactoring a legacy module, generating comprehensive unit tests for a new feature, or documenting a complex API). 
     * Using the provided comparison table, select the most appropriate model for this task.
     * Justify your selection by discussing the trade-offs between **latency (tps)**, **context window**, and **cost/resource requirements**.
 
-    ### Task 2: AmSC Infrastructure Research
+!!! info "Assignment 2: AmSC Infrastructure Research
     Using the [official AmSC documentation](https://docs.amsc.energy.gov/), describe the following:
     * The process for requesting access to the **Model Access Gateway (MAG)**.
     * How the MAG simplifies the process of switching between different LLM providers without changing your core application logic.
