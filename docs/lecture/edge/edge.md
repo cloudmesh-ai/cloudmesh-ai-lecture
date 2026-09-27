@@ -1,6 +1,7 @@
 
 ## Introduction to Edge Computing  
-**Edge computing** moves compute, storage, and networking resources from centralized data‑centers (the “cloud”) closer to the devices, sensors, and users that generate or consume data. By processing data at—or near—the “edge” of the network, organizations can achieve lower latency, reduced bandwidth costs, improved privacy, and higher resilience.
+
+**Edge computing** moves compute, storage, and networking resources from centralized data‑centers (the "cloud") closer to the devices, sensors, and users that generate or consume data. By processing data at—or near—the "edge" of the network, organizations can achieve lower latency, reduced bandwidth costs, improved privacy, and higher resilience.
 
 Below is a concise primer that ties edge computing to three closely‑related domains you mentioned: **cloud**, **DevOps**, and **AI**.
 
@@ -119,7 +120,7 @@ Edge environments share DevOps principles with the cloud, but they also demand a
 
 | Trend | Impact on Edge‑Cloud‑DevOps‑AI |
 |-------|------------------------------|
-| **5G & Multi‑Access Edge Computing (MEC)** | Ultra‑low latency backhaul makes it practical to offload heavy AI tasks to nearby “edge clouds”. |
+| **5G & Multi‑Access Edge Computing (MEC)** | Ultra‑low latency backhaul makes it practical to offload heavy AI tasks to nearby "edge clouds". |
 | **Serverless at the Edge** | Platforms like **Cloudflare Workers**, **AWS Lambda@Edge**, **Azure Functions on IoT Edge** enable event‑driven code without managing servers. |
 | **Zero‑Touch Provisioning (ZTP)** | Devices auto‑register, get certificates, download containers—reduces manual ops for massive fleets. |
 | **AI‑Optimized ASICs** (Google Edge TPU, AWS Trainium, NVIDIA Jetson Orin) | Push more sophisticated models (e.g., transformers) onto the edge. |
@@ -164,8 +165,8 @@ Edge environments share DevOps principles with the cloud, but they also demand a
 ### Want to dive deeper?
 
 - **Hands‑on tutorial**: Deploy a TensorFlow Lite model on a Raspberry Pi using **K3s** + **Flux** (GitHub repo link).  
-- **Reference architecture**: Microsoft’s *“Azure Percept + Azure IoT Edge + Azure ML”* end‑to‑end diagram.  
-- **Further reading**: *“Edge Computing: A Primer on Cloud‑Edge Continuum, DevOps, and AI”* (O'Reilly, 2024).  
+- **Reference architecture**: Microsoft's *"Azure Percept + Azure IoT Edge + Azure ML"* end‑to‑end diagram.  
+- **Further reading**: *"Edge Computing: A Primer on Cloud‑Edge Continuum, DevOps, and AI"* (O'Reilly, 2024).  
 
 
 

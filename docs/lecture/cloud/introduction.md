@@ -1,5 +1,6 @@
 
 # Introduction to Cloud Computing 
+
 Presenter: Gregor von Laszewski
 
 !!! note "Learning Outcome"
@@ -47,7 +48,7 @@ Presenter: Gregor von Laszewski
 ---  
 # 2. What is Cloud Computing?  
 
-- **NIST definition:** “A model for enabling ubiquitous, convenient, on‑demand network access to a shared pool of configurable computing resources….”  
+- **NIST definition:** "A model for enabling ubiquitous, convenient, on‑demand network access to a shared pool of configurable computing resources…."  
 - **Core attributes:** On‑Demand Self‑Service, Broad Network Access, Resource Pooling, Rapid Elasticity, Measured Service.  
 - **Evolution timeline:** 
 Mainframe → Client‑Server → Metacomputing → Grid Computing → Virtualization → Cloud (2006‑present).  
@@ -56,6 +57,7 @@ Mainframe → Client‑Server → Metacomputing → Grid Computing → Virtualiz
 
 
 <!--
+
 ```mermaid
 %%{init: { "flowchart": { "useMaxWidth": false } } }%%
 gantt
@@ -84,7 +86,9 @@ gantt
 
     section Cloud
     Cloud Computing             :active, 2006, 2026
+
 ```
+
 Because it may not render correctly here, the PNG is provided as follows:
 
 -->
@@ -92,6 +96,7 @@ Because it may not render correctly here, the PNG is provided as follows:
 ![Evolution](images/evolution.png)
 
 ### Mainframe Era (1960–1980)
+
 * What it is: Centralized, heavy-duty processing power housed in climate-controlled datacenters and accessed primarily via dumb terminals.
 
 * Characteristics: Monolithic hardware, batch processing, time-sharing, and massive upfront capital costs. It laid the foundational principles of multi-user computing.
@@ -103,26 +108,31 @@ Because it may not render correctly here, the PNG is provided as follows:
 * Characteristics: Distributed workloads, local user interfaces, relational databases, and Local Area Network (LAN) connectivity, moving computing power closer to the desktop.
 
 ### Metacomputing Era (1992–2002)
+
 * What it is: The conceptual precursor to distributed computing, focused on linking heterogeneous supercomputers and high-performance resources over high-speed networks to act as a single virtual computer.
 
 * Characteristics: Experimental testbeds (like I-WAY), early resource reservation protocols, and bridging geographically separated high-performance computing centers.
 
 ### Grid Computing Era (2000–2012)
+
 * What it is: Coordinated resource sharing and virtual organizations across institutional boundaries, transforming metacomputing concepts into standardized, large-scale architectures.
 
 * Characteristics: Pioneered by toolkits like the Java CoG Kit and Globus Toolkit, powering national supercomputing infrastructures like TeraGrid and XSEDE.
 
 ### Virtualization Era (2005–2020)
+
 * What it is: The abstraction of physical hardware layers through hypervisors, enabling multiple virtual machines (VMs) to run independently on a single physical server.
 
 * Characteristics: Dramatically improved hardware utilization, simplified server consolidation, easier disaster recovery, and enabled the foundational multi-tenant architecture required by early public clouds.
 
 ### Containerization (2013–Present)
+
 * What it is: Lightweight, portable OS-level virtualization that packages an application and its dependencies together, isolating them from the host system.
 
 * Characteristics: Fueled by Docker, Kubernetes, and HPC solutions like Apptainer, containerization revolutionized modern microservices, CI/CD pipelines, and reproducible AI model deployments.
 
 ### Cloud Computing (2006–Present)
+
 * What it is: On-demand delivery of compute, storage, platforms, and AI resources over the internet, scaling dynamically under an OpEx model.
 
 * Characteristics: Elastic scaling, self-service provisioning, multi-cloud orchestration, and seamless integration with modern container and AI execution environments.
@@ -136,6 +146,7 @@ This timeline illustrates how businesses have fundamentally changed how they inv
     Instead of buying hardware the money is spend on doing the operation.
 
 <!-- 
+
 ``` mermaid
 gantt
     title The CapEx to OpEx Shift Timeline
@@ -151,6 +162,7 @@ gantt
 
     section Modern Era
     Phase 3 Operational Expenditure (OpEx) :2020, 2026
+
 ```
 --->
 
@@ -159,16 +171,19 @@ gantt
 ## Phase Breakdown
 
 ### Phase 1: Capital Expenditure (CapEx) Era (1990–2010)
+
 * What it is: The traditional data center model. Companies had to purchase physical servers, networking gear, storage arrays, and real estate (datacenter space) upfront.
 
 * Characteristics: High upfront costs, long procurement cycles, and rigid capacity planning. If you underestimated demand, you faced massive delays; if you overestimated, capital was wasted.
 
 ### Phase 2: Hybrid Adoption Model (2010–2020)
+
 * What it is: The bridge between old and new. As early cloud providers (like AWS and Azure) matured, organizations began blending their on-premise hardware with cloud services.
 
 * Characteristics: Businesses kept core or sensitive workloads on local servers while moving auxiliary workloads, testing environments, or backups to the cloud. This minimized risk while testing scalability.
 
 ### Phase 3: Operational Expenditure (OpEx) Era (2020–2026)
+
 * What it is: The modern cloud-first paradigm. Organizations rely primarily on cloud infrastructure, SaaS, and pay-as-you-go models.
 
 * Characteristics: Zero or minimal physical hardware upkeep. IT spending shifts from a massive capital investment to a predictable, flexible monthly or yearly operational expense that scales dynamically with business usage.
@@ -216,11 +231,11 @@ In short, it's a real-world testament to how Cloud Computing and OpEx-driven inf
 ---  
 # 2. Common Myths  
 
-1. “Cloud is always cheaper.” – Not true without rightsizing.  
-2. “Cloud equals no security.” – Shared responsibility model.  
-3. “You’re locked‑in forever.” – Multi‑cloud tools and open standards mitigate lock‑in.  
+1. "Cloud is always cheaper." – Not true without rightsizing.  
+2. "Cloud equals no security." – Shared responsibility model.  
+3. "You're locked‑in forever." – Multi‑cloud tools and open standards mitigate lock‑in.  
 
-Poll: “Which myth have you heard most?”  
+Poll: "Which myth have you heard most?"  
 
 ---  
 # 3. Service Models Overview  
@@ -247,6 +262,7 @@ graph TD
     end
 
     IaaS --> PaaS --> SaaS
+
 ```
 
 
@@ -299,6 +315,7 @@ graph LR
 
     A --> B
     B --> C
+
 ```
 
 **Platform as a Service (PaaS)** sits right between IaaS (raw virtual servers) and SaaS (finished software). It provides developers and technical teams with the hardware, operating systems, databases, and runtime environments needed to build, test, and deploy applications without managing the underlying infrastructure.
@@ -325,7 +342,7 @@ These focus heavily on web frameworks, static sites, serverless functions, and g
 These are managed platform layers offered by major public cloud providers, integrated tightly with their broader infrastructure ecosystems:
 
 * **Google App Engine & Cloud Run:** Google's managed platforms that let developers run web apps or containers without provisioning or sizing underlying virtual machine clusters.
-* **AWS Elastic Beanstalk & App Runner:** Amazon’s managed deployment services that wrap around raw EC2 instances and container registries to simplify provisioning and load balancing.
+* **AWS Elastic Beanstalk & App Runner:** Amazon's managed deployment services that wrap around raw EC2 instances and container registries to simplify provisioning and load balancing.
 * **Microsoft Azure App Service:** A robust enterprise platform widely used for hosting .NET web applications, APIs, and mobile backends.
 
 ### 4. Specialized Data & AI PaaS
@@ -373,9 +390,9 @@ Examples of SaaS include:
     * **Workday:** Enterprise cloud software for human resources, payroll, and financial management.
 
 * **AI**
-    * **ChatGPT:** OpenAI’s conversational AI assistant designed for natural language generation, complex reasoning, coding support, and multi-modal task execution.
-    * **Gemini:** Google’s multi-modal AI platform deeply integrated with cloud productivity suites, capable of processing massive context windows across text, code, images, and audio.
-    * **Copilot:** Microsoft and GitHub’s AI-powered assistant embedded directly into development environments (IDEs) and office productivity tools to automate code writing and document creation.
+    * **ChatGPT:** OpenAI's conversational AI assistant designed for natural language generation, complex reasoning, coding support, and multi-modal task execution.
+    * **Gemini:** Google's multi-modal AI platform deeply integrated with cloud productivity suites, capable of processing massive context windows across text, code, images, and audio.
+    * **Copilot:** Microsoft and GitHub's AI-powered assistant embedded directly into development environments (IDEs) and office productivity tools to automate code writing and document creation.
 
 ---  
 
@@ -415,7 +432,7 @@ Examples of SaaS include:
 - Advantages over VMs: lighter weight, faster start‑up, immutable infrastructure.  
 
 **Speaker notes**  
-- Emphasise the “cloud‑native = containers” mantra.  
+- Emphasise the "cloud‑native = containers" mantra.  
 
 ![Containers cor technologies](images/container-Gemini_Generated_Image_dh6qbdh6qbdh6qbd.jpeg)
 
@@ -469,7 +486,7 @@ Examples of SaaS include:
 - **Analytics:** Redshift, Synapse, BigQuery.  
 
 **Speaker notes**  
-- Colourful “service map” diagram for visual impact.  
+- Colourful "service map" diagram for visual impact.  
 
 ![Service Landscape map example](images/Gemini_Generated_Image_6jqcpv6jqcpv6jqc.jpeg)
 
@@ -528,7 +545,7 @@ Here is the expansion of the cloud networking and infrastructure abbreviations a
 * **VPN (Virtual Private Network):** Secure, encrypted tunnels connecting your on-premises datacenters to your cloud VPC over the public internet (IPsec VPN).
 * **Direct Connect / ExpressRoute / Cloud Interconnect:** Dedicated, high-speed, private fiber-optic connections linking your on-premises infrastructure directly to AWS, Azure, or GCP, bypassing the public internet entirely for enhanced security and reliability.
 
-- Simple diagram: “Internet → Load Balancer → Auto‑Scaling Group → VMs”, concept of autoscaling.  
+- Simple diagram: "Internet → Load Balancer → Auto‑Scaling Group → VMs", concept of autoscaling.  
 
 ![Load](images/load.png)
 
@@ -561,6 +578,7 @@ Here is a simple, standard JSON example of an AWS IAM (Identity and Access Manag
     }
   ]
 }
+
 ```
 
 Explanation:
@@ -670,6 +688,7 @@ Here is a practical case study example for the speaker notes illustrating cloud 
 | **Hybrid Integration** | Data residency, latency constraints | Connect on‑prem VPC ↔︎ cloud via VPN/Direct Connect |
 
 **Speaker notes**  
+
 ## Tools exist to migrate between each other
 
 * **Unified Migration Portals:** Major cloud providers supply dedicated service hubs to discover, assess, plan, and track the migration of physical servers, virtual machines, databases, and application code from on-premises datacenters or competing clouds.
