@@ -1,50 +1,80 @@
-# Runing VMs locally 
+# Local VM and Container Setup
 
-!!! warning 
-    you will need some additional material to decide which vm framework to use.For the impatient, one of the easiest to use is multipass which works on Linux, MacOS, Windows. However, it uses ubuntu images.
+!!! info "Learning Objectives"
+    By the end of this section, you will be able to:
+    - Implement local-first development practices to test code safely and avoid unexpected cloud costs.
+    - Install and configure a local virtualization framework.
+    - Deploy and verify local containers using Docker.
 
-!!! info "Learning Outcomes"
-    - Master local-first development practices to test code safely and avoid unexpected cloud costs.
-    - Set up research and academic testbed accounts (Chameleon Cloud and Access-CI) for infrastructure experimentation.
-    - Configure commercial cloud provider accounts (AWS, Azure, and GCP) to explore industry-standard free tiers and student credits.
+## Overview
 
-# Setting Up Your Accounts
+Before deploying any resources to a public cloud, it is critical to develop and test scripts, containers, and configurations on a local machine. Cloud resources, even within free tiers, can incur costs if misconfigured or if limits are exceeded. Local development ensures functional correctness and stability before transitioning to a production or cloud environment.
 
-To participate in the hands-on portions of this course, you will need accounts for several cloud and infrastructure services. Please set these up as early as possible to avoid delays in your projects.
+## Local Virtualization
 
-## 1. Local Development First
+Virtual machines (VMs) provide a full operating system environment, allowing for the testing of kernel-level configurations and OS-specific behavior.
 
-!!! important 
-    Before deploying any resources to the cloud, it is strongly recommended that you develop and test your scripts, containers, and configurations on your own local computer.
+### Choosing a Framework
 
-Cloud resources, even within "free tiers," can incur costs if misconfigured or if you exceed the free limits. Testing locally (using tools like Docker or local virtual machines) ensures that your code is working correctly before you move it to a production or cloud environment where costs might be associated.
+Selecting a virtualization tool depends on the host operating system and the required level of isolation:
 
----
+- **Multipass**: A lightweight tool for deploying Ubuntu VMs quickly. It is supported on Linux, macOS, and Windows.
+- **VirtualBox**: A robust, open-source hypervisor suitable for various operating systems and image types.
+- **VMware**: An enterprise-grade virtualization platform often used in corporate environments.
+
+## Local Containerization
+
+Containers offer a more lightweight alternative to VMs by sharing the host system's kernel, which results in faster startup times and lower resource overhead.
+
+### Docker
+
+Docker is the industry standard for containerization. It allows developers to package an application and its dependencies into a single image, ensuring consistency across different environments.
+
+## Summary Checklist
+
+- [ ] Virtualization framework (e.g., Multipass, VirtualBox) installed and verified.
+- [ ] Docker installed and daemon running.
+- [ ] Local administrative rights confirmed for resource management.
+- [ ] "Hello World" VM successfully deployed.
+- [ ] "Hello World" container successfully deployed.
 
 ## Assignments
 
-!!! assignment "Account: Local Virtual machines"
-    1. Install a virtualization tool 
-       1.1 decide which to use multipass, VirtualBox, VMware, other.
-    2. Run a simple "Hello World" VM to ensure it is working.
-    3. Verify that you have administrative rights to manage these resources.
+!!! note "Assignment.1: Local Virtual Machines"
+    **Goal**: Establish a working local virtualization environment.
 
-!!! assignment "Account: Local Containers"
-    1. Install Docker on your local machine.
-    2. Run a simple "Hello World" container to ensure it is working.
-    3. Verify that you have administrative rights to manage these resources.
+    **Tasks**:
+    1. Install a virtualization tool (Multipass, VirtualBox, VMware, or equivalent).
+    2. Deploy a simple "Hello World" VM to verify the installation.
+    3. Verify that you possess the administrative rights necessary to manage VM resources.
 
-# Self-Assessment
+    ??? tip "Solution: Local Virtual Machines"
+        For a fast start on macOS or Windows, Multipass is recommended: `multipass launch --name test-vm`. Once launched, use `multipass shell test-vm` to verify access.
 
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+!!! note "Assignment.2: Local Containers"
+    **Goal**: Establish a working local container environment.
 
-    ??? question "Why is it strongly recommended to test scripts and containers locally before deploying to the cloud?"
-        Testing locally ensures that code is working correctly and prevents unexpected costs that can occur due to misconfigurations or exceeding free tier limits in the cloud.
+    **Tasks**:
+    1. Install Docker on the local machine.
+    2. Execute a "Hello World" container to verify the installation.
+    3. Verify that you possess the administrative rights necessary to manage Docker resources.
 
-    ??? question "What are some tools that can be used for local virtualization and containerization?"
-        For virtualization, tools like Multipass, VirtualBox, or VMware can be used. For containerization, Docker is the primary tool.
+    ??? tip "Solution: Local Containers"
+        Run `docker run hello-world` in the terminal. If the command returns a "Hello from Docker!" message, the installation is successful.
 
-    ??? question "What are the general goals of setting up local-first development practices?"
-        The goals are to test code safely, avoid unexpected cloud costs, and ensure stability before moving to production or cloud environments.
+## References
 
+- [Multipass Documentation](https://multipass.run/)
+- [VirtualBox User Manual](https://www.virtualbox.org/manual/)
+- [Docker Get Started Guide](https://docs.docker.com/get-started/)
+
+## Self-Evaluation
+
+??? note "Why is it recommended to test scripts and containers locally before deploying to the cloud?"
+    Local testing ensures that code is functionally correct and prevents unexpected costs resulting from misconfigurations or the exhaustion of free tier limits in cloud environments.
+
+??? note "What are the primary tools used for local virtualization and containerization?"
+    Virtualization tools include Multipass, VirtualBox, and VMware. For containerization, Docker is the primary tool.
+
+??? note "What are the general goals of local-first development practices?"
+    The primary goals are to enable safe code testing, eliminate unnecessary cloud expenditure during the development phase, and ensure environment stability before production deployment.
