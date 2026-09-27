@@ -8,7 +8,7 @@ Ansible is built on Jinja2. Every time you write `{{ … }}` you are invoking th
 * safely inject external data and secrets, and  
 * test‑drive the rendering as part of a CI pipeline.
 
-Below is a practical, “from‑scratch‑to‑production” guide that shows how to:
+Below is a practical, "from‑scratch‑to‑production" guide that shows how to:
 
 1. **Structure templates and data** in a role.  
 2. **Leverage built‑in filters, tests, and the `jinja2_native` mode** for proper data types.  
@@ -51,6 +51,7 @@ myapp/
 └─ tests/
     ├─ inventory
     └─ test.yml          # simple playbook for CI validation
+
 ```
 
 The `_helpers.j2` file holds reusable macros that other templates can import, keeping the code DRY.
@@ -98,6 +99,7 @@ http {
         }
     }
 }
+
 ```
 
 Key constructs:
@@ -127,6 +129,7 @@ upstream {{ name }} {
 {% endfor %}
 }
 {%- endmacro %}
+
 ```
 
 You can extend this file with additional macros (`render_location`, `render_ssl_block`, …).  
@@ -144,6 +147,7 @@ nginx_run_dir: /var/run/nginx
 nginx_conf_dir: /etc/nginx
 listen_port: 80
 ssl_enabled: false
+
 ```
 
 #### 4.2 Host‑specific overrides (`host_vars/web01.yml`)  
@@ -157,6 +161,7 @@ upstream_name: app_backends
 upstream_servers:
   - { host: 10.0.1.10, port: 8080, weight: 2 }
   - { host: 10.0.1.11, port: 8080 }
+
 ```
 
 #### 4.3 Loading a JSON/YAML file at runtime  
@@ -167,6 +172,7 @@ upstream_servers:
   include_vars:
     file: "{{ playbook_dir }}/files/services.json"
     name: extra_services
+
 ```
 
 The dictionary `extra_services` becomes available to any later template, e.g., `{{ extra_services.api.endpoint }}`.
@@ -193,6 +199,7 @@ The dictionary `extra_services` becomes available to any later template, e.g., `
     dest: /etc/systemd/system/myapp.service
     mode: "0644"
   notify: Reload systemd
+
 ```
 
 The `template` module automatically supplies **all variables** (inventory, facts, defaults, etc.) to the Jinja2 engine.
@@ -206,6 +213,7 @@ Add the following to `ansible.cfg`:
 ```ini
 [defaults]
 jinja2_native = True
+
 ```
 
 Now booleans, integers, and lists are rendered as native Python types, which is essential when generating JSON or when a downstream tool expects true data types.
@@ -231,12 +239,14 @@ class FilterModule(object):
         return {
             'slugify': slugify,
         }
+
 ```
 
 Use it in a template:
 
 ```jinja
 {{ inventory_hostname | slugify }}.example.com
+
 ```
 
 Ansible automatically discovers plugins placed in `filter_plugins/` (or any directory referenced by `ANSIBLE_FILTER_PLUGINS`).
@@ -265,12 +275,14 @@ Ansible automatically discovers plugins placed in `filter_plugins/` (or any dire
     - name: Verify expected line exists
       command: grep -q '^listen 8080;' /tmp/rendered-nginx.conf
       changed_when: false
+
 ```
 
 Run in CI:
 
 ```bash
 ansible-playbook -i tests/inventory tests/test_nginx_template.yml --check
+
 ```
 
 If the playbook exits with `0`, the template rendered correctly with the supplied variables.
@@ -281,6 +293,7 @@ If the playbook exits with `0`, the template rendered correctly with the supplie
 - name: Lint rendered manifest
   command: yamllint /tmp/rendered-nginx.conf
   changed_when: false
+
 ```
 
 Add these steps to your CI pipeline to **fail early** on syntax errors.
@@ -289,7 +302,7 @@ Add these steps to your CI pipeline to **fail early** on syntax errors.
 
 ### 9️⃣ Demonstration – Rendering a Jinja2 Template with Python  
 
-Below is a tiny Python snippet that mimics Ansible’s rendering process. It shows the final Nginx configuration for a host that enables SSL.
+Below is a tiny Python snippet that mimics Ansible's rendering process. It shows the final Nginx configuration for a host that enables SSL.
 
 
 
@@ -304,7 +317,7 @@ Ansible is built on Jinja2. Every time you write `{{ … }}` you are invoking th
 * safely inject external data and secrets, and  
 * test‑drive the rendering as part of a CI pipeline.
 
-Below is a practical, “from‑scratch‑to‑production” guide that shows how to:
+Below is a practical, "from‑scratch‑to‑production" guide that shows how to:
 
 1. **Structure templates and data** in a role.  
 2. **Leverage built‑in filters, tests, and the `jinja2_native` mode** for proper data types.  
@@ -347,6 +360,7 @@ myapp/
 └─ tests/
     ├─ inventory
     └─ test.yml          # simple playbook for CI validation
+
 ```
 
 The `_helpers.j2` file holds reusable macros that other templates can import, keeping the code DRY.
@@ -394,6 +408,7 @@ http {
         }
     }
 }
+
 ```
 
 Key constructs:
@@ -423,6 +438,7 @@ upstream {{ name }} {
 {% endfor %}
 }
 {%- endmacro %}
+
 ```
 
 You can extend this file with additional macros (`render_location`, `render_ssl_block`, …).  
@@ -440,6 +456,7 @@ nginx_run_dir: /var/run/nginx
 nginx_conf_dir: /etc/nginx
 listen_port: 80
 ssl_enabled: false
+
 ```
 
 #### 4.2 Host‑specific overrides (`host_vars/web01.yml`)  
@@ -453,6 +470,7 @@ upstream_name: app_backends
 upstream_servers:
   - { host: 10.0.1.10, port: 8080, weight: 2 }
   - { host: 10.0.1.11, port: 8080 }
+
 ```
 
 #### 4.3 Loading a JSON/YAML file at runtime  
@@ -463,6 +481,7 @@ upstream_servers:
   include_vars:
     file: "{{ playbook_dir }}/files/services.json"
     name: extra_services
+
 ```
 
 The dictionary `extra_services` becomes available to any later template, e.g., `{{ extra_services.api.endpoint }}`.
@@ -489,6 +508,7 @@ The dictionary `extra_services` becomes available to any later template, e.g., `
     dest: /etc/systemd/system/myapp.service
     mode: "0644"
   notify: Reload systemd
+
 ```
 
 The `template` module automatically supplies **all variables** (inventory, facts, defaults, etc.) to the Jinja2 engine.
@@ -502,6 +522,7 @@ Add the following to `ansible.cfg`:
 ```ini
 [defaults]
 jinja2_native = True
+
 ```
 
 Now booleans, integers, and lists are rendered as native Python types, which is essential when generating JSON or when a downstream tool expects true data types.
@@ -527,12 +548,14 @@ class FilterModule(object):
         return {
             'slugify': slugify,
         }
+
 ```
 
 Use it in a template:
 
 ```jinja
 {{ inventory_hostname | slugify }}.example.com
+
 ```
 
 Ansible automatically discovers plugins placed in `filter_plugins/` (or any directory referenced by `ANSIBLE_FILTER_PLUGINS`).
@@ -561,12 +584,14 @@ Ansible automatically discovers plugins placed in `filter_plugins/` (or any dire
     - name: Verify expected line exists
       command: grep -q '^listen 8080;' /tmp/rendered-nginx.conf
       changed_when: false
+
 ```
 
 Run in CI:
 
 ```bash
 ansible-playbook -i tests/inventory tests/test_nginx_template.yml --check
+
 ```
 
 If the playbook exits with `0`, the template rendered correctly with the supplied variables.
@@ -577,6 +602,7 @@ If the playbook exits with `0`, the template rendered correctly with the supplie
 - name: Lint rendered manifest
   command: yamllint /tmp/rendered-nginx.conf
   changed_when: false
+
 ```
 
 Add these steps to your CI pipeline to **fail early** on syntax errors.
@@ -585,7 +611,7 @@ Add these steps to your CI pipeline to **fail early** on syntax errors.
 
 ### 9️⃣ Demonstration – Rendering a Jinja2 Template with Python  
 
-Below is a tiny Python snippet that mimics Ansible’s rendering process. It shows the final Nginx configuration for a host that enables SSL.
+Below is a tiny Python snippet that mimics Ansible's rendering process. It shows the final Nginx configuration for a host that enables SSL.
 
 
 
@@ -598,7 +624,7 @@ Ansible is built on Jinja2. Every time you write `{{ … }}` you are invoking th
 * safely inject external data and secrets, and  
 * test‑drive the rendering as part of a CI pipeline.
 
-Below is a practical, “from‑scratch‑to‑production” guide that shows how to:
+Below is a practical, "from‑scratch‑to‑production" guide that shows how to:
 
 1. **Structure templates and data** in a role.  
 2. **Leverage built‑in filters, tests, and the `jinja2_native` mode** for proper data types.  
@@ -641,6 +667,7 @@ myapp/
 └─ tests/
     ├─ inventory
     └─ test.yml          # simple playbook for CI validation
+
 ```
 
 The `_helpers.j2` file holds reusable macros that other templates can import, keeping the code DRY.
@@ -688,6 +715,7 @@ http {
         }
     }
 }
+
 ```
 
 Key constructs:
@@ -717,6 +745,7 @@ upstream {{ name }} {
 {% endfor %}
 }
 {%- endmacro %}
+
 ```
 
 You can extend this file with additional macros (`render_location`, `render_ssl_block`, …).  
@@ -734,6 +763,7 @@ nginx_run_dir: /var/run/nginx
 nginx_conf_dir: /etc/nginx
 listen_port: 80
 ssl_enabled: false
+
 ```
 
 #### 4.2 Host‑specific overrides (`host_vars/web01.yml`)  
@@ -747,6 +777,7 @@ upstream_name: app_backends
 upstream_servers:
   - { host: 10.0.1.10, port: 8080, weight: 2 }
   - { host: 10.0.1.11, port: 8080 }
+
 ```
 
 #### 4.3 Loading a JSON/YAML file at runtime  
@@ -757,6 +788,7 @@ upstream_servers:
   include_vars:
     file: "{{ playbook_dir }}/files/services.json"
     name: extra_services
+
 ```
 
 `extra_services` becomes a dictionary you can reference in any later template, e.g., `{{ extra_services.api.endpoint }}`.
@@ -783,6 +815,7 @@ upstream_servers:
     dest: /etc/systemd/system/myapp.service
     mode: "0644"
   notify: Reload systemd
+
 ```
 
 The `template` module automatically supplies **all variables** (inventory, facts, defaults, etc.) to the Jinja2 engine.
@@ -796,6 +829,7 @@ Add the following to `ansible.cfg`:
 ```ini
 [defaults]
 jinja2_native = True
+
 ```
 
 Now booleans, integers, and lists are rendered as native Python types, which is essential when generating JSON or when a downstream tool expects true data types.
@@ -821,12 +855,14 @@ class FilterModule(object):
         return {
             'slugify': slugify,
         }
+
 ```
 
 Use it in a template:
 
 ```jinja
 {{ inventory_hostname | slugify }}.example.com
+
 ```
 
 Ansible automatically discovers plugins placed in `filter_plugins/` (or any directory referenced by `ANSIBLE_FILTER_PLUGINS`).
@@ -855,12 +891,14 @@ Ansible automatically discovers plugins placed in `filter_plugins/` (or any dire
     - name: Verify expected line exists
       command: grep -q '^listen 8080;' /tmp/rendered-nginx.conf
       changed_when: false
+
 ```
 
 Run in CI:
 
 ```bash
 ansible-playbook -i tests/inventory tests/test_nginx_template.yml --check
+
 ```
 
 If the playbook exits with `0`, the template rendered correctly with the supplied variables.
@@ -871,6 +909,7 @@ If the playbook exits with `0`, the template rendered correctly with the supplie
 - name: Lint rendered manifest
   command: yamllint /tmp/rendered-nginx.conf
   changed_when: false
+
 ```
 
 Add these steps to your CI pipeline to **fail early** on syntax errors.
@@ -879,7 +918,7 @@ Add these steps to your CI pipeline to **fail early** on syntax errors.
 
 ### 9️⃣ Demonstration – Rendering a Jinja2 Template with Python  
 
-Below is a small Python snippet that mimics Ansible’s rendering process. It shows the final Nginx configuration for a host that enables SSL.
+Below is a small Python snippet that mimics Ansible's rendering process. It shows the final Nginx configuration for a host that enables SSL.
 
 
 
@@ -894,7 +933,7 @@ Ansible is built on Jinja2. Every time you write `{{ … }}` you are invoking th
 * safely inject external data and secrets, and  
 * test‑drive the rendering as part of a CI pipeline.
 
-Below is a practical, “from‑scratch‑to‑production” guide that shows how to:
+Below is a practical, "from‑scratch‑to‑production" guide that shows how to:
 
 1. **Structure templates and data** in a role.  
 2. **Leverage built‑in filters, tests, and the `jinja2_native` mode** for proper data types.  
@@ -937,6 +976,7 @@ myapp/
 └─ tests/
     ├─ inventory
     └─ test.yml          # simple playbook for CI validation
+
 ```
 
 The `_helpers.j2` file holds reusable macros that other templates can import, keeping the code DRY.
@@ -984,6 +1024,7 @@ http {
         }
     }
 }
+
 ```
 
 Key constructs:
@@ -1013,6 +1054,7 @@ upstream {{ name }} {
 {% endfor %}
 }
 {%- endmacro %}
+
 ```
 
 You can extend this file with additional macros (`render_location`, `render_ssl_block`, …).  
@@ -1030,6 +1072,7 @@ nginx_run_dir: /var/run/nginx
 nginx_conf_dir: /etc/nginx
 listen_port: 80
 ssl_enabled: false
+
 ```
 
 #### 4.2 Host‑specific overrides (`host_vars/web01.yml`)  
@@ -1043,6 +1086,7 @@ upstream_name: app_backends
 upstream_servers:
   - { host: 10.0.1.10, port: 8080, weight: 2 }
   - { host: 10.0.1.11, port: 8080 }
+
 ```
 
 #### 4.3 Loading a JSON/YAML file at runtime  
@@ -1053,6 +1097,7 @@ upstream_servers:
   include_vars:
     file: "{{ playbook_dir }}/files/services.json"
     name: extra_services
+
 ```
 
 The dictionary `extra_services` becomes available to any later template, e.g., `{{ extra_services.api.endpoint }}`.
@@ -1079,6 +1124,7 @@ The dictionary `extra_services` becomes available to any later template, e.g., `
     dest: /etc/systemd/system/myapp.service
     mode: "0644"
   notify: Reload systemd
+
 ```
 
 The `template` module automatically supplies **all variables** (inventory, facts, defaults, etc.) to the Jinja2 engine.
@@ -1092,6 +1138,7 @@ Add the following to `ansible.cfg`:
 ```ini
 [defaults]
 jinja2_native = True
+
 ```
 
 Now booleans, integers, and lists are rendered as native Python types, which is essential when generating JSON or when a downstream tool expects true data types.
@@ -1117,12 +1164,14 @@ class FilterModule(object):
         return {
             'slugify': slugify,
         }
+
 ```
 
 Use it in a template:
 
 ```jinja
 {{ inventory_hostname | slugify }}.example.com
+
 ```
 
 Ansible automatically discovers plugins placed in `filter_plugins/` (or any directory referenced by `ANSIBLE_FILTER_PLUGINS`).
@@ -1151,12 +1200,14 @@ Ansible automatically discovers plugins placed in `filter_plugins/` (or any dire
     - name: Verify expected line exists
       command: grep -q '^listen 8080;' /tmp/rendered-nginx.conf
       changed_when: false
+
 ```
 
 Run in CI:
 
 ```bash
 ansible-playbook -i tests/inventory tests/test_nginx_template.yml --check
+
 ```
 
 If the playbook exits with `0`, the template rendered correctly with the supplied variables.
@@ -1167,6 +1218,7 @@ If the playbook exits with `0`, the template rendered correctly with the supplie
 - name: Lint rendered manifest
   command: yamllint /tmp/rendered-nginx.conf
   changed_when: false
+
 ```
 
 Add these steps to your CI pipeline to **fail early** on syntax errors.
@@ -1175,7 +1227,7 @@ Add these steps to your CI pipeline to **fail early** on syntax errors.
 
 ### 9️⃣ Demonstration – Rendering a Jinja2 Template with Python  
 
-Below is a tiny Python snippet that mimics Ansible’s rendering process. It shows the final Nginx configuration for a host that enables SSL.
+Below is a tiny Python snippet that mimics Ansible's rendering process. It shows the final Nginx configuration for a host that enables SSL.
 
 
 
@@ -1188,7 +1240,7 @@ Ansible is built on Jinja2. Every time you write `{{ … }}` you are invoking th
 * safely inject external data and secrets, and  
 * test‑drive the rendering as part of a CI pipeline.
 
-Below is a practical, “from‑scratch‑to‑production” guide that shows how to:
+Below is a practical, "from‑scratch‑to‑production" guide that shows how to:
 
 1. **Structure templates and data** in a role.  
 2. **Leverage built‑in filters, tests, and the `jinja2_native` mode** for proper data types.  
@@ -1231,6 +1283,7 @@ myapp/
 └─ tests/
     ├─ inventory
     └─ test.yml          # simple playbook for CI validation
+
 ```
 
 The `_helpers.j2` file holds reusable macros that other templates can import, keeping the code DRY.
@@ -1278,6 +1331,7 @@ http {
         }
     }
 }
+
 ```
 
 Key constructs:
@@ -1307,6 +1361,7 @@ upstream {{ name }} {
 {% endfor %}
 }
 {%- endmacro %}
+
 ```
 
 You can extend this file with additional macros (`render_location`, `render_ssl_block`, …).  
@@ -1324,6 +1379,7 @@ nginx_run_dir: /var/run/nginx
 nginx_conf_dir: /etc/nginx
 listen_port: 80
 ssl_enabled: false
+
 ```
 
 #### 4.2 Host‑specific overrides (`host_vars/web01.yml`)  
@@ -1337,6 +1393,7 @@ upstream_name: app_backends
 upstream_servers:
   - { host: 10.0.1.10, port: 8080, weight: 2 }
   - { host: 10.0.1.11, port: 8080 }
+
 ```
 
 #### 4.3 Loading a JSON/YAML file at runtime  
@@ -1347,6 +1404,7 @@ upstream_servers:
   include_vars:
     file: "{{ playbook_dir }}/files/services.json"
     name: extra_services
+
 ```
 
 `extra_services` becomes a dictionary you can reference in any later template, e.g., `{{ extra_services.api.endpoint }}`.
@@ -1373,6 +1431,7 @@ upstream_servers:
     dest: /etc/systemd/system/myapp.service
     mode: "0644"
   notify: Reload systemd
+
 ```
 
 The `template` module automatically supplies **all variables** (inventory, facts, defaults, etc.) to the Jinja2 engine.
@@ -1386,6 +1445,7 @@ Add the following to `ansible.cfg`:
 ```ini
 [defaults]
 jinja2_native = True
+
 ```
 
 Now booleans, integers, and lists are rendered as native Python types, which is essential when generating JSON or when a downstream tool expects true data types.
@@ -1411,12 +1471,14 @@ class FilterModule(object):
         return {
             'slugify': slugify,
         }
+
 ```
 
 Use it in a template:
 
 ```jinja
 {{ inventory_hostname | slugify }}.example.com
+
 ```
 
 Ansible automatically discovers plugins placed in `filter_plugins/` (or any directory referenced by `ANSIBLE_FILTER_PLUGINS`).
@@ -1445,12 +1507,14 @@ Ansible automatically discovers plugins placed in `filter_plugins/` (or any dire
     - name: Verify expected line exists
       command: grep -q '^listen 8080;' /tmp/rendered-nginx.conf
       changed_when: false
+
 ```
 
 Run in CI:
 
 ```bash
 ansible-playbook -i tests/inventory tests/test_nginx_template.yml --check
+
 ```
 
 If the playbook exits with `0`, the template rendered correctly with the supplied variables.
@@ -1461,6 +1525,7 @@ If the playbook exits with `0`, the template rendered correctly with the supplie
 - name: Lint rendered manifest
   command: yamllint /tmp/rendered-nginx.conf
   changed_when: false
+
 ```
 
 Add these steps to your CI pipeline to **fail early** on syntax errors.
@@ -1469,7 +1534,7 @@ Add these steps to your CI pipeline to **fail early** on syntax errors.
 
 ### 9️⃣ Demonstration – Rendering a Jinja2 Template with Python  
 
-Below is a small Python snippet that mimics Ansible’s rendering process. It shows the final Nginx configuration for a host that enables SSL.
+Below is a small Python snippet that mimics Ansible's rendering process. It shows the final Nginx configuration for a host that enables SSL.
 
 
 
@@ -1482,7 +1547,7 @@ Ansible is built on Jinja2. Every time you write `{{ … }}` you are invoking th
 * safely inject external data and secrets, and  
 * test‑drive the rendering as part of a CI pipeline.
 
-Below is a practical, “from‑scratch‑to‑production” guide that shows how to:
+Below is a practical, "from‑scratch‑to‑production" guide that shows how to:
 
 1. **Structure templates and data** in a role.  
 2. **Leverage built‑in filters, tests, and the `jinja2_native` mode** for proper data types.  
@@ -1525,6 +1590,7 @@ myapp/
 └─ tests/
     ├─ inventory
     └─ test.yml          # simple playbook for CI validation
+
 ```
 
 The `_helpers.j2` file holds reusable macros that other templates can import, keeping the code DRY.
@@ -1572,6 +1638,7 @@ http {
         }
     }
 }
+
 ```
 
 Key constructs:
@@ -1601,6 +1668,7 @@ upstream {{ name }} {
 {% endfor %}
 }
 {%- endmacro %}
+
 ```
 
 You can extend this file with additional macros (`render_location`, `render_ssl_block`, …).
@@ -1618,6 +1686,7 @@ nginx_run_dir: /var/run/nginx
 nginx_conf_dir: /etc/nginx
 listen_port: 80
 ssl_enabled: false
+
 ```
 
 #### 4.2 Host‑specific overrides (`host_vars/web01.yml`)
@@ -1631,6 +1700,7 @@ upstream_name: app_backends
 upstream_servers:
   - { host: 10.0.1.10, port: 8080, weight: 2 }
   - { host: 10.0.1.11, port: 8080 }
+
 ```
 
 #### 4.3 Loading a JSON/YAML file at runtime  
@@ -1641,6 +1711,7 @@ upstream_servers:
   include_vars:
     file: "{{ playbook_dir }}/files/services.json"
     name: extra_services
+
 ```
 
 The dictionary `extra_services` becomes available to any later template, e.g., `{{ extra_services.api.endpoint }}`.
@@ -1667,6 +1738,7 @@ The dictionary `extra_services` becomes available to any later template, e.g., `
     dest: /etc/systemd/system/myapp.service
     mode: "0644"
   notify: Reload systemd
+
 ```
 
 The `template` module automatically supplies **all variables** (inventory, facts, defaults, etc.) to the Jinja2 engine.
@@ -1680,6 +1752,7 @@ Add to `ansible.cfg`:
 ```ini
 [defaults]
 jinja2_native = True
+
 ```
 
 Now booleans, integers, and lists are rendered as native Python types, which is essential when generating JSON or when a downstream tool expects true data types.
@@ -1705,12 +1778,14 @@ class FilterModule(object):
         return {
             'slugify': slugify,
         }
+
 ```
 
 Use it in a template:
 
 ```jinja
 {{ inventory_hostname | slugify }}.example.com
+
 ```
 
 Ansible automatically discovers plugins placed in `filter_plugins/` (or any directory referenced by `ANSIBLE_FILTER_PLUGINS`).
@@ -1739,12 +1814,14 @@ Ansible automatically discovers plugins placed in `filter_plugins/` (or any dire
     - name: Verify expected line exists
       command: grep -q '^listen 8080;' /tmp/rendered-nginx.conf
       changed_when: false
+
 ```
 
 Run in CI:
 
 ```bash
 ansible-playbook -i tests/inventory tests/test_nginx_template.yml --check
+
 ```
 
 If the playbook exits with `0`, the template rendered correctly with the supplied variables.
@@ -1755,6 +1832,7 @@ If the playbook exits with `0`, the template rendered correctly with the supplie
 - name: Lint rendered manifest
   command: yamllint /tmp/rendered-nginx.conf
   changed_when: false
+
 ```
 
 Add these steps to your CI pipeline to **fail early** on syntax errors.
@@ -1780,7 +1858,7 @@ Ansible is built on Jinja2. Every time you write `{{ … }}` you are invoking th
 * safely inject external data and secrets, and  
 * test‑drive the rendering as part of a CI pipeline.
 
-Below is a practical, “from‑scratch‑to‑production” guide that shows how to:
+Below is a practical, "from‑scratch‑to‑production" guide that shows how to:
 
 1. **Structure templates and data** in a role.  
 2. **Leverage built‑in filters, tests, and the `jinja2_native` mode** for proper data types.  
@@ -1823,6 +1901,7 @@ myapp/
 └─ tests/
     ├─ inventory
     └─ test.yml          # simple playbook for CI validation
+
 ```
 
 The `_helpers.j2` file holds reusable macros that other templates can import, keeping the code DRY.
@@ -1870,6 +1949,7 @@ http {
         }
     }
 }
+
 ```
 
 Key constructs:
@@ -1899,6 +1979,7 @@ upstream {{ name }} {
 {% endfor %}
 }
 {%- endmacro %}
+
 ```
 
 You can extend this file with additional macros (`render_location`, `render_ssl_block`, …).
@@ -1916,6 +1997,7 @@ nginx_run_dir: /var/run/nginx
 nginx_conf_dir: /etc/nginx
 listen_port: 80
 ssl_enabled: false
+
 ```
 
 #### 4.2 Host‑specific overrides (`host_vars/web01.yml`)  
@@ -1929,6 +2011,7 @@ upstream_name: app_backends
 upstream_servers:
   - { host: 10.0.1.10, port: 8080, weight: 2 }
   - { host: 10.0.1.11, port: 8080 }
+
 ```
 
 #### 4.3 Loading a JSON/YAML file at runtime  
@@ -1939,6 +2022,7 @@ upstream_servers:
   include_vars:
     file: "{{ playbook_dir }}/files/services.json"
     name: extra_services
+
 ```
 
 `extra_services` becomes a dictionary you can reference in any later template, e.g., `{{ extra_services.api.endpoint }}`.
@@ -1965,6 +2049,7 @@ upstream_servers:
     dest: /etc/systemd/system/myapp.service
     mode: "0644"
   notify: Reload systemd
+
 ```
 
 The `template` module automatically supplies **all variables** (inventory, facts, defaults, etc.) to the Jinja2 engine.
@@ -1978,6 +2063,7 @@ Add the following to `ansible.cfg`:
 ```ini
 [defaults]
 jinja2_native = True
+
 ```
 
 Now booleans, integers, and lists are rendered as native Python types, which is essential when generating JSON or when a downstream tool expects true data types.
@@ -2003,12 +2089,14 @@ class FilterModule(object):
         return {
             'slugify': slugify,
         }
+
 ```
 
 Use it in a template:
 
 ```jinja
 {{ inventory_hostname | slugify }}.example.com
+
 ```
 
 Ansible automatically discovers plugins placed in `filter_plugins/` (or any directory referenced by `ANSIBLE_FILTER_PLUGINS`).
@@ -2037,12 +2125,14 @@ Ansible automatically discovers plugins placed in `filter_plugins/` (or any dire
     - name: Verify expected line exists
       command: grep -q '^listen 8080;' /tmp/rendered-nginx.conf
       changed_when: false
+
 ```
 
 Run in CI:
 
 ```bash
 ansible-playbook -i tests/inventory tests/test_nginx_template.yml --check
+
 ```
 
 If the playbook exits with `0`, the template rendered correctly with the supplied variables.
@@ -2053,6 +2143,7 @@ If the playbook exits with `0`, the template rendered correctly with the supplie
 - name: Lint rendered manifest
   command: yamllint /tmp/rendered-nginx.conf
   changed_when: false
+
 ```
 
 Add these steps to your CI pipeline to **fail early** on syntax errors.
@@ -2061,7 +2152,7 @@ Add these steps to your CI pipeline to **fail early** on syntax errors.
 
 ### 9️⃣ Demonstration – Rendering a Jinja2 Template with Python  
 
-Below is a small Python snippet that mimics Ansible’s rendering process. It shows the final Nginx configuration for a host that enables SSL.  
+Below is a small Python snippet that mimics Ansible's rendering process. It shows the final Nginx configuration for a host that enables SSL.  
 
 ```python
 from jinja2 import Environment, StrictUndefined
@@ -2122,6 +2213,7 @@ rendered = env.from_string(template_str).render(**context)
 
 print("=== Rendered Nginx configuration ===")
 print(rendered.strip())
+
 ```
 
 **Explanation of the output**
@@ -2129,7 +2221,7 @@ print(rendered.strip())
 * The rendered configuration reflects the values from `context`.  
 * SSL block appears because `ssl_enabled` is `True`.  
 * The `upstream` stanza lists both backend servers, applying the optional `weight` attribute only to the first server.  
-* All defaults (`ansible_processor_vcpus`, `worker_connections`) are overridden by explicit values, showing how Jinja2’s `default` filter works.
+* All defaults (`ansible_processor_vcpus`, `worker_connections`) are overridden by explicit values, showing how Jinja2's `default` filter works.
 
 ---  
 
@@ -2148,7 +2240,7 @@ print(rendered.strip())
 
 ### 🧭 Self‑Assessment Checklist  
 
-- [ ] I can locate the role’s `defaults`, `vars`, `templates`, and `tasks` directories and explain their purpose.  
+- [ ] I can locate the role's `defaults`, `vars`, `templates`, and `tasks` directories and explain their purpose.  
 - [ ] I have written a Jinja2 template that uses `default`, `if/else`, and a loop over a list of dictionaries.  
 - [ ] I created a macro in `_helpers.j2` and imported it into another template with `{% from "_helpers.j2" import … %}`.  
 - [ ] My `ansible.cfg` contains `jinja2_native = True` and I understand how that changes output types.  
@@ -2156,4 +2248,4 @@ print(rendered.strip())
 - [ ] I can run a unit test playbook that renders a template and validates a specific line with `grep`.  
 - [ ] My CI pipeline runs rendering, linting, and `ansible‑lint` steps, and it fails when a template contains a syntax error.  
 
-If you can answer “yes” to all the items, you have a solid grasp of using Jinja2 inside Ansible for production‑grade automation.
+If you can answer "yes" to all the items, you have a solid grasp of using Jinja2 inside Ansible for production‑grade automation.

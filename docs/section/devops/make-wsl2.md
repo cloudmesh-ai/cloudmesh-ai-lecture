@@ -11,7 +11,7 @@ It wraps the native `wsl.exe` commands so that the most common WSL 2 actions b
 # --------------------------------------------------------------
 # Configuration – edit these to suit your environment
 # --------------------------------------------------------------
-# Full path to the Windows “wsl.exe” command.  On a standard
+# Full path to the Windows "wsl.exe" command.  On a standard
 # installation the shortcut works, but on some systems you may
 # need to point to the real binary (e.g. C:\Windows\System32\wsl.exe)
 WSL        ?= wsl
@@ -99,7 +99,7 @@ import:
 	@echo "✅ Import finished – you can now use $(NEWNAME)"
 
 # -----------------------------------------------------------------
-# 4. Set the default distro (the one that runs when you type just “wsl”)
+# 4. Set the default distro (the one that runs when you type just "wsl")
 # -----------------------------------------------------------------
 default:
 	@$(call wsl_cmd,--set-default $(if $(DISTRO),$(DISTRO),$(DEFAULT_DISTRO)))

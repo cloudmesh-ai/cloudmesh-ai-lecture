@@ -26,8 +26,11 @@ DevOps is best visualized as a continuous loop of interactions between developme
 The "Dev" portion of the cycle focuses on the creation and validation of the software:
 
 - **Planning**: Defining requirements, user stories, and sprint goals.
+
 - **Creating**: Writing the actual code and implementing features.
+
 - **Verifying**: Performing unit tests, integration tests, and code reviews.
+
 - **Packaging**: Bundling the code into deployable artifacts (e.g., Docker images, JAR files).
 
 ### The Operations (Ops) Phase
@@ -37,8 +40,11 @@ The "Ops" portion focuses on the stability and delivery of the software to the e
 ![Wikipedia Ven Diagram about DevOps](images/devops-toolchain.png)
 
 - **Releasing**: Deploying the package to staging or production environments.
+
 - **Configuring**: Managing environment variables, secrets, and infrastructure settings.
+
 - **Monitoring**: Tracking system health, performance metrics, and error logs.
+
 - **Ops Planning**: Using monitoring data to influence the next cycle of development planning.
 
 !!! info "Why this matters"
@@ -49,8 +55,11 @@ The "Ops" portion focuses on the stability and delivery of the software to the e
 A primary advantage of adopting a DevOps approach is the ability to ensure reproducibility across the entire product chain. If technologies are applied correctly, a solution should not only work on a single cloud provider but be portable across multiple clouds.
 
 This is achieved by creating common underlying layers:
+
 - **Infrastructure as Code (IaC)**: Defining servers and networks in text files.
+
 - **Containerization**: Packaging software with all its dependencies.
+
 - **Platform Abstraction**: Using tools that interface with multiple cloud APIs.
 
 !!! info "Why this matters"
@@ -96,5 +105,7 @@ The ecosystem of DevOps tools is vast, spanning everything from version control 
 ## References
 
 - DevOps tools collection: [GitHub - devops-tools](https://github.com/collections/devops-tools)
+
 - Tox: [tox.readthedocs.io](https://tox.readthedocs.io/en/latest/)
+
 - Travis CI: [about.travis-ci.com](https://about.travis-ci.com/)

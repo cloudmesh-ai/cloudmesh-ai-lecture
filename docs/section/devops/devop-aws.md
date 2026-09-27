@@ -27,10 +27,12 @@ AWS provides a family of tools known as the "CodeSuite" to handle the software d
 Beyond the application code, AWS provides tools to manage the environment the code runs in.
 
 ### Container and Serverless Platforms
+
 - **Elastic Container Service (ECS)**: A highly scalable container management service that allows you to run Docker containers without managing a full Kubernetes cluster.
 - **AWS Lambda**: The pinnacle of "NoOps." Lambda allows you to deploy code as functions (FaaS), where AWS handles all infrastructure, scaling, and availability.
 
 ### Infrastructure as Code (IaC)
+
 - **AWS CloudFormation**: The native AWS tool for defining infrastructure as code. You describe your resources (VPCs, S3 buckets, EC2) in a JSON or YAML template, and CloudFormation provisions them as a single "stack."
 - **AWS OpsWorks**: A configuration management service that uses Chef or Puppet to automate how servers are configured, deployed, and managed.
 
@@ -39,12 +41,14 @@ Beyond the application code, AWS provides tools to manage the environment the co
 A DevOps pipeline is incomplete without a feedback loop. AWS provides tools to ensure your application is healthy and performing as expected.
 
 ### Amazon CloudWatch
+
 CloudWatch is the central nervous system for monitoring. It:
 - **Collects Metrics**: Tracks CPU usage, disk I/O, and custom application metrics.
 - **Centralizes Logs**: Gathers logs from all EC2 instances and Lambda functions into one searchable place.
 - **Sets Alarms**: Triggers notifications or automatic scaling actions when a threshold is met (e.g., "Scale up if CPU > 70%").
 
 ### AWS X-Ray
+
 While CloudWatch tells you *that* a system is slow, X-Ray tells you *where* it is slow. X-Ray provides distributed tracing, allowing you to follow a single request as it travels through multiple microservices, helping you pinpoint the exact bottleneck in a complex architecture.
 
 # Self-Assessment

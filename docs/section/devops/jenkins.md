@@ -19,6 +19,7 @@ Jenkins is the most widely used open-source automation server in the world. Unli
 ## 1. Fundamentals of Jenkins
 
 ### Core Purpose and Capabilities
+
 Jenkins focuses on automating the "boring" and repetitive parts of software delivery. Its extensibility allows it to handle a vast array of automation scenarios:
 
 | Core purpose | How Jenkins achieves it |
@@ -34,28 +35,43 @@ Jenkins focuses on automating the "boring" and repetitive parts of software deli
 | **Enforce standards** | Integrates with code‑quality tools (SonarQube, Checkstyle), security scanners (OWASP Dependency‑Check), and compliance checks to prevent low‑quality code from reaching production. |
 
 ### The Master-Agent Architecture
+
 To avoid performance bottlenecks and ensure environment isolation, Jenkins uses a distributed architecture:
 
 - **Jenkins Master**: The "brain" of the operation. It handles the UI, manages plugin configurations, schedules jobs, and monitors the agents.
+
 - **Jenkins Agents**: The "workers." These are separate machines or containers that actually execute the build steps. This allows you to run a Linux build on a Linux agent and a Windows build on a Windows agent, all orchestrated by one master.
 
 ### Typical Jenkins Workflow (CI/CD Pipeline)
+
 A typical Jenkins pipeline follows a rigorous path from code commit to production:
 
 1. **Source change** – A developer pushes a commit to the repository.
+
 2. **Trigger** – Jenkins receives a webhook or polls the repo and starts a job/pipeline.
+
 3. **Build** – Compiles the code, resolves dependencies, and creates artefacts.
+
 4. **Test** – Executes automated tests; results are recorded and reported.
+
 5. **Artifact storage** – Successful artefacts are pushed to a Docker registry, Nexus, Artifactory, etc.
+
 6. **Deployment** – The pipeline deploys the artefact to a staging environment; optional approvals promote it to production.
+
 7. **Verification** – Post‑deployment smoke tests, monitoring hooks, or manual QA checks.
+
 8. **Feedback** – Notifications are sent, dashboards updated, and the cycle repeats for the next change.
 
 ### Key Benefits
+
 - **Speed:** Immediate feedback reduces integration problems and shortens release cycles.
+
 - **Reliability:** Automated, repeatable steps minimise human error.
+
 - **Visibility:** Central UI and APIs give complete traceability of every change.
+
 - **Flexibility:** Plugins and pipeline code allow you to tailor workflows to any tech stack.
+
 - **Scalability:** Distributed agents let you run many jobs in parallel, on any platform (bare metal, VM, Docker, Kubernetes).
 
 ### Where Jenkins Fits in Modern Toolchains
@@ -73,11 +89,17 @@ A typical Jenkins pipeline follows a rigorous path from code commit to productio
 ## 2. Getting Started and Technical Setup
 
 ### Quick Start Guide
+
 1. **Install Jenkins** (Docker, native package, or cloud‑hosted).
+
 2. **Create a pipeline** using the built‑in **Blue Ocean** UI or write a `Jenkinsfile`.
+
 3. **Add required plugins** (Git, Docker, Kubernetes, credentials, etc.).
+
 4. **Configure credentials** (SSH keys, cloud service accounts) securely in the Jenkins credentials store.
+
 5. **Connect a source repository** (GitHub, GitLab, Bitbucket) and enable webhooks.
+
 6. **Run the pipeline** and iterate—add test stages, security scans, and deployment steps as needed.
 
 ### Installation & Security Guide
@@ -90,13 +112,14 @@ A typical Jenkins pipeline follows a rigorous path from code commit to productio
 | **d. Unlock** | Open `http://<your‑host>:8080`. The initial admin password is in `/var/lib/jenkins/secrets/initialAdminPassword`. | First‑time login |
 | **e. Install Plugins** | *Suggested plugins* plus **Docker Pipeline**, **Kubernetes CI**, **Git**, **GitHub Branch Source**, **Pipeline: Multibranch**, **Blue Ocean**, **Credentials Binding**, **AWS Credentials**, **Azure Credentials**, **Google OAuth Credentials**, **Pipeline: Groovy**, **Artifact Manager on S3**. | Essential for cloud & AI capabilities |
 | **f. Create Admin** | Follow the UI wizard. | Create separate service accounts for production. |
-| **g. HTTPS Setup** | Use **NGINX** or **Caddy** as a reverse proxy with a TLS cert from Let’s Encrypt. <br>```bash sudo apt-get install -y nginx sudo ln -s /etc/nginx/sites-available/jenkins /etc/nginx/sites-enabled/ ``` | Guarantees encrypted traffic. |
+| **g. HTTPS Setup** | Use **NGINX** or **Caddy** as a reverse proxy with a TLS cert from Let's Encrypt. <br>```bash sudo apt-get install -y nginx sudo ln -s /etc/nginx/sites-available/jenkins /etc/nginx/sites-enabled/ ``` | Guarantees encrypted traffic. |
 
 > **Tip:** If you prefer a fully‑managed Jenkins, spin up **Jenkins X** on a cloud Kubernetes cluster – the same pipeline concepts apply.
 
 ## 3. Building a Classic CI/CD Pipeline (Dockerised Web App)
 
 ### 3.1 Repository Layout
+
 ```text
 my‑app/
 │
@@ -105,11 +128,14 @@ my‑app/
 ├─ requirements.txt     # Python deps (or package.json, pom.xml, …)
 ├─ Dockerfile           # Build image
 └─ Jenkinsfile          # Declarative pipeline definition
+
 ```
 
 ### 3.2 Minimal `Dockerfile`
+
 ```dockerfile
 # Use official Python slim image
+
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -118,11 +144,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src/ ./src
 
 # Expose the web port (change as needed)
+
 EXPOSE 5000
 CMD ["python", "src/main.py"]
+
 ```
 
 ### 3.3 Complete Declarative `Jenkinsfile`
+
 ```groovy
 pipeline {
     agent any               // Runs on any available Jenkins agent
@@ -187,13 +216,15 @@ pipeline {
         }
     }
 }
+
 ```
 
 ## 4. Deploying to a Cloud Container Service
 
-Below are three drop‑in snippets you can paste into the **“Deploy to Cloud”** stage of the `Jenkinsfile`. Choose the one that matches your cloud provider.
+Below are three drop‑in snippets you can paste into the **"Deploy to Cloud"** stage of the `Jenkinsfile`. Choose the one that matches your cloud provider.
 
 ### 4.1 AWS ECS (Fargate)
+
 ```groovy
 stage('Deploy to ECS') {
     steps {
@@ -218,9 +249,11 @@ stage('Deploy to ECS') {
         }
     }
 }
+
 ```
 
 ### 4.2 Azure AKS (Kubernetes)
+
 ```groovy
 stage('Deploy to AKS') {
     steps {
@@ -240,9 +273,11 @@ stage('Deploy to AKS') {
         }
     }
 }
+
 ```
 
 ### 4.3 GCP GKE
+
 ```groovy
 stage('Deploy to GKE') {
     steps {
@@ -258,6 +293,7 @@ stage('Deploy to GKE') {
         }
     }
 }
+
 ```
 
 **Tip:** Keep the cloud‑specific snippets in separate Groovy shared libraries (e.g., `vars/awsDeploy.groovy`). This makes the `Jenkinsfile` cleaner and easier to maintain across multiple projects.
@@ -267,6 +303,7 @@ stage('Deploy to GKE') {
 Assume you have a **Python model** that you want to (re)train on every successful build and then ship as a **REST micro‑service**.
 
 ### 5.1 Project structure addition
+
 ```text
 my‑app/
 │
@@ -275,9 +312,11 @@ my‑app/
 │   ├─ serve.py          # Model REST API
 │   └─ requirements-ml.txt
 └─ Dockerfile.ml         # Dockerfile for the model service
+
 ```
 
 ### 5.2 `ml/train.py` (Example)
+
 ```python
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -285,6 +324,7 @@ import joblib
 import os
 
 # Dummy data
+
 X = np.random.randn(200, 5)
 y = (X[:, 0] + X[:, 1] > 0).astype(int)
 
@@ -294,9 +334,11 @@ model.fit(X, y)
 out_path = os.getenv("MODEL_PATH", "ml/model.pkl")
 joblib.dump(model, out_path)
 print(f"Model saved to {out_path}")
+
 ```
 
 ### 5.3 `Dockerfile.ml`
+
 ```dockerfile
 FROM python:3.11-slim
 
@@ -308,9 +350,11 @@ COPY ml/ ./ml
 ENV MODEL_PATH=/app/ml/model.pkl
 EXPOSE 8081
 CMD ["python", "-m", "ml.serve"]
+
 ```
 
 ### 5.4 Extending the `Jenkinsfile`
+
 Add the following stage after the Docker image push to automate the ML lifecycle:
 
 ```groovy
@@ -342,16 +386,18 @@ stage('Train & Publish ML Model') {
         }
     }
 }
+
 ```
 
 ### 5.5 Deploy the model as a micro‑service
+
 Reuse the cloud‑deployment logic from Section 4, but point to `Dockerfile.ml` and the model‑specific image (e.g., `my‑ml-service:\${BUILD_NUMBER}`). The steps are identical—just change the image name and the Kubernetes/ECS task definition.
 
 ## 6. Automation and Triggers
 
 | Trigger type | Jenkins configuration | Typical use‑case |
 | :--- | :--- | :--- |
-| **Push trigger** | In *Multibranch Pipeline* settings $\rightarrow$ “GitHub hook trigger for GITScm polling” | Every commit runs the CI pipeline automatically |
+| **Push trigger** | In *Multibranch Pipeline* settings $\rightarrow$ "GitHub hook trigger for GITScm polling" | Every commit runs the CI pipeline automatically |
 | **Scheduled trigger** | `cron('H H * * *')` in the `pipeline { ... }` block | Nightly model retraining (e.g., heavy dataset) |
 | **Manual parameterised trigger** | `parameters { booleanParam(name: 'DEPLOY_MODEL', defaultValue: true) }` | Let a data‑science lead decide when to push a new model |
 | **Upstream/downstream** | `build job: 'model‑training', propagate: true, wait: true` | Separate pipelines for *app* vs *model* but chained together |
@@ -376,6 +422,7 @@ pipeline {
         }
     }
 }
+
 ```
 
 ## 7. Architecture Overview
@@ -400,6 +447,7 @@ The complete Jenkins‑driven workflow spans from source control $\rightarrow$ C
 ## 8. Implementation Summary
 
 ### Full‑Copy‑Paste Summary
+
 Below is a **single, ready‑to‑use** repository skeleton you can clone and adapt:
 
 ```bash
@@ -407,25 +455,34 @@ git clone https://github.com/your‑org/jenkins‑cloud‑ai‑demo.git
 cd jenkins-cloud-ai-demo
 
 # 1. Build the app locally (optional sanity check)
+
 docker build -t my-app:local -f Dockerfile .
 
 # 2. Push to your registry (example with AWS ECR)
+
 aws ecr get-login-password --region us-east-1 | \\
 docker login --username AWS --password-stdin <account>.dkr.ecr.us-east-1.amazonaws.com
 docker tag my-app:local <account>.dkr.ecr.us-east-1.amazonaws.com/my-app:1
 docker push <account>.dkr.ecr.us-east-1.amazonaws.com/my-app:1
 
 # 3. Create Jenkins credentials:
+
 #    - aws-cred-id  (AWS Access/Secret key)
+
 #    - azure-sp-id  (Azure Service Principal JSON)
+
 #    - gcp-key-file (GCP service‑account JSON)
+
 #    - any Docker registry credentials if needed
 
 # 4. In Jenkins $\rightarrow$ New Item $\rightarrow$ Multibranch Pipeline $\rightarrow$ point to this repo.
+
 #    The pipeline will run automatically on each push.
+
 ```
 
 ### Folder structure (already in the repo)
+
 ```text
 ├─ src/
 │   └─ main.py                # Simple Flask/FastAPI app
@@ -437,6 +494,7 @@ docker push <account>.dkr.ecr.us-east-1.amazonaws.com/my-app:1
 ├─ Dockerfile.ml              # Model‑service container
 ├─ Jenkinsfile                # Full pipeline (CI + Cloud + AI)
 └─ README.md                  # Documentation
+
 ```
 
 ### Next Steps for Advanced Orchestration
@@ -492,17 +550,20 @@ docker push <account>.dkr.ecr.us-east-1.amazonaws.com/my-app:1
 ## Appendix: Local Deployment with Jenkins
 
 ### 0. Clone the Repository
+
 Before running the automation, clone the course repository to your local machine:
 
 ```bash
 git clone https://github.com/cloudmesh-ai/cloudmesh-ai-lecture.git
 cd cloudmesh-ai-lecture
+
 ```
 
 
 While Jenkins is usually a centralized server, you can use it to orchestrate local deployments by running a **Jenkins Agent** on your own machine. This allows you to use the same pipeline logic for your local development as you do for production.
 
 ### 1. The Local Deployment Pipeline
+
 Create a `Jenkinsfile` in the root of the project. This pipeline uses a Declarative syntax to prepare the environment and launch the site.
 
 ```groovy
@@ -539,10 +600,12 @@ pipeline {
         }
     }
 }
+
 ```
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 
@@ -557,9 +620,13 @@ pipeline {
 
 
 ### 2. Execution
+
 1. **Create a Job**: In Jenkins, create a new "Pipeline" job.
+
 2. **Define Pipeline**: Select "Pipeline script from SCM," choose Git, and point it to your repository.
+
 3. **Build Now**: Click "Build Now." Jenkins will execute the stages, install the dependencies, and launch the server.
 
 ### Why use Jenkins for this?
+
 Using Jenkins for local deployment introduces you to **Pipeline as Code**. Instead of remembering a list of shell commands, the entire setup process is versioned. If a new plugin is added to the site, you simply update the `Jenkinsfile`, and every team member's local environment is updated automatically on the next build.

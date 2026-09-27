@@ -75,6 +75,7 @@ An operation is idempotent if performing it multiple times has the same effect a
 ## IaC Tooling Landscape
 
 ### Cloud-Specific Tools
+
 These tools are optimized for a single provider and often support new features the day they are released:
 - **AWS**: CloudFormation
 - **Google Cloud**: Cloud Deployment Manager
@@ -82,6 +83,7 @@ These tools are optimized for a single provider and often support new features t
 - **OpenStack**: Heat
 
 ### Cloud-Agnostic Tools
+
 **Terraform** is the industry standard for multi-vendor infrastructure. While Terraform scripts are not always portable (the resource definitions for AWS differ from Azure), the *workflow* and *tooling* remain identical across all providers.
 
 # Self-Assessment

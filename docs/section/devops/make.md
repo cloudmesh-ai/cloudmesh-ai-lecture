@@ -27,7 +27,7 @@ A **Makefile** is a plain‑text script interpreted by the `make` utility. Its p
 2. Checks timestamps: a target is out‑of‑date if it does not exist or any prerequisite is newer.  
 3. Executes the minimal set of recipes needed to bring the target up‑to‑date.
 
-Although Make was devised for compiling C programs, the same model works for any repeatable command‑line workflow, making it a lightweight “task runner” for DevOps, documentation generation, container orchestration, and cloud‑VM management.
+Although Make was devised for compiling C programs, the same model works for any repeatable command‑line workflow, making it a lightweight "task runner" for DevOps, documentation generation, container orchestration, and cloud‑VM management.
 
 ---
 
@@ -338,7 +338,7 @@ Each subdirectory holds only the files relevant to that concern. The `README.md`
 
 
 **Short answer:**  
-Yes, a Makefile is a core DevOps tool. It isn’t limited to compiling C programs; it’s a lightweight, language‑agnostic task runner that can automate any command‑line workflow – building artifacts, running tests, creating Docker images, provisioning cloud resources, orchestrating CI/CD pipelines, and much more. Because DevOps is all about **repeatable, version‑controlled automation**, Makefiles fit naturally into that mindset.
+Yes, a Makefile is a core DevOps tool. It isn't limited to compiling C programs; it's a lightweight, language‑agnostic task runner that can automate any command‑line workflow – building artifacts, running tests, creating Docker images, provisioning cloud resources, orchestrating CI/CD pipelines, and much more. Because DevOps is all about **repeatable, version‑controlled automation**, Makefiles fit naturally into that mindset.
 
 ---
 
@@ -348,7 +348,7 @@ Yes, a Makefile is a core DevOps tool. It isn’t limited to compiling C progr
 |------------------|----------------------|
 | **Infrastructure as Code** | The build steps, container builds, VM lifecycle commands (e.g., `multipass`, `openstack`) are stored as plain‑text in a Makefile. They can be version‑controlled, reviewed, and rolled back just like any other source file. |
 | **Automation & Repeatability** | `make` re‑evaluates dependencies and executes only the commands needed to bring the system to the desired state, guaranteeing the same result every time. |
-| **Idempotence** | By expressing the desired state as targets and prerequisites, `make` avoids re‑running work that is already up‑to‑date (e.g., it won’t rebuild a binary if the source hasn’t changed). |
+| **Idempotence** | By expressing the desired state as targets and prerequisites, `make` avoids re‑running work that is already up‑to‑date (e.g., it won't rebuild a binary if the source hasn't changed). |
 | **Speed & Incremental Builds** | Only the out‑of‑date parts are rebuilt, which speeds up local development cycles and CI jobs. |
 | **Transparency & Documentation** | A Makefile is self‑documenting: each target name describes the action, and comments can explain the intent. New team members can read the file to understand the workflow. |
 | **Portability** | `make` exists on virtually every Unix‑like system (Linux, macOS, BSD) and even on Windows via MSYS2, Cygwin, or WSL, so the same file works across environments. |
@@ -449,11 +449,11 @@ Running `make` locally gives you the same steps that a CI job would perform, and
 
 ---
 
-## Checklist – “Is Makefile a DevOps Tool for My Project?”
+## Checklist – "Is Makefile a DevOps Tool for My Project?"
 
 - [ ] **Automation needed?** – If you have repeatable shell commands, a Makefile can orchestrate them.  
 - [ ] **Version‑controlled workflow?** – Makefiles live comfortably in Git.  
-- [ ] **Incremental execution desirable?** – `make` only runs what’s out‑of‑date.  
+- [ ] **Incremental execution desirable?** – `make` only runs what's out‑of‑date.  
 - [ ] **Toolchain already includes `make`?** – Most dev boxes, containers, and CI runners have it.  
 - [ ] **Complex state management required?** – Consider Terraform/Ansible for that; otherwise use Make.  
 

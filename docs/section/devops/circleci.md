@@ -88,6 +88,7 @@ Implementing CircleCI generally follows these steps:
 ## Appendix: Local Deployment with CircleCI
 
 ### 0. Clone the Repository
+
 Before running the automation, clone the course repository to your local machine:
 
 ```bash
@@ -99,6 +100,7 @@ cd cloudmesh-ai-lecture
 CircleCI is a hosted platform, but you can simulate the deployment process locally using a **CircleCI Runner**. This allows you to test your CI configuration on your own machine before pushing it to GitHub.
 
 ### 1. The Configuration
+
 Create a `.circleci/config.yml` file in your project root. This configuration defines a job that prepares the environment and launches the site.
 
 ```yaml
@@ -129,6 +131,7 @@ workflows:
 ```
 
 ### 2. Execution with Local Runner
+
 To execute this locally, you would use the CircleCI local CLI:
 
 ```bash
@@ -136,4 +139,5 @@ circleci local execute --job deploy_local
 ```
 
 ### Why use CircleCI for this?
+
 CircleCI's strength is its **container-first approach**. By defining your deployment in a `config.yml`, you ensure that the environment (OS, Python version, and plugins) is identical regardless of whether the site is being served on your laptop or in a cloud-based preview environment.
