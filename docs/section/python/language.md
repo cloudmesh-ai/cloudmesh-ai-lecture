@@ -1,12 +1,12 @@
 # Language
 
 !!! info "Learning Objectives"
-    - Master foundational Python syntax, including variables, basic data types, and standard operators.
-    - Implement robust data structures such as lists, sets, dictionaries, and specialized hostlists for infrastructure management.
-    - Write reusable functions, classes and commandline tools to streamline cloud and data automation workflows.
-    - Utilize the Python Standard Library (`os`, `json`, `logging`, `pathlib`) for professional system automation.
-    - Implement asynchronous patterns and exception handling for resilient cloud-native applications.
-    - Apply software engineering best practices, including type hinting and unit testing.
+ - Master foundational Python syntax, including variables, basic data types, and standard operators.
+ - Implement robust data structures such as lists, sets, dictionaries, and specialized hostlists for infrastructure management.
+ - Write reusable functions, classes and commandline tools to streamline cloud and data automation workflows.
+ - Utilize the Python Standard Library (`os`, `json`, `logging`, `pathlib`) for system automation.
+ - Implement asynchronous patterns and exception handling for resilient cloud-native applications.
+ - Apply software engineering best practices, including type hinting and unit testing.
 
 ---
 
@@ -16,6 +16,7 @@ Comments in Python are followed by a `#`:
 
 ```python
 # This is a comment
+
 ```
 
 ---
@@ -26,6 +27,7 @@ Let us explore the syntax of Python while starting with a print statement:
 
 ```python
 print("Hello world from Python!")
+
 ```
 
 The print function was given a **string** to process. A string is a sequence of characters. A **character** can be an alphabetic (A through Z, lower and upper case), numeric (any of the digits), white space (spaces, tabs, newlines, etc), syntactic directives (comma, colon, quotation, exclamation, etc), and so forth. A string is just a sequence of the character and typically indicated by surrounding the characters in double-quotes.
@@ -38,8 +40,10 @@ In cloud automation, you frequently need to construct logs or dynamic paths. Mod
 node_name = "gpu-node-01"
 region = "us-east-1"
 # f-strings: prefix with 'f', use curly braces for variables
+
 status_msg = f"Node {node_name} in {region} is currently ONLINE."
 print(status_msg)
+
 ```
 
 Common string methods used for parsing log files or CSVs:
@@ -48,10 +52,11 @@ Common string methods used for parsing log files or CSVs:
 - `.join(list)`: Merges a list into a single string.
 
 ```python
-raw_log = "  2026-09-25 | INFO | Connection established  \n"
+raw_log = " 2026-09-25 | INFO | Connection established \n"
 clean_log = raw_log.strip()
 parts = clean_log.split(" | ")
 print(parts[1]) # Output: INFO
+
 ```
 
 ---
@@ -63,6 +68,7 @@ You can store data into a **variable** to access it later. For instance:
 ```python
 hello = 'Hello world from Python!'
 print(hello)
+
 ```
 
 ---
@@ -82,6 +88,7 @@ print(False and False) # False
 print(True or True) # True
 print(True or False) # True
 print(False or False) # False
+
 ```
 
 ### Numbers
@@ -90,6 +97,7 @@ The interactive interpreter can also be used as a calculator. For instance, say 
 
 ```python
 print(21 * 2) # 42
+
 ```
 
 We saw here the print statement again. We passed in the result of the operation 21 * 2. An **integer** (or **int**) in Python is a numeric value without a fractional component (those are called **floating point** numbers, or **float** for short).
@@ -97,7 +105,7 @@ We saw here the print statement again. We passed in the result of the operation 
 The mathematical operators compute the related mathematical operation to the provided numbers. Some operators are:
 
 | Operator | Function |
-| :--- | :--- |
+|:--- |:--- |
 | `*` | multiplication |
 | `/` | division |
 | `+` | addition |
@@ -111,6 +119,7 @@ You can combine **float**s and **int**s:
 ```python
 print(3.14 * 42 / 11 + 4 - 2) # 13.9890909091
 print(2**3) # 8
+
 ```
 
 Note that **operator precedence** is important. Using parenthesis to indicate affect the order of operations gives a difference results, as expected:
@@ -119,6 +128,7 @@ Note that **operator precedence** is important. Using parenthesis to indicate af
 print(3.14 * (42 / 11) + 4 - 2) # 11.42
 print(1 + 2 * 3 - 4 / 5.0) # 6.2
 print( (1 + 2) * (3 - 4) / 5.0 ) # -0.6
+
 ```
 
 ---
@@ -134,21 +144,24 @@ When the interpreter encounters an import statement, it imports the module if th
 ```python
 import numpy
 import matplotlib
+
 ```
 
-### The from ... import Statement
+### The from... import Statement
 
-Python's from statement lets you import specific attributes from a module into the current namespace. The from ... import has the following syntax:
+Python's from statement lets you import specific attributes from a module into the current namespace. The from... import has the following syntax:
 
 ```python
 from datetime import datetime
+
 ```
 
 ### Essential Modules for Cloud Automation
 
-Professional automation scripts rely on these core modules:
+Automation scripts rely on these core modules:
 
 #### 1. `os` and `pathlib` (System and Path Management)
+
 Instead of treating paths as strings, `pathlib` provides an object-oriented approach that works across Windows and Linux.
 
 ```python
@@ -156,32 +169,40 @@ import os
 from pathlib import Path
 
 # Get environment variables (e.g., API keys)
+
 api_key = os.environ.get("CLOUD_API_KEY", "default_key")
 
 # Path manipulation
+
 config_dir = Path.home() / ".config" / "my_ai_app"
 config_dir.mkdir(parents=True, exist_ok=True)
 config_file = config_dir / "settings.yaml"
 
 print(f"Config stored at: {config_file}")
+
 ```
 
 #### 2. `json` (Data Interchange)
+
 Almost every cloud API returns data in JSON format.
 
 ```python
 import json
 
 # Converting a Python dict to a JSON string (Serialization)
+
 node_data = {"id": "i-123", "status": "running"}
 json_string = json.dumps(node_data, indent=2)
 
 # Converting JSON string back to a dict (Deserialization)
+
 parsed_data = json.loads(json_string)
 print(parsed_data["status"])
+
 ```
 
 #### 3. `logging` (Production-grade Output)
+
 Avoid using `print()` in production. The `logging` module allows you to categorize messages by severity (DEBUG, INFO, WARNING, ERROR, CRITICAL).
 
 ```python
@@ -190,6 +211,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.info("Starting cloud synchronization...")
 logging.error("Failed to connect to node-05")
+
 ```
 
 ---
@@ -200,68 +222,79 @@ The `datetime` module supplies classes for manipulating dates and times in both 
 
 ```python
 from datetime import datetime
+
 ```
 
 This module offers a generic date/time string parser which is able to parse most known formats to represent a date and/or time.
 
 ```python
 from dateutil.parser import parse
+
 ```
 
 Create a string variable with the class start time:
 
 ```python
 fall_start = '08-24-2026'
+
 ```
 
 Convert the string to datetime format:
 
 ```python
 print(datetime.strptime(fall_start, '%m-%d-%Y'))
+
 ```
 
 ```python
 from datetime import datetime
 
 # No need for datetime.datetime
+
 d = datetime(2017, 8, 21, 0, 0)
 print(d)
+
 ```
 
 Creating a list of strings as dates:
 
 ```python
 class_dates = [
-    '8/25/2017',
-    '9/1/2017',
-    '9/8/2017',
-    '9/15/2017',
-    '9/22/2017',
-    '9/29/2017']
+ '8/25/2017',
+ '9/1/2017',
+ '9/8/2017',
+ '9/15/2017',
+ '9/22/2017',
+ '9/29/2017']
+
 ```
 
 Convert `class_dates` strings into `datetime` format and save the list into variable `a`:
 
 ```python
 [datetime.strptime(x, '%m/%d/%Y') for x in class_dates]
+
 ```
 
 Use `parse()` to attempt to auto-convert common string formats. Parser must be a string or character stream, not list.
 
 ```python
 parse(fall_start) 
+
 ```
 
 Use `parse()` on every element of the `class_dates` string:
 
 ```python
 [parse(x) for x in class_dates]
+
 ```
 
 Use `parse`, but designate that the day is first:
 
 ```python
 parse(fall_start, dayfirst=True)
+
 ```
 
 Create a `dataframe`. A DataFrame is a tabular data structure comprised of rows and columns, akin to a spreadsheet, database table. DataFrame is a group of Series objects that share an index (the column names). We use pandas is an open-source Python library for data analysis that needs to be imported.
@@ -269,18 +302,19 @@ Create a `dataframe`. A DataFrame is a tabular data structure comprised of rows 
 ```python
 import pandas as pd
 data = {
-  'dates': [
-    '8/25/2017 18:47:05.069722',
-    '9/1/2017 18:47:05.119994',
-    '9/8/2017 18:47:05.178768',
-    '9/15/2017 18:47:05.230071',
-    '9/22/2017 18:47:05.230071',
-    '9/29/2017 18:47:05.280592'],
-  'complete': [1, 0, 1, 1, 0, 1]}
+ 'dates': [
+ '8/25/2017 18:47:05.069722',
+ '9/1/2017 18:47:05.119994',
+ '9/8/2017 18:47:05.178768',
+ '9/15/2017 18:47:05.230071',
+ '9/22/2017 18:47:05.230071',
+ '9/29/2017 18:47:05.280592'],
+ 'complete': [1, 0, 1, 1, 0, 1]}
 df = pd.DataFrame(
-  data,
-  columns = ['dates','complete'])
+ data,
+ columns = ['dates','complete'])
 print(df)
+
 ```
 
 Convert `df['date']` from string to datetime:
@@ -288,6 +322,7 @@ Convert `df['date']` from string to datetime:
 ```python
 import pandas as pd
 pd.to_datetime(df['dates'])
+
 ```
 
 ---
@@ -299,7 +334,7 @@ pd.to_datetime(df['dates'])
 Computer programs do not only execute instructions. Occasionally, a choice needs to be made based on a condition. Python has several conditional operators:
 
 | Operator | Function |
-| :--- | :--- |
+|:--- |:--- |
 | `>` | greater than |
 | `<` | smaller than |
 | `==` | equals |
@@ -310,7 +345,8 @@ Conditions are always combined with variables. A program can make a choice using
 ```python
 x = int(input("Guess x:"))
 if x == 4:
-   print('Correct!')
+ print('Correct!')
+
 ```
 
 In this example, *Correct!* will only be printed if the variable `x` equals four. Python can also execute multiple conditions using the `elif` and `else` keywords.
@@ -318,11 +354,12 @@ In this example, *Correct!* will only be printed if the variable `x` equals four
 ```python
 x = int(input("Guess x:"))
 if x == 4:
-    print('Correct!')
+ print('Correct!')
 elif abs(4 - x) == 1:
-    print('Wrong, but close!')
+ print('Wrong, but close!')
 else:
-    print('Wrong, way off!')
+ print('Wrong, way off!')
+
 ```
 
 ### Iteration
@@ -331,29 +368,33 @@ To repeat code, the `for` keyword can be used. For example, to display the numbe
 
 ```python
 for i in range(1, 3):
-   print('Hello!')
+ print('Hello!')
+
 ```
 
 The second argument to the `range`, *3*, is not inclusive, meaning that the loop will only get to *2* before it finishes. Python itself starts counting from 0, so this code will also work:
 
 ```python
 for i in range(0, 3):
-   print(i + 1)
+ print(i + 1)
+
 ```
 
 In fact, the range function defaults to starting value of *0*, so it is equivalent to:
 
 ```python
 for i in range(3):
-   print(i + 1)
+ print(i + 1)
+
 ```
 
 We can also nest loops inside each other:
 
 ```python
 for i in range(0,3):
-    for j in range(0,3):
-        print(i,' ',j)
+ for j in range(0,3):
+ print(i,' ',j)
+
 ```
 
 In this case, we have two nested loops. The code will iterate over the entire coordinate range (0,0) to (2,2).
@@ -370,23 +411,26 @@ To define a list, you simply list its elements between square brackets `[ ]`:
 
 ```python
 computers = [
-  'Workstation-01',
-  'Server-Alpha',
-  'Laptop-Pro',
-  'Backup-Unit',
-  'Gateway-02']
+ 'Workstation-01',
+ 'Server-Alpha',
+ 'Laptop-Pro',
+ 'Backup-Unit',
+ 'Gateway-02']
+
 ```
 
 To access the first element of the list use:
 
 ```python
 computers[0]
+
 ```
 
 To access the third element of the list use:
 
 ```python
-computers[2]    
+computers[2] 
+
 ```
 
 You can also use a negative index if you want to start counting elements from the end of the list. Thus, the last element has index -1, the second before the last element has index -2, and so on:
@@ -395,12 +439,14 @@ To access the last element of the list use:
 
 ```python
 computers[-1]
+
 ```
 
 To access the second last element of the list use:
 
 ```python
 computers[-2]
+
 ```
 
 Python also allows you to take whole slices of the list by specifying a beginning and end of the slice separated by a colon:
@@ -409,6 +455,7 @@ To access the middle elements, excluding first and last use:
 
 ```python
 computers[1:-1]
+
 ```
 
 As you can see from the example, the starting index in the slice is inclusive and the ending one, exclusive.
@@ -421,6 +468,7 @@ To add an element to the end use:
 
 ```python
 computers.append('Laptop-Pro')
+
 ```
 
 As you can see, the elements in a list need not be unique.
@@ -429,12 +477,14 @@ Merge two lists with `extend`:
 
 ```python
 computers.extend(['Node-05', 'Node-06'])
+
 ```
 
 Find the index of the first occurrence of an element with `index`:
 
 ```python
 computers.index('Laptop-Pro') 
+
 ```
 
 Remove elements by value with `remove`:
@@ -443,6 +493,7 @@ To remove only the first occurrence of the value:
 
 ```python
 computers.remove('Gateway-02')
+
 ```
 
 Remove elements by index with `pop`:
@@ -450,6 +501,7 @@ Remove elements by index with `pop`:
 ```python
 computers.pop(1)
 computers
+
 ```
 
 Notice that `pop` returns the element being removed, while `remove` does not.
@@ -461,6 +513,7 @@ Insert 'Mainframe' at the very beginning:
 ```python
 computers.insert(0, 'Mainframe')
 computers
+
 ```
 
 To `pop()` without an index removes the last element:
@@ -468,6 +521,7 @@ To `pop()` without an index removes the last element:
 ```python
 computers.pop()
 computers
+
 ```
 
 The Python documentation contains a [full list of list operations]().
@@ -476,10 +530,12 @@ To go back to the range function you used earlier, it simply creates a list of n
 
 ```python
 range(10)
+
 ```
 
 ```python
 range(2, 10, 2)
+
 ```
 
 ### Hostlists
@@ -493,7 +549,7 @@ A Hostlist is a compressed representation of network hosts, commonly used in job
 Hostlists use **bracket expansion** to group ranges of numbers or letters.
 
 | Compressed Hostlist | Expanded Result |
-| :--- | :--- |
+|:--- |:--- |
 | `server[01-03]` | `server01, server02, server03` |
 | `node[1,5,10-12]` | `node1, node5, node10, node11, node12` |
 | `gpu-[a-c]` | `gpu-a, gpu-b, gpu-c` |
@@ -504,12 +560,14 @@ The most robust way to handle these in Python is via the `python-hostlist` libra
 
 ```bash
 pip install python-hostlist
+
 ```
 
 #### Basic Operations
 
 ```python
 import hostlist
+
 ```
 
 **1. Expand a hostlist string into a Python list**
@@ -518,12 +576,14 @@ import hostlist
 import hostlist
 hosts = hostlist.expand_hostlist("node[01-03]")
 print(hosts) 
+
 ```
 
 ```python
 import hostlist
 hosts = hostlist.expand_hostlist("red[01-03,05]-compute")
 print(hosts)
+
 ```
 
 **2. Compress a list of hosts into a hostlist string**
@@ -533,6 +593,7 @@ import hostlist
 my_nodes = ['node10', 'node11', 'node12', 'node15']
 compressed = hostlist.collect_hostlist(my_nodes)
 print(compressed)
+
 ```
 
 **3. Practical Cloud/AI Use Case: GPU Clusters**
@@ -542,12 +603,13 @@ In AI training, you might need to run a distributed training job across specific
 ```python
 import hostlist
 def setup_distributed_training(host_string):
-    nodes = hostlist.expand_hostlist(host_string)
-    print(f"Initializing training on {len(nodes)} nodes...")
-    for node in nodes:
-        # Logic to trigger ssh or container execution
-        print(f" -> Connecting to {node}")
+ nodes = hostlist.expand_hostlist(host_string)
+ print(f"Initializing training on {len(nodes)} nodes...")
+ for node in nodes:
+ # Logic to trigger ssh or container execution
+ print(f" -> Connecting to {node}")
 setup_distributed_training("gpu-cluster-[001-004]")
+
 ```
 
 **4. Key Functions Reference**
@@ -567,11 +629,12 @@ Python lists can contain duplicates, as you saw previously. We see that the name
 
 ```python
 computers = [
-  'Workstation-01', 'Server-Alpha', 'Laptop-Pro', 
-  'Backup-Unit', 'Laptop-Pro', 'Workstation-01'
+ 'Workstation-01', 'Server-Alpha', 'Laptop-Pro', 
+ 'Backup-Unit', 'Laptop-Pro', 'Workstation-01'
 ]
 unique_computers = set(computers)
 print(unique_computers)
+
 ```
 
 Keep in mind that a *set* is an **unordered** collection of objects; therefore, we cannot access them by index:
@@ -579,8 +642,11 @@ Keep in mind that a *set* is an **unordered** collection of objects; therefore, 
 ```python
 unique_computers[0]
 # Traceback (most recent call last):
-#   File "<stdin>", line 1, in <module>
-#   TypeError: 'set' object does not support indexing
+
+# File "<stdin>", line 1, in <module>
+
+# TypeError: 'set' object does not support indexing
+
 ```
 
 However, we can convert a set back to a list easily:
@@ -590,6 +656,7 @@ unique_list = list(unique_computers)
 # ['Backup-Unit', 'Server-Alpha', 'Workstation-01', 'Laptop-Pro']
 
 print(unique_list[0])
+
 ```
 
 Notice that in this case, the order of elements in the new list matches the order in which the elements were displayed when the set was created. However, **you should not assume this is the case in general**. Do not make any assumptions about the order of elements in a set when it is converted to any type of sequential data structure.
@@ -607,6 +674,7 @@ office_b = {'Server-Alpha', 'Laptop-Pro'}
 print("Union: All unique computers across both offices:\n\t", office_a | office_b)
 print ("Intersection: Computers present in both offices:\n\t", office_a & office_b)
 print ("Difference: Computers in office_a but NOT in office_b:\n\t", office_a - office_b)
+
 ```
 
 You can read more about these in the [Python documentation for sets](https://docs.python.org/3/library/stdtypes.html#set).
@@ -623,6 +691,7 @@ nums_set = set([random.randint(0, sys.maxvalue) for _ in range(10**5)])
 nums_list = list(nums_set)
 len(nums_set)
 # 100000
+
 ```
 
 We will use the [timeit](https://docs.python.org/2/library/timeit.html) Python module to time 100 operations that test for the existence of a member in either the list or set:
@@ -630,11 +699,13 @@ We will use the [timeit](https://docs.python.org/2/library/timeit.html) Python m
 ```python
 import timeit
 timeit.timeit('random.randint(0, sys.maxint) in nums',
-              setup='import random; nums=%s' % str(nums_set), number=100)
+ setup='import random; nums=%s' % str(nums_set), number=100)
 # 0.0004038810729980469
+
 timeit.timeit('random.randint(0, sys.maxint) in nums',
-              setup='import random; nums=%s' % str(nums_list), number=100)
+ setup='import random; nums=%s' % str(nums_list), number=100)
 # 0.398054122924804
+
 ```
 
 The exact duration of the operations on your system will be different, but the takeaway will be the same: searching for an element in a set is orders of magnitude faster than in a list. This is important to keep in mind when you work with large amounts of data.
@@ -647,16 +718,17 @@ A dictionary represents a key value store:
 
 ```python
 computer = {
-  'name': 'mycomputer',
-  'memory': 16,
-  'kind': 'Laptop'
-  }
+ 'name': 'mycomputer',
+ 'memory': 16,
+ 'kind': 'Laptop'
+ }
 print("computer['name']: ", computer['name'])
 print("computer['memory']: ", computer['memory'])
 
 # A convenient for to print by named attributes is
 
 print("{name} {memory}".format(**computer))
+
 ```
 
 This form of printing with the format statement and a reference to data increases the readability of the print statements.
@@ -665,24 +737,29 @@ You can delete elements with the following commands:
 
 ```python
 del computer['name'] # remove entry with key 'name'
-computer.clear()     # remove all entries in dict
-del computer         # delete entire dictionary
+computer.clear() # remove all entries in dict
+del computer # delete entire dictionary
 # computer
+
 # Traceback (most recent call last):
-#  File "<stdin>", line 1, in <module>
-#  NameError: name 'computer' is not defined
+
+# File "<stdin>", line 1, in <module>
+
+# NameError: name 'computer' is not defined
+
 ```
 
 You can iterate over a dict:
 
 ```python
 computer = {
-  'name': 'mycomputer',
-  'memory': 16,
-  'kind': 'Laptop'
-  }
+ 'name': 'mycomputer',
+ 'memory': 16,
+ 'kind': 'Laptop'
+ }
 for item in computer:
-  print(item, computer[item])
+ print(item, computer[item])
+
 ```
 
 ### Dictionary Keys and Values
@@ -691,18 +768,20 @@ You can retrieve both the keys and values of a dictionary using the `keys()` and
 
 ```python
 computer.keys()
+
 ```
 
 ```python
 computer.values() 
+
 ```
 
 Both methods return lists. Please remember however that the keys and order in which the elements are returned are not necessarily the same. It is important to keep this in mind:
 
 !!! warning "Dictionary Order"
-    *You cannot make any assumptions about the order in which the elements of a dictionary will be returned by the `keys()` and `values()` methods*.
+ *You cannot make any assumptions about the order in which the elements of a dictionary will be returned by the `keys()` and `values()` methods*.
 
-    However, you can use `ordered_dict` that preserves the order.
+ However, you can use `ordered_dict` that preserves the order.
 
 However, you can assume that if you call `keys()` and `values()` in sequence, the order of elements will at least correspond in both methods.
 
@@ -713,9 +792,10 @@ One application of dictionaries that frequently comes up is counting the element
 ```python
 import random
 die_rolls = [
-  random.choice(['heads', 'tails']) for _ in range(10)
+ random.choice(['heads', 'tails']) for _ in range(10)
 ]
 print(die_rolls)
+
 ```
 
 The actual list `die_rolls` will likely be different when you execute this on your computer since the outcomes of the die rolls are random.
@@ -725,17 +805,18 @@ To compute the probabilities of heads and tails, we could count how many heads a
 ```python
 counts = {'heads': 0, 'tails': 0}
 for outcome in die_rolls:
-   assert outcome in counts
-   counts[outcome] += 1
+ assert outcome in counts
+ counts[outcome] += 1
 print('Probability of heads: %.2f' % (counts['heads'] / len(die_rolls)))
 print('Probability of tails: %.2f' % (counts['tails'] / sum(counts.values())))
+
 ```
 
 In addition to how we use the dictionary `counts` to count the elements of `coin_flips`, notice a couple of things about this example:
 
-1.  We used the `assert outcome in the count` statement. The `assert` statement in Python allows you to easily insert debugging statements in your code to help you discover errors more quickly. `assert` statements are executed whenever the internal Python `__debug__` variable is set to True, which is always the case unless you start Python with the `-O` option which allows you to run *optimized* Python.
+1. We used the `assert outcome in the count` statement. The `assert` statement in Python allows you to easily insert debugging statements in your code to help you discover errors more quickly. `assert` statements are executed whenever the internal Python `__debug__` variable is set to True, which is always the case unless you start Python with the `-O` option which allows you to run *optimized* Python.
 
-2.  When we computed the probability of tails, we used the built-in `sum` function, which allowed us to quickly find the total number of coin flips. The `sum` is one of many built-in functions you can [read about here](https://docs.python.org/2/library/functions.html).
+2. When we computed the probability of tails, we used the built-in `sum` function, which allowed us to quickly find the total number of coin flips. The `sum` is one of many built-in functions you can [read about here](https://docs.python.org/2/library/functions.html).
 
 ---
 
@@ -746,45 +827,49 @@ You can reuse code by putting it inside a function that you can call in other pa
 ```python
 names = ["gpu-node-01", "GPU-node-02"]
 def is_valid_node_name(name):
-    """Checks if a cloud node name is lowercase and within length limits."""
-    is_lowercase = name.islower()
-    correct_length = 3 <= len(name) <= 63
-    
-    return is_lowercase and correct_length
+ """Checks if a cloud node name is lowercase and within length limits."""
+ is_lowercase = name.islower()
+ correct_length = 3 <= len(name) <= 63
+ 
+ return is_lowercase and correct_length
 
 # Testing the function
+
 for name in names:
-    print(f"{name}:", is_valid_node_name(name))
+ print(f"{name}:", is_valid_node_name(name))
+
 ```
 
 The `def` keyword tells Python we are defining a function. As part of the definition, we have the function name, `is_valid_node_name`, and the parameters of the function -- variables that will be populated when the function is called.
 
 ### Type Hinting
 
-In professional cloud automation, it is critical to know exactly what data types a function expects and returns. Python's `typing` module allows you to add "hints" to your code. While Python remains dynamically typed, these hints are used by IDEs and static analysis tools to catch bugs before the code even runs.
+In cloud automation, it is critical to know exactly what data types a function expects and returns. Python's `typing` module allows you to add "hints" to your code. While Python remains dynamically typed, these hints are used by IDEs and static analysis tools to catch bugs before the code even runs.
 
 ```python
 from typing import List, Dict, Optional
 
 def process_nodes(nodes: List[str], config: Dict[str, int]) -> Optional[int]:
-    """
-    Processes a list of nodes based on a config dictionary.
-    Returns the number of processed nodes, or None if the list is empty.
-    """
-    if not nodes:
-        return None
-    
-    count = 0
-    for node in nodes:
-        if config.get("enabled", 0) == 1:
-            count += 1
-    return count
+ """
+ Processes a list of nodes based on a config dictionary.
+ Returns the number of processed nodes, or None if the list is empty.
+ """
+ if not nodes:
+ return None
+ 
+ count = 0
+ for node in nodes:
+ if config.get("enabled", 0) == 1:
+ count += 1
+ return count
 
 # Usage
+
 node_list = ["node-01", "node-02"]
 settings = {"enabled": 1}
 result = process_nodes(node_list, settings)
 print(f"Processed {result} nodes.")
+
 ```
 
 ---
@@ -795,33 +880,35 @@ A class is an encapsulation of data and the processes that work on them. The dat
 
 ```python
 class CloudNode:
-    """Represents a virtual machine in a cloud cluster."""
+ """Represents a virtual machine in a cloud cluster."""
 
-    def __init__(self, name, cpu_cores, ram_gb):
-        # Encapsulation and Validation
-        if not self._is_valid_config(cpu_cores, ram_gb):
-            print(f"Invalid configuration for node: {name}")
-            return
+ def __init__(self, name, cpu_cores, ram_gb):
+ # Encapsulation and Validation
+ if not self._is_valid_config(cpu_cores, ram_gb):
+ print(f"Invalid configuration for node: {name}")
+ return
 
-        # Member Variables (Data)
-        self.name = name
-        self.cpu_cores = cpu_cores
-        self.ram_gb = ram_gb
-        self.status = "stopped"
+ # Member Variables (Data)
+ self.name = name
+ self.cpu_cores = cpu_cores
+ self.ram_gb = ram_gb
+ self.status = "stopped"
 
-    def _is_valid_config(self, cpu, ram):
-        """Internal process to validate hardware specs."""
-        # Rules: Must have at least 1 core and 2GB RAM
-        return cpu >= 1 and ram >= 2
+ def _is_valid_config(self, cpu, ram):
+ """Internal process to validate hardware specs."""
+ # Rules: Must have at least 1 core and 2GB RAM
+ return cpu >= 1 and ram >= 2
 
-    def start(self):
-        """Method to change the state of the object."""
-        self.status = "running"
-        print(f"Node {self.name} is now {self.status}.")
+ def start(self):
+ """Method to change the state of the object."""
+ self.status = "running"
+ print(f"Node {self.name} is now {self.status}.")
 
 # Creating an instance (Object)
+
 my_node = CloudNode("ai-processor-01", 8, 32)
 my_node.start()
+
 ```
 
 ### Inheritance and Specialization
@@ -830,22 +917,24 @@ In cloud engineering, you often have different types of nodes (e.g., CPU nodes v
 
 ```python
 class GPUCloudNode(CloudNode):
-    """Specialized node with GPU capabilities."""
-    
-    def __init__(self, name, cpu_cores, ram_gb, gpu_model, vram_gb):
-        # Use super() to initialize base class attributes
-        super().__init__(name, cpu_cores, ram_gb)
-        self.gpu_model = gpu_model
-        self.vram_gb = vram_gb
+ """Specialized node with GPU capabilities."""
+ 
+ def __init__(self, name, cpu_cores, ram_gb, gpu_model, vram_gb):
+ # Use super() to initialize base class attributes
+ super().__init__(name, cpu_cores, ram_gb)
+ self.gpu_model = gpu_model
+ self.vram_gb = vram_gb
 
-    # Overriding a method to add GPU-specific logic
-    def start(self):
-        super().start()
-        print(f"Initializing {self.gpu_model} with {self.vram_gb}GB VRAM...")
+ # Overriding a method to add GPU-specific logic
+ def start(self):
+ super().start()
+ print(f"Initializing {self.gpu_model} with {self.vram_gb}GB VRAM...")
 
 # Usage
+
 gpu_node = GPUCloudNode("gpu-worker-01", 16, 64, "NVIDIA H100", 80)
 gpu_node.start()
+
 ```
 
 ---
@@ -858,9 +947,9 @@ In the world of Cloud Computing and AI, automation is key. Instead of using a gr
 
 A popular way to create command line interfaces in Python is using a library called `docopt`. Unlike other libraries where you have to write complex code to define your flags and arguments, `docopt` follows a unique philosophy: **the documentation is the code.** You simply write a standard help message (a "docstring") at the top of your file, and `docopt` automatically:
 
-1.  **Parses** the arguments you type in the terminal.
-2.  **Validates** that the user provided the correct number of inputs.
-3.  **Generates** a help menu automatically when the user types `--help`.
+1. **Parses** the arguments you type in the terminal.
+2. **Validates** that the user provided the correct number of inputs.
+3. **Generates** a help menu automatically when the user types `--help`.
 
 ### Anatomy of a Cloud Script
 
@@ -878,37 +967,38 @@ We use three key components:
 Check if a Cloud Node configuration fits within the Free Tier quota.
 
 Arguments:
-  CPU        Number of CPU cores.
-  RAM        Amount of RAM in GB.
-  STORAGE    Disk storage in GB.
+ CPU Number of CPU cores.
+ RAM Amount of RAM in GB.
+ STORAGE Disk storage in GB.
 
 Options:
-  -h --help  Show this screen.
+ -h --help Show this screen.
 """
 from docopt import docopt
 
 def is_valid_quota(cpu, ram, storage):
-    """
-    Business Logic: 
-    Max 4 Cores, Max 16GB RAM, Max 100GB Storage.
-    """
-    return (cpu <= 4 and 
-            ram <= 16 and 
-            storage <= 100)
+ """
+ Business Logic: 
+ Max 4 Cores, Max 16GB RAM, Max 100GB Storage.
+ """
+ return (cpu <= 4 and 
+ ram <= 16 and 
+ storage <= 100)
 
 if __name__ == '__main__':
-    # docopt parses the docstring above to create the CLI
-    arguments = docopt(__doc__)
-    
-    # Extract and convert arguments
-    c = int(arguments['CPU'])
-    r = int(arguments['RAM'])
-    s = int(arguments['STORAGE'])
-    
-    valid = is_valid_quota(c, r, s)
-    
-    # Modern f-string formatting (preferred over % operator)
-    print(f"Node config (CPU:{c}, RAM:{r}GB, Disk:{s}GB) valid: {valid}")
+ # docopt parses the docstring above to create the CLI
+ arguments = docopt(__doc__)
+ 
+ # Extract and convert arguments
+ c = int(arguments['CPU'])
+ r = int(arguments['RAM'])
+ s = int(arguments['STORAGE'])
+ 
+ valid = is_valid_quota(c, r, s)
+ 
+ # Modern f-string formatting (preferred over % operator)
+ print(f"Node config (CPU:{c}, RAM:{r}GB, Disk:{s}GB) valid: {valid}")
+
 ```
 
 Here is an example on how to use it:
@@ -919,6 +1009,7 @@ python check_quota.py 2 8 50
 
 python check_quota.py 8 32 500
 # Output: Node config (CPU:8, RAM:32GB, Disk:500GB) valid: False
+
 ```
 
 ---
@@ -930,19 +1021,22 @@ As opposed to normal functions in Python which are defined using the `def` keywo
 ```python
 greeter = lambda x: print('Hello %s!'%x)
 print(greeter('Albert'))
+
 ```
 
 Now consider the following examples:
 
 ```python
 power2 = lambda x: x ** 2
+
 ```
 
 The `power2` function defined in the expression, is equivalent to the following definition:
 
 ```python
 def power2(x):
-    return x ** 2
+ return x ** 2
+
 ```
 
 Lambda functions are useful when you need a function for a short period.
@@ -952,8 +1046,10 @@ Why use Lambdas in Cloud & Data Science? In cloud monitoring or data processing,
 ```python
 memory_gb = [8, 16, 32, 64]
 # Use map with a lambda to multiply each element by 1024
+
 memory_mb = list(map(lambda x: x * 1024, memory_gb))
 print(memory_mb)
+
 ```
 
 In Python, the `filter` function returns a filter object or the iterator which gets lazily evaluated which means neither we can access the elements of the filter object with index nor we can use `len()` to find the length of the filter object.
@@ -962,12 +1058,14 @@ In Python, the `filter` function returns a filter object or the iterator which g
 list_a = [1, 2, 3, 4, 5]
 filter_obj = filter(lambda x: x % 2 == 0, list_a)
 # Convert the filter obj to a list
+
 even_num = list(filter_obj)
 print(even_num)
 # Output: [2, 4]
+
 ```
 
-The `filter()` function combined with a lambda expression is a powerful way to process data. To make this more readable and "Pythonic," you can often replace it with a List Comprehension, which is generally preferred in modern Python for its speed and clarity.
+The `filter()` function combined with a lambda expression is a way to process data. To make this more readable and "Pythonic," you can often replace it with a List Comprehension, which is generally preferred in modern Python for its speed and clarity.
 
 However, the Pythonic "List Comprehension" is the standard way to filter lists in Python. It reads almost like plain English: "Give me x for every x in list_a if x is even." This illustrates, although python as many other languages have many advanced features, often the most straight forward are better, and in this case even faster.
 
@@ -975,9 +1073,11 @@ However, the Pythonic "List Comprehension" is the standard way to filter lists i
 list_a = [1, 2, 3, 4, 5]
 
 # More readable and usually faster than filter()
+
 even_num = [x for x in list_a if x % 2 == 0]
 
 print(even_num) 
+
 ```
 
 In Python, we can have a small usually a single linear anonymous function called Lambda function which can have any number of arguments just like a normal function but with only one expression with no return statement. The result of this expression can be applied to a value.
@@ -985,17 +1085,20 @@ In Python, we can have a small usually a single linear anonymous function called
 Basic Syntax:
 
 ```python
-lambda arguments : expression
+lambda arguments: expression
+
 ```
 
 For example, a function in python:
 
 ```python
 def multiply(a, b):
-   return a*b
+ return a*b
 
 #call the function
+
 multiply(3, 5) #outputs: 15
+
 ```
 
 The same function can be written as Lambda function. This function named as multiply is having 2 arguments and returns their multiplication.
@@ -1003,10 +1106,11 @@ The same function can be written as Lambda function. This function named as mult
 Lambda equivalent for this function would be:
 
 ```python
-multiply = lambda a, b : a*b
+multiply = lambda a, b: a*b
 
 print(multiply(3, 5))
 # outputs: 15
+
 ```
 
 Here `a` and `b` are the 2 arguments and `a*b` is the expression whose value is returned as an output.
@@ -1014,7 +1118,8 @@ Here `a` and `b` are the 2 arguments and `a*b` is the expression whose value is 
 Also, we don't need to assign the Lambda function to a variable:
 
 ```python
-(lambda a, b : a*b)(3, 5)
+(lambda a, b: a*b)(3, 5)
+
 ```
 
 Lambda functions are mostly passed as a parameter to a function which expects a function objects like in `map` or `filter`.
@@ -1028,23 +1133,24 @@ import time
 from functools import wraps
 
 def timer_decorator(func):
-    """Decorator that prints the execution time of the function it wraps."""
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        start_time = time.perf_counter()
-        result = func(*args, **kwargs)
-        end_time = time.perf_counter()
-        print(f"Function {func.__name__} took {end_time - start_time:.4f} seconds")
-        return result
-    return wrapper
+ """Decorator that prints the execution time of the function it wraps."""
+ @wraps(func)
+ def wrapper(*args, **kwargs):
+ start_time = time.perf_counter()
+ result = func(*args, **kwargs)
+ end_time = time.perf_counter()
+ print(f"Function {func.__name__} took {end_time - start_time:.4f} seconds")
+ return result
+ return wrapper
 
 @timer_decorator
 def simulate_cloud_api_call():
-    """Simulates a network request to a cloud provider."""
-    time.sleep(0.5)
-    print("API Response: Node status is 'running'")
+ """Simulates a network request to a cloud provider."""
+ time.sleep(0.5)
+ print("API Response: Node status is 'running'")
 
 simulate_cloud_api_call()
+
 ```
 
 ### map {#s-python-map}
@@ -1053,6 +1159,7 @@ The basic syntax of the `map` function is:
 
 ```python
 map(function_object, iterable1, iterable2,...)
+
 ```
 
 `map` functions expect a function object and any number of iterable like a list or dictionary. It executes the `function_object` for each element in the sequence and returns a list of the elements modified by the function object.
@@ -1061,10 +1168,11 @@ Example:
 
 ```python
 def multiply(x):
-   return x * 2
+ return x * 2
 
 map(multiply, [2, 4, 6, 8])
 # Output [4, 8, 12, 16]
+
 ```
 
 If we want to write the same function using Lambda:
@@ -1072,6 +1180,7 @@ If we want to write the same function using Lambda:
 ```python
 map(lambda x: x*2, [2, 4, 6, 8])
 # Output [4, 8, 12, 16]
+
 ```
 
 ### Dictionary
@@ -1082,31 +1191,38 @@ Let's assume we have a list of active cloud instances:
 
 ```python
 # A list of dictionaries representing our multi-cloud inventory
+
 cloud_nodes = [
-    {'hostname': 'ubuntu-web-01', 'provider': 'aws', 'status': 'running'},
-    {'hostname': 'fedora-db-02', 'provider': 'gcp', 'status': 'stopped'},
-    {'hostname': 'win-ad-01', 'provider': 'azure', 'status': 'running'}
+ {'hostname': 'ubuntu-web-01', 'provider': 'aws', 'status': 'running'},
+ {'hostname': 'fedora-db-02', 'provider': 'gcp', 'status': 'stopped'},
+ {'hostname': 'win-ad-01', 'provider': 'azure', 'status': 'running'}
 ]
+
 ```
 
 We can now extract specific attributes applying them to all `cloud_nodes`. We use `map` to create a simple list of all hostnames or all providers.
 
 ```python
 # Extract all hostnames
+
 hostnames = list(map(lambda x: x['hostname'], cloud_nodes))
 # Output: ['ubuntu-web-01', 'fedora-db-02', 'win-ad-01']
 
 # Extract all providers
+
 providers = list(map(lambda x: x['provider'], cloud_nodes))
 # Output: ['aws', 'gcp', 'azure']
+
 ```
 
 We can also define tests and return a List with their results. For that we can use `map`. Here we generate "health checks" or status flags across your entire fleet.
 
 ```python
 # Check which nodes are currently 'running'
+
 is_running = list(map(lambda x: x['status'] == 'running', cloud_nodes))
 # Output: [True, False, True]
+
 ```
 
 ### Important Note
@@ -1117,18 +1233,20 @@ Now, let us see how we can iterate over a dictionary using `map` and `lambda`. L
 
 ```python
 dict_movies = [
-    {'movie': 'avengers', 'comic': 'marvel'},
-    {'movie': 'superman', 'comic': 'dc'}
+ {'movie': 'avengers', 'comic': 'marvel'},
+ {'movie': 'superman', 'comic': 'dc'}
 ]
+
 ```
 
 We can iterate over this dictionary and read the elements of it using `map` and `lambda` functions in following way:
 
 ```python
-map(lambda x : x['movie'], dict_movies)  # Output: ['avengers', 'superman']
-map(lambda x : x['comic'],  dict_movies)  # Output: ['marvel', 'dc']
-map(lambda x : x['movie'] == "avengers", dict_movies)
+map(lambda x: x['movie'], dict_movies) # Output: ['avengers', 'superman']
+map(lambda x: x['comic'], dict_movies) # Output: ['marvel', 'dc']
+map(lambda x: x['movie'] == "avengers", dict_movies)
 # Output: [True, False]
+
 ```
 
 In Python, `map` function returns an iterator or map object which gets lazily evaluated which means neither we can access the elements of the map object with index nor we can use `len()` to find the length of the map object. We can force convert the map output i.e. the map object to list as shown next:
@@ -1137,8 +1255,10 @@ In Python, `map` function returns an iterator or map object which gets lazily ev
 map_output = map(lambda x: x*2, [1, 2, 3, 4])
 print(map_output)
 # Output: map object: <map object at 0x04D6BAB0>
+
 list_map_output = list(map_output)
 print(list_map_output) # Output: [2, 4, 6, 8]
+
 ```
 
 ---
@@ -1157,22 +1277,22 @@ There are several built-in objects in Python which implement iterator protocol, 
 from math import log2
 
 class LogTwo:
-    "Implements an iterator of log two"
+ "Implements an iterator of log two"
 
-    def __init__(self,last = 0):
-        self.last = last
+ def __init__(self,last = 0):
+ self.last = last
 
-    def __iter__(self):
-        self.current_num = 1
-        return self
+ def __iter__(self):
+ self.current_num = 1
+ return self
 
-    def __next__(self):
-        if self.current_num <= self.last:
-            result = log2(self.current_num)
-            self.current_num += 1
-            return result
-        else:
-            raise StopIteration
+ def __next__(self):
+ if self.current_num <= self.last:
+ result = log2(self.current_num)
+ self.current_num += 1
+ return result
+ else:
+ raise StopIteration
 
 L = LogTwo(5)
 i = iter(L)
@@ -1180,6 +1300,7 @@ print(next(i))
 print(next(i))
 print(next(i))
 print(next(i))
+
 ```
 
 As you can see, we first create an instance of the class and assign its `__iter__()` function to a variable called `i`. Then by calling the `next()` function four times, we get the following output:
@@ -1190,6 +1311,7 @@ $ python iterator.py
 1.0
 1.584962500721156
 2.0
+
 ```
 
 As you probably noticed, the lines are `log2()` of 1, 2, 3, 4 respectively.
@@ -1206,33 +1328,36 @@ For example, we have a function named as `multiplyBy10` which prints all the inp
 
 ```python
 def multiplyBy10(numbers):
-   result = []
-   for i in numbers:
-      result.append(i*10)
-   return result
+ result = []
+ for i in numbers:
+ result.append(i*10)
+ return result
 
 new_numbers = multiplyBy10([1,2,3,4,5])
 
 print(new_numbers)
+
 ```
 
 Now, if we want to use Generators here then we will make the following changes:
 
 ```python
 def multiplyBy10(numbers):
-   for i in numbers:
-      yield(i*10)
+ for i in numbers:
+ yield(i*10)
 
 new_numbers = multiplyBy10([1,2,3,4,5])
 
 print(new_numbers)
 #Output: Generators object
+
 ```
 
 In Generators, we use `yield()` function in place of `return()`. So when we try to print `new_numbers` list now, it just prints Generators object. The reason for this is because Generators do not hold any value in memory, it yields one result at a time. So essentially it is just waiting for us to ask for the next result. To print the next result we can just say `print(next(new_numbers))`. Here, the generator reads the first value, multiplies it by 10, and yields the result. Also in this case, we can just print `next(new_numbers)` 5 times to print all numbers and if we do it for the 6th time then we will get an error `StopIteration` which means Generators has exhausted its limit and it has no 6th element to print.
 
 ```python
-print(next(new_numbers))  #Output: 1
+print(next(new_numbers)) #Output: 1
+
 ```
 
 ### Generators using for loop
@@ -1241,13 +1366,14 @@ If we now want to print the complete list of multiplied values then we can just 
 
 ```python
 def multiplyBy10(numbers):
-   for i in numbers:
-      yield(i*10)
+ for i in numbers:
+ yield(i*10)
 
 new_numbers = multiplyBy10([1,2,3,4,5])
 
 for num in new_numbers:
-   print(num)
+ print(num)
+
 ```
 
 ### Generators with List Comprehension
@@ -1256,21 +1382,24 @@ Python has something called List Comprehension, if we use this then we can repla
 
 ```python
 new_numbers = [x*10 for x in [1,2,3,4,5]]
-print (new_numbers)  #Output: [10, 20, 30, 40 ,50]
+print (new_numbers) #Output: [10, 20, 30, 40,50]
+
 ```
 
 Here the point to note is square brackets `[ ]` in line 1 is very important. If we change it to `( )` then again we will start getting Generators object.
 
 ```python
 new_numbers = (x*10 for x in [1,2,3,4,5])
-print (new_numbers)  #Output: Generators object
+print (new_numbers) #Output: Generators object
+
 ```
 
 We can get the individual elements again from Generators if we do a for loop over `new_numbers`, as we did previously. Alternatively, we can convert it into a list and then print it.
 
 ```python
 new_numbers = (x*10 for x in [1,2,3,4,5])
-print (list(new_numbers))  #Output: [10, 20, 30, 40 ,50]
+print (list(new_numbers)) #Output: [10, 20, 30, 40,50]
+
 ```
 
 But here if we convert this into a list then we lose performance. So it is important to think beforehand which datstructures you need.
@@ -1287,22 +1416,24 @@ Asynchronous programming allows your script to "pause" a task that is waiting fo
 import asyncio
 
 async def fetch_node_status(node_id):
-    print(f"Requesting status for {node_id}...")
-    await asyncio.sleep(1) # Simulate network latency
-    print(f"Node {node_id} responded: Online")
-    return f"{node_id}: Online"
+ print(f"Requesting status for {node_id}...")
+ await asyncio.sleep(1) # Simulate network latency
+ print(f"Node {node_id} responded: Online")
+ return f"{node_id}: Online"
 
 async def main():
-    # Schedule multiple calls concurrently
-    nodes = ["node-01", "node-02", "node-03"]
-    tasks = [fetch_node_status(n) for n in nodes]
-    
-    print("Starting concurrent API calls...")
-    results = await asyncio.gather(*tasks)
-    print(f"All results: {results}")
+ # Schedule multiple calls concurrently
+ nodes = ["node-01", "node-02", "node-03"]
+ tasks = [fetch_node_status(n) for n in nodes]
+ 
+ print("Starting concurrent API calls...")
+ results = await asyncio.gather(*tasks)
+ print(f"All results: {results}")
 
 # Run the async event loop
+
 asyncio.run(main())
+
 ```
 
 ### Async Fundamentals: Blocking vs Non-Blocking
@@ -1324,40 +1455,44 @@ import os
 import psutil
 from pprint import pprint
 # Configuration for our Cloud Cluster
+
 regions = ['us-east-1', 'us-west-2', 'eu-central-1', 'ap-southeast-1']
 node_types = ['t3.medium', 'm5.large', 'g4dn.xlarge', 'p4d.24xlarge']
 statuses = ['running', 'stopped', 'terminated', 'provisioning']
 
 def get_memory_usage():
-    """Returns current memory usage in MB."""
-    process = psutil.Process(os.getpid())
-    return process.memory_info().rss / 1024 / 1024
+ """Returns current memory usage in MB."""
+ process = psutil.Process(os.getpid())
+ return process.memory_info().rss / 1024 / 1024
 
 # 1. Record Initial State
+
 mem_before = get_memory_usage()
 print(f'Memory Baseline: {mem_before:.2f} MB')
 
 def generate_inventory(num_nodes):
-    """Creates a list of cloud node dictionaries."""
-    inventory = []
-    for i in range(num_nodes):
-        node = {
-            'node_id': f"i-{random.getrandbits(32):x}", # Simulated AWS Instance ID
-            'hostname': f"node-{i:06d}",
-            'type': random.choice(node_types),
-            'region': random.choice(regions),
-            'status': random.choice(statuses),
-            'cpu_cores': random.choice([2, 4, 8, 16, 32, 64])
-        }
-        inventory.append(node)
-    return inventory
+ """Creates a list of cloud node dictionaries."""
+ inventory = []
+ for i in range(num_nodes):
+ node = {
+ 'node_id': f"i-{random.getrandbits(32):x}", # Simulated AWS Instance ID
+ 'hostname': f"node-{i:06d}",
+ 'type': random.choice(node_types),
+ 'region': random.choice(regions),
+ 'status': random.choice(statuses),
+ 'cpu_cores': random.choice([2, 4, 8, 16, 32, 64])
+ }
+ inventory.append(node)
+ return inventory
 
 # 2. Execute and Time the Generation
+
 t1 = time.perf_counter()
 cloud_inventory = generate_inventory(100000) 
 t2 = time.perf_counter()
 
 # 3. Record Final State
+
 mem_after = get_memory_usage()
 mem_used = mem_after - mem_before
 
@@ -1366,8 +1501,10 @@ print(f'Actual RAM consumed by List: {mem_used:.2f} MB')
 print(f'Inventory generation took: {t2-t1:.4f} seconds')
 
 # Example: Peek at the first node
+
 print("\nSample Node Data:")
 pprint(cloud_inventory[0])
+
 ```
 
 ---
@@ -1384,19 +1521,20 @@ Imagine a script that attempts to connect to a specific Cloud Node. If the node 
 
 ```python
 def connect_to_node(node_name):
-    # Simulating a connection failure for a specific node
-    if node_name == "db-server-01":
-        raise ConnectionError(f"Could not reach {node_name} via SSH.")
-    return f"Connected to {node_name}"
+ # Simulating a connection failure for a specific node
+ if node_name == "db-server-01":
+ raise ConnectionError(f"Could not reach {node_name} via SSH.")
+ return f"Connected to {node_name}"
 
 nodes = ["web-01", "db-server-01", "storage-01"]
 
 for node in nodes:
-    try:
-        status = connect_to_node(node)
-        print(status)
-    except ConnectionError as e:
-        print(f"Warning: {e} Skipping to next task...")
+ try:
+ status = connect_to_node(node)
+ print(status)
+ except ConnectionError as e:
+ print(f"Warning: {e} Skipping to next task...")
+
 ```
 
 ### Specific vs. General Exceptions
@@ -1404,7 +1542,7 @@ for node in nodes:
 It is a "best practice" in systems engineering to catch specific errors rather than using a blanket `except:`. This prevents you from accidentally hiding bugs in your code.
 
 | Exception Type | Common Infrastructure Cause |
-| :--- | :--- |
+|:--- |:--- |
 | `FileNotFoundError` | Missing configuration file or SSH key. |
 | `ConnectionError` | Network timeout or firewall blocking a port. |
 | `PermissionError` | Attempting to start a service without `sudo` privileges. |
@@ -1416,13 +1554,14 @@ The `finally` block is used for "cleanup" tasks that **must** happen regardless 
 
 ```python
 try:
-    print("Opening connection to the HPC Cluster...")
-    # Logic that might fail
-    result = 10 / 0 
+ print("Opening connection to the HPC Cluster...")
+ # Logic that might fail
+ result = 10 / 0 
 except ZeroDivisionError:
-    print("Error: Calculation failed.")
+ print("Error: Calculation failed.")
 finally:
-    print("Closing connection and clearing cache.") # This always runs
+ print("Closing connection and clearing cache.") # This always runs
+
 ```
 
 ### Custom Exceptions
@@ -1435,36 +1574,39 @@ In this example, we define a `HighTemperatureError` that carries the current tem
 
 ```python
 class HighTemperatureError(Exception):
-    """Exception raised when the ambient temperature exceeds safety limits."""
-    
-    def __init__(self, current_temp, limit=80):
-        self.current_temp = current_temp
-        self.limit = limit
-        self.message = (f"CRITICAL: Temperature {current_temp}°C "
-                        f"exceeds safety limit of {limit}°C!")
-        super().__init__(self.message)
+ """Exception raised when the ambient temperature exceeds safety limits."""
+ 
+ def __init__(self, current_temp, limit=80):
+ self.current_temp = current_temp
+ self.limit = limit
+ self.message = (f"CRITICAL: Temperature {current_temp}°C "
+ f"exceeds safety limit of {limit}°C!")
+ super().__init__(self.message)
 
 def monitor_server_room(sensor_reading):
-    SAFE_LIMIT = 28 # Celsius
-    if sensor_reading > SAFE_LIMIT:
-        raise HighTemperatureError(sensor_reading, limit=SAFE_LIMIT)
-    return f"Status Nominal: {sensor_reading}°C"
+ SAFE_LIMIT = 28 # Celsius
+ if sensor_reading > SAFE_LIMIT:
+ raise HighTemperatureError(sensor_reading, limit=SAFE_LIMIT)
+ return f"Status Nominal: {sensor_reading}°C"
+
 ```
 
 When you catch this exception, you can perform specific emergency actions, such as logging the event to a file or triggering a cooling system.
 
 ```python
 # Simulated sensor readings over time
+
 room_readings = [22, 25, 27, 31, 26]
 
 for reading in room_readings:
-    try:
-        status = monitor_server_room(reading)
-        print(status)
-    except HighTemperatureError as e:
-        print(f"  ALERT: {e}")
-        print("  ACTION: Increasing fan speed and notifying administrator.")
-        # Logic to act upon and send a msg the facility team to check the situation
+ try:
+ status = monitor_server_room(reading)
+ print(status)
+ except HighTemperatureError as e:
+ print(f" ALERT: {e}")
+ print(" ACTION: Increasing fan speed and notifying administrator.")
+ # Logic to act upon and send a msg the facility team to check the situation
+
 ```
 
 Key Benefits of Custom Exceptions are:
@@ -1481,15 +1623,18 @@ When dealing with external resources—such as opening a configuration file, con
 The `with` statement simplifies this by using **Context Managers**, which automatically handle the setup and teardown of resources.
 
 ```python
-# Traditional way (Risky if an error occurs before .close())
+# Traditional way (Risky if an error occurs before.close())
+
 f = open("config.yaml", "w")
 f.write("region: us-east-1")
 f.close()
 
 # The Pythonic way (Safe and Clean)
+
 with open("config.yaml", "w") as f:
-    f.write("region: us-east-1")
+ f.write("region: us-east-1")
 # File is automatically closed here, even if an exception was raised inside the block
+
 ```
 
 For cloud practitioners, this is essential when using libraries like `boto3` or `pymongo` to ensure connections aren't leaked, which could otherwise lead to "Too many connections" errors in production.
@@ -1498,7 +1643,7 @@ For cloud practitioners, this is essential when using libraries like `boto3` or 
 
 ## Software Engineering Best Practices
 
-In professional cloud automation, the difference between a "script" and "software" is stability, maintainability, and testability.
+In cloud automation, the difference between a "script" and "software" is stability, maintainability, and testability.
 
 ### Virtual Environments
 
@@ -1506,13 +1651,17 @@ Never install packages globally. Use a virtual environment to isolate dependenci
 
 ```bash
 # Create a virtual environment
-python3 -m venv .venv
+
+python3 -m venv.venv
 
 # Activate it
-source .venv/bin/activate
+
+source.venv/bin/activate
 
 # Install dependencies from a file
+
 pip install -r requirements.txt
+
 ```
 
 ### Testing with `pytest`
@@ -1521,16 +1670,19 @@ Unit tests ensure that a change in one part of your automation doesn't break ano
 
 ```python
 # node_utils.py
+
 def calculate_cost(nodes, hourly_rate):
-    return nodes * hourly_rate
+ return nodes * hourly_rate
 
 # test_node_utils.py
+
 import pytest
 from node_utils import calculate_cost
 
 def test_calculate_cost():
-    assert calculate_cost(10, 0.5) == 5.0
-    assert calculate_cost(0, 0.5) == 0.0
+ assert calculate_cost(10, 0.5) == 5.0
+ assert calculate_cost(0, 0.5) == 0.0
+
 ```
 
 To run tests, simply execute `pytest` in your terminal.
@@ -1540,32 +1692,32 @@ To run tests, simply execute `pytest` in your terminal.
 ## Assignments
 
 !!! note "Assignment: Python Language Fundamentals"
-    1. **Basic Calculator**: Create a script that takes two numbers as input and performs addition, subtraction, multiplication, and exponentiation.
-    2. **Cloud Inventory Manager**: Create a list of 5 cloud nodes (as dictionaries) and write a function to filter only the nodes that are 'running'.
-    3. **Hostlist Expansion**: Install `python-hostlist` and write a script to expand the hostlist `node[01-05,10-12]` and print the total count of nodes.
-    4. **Custom Exception Monitor**: Implement a `LowDiskSpaceError` custom exception and a function that raises it when a simulated disk usage exceeds 90%.
-    5. **Async API Simulator**: Use `asyncio` to simulate fetching status from 5 different cloud regions concurrently.
-    6. **Professional Tooling**: Create a virtual environment, install `pytest`, and write three unit tests for the `calculate_cost` function provided in the "Software Engineering" section.
-    7. **Log Parser**: Write a script that reads a text file of logs, uses `.strip()` and `.split()` to extract the log level, and counts the number of "ERROR" entries.
+ 1. **Basic Calculator**: Create a script that takes two numbers as input and performs addition, subtraction, multiplication, and exponentiation.
+ 2. **Cloud Inventory Manager**: Create a list of 5 cloud nodes (as dictionaries) and write a function to filter only the nodes that are 'running'.
+ 3. **Hostlist Expansion**: Install `python-hostlist` and write a script to expand the hostlist `node[01-05,10-12]` and print the total count of nodes.
+ 4. **Custom Exception Monitor**: Implement a `LowDiskSpaceError` custom exception and a function that raises it when a simulated disk usage exceeds 90%.
+ 5. **Async API Simulator**: Use `asyncio` to simulate fetching status from 5 different cloud regions concurrently.
+ 6. **Tooling**: Create a virtual environment, install `pytest`, and write three unit tests for the `calculate_cost` function provided in the "Software Engineering" section.
+ 7. **Log Parser**: Write a script that reads a text file of logs, uses `.strip()` and `.split()` to extract the log level, and counts the number of "ERROR" entries.
 
 ---
 
 ## Self-Evaluation
 
 ??? note "What is the difference between an integer and a floating-point number in Python?"
-    An integer (int) is a whole number without a fractional component, whereas a floating-point number (float) represents a real number and includes a decimal point.
+ An integer (int) is a whole number without a fractional component, whereas a floating-point number (float) represents a real number and includes a decimal point.
 
 ??? note "How do boolean operators `and` and `or` behave in Python?"
-    The `and` operator returns `True` only if both operands are true; otherwise, it returns `False`. The `or` operator returns `True` if at least one of the operands is true.
+ The `and` operator returns `True` only if both operands are true; otherwise, it returns `False`. The `or` operator returns `True` if at least one of the operands is true.
 
 ??? note "What is a generator in Python and how does it differ from a list?"
-    A generator is a special type of iterator that yields values one at a time using the `yield` keyword, rather than computing and storing the entire sequence in memory like a list. This makes generators significantly more memory-efficient for large datasets (Lazy Evaluation).
+ A generator is a special type of iterator that yields values one at a time using the `yield` keyword, rather than computing and storing the entire sequence in memory like a list. This makes generators significantly more memory-efficient for large datasets (Lazy Evaluation).
 
 ??? note "In asynchronous programming with `asyncio`, what does the `await` keyword do?"
-    The `await` keyword pauses the execution of the current coroutine, yielding control back to the event loop. This allows other tasks to run while the current task waits for an I/O operation (like a network response) to complete.
+ The `await` keyword pauses the execution of the current coroutine, yielding control back to the event loop. This allows other tasks to run while the current task waits for an I/O operation (like a network response) to complete.
 
 ??? note "Why is `pathlib` preferred over string-based path manipulation?"
-    `pathlib` provides an object-oriented approach that handles cross-platform path differences (e.g., `/` on Linux vs `\` on Windows) automatically, reducing bugs in multi-platform cloud scripts.
+ `pathlib` provides an object-oriented approach that handles cross-platform path differences (e.g., `/` on Linux vs `\` on Windows) automatically, reducing bugs in multi-platform cloud scripts.
 
 ??? note "What is the difference between a blocking and non-blocking call in an async function?"
-    A blocking call (like `time.sleep()`) stops the entire thread and the event loop, preventing any other concurrent tasks from running. A non-blocking call (like `await asyncio.sleep()`) tells the event loop to pause this specific task and run others until the timer expires.
+ A blocking call (like `time.sleep()`) stops the entire thread and the event loop, preventing any other concurrent tasks from running. A non-blocking call (like `await asyncio.sleep()`) tells the event loop to pause this specific task and run others until the timer expires.

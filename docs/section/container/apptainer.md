@@ -7,10 +7,15 @@ This tutorial walks through installing Apptainer on a local **Ubuntu / Debian** 
 
 !!! info "Learning Objectives"
     By the end of this guide, you will be able to:
+
     1. **Install** and compile Apptainer on a Linux system.
+
     2. **Execute** containers using the SIF (Singularity Image Format).
+
     3. **Build** custom container images using Apptainer definition files (`.def`).
+
     4. **Configure** runtime environments using bind mounts and port mapping.
+
     5. **Understand** the security advantages of Apptainer in HPC environments.
 
 
@@ -35,6 +40,7 @@ sudo apt-get install -y \
     curl \
     wget \
     git
+
 ```
 
 ---
@@ -44,23 +50,29 @@ sudo apt-get install -y \
 Apptainer is written in Go. Since system repositories often carry outdated versions, it is best to download and install a recent stable version directly from the official Go website.
 
 1. **Download Go** (check the official site for the latest version if needed; `1.22.x` or newer is standard):
+
 ```bash
 export GO_VERSION=1.22.0
 wget https://golang.org/dl/go$GO_VERSION.linux-amd64.tar.gz
+
 ```
 
 
 2. **Extract and install** it to `/usr/local`:
+
 ```bash
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf go$GO_VERSION.linux-amd64.tar.gz
+
 ```
 
 
 3. **Add Go to your system PATH**:
+
 ```bash
 echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
 source ~/.bashrc
+
 ```
 
 
@@ -69,6 +81,7 @@ Verify the installation by running:
 
 ```bash
 go version
+
 ```
 
 ---
@@ -78,24 +91,30 @@ go version
 Next, download the source code for the latest Apptainer release from GitHub and compile it.
 
 1. **Clone or download the release archive** (check GitHub releases for the latest version number, e.g., `v1.3.x` or later):
+
 ```bash
 export APPTAINER_VERSION=1.3.0
 wget https://github.com/apptainer/apptainer/releases/download/v${APPTAINER_VERSION}/apptainer-${APPTAINER_VERSION}.tar.gz
 tar -xzf apptainer-${APPTAINER_VERSION}.tar.gz
 cd apptainer-${APPTAINER_VERSION}
+
 ```
 
 
 2. **Configure and compile**:
+
 ```bash
 ./mconfig
 make -C builddir
+
 ```
 
 
 3. **Install globally**:
+
 ```bash
 sudo make -C builddir install
+
 ```
 
 
@@ -104,6 +123,7 @@ Verify that Apptainer is successfully installed:
 
 ```bash
 apptainer --version
+
 ```
 
 ---
@@ -113,21 +133,28 @@ apptainer --version
 Unlike Docker, Apptainer runs containers as single-file images called **SIF (Singularity Image Format)** and executes them with the privileges of the invoking user, making it ideal for local workstations and shared clusters.
 
 1. **Pull a test image** from an OCI registry (like Docker Hub):
+
 ```bash
 apptainer pull docker://alpine
+
 ```
 
 
 *This downloads the Alpine Linux Docker image and automatically converts it into a local `alpine_latest.sif` file.*
+
 2. **Execute a command** inside the container:
+
 ```bash
 apptainer exec alpine_latest.sif cat /etc/os-release
+
 ```
 
 
 3. **Open an interactive shell** inside the container:
+
 ```bash
 apptainer shell alpine_latest.sif
+
 ```
 
 
@@ -213,6 +240,7 @@ Once running, open your web browser and navigate to `http://localhost:8000` to v
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

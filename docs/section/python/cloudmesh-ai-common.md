@@ -3,12 +3,12 @@
 The `cloudmesh-ai-common` library is the foundational layer for the Cloudmesh AI ecosystem. It provides a standardized set of shared utilities for system introspection, structured telemetry, configuration management, and remote execution, ensuring consistency across all AI components.
 
 !!! info "Learning Objectives"
-    - Manage complex, nested configurations using `DotDict` and `FlatDict`.
-    - Execute shell commands and transfer files on remote hosts using `RemoteExecutor`.
-    - Perform system introspection to detect hardware capabilities and OS environment.
-    - Implement structured telemetry to record and aggregate performance metrics.
-    - Manage local shell operations and administrative privileges using `Shell` and `Sudo`.
-    - Utilize general helpers for I/O, GitHub integration, and performance benchmarking.
+ - Manage complex, nested configurations using `DotDict` and `FlatDict`.
+ - Execute shell commands and transfer files on remote hosts using `RemoteExecutor`.
+ - Perform system introspection to detect hardware capabilities and OS environment.
+ - Implement structured telemetry to record and aggregate performance metrics.
+ - Manage local shell operations and administrative privileges using `Shell` and `Sudo`.
+ - Utilize general helpers for I/O, GitHub integration, and performance benchmarking.
 
 ---
 
@@ -29,7 +29,7 @@ AI projects often require deeply nested configurations. `cloudmesh-ai-common` pr
 ### Comparison: DotDict vs. FlatDict vs. Config
 
 | Feature | `DotDict` | `FlatDict` | `Config` |
-| :--- | :--- | :--- | :--- |
+|:--- |:--- |:--- |:--- |
 | **Core Nature** | A "Smart" Dictionary | A "Flattening" Utility | A Configuration Manager |
 | **Primary Goal** | **Easy Access**: Avoid `dict['a']['b']`. | **Simple Representation**: Flat keys. | **Lifecycle**: Load, validate, and save. |
 | **Key Strength** | Attribute access (`config.a.b`). | External expansion (`{os.HOME}`). | YAML file and Env Var integration. |
@@ -46,17 +46,17 @@ data = {"cloudmesh": {"ai": {"server": "uva", "port": 8000}}}
 config = DotDict(data)
 
 # Access via attribute or dot-notation key
-print(config.cloudmesh.ai.server)      # 'uva'
-print(config["cloudmesh.ai.port"])     # 8000
+print(config.cloudmesh.ai.server) # 'uva'
+print(config["cloudmesh.ai.port"]) # 8000
 
 # Assignment auto-creates nested structures
 config["cloudmesh.ai.timeout"] = 30
-print(config.cloudmesh.ai.timeout)     # 30
+print(config.cloudmesh.ai.timeout) # 30
 ```
 
 ### FlatDict: Flattening and Expansion
 
-`FlatDict` turns nested structures into flat maps (e.g., `{"a.b.c": 1}`). Its most powerful feature is `expand_config_parameters`, which supports:
+`FlatDict` turns nested structures into flat maps (e.g., `{"a.b.c": 1}`). Its most feature is `expand_config_parameters`, which supports:
 
 - **Internal**: `{key}` replaced by another value in the dict.
 - **OS Env**: `{os.VARIABLE}` replaced by system environment variables.
@@ -67,16 +67,16 @@ print(config.cloudmesh.ai.timeout)     # 30
 from cloudmesh.ai.common.flatdict import FlatDict
 
 data = {
-    "user": "grey",
-    "home": "{os.HOME}",
-    "path": "{home}/models/{user}",
-    "nodes": "eval(2 * 4)"
+ "user": "grey",
+ "home": "{os.HOME}",
+ "path": "{home}/models/{user}",
+ "nodes": "eval(2 * 4)"
 }
 flat = FlatDict(data)
 flat.load(content=data, expand=True)
 
-print(flat.path)  # '/home/grey/models/grey' (assuming HOME is /home/grey)
-print(flat.nodes)  # '8'
+print(flat.path) # '/home/grey/models/grey' (assuming HOME is /home/grey)
+print(flat.nodes) # '8'
 ```
 
 ### The Config Class: File-Based Management
@@ -87,10 +87,10 @@ The `Config` class is a high-level wrapper that manages the lifecycle of a confi
 from cloudmesh.ai.common.config import Config
 
 class MyAIConfig(Config):
-    # Default values if not found in YAML or Env
-    DEFAULTS = {"telemetry": {"enabled": True, "level": "INFO"}}
-    # Type validation schema
-    SCHEMA = {"telemetry.enabled": {"type": bool}}
+ # Default values if not found in YAML or Env
+ DEFAULTS = {"telemetry": {"enabled": True, "level": "INFO"}}
+ # Type validation schema
+ SCHEMA = {"telemetry.enabled": {"type": bool}}
 
 # Loads from ~/.config/cloudmesh/cmc.yaml by default
 config = MyAIConfig()
@@ -116,9 +116,9 @@ from cloudmesh.ai.common.remote import RemoteExecutor
 
 host = "dgx-node-1"
 with RemoteExecutor(host) as executor:
-    result = executor.execute("nvidia-smi")
-    print(f"Exit Code: {result.exit_code}")
-    print(f"Stdout: {result.stdout}")
+ result = executor.execute("nvidia-smi")
+ print(f"Exit Code: {result.exit_code}")
+ print(f"Stdout: {result.stdout}")
 ```
 
 ### Live Streaming and File Transfers
@@ -131,12 +131,12 @@ from pathlib import Path
 
 host = "dgx-node-1"
 with RemoteExecutor(host, monitor_output=True) as executor:
-    # Live stream a training script
-    executor.execute("bash long_training_script.sh")
-    
-    # Upload and Download
-    executor.upload(Path("local_config.yaml"), "/home/user/remote_config.yaml")
-    executor.download("/home/user/training.log", Path("local_training.log"))
+ # Live stream a training script
+ executor.execute("bash long_training_script.sh")
+ 
+ # Upload and Download
+ executor.upload(Path("local_config.yaml"), "/home/user/remote_config.yaml")
+ executor.download("/home/user/training.log", Path("local_training.log"))
 ```
 
 ---
@@ -151,14 +151,14 @@ The `sys` module provides cross-platform tools to detect hardware and OS environ
 from cloudmesh.ai.common.sys import os_is_linux, systeminfo, has_window_manager
 
 if os_is_linux():
-    print("Running on Linux")
+ print("Running on Linux")
 
 info = systeminfo()
 print(f"CPU: {info.get('cpu')}")
 print(f"Total Memory: {info.get('memory_total')}")
 
 if has_window_manager():
-    print("GUI environment detected.")
+ print("GUI environment detected.")
 ```
 
 ---
@@ -281,7 +281,7 @@ StopWatch.stop("data_load")
 last_run = StopWatch.get("data_load")
 total_time = StopWatch.sum("data_load")
 
-print(f"Last run: {last_run}s")   # Approx 0.7
+print(f"Last run: {last_run}s") # Approx 0.7
 print(f"Total time: {total_time}s") # Approx 1.2
 ```
 
@@ -297,39 +297,39 @@ from cloudmesh.ai.common.stopwatch import StopWatch, benchmark
 # 1. Use the @benchmark decorator for utility functions
 @benchmark
 def preprocess_data(item):
-    """Simulates data cleaning and tokenization."""
-    time.sleep(random.uniform(0.01, 0.05)) 
+ """Simulates data cleaning and tokenization."""
+ time.sleep(random.uniform(0.01, 0.05)) 
 
 def run_ai_pipeline():
-    # 2. Use StopWatch.timer with a specific name for a major phase
-    with StopWatch.timer("Model Loading"):
-        print("Loading LLM into GPU memory...")
-        time.sleep(1.5) # Simulate heavy I/O
-    
-    # 3. Use StopWatch.timer WITHOUT a name
-    # StopWatch will automatically name this timer 'run_ai_pipeline' 
-    # because it detects the calling function name.
-    with StopWatch.timer():
-        print("Initializing pipeline...")
-        time.sleep(0.2)
+ # 2. Use StopWatch.timer with a specific name for a major phase
+ with StopWatch.timer("Model Loading"):
+ print("Loading LLM into GPU memory...")
+ time.sleep(1.5) # Simulate heavy I/O
+ 
+ # 3. Use StopWatch.timer WITHOUT a name
+ # StopWatch will automatically name this timer 'run_ai_pipeline' 
+ # because it detects the calling function name.
+ with StopWatch.timer():
+ print("Initializing pipeline...")
+ time.sleep(0.2)
 
-    # 4. Demonstrate Accumulation (Sum vs Get)
-    print("Processing batch...")
-    for i in range(5):
-        # The 'inference' timer will be started and stopped 5 times.
-        with StopWatch.timer("inference"):
-            time.sleep(random.uniform(0.1, 0.3))
-            preprocess_data(f"item_{i}")
+ # 4. Demonstrate Accumulation (Sum vs Get)
+ print("Processing batch...")
+ for i in range(5):
+ # The 'inference' timer will be started and stopped 5 times.
+ with StopWatch.timer("inference"):
+ time.sleep(random.uniform(0.1, 0.3))
+ preprocess_data(f"item_{i}")
 
-    # --- Analyzing Results ---
-    
-    # get() returns the duration of the LAST inference call
-    last_inf = StopWatch.get("inference")
-    # sum() returns the TOTAL time spent across all 5 inference calls
-    total_inf = StopWatch.sum("inference")
-    
-    print(f"\nLast inference: {last_inf}s")
-    print(f"Total inference time for batch: {total_inf}s")
+ # --- Analyzing Results ---
+ 
+ # get() returns the duration of the LAST inference call
+ last_inf = StopWatch.get("inference")
+ # sum() returns the TOTAL time spent across all 5 inference calls
+ total_inf = StopWatch.sum("inference")
+ 
+ print(f"\nLast inference: {last_inf}s")
+ print(f"Total inference time for batch: {total_inf}s")
 
 # Execute the pipeline
 run_ai_pipeline()
@@ -350,32 +350,32 @@ StopWatch.benchmark(sysinfo=True)
 ## Assignments
 
 !!! note "Assignment: Cloudmesh Common Utilities"
-    1. **Configuration Mastery**: Create a `FlatDict` that uses OS environment variables to define a project path and expand it. Use a `DotDict` to store the result and access it using attribute notation.
-    2. **Remote System Audit**: Write a script using `RemoteExecutor` to connect to a remote host, run `df -h` and `free -m`, and save the output to a local file using `Sudo.writefile` for restricted paths.
-    3. **Performance Profiling**: Implement a function that processes a list of strings and use the `@benchmark` decorator to measure its performance. Use `StopWatch.benchmark(sysinfo=True)` to generate a final report.
-    4. **Telemetry Integration**: Create a loop that emits "api_response_time" metrics using `Telemetry` and then use `TelemetryAggregator` to calculate the average response time.
+ 1. **Configuration Mastery**: Create a `FlatDict` that uses OS environment variables to define a project path and expand it. Use a `DotDict` to store the result and access it using attribute notation.
+ 2. **Remote System Audit**: Write a script using `RemoteExecutor` to connect to a remote host, run `df -h` and `free -m`, and save the output to a local file using `Sudo.writefile` for restricted paths.
+ 3. **Performance Profiling**: Implement a function that processes a list of strings and use the `@benchmark` decorator to measure its performance. Use `StopWatch.benchmark(sysinfo=True)` to generate a final report.
+ 4. **Telemetry Integration**: Create a loop that emits "api_response_time" metrics using `Telemetry` and then use `TelemetryAggregator` to calculate the average response time.
 
 ---
 
 ## Self-Evaluation
 
 ??? note "How does `DotDict` simplify access to nested dictionary values?"
-    `DotDict` allows you to access nested values using attribute notation (e.g., `config.cloudmesh.ai.server`) instead of traditional bracket notation (e.g., `config['cloudmesh']['ai']['server']`), making the code cleaner and more readable.
+ `DotDict` allows you to access nested values using attribute notation (e.g., `config.cloudmesh.ai.server`) instead of traditional bracket notation (e.g., `config['cloudmesh']['ai']['server']`), making the code cleaner and more readable.
 
 ??? note "How does `FlatDict` handle environment variable expansion?"
-    `FlatDict` uses a special syntax within strings (e.g., `{os.VARIABLE}`) to automatically replace placeholders with the corresponding value from the system's environment variables during the expansion process.
+ `FlatDict` uses a special syntax within strings (e.g., `{os.VARIABLE}`) to automatically replace placeholders with the corresponding value from the system's environment variables during the expansion process.
 
 ??? note "What is the primary purpose of `RemoteExecutor`, and how does it handle command output?"
-    `RemoteExecutor` allows for programmatic SSH-based management of remote hosts. It can execute commands and return their output as a string or stream the output in real-time using `execute_stream`, allowing the caller to process logs as they are generated.
+ `RemoteExecutor` allows for programmatic SSH-based management of remote hosts. It can execute commands and return their output as a string or stream the output in real-time using `execute_stream`, allowing the caller to process logs as they are generated.
 
 ??? note "Which function in `cloudmesh-ai-common` provides hardware and OS introspection (e.g., CPU and RAM)?"
-    The `systeminfo()` function provides a comprehensive dictionary containing details about the host's operating system, CPU and RAM.
+ The `systeminfo()` function provides a comprehensive dictionary containing details about the host's operating system, CPU and RAM.
 
 ??? note "Contrast the roles of `Telemetry` and `TelemetryAggregator` in monitoring AI system performance."
-    `Telemetry` is used to **record** individual data points (metrics) as they occur during runtime. `TelemetryAggregator` is used to **analyze** those records, calculating summary statistics such as the average, maximum, and minimum values over a set of recorded metrics.
+ `Telemetry` is used to **record** individual data points (metrics) as they occur during runtime. `TelemetryAggregator` is used to **analyze** those records, calculating summary statistics such as the average, maximum, and minimum values over a set of recorded metrics.
 
 ??? note "How does the `Sudo` class enable administrative operations on a system?"
-    The `Sudo` class provides a wrapper around shell commands that requests root privileges, allowing the execution of administrative tasks (like `apt-get update`) that would otherwise be denied to a standard user.
+ The `Sudo` class provides a wrapper around shell commands that requests root privileges, allowing the execution of administrative tasks (like `apt-get update`) that would otherwise be denied to a standard user.
 
 ??? note "How does the `@benchmark` decorator help in profiling AI utility functions?"
-    The `@benchmark` decorator automatically wraps a function to track its execution time every time it is called, accumulating the results in the `StopWatch` registry without requiring manual timer placement inside the function body.
+ The `@benchmark` decorator automatically wraps a function to track its execution time every time it is called, accumulating the results in the `StopWatch` registry without requiring manual timer placement inside the function body.

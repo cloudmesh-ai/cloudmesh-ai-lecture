@@ -12,15 +12,15 @@
 |------|-----------|
 | 2010 | OpenStack project launched by NASA and Rackspace. |
 | 2011‑2013 | Rapid adoption; new core services added (Cinder, Neutron, Heat). |
-| 2014‑2016 | Formation of the OpenStack Foundation; hundreds of contributors; “Icehouse”, “Juno”, “Kilo”. |
-| 2017‑2020 | Consolidation of APIs, introduction of “Wallaby”, “Xena”, “Yoga”. |
+| 2014‑2016 | Formation of the OpenStack Foundation; hundreds of contributors; "Icehouse", "Juno", "Kilo". |
+| 2017‑2020 | Consolidation of APIs, introduction of "Wallaby", "Xena", "Yoga". |
 | 2021‑present | Focus on Kubernetes integration (Magnum), edge computing (StarlingX), and increased use of containers for services (Kolla‑Ansible, Kolla‑Kubernetes). |
 
-OpenStack began as a pure Infrastructure‑as‑a‑Service (IaaS) platform whose core strength lay in provisioning virtual machines (VMs) through the Nova compute service. In its early releases, the cloud controller stack was built around hypervisors such as KVM, Xen, and VMware, and most workloads were delivered as virtual instances managed by Nova’s scheduler, networking (Neutron), and storage (Cinder/Swift) services. This model gave operators the same elasticity and self‑service experience as public clouds while keeping the underlying hardware under their control.
+OpenStack began as a pure Infrastructure‑as‑a‑Service (IaaS) platform whose core strength lay in provisioning virtual machines (VMs) through the Nova compute service. In its early releases, the cloud controller stack was built around hypervisors such as KVM, Xen, and VMware, and most workloads were delivered as virtual instances managed by Nova's scheduler, networking (Neutron), and storage (Cinder/Swift) services. This model gave operators the same elasticity and self‑service experience as public clouds while keeping the underlying hardware under their control.
 
-Starting with the Icehouse and Juno releases, the OpenStack community added Ironic, a bare‑metal provisioning service that treats physical servers as first‑class resources. Ironic integrates with Nova’s scheduler so that a user can request a “bare‑metal instance” that is automatically powered on, provisioned with an operating system image (via Glance), and attached to Neutron networks, just like a VM. This extension opened OpenStack to workloads that demand direct hardware access—high‑performance computing, network function virtualization (NFV), and workloads that cannot tolerate the overhead of virtualization.
+Starting with the Icehouse and Juno releases, the OpenStack community added Ironic, a bare‑metal provisioning service that treats physical servers as first‑class resources. Ironic integrates with Nova's scheduler so that a user can request a "bare‑metal instance" that is automatically powered on, provisioned with an operating system image (via Glance), and attached to Neutron networks, just like a VM. This extension opened OpenStack to workloads that demand direct hardware access—high‑performance computing, network function virtualization (NFV), and workloads that cannot tolerate the overhead of virtualization.
 
-A few releases later, OpenStack introduced Magnum, a container orchestration service that abstracts Kubernetes, Docker Swarm, or Mesos clusters as OpenStack resources. With Magnum, an operator creates a “container cluster” through the same API surface used for VMs; the cluster’s control plane is instantiated on VMs (or bare metal via Ironic), and the underlying compute, networking, and storage services are reused. This integration allows OpenStack users to run containerized applications while still benefiting from OpenStack’s identity, quota, and billing mechanisms.
+A few releases later, OpenStack introduced Magnum, a container orchestration service that abstracts Kubernetes, Docker Swarm, or Mesos clusters as OpenStack resources. With Magnum, an operator creates a "container cluster" through the same API surface used for VMs; the cluster's control plane is instantiated on VMs (or bare metal via Ironic), and the underlying compute, networking, and storage services are reused. This integration allows OpenStack users to run containerized applications while still benefiting from OpenStack's identity, quota, and billing mechanisms.
 
 Together, Ironic and Magnum have transformed OpenStack from a VM‑only cloud into a heterogeneous platform that can orchestrate VMs, bare‑metal servers, and container clusters under a unified API and management plane. The evolution reflects the broader industry shift toward multi‑technology clouds, where flexibility in the type of compute resource—virtual, physical, or containerized—is essential for meeting diverse performance, security, and operational requirements.
 
@@ -146,7 +146,7 @@ EOF
 
 ## 6. Planning & Design Considerations  
 
-1. **Hardware Sizing** – CPU, memory, and storage must be provisioned per expected VM count, network bandwidth, and storage I/O. Use the “OpenStack Capacity Planner” or simple formulas (e.g., 2 vCPU per physical core, 4 GB RAM per VM).  
+1. **Hardware Sizing** – CPU, memory, and storage must be provisioned per expected VM count, network bandwidth, and storage I/O. Use the "OpenStack Capacity Planner" or simple formulas (e.g., 2 vCPU per physical core, 4 GB RAM per VM).  
 
 2. **Network Topology** – Decide between flat networking, VLAN, VXLAN, or Geneve overlays. Neutron agents (ML2, Open vSwitch, OVN) require proper MTU and VLAN trunk support.  
 
@@ -162,7 +162,7 @@ EOF
 
 | Area | Recommendation |
 |------|----------------|
-| **Upgrades** | Use “rolling upgrade” pattern; upgrade services individually while keeping API compatibility. |
+| **Upgrades** | Use "rolling upgrade" pattern; upgrade services individually while keeping API compatibility. |
 | **Backup** | Periodically dump the MariaDB database and back up Glance images, Cinder volumes (snapshot), Swift containers. |
 | **Automation** | Employ Ansible, Terraform, or OpenStack Heat for repeatable infrastructure deployment. |
 | **Capacity Management** | Leverage Ceilometer/Gnocchi to track usage trends; set alerts for CPU/ RAM/ storage thresholds. |
@@ -208,9 +208,9 @@ This returns the average CPU usage per instance over the last 5 minutes, expre
 |----------|--------------------------|
 | **Private Cloud for Enterprises** | Isolate workloads, enforce compliance, integrate with existing LDAP/Active Directory. |
 | **Research & HPC** | Provide massive, on‑demand compute clusters, schedule GPU‑enabled instances, share data via Swift. |
-| **Telco NFV (Network Functions Virtualization)** | Deploy virtual routers, firewalls, and load balancers with Neutron’s advanced networking. |
+| **Telco NFV (Network Functions Virtualization)** | Deploy virtual routers, firewalls, and load balancers with Neutron's advanced networking. |
 | **Edge / IoT** | Use MicroStack or StarlingX to run OpenStack on rugged hardware at the network edge. |
-| **Hybrid Cloud** | Connect to public clouds via federated Keystone or use OpenStack’s federation models (Keystone‑Federation). |
+| **Hybrid Cloud** | Connect to public clouds via federated Keystone or use OpenStack's federation models (Keystone‑Federation). |
 
 ## 11. Community & Ecosystem  
 
@@ -226,7 +226,7 @@ This returns the average CPU usage per instance over the last 5 minutes, expre
 
 1. **NFV & Edge** – Tight integration with accelerated networking (DPDK, SR‑IOV) and real‑time workloads.  
 
-2. **Containers as First‑Class Citizens** – More services running in containers (Kolla‑Kubernetes), and OpenStack acting as a “control plane” for container orchestrators.  
+2. **Containers as First‑Class Citizens** – More services running in containers (Kolla‑Kubernetes), and OpenStack acting as a "control plane" for container orchestrators.  
 
 3. **AI/ML‑Driven Operations** – Automated anomaly detection, predictive scaling, and capacity forecasting using telemetry data.  
 

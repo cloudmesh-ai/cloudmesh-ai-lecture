@@ -246,7 +246,7 @@ By the end of the lecture, participants will be able to:
 
 **Speaker note:** Zun treats containers as *first‑class resources* – they appear in `openstack server list`‑like tables.
 
-**Visual suggestion:** Similar flow diagram, but replace “Heat → COE” with “Zun Conductor → Nova”.
+**Visual suggestion:** Similar flow diagram, but replace "Heat → COE" with "Zun Conductor → Nova".
 
 ---
 
@@ -271,7 +271,7 @@ openstack container exec mycirros hostname
 
 ```
 
-**Speaker note:** Show how the container shows up in the **“Containers”** menu in Horizon (if enabled).
+**Speaker note:** Show how the container shows up in the **"Containers"** menu in Horizon (if enabled).
 
 ---
 
@@ -325,7 +325,7 @@ openstack container exec mycirros hostname
 
 ---
 
-### Slide 15 – Mini‑Lab: “Spin a K8s Cluster with Magnum”
+### Slide 15 – Mini‑Lab: "Spin a K8s Cluster with Magnum"
 
 1. **Prerequisite:** Access to an OpenStack cloud with Magnum enabled.  
 
@@ -339,7 +339,7 @@ openstack container exec mycirros hostname
 
 ---
 
-### Slide 16 – Mini‑Lab: “Run a Container with Zun”
+### Slide 16 – Mini‑Lab: "Run a Container with Zun"
 
 1. **Prerequisite:** Zun service enabled, image uploaded.  
 
@@ -360,7 +360,7 @@ openstack container exec mycirros hostname
 | **Batch job or CI step** (run a script, then exit) | **Zun** |
 | **Need per‑pod network policies and Neutron security groups** | **Magnum + Kuryr** |
 | **Legacy app that only needs a single container** | **Zun** (or a minimal K8s pod via Magnum) |
-| **Want to expose containers to external network via floating IP** | Both – use Neutron’s floating IPs (Zun) or LoadBalancer service (Magnum). |
+| **Want to expose containers to external network via floating IP** | Both – use Neutron's floating IPs (Zun) or LoadBalancer service (Magnum). |
 
 **Speaker note:** Use a decision tree diagram for quick visual reference.
 
@@ -408,7 +408,7 @@ openstack container exec mycirros hostname
 | Magnum Quick‑Start Tutorial | https://docs.openstack.org/magnum/latest/user/quickstart.html |
 | Zun CLI Reference | https://docs.openstack.org/python-zunclient/latest/ |
 | OpenStack Containers Lab (GitHub) | https://github.com/openstack/openstack-helm/tree/master/containers |
-| Video: “Running Kubernetes on OpenStack” (OpenStack Summit 2023) | https://www.youtube.com/watch?v=example123 |
+| Video: "Running Kubernetes on OpenStack" (OpenStack Summit 2023) | https://www.youtube.com/watch?v=example123 |
 
 *(Replace the placeholder YouTube link with the actual video URL you prefer.)*
 

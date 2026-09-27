@@ -8,7 +8,7 @@
 
 **Speaker notes**  
 
-> Welcome. Over the next 20‑25 minutes I’ll walk you through why a router is useful, how you can host it yourself, and the step‑by‑step process for wiring together dozens of LLM providers under a single, unified API.  
+> Welcome. Over the next 20‑25 minutes I'll walk you through why a router is useful, how you can host it yourself, and the step‑by‑step process for wiring together dozens of LLM providers under a single, unified API.  
 
 **Visual hint** – Title centered, OpenRouter logo (or placeholder), faint background of connected nodes.  
 
@@ -33,7 +33,7 @@
 
 > The LLM ecosystem is now more diverse than the web‑browser market in 2005. If you need to experiment with three different models you already have three code paths, three secrets, and three billing dashboards. This fragmentation wastes time and creates hidden operational risk.  
 
-**Visual hint** – Timeline of provider releases + “spaghetti” diagram of multiple API arrows converging on a single application.  
+**Visual hint** – Timeline of provider releases + "spaghetti" diagram of multiple API arrows converging on a single application.  
 
 ---  
 
@@ -42,7 +42,7 @@
 **Content**  
 
 - Provides a **single HTTP endpoint** and **single API key** for all downstream models.  
-- Normalises request/response payloads to a **canonical schema** (compatible with OpenAI’s `chat/completions` format).  
+- Normalises request/response payloads to a **canonical schema** (compatible with OpenAI's `chat/completions` format).  
 - Evaluates **routing policies** (cost, latency, capability, custom tags) to select the appropriate provider at runtime.  
 - Enforces **centralised safety and moderation** before forwarding the request.  
 - Returns a **transparent cost breakdown** per request.  
@@ -63,7 +63,7 @@
 |--------|---------|
 | Data residency | Keep traffic inside a specific region or VPC. |
 | Custom policies | Implement proprietary compliance or business rules that the SaaS version cannot express. |
-| Performance control | Deploy edge nodes close to your users or to a specific provider’s data centre. |
+| Performance control | Deploy edge nodes close to your users or to a specific provider's data centre. |
 | Cost optimisation | Eliminate the SaaS platform‑level markup (only provider fees remain). |
 | Extensibility | Add private or on‑premise LLMs that are not publicly listed. |
 
@@ -71,7 +71,7 @@
 
 > For regulated industries, for ultra‑low‑latency use‑cases, or when you have a private model you want to expose through the same API, a self‑hosted router is the only viable option.  
 
-**Visual hint** – Table with check‑marks; world‑map highlighting “region‑locked traffic”.  
+**Visual hint** – Table with check‑marks; world‑map highlighting "region‑locked traffic".  
 
 ---  
 
@@ -154,7 +154,7 @@ Provider API (OpenAI)  Provider API (Anthropic)  Provider API (Gemini) …
 2. **kubectl** configured with cluster admin rights.  
 3. **Helm 3** installed locally.  
 4. **External secret store** (AWS Secrets Manager, HashiCorp Vault, or K8s sealed secrets).  
-5. **Domain name** and TLS certificate (Let’s Encrypt via cert‑manager is supported).  
+5. **Domain name** and TLS certificate (Let's Encrypt via cert‑manager is supported).  
 
 **Speaker notes**  
 
@@ -203,7 +203,7 @@ service:
   port: 443
 
 gateway:
-  # JWT secret for the router’s own auth
+  # JWT secret for the router's own auth
   jwtSecret: "super-secret-jwt"
 
 routing:
@@ -329,7 +329,7 @@ router.RegisterAdapter("cohere", NewCohereAdapter(cfg.Cohere))
 
 **Speaker notes**  
 
-> This example shows the minimal code required: map the incoming `messages` array to Cohere’s prompt format, forward the request, then wrap Cohere’s `text` field back into the standard OpenRouter response structure.  
+> This example shows the minimal code required: map the incoming `messages` array to Cohere's prompt format, forward the request, then wrap Cohere's `text` field back into the standard OpenRouter response structure.  
 
 **Visual hint** – Side‑by‑side code snippets with annotations.  
 
@@ -361,7 +361,7 @@ router.RegisterAdapter("cohere", NewCohereAdapter(cfg.Cohere))
 1. **Pre‑routing moderation** – Unified filter that runs before any provider call.  
    - Built‑in OpenAI moderation endpoint (optional).  
    - Custom regex / blocklist (configurable).  
-2. **Provider‑level safety flags** – The router can set provider‑specific parameters (e.g., Anthropic’s `use_safe_prompt=true`).  
+2. **Provider‑level safety flags** – The router can set provider‑specific parameters (e.g., Anthropic's `use_safe_prompt=true`).  
 3. **Post‑response sanitisation** – Strip disallowed patterns from the model output (PII redaction, profanity mask).  
 
 **Speaker notes**  
@@ -405,7 +405,7 @@ router.RegisterAdapter("cohere", NewCohereAdapter(cfg.Cohere))
 
 **Speaker notes**  
 
-> The router’s design is deliberately stateless, enabling you to scale out with a simple `kubectl scale` command or an HPA policy that reacts to request volume. If you need sub‑regional latency you spin up another replica set in the desired cloud region and point your DNS to the nearest IP.  
+> The router's design is deliberately stateless, enabling you to scale out with a simple `kubectl scale` command or an HPA policy that reacts to request volume. If you need sub‑regional latency you spin up another replica set in the desired cloud region and point your DNS to the nearest IP.  
 
 **Visual hint** – Kubernetes autoscaling diagram with a load balancer distributing traffic across multiple pods.  
 
@@ -449,7 +449,7 @@ router.RegisterAdapter("cohere", NewCohereAdapter(cfg.Cohere))
 
 **Speaker notes**  
 
-> This slide ties together everything we’ve covered: authentication, policy evaluation, safety, provider translation, and cost reporting—all happening within a few hundred milliseconds.  
+> This slide ties together everything we've covered: authentication, policy evaluation, safety, provider translation, and cost reporting—all happening within a few hundred milliseconds.  
 
 **Visual hint** – Numbered flow diagram with icons for each component.  
 
@@ -483,7 +483,7 @@ router.RegisterAdapter("cohere", NewCohereAdapter(cfg.Cohere))
 
 **Speaker notes**  
 
-> Upgrading is painless because the router does not keep any internal state. You can test a new version in a “canary” namespace, route a fraction of traffic to it, and promote once confidence is established.  
+> Upgrading is painless because the router does not keep any internal state. You can test a new version in a "canary" namespace, route a fraction of traffic to it, and promote once confidence is established.  
 
 **Visual hint** – Diagram of blue‑green deployment with traffic split.  
 
@@ -498,7 +498,7 @@ router.RegisterAdapter("cohere", NewCohereAdapter(cfg.Cohere))
 | Streaming support – current release provides only full‑response mode. | Experimental streaming adapter being added (WebSocket + SSE). |
 | Provider‑specific features (e.g., tool calling) need explicit mapping. | Extend canonical schema to include a generic `tool_calls` array. |
 | Model metadata freshness – provider model list must be refreshed manually. | Add background job that polls provider APIs daily and updates the catalog. |
-| Edge‑only deployments – size constraints on some edge runtimes. | Offer a minimal “router‑lite” binary that strips out metrics and health checks. |
+| Edge‑only deployments – size constraints on some edge runtimes. | Offer a minimal "router‑lite" binary that strips out metrics and health checks. |
 
 **Speaker notes**  
 
@@ -521,7 +521,7 @@ router.RegisterAdapter("cohere", NewCohereAdapter(cfg.Cohere))
 
 > If you have a use‑case that demands control over where your prompts travel, or you simply want a single API for dozens of models, the self‑hosted OpenRouter gives you that flexibility. The code is open source, the Helm chart is production‑ready, and the adapter pattern makes adding new providers trivial.  
 
-**Visual hint** – Bullet list with a bold “Get Started” button graphic and a QR code linking to the GitHub repo.  
+**Visual hint** – Bullet list with a bold "Get Started" button graphic and a QR code linking to the GitHub repo.  
 
 ---  
 
@@ -537,7 +537,7 @@ router.RegisterAdapter("cohere", NewCohereAdapter(cfg.Cohere))
 
 **Speaker notes**  
 
-> Thank you for your attention. I’m happy to dive deeper into any of the topics—whether it’s the Helm deployment, writing a new adapter, or configuring advanced safety policies.  
+> Thank you for your attention. I'm happy to dive deeper into any of the topics—whether it's the Helm deployment, writing a new adapter, or configuring advanced safety policies.  
 
 **Visual hint** – Simple, clean slide with contact icons (email, GitHub, Slack).  
 
@@ -565,7 +565,7 @@ curl https://router.mycompany.com/v1/chat/completions \
 
 **Speaker notes**  
 
-> If you just need a one‑off test or you’re working from a CI pipeline that doesn’t have a language runtime, a raw `curl` command works perfectly. The JSON payload mirrors the OpenAI chat‑completion format, and the `fallbacks` array tells the router its routing policy for this request.  
+> If you just need a one‑off test or you're working from a CI pipeline that doesn't have a language runtime, a raw `curl` command works perfectly. The JSON payload mirrors the OpenAI chat‑completion format, and the `fallbacks` array tells the router its routing policy for this request.  
 
 **Visual hint** – Show terminal output (JSON response containing `choices[0].message.content` and a `usage` object).  
 
@@ -728,7 +728,7 @@ func main() {
 
 **Speaker notes**  
 
-> In Go we don’t have a fully‑fledged high‑level SDK yet (the community is building one), so the example uses the generic `Post` method on a thin client wrapper. The request payload is identical to the Python/JS versions – the router only cares about the JSON shape, not the language that produced it.  
+> In Go we don't have a fully‑fledged high‑level SDK yet (the community is building one), so the example uses the generic `Post` method on a thin client wrapper. The request payload is identical to the Python/JS versions – the router only cares about the JSON shape, not the language that produced it.  
 
 **Visual hint** – IDE screenshot (GoLand or VS Code) showing the compiled binary output.  
 
@@ -851,7 +851,7 @@ export class CohereAdapter {
 
 **Speaker notes**  
 
-> Both languages expose the same two core methods: `buildRequest` (creates the outbound HTTP call) and `parseResponse` (maps the provider’s response back to the OpenRouter schema). The Go version returns an `*http.Request`; the Node version returns an Axios config object – the router core can consume either because it only needs the HTTP verb, URL, headers, and body.  
+> Both languages expose the same two core methods: `buildRequest` (creates the outbound HTTP call) and `parseResponse` (maps the provider's response back to the OpenRouter schema). The Go version returns an `*http.Request`; the Node version returns an Axios config object – the router core can consume either because it only needs the HTTP verb, URL, headers, and body.  
 
 **Visual hint** – Side‑by‑side diff view with highlighted sections (`BuildRequest` & `ParseResponse`).  
 
@@ -952,7 +952,7 @@ docker run -p 8080:8080 openrouter-demo
 
 > Whether you are a startup experimenting with several APIs or an enterprise that must keep data inside a private network, the self‑hosted OpenRouter turns the fragmented LLM landscape into a unified, manageable service.  
 
-**Visual hint** – Closing graphic: a highway metaphor with many model “cars” merging onto a single “router” lane, heading toward a destination labeled “Your Application”.  
+**Visual hint** – Closing graphic: a highway metaphor with many model "cars" merging onto a single "router" lane, heading toward a destination labeled "Your Application".  
 
 ---  
 
@@ -969,6 +969,6 @@ docker run -p 8080:8080 openrouter-demo
    ```  
 
 3. Edit the placeholder values (`sk-or-…`, domain names, repo paths) with your real data.  
-4. Add the actual images/diagrams referenced in the “Visual hint” notes.  
+4. Add the actual images/diagrams referenced in the "Visual hint" notes.  
 
 You now have a complete, ready‑to‑present slide deck covering the **self‑hosted OpenRouter gateway**, its architecture, deployment, security, and **multi‑language client examples**. Good luck!

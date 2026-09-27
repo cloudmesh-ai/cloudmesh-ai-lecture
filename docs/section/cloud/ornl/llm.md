@@ -1,25 +1,25 @@
 
-Below is a practical, step‑by‑step “cook‑book” for getting a large‑language‑model (LLM) up and running on **Frontier** (the OLCF/ORNL exascale system). All commands are written for a **login node** session and are meant to be copied into a **batch script** that you then submit with **SLURM**. Where possible I’ve included the newest public URLs (official ORNL/OLCF documentation, software repositories, container registries, etc.) so you can click straight to the source.
+Below is a practical, step‑by‑step "cook‑book" for getting a large‑language‑model (LLM) up and running on **Frontier** (the OLCF/ORNL exascale system). All commands are written for a **login node** session and are meant to be copied into a **batch script** that you then submit with **SLURM**. Where possible I've included the newest public URLs (official ORNL/OLCF documentation, software repositories, container registries, etc.) so you can click straight to the source.
 
 ---
 
 ## 1. Quick look at what Frontier Offers for LLM Work
 
-| Component | What you’ll use | Typical use for LLMs |
+| Component | What you'll use | Typical use for LLMs |
 |-----------|----------------|----------------------|
-| **Compute** | 9,688 AMD EPYC “Trento” CPUs + 63,904 AMD MI‑250X GPUs (288 GB HBM2E per GPU) | Model training (full‑precision or mixed‑precision) and large‑scale inference |
+| **Compute** | 9,688 AMD EPYC "Trento" CPUs + 63,904 AMD MI‑250X GPUs (288 GB HBM2E per GPU) | Model training (full‑precision or mixed‑precision) and large‑scale inference |
 | **Scheduler** | **SLURM** (v22.05) | Submit multi‑node, multi‑GPU jobs; specify topology |
 | **Software stack** | *Spack* modules, *Lmod* environment modules, *Singularity* containers, ROCm (AMD) stack | Install PyTorch, TensorFlow, DeepSpeed, HuggingFace, etc. |
 | **File systems** | *Lustre* (`/gpfs/fs1` – high‑performance), *home* (`/home`), *scratch* (`/gpfs/fs2` – burst‑buffer) | Store data, model checkpoints, job logs |
 | **Access level** | **Frontier‑User** accounts (allocation via DOE‑IS or grant) | Must have an active allocation and be a member of the *frontier* project group |
 
-**TL;DR:** Frontier’s GPUs are AMD MI‑250X; therefore you’ll be using the **ROCm** software stack (the AMD analogue of CUDA). All major LLM frameworks now ship ROCm wheels, and the OLCF provides pre‑built containers that already contain them.
+**TL;DR:** Frontier's GPUs are AMD MI‑250X; therefore you'll be using the **ROCm** software stack (the AMD analogue of CUDA). All major LLM frameworks now ship ROCm wheels, and the OLCF provides pre‑built containers that already contain them.
 
 ---
 
 ## 2. Get Your Account Ready
 
-1. **Apply for a Frontier allocation** (if you haven’t already).  
+1. **Apply for a Frontier allocation** (if you haven't already).  
    - https://www.olcf.ornl.gov/frontier/allocation/
 2. **Join the Frontier user community** on the OLCF portal to obtain:  
    - Your **project ID** (`PROJECT_ID`) – e.g. `ABC123`.  
@@ -30,11 +30,11 @@ Below is a practical, step‑by‑step “cook‑book” for getting a large‑l
    ssh <your-username>@frontier.olcf.ornl.gov
    ```
 
-   You’ll land on a **login node** (≈ 8 GB RAM, no GPUs). All GPU work must be done via a **batch job**.
+   You'll land on a **login node** (≈ 8 GB RAM, no GPUs). All GPU work must be done via a **batch job**.
 
 ---
 
-## 3. Choose How You’ll Bring in the LLM Software
+## 3. Choose How You'll Bring in the LLM Software
 
 ### 3.1 Use an OLCF‑provided Singularity container (the easiest)
 
@@ -47,7 +47,7 @@ The OLCF maintains a public container registry with ready‑to‑run images that
 
 **Container example:** `ghcr.io/olcf/frontier-ml/pytorch-rocm:2.2.1`
 
-| Link | What you’ll find |
+| Link | What you'll find |
 |------|-----------------|
 | https://github.com/olcf/frontier-ml-containers | Dockerfiles, release notes, how to pull |
 | https://hub.docker.com/r/olcf/frontier-ml/pytorch-rocm | Public Docker Hub mirror (if you prefer) |
@@ -188,7 +188,7 @@ srun singularity exec \
 
 ### 5.1 The tiny `run_inference.py` script used above
 
-Create the file in the same directory as the SLURM script (or anywhere you’ve bound into the container).
+Create the file in the same directory as the SLURM script (or anywhere you've bound into the container).
 
 ```python
 #!/usr/bin/env python
@@ -249,7 +249,7 @@ if __name__ == "__main__":
 sbatch run_llm_inference.slurm
 ```
 
-You’ll see the job in the queue (`squeue -u $USER`). When it finishes, the generated text will be in:
+You'll see the job in the queue (`squeue -u $USER`). When it finishes, the generated text will be in:
 
 ```
 /gpfs/fs2/<PROJECT_ID>/<USER>/run01/output/generated.txt
@@ -337,7 +337,7 @@ srun singularity exec \
     --deepspeed ds_cfg.json
 ```
 
-**Important:** Frontier’s GPUs are AMD MI‑250X and thus only support ROCm (no CUDA). Ensure any third‑party code you use has a ROCm‑compatible branch. The official DeepSpeed‑ROCm support landed in v0.10.0 (see https://github.com/microsoft/DeepSpeed/releases/tag/v0.10.0). The container above already includes it.
+**Important:** Frontier's GPUs are AMD MI‑250X and thus only support ROCm (no CUDA). Ensure any third‑party code you use has a ROCm‑compatible branch. The official DeepSpeed‑ROCm support landed in v0.10.0 (see https://github.com/microsoft/DeepSpeed/releases/tag/v0.10.0). The container above already includes it.
 
 ---
 
@@ -362,19 +362,19 @@ srun singularity exec \
 
 | Issue | What to watch for | Fix / Mitigation |
 |-------|-------------------|------------------|
-| GPU “exclusive” vs. shared | By default Frontier allocates the whole node when you request `--exclusive`. If you request fewer GPUs, you must **not** use `--exclusive` (otherwise you waste resources). | Use `#SBATCH --exclusive` only when you need the full node (common for large LLM launches). |
+| GPU "exclusive" vs. shared | By default Frontier allocates the whole node when you request `--exclusive`. If you request fewer GPUs, you must **not** use `--exclusive` (otherwise you waste resources). | Use `#SBATCH --exclusive` only when you need the full node (common for large LLM launches). |
 | ROCm environment variables | Some older libraries still look for `CUDA_VISIBLE_DEVICES`. | Set `export HIP_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES` inside the job (the container does this automatically). |
 | Cross‑node GPU topology | MI‑250X GPUs are paired as tiles (two devices share HBM). For best bandwidth, place MPI ranks accordingly. | Use `#SBATCH --gpu-bind=single:4` or `srun --cpu_bind=mask_cpu` as described in the OLCF GPU‑binding guide: https://docs.olcf.ornl.gov/systems/frontier/gpu_binding.html |
 | File‑system striping | Large model checkpoints (≈ 100 GB) suffer from low I/O if not striped. | Pre‑stripe with `lfs setstripe -c 64 -S 1M <path>` before copying the model to Lustre. |
-| Job‑time limits | Frontier enforces a maximum wall‑time per queue (default 48 h). | If you need longer, request a “large‑walltime” allocation via the portal or break the run into checkpoints. |
+| Job‑time limits | Frontier enforces a maximum wall‑time per queue (default 48 h). | If you need longer, request a "large‑walltime" allocation via the portal or break the run into checkpoints. |
 | Security / data movement | External internet access from compute nodes is blocked. | Pull data on a login node or staging area, then copy to Lustre; do not attempt `wget` from inside the job. |
 | Software version drift | The ROCm stack on Frontier updates roughly every two months. Scripts that hard‑code library paths may break after an update. | Use the module system (`module load rocm/6.2.0`) instead of absolute paths; test after each system update. |
 
 ---
 
-## 9. Quick “Cheat‑Sheet” One‑Liner for a Test Run
+## 9. Quick "Cheat‑Sheet" One‑Liner for a Test Run
 
-If you just want to see something happen right now (assuming you’ve already pulled the container and copied a model to `/gpfs/fs1`), you can run a single‑node interactive job:
+If you just want to see something happen right now (assuming you've already pulled the container and copied a model to `/gpfs/fs1`), you can run a single‑node interactive job:
 
 ```bash
 srun \
@@ -412,7 +412,7 @@ That command spawns an interactive allocation on a single node, loads the contai
 
 ---
 
-### You’re ready!
+### You're ready!
 
 - Pull the ROCm‑PyTorch container.  
 - Copy or download the model to Lustre.  
@@ -436,4 +436,4 @@ That command spawns an interactive allocation on a single node, loads the contai
     ??? question "Why is it important to use `lfs setstripe` for large model checkpoints on Lustre?"
         Large model checkpoints (often >100 GB) can cause I/O bottlenecks if they are stored on a single Lustre object storage target. Striping the file across multiple targets (`lfs setstripe`) allows parallel I/O, significantly increasing the read/write speed for large models.
 
-Happy LLM experimentation on one of the world’s fastest machines! If you encounter a specific error (e.g., “HIP runtime error: device not found” or “module not found”), provide the exact message and I can help you troubleshoot.
+Happy LLM experimentation on one of the world's fastest machines! If you encounter a specific error (e.g., "HIP runtime error: device not found" or "module not found"), provide the exact message and I can help you troubleshoot.

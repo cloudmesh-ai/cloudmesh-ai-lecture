@@ -78,7 +78,7 @@ http POST https://llm.jetstream-cloud.org/v1/chat/completions \
 Most extensions that support OpenAI‑compatible APIs can be pointed at Jetstream. The steps below use **ChatGPT – EasyCode** as an example, but the same workflow applies to other extensions (CodeGPT, OpenAI Assistant, Chat Copilot, etc.).
 
 1. Open the Extensions view (`Ctrl+Shift+X`).  
-2. Search for **“ChatGPT – EasyCode”** and click **Install**.  
+2. Search for **"ChatGPT – EasyCode"** and click **Install**.  
 3. Open Settings (`Ctrl+,`) and locate **ChatGPT: API Base**. Set the value to:
 
    ```
@@ -90,7 +90,7 @@ Most extensions that support OpenAI‑compatible APIs can be pointed at Jetstrea
 5. (Optional) Set a default model, temperature, and max‑tokens:
 
    ```json
-   // settings.json (open via “Preferences: Open Settings (JSON)”)
+   // settings.json (open via "Preferences: Open Settings (JSON)")
    {
      "chatgpt.apiBase": "https://llm.jetstream-cloud.org/v1",
      "chatgpt.apiKey": "${env:JETSTREAM_API_KEY}",
@@ -121,7 +121,7 @@ Open the panel via **View → AI Assistant** and interact in the same way.
 
 ## 3. Create a reusable VS Code task
 
-For workflows that need to be triggered repeatedly (e.g., “generate a Jest test for the selected function”), define a shell script and a VS Code task.
+For workflows that need to be triggered repeatedly (e.g., "generate a Jest test for the selected function"), define a shell script and a VS Code task.
 
 ### 3.1 Shell script (`jet_prompt.sh`)
 
@@ -192,11 +192,11 @@ Place the script in the workspace folder (or a location referenced by `${workspa
 }
 ```
 
-* **Task “Ask Jetstream (selection)”** – works on the currently highlighted text.  
-  *Select code → `Ctrl+Shift+P` → “Run Task” → “Ask Jetstream (selection)”.*  
+* **Task "Ask Jetstream (selection)"** – works on the currently highlighted text.  
+  *Select code → `Ctrl+Shift+P` → "Run Task" → "Ask Jetstream (selection)".*  
   The answer appears in a dedicated terminal pane.
 
-* **Task “Ask Jetstream (input box)”** – pops up a prompt for free‑form text.
+* **Task "Ask Jetstream (input box)"** – pops up a prompt for free‑form text.
 
 ### 3.3 Optional key‑binding
 
@@ -217,7 +217,7 @@ Add the following to `keybindings.json` (File → Preferences → Keyboa
 ]
 ```
 
-Now pressing **Ctrl + Alt + J** on a highlighted block runs the script and displays the model’s response.
+Now pressing **Ctrl + Alt + J** on a highlighted block runs the script and displays the model's response.
 
 ---
 
@@ -225,7 +225,7 @@ Now pressing **Ctrl + Alt + J** on a highlighted block runs the script a
 
 ### Environment variable (recommended)
 
-Add the line to the shell profile loaded by VS Code’s terminal:
+Add the line to the shell profile loaded by VS Code's terminal:
 
 ```bash
 export JETSTREAM_API_KEY="jsc-XXXXXXXXXXXXXXXXXXXXXXXX"

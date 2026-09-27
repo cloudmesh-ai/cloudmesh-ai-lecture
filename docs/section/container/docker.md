@@ -49,7 +49,7 @@ Docker essentially packages an application **and everything it needs** (librarie
 
 | Need | How Docker Helps |
 |------|------------------|
-| **Consistent environments** | “Works on my machine” → same image runs on laptops, CI runners, & production servers. |
+| **Consistent environments** | "Works on my machine" → same image runs on laptops, CI runners, & production servers. |
 | **Fast onboarding** | `docker run` pulls a ready‑made stack in seconds; no manual dependency installs. |
 | **Isolation** | Processes run in separate namespaces (PID, network, mount, etc.) → fewer conflicts. |
 | **Resource efficiency** | Containers share the host kernel → lower overhead than full VMs. |
@@ -144,7 +144,7 @@ The general lifecycle of a container follows a predictable path:
 
 ---
 
-## 6. Building Your First Image – “Hello‑World” Web App
+## 6. Building Your First Image – "Hello‑World" Web App
 
 ### 6.1. Create a project directory
 
@@ -195,7 +195,7 @@ if __name__ == "__main__":
 docker build -t hello-app:0.1 .
 ```
 
-You’ll see a series of steps (`FROM`, `COPY`, `CMD`) each creating a new **layer**.  
+You'll see a series of steps (`FROM`, `COPY`, `CMD`) each creating a new **layer**.  
 
 The `docker build` process is a sequence of **layered snapshots**. Each instruction in the `Dockerfile` (like `FROM`, `COPY`, `RUN`) creates a new read-only layer. Docker caches these layers; if you only change the application code (`app.py`) but not the base image or dependencies, Docker re-uses the cached layers for the first few steps, making the rebuild nearly instantaneous. This layering system is what allows Docker images to be distributed efficiently—you only download the layers you don't already have.
 
@@ -267,10 +267,10 @@ To make a service inside a container accessible to the outside world, you use **
 | Network driver | Description | Typical use |
 |----------------|-------------|-------------|
 | **bridge** (default) | Isolated private network on a single host. Containers get an IP like `172.17.x.x`. | Simple single‑host apps; use `-p` to expose ports to host. |
-| **host** | Container shares the host’s network namespace (no isolation). | Performance‑critical apps needing direct host networking. |
-| **none** | No network stack; container can’t communicate externally. | Sandbox/testing low‑level network code. |
+| **host** | Container shares the host's network namespace (no isolation). | Performance‑critical apps needing direct host networking. |
+| **none** | No network stack; container can't communicate externally. | Sandbox/testing low‑level network code. |
 | **overlay** | Multi‑host network used by Docker Swarm or Kubernetes. | Clusters spanning many nodes. |
-| **macvlan** | Assigns a real MAC address to the container; appears as a separate host on the LAN. | Legacy apps that require “real” L2 connectivity. |
+| **macvlan** | Assigns a real MAC address to the container; appears as a separate host on the LAN. | Legacy apps that require "real" L2 connectivity. |
 
 ### Create a user‑defined bridge network
 
@@ -390,7 +390,7 @@ Pushing an image to a registry is the critical "Ship" phase of the workflow. By 
 | Concern | Mitigation |
 |---------|------------|
 | **Running as root** | Enable **rootless mode** (`dockerd-rootless-setuptool.sh install`) – containers run under your UID, no `sudo` required. |
-| **Image provenance** | Scan images with tools like **Trivy**, **Clair**, or Docker’s built‑in `docker scan`. |
+| **Image provenance** | Scan images with tools like **Trivy**, **Clair**, or Docker's built‑in `docker scan`. |
 | **Least‑privilege** | Avoid `--privileged`; use fine‑grained capabilities (`--cap-add`, `--cap-drop`). |
 | **Secrets** | Do **not** bake credentials into images; inject via environment variables, Docker secrets (Swarm), or external secret managers (Vault, AWS Secrets Manager). |
 | **Network isolation** | Use user‑defined bridge networks, avoid `--network host` unless necessary. |
@@ -460,7 +460,7 @@ Image optimization is not just about saving disk space; it's about **security an
 | **Docker Swarm** | Native clustering/orchestration (`docker swarm init`). | Small‑to‑medium clusters where you prefer an integrated solution over Kubernetes. |
 | **Docker Secret Management (Swarm)** | Stores encrypted secrets, only exposed to containers at runtime. | When deploying services in Swarm mode. |
 | **Docker Contexts** | Store multiple kube/engine endpoints (local, remote, cloud). | Switching between dev, staging, prod clusters quickly (`docker context use prod`). |
-| **Experimental Features** | `docker scan`, `docker manifest`, `docker compose` v2 plugin. | Stay on the bleeding edge – check Docker’s release notes. |
+| **Experimental Features** | `docker scan`, `docker manifest`, `docker compose` v2 plugin. | Stay on the bleeding edge – check Docker's release notes. |
 
 ---
 
@@ -480,7 +480,7 @@ The **Principle of Least Privilege** suggests that your application should run a
 | **Never run as root inside a container** (`USER` directive) | Mitigates privilege‑escalation risk. |
 | **Leverage `.dockerignore`** to exclude source control files (`.git`, `node_modules`) from the build context. |
 | **Scan images** (`docker scan` or Trivy) in CI before publishing. |
-| **Tag images with semantic versions** (`app:1.2.3`) and also a “latest” tag if you need it. |
+| **Tag images with semantic versions** (`app:1.2.3`) and also a "latest" tag if you need it. |
 | **Set explicit `EXPOSE`** in Dockerfile – documents intended ports. |
 | **Configure resource limits** (`--memory`, `--cpus`) for production containers. |
 | **Keep secrets out of images** – use env vars, Docker secrets, or external secret stores. |
@@ -514,7 +514,7 @@ When troubleshooting Docker, always follow the **Inside-Out** approach:
 | `Error response from daemon: No such container: <name>` | Container already removed or misspelled name. | Run `docker ps -a` to list all containers, then use the correct ID/name. |
 | `OCI runtime error: container_linux.go:... permission denied` | Trying to mount a host directory without proper permissions (rootless). | Adjust directory permissions (`chmod o+rx <dir>`) or use a named volume. |
 | `Image has been built but container exits immediately` | Entrypoint/command ends; no long‑running process. | Ensure the container runs a foreground process (e.g., `CMD ["nginx", "-g", "daemon off;"]`). |
-| `docker compose up` hangs on “Creating network …” | Docker daemon cannot allocate a bridge network (IP conflict). | Remove stale networks (`docker network prune`) or adjust `docker0` bridge IP. |
+| `docker compose up` hangs on "Creating network …" | Docker daemon cannot allocate a bridge network (IP conflict). | Remove stale networks (`docker network prune`) or adjust `docker0` bridge IP. |
 | `filesystem full` errors while building images | Docker storage driver (overlay2) exhausted `/var/lib/docker`. | Increase disk space, clean up unused images (`docker image prune -a`), or move Docker root (`/etc/docker/daemon.json` `"data-root": "/new/path"`). |
 
 Use `docker logs <container>` and `docker inspect <container>` for deeper debugging.

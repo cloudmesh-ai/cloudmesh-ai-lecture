@@ -1,7 +1,7 @@
 
 # Running OpenStack Locally with DevStack
 
-*Author’s Note: This chapter is a self‑contained guide to the official DevStack documentation (https://docs.openstack.org/devstack/latest/). All the material has been reorganised, expanded, and presented in a narrative format suitable for readers who want to set up a functional OpenStack development environment on a single machine.*
+*Author's Note: This chapter is a self‑contained guide to the official DevStack documentation (https://docs.openstack.org/devstack/latest/). All the material has been reorganised, expanded, and presented in a narrative format suitable for readers who want to set up a functional OpenStack development environment on a single machine.*
 
 ---
 
@@ -67,7 +67,7 @@ DevStack automates most dependency installation, but the host must provide:
 | `libvirt`, `lxc` (optional) | Alternate compute drivers |
 | `gcc`, `make`, `automake` | Build native extensions |
 
-All required packages are listed in DevStack’s `tools/install_prereqs.sh` script and are installed automatically when the `stack.sh` script is executed with root privileges.
+All required packages are listed in DevStack's `tools/install_prereqs.sh` script and are installed automatically when the `stack.sh` script is executed with root privileges.
 
 ### 2.4 User Account  
 
@@ -165,7 +165,7 @@ By default DevStack uses **KVM/QEMU** with the `libvirt` driver. To switch to th
 LIBVIRT_TYPE=lxc
 ```
 
-For use of **bare-metal** bare‑metal (Ironic) or **Docker** as a compute driver, refer to the “Advanced Compute” section in the official docs and add the corresponding plugins.
+For use of **bare-metal** bare‑metal (Ironic) or **Docker** as a compute driver, refer to the "Advanced Compute" section in the official docs and add the corresponding plugins.
 
 ### 4.4 Network Configuration  
 
@@ -173,7 +173,7 @@ Neutron can be launched in several modes:
 
 | Mode | Description | Typical Setting |
 |------|-------------|-----------------|
-| **Flat** | Single layer‑2 bridge; all VMs share the host’s physical network. | `Q_AGENT=flat` |
+| **Flat** | Single layer‑2 bridge; all VMs share the host's physical network. | `Q_AGENT=flat` |
 | **VLAN** | VLAN tagging for tenant isolation. | `Q_AGENT=vlan` |
 | **VXLAN** | Overlay network using VXLAN tunnels (default). | No special setting required. |
 | **GRE** | Legacy GRE overlay. | `Q_AGENT=gre` |
@@ -266,7 +266,7 @@ To bring the host back to a pristine state (useful before reinstalling or repurp
 
 * All OpenStack databases.  
 * All generated configuration files under `/etc/`.  
-* The `stack` user’s local directories (`$HOME/devstack`).  
+* The `stack` user's local directories (`$HOME/devstack`).  
 * Any residual network bridges or iptables rules created by Neutron.
 
 After `clean.sh` the host is effectively a clean OS box, ready for a fresh DevStack run.
@@ -287,7 +287,7 @@ Then re‑run `./stack.sh`. DevStack detects existing resources and will upgrade
 
 ### 7.1 Adding Plugins  
 
-DevStack’s extensibility revolves around the `extras.d/` directory and the `enable_plugin` directive in `local.conf`. The workflow for an external service (e.g., **Magnum** for container orchestration) is:
+DevStack's extensibility revolves around the `extras.d/` directory and the `enable_plugin` directive in `local.conf`. The workflow for an external service (e.g., **Magnum** for container orchestration) is:
 
 1. **Add the plugin line** to `local.conf`:
 
@@ -296,11 +296,11 @@ DevStack’s extensibility revolves around the `extras.d/` directory and the `en
    ```
 
 2. **Optionally provide configuration** in `local.conf` (e.g., `MAGNUM_HOST=...`).  
-3. **Re‑run** `./stack.sh`. During the “Extras” phase DevStack clones the plugin repository, installs its dependencies, and registers the service with Keystone.
+3. **Re‑run** `./stack.sh`. During the "Extras" phase DevStack clones the plugin repository, installs its dependencies, and registers the service with Keystone.
 
 ### 7.2 Overriding Service Defaults  
 
-You can override any service-specific configuration by placing a snippet in the `local.conf` section named after the service. For example, to change Nova’s compute driver:
+You can override any service-specific configuration by placing a snippet in the `local.conf` section named after the service. For example, to change Nova's compute driver:
 
 ```ini
 [[local|localrc]]
@@ -334,7 +334,7 @@ Below is a collection of frequent failure modes and recommended remediation step
 
 ### 8.1 Stack Script Aborts Early  
 
-*Symptom*: `stack.sh` exits with a non‑zero status after the *“Running in screen…”* message.  
+*Symptom*: `stack.sh` exits with a non‑zero status after the *"Running in screen…"* message.  
 
 *Root Causes & Fixes*:
 
@@ -397,7 +397,7 @@ Restart Apache after fixing: `sudo systemctl restart apache2`.
 *Resolution*:
 
 * For memory‑related failures, raise the swap size or free RAM.  
-* For “BadMagic”, verify the image format matches the command line flags (`--disk-format qcow2`). Use `qemu-img info <image>` to confirm.
+* For "BadMagic", verify the image format matches the command line flags (`--disk-format qcow2`). Use `qemu-img info <image>` to confirm.
 
 ---
 
@@ -414,7 +414,7 @@ Restart Apache after fixing: `sudo systemctl restart apache2`.
 
 ## 10. Summary  
 
-DevStack transforms a clean Linux host into a **fully functional OpenStack cloud** with a single command. By understanding its workflow—prerequisite installation, `local.conf`‑driven configuration, the `stack.sh` orchestration script, and the management utilities (`unstack.sh`, `clean.sh`)—developers can quickly prototype features, validate patches, and gain hands‑on experience with OpenStack’s myriad services.
+DevStack transforms a clean Linux host into a **fully functional OpenStack cloud** with a single command. By understanding its workflow—prerequisite installation, `local.conf`‑driven configuration, the `stack.sh` orchestration script, and the management utilities (`unstack.sh`, `clean.sh`)—developers can quickly prototype features, validate patches, and gain hands‑on experience with OpenStack's myriad services.
 
 Key takeaways:
 
@@ -443,7 +443,7 @@ DevStack is primarily intended to be executed on a clean host OS, but it can als
 | **Isolation** – The OpenStack services live in a separate PID, network, and filesystem namespace. |
 | **Portability** – The same image can be moved between laptops, CI runners, or temporary VMs. |
 | **Repeatability** – The build process is captured in a Dockerfile, so you can recreate the exact environment on demand. |
-| **Fast teardown** – Removing the container restores the host to the pre‑DevStack state without a “clean‑up” script. |
+| **Fast teardown** – Removing the container restores the host to the pre‑DevStack state without a "clean‑up" script. |
 
 > **Caveat** – Because DevStack needs to manipulate kernel networking (iptables, bridges) and the hypervisor, the container must run in **privileged mode** (or be granted a specific set of capabilities). This means the container is not suitable for untrusted users or for production workloads.
 
@@ -522,7 +522,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ovmf \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 4️⃣ Create the non‑root “stack” user (the official DevStack user)
+# 4️⃣ Create the non‑root "stack" user (the official DevStack user)
 RUN useradd -ms /bin/bash stack && echo "stack ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # 5️⃣ Switch to the stack user and clone DevStack
@@ -594,7 +594,7 @@ docker run -d \
     devstack:latest
 ```
 
-* `--network host` bypasses Docker’s NAT layer, allowing the OpenStack services to bind directly on the host’s interfaces.  
+* `--network host` bypasses Docker's NAT layer, allowing the OpenStack services to bind directly on the host's interfaces.  
 * `--privileged` grants all capabilities, including `CAP_NET_ADMIN` and `CAP_SYS_MODULE`, which DevStack needs for bridge and OVS setup.  
 * Environment variables can be used to override the passwords defined in the image.
 
@@ -614,7 +614,7 @@ docker run -d \
     devstack:latest
 ```
 
-When using a bridged network, you must still set `HOST_IP` inside the container to an address reachable from the host (e.g., the host’s eth0 address). This can be done by passing a custom `local.conf` as a bind‑mount:
+When using a bridged network, you must still set `HOST_IP` inside the container to an address reachable from the host (e.g., the host's eth0 address). This can be done by passing a custom `local.conf` as a bind‑mount:
 
 ```bash
 # Create a host‑side custom configuration
@@ -683,7 +683,7 @@ Because the container runs `stack.sh` each time it starts, you do **not** need t
 |-------|----------------|------------|
 | **Nested virtualization** – Running DevStack inside Docker on a laptop that already runs inside a VM may fail because KVM cannot be accessed. | The container needs `/dev/kvm`. If the host VM does not expose KVM, libvirt will fall back to QEMU‑software mode (much slower). | Either enable nested virtualization on the outer VM (e.g., `VBoxManage modifyvm … --nested-hw-virt on`) or use the *QEMU* driver (`LIBVIRT_TYPE=qemu`). |
 | **Port conflicts** – The host may already have services listening on ports 80, 5000, etc. | Docker tries to bind the same ports for Horizon/Keystone. | Change the port mapping (`-p 8080:80`) or stop the conflicting host services. |
-| **Persistent data** – By default, images, volumes, and databases disappear when the container is removed. | All data lives inside the container’s writable layer. | Mount a host directory or a Docker volume to `/opt/stack/data` and to `/var/lib/mysql` if you need persistence across container restarts. |
+| **Persistent data** – By default, images, volumes, and databases disappear when the container is removed. | All data lives inside the container's writable layer. | Mount a host directory or a Docker volume to `/opt/stack/data` and to `/var/lib/mysql` if you need persistence across container restarts. |
 | **Resource consumption** – DevStack spawns many processes; a single container can easily use > 4 GB RAM. | The OpenStack services themselves are memory‑hungry. | Ensure the Docker daemon is configured with enough memory (`--memory` limit can be raised) or use a dedicated VM for the Docker host. |
 | **Systemd services** – DevStack creates its own systemd units, but Docker does not run a full init system. | The `stack.sh` script launches services directly (via `systemctl` targeting the DevStack unit files). | The official DevStack Dockerfile uses the same approach; no additional init system is required. |
 
@@ -691,7 +691,7 @@ Because the container runs `stack.sh` each time it starts, you do **not** need t
 
 ### 9. Alternative Approaches  
 
-If the privileged‑container model feels too “heavy”, consider the following more production‑oriented projects that also provide a Docker‑based OpenStack deployment:
+If the privileged‑container model feels too "heavy", consider the following more production‑oriented projects that also provide a Docker‑based OpenStack deployment:
 
 | Project | Description |
 |---------|-------------|

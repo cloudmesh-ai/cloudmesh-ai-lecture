@@ -101,6 +101,7 @@ Ollama packages model weights, configurations, and a high-performance inference 
 ```bash
 # Install Ollama service
 curl -fsSL https://ollama.com/install.sh | sh
+
 ```
 
 Once installed, the `ollama` command-line tool is used to manage models.
@@ -114,6 +115,7 @@ ollama pull tinyllama:1b-q4_0
 
 # Launch an interactive chat session
 ollama run llama2:7b-q4_0
+
 ```
 
 Ollama runs as a background service that exposes a REST API, allowing other applications to generate text without managing the model weights manually.
@@ -123,6 +125,7 @@ curl -X POST http://localhost:11434/api/chat \
      -d '{"model":"llama2:7b-q4_0",
      "messages":[{"role":"user","content":"Explain the difference between RAM and VRAM."}]
     }'
+
 ```
 
 ---
@@ -142,6 +145,7 @@ It is easy to install with
 wget https://github.com/ggerganov/llama.cpp/releases/download/b1.7/llama.cpp-linux-x86_64.zip
 unzip llama.cpp-linux-x86_64.zip
 chmod +x llama-cli
+
 ```
 
 Once the `llama-cli` binary is obtained and a GGUF model is downloaded, inference can be started directly from the terminal:
@@ -149,6 +153,7 @@ Once the `llama-cli` binary is obtained and a GGUF model is downloaded, inferenc
 
 ```bash
 ./llama-cli -m tinyllama-q4_0.gguf -p "The capital of France is" -n 128
+
 ```
 
 The `-m` flag specifies the model path, `-p` provides the prompt, and `-n` sets the number of tokens to generate.
@@ -200,6 +205,7 @@ To prevent the LLM from consuming all available CPU resources and making the hos
 
 ```bash
 export OLLAMA_NUM_THREADS=4
+
 ```
 ---
 

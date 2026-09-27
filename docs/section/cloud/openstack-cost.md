@@ -59,7 +59,7 @@ Issuing a `openstack server stop` mimics flipping the physical power switch on a
 
 Issuing a `openstack server suspend` is identical to closing the lid on a laptop.
 
-* Mechanics: The hypervisor hyper-freezes the execution of the virtual machine and writes the entire active contents of its RAM directly to a state file on the hypervisor’s local disk.
+* Mechanics: The hypervisor hyper-freezes the execution of the virtual machine and writes the entire active contents of its RAM directly to a state file on the hypervisor's local disk.
 * Resource Impact: Like a stopped instance, its vCPU and RAM allocations remain locked on the host. Furthermore, it consumes additional local disk space on the hypervisor to hold the volatile memory dump.
 
 ------------------------------

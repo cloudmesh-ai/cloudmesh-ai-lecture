@@ -39,7 +39,7 @@ dot.edge('Bastion', 'App', label='SSH (22)', style='dotted')
 # ------------------------------------------------------------------
 # 3️⃣ Render the diagram to a **writable** location
 # ------------------------------------------------------------------
-# Use the script’s folder – this is always writable
+# Use the script's folder – this is always writable
 output_dir = pathlib.Path(__file__).parent
 output_path = output_dir / "cloud_network.png"
 

@@ -1,6 +1,6 @@
 
 **Short answer:**  
-Yes – the “reservation” capability that you see on the Chameleon Cloud is provided by **Blazar**, the official OpenStack *Reservation Service*. It is a fully‑supported, upstream OpenStack project, but it is an **optional add‑on** (not part of the core services such as Nova, Neutron, Cinder, etc.).  
+Yes – the "reservation" capability that you see on the Chameleon Cloud is provided by **Blazar**, the official OpenStack *Reservation Service*. It is a fully‑supported, upstream OpenStack project, but it is an **optional add‑on** (not part of the core services such as Nova, Neutron, Cinder, etc.).  
 
 Below is a quick rundown of what Blazar is, its OpenStack‑project status, and how Chameleon uses it.
 
@@ -14,14 +14,14 @@ Below is a quick rundown of what Blazar is, its OpenStack‑project status, and 
 
 ---
 
-## What is the OpenStack “Reservation” service?
+## What is the OpenStack "Reservation" service?
 
 | Name (code name) | Official project name | Primary purpose |
 |------------------|----------------------|-----------------|
 | **Blazar** | **OpenStack Blazar – Reservation Service** | Allows users (or administrators) to **reserve compute, block‑storage, and network resources for a future time window**. |
 | **Key features** | • Create *leases* → a lease is a time‑bounded reservation <br>• Reserve specific **flavors**, **hosts**, **networks**, **volumes**, etc. <br>• Enforce quotas and avoid over‑commit during the lease window <br>• REST API (and Horizon panels) for users to manage leases |
 
-*Why it exists:* OpenStack’s core services allocate resources **immediately** when a server/volume/network is created. In research and education clouds (e.g., Chameleon, Jetstream, NSF clouds) users often need to **book resources ahead of a scheduled experiment or class**, and Blazar supplies that capability.
+*Why it exists:* OpenStack's core services allocate resources **immediately** when a server/volume/network is created. In research and education clouds (e.g., Chameleon, Jetstream, NSF clouds) users often need to **book resources ahead of a scheduled experiment or class**, and Blazar supplies that capability.
 
 ---
 
@@ -30,7 +30,7 @@ Below is a quick rundown of what Blazar is, its OpenStack‑project status, and 
 | Milestone | Status in OpenStack |
 |-----------|--------------------|
 | **Incubator** | Introduced in the *2016* *OpenStack Kilo* cycle as an incubated project. |
-| **Integrated** | Graduated to **“Integrated”** status in the *OpenStack Pike* release (2017). |
+| **Integrated** | Graduated to **"Integrated"** status in the *OpenStack Pike* release (2017). |
 | **Supported** | Since then it has been **maintained and released** in every subsequent release (Queens → Yoga → Z → 2025‑Q1). |
 | **Core vs. Optional** | It ships as a **stand‑alone service** (its own API endpoint, database, and service processes). Clouds can enable it or leave it out – it is **not a mandatory component** of a vanilla OpenStack deployment. |
 | **Documentation** | Official docs: <https://docs.openstack.org/blazar/latest/> |
@@ -44,21 +44,21 @@ Thus, while Blazar is an official, upstream OpenStack project with a stable API,
 
 | Aspect | Details |
 |--------|---------|
-| **Service name in the UI** | “Reservations” or “Leases” (visible in the Horizon dashboard under *Project → Reservations*). |
+| **Service name in the UI** | "Reservations" or "Leases" (visible in the Horizon dashboard under *Project → Reservations*). |
 | **What can be reserved** | • Compute nodes (specific flavors or even particular hosts) <br>• Block‑storage volumes <br>• Network ports / sub‑nets (rarely exposed) |
 | **Typical workflow** | 1. **Create a lease** → specify start time, end time, and resource requirements. <br>2. Once the lease becomes active, the reserved resources behave like normal Nova/Neutron/Cinder resources. <br>3. After the lease expires, the resources are automatically released back to the pool. |
 | **Why Chameleon needs it** | Researchers schedule experiments weeks in advance; the reservation system guarantees that the required number of CPUs, RAM, and GPUs will be available at the exact time the experiment starts. |
-| **Quota integration** | Blazar enforces the user’s OpenStack quota **at lease‑creation time**, preventing users from over‑booking the cloud. |
-| **Implementation** | Chameleon runs a Blazar API service, a Scheduler service, and a database (usually MySQL). The Horizon UI ships the “Reservation” panel, and the CLI commands are under `openstack reservation …` (e.g., `openstack reservation lease create …`). |
+| **Quota integration** | Blazar enforces the user's OpenStack quota **at lease‑creation time**, preventing users from over‑booking the cloud. |
+| **Implementation** | Chameleon runs a Blazar API service, a Scheduler service, and a database (usually MySQL). The Horizon UI ships the "Reservation" panel, and the CLI commands are under `openstack reservation …` (e.g., `openstack reservation lease create …`). |
 
 ---
 
-## Is it “fully supported” by OpenStack?
+## Is it "fully supported" by OpenStack?
 
 * **Upstream support:** Yes. The OpenStack PTL (Project Technical Lead) for Blazar actively maintains the code, publishes release notes, and fixes bugs in each cycle. It receives the same testing, CI, and cross‑project integration as the core services.
 * **Compatibility:** It works with Nova, Cinder, Neutron, and Placement. When a lease is created, Blazar talks to the Placement service to **allocate inventory** for the requested time window, and then it issues the actual Nova/Neutron calls when the lease becomes active.
 * **Community backing:** Blazar has a dedicated mailing list, weekly IRC/Matrix meetings, and is represented at the OpenStack Summit. Many large academic clouds (Chameleon, Jetstream, XSEDE, GARR Cloud, etc.) run it in production.
-* **Limitations:** Because it is optional, not every OpenStack deployment includes it. Also, certain advanced features (e.g., reservations of IPv6 prefixes, per‑host affinity) are still evolving, so the documentation occasionally warns about “feature in progress”.
+* **Limitations:** Because it is optional, not every OpenStack deployment includes it. Also, certain advanced features (e.g., reservations of IPv6 prefixes, per‑host affinity) are still evolving, so the documentation occasionally warns about "feature in progress".
 
 ---
 
@@ -90,7 +90,7 @@ openstack reservation lease delete <LEASE_ID>
 
 * **Blazar** is the official OpenStack **Reservation Service**.
 * It is **maintained upstream**, releases with every OpenStack version, and is considered a **supported** OpenStack project.
-* It is **optional** – clouds decide whether to deploy it. Chameleon Cloud **does** deploy it, exposing “Reservations/Leases” to its users.
+* It is **optional** – clouds decide whether to deploy it. Chameleon Cloud **does** deploy it, exposing "Reservations/Leases" to its users.
 * The service lets you **book compute, storage, or network resources ahead of time**, integrating with the core services and respecting quotas.
 
 If you need to verify whether a specific OpenStack deployment (e.g., a private cloud you manage) includes reservations, look for a service named **blazar** in the service catalog:

@@ -297,7 +297,7 @@ Now that the students have a working cluster, ask them to tighten the security g
 
 1. Remove the all‑ports intra‑group rule created earlier.  
 2. Add a rule that only permits the scheduler port (8786) from workers → scheduler.  
-3. Do not add any rule that opens inbound SSH (port 22) from the scheduler to the workers; the default “deny” will block it.  
+3. Do not add any rule that opens inbound SSH (port 22) from the scheduler to the workers; the default "deny" will block it.  
 
 ### 3.2 Step‑by‑step solution (example)
 

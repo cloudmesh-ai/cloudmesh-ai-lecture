@@ -8,9 +8,9 @@ The workflow is:
 1. **Submit a SLURM batch script** that  
    * allocates a worker node,  
    * starts the LLM inference server (vLLM) on that node, and  
-   * writes the node’s hostname to a small “heartbeat” file that the login node can read.  
+   * writes the node's hostname to a small "heartbeat" file that the login node can read.  
 
-2. **On your laptop** poll the batch system for the job’s node name, then open a two‑hop SSH tunnel  
+2. **On your laptop** poll the batch system for the job's node name, then open a two‑hop SSH tunnel  
    `laptop ←→ login‑node ←→ worker‑node`.  
 
 3. Verify the server is up by querying the local forwarded port.  
@@ -81,7 +81,7 @@ rm -f "$HEARTBEAT"
 |------|--------|
 | `#SBATCH …` block | Requests a **single** compute node with 8 MI‑250X GPUs. |
 | `module load …` | Loads ROCm libraries required by the container. |
-| `HEARTBEAT` file | Placed on the Lustre burst‑buffer (`/gpfs/fs2`). The login node (and you, from the laptop) can read the file to discover the node’s hostname. |
+| `HEARTBEAT` file | Placed on the Lustre burst‑buffer (`/gpfs/fs2`). The login node (and you, from the laptop) can read the file to discover the node's hostname. |
 | `echo … > $HEARTBEAT` | Writes the node name *immediately* after the allocation starts. |
 | `srun … vllm.entrypoints.openai.api_server` | Starts the Gemma‑4 inference server inside the container. The server binds to `0.0.0.0:8000` **on the worker node**. |
 | `rm -f $HEARTBEAT` | Removes the heartbeat file when the job finishes, preventing stale data. |
@@ -166,7 +166,7 @@ echo "Tunnel closed."
 ### How to use the helper
 
 ```bash
-# 1) Submit the batch job (if you haven’t already)
+# 1) Submit the batch job (if you haven't already)
 sbatch run_gemma4_batch.slurm   # note the job id printed, e.g. 12345678
 
 # 2) From your laptop, start the tunnel
@@ -232,7 +232,7 @@ When you are finished:
    scancel 12345678
    ```
 
-   The batch script’s `rm -f $HEARTBEAT` will delete the heartbeat file, so future runs will not pick up a stale node name.
+   The batch script's `rm -f $HEARTBEAT` will delete the heartbeat file, so future runs will not pick up a stale node name.
 
 ---  
 
@@ -246,7 +246,7 @@ Laptop (localport 8000)  <--SSH tunnel-->  frontier-login.olcf.ornl.gov
 
 * The **batch script** runs entirely on the compute node; it cannot be accessed directly from outside the OLCF network.  
 * The **heartbeat file** is the only piece of information the login node needs to tell the outside world which compute node is hosting the server.  
-* The **two‑hop tunnel** (`ssh -J`) uses the login node as a jump host; the final destination (`nid0XXXXX`) is resolved by the login node’s internal DNS, which knows the compute‑node hostnames.  
+* The **two‑hop tunnel** (`ssh -J`) uses the login node as a jump host; the final destination (`nid0XXXXX`) is resolved by the login node's internal DNS, which knows the compute‑node hostnames.  
 
 ---  
 
@@ -280,9 +280,9 @@ Press `Ctrl‑C` (or `kill %1`) to stop the tunnel and the job will end automati
 | Issue | Symptom | Remedy |
 |-------|---------|--------|
 | Heartbeat file never appears | `ssh-gemma4-tunnel.sh` hangs forever | Verify the batch job actually started (`squeue -j <JOBID>`). If the job is still pending due to lack of resources, wait or request a different partition. |
-| Tunnel fails with “Permission denied (publickey)” | SSH key not registered on OLCF portal | Add your public key (`~/.ssh/id_rsa.pub` or `id_ed25519.pub`) via the OLCF user portal, then reload your ssh‑agent (`ssh-add`). |
+| Tunnel fails with "Permission denied (publickey)" | SSH key not registered on OLCF portal | Add your public key (`~/.ssh/id_rsa.pub` or `id_ed25519.pub`) via the OLCF user portal, then reload your ssh‑agent (`ssh-add`). |
 | `curl` returns 404 or empty JSON | vLLM server not bound to `0.0.0.0` or wrong model name | Ensure `vllm.entrypoints.openai.api_server` is started with `--port 8000` (default binds to all interfaces) and that `MODEL_DIR` points to the Gemma‑4 folder (`gemma-4b-it`). |
-| Port conflict on the worker node | “Address already in use” in the batch log | Change `SERVER_PORT` (and consequently `REMOTE_PORT`) to an unused value (e.g., 8010). |
+| Port conflict on the worker node | "Address already in use" in the batch log | Change `SERVER_PORT` (and consequently `REMOTE_PORT`) to an unused value (e.g., 8010). |
 | Job expires while you are still testing | Tunnel disconnects, server stops | Request a longer `--time` in the batch script, or submit a *repeating* job (e.g., a `sbatch` that launches another `sbatch`). |
 
 ---  

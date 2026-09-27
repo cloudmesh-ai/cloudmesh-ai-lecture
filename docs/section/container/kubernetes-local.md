@@ -33,7 +33,7 @@ Setting up Kubernetes locally can be done using several different tools. The rig
 | Tool | How it works | Main advantages | When to use it |
 |------|--------------|---------|--------|
 | **kind** (Kubernetes IN Docker) | Starts one or more Docker containers that host the control‑plane and worker nodes. | Very fast to start/stop; can simulate multi‑node clusters; works wherever Docker runs. | CI pipelines, quick local development, testing multi‑node configurations. |
-| **minikube** | Runs a single VM (via Docker, VirtualBox, KVM2, HyperKit, etc.) that contains a full Kubernetes node. | Supports many drivers; full feature set; easy to enable addons. | General development when you want a “real” VM node. |
+| **minikube** | Runs a single VM (via Docker, VirtualBox, KVM2, HyperKit, etc.) that contains a full Kubernetes node. | Supports many drivers; full feature set; easy to enable addons. | General development when you want a "real" VM node. |
 | **k3d** (k3s in Docker) | Runs a lightweight k3s distribution inside Docker containers. | Small memory/CPU footprint; fast startup; still CNCF‑conformant. | Low‑resource laptops, ARM machines, edge‑style demos. |
 | **MicroK8s** (snap package) | Installs a native Kubernetes binary on the host OS (no VM). | All‑in‑one installation; easy to enable/disable addons. | Ubuntu or WSL2 users who prefer a native install. |
 
@@ -67,7 +67,7 @@ After installing Docker, verify it works:
 docker run --rm hello-world
 ```
 
-If you see the “Hello from Docker!” message, Docker is ready.
+If you see the "Hello from Docker!" message, Docker is ready.
 
 ---
 
@@ -179,7 +179,7 @@ alias kubectl='microk8s kubectl'
 
 ---
 
-## 4. Quick “Hello‑World” Test
+## 4. Quick "Hello‑World" Test
 
 The following manifest deploys a simple Nginx server and exposes it via a NodePort. It works with any of the clusters created above.
 

@@ -174,7 +174,7 @@ $$7.5\text{M base tokens} \times 8 \text{ (amplification factor)} = \mathbf{60\t
 
 ### 4. Key Factors That Can Lower or Raise Costs
 
-* **Prompt Caching:** Because much of the codebase remains unchanged between iterative loops, leveraging Bedrock’s prompt caching can slash repetitive input token costs by up to 90%, reducing a high-end model run down closer to **$60–$80 total**.
+* **Prompt Caching:** Because much of the codebase remains unchanged between iterative loops, leveraging Bedrock's prompt caching can slash repetitive input token costs by up to 90%, reducing a high-end model run down closer to **$60–$80 total**.
 * **Scope Control:** Refactoring only active core components (such as `cloudmesh-ai`, `cloudmesh-common`, and specific client wrappers) rather than all 140+ legacy or documentation repositories will naturally scale costs down linearly.
 
 

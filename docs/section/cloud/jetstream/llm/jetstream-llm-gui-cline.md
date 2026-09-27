@@ -31,7 +31,7 @@ All numeric values are plain integers or decimals (no scientific notation).
 | Bash / Zsh | `export JETSTREAM_API_KEY="jsc-XXXXXXXXXXXXXXXXXXXXXXXX"`<br>`export JETSTREAM_MODEL="mixtral-8x7b-instruct"` |
 | PowerShell | `$env:JETSTREAM_API_KEY = "jsc-XXXXXXXXXXXXXXXXXXXXXXXX"`<br>`$env:JETSTREAM_MODEL = "mixtral-8x7b-instruct"` |
 
-Add the lines to your shell profile (`~/.bashrc`, `~/.zshrc`, or the PowerShell profile) so VS Code’s terminal inherits them automatically.
+Add the lines to your shell profile (`~/.bashrc`, `~/.zshrc`, or the PowerShell profile) so VS Code's terminal inherits them automatically.
 
 ### 1.2 One‑shot request (plain numbers)
 
@@ -81,20 +81,20 @@ done
 ### 2.1 Built‑in AI Assistant (VS Code ≥ 1.87)
 
 1. Open **Settings** (`Ctrl+,`).  
-2. Search for **“AI Assistant: Enabled”** and tick the checkbox.  
-3. Search for **“AI Assistant: API Base”** → enter  
+2. Search for **"AI Assistant: Enabled"** and tick the checkbox.  
+3. Search for **"AI Assistant: API Base"** → enter  
 
    ```
    https://llm.jetstream-cloud.org/v1
    ```
 
-4. Search for **“AI Assistant: API Key”** → paste the Jetstream key **or** use the placeholder  
+4. Search for **"AI Assistant: API Key"** → paste the Jetstream key **or** use the placeholder  
 
    ```
    ${env:JETSTREAM_API_KEY}
    ```
 
-5. Search for **“AI Assistant: Model”** → type the model you own, e.g.  
+5. Search for **"AI Assistant: Model"** → type the model you own, e.g.  
 
    ```
    mixtral-8x7b-instruct
@@ -109,7 +109,7 @@ done
 ### 2.2 Third‑party chat extension (example: *ChatGPT – EasyCode*)
 
 1. Open the **Extensions** view (`Ctrl+Shift+X`).  
-2. Search for **“ChatGPT – EasyCode”** and click **Install**.  
+2. Search for **"ChatGPT – EasyCode"** and click **Install**.  
 3. After installation, a chat icon appears in the Activity Bar.  
 
 4. Open **Settings** (`Ctrl+,`).  
@@ -197,7 +197,7 @@ If you prefer a dedicated REST client, any of the following can be used without 
    * `Content-Type: application/json`  
    * `Authorization: Bearer {{JETSTREAM_API_KEY}}`  
 
-   Create an environment variable `JETSTREAM_API_KEY` with the key (top‑right “Environment” → Manage Environments).
+   Create an environment variable `JETSTREAM_API_KEY` with the key (top‑right "Environment" → Manage Environments).
 
 5. **Body** – choose **JSON** and paste:
 
@@ -287,9 +287,9 @@ If you receive an error, revisit the steps where the API key, base URL, or model
 
 | Symptom | Likely cause | GUI fix |
 |---------|--------------|---------|
-| “Authentication failed” in the chat pane | API key not supplied or mistyped | Re‑open Settings → **API Key** and ensure the field contains the exact key **or** `${env:JETSTREAM_API_KEY}`. If using an environment variable, verify it with `echo $JETSTREAM_API_KEY` in the integrated terminal. |
+| "Authentication failed" in the chat pane | API key not supplied or mistyped | Re‑open Settings → **API Key** and ensure the field contains the exact key **or** `${env:JETSTREAM_API_KEY}`. If using an environment variable, verify it with `echo $JETSTREAM_API_KEY` in the integrated terminal. |
 | Empty or missing `content` in response | Wrong model name | Open the Jetstream dashboard → **Models**, copy the exact name, and update the **Model** field in Settings or in the request body. |
-| “Rate limit exceeded” after several rapid calls | Free‑tier quota reached | Insert a small pause (`sleep 1`) between calls, or upgrade the Jetstream plan. |
+| "Rate limit exceeded" after several rapid calls | Free‑tier quota reached | Insert a small pause (`sleep 1`) between calls, or upgrade the Jetstream plan. |
 | Streaming request only returns `{}` lines | Client does not support streaming | Use the built‑in AI Assistant, the chat extension, or the REST Client file with the `"stream": true` flag. |
 | Settings UI shows the old endpoint after editing | Workspace settings overriding user settings | Open the `.vscode/settings.json` file in the workspace and remove any `"aiAssistant.apiBase"` entry, then set the value again via the Settings UI. |
 
@@ -303,10 +303,10 @@ If you receive an error, revisit the steps where the API key, base URL, or model
   * Built‑in AI Assistant (recommended for newest VS Code versions) **or**  
   * Third‑party chat extension (ChatGPT – EasyCode, CodeGPT, etc.).  
 - **Configure the extension** through the Settings UI: API Base → `https://llm.jetstream-cloud.org/v1`, API Key → key or `${env:JETSTREAM_API_KEY}`, Model → your chosen model, Temperature & Max Tokens as desired.  
-- **Test** with a simple prompt (e.g., “What is the capital of Canada?”).  
+- **Test** with a simple prompt (e.g., "What is the capital of Canada?").  
 - **Optional**: use Postman, Insomnia, or the VS Code REST Client for saved request collections that can be shared with teammates.  
 
-Following these steps gives you full command‑line access and a fully integrated graphical chat experience for Jetstream’s language models inside Visual Studio Code.
+Following these steps gives you full command‑line access and a fully integrated graphical chat experience for Jetstream's language models inside Visual Studio Code.
 
 ## Self-Assessment
 !!! tip "Self-Assessment"

@@ -14,6 +14,7 @@ The "Container War" is often framed as Docker vs. Podman, but in reality, it is 
 Docker revolutionized software delivery by packaging the application and its dependencies into a single image. 
 
 ### The Daemon Architecture
+
 Docker relies on a **Client-Server architecture**. When you run `docker run`, the Docker CLI (the client) sends an API request to the **Docker Daemon** (`dockerd`), a persistent background process that actually manages the containers, images, and networks.
 
 **Pros:**
@@ -32,6 +33,7 @@ Docker relies on a **Client-Server architecture**. When you run `docker run`, th
 Podman (Pod Manager) was developed by Red Hat to address the inherent security and architectural limitations of the daemon model.
 
 ### The Daemonless Architecture
+
 Podman uses a **Fork/Exec model**. There is no background daemon. When you run `podman run`, the Podman process directly launches the container as a child process of your shell.
 
 **Pros:**

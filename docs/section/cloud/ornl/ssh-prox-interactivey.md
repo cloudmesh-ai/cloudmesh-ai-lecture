@@ -1,6 +1,6 @@
 # Gemma‑4 inference server on a Frontier compute (worker) node
 
-Goal: **Access the server from your laptop** through an SSH tunnel that “proxies” the connection via the Frontier login node (and, if needed, a bastion node).  
+Goal: **Access the server from your laptop** through an SSH tunnel that "proxies" the connection via the Frontier login node (and, if needed, a bastion node).  
 
 The workflow is:
 
@@ -18,7 +18,7 @@ All traffic is encrypted and passes through the OLCF network; you never expose a
 | Item | What you need | How to verify |
 |------|---------------|---------------|
 | **Frontier allocation** | Active project allocation (`PROJECT_ID`) and a Frontier user account. | `scontrol show partition` returns a list; `sacctmgr show assoc format=user,project,account` shows your allocation. |
-| **SSH key** | Public key (`~/.ssh/id_rsa.pub` or `~/.ssh/id_ed25519.pub`) registered in the OLCF user portal. | Try `ssh -vv frontier.olcf.ornl.gov` – you should see “Offering public key …”. |
+| **SSH key** | Public key (`~/.ssh/id_rsa.pub` or `~/.ssh/id_ed25519.pub`) registered in the OLCF user portal. | Try `ssh -vv frontier.olcf.ornl.gov` – you should see "Offering public key …". |
 | **Singularity container** | `pytorch-rocm_2.2.1.sif` (or newer) with Gemma‑4 inside. | `singularity exec pytorch-rocm_2.2.1.sif python -c "import transformers"` should exit cleanly. |
 | **Model files** | Gemma‑4 model cached under `/gpfs/fs1/LLM/models/gemma-4b-it`. | `ls /gpfs/fs1/LLM/models/gemma-4b-it` shows `config.json`, `pytorch_model‑*.bin`, etc. |
 | **Python 3.10+** on the worker node (provided by the container). | Implicit with the container. | — |
@@ -33,7 +33,7 @@ We need a node that stays alive while we develop locally. Use `salloc` (interact
 ```bash
 # Request 1 node with 8 MI‑250X GPUs, 2 h wall‑time
 salloc \
-  --partition=debug \          # or “primary” for longer jobs
+  --partition=debug \          # or "primary" for longer jobs
   --nodes=1 \
   --ntasks-per-node=8 \
   --gpus-per-task=1 \
@@ -103,9 +103,9 @@ Leave this terminal **open**; the server will keep running until the allocation 
 
 ## 3. Create an SSH tunnel from your laptop to the worker node  
 
-Because the worker node has **no direct inbound network access**, we forward the port through the login node (the “jump host”).
+Because the worker node has **no direct inbound network access**, we forward the port through the login node (the "jump host").
 
-### 3.1 Identify the worker node’s hostname  
+### 3.1 Identify the worker node's hostname  
 
 While the server is running, run (in a separate shell *on the login node* of the allocation):
 
@@ -114,12 +114,12 @@ While the server is running, run (in a separate shell *on the login node* of the
 scontrol show hostnames $SLURM_JOB_NODELIST
 ```
 
-Save the result; we’ll call it `WORKER_NODE`.
+Save the result; we'll call it `WORKER_NODE`.
 
 ### 3.2 Build a two‑hop tunnel  
 
 **Option A – Single‑hop (most common)**  
-If your allocation was granted **on a single node**, the login node you’re currently on is the same host that will forward traffic to the worker node. You can tunnel directly:
+If your allocation was granted **on a single node**, the login node you're currently on is the same host that will forward traffic to the worker node. You can tunnel directly:
 
 ```bash
 # On your laptop
@@ -134,7 +134,7 @@ Explanation:
 | Flag | Meaning |
 |------|----------|
 | `-L 8000:WORKER:8000` | Forward local port 8000 → port 8000 on the worker node. |
-| `-J frontier-login.olcf.ornl.gov` | “Jump” through the login node (acts as a bastion). |
+| `-J frontier-login.olcf.ornl.gov` | "Jump" through the login node (acts as a bastion). |
 | `-N` | Do not execute a remote command; just keep the tunnel open. |
 | `your_user@frontier.olcf.ornl.gov` | Your Frontier account. |
 
@@ -144,7 +144,7 @@ Explanation:
 # 1. Open a tunnel from laptop -> login node
 ssh -L 9000:$(scontrol show hostnames $SLURM_JOB_NODELIST):8000 \
     your_user@frontier-login.olcf.ornl.gov -N &
-#   ^ local port 9000 will forward to the worker node’s port 8000
+#   ^ local port 9000 will forward to the worker node's port 8000
 
 # 2. (Optional) keep the above process in background; you can now use
 #    localhost:9000 on your laptop as the endpoint.
@@ -226,7 +226,7 @@ All traffic travels through the encrypted SSH tunnel, keeping the model and data
 When you are finished:
 
 1. **Stop the server** – go to the terminal on the login node where `srun` launched vLLM and press `Ctrl‑C`.  
-2. **Cancel the allocation** (if it hasn’t timed out automatically):  
+2. **Cancel the allocation** (if it hasn't timed out automatically):  
 
    ```bash
    scancel $SLURM_JOB_ID
@@ -339,12 +339,12 @@ Run the script with `bash launch_gemma4.sh`. It will:
 | Symptom | Likely cause | Fix |
 |---------|---------------|-----|
 | `curl: (7) Failed to connect to 127.0.0.1 port 8000` after starting the tunnel | Tunnel process died or never started. | Verify the `ssh -L … -N` command is still running (`ps -ef | grep ssh`). Re‑run the tunnel command. |
-| Server logs show “Address already in use” | Another process is already listening on port 8000 on the worker node (e.g., a previous run). | Cancel the old allocation or change `REMOTE_PORT` to an unused value. |
+| Server logs show "Address already in use" | Another process is already listening on port 8000 on the worker node (e.g., a previous run). | Cancel the old allocation or change `REMOTE_PORT` to an unused value. |
 | `torch.cuda.is_available()` returns **False** inside the container | ROCm module not loaded or container launched without GPU access. | Load `rocm/6.2.0` **before** `singularity exec`. Ensure `srun` requests one GPU per task (`--gpus-per-task=1`). |
 | Model loading hangs for > 5 min | Model files not reachable (wrong path or Lustre striping). | Confirm `MODEL_DIR` exists on the worker: `ls $MODEL_DIR`. If you copied the model to a different location, update the bind path. |
-| `vllm` crashes with “RuntimeError: Unexpected MPS device” | Accidentally used a CUDA‑only build of vLLM. | Use the OLCF‑provided image (`pytorch-rocm_2.2.1.sif`) which contains the ROCm vLLM binary. |
-| Tunnel works but responses are **empty** | The request payload is malformed (e.g., missing `model` name). | Use the exact payload from the “Verify the tunnel” step; note that the model name is the folder name (`gemma-4b-it`). |
-| Allocation expires while you’re still using the server | Wall‑time too short. | Request a longer `--time` or submit a batch script that runs the server for the required duration instead of an interactive allocation. |
+| `vllm` crashes with "RuntimeError: Unexpected MPS device" | Accidentally used a CUDA‑only build of vLLM. | Use the OLCF‑provided image (`pytorch-rocm_2.2.1.sif`) which contains the ROCm vLLM binary. |
+| Tunnel works but responses are **empty** | The request payload is malformed (e.g., missing `model` name). | Use the exact payload from the "Verify the tunnel" step; note that the model name is the folder name (`gemma-4b-it`). |
+| Allocation expires while you're still using the server | Wall‑time too short. | Request a longer `--time` or submit a batch script that runs the server for the required duration instead of an interactive allocation. |
 
 ---
 

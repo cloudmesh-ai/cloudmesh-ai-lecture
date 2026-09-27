@@ -5,7 +5,7 @@
 
 ---  
 
-## 1️⃣  Why “no daemons”?  
+## 1️⃣  Why "no daemons"?  
 
 Launching the services directly in a terminal makes them ordinary foreground processes. When the terminal is closed or you hit **Ctrl‑C**, the processes exit automatically. This keeps the workflow simple, reproducible, and easy to debug.
 
@@ -54,10 +54,10 @@ lm-proxy --version        # e.g. 0.3.2
 
 ### 3.3 VS Code + LM Studio extension  
 
-1. Install **VS Code** from <https://code.visualstudio.com/> if you don’t have it.  
+1. Install **VS Code** from <https://code.visualstudio.com/> if you don't have it.  
 2. Inside VS Code → **Extensions** (⇧⌘X on macOS, Ctrl‑Shift‑X on Windows/Linux).  
-3. Search for **“LM Studio”** (official) and click **Install**.  
-   *If you prefer another OpenAI‑compatible client (e.g., “ChatGPT‑Assistant”), that works as well – you just need to supply an API base URL and a dummy key.*  
+3. Search for **"LM Studio"** (official) and click **Install**.  
+   *If you prefer another OpenAI‑compatible client (e.g., "ChatGPT‑Assistant"), that works as well – you just need to supply an API base URL and a dummy key.*  
 
 ---  
 
@@ -84,11 +84,11 @@ lm-studio \
 |------|---------|
 | `--model` | Path or identifier of the GGUF model you want to run. |
 | `--host`  | Bind address (use `127.0.0.1` for local‑only access). |
-| `--port`  | Port number for LM Studio’s OpenAI‑compatible endpoint (`/v1`). |
+| `--port`  | Port number for LM Studio's OpenAI‑compatible endpoint (`/v1`). |
 | `--no-gui`| Prevents the desktop UI from opening; the process stays in the terminal. |
 | `--device cuda` / `--device auto` | (optional) Enable GPU inference if you have CUDA installed. |
 
-When the server is ready you’ll see something like:
+When the server is ready you'll see something like:
 
 ```
 [*] Running on http://127.0.0.1:12345/v1
@@ -105,7 +105,7 @@ lm-proxy \
   --backend http://127.0.0.1:12345/v1   # ← forwards to LM Studio
 ```
 
-You’ll see:
+You'll see:
 
 ```
 [INFO] Proxy listening on http://127.0.0.1:5678/v1 → http://127.0.0.1:12345/v1
@@ -113,10 +113,10 @@ You’ll see:
 
 > **Why use the proxy?**  
 > * Change the public port without restarting LM Studio.  
-> * Insert a cheap “auth token” (`--auth-token <secret>`).  
+> * Insert a cheap "auth token" (`--auth-token <secret>`).  
 > * Run several independent proxies for different projects.  
 
-If you **don’t need a proxy**, skip this step and point VS Code directly at `http://127.0.0.1:12345/v1`.
+If you **don't need a proxy**, skip this step and point VS Code directly at `http://127.0.0.1:12345/v1`.
 
 ### 4.3 Quick health‑check (any configuration)
 
@@ -150,7 +150,7 @@ If you get a proper JSON response, the chain is alive.
 ## 5️⃣  Configure VS Code to talk to the local endpoint  
 
 1. **Open Settings** (`⌘+,` on macOS, `Ctrl+,` on Windows/Linux).  
-2. Search for **“LM Studio: API Base URL”** (or the generic *OpenAI API Base URL* if you use another extension).  
+2. Search for **"LM Studio: API Base URL"** (or the generic *OpenAI API Base URL* if you use another extension).  
 3. **Enter the correct URL**:  
 
 | Situation | Value to paste |
@@ -164,13 +164,13 @@ If you get a proper JSON response, the chain is alive.
 ### 5.1 Test inside VS Code  
 
 *Open any source file (e.g., `example.py`).*  
-Select a few lines, then run the extension’s **“Ask LM Studio”** command (usually `Ctrl+Shift+P → “LM Studio: Ask”`).  
+Select a few lines, then run the extension's **"Ask LM Studio"** command (usually `Ctrl+Shift+P → "LM Studio: Ask"`).  
 
 You should see a generated response appear – that means VS Code is successfully talking to your locally‑running model.
 
 ---  
 
-## 6️⃣  One‑terminal “kill‑everything” workflow (no daemons, no tmux)  
+## 6️⃣  One‑terminal "kill‑everything" workflow (no daemons, no tmux)  
 
 Because **both** LM Studio and `lm-proxy` run as **foreground** processes, simply closing the terminal (or pressing **Ctrl‑C**) terminates them. No extra cleanup is needed.
 
@@ -206,9 +206,9 @@ Detach with `Ctrl‑b d` and later kill everything with `tmux kill-session -t lm
 | Symptom | Likely cause | Fix |
 |---------|--------------|-----|
 | `curl …/v1/models` → **connection refused** | LM Studio not running or wrong port | Verify LM Studio is still alive (`ps aux | grep lm-studio`). Restart with the correct `--port`. |
-| `lm-proxy` logs **“Backend unreachable”** | LM Studio didn’t start, or wrong backend URL | Ensure `--backend http://127.0.0.1:12345/v1` matches the LM Studio port. |
-| VS Code shows **“Invalid API key”** | Extension requires a non‑empty key | Enter any string (e.g., `local‑key`). |
-| Model never loads (stuck on “Loading …”) | Not enough RAM/VRAM for model size | Choose a smaller GGUF, or add `--cpu` to force CPU inference. |
+| `lm-proxy` logs **"Backend unreachable"** | LM Studio didn't start, or wrong backend URL | Ensure `--backend http://127.0.0.1:12345/v1` matches the LM Studio port. |
+| VS Code shows **"Invalid API key"** | Extension requires a non‑empty key | Enter any string (e.g., `local‑key`). |
+| Model never loads (stuck on "Loading …") | Not enough RAM/VRAM for model size | Choose a smaller GGUF, or add `--cpu` to force CPU inference. |
 | **Port already in use** (e.g., 12345) | Another process already bound it | Kill the old process (`kill <pid>`) or pick a free port (e.g., `--port 12456`). |
 | GPU not used (slow inference) | CUDA drivers missing or `--device` not set | Install NVIDIA driver + CUDA toolkit, then launch LM Studio with `--device cuda` (or `--device auto`). |
 | Want a simple auth token for the proxy | `lm-proxy` can enforce a bearer token | Start it with `--auth-token mySecret`. Then put `mySecret` into the VS Code *API Key* field. |
@@ -216,7 +216,7 @@ Detach with `Ctrl‑b d` and later kill everything with `tmux kill-session -t lm
 
 ---  
 
-## 8️⃣  Full‑copy‑paste “cheat‑sheet” (no tmux)  
+## 8️⃣  Full‑copy‑paste "cheat‑sheet" (no tmux)  
 
 ```bash
 # ── 1️⃣ Install / upgrade ────────────────────────────────────────
@@ -245,17 +245,17 @@ curl http://127.0.0.1:5678/v1/models   # if you used the proxy
 curl http://127.0.0.1:12345/v1/models # direct LM Studio
 
 # ── 5️⃣ Configure VS Code
-#   • Settings → “LM Studio: API Base URL” → http://127.0.0.1:5678/v1  (proxy)  
+#   • Settings → "LM Studio: API Base URL" → http://127.0.0.1:5678/v1  (proxy)  
 #   • or → http://127.0.0.1:12345/v1 (direct)  
-#   • API Key → any non‑empty string (e.g., “local-key”)  
+#   • API Key → any non‑empty string (e.g., "local-key")  
 #   • Model name → whatever you saw in the JSON response
 ```
 
-When you’re done, simply close the two terminal tabs (or hit **Ctrl‑C** in each). All processes exit cleanly.
+When you're done, simply close the two terminal tabs (or hit **Ctrl‑C** in each). All processes exit cleanly.
 
 ---  
 
-## 9️⃣  Quick “Ask the model” from the command line (no VS Code needed)  
+## 9️⃣  Quick "Ask the model" from the command line (no VS Code needed)  
 
 ```bash
 curl -X POST http://127.0.0.1:5678/v1/chat/completions \
@@ -277,7 +277,7 @@ You should see a short joke printed, confirming the full pipeline works end‑to
 
 ---  
 
-## 🎉  You’re all set!  
+## 🎉  You're all set!  
 
 * One terminal tab runs **LM Studio** in headless mode.  
 * (Optional) a second tab runs **`lm-proxy`** to expose a different port or add a simple token.  

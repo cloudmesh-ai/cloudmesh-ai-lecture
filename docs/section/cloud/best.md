@@ -2,10 +2,10 @@
 Below is a **practical, production‑ready workflow** that lets you install **NVIDIA AI Pair** on every node in the *white* and *spark* clusters with only a few commands.  
 The approach is built around three pillars:
 
-| Pillar | What it does | Why it’s the “best” choice |
+| Pillar | What it does | Why it's the "best" choice |
 |--------|--------------|----------------------------|
 | **Infrastructure as code (Ansible)** | One‑click, repeatable, idempotent installation on any number of hosts. | Guarantees the same exact software version and configuration on every node and makes future upgrades painless. |
-| **Docker (NVIDIA container runtime)** | Runs Pair in an isolated container that already contains all dependencies. | Removes the “works on my machine” problem, matches the official NVIDIA distribution, and lets you upgrade by just pulling a newer image. |
+| **Docker (NVIDIA container runtime)** | Runs Pair in an isolated container that already contains all dependencies. | Removes the "works on my machine" problem, matches the official NVIDIA distribution, and lets you upgrade by just pulling a newer image. |
 | **Secure secret handling (Ansible Vault)** | Stores the NGC API key (needed to pull the private image) in an encrypted file. | Keeps your credential out of source control while still allowing the playbook to read it at runtime. |
 
 ---
@@ -58,7 +58,7 @@ export PATH="$HOME/.local/bin:$PATH"
 # 2️⃣ Verify
 ansible --version   # should show ≥ 2.14
 
-# 3️⃣ Generate an SSH key (if you don’t have one already)
+# 3️⃣ Generate an SSH key (if you don't have one already)
 ssh-keygen -t ed25519 -C "your‑email@example.com"
 
 # 4️⃣ Copy the public key to every cluster node
@@ -282,7 +282,7 @@ WantedBy=multi-user.target
 *Why a systemd unit?*  
 - Guarantees the container restarts after a reboot.  
 - Gives you standard `systemctl status nvidia-pair` diagnostics.  
-- Keeps the host’s processes tidy (no dangling `docker run … &` commands).
+- Keeps the host's processes tidy (no dangling `docker run … &` commands).
 
 ---
 
@@ -332,7 +332,7 @@ The first login uses the default `admin / admin` credentials (change them from i
 
 ## 8. Quick‑and‑dirty alternative (single‑line Bash loop)
 
-If you need a **one‑off** test and don’t want to maintain an Ansible repo, the following Bash snippet does the same thing:
+If you need a **one‑off** test and don't want to maintain an Ansible repo, the following Bash snippet does the same thing:
 
 ```bash
 TARGETS="white-node1 white-node2 spark-node1 spark-node2"
@@ -383,7 +383,7 @@ When NVIDIA releases a newer image:
 ansible-playbook site.yml   # re‑runs the pull & restarts the service
 ```
 
-If you only want to pull a newer image without touching any other task, add a **tag** to the `docker_image` task (see the “pull_image” snippet in the previous answer) and run:
+If you only want to pull a newer image without touching any other task, add a **tag** to the `docker_image` task (see the "pull_image" snippet in the previous answer) and run:
 
 ```bash
 ansible-playbook site.yml --tags pull_image
@@ -393,7 +393,7 @@ ansible-playbook site.yml --tags pull_image
 
 ## 11. Optional: a single front‑end address
 
-If you don’t want to remember multiple hostnames, spin up a tiny **HAProxy** or **NGINX** reverse‑proxy on a bastion node (or on your Mac via SSH tunnel) that forwards `http://pair‑gateway:8888` to the first healthy node in the cluster.  
+If you don't want to remember multiple hostnames, spin up a tiny **HAProxy** or **NGINX** reverse‑proxy on a bastion node (or on your Mac via SSH tunnel) that forwards `http://pair‑gateway:8888` to the first healthy node in the cluster.  
 
 Example **SSH tunnel** (no extra software required):
 
@@ -406,7 +406,7 @@ You can script the tunnel to pick the node with the lowest latency, or use `auto
 
 ---
 
-## 12. TL;DR – “What to copy‑paste”
+## 12. TL;DR – "What to copy‑paste"
 
 1. Install Ansible & set up password‑less SSH.  
 2. Create the directory layout shown above (or clone the repo if you prefer).  

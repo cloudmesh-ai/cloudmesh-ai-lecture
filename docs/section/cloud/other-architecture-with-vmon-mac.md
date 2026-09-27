@@ -11,12 +11,12 @@
 
 
 
-QEMU (used directly or via front-ends such as UTM, Multipass, or the open-source “QEMU-VM” scripts) is the only hypervisor on Apple Silicon that can *truly* run guest machines of a different architecture – e.g., an x86_64 OS on an ARM-based Mac **and** also emulate the exact ARM hardware used by a Raspberry Pi.
+QEMU (used directly or via front-ends such as UTM, Multipass, or the open-source "QEMU-VM" scripts) is the only hypervisor on Apple Silicon that can *truly* run guest machines of a different architecture – e.g., an x86_64 OS on an ARM-based Mac **and** also emulate the exact ARM hardware used by a Raspberry Pi.
 
 
-Other macOS-native hypervisors (Parallels Desktop, VMware Fusion Tech-Preview, Apple’s own Virtualization Framework) are **hybrid/“type-2” hypervisors that rely on hardware-assisted virtualization**, so they can only run **ARM-64 guests** on an ARM Mac (or x86_64 guests on an Intel Mac). They cannot run an OS built for a different ISA.
+Other macOS-native hypervisors (Parallels Desktop, VMware Fusion Tech-Preview, Apple's own Virtualization Framework) are **hybrid/"type-2" hypervisors that rely on hardware-assisted virtualization**, so they can only run **ARM-64 guests** on an ARM Mac (or x86_64 guests on an Intel Mac). They cannot run an OS built for a different ISA.
 
-Below is a comparison of the main options you’ll encounter on an ARM-based Mac, with a focus on cross-architecture support.
+Below is a comparison of the main options you'll encounter on an ARM-based Mac, with a focus on cross-architecture support.
 
 ---
 
@@ -30,15 +30,15 @@ Below is a comparison of the main options you’ll encounter on an ARM-based Mac
 | Feature | Details |
 |---|---|
 | **CPU-architecture support** | Full system-level emulation: can run **x86-64, i386, PowerPC, MIPS, RISC-V**, etc. on Apple Silicon. It can also emulate **ARMv7/ARMv8** exactly as found on a Raspberry Pi (including the Broadcom BCM2837/BCM2711 SoC peripherals). |
-| **Performance** | Because it is pure software emulation, raw CPU speed is roughly **5-20% of native** for x86-64 workloads (depends on workload and the use of TCG vs. Apple’s Hypervisor.framework assisted JIT). For ARM-to-ARM (e.g., running a Raspberry-Pi image) you can enable the **Hypervisor.framework acceleration** (`-accel hvf`) which gives near-native speeds. |
+| **Performance** | Because it is pure software emulation, raw CPU speed is roughly **5-20% of native** for x86-64 workloads (depends on workload and the use of TCG vs. Apple's Hypervisor.framework assisted JIT). For ARM-to-ARM (e.g., running a Raspberry-Pi image) you can enable the **Hypervisor.framework acceleration** (`-accel hvf`) which gives near-native speeds. |
 | **Ease of use** | Command-line heavy, but many GUI front-ends exist: <br>• **UTM** – a polished, sandboxed macOS app that ships QEMU under the hood. <br>• **Multipass** – uses QEMU for non-Intel Macs when you ask for a non-ARM image. <br>• **QEMU-GUI (QEMU-Manager, AQEMU, etc.)** – more developer-oriented. |
-| **Raspberry Pi specific** | QEMU can emulate the **BCM2835/BCM2836/BCM2837** SoC (the “raspi” machine types). You can boot the official Raspberry Pi OS images as if they were running on a Pi. |
+| **Raspberry Pi specific** | QEMU can emulate the **BCM2835/BCM2836/BCM2837** SoC (the "raspi" machine types). You can boot the official Raspberry Pi OS images as if they were running on a Pi. |
 | **Licensing** | Open-source (GPL-2). Free to modify and redistribute. |
 | **Typical use-cases** | • Running legacy Windows 7/10 (x86) on a Mac M1/M2.<br>• Testing Raspberry Pi images on a laptop without the board.<br>• Cross-platform CI that needs to spin up an ARM image on an ARM host. |
 
-**Why QEMU is the only “true” cross-ISA hypervisor on macOS Arm:**
-- It does **software translation** (TCG – Tiny Code Generator) of guest instructions to host instructions, so it is not limited by the host’s CPU ISA.
-- Apple’s own `hvf` (Hypervisor.framework) can be layered on top to accelerate *ARM-to-ARM* virtualization, but the translation layer stays for *ARM-to-x86*.
+**Why QEMU is the only "true" cross-ISA hypervisor on macOS Arm:**
+- It does **software translation** (TCG – Tiny Code Generator) of guest instructions to host instructions, so it is not limited by the host's CPU ISA.
+- Apple's own `hvf` (Hypervisor.framework) can be layered on top to accelerate *ARM-to-ARM* virtualization, but the translation layer stays for *ARM-to-x86*.
 
 !!! tip "Pro Tip: Choosing the Right Acceleration"
     When running an ARM64 guest on Apple Silicon, always use `-accel hvf` in your QEMU command line. Without it, QEMU will use TCG (emulation), and your VM will feel incredibly slow. With it, you are using hardware-assisted virtualization.
@@ -56,8 +56,8 @@ Below is a comparison of the main options you’ll encounter on an ARM-based Mac
 | Feature | Details |
 |---|---|
 | **CPU-architecture support** | **ARM-only** guests (macOS ARM, Linux ARM, Windows 10/11 ARM). No x86/x86-64 emulation. |
-| **Performance** | Uses Apple’s Hypervisor.framework (hardware-assisted). Near-native speeds for ARM guests (≈ 90-100% of native). |
-| **Raspberry Pi** | Cannot directly run a Pi-specific image because QEMU’s “raspi” board emulation is missing. You could run a generic ARM Linux distro, but not the exact Pi hardware peripherals. |
+| **Performance** | Uses Apple's Hypervisor.framework (hardware-assisted). Near-native speeds for ARM guests (≈ 90-100% of native). |
+| **Raspberry Pi** | Cannot directly run a Pi-specific image because QEMU's "raspi" board emulation is missing. You could run a generic ARM Linux distro, but not the exact Pi hardware peripherals. |
 | **Ease of use** | Very polished GUI, one-click installation, seamless integration with macOS (shared folders, drag-and-drop, Coherence mode). |
 | **Licensing / cost** | Commercial, paid per-machine (subscription or perpetual). |
 | **Typical use-cases** | • Running ARM versions of Windows/macOS for development.<br>• Running Linux ARM distros for testing.<br>• Desktop virtualization with high-performance graphics (Apple-GPU passthrough). |
@@ -116,7 +116,7 @@ The official Android Emulator is actually a highly customized **QEMU front-end**
 |----------|--------------|-----|
 | **Developing Android apps in Android Studio** | **Android Emulator** (built-in) | Direct integration with Studio, ADB, and Play Store images. |
 | **Testing an Android x86 custom ROM** | **QEMU** (or **UTM**) | Full-system x86 emulation; you can script the launch for CI. |
-| **Running Android on a “desktop-style” VM with macOS window management** | **Parallels Desktop** (or **UTM** if you need x86) | Seamless windowing, snapshots, drag-and-drop files. |
+| **Running Android on a "desktop-style" VM with macOS window management** | **Parallels Desktop** (or **UTM** if you need x86) | Seamless windowing, snapshots, drag-and-drop files. |
 | **Validating a Raspberry-Pi-targeted Android build without a Pi board** | **QEMU** via `raspi4` machine (UTM GUI makes this painless). |
 | **CI/CD pipeline that needs to spin up Android for UI tests** | **Android Emulator** + **headless mode** (`-no-window`) or **Docker-based ADB-only containers**. |
 | **Maximum native speed (e.g., GPU-intensive games or AR experiments)** | **Parallels Desktop** or **Android Emulator** (both use Metal for graphics via hvf). |

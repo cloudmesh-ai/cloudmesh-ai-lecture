@@ -47,6 +47,7 @@ Below is the full implementation of the `lecture_builder.py` skill.
 
 ```python
 #!/usr/bin/env python3
+
 import sys
 import json
 import argparse
@@ -255,6 +256,7 @@ The basic template-driven approach can be expanded to create more sophisticated 
     - [ ] JSON output validated for schema consistency.
 
 ## Assignments
+
 !!! note "Assignment 1: Basic Skill Deployment"
     Implement the `lecture_builder.py` skill in a new Cline project. Run the skill using the CLI to generate an outline for a topic of your choice (e.g., "Introduction to Docker") and verify that the JSON output is correctly formatted.
 

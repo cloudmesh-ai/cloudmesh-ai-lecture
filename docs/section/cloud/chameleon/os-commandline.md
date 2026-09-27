@@ -91,7 +91,7 @@ openstack server create \
 | `--image <image>` | OS image or appliance to boot from. | `openstack image list` |
 | `--key-name <keypair>` | Name of the SSH key pair injected into the instance. | `openstack keypair list` |
 | `--security-group <sec‑group>` | Firewall rules applied to the instance (can be repeated). | `openstack security group list` |
-| `--nic net-id=<network-id-or-name>` | Connects the VM to a specific private or shared network. Accepts either the network’s UUID or its name. | `openstack network list` |
+| `--nic net-id=<network-id-or-name>` | Connects the VM to a specific private or shared network. Accepts either the network's UUID or its name. | `openstack network list` |
 | `<instance-name>` | Desired name for the new VM (no spaces). | Any alphanumeric string you choose. |
 
 ---
@@ -128,9 +128,9 @@ openstack server create \
 |---------|----------------|--------|
 | Instance remains in `BUILD` | Insufficient quota or the chosen flavor is unavailable. | Check quotas with `openstack quota show` and list available flavors. |
 | SSH connection refused | No floating IP attached, or the security group blocks port 22. | Allocate a floating IP (see §5.1) and ensure the security group allows inbound TCP 22. |
-| “No matching image” error | Image name/ID typo or image not visible to the project. | Verify the image name/ID using `openstack image list`. |
-| “Invalid network” error | Wrong network name/UUID, or the network is not shared with the project. | List networks with `openstack network list` and confirm you have access. |
-| “Invalid password” after sourcing rc file | Typo in `OS_PASSWORD` or the RC file was not sourced. | Re‑source the file and double‑check the password value. |
+| "No matching image" error | Image name/ID typo or image not visible to the project. | Verify the image name/ID using `openstack image list`. |
+| "Invalid network" error | Wrong network name/UUID, or the network is not shared with the project. | List networks with `openstack network list` and confirm you have access. |
+| "Invalid password" after sourcing rc file | Typo in `OS_PASSWORD` or the RC file was not sourced. | Re‑source the file and double‑check the password value. |
 
 ---
 

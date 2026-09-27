@@ -123,7 +123,7 @@ Jetstream provides two **interactive tools**:
 | **Allocation Estimator** | Calculates total SU cost for a set of resources (instances, storage, network). | Select flavors, number of instances, storage size, and expected egress. The estimator returns the *total SU per hour* and the *monthly SU total* (hourly × 730 h). |
 | **Exchange Calculator** | Converts a dollar‑based budget (if you have a grant) into an SU budget, using the current exchange rate (≈ 10 USD = 1 SU). | Input your dollar amount → get the equivalent SU budget. |
 
-Both tools are accessible from the “Getting Started” and “Allocation” sections of the documentation.
+Both tools are accessible from the "Getting Started" and "Allocation" sections of the documentation.
 
 ---
 
@@ -184,15 +184,15 @@ The **Exchange Calculator** (available at <https://allocations.access-ci.org/exc
 ### Why It Matters
 - **Budget Planning** – Before you start estimating compute, storage, and network usage, you can determine the exact SU ceiling you have based on your funding.
 - **Allocation Requests** – When completing the Jetstream allocation request form, you must report the total SU you are requesting. The Exchange Calculator provides an authoritative, reproducible figure.
-- **Simple Interface** – No login is required; you simply type your dollar amount and receive an instant conversion, making it ideal for quick “what‑if” scenarios.
+- **Simple Interface** – No login is required; you simply type your dollar amount and receive an instant conversion, making it ideal for quick "what‑if" scenarios.
 
 ### How to Use It
 1. **Navigate** to <https://allocations.access-ci.org/exchange_calculator>.  
 2. **Enter** your grant amount (or desired SU total) in the appropriate field.  
-3. **Click** the “Calculate” button.  
+3. **Click** the "Calculate" button.  
 4. **Read** the resulting SU (or dollar) value, which you can then use in the **Allocation Estimator** to model specific resource configurations.  
 
-By using the Exchange Calculator together with Jetstream’s Allocation Estimator, you can ensure that your planned experiments, storage, and data‑transfer needs fit comfortably within the SU budget derived from your funding source.
+By using the Exchange Calculator together with Jetstream's Allocation Estimator, you can ensure that your planned experiments, storage, and data‑transfer needs fit comfortably within the SU budget derived from your funding source.
 
 
 ## Appendix: Jetstream 2 Allocation Estimator
@@ -214,7 +214,7 @@ The Allocation Estimator is an interactive, web‑based calculator that conver
 **Why Use It**  
 
 1. **Accurate budgeting** – You see the exact SU cost before you submit an allocation request.  
-2. **Scenario testing** – Try multiple “what‑if” configurations (different flavors, storage amounts, or egress levels) and compare the resulting SU totals instantly.  
+2. **Scenario testing** – Try multiple "what‑if" configurations (different flavors, storage amounts, or egress levels) and compare the resulting SU totals instantly.  
 3. **Compliance** – The SU total you obtain can be copied directly into the Jetstream allocation request form, satisfying the required budget justification.  
 
 ---
@@ -239,7 +239,7 @@ The **Allocation Estimator** is an interactive, web-based calculator that conver
 2. **Scenario testing** – Instantly compare different flavors, storage amounts, or egress levels.
 3. **Compliance** – The resulting SU total can be copied directly into the allocation request form.
 
-#### Quick “What‑If” Workflow
+#### Quick "What‑If" Workflow
 1. **Gather** your planned resources (flavor, count, storage sizes, expected egress).
 2. **Open** the estimator at the URL above and fill in the fields.
 3. **Read** the displayed *SU per hour* and *monthly SU*.

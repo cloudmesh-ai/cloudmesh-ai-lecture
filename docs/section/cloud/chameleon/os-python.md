@@ -165,7 +165,7 @@ server_data = {
     "flavor_id": flavor.id,
     "networks": [{"uuid": network.id}],      # list of dicts; each can contain uuid or port
     "key_name": keypair.name,
-    "security_groups": [{"name": secgrp.name}],  # list of dicts, each with a single key “name”
+    "security_groups": [{"name": secgrp.name}],  # list of dicts, each with a single key "name"
 }
 
 log.info("Creating server %s …", SERVER_NAME)
@@ -271,7 +271,7 @@ def get_or_die(find_func, name, resource_type):
     ...
 ```
 
-* Wraps the SDK’s `find_*` helpers (`find_image`, `find_flavor`, etc.).  
+* Wraps the SDK's `find_*` helpers (`find_image`, `find_flavor`, etc.).  
 * If the resource cannot be located, the script prints an informative message and exits.
 
 ### 5.5 5. Resolving Required Resources
@@ -330,7 +330,7 @@ print(
 )
 ```
 
-* Shows the newly created VM’s ID, status, flavor, image, and any fixed IPs returned by OpenStack.  
+* Shows the newly created VM's ID, status, flavor, image, and any fixed IPs returned by OpenStack.  
 * The final line gives a template `ssh` command (replace the placeholder with a real floating or fixed IP).
 
 ---
@@ -343,7 +343,7 @@ print(
 python3 -m venv venv
 source venv/bin/activate
 
-# Install the SDK if you haven’t already
+# Install the SDK if you haven't already
 pip install openstacksdk
 
 # Ensure you are authenticated – either source an RC file or have clouds.yaml configured
@@ -386,7 +386,7 @@ You can now SSH into the instance (assuming the security group allows port 22):
 |---------|--------------|-----|
 | `Failed to authenticate` | Missing or incorrect credentials | Verify that the RC file is sourced **or** that `clouds.yaml` contains the correct section name (`CLOUD_NAME`). |
 | `Could not find image named 'CC-Ubuntu-22.04'` | Image name typo or image not visible to the project | List images with `openstack image list` or adjust `IMAGE_NAME`. |
-| `Server entered a failure state` or status becomes `ERROR` | Incompatible flavor/network, quota exceeded, or missing SSH key | Check the OpenStack dashboard for the server’s error details, ensure your quota is sufficient, and confirm the keypair exists. |
+| `Server entered a failure state` or status becomes `ERROR` | Incompatible flavor/network, quota exceeded, or missing SSH key | Check the OpenStack dashboard for the server's error details, ensure your quota is sufficient, and confirm the keypair exists. |
 | No IP address printed | The network is a private only network without a floating IP | Allocate a floating IP and associate it (see *Optional Extensions*). |
 | `ResourceTimeout` after 10 min | Very large image or slow backend; timeout too short | Increase `wait=` parameter in `wait_for_server`. |
 
@@ -407,7 +407,7 @@ You can now SSH into the instance (assuming the security group allows port 22):
 
 ### End of Tutorial
 
-You now have a complete, reusable Python script and a step‑by‑step guide for launching OpenStack VMs programmatically. Adjust the configuration variables to match your environment, run the script, and you’ll have a running instance ready for SSH or further automation. Happy building!
+You now have a complete, reusable Python script and a step‑by‑step guide for launching OpenStack VMs programmatically. Adjust the configuration variables to match your environment, run the script, and you'll have a running instance ready for SSH or further automation. Happy building!
 
 ## Self-Assessment
 !!! tip "Self-Assessment"

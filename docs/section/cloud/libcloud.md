@@ -327,12 +327,12 @@ Both resources are *provider‑specific* (the method names start with `ex_` beca
 
 ### SSH Key‑Pair Workflow  
 
-1. **Generate a key locally** (if you don’t already have one).  
+1. **Generate a key locally** (if you don't already have one).  
    ```bash
    ssh-keygen -t rsa -b 4096 -f ~/.ssh/libcloud_demo -N ''
    ```
 2. **Import the public key into the cloud** so that new VMs can be created with that key attached.  
-3. **Reference the key name** when you call `create_node`. Libcloud will pass the name to the provider, which will inject the public key into the instance’s `authorized_keys` (Linux) or the appropriate Windows certificate store.  
+3. **Reference the key name** when you call `create_node`. Libcloud will pass the name to the provider, which will inject the public key into the instance's `authorized_keys` (Linux) or the appropriate Windows certificate store.  
 
 #### Example – Importing a key‑pair on OpenStack  
 
@@ -353,7 +353,7 @@ driver = get_driver(Provider.OPENSTACK)(
 with open('/home/user/.ssh/libcloud_demo.pub', 'r') as f:
     public_key = f.read().strip()
 
-# 2  Import it (creates a key‑pair named “libcloud_demo”)
+# 2  Import it (creates a key‑pair named "libcloud_demo")
 keypair = driver.ex_keypair_import(name='libcloud_demo', public_key=public_key)
 print(f'Key‑pair imported: {keypair.name} (fingerprint={keypair.fingerprint})')
 
@@ -431,7 +431,7 @@ node = driver.create_node(
 
 ---
 
-### Putting It All Together – A Minimal “Secure‑Boot” Helper  
+### Putting It All Together – A Minimal "Secure‑Boot" Helper  
 
 Below is a tiny helper function that ensures the required key‑pair and security group exist before a VM is created.  It runs **idempotently**: if the resources are already present it re‑uses them; otherwise it creates them.
 
@@ -496,11 +496,11 @@ log.info("Web ports opened for security group.")
 | Keep **security‑group rules as restrictive as possible** – start with `deny all` and add explicit `allow` rules | Reduces attack surface. |
 | Version‑control your **security‑group definitions** (JSON/YAML)    | Enables auditability and change‑tracking over time. |
 | Add **idempotent checks** (`ex_keypair_get`, `ex_security_group_get`) before creating resources | Avoids duplicate objects and makes scripts safe to re‑run. |
-| Log every security‑group change                                      | Cloud APIs often lack an audit trail for “who added which rule”. |
+| Log every security‑group change                                      | Cloud APIs often lack an audit trail for "who added which rule". |
 | Rotate SSH keys periodically (especially for shared or long‑lived keys) | Limits exposure if a key is compromised. |
 | Prefer **token‑based authentication** (`ex_force_auth_token`) over password‑based credentials when possible | Tokens are short‑lived and can be rotated automatically. |
 
-By following these patterns you’ll have a reproducible, auditable, and secure way to manage access to your cloud VMs, regardless of which provider you are targeting.
+By following these patterns you'll have a reproducible, auditable, and secure way to manage access to your cloud VMs, regardless of which provider you are targeting.
 
 ---
 
@@ -528,7 +528,7 @@ TTo build production-grade automation, your scripts must be **idempotent**: runn
 *   **Graceful Failure**: Catch `libcloud.common.exceptions.LibcloudError` to handle API timeouts or provider-level failures without crashing your entire pipeline.
 *   **Polling**: Cloud resources aren't created instantly. Use polling loops to wait for a node to reach the `running` state before attempting to SSH into it.
 
-For resources that take time to become ready (for example, a VM transitioning to the “running” state), a simple polling loop with exponential back‑off can be used:
+For resources that take time to become ready (for example, a VM transitioning to the "running" state), a simple polling loop with exponential back‑off can be used:
 
 ```python
 import time
@@ -640,7 +640,7 @@ Understanding what a `LibcloudError` actually means in the underlying cloud is k
 
 ## Recap
 
-Apache Libcloud provides a thin, pure‑Python abstraction layer that shields you from the quirks of each provider’s SDK.  By beginning development with the Mock driver, you can validate orchestration logic safely and cheaply.  As the code matures, move to real clouds by loading credentials from a standard `clouds.yaml` file—optionally using short‑lived tokens for added security.  Building idempotent, well‑logged scripts and handling errors with Libcloud’s exception hierarchy yields automation that is both reliable and portable across the ever‑growing ecosystem of public and private clouds.
+Apache Libcloud provides a thin, pure‑Python abstraction layer that shields you from the quirks of each provider's SDK.  By beginning development with the Mock driver, you can validate orchestration logic safely and cheaply.  As the code matures, move to real clouds by loading credentials from a standard `clouds.yaml` file—optionally using short‑lived tokens for added security.  Building idempotent, well‑logged scripts and handling errors with Libcloud's exception hierarchy yields automation that is both reliable and portable across the ever‑growing ecosystem of public and private clouds.
 
 *   **Abstraction**: Libcloud prevents vendor lock-in by providing a single Pythonic interface to many cloud services.
 *   **Development Flow**: Always start with the **Mock driver** to avoid costs during initial development.
@@ -662,7 +662,7 @@ This table provides a condensed list of the most common Libcloud operations for 
 | **Install Libcloud** | `pip install apache‑libcloud` | Pull the latest (or pinned) Libcloud release from PyPI. |
 | **Load a driver** | `driver = get_driver(Provider.OPENSTACK)('user','pass')` | Initialise a provider‑specific driver (replace `Provider.OPENSTACK` with any supported provider). |
 | **List available images** | `images = driver.list_images()` <br>`for img in images: print(img.id, img.name)` | Retrieve all VM images the cloud makes available. |
-| **List available sizes / flavors** | `sizes = driver.list_sizes()` <br>`for sz in sizes: print(sz.id, sz.name, sz.ram)` | Show the compute “flavors” you can request. |
+| **List available sizes / flavors** | `sizes = driver.list_sizes()` <br>`for sz in sizes: print(sz.id, sz.name, sz.ram)` | Show the compute "flavors" you can request. |
 | **Create a node (VM)** | `node = driver.create_node(name='my‑vm', image=img, size=sz, ex_keyname='my‑key')` | Spin up a new VM; `ex_*` kwargs are provider‑specific (e.g., security groups, networks). |
 | **Get node details** | `node = driver.ex_get_node_details(node.id)` | Refresh the node object (useful for polling state). |
 | **Delete a node** | `driver.destroy_node(node)` | Terminate the VM and release resources. |

@@ -123,13 +123,13 @@ Because `lms` talks to the same underlying daemon layer that the desktop app use
 ## 5️⃣ Configure VS Code to Talk to LM Studio
 
 1. Open VS Code Settings (`⌘+,` on macOS, `Ctrl+,` on Windows/Linux).
-2. Search for **“LM Studio: API Base URL”**.
+2. Search for **"LM Studio: API Base URL"**.
 3. Set the URL to your active server endpoint:
 * **`[http://127.0.0.1:12345/v1](http://127.0.0.1:12345/v1)`** (or whatever port you designated via `lms server start`).
 
 
 4. Set the **API Key** field to any non-empty string (e.g., `local-key`).
-5. Open any code file, highlight text, and run the command palette (`Ctrl+Shift+P` / `⇧⌘P`) to select **“LM Studio: Ask”**.
+5. Open any code file, highlight text, and run the command palette (`Ctrl+Shift+P` / `⇧⌘P`) to select **"LM Studio: Ask"**.
 
 
 

@@ -1,6 +1,6 @@
 # Chameleon Cloud and Containers
 
-Below is a **compact  tutorial** that walks you through the three ways to run containers on **Chameleon Cloud** (plain Docker‑on‑VM, Magnum‑managed Kubernetes, and Zun “Docker‑as‑a‑service”).  
+Below is a **compact  tutorial** that walks you through the three ways to run containers on **Chameleon Cloud** (plain Docker‑on‑VM, Magnum‑managed Kubernetes, and Zun "Docker‑as‑a‑service").  
 It captures only the essential commands, decision points, and gotchas – no duplicated explanations.
 
 Be aware of the billing before you start it.
@@ -121,7 +121,7 @@ openstack coe cluster template create k8s-chameleon \
   --master-flavor m1.large \
   --docker-volume-size 5 \
   --coe kubernetes \
-  --network-driver flannel   # replace with “kuryr” if you need Neutron‑backed pod networking
+  --network-driver flannel   # replace with "kuryr" if you need Neutron‑backed pod networking
 
 
 ```
@@ -204,13 +204,13 @@ kubectl get svc nginx-svc   # wait for EXTERNAL-IP, then browse to it
 
 ---
 
-## 5 Single‑Container “Docker‑as‑a‑Service” with Zun  
+## 5 Single‑Container "Docker‑as‑a‑Service" with Zun  
 
 ### 5.1 Verify Zun is enabled
 
 
 ```bash
-openstack container service list   # expect a row with “zun” and “Enabled”
+openstack container service list   # expect a row with "zun" and "Enabled"
 ```
 
 ### 5.2 Make sure a container image exists in Glance  

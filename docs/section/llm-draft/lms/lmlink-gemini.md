@@ -548,13 +548,13 @@ Check the MCP server documentation for the exact command.
 
 ## 8. Recommended starter configuration
 
-For a normal app repo, I’d start with:
+For a normal app repo, I'd start with:
 
 1. `CLAUDE.md` at project root
 2. `.claude/settings.local.json` for local permissions
 3. API key or subscription login configured
 4. Dangerous shell commands denied or required to ask
-5. Secrets excluded from Claude’s access
+5. Secrets excluded from Claude's access
 
 Minimal `CLAUDE.md`:
 
@@ -563,7 +563,7 @@ Minimal `CLAUDE.md`:
 
 - Do not modify environment files.
 - Do not run destructive commands without asking.
-- Run the project’s linter/tests before finishing.
+- Run the project's linter/tests before finishing.
 - Prefer minimal diffs.
 ```
 

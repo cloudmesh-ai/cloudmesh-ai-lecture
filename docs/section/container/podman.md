@@ -92,7 +92,7 @@ Rootless containers use user namespaces to map the user ID (UID) inside the cont
 A **Pod** is a group of one or more containers that share the same network namespace, including the IP address and ports. This is a fundamental concept in Kubernetes that Podman brings to the local environment.
 
 ```bash
-# 1. Create a pod named “myapp” exposing port 8080 on the host
+# 1. Create a pod named "myapp" exposing port 8080 on the host
 podman pod create --name myapp -p 8080:80
 
 # 2. Run a container inside the pod (it inherits the pod's network)

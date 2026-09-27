@@ -3,17 +3,17 @@
 This chapter explores **Kubernetes**, the industry-standard container orchestration platform, and how it is applied to deploy, scale, and manage complex AI workloads.
 
 !!! warning "Local first"
-    New to Kubernetes? Start with [kubernetes-local.md](./kubernetes-local.md) to set up a sandbox on your laptop before deploying to production.
+ New to Kubernetes? Start with [kubernetes-local.md](./kubernetes-local.md) to set up a sandbox on your laptop before deploying to production.
 
 
 
 !!! Info "Learning Objectives"
-    By the end of this chapter, students will be able to:
-    1. Explain the core architecture of Kubernetes and its role in the AI lifecycle.
-    2. Distinguish between key K8s objects: Pods, Deployments, Services, and ConfigMaps.
-    3. Design a production-ready architecture for an AI application.
-    4. Implement GPU-aware scheduling using resource limits, taints, and tolerations.
-    5. Deploy a multi-tier AI application using Kubernetes manifests.
+ By the end of this chapter, students will be able to:
+ 1. Explain the core architecture of Kubernetes and its role in the AI lifecycle.
+ 2. Distinguish between key K8s objects: Pods, Deployments, Services, and ConfigMaps.
+ 3. Design a production-ready architecture for an AI application.
+ 4. Implement GPU-aware scheduling using resource limits, taints, and tolerations.
+ 5. Deploy a multi-tier AI application using Kubernetes manifests.
 
 ---
 
@@ -27,20 +27,20 @@ While Docker provides the "container" (the package), **Kubernetes (K8s)** provid
 
 AI is not just about the model; it is a lifecycle. Kubernetes provides the glue for each stage:
 
-1.  **Data Engineering**: Orchestrating Spark or Ray clusters to clean and preprocess terabytes of data.
-2.  **Training**: Managing distributed training jobs (using operators like Kubeflow) that synchronize weights across dozens of GPUs.
-3.  **Inference (Deployment)**: Wrapping the trained model in a container (like vLLM) and scaling it based on real-time user requests.
-4.  **Monitoring**: Tracking "model drift" and GPU health to decide when to trigger a re-train.
+1. **Data Engineering**: Orchestrating Spark or Ray clusters to clean and preprocess terabytes of data.
+2. **Training**: Managing distributed training jobs (using operators like Kubeflow) that synchronize weights across dozens of GPUs.
+3. **Inference (Deployment)**: Wrapping the trained model in a container (like vLLM) and scaling it based on real-time user requests.
+4. **Monitoring**: Tracking "model drift" and GPU health to decide when to trigger a re-train.
 
 
 ### Why Kubernetes for AI?
 
 AI workloads have unique requirements that make K8s useful:
 
-*   **GPU Orchestration**: K8s can manage which pods get access to which GPUs, preventing multiple models from crashing the same card.
-*   **Elasticity**: AI inference demand is spiky. K8s can scale the number of API pods up or down based on traffic.
-*   **Self-Healing**: If an LLM process crashes due to an Out-of-Memory (OOM) error, K8s automatically restarts the pod.
-*   **Infrastructure Abstraction**: Whether running on Jetstream, Chameleon, or AWS, the K8s manifests remain mostly the same.
+* **GPU Orchestration**: K8s can manage which pods get access to which GPUs, preventing multiple models from crashing the same card.
+* **Elasticity**: AI inference demand is spiky. K8s can scale the number of API pods up or down based on traffic.
+* **Self-Healing**: If an LLM process crashes due to an Out-of-Memory (OOM) error, K8s automatically restarts the pod.
+* **Infrastructure Abstraction**: Whether running on Jetstream, Chameleon, or AWS, the K8s manifests remain mostly the same.
 
 ![Kubernetes Ecosystem](images/kubernetes-eco-chatgpt.png)
 
@@ -49,27 +49,24 @@ AI workloads have unique requirements that make K8s useful:
 
 ## 2. Kubernetes Core Architecture
 
-
-
-
-
 Kubernetes operates on a **Cluster** model consisting of a **Control Plane** and one or more **Worker Nodes**. This decoupled architecture ensures that the management of the cluster is separated from the execution of workloads, allowing the system to be highly scalable and resilient to individual node failures.
 
 For AI workloads, two components of this architecture are particularly critical:
 
 
 ### 2.1 The Control Plane (The Brain)
-*   **etcd**: The \"source of truth.\" It is a distributed key-value store that ensures that even if the API server crashes, the state of the cluster (which pods are running where) is never lost. It uses the Raft consensus algorithm to ensure consistency.
-*   **kube-scheduler**: For AI, the scheduler is critical. It performs **Bin-Packing**, attempting to fit as many pods as possible onto a node to maximize GPU utilization, or **Spreading**, to ensure that if one GPU node fails, the entire AI service doesn't go offline.
+
+* **etcd**: The \"source of truth.\" It is a distributed key-value store that ensures that even if the API server crashes, the state of the cluster (which pods are running where) is never lost. It uses the Raft consensus algorithm to ensure consistency.
+* **kube-scheduler**: For AI, the scheduler is critical. It performs **Bin-Packing**, attempting to fit as many pods as possible onto a node to maximize GPU utilization, or **Spreading**, to ensure that if one GPU node fails, the entire AI service doesn't go offline.
 
 
 
 The Control Plane makes global decisions about the cluster and detects/responds to cluster events.
 
-*   **kube-apiserver**: The "front door." All communication (from users or nodes) goes through here.
-*   **etcd**: A consistent and highly-available key-value store used as the backing store for all cluster data.
-*   **kube-scheduler**: Decides which node a new pod should run on, considering resource requirements (e.g., "this pod needs 1 GPU").
-*   **kube-controller-manager**: Handles cluster-level functions, like noticing when a node goes down and replacing the pods that were on it.
+* **kube-apiserver**: The "front door." All communication (from users or nodes) goes through here.
+* **etcd**: A consistent and highly-available key-value store used as the backing store for all cluster data.
+* **kube-scheduler**: Decides which node a new pod should run on, considering resource requirements (e.g., "this pod needs 1 GPU").
+* **kube-controller-manager**: Handles cluster-level functions, like noticing when a node goes down and replacing the pods that were on it.
 
 ### 2.2 Worker Nodes (The Muscle)
 
@@ -123,7 +120,7 @@ In AI workloads, the most critical assets are the **Model Weights**—billions o
 In a production environment, these weights are rarely stored inside the container image because AI models are massive (several gigabytes), making images too slow to pull or rebuild. Instead, they are mirrored to a **shared network file system** (such as NFS, Azure Files, or Google Filestore).
 
 !!! note
-    Understand the difference between where the models are soroed and when they are used in the GPU during runtime.
+ Understand the difference between where the models are soroed and when they are used in the GPU during runtime.
 
 We use **PersistentVolumes (PV)** and **PersistentVolumeClaims (PVC)** to mount these shared weights across pods:
 
@@ -131,13 +128,13 @@ We use **PersistentVolumes (PV)** and **PersistentVolumeClaims (PVC)** to mount 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: model-weights-pvc
+ name: model-weights-pvc
 spec:
-  accessModes:
-    - ReadMany # Multiple GPU pods can read the weights simultaneously
-  resources:
-    requests:
-      storage: 50Gi
+ accessModes:
+ - ReadMany # Multiple GPU pods can read the weights simultaneously
+ resources:
+ requests:
+ storage: 50Gi
 
 ```
 
@@ -153,35 +150,35 @@ Because the LLM requires hardware acceleration, we must specify GPU resource lim
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: llm-engine
+ name: llm-engine
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: llm-engine
-  template:
-    metadata:
-      labels:
-        app: llm-engine
-    spec:
-      containers:
-      - name: vllm-container
-        image: vllm/vllm-openai:latest
-        resources:
-          limits:
-            nvidia.com/gpu: 1 # Request 1 GPU
-            memory: "32Gi"
-            cpu: "4"
-        volumeMounts:
-        - name: model-storage
-          mountPath: /models
-        ports:
-        - containerPort: 8000
-        args: ["--model", "meta-llama/Meta-Llama-3-8B"]
-      volumes:
-      - name: model-storage
-        persistentVolumeClaim:
-          claimName: model-weights-pvc
+ replicas: 1
+ selector:
+ matchLabels:
+ app: llm-engine
+ template:
+ metadata:
+ labels:
+ app: llm-engine
+ spec:
+ containers:
+ - name: vllm-container
+ image: vllm/vllm-openai:latest
+ resources:
+ limits:
+ nvidia.com/gpu: 1 # Request 1 GPU
+ memory: "32Gi"
+ cpu: "4"
+ volumeMounts:
+ - name: model-storage
+ mountPath: /models
+ ports:
+ - containerPort: 8000
+ args: ["--model", "meta-llama/Meta-Llama-3-8B"]
+ volumes:
+ - name: model-storage
+ persistentVolumeClaim:
+ claimName: model-weights-pvc
 
 ```
 
@@ -193,25 +190,25 @@ The API layer is lightweight and can be scaled horizontally:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ai-api
+ name: ai-api
 spec:
-  replicas: 3 # Scale to 3 for high availability
-  selector:
-    matchLabels:
-      app: ai-api
-  template:
-    metadata:
-      labels:
-        app: ai-api
-    spec:
-      containers:
-      - name: fastapi-container
-        image: my-ai-api:v1.0
-        env:
-        - name: LLM_ENDPOINT
-          value: "http://llm-service:8000"
-        ports:
-        - containerPort: 80
+ replicas: 3 # Scale to 3 for high availability
+ selector:
+ matchLabels:
+ app: ai-api
+ template:
+ metadata:
+ labels:
+ app: ai-api
+ spec:
+ containers:
+ - name: fastapi-container
+ image: my-ai-api:v1.0
+ env:
+ - name: LLM_ENDPOINT
+ value: "http://llm-service:8000"
+ ports:
+ - containerPort: 80
 
 ```
 
@@ -223,14 +220,14 @@ A Kubernetes Service provides a stable internal network endpoint so the API can 
 apiVersion: v1
 kind: Service
 metadata:
-  name: llm-service
+ name: llm-service
 spec:
-  selector:
-    app: llm-engine
-  ports:
-    - protocol: TCP
-      port: 8000
-      targetPort: 8000
+ selector:
+ app: llm-engine
+ ports:
+ - protocol: TCP
+ port: 8000
+ targetPort: 8000
 
 ```
 
@@ -242,28 +239,28 @@ An Ingress Controller (such as Nginx) manages external traffic entry points, rou
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ai-app-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+ name: ai-app-ingress
+ annotations:
+ nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  rules:
-  - host: ai.example.com
-    http:
-      paths:
-      - path: /chat
-        pathType: Prefix
-        backend:
-          service:
-            name: ai-api-service
-            port:
-              number: 80
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: ai-frontend-service
-            port:
-              number: 8501
+ rules:
+ - host: ai.example.com
+ http:
+ paths:
+ - path: /chat
+ pathType: Prefix
+ backend:
+ service:
+ name: ai-api-service
+ port:
+ number: 80
+ - path: /
+ pathType: Prefix
+ backend:
+ service:
+ name: ai-frontend-service
+ port:
+ number: 8501
 
 ```
 
@@ -287,9 +284,9 @@ To prevent general-purpose workloads (like standard web servers) from occupying 
 ```yaml
 tolerations:
 - key: "ai-gpu"
-  operator: "Equal"
-  value: "true"
-  effect: "NoSchedule"
+ operator: "Equal"
+ value: "true"
+ effect: "NoSchedule"
 
 ```
 
@@ -352,23 +349,24 @@ Python tracebacks and CUDA errors can be lost upon pod restarts. Production clus
 ---
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
 ??? question "What is the primary difference between a Pod and a Deployment?"
-    A Pod is a single instance of a running container (or group of containers), whereas a Deployment is a manager that ensures a specified number of Pod replicas are running and handles rolling updates.
+ A Pod is a single instance of a running container (or group of containers), whereas a Deployment is a manager that ensures a specified number of Pod replicas are running and handles rolling updates.
 
 ??? question "How does Kubernetes handle GPU requests for AI models?"
-    Kubernetes uses resource limits (`resources.limits`) specifically for `nvidia.com/gpu`. The scheduler then finds a node with an available GPU to place the pod.
+ Kubernetes uses resource limits (`resources.limits`) specifically for `nvidia.com/gpu`. The scheduler then finds a node with an available GPU to place the pod.
 
 ??? question "What is the purpose of a Kubernetes Service in the AI Document Intelligence example?"
-    The `llm-service` provides a stable DNS name (`http://llm-service`) that the API pods can use to communicate with the LLM engine, regardless of which node the LLM pod is actually running on or how its IP changes.
+ The `llm-service` provides a stable DNS name (`http://llm-service`) that the API pods can use to communicate with the LLM engine, regardless of which node the LLM pod is actually running on or how its IP changes.
 
 ??? question "Why are Taints and Tolerations important in a mixed-resource cluster?"
-    They prevent general-purpose pods (which don't need GPUs) from occupying space on expensive GPU nodes, reserving those resources exclusively for AI models.
+ They prevent general-purpose pods (which don't need GPUs) from occupying space on expensive GPU nodes, reserving those resources exclusively for AI models.
 
 ??? question "How would you handle a scenario where the LLM engine requires a secret HuggingFace token?"
-    Create a Kubernetes Secret (`kubectl create secret generic hf-token --from-literal=token=xxx`) and inject it into the LLM pod as an environment variable.
+ Create a Kubernetes Secret (`kubectl create secret generic hf-token --from-literal=token=xxx`) and inject it into the LLM pod as an environment variable.
 
 ## Appendix: Manifest
 
@@ -400,21 +398,21 @@ A standard manifest is broken down into four main top-level fields:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-web-app
-  namespace: production
+ name: my-web-app
+ namespace: production
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: web
-  template:
-    metadata:
-      labels:
-        app: web
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:latest
+ replicas: 3
+ selector:
+ matchLabels:
+ app: web
+ template:
+ metadata:
+ labels:
+ app: web
+ spec:
+ containers:
+ - name: nginx
+ image: nginx:latest
 
 ```
 
@@ -423,7 +421,7 @@ spec:
 
 GGGGGGGGGGGG
 
-Here is the improved, professionally structured version of your guide. The text has been reorganized to fix structural flow issues (such as misplaced sections and code snippets), enhance readability, and establish a clear, logical hierarchy from architecture to deployment and observability.
+Here is the improved, structured version of your guide. The text has been reorganized to fix structural flow issues (such as misplaced sections and code snippets), enhance readability, and establish a clear, logical hierarchy from architecture to deployment and observability.
 
 ---
 
@@ -479,11 +477,11 @@ When managing dozens or hundreds of YAML files for an application across differe
 ```text
 k8s/
 ├── frontend/
-│   ├── deployment.yaml
-│   └── service.yaml
+│ ├── deployment.yaml
+│ └── service.yaml
 └── backend/
-    ├── deployment.yaml
-    └── service.yaml
+ ├── deployment.yaml
+ └── service.yaml
 
 ```
 
@@ -492,13 +490,13 @@ k8s/
 ```text
 k8s/
 ├── base/
-│   ├── deployment.yaml
-│   └── service.yaml
+│ ├── deployment.yaml
+│ └── service.yaml
 └── overlays/
-    ├── dev/
-    │   └── kustomization.yaml
-    └── prod/
-        └── kustomization.yaml
+ ├── dev/
+ │ └── kustomization.yaml
+ └── prod/
+ └── kustomization.yaml
 
 ```
 
@@ -509,8 +507,8 @@ my-chart/
 ├── Chart.yaml
 ├── values.yaml
 └── templates/
-    ├── deployment.yaml
-    └── service.yaml
+ ├── deployment.yaml
+ └── service.yaml
 
 ```
 

@@ -16,7 +16,7 @@ hard‑coded in any script.
 ## 1. YAML file layout (`env.yaml`)
 
 The file must be placed in **`~/.config/chameleon/env.yaml`** (the leading `~`
-expands to the user’s home directory).
+expands to the user's home directory).
 
 ```yaml
 # ---------------------------------------------------------
@@ -134,7 +134,7 @@ def load_configuration(
 ```
 
 The function mirrors the loader shown in the original `python‑chi` guide and
-the generic loader from the “Managing Cloud Parameters” guide, but points to
+the generic loader from the "Managing Cloud Parameters" guide, but points to
 the new `~/.config/chameleon/env.yaml` location and adds reservation exports.
 
 ## 3. Using the configuration in the different workflows

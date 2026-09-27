@@ -271,8 +271,6 @@ volumes:
 
 ---
 
-
-
 ## Self-Assessment
 
 !!! tip "Self-Assessment"

@@ -68,9 +68,13 @@ FastAPI is the preferred framework for this wrapper due to its lightweight natur
 ### Wrapper Architecture
 
 The wrapper follows a linear processing pipeline:
+
 1. **Request Reception**: Accept the OpenAI-formatted JSON payload.
+
 2. **Argument Extraction**: Parse the `content` field of the last user message to extract CLI arguments.
+
 3. **Skill Execution**: Execute the target Python skill using a subprocess.
+
 4. **Response Formatting**: Wrap the skill's stdout into the OpenAI response schema.
 
 ### Complete Implementation
@@ -161,8 +165,11 @@ Once the wrapper is deployed to an HTTPS-enabled endpoint, it can be integrated 
 This method registers the wrapper as a global model in the JetStream settings.
 
 1. Navigate to **Settings** $\rightarrow$ **API Settings**.
+
 2. Locate the **Custom Endpoint** section.
+
 3. Enter the URL of the wrapper (e.g., `https://my-skill-gateway.com/v1`).
+
 4. In the chat interface, select the model name that matches the `model` field in your wrapper (e.g., `lecture_builder`).
 
 ### Method 2: Tool/Function Calling (Per-Conversation)
@@ -225,6 +232,7 @@ A successful response should return a JSON object containing the skill output wi
     - [ ] End-to-end flow from Web UI to local skill verified via `curl`.
 
 ## Assignments
+
 !!! note "Assignment 1: Basic Wrapper Deployment"
     Deploy the provided FastAPI wrapper for an existing skill (e.g., `lecture_builder`). Use `curl` to send a request and verify that the output is wrapped in the correct OpenAI response schema.
 
@@ -237,5 +245,7 @@ A successful response should return a JSON object containing the skill output wi
 ## Further Reading
 
 - OpenAI API Reference (Chat Completions): https://platform.openai.com/docs/api-reference/chat
+
 - FastAPI Documentation: https://fastapi.tiangolo.com/
+
 - Python `subprocess` Module: https://docs.python.org/3/library/subprocess.html

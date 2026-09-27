@@ -29,8 +29,8 @@ The American Science Cloud (AmSC) is a national-scale scientific computing platf
 | 6 | **GPT‑5 Chat** (OpenAI) | OpenAI API (shared H100 clusters) | **≈ 60 tps** (≈ 1.6 s for 1 K tokens) | 34 B parameters, 32 K context, RLHF‑tuned for dialogue, system‑prompt steering | Customer‑support bots, conversational UX, role‑play | High‑throughput batch jobs that need >60 k tps |
 | 7 | **GPT‑5 High** (OpenAI) | OpenAI API (dedicated A100/H100 nodes) | **≈ 45 tps** (≈ 2.2 s for 1 K tokens) | 70 B parameters, 64 K context, top‑tier reasoning, stronger safety | Research‑grade QA, long‑form content, advanced coding | Low‑latency UI where >100 ms response is a must |
 | 8 | **GPT‑5 1** (OpenAI) | OpenAI API (dedicated A100/H100) | **≈ 55 tps** (≈ 1.8 s for 1 K tokens) | 50 B parameters, 48 K context, multimodal (text + image) | Vision‑enabled assistants, mixed‑modal summarisation | Pure‑text ultra‑fast services |
-| 9 | **GPT‑5 1‑Chat** (OpenAI) | OpenAI API (dedicated A100/H100) | **≈ 50 tps** (≈ 2 s for 1 K tokens) | Same body as GPT‑5 1, RLHF for chat, optional tool‑use | Multi‑modal chat assistants, help‑desks with image understanding | Pure‑text pipelines that can’t bear extra inference cost |
-|10| **GPT‑5 2** (OpenAI) | OpenAI API (dedicated A100/H100) | **≈ 40 tps** (≈ 2.5 s for 1 K tokens) | 80 B parameters, 96 K context, “high‑reasoning” mode, advanced tool‑use | Academic research, legal drafting, complex simulations | Real‑time gaming/AR where sub‑50 ms latency needed |
+| 9 | **GPT‑5 1‑Chat** (OpenAI) | OpenAI API (dedicated A100/H100) | **≈ 50 tps** (≈ 2 s for 1 K tokens) | Same body as GPT‑5 1, RLHF for chat, optional tool‑use | Multi‑modal chat assistants, help‑desks with image understanding | Pure‑text pipelines that can't bear extra inference cost |
+|10| **GPT‑5 2** (OpenAI) | OpenAI API (dedicated A100/H100) | **≈ 40 tps** (≈ 2.5 s for 1 K tokens) | 80 B parameters, 96 K context, "high‑reasoning" mode, advanced tool‑use | Academic research, legal drafting, complex simulations | Real‑time gaming/AR where sub‑50 ms latency needed |
 |11| **GPT‑5 2‑Chat** (OpenAI) | OpenAI API (dedicated A100/H100) | **≈ 38 tps** (≈ 2.6 s for 1 K tokens) | Dialogue‑optimised version of GPT‑5 2, same context | Long‑form conversational agents, tutoring platforms | Low‑power edge devices |
 |12| **GPT‑5 4** (OpenAI) | OpenAI API (dedicated H100 pods) | **≈ 30 tps** (≈ 3.3 s for 1 K tokens) | 120 B parameters, 128 K context, state‑of‑the‑art reasoning, multimodal (audio + vision) | Cutting‑edge research, scientific writing, large codebases | Anything requiring sub‑20 ms latency |
 |13| **GPT‑OSS 120B** (Open‑weight) | HuggingFace Inference (GPU T4) or self‑hosted on Azure NC Series | **≈ 12 tps** (≈ 8 s for 1 K tokens) | Fully open‑source 120 B model, 64 K context, community‑maintained safety adapters | Labs needing full model control, custom fine‑tunes | Production‑grade latency‑critical services (no vendor‑optimised kernels) |
@@ -55,7 +55,7 @@ The American Science Cloud (AmSC) is a national-scale scientific computing platf
 | HuggingFace Inference (GPU A100/V100) | Single A100/V100 | 6.7 s (Nemotron‑Super‑3) – 5 s (LLaMA‑4 Maverick) | 15 tps – 20 tps |
 | Self‑hosted Azure ND‑A100 (sparse‑attention) | 1 × A100‑40 GB with custom kernels | ~11 s for 1 K tokens | ~9 tps |
 
-* Latency values are **median** numbers observed in public benchmark reports (OpenAI “latency‑by‑model” tables, Anthropic “throughput” docs, HuggingFace Inference‑API performance pages, and community‑run tests on the listed hardware). Real‑world numbers will vary with request size, batch‑size, network overhead, and any additional safety‑filter steps.
+* Latency values are **median** numbers observed in public benchmark reports (OpenAI "latency‑by‑model" tables, Anthropic "throughput" docs, HuggingFace Inference‑API performance pages, and community‑run tests on the listed hardware). Real‑world numbers will vary with request size, batch‑size, network overhead, and any additional safety‑filter steps.
 
 ### Take‑aways
 
@@ -63,7 +63,7 @@ The American Science Cloud (AmSC) is a national-scale scientific computing platf
 |-----------|------------------------------------------------------------|
 | **Very high‑volume cheap completions** (logs, short prompts) | `Nova Micro 1`, `Nemotron‑Nano‑3`, `GPT‑5 Nano` |
 | **Low‑latency conversational UI** (≤ 150 ms round‑trip) | `Claude Haiku` (Anthropic), `GPT‑5 Mini` (OpenAI) – both run on fast‑serve GPUs that keep latency under 0.5 s for a few hundred tokens |
-| **Longest context you’ll ever need** (≥ 200 K tokens) | `Claude Opus`, `GPT‑5 4`, `XHigh` |
+| **Longest context you'll ever need** (≥ 200 K tokens) | `Claude Opus`, `GPT‑5 4`, `XHigh` |
 | **Multimodal (text + image) out‑of‑the‑box** | `Claude Opus‑4‑5`, `GPT‑5 1‑Chat`, `Nemotron‑Nano‑VL` |
 | **Full control & custom safety** (open‑weight) | `GPT‑OSS 120B`, `LLaMA‑4 Maverick`, `XHigh` – run on your own GPU fleet (Azure/AI Platform, AWS EC2) |
 | **Best overall reasoning / code generation** | `Claude Opus`, `GPT‑5 High`, `GPT‑5 2‑Chat`, `Mistral‑Large` |
@@ -73,7 +73,7 @@ The American Science Cloud (AmSC) is a national-scale scientific computing platf
 #### How to use this table  
 
 1. **Pick the cloud provider you prefer** (OpenAI, Anthropic, HuggingFace, Replicate, or self‑host).  
-2. **Look at the “Tokens / sec” column** to gauge raw throughput; combine that with the “Best For” column to see if the model’s quality matches your use‑case.  
+2. **Look at the "Tokens / sec" column** to gauge raw throughput; combine that with the "Best For" column to see if the model's quality matches your use‑case.  
 3. **If latency is critical**, favour the smaller, faster models (Haiku, Nova Micro 1, Nemotron‑Nano).  
 4. **If you need safety guarantees**, stick to vendor‑hosted models (Claude‑Opus/​Sonnet, GPT‑5 High/​4) – open‑weight options require you to add your own moderation.  
 5. **For very long‑context tasks**, choose the models with ≥ 96 K context (Opus, GPT‑5 2, GPT‑5 4, XHigh).  
@@ -82,7 +82,7 @@ The American Science Cloud (AmSC) is a national-scale scientific computing platf
 ## Coding
 
 
-**Updated “Best for Coding” table – now with a “Cloud Provider” column**  
+**Updated "Best for Coding" table – now with a "Cloud Provider" column**  
 
 | Rank | Model (Vendor) | **Cloud Provider / Run‑Environment** | Approx. **Tokens / sec** (typical endpoint) | **HumanEval pass@1** | **Context window** | **Coding‑Suitability Index (CSI)** | Why it shines for coding |
 |------|----------------|--------------------------------------|-------------------------------------------|----------------------|-------------------|-----------------------------------|---------------------------|
@@ -90,7 +90,7 @@ The American Science Cloud (AmSC) is a national-scale scientific computing platf
 | 2 | **Claude Opus** (Anthropic) | Anthropic API – Azure NC‑v4 GPUs (hosted on Microsoft Azure) | ~80 tps (≈ 1.8 s for 1 K tokens) | **70 %** | 200 K | **0.89** | Very strong reasoning, massive context (ideal for multi‑file projects), built‑in safety. |
 | 3 | **GPT‑5 2‑Chat** (OpenAI) | OpenAI API – dedicated A100/H100 nodes | ~38 tps (≈ 2.5 s for 1 K tokens) | **69 %** | 96 K | **0.86** | 80 B parameters + RLHF chat tuning → excellent interactive coding assistant. |
 | 4 | **Claude Sonnet** (Anthropic) | Anthropic API – Azure NV‑v4 GPUs | ~120 tps (≈ 1.2 s for 1 K tokens) | **66 %** | 150 K | **0.83** | Balanced cost/quality, strong code generation, large window for detailed prompts. |
-| 5 | **GPT‑5 4‑Mini** (OpenAI) | OpenAI API – dedicated A100/H100 (nano‑high tier) | ~32 tps (≈ 3.1 s for 1 K tokens) | **65 %** | 32 K | **0.81** | 15 B “nano‑high” model gives near‑top coding quality at lower price. |
+| 5 | **GPT‑5 4‑Mini** (OpenAI) | OpenAI API – dedicated A100/H100 (nano‑high tier) | ~32 tps (≈ 3.1 s for 1 K tokens) | **65 %** | 32 K | **0.81** | 15 B "nano‑high" model gives near‑top coding quality at lower price. |
 | 6 | **Mistral‑Large** (Open‑weight) | HuggingFace Inference – GPU T4 (shared) | ~18 tps (≈ 5.5 s for 1 K tokens) | **64 %** | 32 K | **0.78** | 30 B open model, tuned for code, easy to fine‑tune for domain‑specific languages. |
 | 7 | **GPT‑5 1‑Chat** (OpenAI) | OpenAI API – dedicated A100/H100 | ~50 tps (≈ 2 s for 1 K tokens) | **63 %** | 48 K | **0.77** | Multimodal (text + image) → handy for UI‑code or diagram‑to‑code tasks. |
 | 8 | **Claude Haiku** (Anthropic) | Anthropic API – Azure NV‑v4 GPUs | ~200 tps (≈ 0.9 s for 1 K tokens) | **55 %** | 100 K | **0.73** | Extremely fast & cheap; good for quick snippet autocomplete where speed outweighs deep reasoning. |
@@ -100,20 +100,20 @@ The American Science Cloud (AmSC) is a national-scale scientific computing platf
 | 12 | **GPT‑5 Nano** (OpenAI) | OpenAI API – shared H100 clusters | ~150 tps (≈ 0.65 s for 1 K tokens) | **48 %** | 4 K | **0.65** | Ultra‑fast, ultra‑cheap – suitable for massive bulk refactoring of tiny files. |
 | 13 | **Nova Micro 1** (Open‑weight) | Replicate / HuggingFace Inference – GPU T4 (shared) | ~110 tps (≈ 0.9 s for 1 K tokens) | **45 %** | 2 K | **0.60** | Tiny, lightning‑fast; useful for real‑time linting or one‑line transformations. |
 
-### How to read the new “Cloud Provider” column  
+### How to read the new "Cloud Provider" column  
 
 | Provider | Typical hardware behind the public endpoint | Typical pricing model |
 |----------|---------------------------------------------|-----------------------|
 | **OpenAI API – shared H100** | Multi‑tenant H100 GPUs; models are dynamically allocated | Pay‑per‑token (lower cost for small models, higher for large) |
 | **OpenAI API – dedicated A100/H100** | Single‑tenant A100 or H100 machines reserved for the request | Higher per‑token cost but lower latency and higher throughput guarantees |
-| **Anthropic API – Azure NV‑v4 / NC‑v4** | Azure’s V100‑class GPUs (NV‑v4 for smaller models, NC‑v4 for larger) | Charged per‑token via Anthropic’s pricing tiers |
-| **HuggingFace Inference – GPU T4** | Single T4 (16 GB) VM; shared across many users | “Inference” pricing per‑second + per‑token (cost‑effective for moderate loads) |
+| **Anthropic API – Azure NV‑v4 / NC‑v4** | Azure's V100‑class GPUs (NV‑v4 for smaller models, NC‑v4 for larger) | Charged per‑token via Anthropic's pricing tiers |
+| **HuggingFace Inference – GPU T4** | Single T4 (16 GB) VM; shared across many users | "Inference" pricing per‑second + per‑token (cost‑effective for moderate loads) |
 | **Self‑hosted Azure ND‑A100** | Private A100‑40 GB instances with custom kernels (sparse‑attention) | You pay Azure compute (VM + storage) – full control over scaling |
 | **Replicate / HuggingFace Inference – GPU T4** | Same as HuggingFace; often used for very small open‑weight models | Pay‑per‑request / per‑second; inexpensive for high‑throughput tiny models |
 
 ---
 
-#### Quick “pick‑your‑model” cheat sheet for coding
+#### Quick "pick‑your‑model" cheat sheet for coding
 
 | Desired trade‑off | Recommended model | Cloud provider |
 |-------------------|-------------------|----------------|

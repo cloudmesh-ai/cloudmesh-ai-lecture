@@ -28,7 +28,7 @@
 | **Repository ecosystem** | Public (e.g., Artifact Hub) and private repos host thousands of ready‑made charts. |
 
 !!! tip 
-    Helm is to Kubernetes what `apt`/`yum` is to Linux: a **single source of truth** for “how to run X”.
+    Helm is to Kubernetes what `apt`/`yum` is to Linux: a **single source of truth** for "how to run X".
 
 ![Helm Landscape and Containers](images/helm-chatgpt.png)
 
@@ -115,7 +115,7 @@ graph LR
 ---
 
 <a name="first-chart"></a>
-## 6. Creating Your First Chart – “Hello‑World” Web App
+## 6. Creating Your First Chart – "Hello‑World" Web App
 
 ### 61. Scaffold a New Chart
 
@@ -295,7 +295,7 @@ helm search repo hello-world
 helm install my-app myrepo/hello-world
 ```
 
-> **Private repos** – Use an authenticated HTTP server (e.g., Nexus, ChartMuseum) or Helm’s `--username/--password` flags.
+> **Private repos** – Use an authenticated HTTP server (e.g., Nexus, ChartMuseum) or Helm's `--username/--password` flags.
 
 ---
 
@@ -388,14 +388,14 @@ jobs:
 
 | Symptom | Likely Cause | Fix |
 |---------|--------------|-----|
-| `Error: no kind “Ingress” is registered` | Cluster missing the Ingress API (e.g., older K8s version). | Upgrade cluster or enable the appropriate Ingress controller CRD. |
+| `Error: no kind "Ingress" is registered` | Cluster missing the Ingress API (e.g., older K8s version). | Upgrade cluster or enable the appropriate Ingress controller CRD. |
 | `Release "X" failed: cannot patch ... no such file or directory` | Helm tried to patch a resource that was deleted manually. | Run `helm rollback X` or `helm uninstall X && helm install X …`. |
 | `Error: failed to download "myrepo/mychart" (hint: running `helm repo update` may help)` | Repo URL unreachable or `index.yaml` missing. | Verify repo URL, network, and that `helm repo update` succeeded. |
 | `Error: rendered manifests contain a resource that already exists` | Trying to install a chart where resources already exist (e.g., previous failed install). | Use `helm upgrade --install` or delete the existing resource manually. |
-| `helm lint` shows “undefined variable” | Template references a value that isn’t defined. | Add a default in `values.yaml` or guard with `{{- if .Values.foo }}`. |
-| `helm upgrade` results in “no changes detected” but you changed `values.yaml` | The values file wasn’t passed (`-f`) or `--set` overridden incorrectly. | Ensure the right file is used; run `helm get values <release> -a` to verify. |
-| `helm uninstall` leaves behind PVCs | PVCs aren’t deleted automatically (by design). | Add `persistentVolumeReclaimPolicy: Delete` on the PV or delete PVCs manually. |
-| `helm template` prints “{{ .Release.Name }}” literally | The file isn’t in the `templates/` directory or is named with a non‑`.yaml` extension. | Move the file into `templates/` and give it a `.yaml` suffix. |
+| `helm lint` shows "undefined variable" | Template references a value that isn't defined. | Add a default in `values.yaml` or guard with `{{- if .Values.foo }}`. |
+| `helm upgrade` results in "no changes detected" but you changed `values.yaml` | The values file wasn't passed (`-f`) or `--set` overridden incorrectly. | Ensure the right file is used; run `helm get values <release> -a` to verify. |
+| `helm uninstall` leaves behind PVCs | PVCs aren't deleted automatically (by design). | Add `persistentVolumeReclaimPolicy: Delete` on the PV or delete PVCs manually. |
+| `helm template` prints "{{ .Release.Name }}" literally | The file isn't in the `templates/` directory or is named with a non‑`.yaml` extension. | Move the file into `templates/` and give it a `.yaml` suffix. |
 
 ---
 

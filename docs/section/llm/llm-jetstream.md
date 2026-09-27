@@ -26,7 +26,7 @@ Jetstream 2 gives you **two distinct ways** to run Large Language Models (LLMs
 
 | Routing path | What it is | Authentication |
 |--------------|------------|----------------|
-| **Through the Open WebUI proxy** | Public gateway that forwards the call to Jetstream’s managed inference service. | Requires a JWT **API token** (generated in the Open WebUI). |
+| **Through the Open WebUI proxy** | Public gateway that forwards the call to Jetstream's managed inference service. | Requires a JWT **API token** (generated in the Open WebUI). |
 | **Direct backend (vLLM / SGLang)** | Calls the native backend containers directly. | No token required (you may supply any non‑empty string if your client insists on an `apiKey`). |
 
 !!! note In short
@@ -54,7 +54,7 @@ To help you decide, the table below compares the two deployment models.
 
 1. An active Jetstream 2 account.  
 
-2. **API token (JWT)** generated from the Open WebUI – see the “Obtaining an Open WebUI API Token” section below.  
+2. **API token (JWT)** generated from the Open WebUI – see the "Obtaining an Open WebUI API Token" section below.  
 
 3. Ability to make outbound HTTPS requests from your workstation (no firewall blocks).
 
@@ -70,7 +70,7 @@ To help you decide, the table below compares the two deployment models.
 
 ## Obtaining an Open WebUI API Token (Option A)
 
-Jetstream 2’s central inference service protects the public gateway with a **JWT API token** that you generate in the Open WebUI. The steps below are current as of August 2026; if the UI changes, look for a **“API keys”** section under your user profile.
+Jetstream 2's central inference service protects the public gateway with a **JWT API token** that you generate in the Open WebUI. The steps below are current as of August 2026; if the UI changes, look for a **"API keys"** section under your user profile.
 
 ### 1. Log in to the Open WebUI
 
@@ -84,7 +84,7 @@ Jetstream 2’s central inference service protects the public gateway with a *
 |------------|--------|
 | **User‑profile icon** (lower‑left corner) | Click it. |
 | **Settings** | Choose it from the pop‑up menu. |
-| **Account** tab | Switch to the “Account” tab inside Settings. |
+| **Account** tab | Switch to the "Account" tab inside Settings. |
 | **API keys** section | Scroll down until you see **API keys**. |
 | **Create new secret key** button | Click it. |
 | **Name / description** (optional) | Give the key a memorable name, e.g. `continue‑dev‑token`. |
@@ -150,7 +150,7 @@ curl -X POST https://llm.jetstream-cloud.org/api/v1/chat/completions \
 | **DeepSeek‑R1**   | `https://llm.jetstream-cloud.org/sglang/v1/`      | `deepseek-r1` |
 | **GPT‑OSS‑120B**  | `https://llm.jetstream-cloud.org/gpt-oss-120b/v1/`| `gpt-oss-120b` |
 
-> **CORS / Network note** – These URLs are reachable **only from Jetstream’s internal network** (or via an SSH tunnel). If your client library requires an `apiKey`, any non‑empty string (e.g. `"dummy"` ) will satisfy it.
+> **CORS / Network note** – These URLs are reachable **only from Jetstream's internal network** (or via an SSH tunnel). If your client library requires an `apiKey`, any non‑empty string (e.g. `"dummy"` ) will satisfy it.
 
 ---
 
@@ -161,7 +161,7 @@ curl -X POST https://llm.jetstream-cloud.org/api/v1/chat/completions \
 | Step | How to do it |
 |------|---------------|
 | Open **Exosphere** → *Create Instance* → choose a **GPU flavor** (`g3.medium` or larger) | UI |
-| Attach a **security group** that allows inbound **TCP 8080** (or the port you’ll use) | UI |
+| Attach a **security group** that allows inbound **TCP 8080** (or the port you'll use) | UI |
 | (Optional) Assign a **floating IP** or use the Jetstream DNS sub‑domain `<name>.projects.jetstream-cloud.org` | UI |
 
 ### 2. Install the serving stack (example with `llama.cpp`)
@@ -186,7 +186,7 @@ python -m llama_cpp.server \
     --model ./model.gguf \
     --host 0.0.0.0 \
     --port 8080 \
-    --n_ctx 8192   # adjust to fit your GPU’s VRAM
+    --n_ctx 8192   # adjust to fit your GPU's VRAM
 ```
 
 The server advertises an OpenAI‑compatible endpoint at `http://<instance‑ip>:8080/v1/`.
@@ -212,7 +212,7 @@ sudo apt update && sudo apt install caddy
 sudo systemctl restart caddy
 ```
 
-> **Tip** – If you don’t own a domain, Jetstream provides a free sub‑domain like `my‑llm.projects.jetstream-cloud.org`. Point the Caddy block to that hostname.
+> **Tip** – If you don't own a domain, Jetstream provides a free sub‑domain like `my‑llm.projects.jetstream-cloud.org`. Point the Caddy block to that hostname.
 
 ---
 
@@ -252,7 +252,7 @@ sudo systemctl restart caddy
 }
 ```
 
-> **Note** – `continue` automatically appends `/chat/completions` to the `apiBase`, so you don’t need to include it manually.
+> **Note** – `continue` automatically appends `/chat/completions` to the `apiBase`, so you don't need to include it manually.
 
 ### Using an environment variable (safer)
 
@@ -316,9 +316,9 @@ If `${env:…}` cannot be resolved, Cline will fall back to an empty string, res
 
 | Symptom | Likely cause | Fix |
 |---------|--------------|-----|
-| **CORS error** in a browser‑based tool | Direct endpoint accessed from outside Jetstream’s network | Switch to the proxy endpoint or create an SSH tunnel (`ssh -L 8080:llm.jetstream-cloud.org:8080 <user>@jetstream-cloud.org`). |
+| **CORS error** in a browser‑based tool | Direct endpoint accessed from outside Jetstream's network | Switch to the proxy endpoint or create an SSH tunnel (`ssh -L 8080:llm.jetstream-cloud.org:8080 <user>@jetstream-cloud.org`). |
 | **401 Unauthorized** on central API | Missing, malformed, or expired JWT | Regenerate a fresh token (see *Obtaining an Open WebUI API Token*) and ensure you use `$JETSTREAM_API_TOKEN`. |
-| **OOM / “context length too large”** on self‑hosted server | `--n_ctx` exceeds GPU VRAM | Lower `--n_ctx` or use a higher‑compression GGUF (e.g., `q4_0`). |
+| **OOM / "context length too large"** on self‑hosted server | `--n_ctx` exceeds GPU VRAM | Lower `--n_ctx` or use a higher‑compression GGUF (e.g., `q4_0`). |
 | **Cannot reach `https://my-llm…`** | Security group blocks inbound 443/8080 | Add a rule allowing inbound TCP on the port you bound (0.0.0.0/0 or restrict to your IP). |
 | **`502 Bad Gateway`** after adding Caddy | Caddy not reloaded | `sudo systemctl reload caddy` (or restart the reverse‑proxy service). |
 | **Model not found** (`model_not_found`) | Wrong model identifier in client config | Run `curl https://<endpoint>/v1/models` to see the exact model ID. |
@@ -332,7 +332,7 @@ curl -X POST https://llm.jetstream-cloud.org/api/v1/chat/completions \
   -d '{"model":"llama-4-scout","messages":[{"role":"user","content":"Hello Jetstream!"}]}'
 ```
 
-A valid response contains a `choices` array. If you get `401`, double‑check the token’s expiry and that `$JETSTREAM_API_TOKEN` is correctly exported.
+A valid response contains a `choices` array. If you get `401`, double‑check the token's expiry and that `$JETSTREAM_API_TOKEN` is correctly exported.
 
 ---
 
@@ -359,7 +359,7 @@ A valid response contains a `choices` array. If you get `401`, double‑check th
 
 ---
 
-### You’re ready!
+### You're ready!
 
 *Pick the path that matches your needs:*  
 
@@ -430,7 +430,7 @@ Then configure Cline to point to `http://localhost:8000/v1` with an OpenAI‑com
 
 ### Generating a Jetstream 2 API Token with the CLI
 
-You can obtain a JWT API token directly from the command line using Jetstream’s official CLI.
+You can obtain a JWT API token directly from the command line using Jetstream's official CLI.
 
 #### Prerequisites
 
@@ -487,7 +487,7 @@ You now have a `$JETSTREAM_API_TOKEN` environment variable that can be used with
 
     - **Never** commit `~/.ssh/jetstream.env` (or any file containing the JWT) to version control.  
     - Keep the file permission at `600` to prevent other users on the same host from reading the token.  
-    - Rotate the token regularly (the default lifetime is 30 days) and delete old keys from the Open WebUI “API keys” page.  
+    - Rotate the token regularly (the default lifetime is 30 days) and delete old keys from the Open WebUI "API keys" page.  
 
 !!! note Assignment Jetstream.1
     If something does not work please try to improve

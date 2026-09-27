@@ -3,15 +3,15 @@
 
 !!! info "Learning Objectives"
 
-    By the end of this chapter, you will be able to:
-    - Analyze the architecture of OpenClaw as an agentic AI framework.
-    - Deploy and operate the OpenClaw Gateway as a local control plane.
-    - Integrate diverse LLM providers, balancing hosted APIs with local model runners.
-    - Implement custom Tools, Skills, and Plugins using the OpenClaw SDK.
-    - Orchestrate multi-platform interaction via the Channel abstraction layer.
-    - Apply security best practices, including user pairing and tool sandboxing to mitigate prompt injection.
-    - Debug agentic loops using observability tools and the internal monologue trace.
-    - Evaluate agent performance using success-rate metrics and LLM-as-a-Judge patterns.
+ By the end of this chapter, you will be able to:
+ - Analyze the architecture of OpenClaw as an agentic AI framework.
+ - Deploy and operate the OpenClaw Gateway as a local control plane.
+ - Integrate diverse LLM providers, balancing hosted APIs with local model runners.
+ - Implement custom Tools, Skills, and Plugins using the OpenClaw SDK.
+ - Orchestrate multi-platform interaction via the Channel abstraction layer.
+ - Apply security best practices, including user pairing and tool sandboxing to mitigate prompt injection.
+ - Debug agentic loops using observability tools and the internal monologue trace.
+ - Evaluate agent performance using success-rate metrics and LLM-as-a-Judge patterns.
 
 In the current trajectory of Artificial Intelligence, the industry is shifting from "Chatbots"—stateless interfaces that generate text—to "AI Agents"—stateful systems capable of interacting with environments to achieve goals. A chatbot can explain how to deploy a Kubernetes cluster; an agent can authenticate with a cloud provider, execute the deployment, and verify the cluster's health.
 
@@ -69,6 +69,7 @@ pnpm install
 # Build the Gateway and UI components from source
 pnpm build
 pnpm ui:build
+
 ```
 
 For production or testing in isolated environments, OpenClaw provides a `docker-compose.yml` configuration. This allows the Gateway and Control UI to be deployed as containers, simplifying the installation of the necessary Node.js runtime and dependencies.
@@ -91,28 +92,29 @@ The extensibility of OpenClaw is based on a three-tier hierarchy:
 
 #### Implementation Example: A Robust Tool
 
-A professional tool must provide a precise description to guide the LLM's reasoning and handle errors gracefully to avoid agent hallucinations.
+A tool must provide a precise description to guide the LLM's reasoning and handle errors gracefully to avoid agent hallucinations.
 
 ```typescript
 // Example of a production-ready tool definition using the OpenClaw SDK
 export const networkDiagnosticsTool = {
-  name: "network_diagnostics",
-  description: "Checks the connectivity to a specific host. Input should be a valid hostname or IP.",
-  execute: async (args: { host: string }) => {
-    try {
-      // Validate input to prevent command injection
-      if (!isValidHostname(args.host)) {
-        throw new Error("Invalid hostname provided.");
-      }
+ name: "network_diagnostics",
+ description: "Checks the connectivity to a specific host. Input should be a valid hostname or IP.",
+ execute: async (args: { host: string }) => {
+ try {
+ // Validate input to prevent command injection
+ if (!isValidHostname(args.host)) {
+ throw new Error("Invalid hostname provided.");
+ }
 
-      const result = await pingHost(args.host);
-      return `Connectivity to ${args.host} is ${result.status}. Latency: ${result.latency}ms`;
-    } catch (error) {
-      // Returning a clear error allows the LLM to explain the failure to the user
-      return `Error diagnosing ${args.host}: ${error.message}. Please verify the hostname.`;
-    }
-  }
+ const result = await pingHost(args.host);
+ return `Connectivity to ${args.host} is ${result.status}. Latency: ${result.latency}ms`;
+ } catch (error) {
+ // Returning a clear error allows the LLM to explain the failure to the user
+ return `Error diagnosing ${args.host}: ${error.message}. Please verify the hostname.`;
+ }
+ }
 };
+
 ```
 
 #### Example: Complex Skill Orchestration
@@ -132,7 +134,7 @@ Debugging an agent is significantly more complex than debugging a standard funct
 
 ### The Internal Monologue
 
-The most powerful debugging tool in OpenClaw is the **Internal Monologue**, visible in the TUI. It exposes the ReAct (Reason + Act) loop:
+The most debugging tool in OpenClaw is the **Internal Monologue**, visible in the TUI. It exposes the ReAct (Reason + Act) loop:
 - **Thought**: "The user wants to check the database status. I should first list the active pods to find the database pod name."
 - **Action**: `list_pods(namespace="prod")`
 - **Observation**: `[pod-db-01, pod-web-01, pod-cache-01]`
@@ -151,6 +153,7 @@ OpenClaw implements a "Zero Trust" approach to channels. Inbound messages from u
 
 ```bash
 openclaw pairing approve <channel_id> <verification_code>
+
 ```
 
 ### Execution Sandboxing
@@ -172,33 +175,33 @@ As agents move toward production, "it seems to work" is an insufficient metric. 
 
 ### The LLM-as-a-Judge Pattern
 
-Because agent outputs are often non-deterministic, OpenClaw developers use a second, more powerful LLM (the "Judge") to evaluate the first agent's performance. The Judge is provided with the agent's internal monologue and the final output, then asked to score the execution based on a rubric of accuracy, safety, and efficiency.
+Because agent outputs are often non-deterministic, OpenClaw developers use a second, more LLM (the "Judge") to evaluate the first agent's performance. The Judge is provided with the agent's internal monologue and the final output, then asked to score the execution based on a rubric of accuracy, safety, and efficiency.
 
 !!! tip "Summary Checklist"
 
-    - [ ] Deployed the OpenClaw Gateway using the `pnpm` or `docker-compose` workflow.
-    - [ ] Configured a model provider (Local or Hosted) via the Control UI.
-    - [ ] Integrated a messaging Channel and successfully paired a user.
-    - [ ] Developed a custom Tool with a precise description and robust error handling.
-    - [ ] Validated the agent's "thought process" (reasoning loop) using the TUI.
-    - [ ] Configured sandboxing for tools with OS-level access to mitigate RCE risks.
-    - [ ] Analyzed an agent's failure mode by tracing the internal monologue.
-    - [ ] Defined a success rubric for agent evaluation using the LLM-as-a-Judge pattern.
+ - [ ] Deployed the OpenClaw Gateway using the `pnpm` or `docker-compose` workflow.
+ - [ ] Configured a model provider (Local or Hosted) via the Control UI.
+ - [ ] Integrated a messaging Channel and successfully paired a user.
+ - [ ] Developed a custom Tool with a precise description and robust error handling.
+ - [ ] Validated the agent's "thought process" (reasoning loop) using the TUI.
+ - [ ] Configured sandboxing for tools with OS-level access to mitigate RCE risks.
+ - [ ] Analyzed an agent's failure mode by tracing the internal monologue.
+ - [ ] Defined a success rubric for agent evaluation using the LLM-as-a-Judge pattern.
 
 !!! note "Assignment 1: Local Agent Deployment"
 
-    **Task**: Install OpenClaw and connect it to a local Ollama instance running `llama3`. Configure a Discord channel and verify the agent can answer simple questions while running locally.
-    **Goal**: Establish a fully local, private agentic loop.
+ **Task**: Install OpenClaw and connect it to a local Ollama instance running `llama3`. Configure a Discord channel and verify the agent can answer simple questions while running locally.
+ **Goal**: Establish a fully local, private agentic loop.
 
 !!! note "Assignment 2: The 'Infrastructure Auditor' Skill"
 
-    **Task**: Create a Tool that reads a local configuration file and a second Tool that checks if a specific network port is open. Combine these into a Skill that allows the agent to audit the local environment setup.
-    **Goal**: Implement tool-chaining and environmental awareness.
+ **Task**: Create a Tool that reads a local configuration file and a second Tool that checks if a specific network port is open. Combine these into a Skill that allows the agent to audit the local environment setup.
+ **Goal**: Implement tool-chaining and environmental awareness.
 
 !!! note "Assignment 3: Secure Cross-Platform Orchestration"
 
-    **Task**: Build a workflow where:
-    1. The agent monitors a specific system log via a Tool.
-    2. Upon detecting a "CRITICAL" error, the agent uses the Gateway to send an alert to a *different* channel (e.g., from Slack to Telegram).
-    3. The agent provides a summary of the error and a suggested fix based on the log content.
-    **Goal**: Master the Gateway's role as a multi-channel orchestrator and implement automated alerting.
+ **Task**: Build a workflow where:
+ 1. The agent monitors a specific system log via a Tool.
+ 2. Upon detecting a "CRITICAL" error, the agent uses the Gateway to send an alert to a *different* channel (e.g., from Slack to Telegram).
+ 3. The agent provides a summary of the error and a suggested fix based on the log content.
+ **Goal**: Master the Gateway's role as a multi-channel orchestrator and implement automated alerting.

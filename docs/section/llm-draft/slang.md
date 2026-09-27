@@ -1,11 +1,11 @@
 # Handling Slang, Dialects, and Colloquialisms in LLMs
 
 !!! info "Learning Objectives"
-    - Understand the linguistic challenges posed by slang, dialects, and colloquialisms in Natural Language Processing (NLP).
-    - Implement techniques for normalizing non-standard language into standard forms using Large Language Models (LLMs).
-    - Develop prompts for style transfer to adapt text between formal and colloquial registers.
-    - Evaluate the performance and biases of LLMs when processing diverse linguistic variants.
-    - Build a pipeline for detecting and translating community-specific slang.
+ - Understand the linguistic challenges posed by slang, dialects, and colloquialisms in Natural Language Processing (NLP).
+ - Implement techniques for normalizing non-standard language into standard forms using Large Language Models (LLMs).
+ - Develop prompts for style transfer to adapt text between formal and colloquial registers.
+ - Evaluate the performance and biases of LLMs when processing diverse linguistic variants.
+ - Build a pipeline for detecting and translating community-specific slang.
 
 Language is not static. In real-world applications—such as social media monitoring, customer support chatbots, and sentiment analysis—LLMs frequently encounter "non-standard" language. This includes slang (informal language used by a particular group), dialects (regional variations of a language), and colloquialisms (informal expressions).
 
@@ -38,7 +38,7 @@ In zero-shot normalization, the LLM is asked to translate slang without any prio
 Example: Zero-shot prompt for normalization.
 
 ```text
-Prompt: Rewrite the following informal text into standard, professional English. 
+Prompt: Rewrite the following informal text into standard, standard English. 
 Ensure the original meaning is preserved.
 
 Text: "Yo, that new update is mid. Fr fr, it just broke my setup."
@@ -55,36 +55,38 @@ Example: Implementation of a normalization pipeline.
 import openai
 
 def normalize_slang(text, examples=None):
-    # System prompt defines the role
-    system_msg = "You are a linguistic expert specializing in normalizing colloquialisms into standard English."
-    
-    # Build user prompt with few-shot examples if provided
-    user_prompt = ""
-    if examples:
-        for slang, standard in examples:
-            user_prompt += f"Slang: {slang}\nStandard: {standard}\n---\n"
-    
-    user_prompt += f"Slang: {text}\nStandard:"
+ # System prompt defines the role
+ system_msg = "You are a linguistic expert specializing in normalizing colloquialisms into standard English."
+ 
+ # Build user prompt with few-shot examples if provided
+ user_prompt = ""
+ if examples:
+ for slang, standard in examples:
+ user_prompt += f"Slang: {slang}\nStandard: {standard}\n---\n"
+ 
+ user_prompt += f"Slang: {text}\nStandard:"
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": system_msg},
-            {"role": "user", "content": user_prompt}
-        ]
-    )
-    return response.choices[0].message.content
+ response = openai.ChatCompletion.create(
+ model="gpt-4",
+ messages=[
+ {"role": "system", "content": system_msg},
+ {"role": "user", "content": user_prompt}
+ ]
+ )
+ return response.choices[0].message.content
 
 # Define niche slang examples
+
 slang_map = [
-    ("That's cap", "That is a lie"),
-    ("No cap", "I am telling the truth"),
-    ("Bet", "I agree / It is a deal")
+ ("That's cap", "That is a lie"),
+ ("No cap", "I am telling the truth"),
+ ("Bet", "I agree / It is a deal")
 ]
 
 input_text = "He said he won the lottery, but that's cap."
 print(normalize_slang(input_text, slang_map))
 # Output: He said he won the lottery, but that is a lie.
+
 ```
 
 ## Style Transfer and Generation
@@ -108,19 +110,20 @@ Example: Implementation of a style transfer function.
 
 ```python
 def transfer_style(text, target_persona, intensity="moderate"):
-    prompt = (
-        f"Rewrite the following text in the style of {target_persona}. "
-        f"The intensity of the slang should be {intensity} (Low, Moderate, High). "
-        f"Ensure the core message remains clear.\n\n"
-        f"Text: {text}"
-    )
-    
-    # Assume llm_call is a helper function for the API
-    return llm_call(prompt)
+ prompt = (
+ f"Rewrite the following text in the style of {target_persona}. "
+ f"The intensity of the slang should be {intensity} (Low, Moderate, High). "
+ f"Ensure the core message remains clear.\n\n"
+ f"Text: {text}"
+ )
+ 
+ # Assume llm_call is a helper function for the API
+ return llm_call(prompt)
 
 original_text = "The server is experiencing high latency and may crash."
 print(transfer_style(original_text, "a seasoned Silicon Valley engineer", "Low"))
 # Output: "The server is lagging pretty hard; we might be looking at a crash."
+
 ```
 
 ## Evaluation and Benchmarking
@@ -136,41 +139,42 @@ Traditional metrics like BLEU or ROUGE (which check for exact word matches) are 
 When generating slang, LLMs risk falling into "linguistic stereotyping"—using outdated or exaggerated versions of a dialect. This can lead to offensive or unnatural outputs.
 
 !!! warning "Evaluation Pitfall"
-    Avoid using "slang" as a binary (Correct vs. Incorrect). Instead, evaluate based on **semantic preservation** (did the meaning change?) and **naturalness** (would a native speaker of that dialect actually say this?).
+ Avoid using "slang" as a binary (Correct vs. Incorrect). Instead, evaluate based on **semantic preservation** (did the meaning change?) and **naturalness** (would a native speaker of that dialect actually say this?).
 
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
 ??? question "What are the primary differences between slang, dialects, and colloquialisms in the context of NLP?"
-    Slang refers to informal language used by specific groups, dialects are regional variations of a language, and colloquialisms are informal expressions common in everyday speech. All three pose challenges to LLMs due to semantic shifts and non-standard grammar.
+ Slang refers to informal language used by specific groups, dialects are regional variations of a language, and colloquialisms are informal expressions common in everyday speech. All three pose challenges to LLMs due to semantic shifts and non-standard grammar.
 
 ??? question "When would you prefer few-shot normalization over zero-shot normalization for non-standard text?"
-    Few-shot normalization is preferred when dealing with highly niche, new, or community-specific slang that the model may not have encountered during its initial training, as providing examples guides the model toward the correct mapping.
+ Few-shot normalization is preferred when dealing with highly niche, new, or community-specific slang that the model may not have encountered during its initial training, as providing examples guides the model toward the correct mapping.
 
 ??? question "How does persona-based prompting assist in accurate style transfer?"
-    Persona-based prompting provides the LLM with a specific linguistic framework (e.g., "a Gen Z teenager" or "a 1920s detective"), which helps the model select the correct vocabulary, tone, and slang intensity for the target register.
+ Persona-based prompting provides the LLM with a specific linguistic framework (e.g., "a Gen Z teenager" or "a 1920s detective"), which helps the model select the correct vocabulary, tone, and slang intensity for the target register.
 
 ??? question "Why is it important to control the intensity of slang during style transfer?"
-    Controlling intensity prevents the output from becoming unnatural or "cringe." By specifying levels (Low, Moderate, High), you can ensure the text remains readable and appropriate for the intended audience.
+ Controlling intensity prevents the output from becoming unnatural or "cringe." By specifying levels (Low, Moderate, High), you can ensure the text remains readable and appropriate for the intended audience.
 
 ??? question "Why are traditional metrics like BLEU or ROUGE insufficient for evaluating slang translation?"
-    BLEU and ROUGE rely on exact word matches. Since slang translation often involves paraphrasing and semantic shifts, Cosine Similarity using embeddings is better because it measures whether the *meaning* is preserved, regardless of the exact words used.
+ BLEU and ROUGE rely on exact word matches. Since slang translation often involves paraphrasing and semantic shifts, Cosine Similarity using embeddings is better because it measures whether the *meaning* is preserved, regardless of the exact words used.
 
 ??? question "What is 'linguistic stereotyping' and how can it manifest in LLM outputs?"
-    Linguistic stereotyping occurs when an LLM uses outdated, exaggerated, or offensive versions of a dialect. It manifests as unnatural language that relies on clichés rather than how native speakers actually communicate.
+ Linguistic stereotyping occurs when an LLM uses outdated, exaggerated, or offensive versions of a dialect. It manifests as unnatural language that relies on clichés rather than how native speakers actually communicate.
 
 !!! note "Assignment 1: Slang Translator"
-    Create a prompt that acts as a "Gen Z to Professional" translator. Provide a list of five common slang phrases (e.g., "it's giving", "slay", "lowkey") and verify that the LLM can correctly translate them into a corporate email format.
+ Create a prompt that acts as a "Gen Z to " translator. Provide a list of five common slang phrases (e.g., "it's giving", "slay", "lowkey") and verify that the LLM can correctly translate them into a corporate email format.
 
 !!! note "Assignment 2: Dialect Detector"
-    Build a system that identifies whether a piece of text is written in Standard English, AAVE (African American Vernacular English), or a regional dialect (e.g., Cockney or Southern US). The system should provide a confidence score for its classification.
+ Build a system that identifies whether a piece of text is written in Standard English, AAVE (African American Vernacular English), or a regional dialect (e.g., Cockney or Southern US). The system should provide a confidence score for its classification.
 
 !!! note "Assignment 3: Cultural Bridge Pipeline"
-    Develop a pipeline that takes a formal technical manual (e.g., "How to reset a router") and adapts it for three different target audiences:
-    1. A professional IT technician (Formal).
-    2. A non-technical teenager (High Slang).
-    3. An elderly user (Simple, non-slang colloquialisms).
-    Verify that the technical instructions remain accurate across all three versions.
+ Develop a pipeline that takes a formal technical manual (e.g., "How to reset a router") and adapts it for three different target audiences:
+ 1. A IT technician (Formal).
+ 2. A non-technical teenager (High Slang).
+ 3. An elderly user (Simple, non-slang colloquialisms).
+ Verify that the technical instructions remain accurate across all three versions.

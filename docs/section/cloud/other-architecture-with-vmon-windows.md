@@ -9,9 +9,9 @@
 
 QEMU (used directly or via various front-ends) is the primary tool on Windows x86_64 that can *truly* run guest machines of a different architecture – e.g., an ARM-based OS on an x86_64 Windows machine **and** also emulate the exact ARM hardware used by a Raspberry Pi.
 
-Other Windows-native hypervisors (Hyper-V, VMware Workstation, Oracle VirtualBox) are **hybrid/“type-2” or “type-1” hypervisors that rely on hardware-assisted virtualization**, so they can only run **x86_64 guests** on an x86_64 Windows host. They cannot natively run an OS built for a different ISA (Instruction Set Architecture) like ARM or RISC-V.
+Other Windows-native hypervisors (Hyper-V, VMware Workstation, Oracle VirtualBox) are **hybrid/"type-2" or "type-1" hypervisors that rely on hardware-assisted virtualization**, so they can only run **x86_64 guests** on an x86_64 Windows host. They cannot natively run an OS built for a different ISA (Instruction Set Architecture) like ARM or RISC-V.
 
-Below is a comparison of the main options you’ll encounter on a Windows x86_64 machine, with a focus on cross-architecture support.
+Below is a comparison of the main options you'll encounter on a Windows x86_64 machine, with a focus on cross-architecture support.
 
 ---
 
@@ -27,12 +27,12 @@ Below is a comparison of the main options you’ll encounter on a Windows x86_64
 | **CPU-architecture support** | Full system-level emulation: can run **ARM64, ARMv7, RISC-V, PowerPC, MIPS**, etc. on Windows x86_64. It can also emulate **ARMv7/ARMv8** exactly as found on a Raspberry Pi (including the Broadcom BCM2837/BCM2711 SoC peripherals). |
 | **Performance** | Because it is pure software emulation, raw CPU speed is significantly lower (often **5-20% of native**) for non-x86 workloads. For x86-on-x86 guests, you can enable the **Windows Hypervisor Platform (WHPX)** acceleration (`-accel whpx`) to achieve near-native speeds. |
 | **Ease of use** | Command-line heavy by default. While there are fewer polished "all-in-one" GUIs like UTM (which is macOS only), users often use **QEMU** directly or integrate it with tools like **Vagrant** or custom scripts. |
-| **Raspberry Pi specific** | QEMU can emulate the **BCM2835/BCM2836/BCM2837** SoC (the “raspi” machine types). You can boot official Raspberry Pi OS images on Windows as if they were running on a Pi. |
+| **Raspberry Pi specific** | QEMU can emulate the **BCM2835/BCM2836/BCM2837** SoC (the "raspi" machine types). You can boot official Raspberry Pi OS images on Windows as if they were running on a Pi. |
 | **Licensing** | Open-source (GPL-2). Free to modify and redistribute. |
 | **Typical use-cases** | • Testing ARM-based Linux distributions on a Windows laptop.<br>• Testing Raspberry Pi images without owning the physical board.<br>• Running legacy non-x86 software. |
 
 **Why QEMU is the primary cross-ISA tool on Windows:**
-- It uses **software translation** (TCG – Tiny Code Generator) to translate guest instructions (e.g., ARM) into host instructions (x86_64), meaning it is not limited by the host’s CPU ISA.
+- It uses **software translation** (TCG – Tiny Code Generator) to translate guest instructions (e.g., ARM) into host instructions (x86_64), meaning it is not limited by the host's CPU ISA.
 - Windows' `whpx` (Windows Hypervisor Platform) can be used to accelerate *x86-to-x86* virtualization, but the translation layer (TCG) must be used for *x86-to-ARM*.
 
 !!! tip "Pro Tip: Choosing the Right Acceleration"

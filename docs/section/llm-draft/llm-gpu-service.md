@@ -21,7 +21,9 @@ Before deploying a model, the host system must be configured with the correct ha
 The system requires an NVIDIA GPU with CUDA Compute Capability 6.0 or higher. The following components must be verified:
 
 1. NVIDIA Driver: The kernel-level driver that allows the OS to interface with the GPU.
+
 2. CUDA Toolkit: A parallel computing platform and API model that allows software to use the GPU for general-purpose processing.
+
 3. cuDNN: A GPU-accelerated library for deep neural networks.
 
 Verification of the driver and GPU status is performed using the `nvidia-smi` utility:
@@ -127,7 +129,9 @@ python -m vllm.entrypoints.openai.api_server \
 ```
 
 Key parameters in vLLM:
+
 - `--tensor-parallel-size`: Number of GPUs to split the model across.
+
 - `--gpu-memory-utilization`: The fraction of GPU memory to reserve for the model and KV cache (default is 0.9).
 
 ### Slang: Lightweight Execution
@@ -159,11 +163,15 @@ The choice of engine is determined by the operational requirements of the applic
 ### VRAM Calculation
 
 To estimate the VRAM required for a model:
+
 - FP16 (Full Precision): $\text{Parameters} \times 2 \text{ bytes}$
+
 - INT4 (Quantized): $\text{Parameters} \times 0.5 \text{ bytes}$ (approximately)
 
 For a 7B parameter model:
+
 - FP16: $7 \times 10^9 \times 2 \approx 14 \text{ GB}$
+
 - INT4: $7 \times 10^9 \times 0.5 \approx 3.5 \text{ GB}$
 
 Additional VRAM is required for the KV cache, which grows with the context length.

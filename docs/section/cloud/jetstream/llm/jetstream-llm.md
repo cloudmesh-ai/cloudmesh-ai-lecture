@@ -26,7 +26,7 @@ Both extensions let you interact with a Large Language Model (LLM) from inside V
 | Option | When to use it | How to enable |
 |--------|----------------|---------------|
 | AI Assistant (native to VS Code ≥ 1.87) | You have the latest VS Code and prefer a *no‑extension* solution. | Open Settings (`Ctrl+,`) → search **AI Assistant: Enabled** → tick the checkbox. |
-| ChatGPT – EasyCode (or another OpenAI‑compatible extension) | You already use an extension for code‑completion or want extra features such as “Insert at cursor”. | Open the Extensions view (`Ctrl+Shift+X`), search **ChatGPT – EasyCode**, and click **Install**. |
+| ChatGPT – EasyCode (or another OpenAI‑compatible extension) | You already use an extension for code‑completion or want extra features such as "Insert at cursor". | Open the Extensions view (`Ctrl+Shift+X`), search **ChatGPT – EasyCode**, and click **Install**. |
 
 ---
 
@@ -43,7 +43,7 @@ The file opens in an editor tab titled `config.yaml`. Most settings can also be 
 
 ### 2.2 Core configuration UI (no manual YAML editing)
 
-1. Open the **Continue** sidebar (click the “C” icon on the left).  
+1. Open the **Continue** sidebar (click the "C" icon on the left).  
 2. Click the **gear/settings** icon at the top of the sidebar.  
 3. You will see three main sections:  
    * **Chat / Refactoring / Agent** – models used for conversational or multi‑file tasks.  
@@ -185,12 +185,12 @@ The following sections show how to point the **AI Assistant**, **ChatGPT –
 5. If you are using a cloud endpoint, search for **AI Assistant: API Key** and enter `${env:OPENROUTER_API_KEY}` (or paste the key directly).  
 6. Adjust **Temperature** and **Max Tokens** if the UI exposes those fields (usually under **Advanced**).  
 7. Open the AI Assistant panel via **View → AI Assistant**.  
-8. Type a prompt such as “What is the capital of Canada?” and verify the response.
+8. Type a prompt such as "What is the capital of Canada?" and verify the response.
 
 ### 4.2 ChatGPT – EasyCode (or any OpenAI‑compatible VS Code extension)
 
 1. Install **ChatGPT – EasyCode** from the Extensions view (`Ctrl+Shift+X`).  
-2. Open the extension’s Settings: click the gear icon next to the extension name in the Extensions view or open **File → Preferences → Settings** and search for **ChatGPT**.  
+2. Open the extension's Settings: click the gear icon next to the extension name in the Extensions view or open **File → Preferences → Settings** and search for **ChatGPT**.  
 3. Locate **ChatGPT: API Base** and enter:  
    * `http://localhost:11434/v1` for a local Ollama server, **or**  
    * `https://llm.jetstream-cloud.org/v1` for a remote endpoint.  
@@ -202,7 +202,7 @@ The following sections show how to point the **AI Assistant**, **ChatGPT –
 ### 4.3 Postman (REST client)
 
 1. Open Postman and click **New → Request**.  
-2. Name the request (e.g., “Jetstream – gpt‑oss‑120b”) and add it to a collection.  
+2. Name the request (e.g., "Jetstream – gpt‑oss‑120b") and add it to a collection.  
 3. Set the request method to **POST** and the URL to `https://llm.jetstream-cloud.org/v1/chat/completions` (or `http://localhost:11434/v1/chat/completions` for Ollama).  
 4. Switch to the **Headers** tab and add two rows:  
 
@@ -229,13 +229,13 @@ The following sections show how to point the **AI Assistant**, **ChatGPT –
    }
    ```
 
-6. Click **Send**. The response appears in the lower pane; the `content` field contains the model’s answer.  
+6. Click **Send**. The response appears in the lower pane; the `content` field contains the model's answer.  
 7. For repeated testing, save the request in the collection and reuse it.
 
 ### 4.4 Insomnia (REST client)
 
 1. Open Insomnia and click **Create → Request**.  
-2. Give the request a name (e.g., “Jetstream gpt‑oss‑120b”) and set the method to **POST**.  
+2. Give the request a name (e.g., "Jetstream gpt‑oss‑120b") and set the method to **POST**.  
 3. In the URL field enter `https://llm.jetstream-cloud.org/v1/chat/completions` (or `http://localhost:11434/v1/chat/completions` for Ollama).  
 4. Open the **Headers** section and add:  
 
@@ -246,7 +246,7 @@ The following sections show how to point the **AI Assistant**, **ChatGPT –
 
 5. Switch to the **Body** tab, choose **JSON**, and enter the same payload as in the Postman example.  
 
-6. Click **Send**. The model’s reply will appear in the response pane.  
+6. Click **Send**. The model's reply will appear in the response pane.  
 
 Both Postman and Insomnia let you export the request as a collection file for sharing with teammates.
 
@@ -256,7 +256,7 @@ Both Postman and Insomnia let you export the request as a collection file for sh
 
 | Goal | Continue (GUI) | Cline (GUI) | AI Assistant | ChatGPT – EasyCode | Postman | Insomnia |
 |------|----------------|-------------|--------------|-------------------|---------|----------|
-| Open the core config file | Command Palette → “Continue: Open config.yaml” or gear icon in Continue sidebar | Not applicable – configuration is UI‑only | Not applicable – configuration is in Settings | Not applicable – configuration is in Settings | Not applicable – uses saved request | Not applicable – uses saved request |
+| Open the core config file | Command Palette → "Continue: Open config.yaml" or gear icon in Continue sidebar | Not applicable – configuration is UI‑only | Not applicable – configuration is in Settings | Not applicable – configuration is in Settings | Not applicable – uses saved request | Not applicable – uses saved request |
 | Select LLM provider | Settings → **Chat / Inline** → **Provider** dropdown (choose **Ollama** or **OpenRouter**) | Settings → **Provider** dropdown in Cline sidebar | Settings → **AI Assistant: API Base** and **Provider** (Ollama or remote) | Settings → **ChatGPT: API Base** and **Provider** (Ollama or remote) | Set URL and Authorization header | Set URL and Authorization header |
 | Enter API key securely | Use `${env:OLLAMA_API_KEY}` for local Ollama (optional) or `${env:OPENROUTER_API_KEY}` for cloud | Same – UI accepts `${env:…}` | Use `${env:OPENROUTER_API_KEY}` in **AI Assistant: API Key** (or leave blank for local) | Use `${env:OPENROUTER_API_KEY}` in **ChatGPT: API Key** (or leave blank for local) | Use `${env:OPENROUTER_API_KEY}` environment variable in the header | Use `{{OPENROUTER_API_KEY}}` environment variable in the header |
 | Choose model | In the same section type **`gpt-oss-120b`** | In the model dropdown type **`gpt-oss-120b`** | In **AI Assistant: Model** field type **`gpt-oss-120b`** | In **ChatGPT: Model** field type **`gpt-oss-120b`** | Set `"model": "gpt-oss-120b"` in the JSON body | Set `"model": "gpt-oss-120b"` in the JSON body |
@@ -270,8 +270,8 @@ Both Postman and Insomnia let you export the request as a collection file for sh
 ## 6. Checklist – Are you ready?
 
 1. **Install the extensions**  
-   * Continue – search “Continue” in the Extensions view, click **Install**.  
-   * Cline – search “Cline”, click **Install**.  
+   * Continue – search "Continue" in the Extensions view, click **Install**.  
+   * Cline – search "Cline", click **Install**.  
    * (Optional) Install **ChatGPT – EasyCode** if you want that extension.  
 2. **Start any local servers** (if you chose Ollama)  
 
@@ -285,8 +285,8 @@ Both Postman and Insomnia let you export the request as a collection file for sh
 4. **Save** the settings (Continue writes automatically; Cline requires clicking **Done**).  
 5. **Reload** the extension (`Ctrl + Shift + R`).  
 6. **Test a simple prompt**  
-   * Continue – open the chat panel, type “What is the capital of Canada?” → should reply “Ottawa”.  
-   * Cline – open its chat panel, type the same prompt → should reply “Ottawa”.  
+   * Continue – open the chat panel, type "What is the capital of Canada?" → should reply "Ottawa".  
+   * Cline – open its chat panel, type the same prompt → should reply "Ottawa".  
    * AI Assistant – open the panel, run the same prompt.  
    * EasyCode – open its chat pane, run the same prompt.  
    * Postman/Insomnia – send the saved request, verify the response.  
@@ -301,7 +301,7 @@ Both Postman and Insomnia let you export the request as a collection file for sh
 | Question | Answer |
 |----------|--------|
 | *The model does not appear in the dropdown* | Make sure the model has been pulled for Ollama (`ollama pull gpt-oss-120b`). For OpenRouter verify that your plan includes the model and that the name is typed exactly (`gpt-oss-120b`). |
-| *I get “context window exceeded”* | Increase the **Context Window Limit** in Cline’s advanced settings (e.g., to `8192`). In Continue you may lower **max_tokens** or reduce **temperature** to keep prompts smaller. |
+| *I get "context window exceeded"* | Increase the **Context Window Limit** in Cline's advanced settings (e.g., to `8192`). In Continue you may lower **max_tokens** or reduce **temperature** to keep prompts smaller. |
 | *Performance feels slow* | `gpt-oss-120b` is a very large model. If you run it locally, ensure you have enough RAM/VRAM or enable low‑VRAM mode in Ollama (`ollama run gpt-oss-120b --low-vram`). For cloud use, consider a smaller model for quick edits and reserve `gpt-oss-120b` for heavyweight reasoning tasks. |
 | *Can I use the same model for both chat and autocomplete?* | Yes. In Continue set **Provider** to the same value in both the **Chat** and **Completions** sections and use `gpt-oss-120b` for both. In Cline the single provider applies to all interactions. |
 | *Can I store my keys in the VS Code settings file instead of the UI?* | It is possible, but not recommended because the settings file may be committed to source control. Prefer using environment variables (`${env:…}`) in the UI. |
@@ -379,7 +379,7 @@ Cline will now send all requests to OpenRouter using the selected `gpt‑oss‑1
 
 ## 9. Where to find more information
 
-| Resource | What you’ll find |
+| Resource | What you'll find |
 |----------|-------------------|
 | Continue documentation – *Configuration* | Full reference for every `config.yaml` field and UI screenshots. |
 | Continue YouTube channel | Video walkthroughs of the gear‑icon settings, context providers, and shortcuts. |
@@ -400,4 +400,4 @@ Cline will now send all requests to OpenRouter using the selected `gpt‑oss‑1
 4. **Fine‑tune** the advanced parameters (temperature, context window, allowed commands) to match your workflow.  
 5. **Start using the AI** – you can now request whole‑file refactors, generate new functions inline, or let the agent execute safe terminal commands without leaving VS Code.  
 
-If you encounter any specific error messages or need a configuration that matches a particular operating system (Windows, macOS, Linux), let me know and I’ll provide a ready‑to‑copy snippet tailored to that environment.
+If you encounter any specific error messages or need a configuration that matches a particular operating system (Windows, macOS, Linux), let me know and I'll provide a ready‑to‑copy snippet tailored to that environment.

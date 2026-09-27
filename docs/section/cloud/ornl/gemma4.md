@@ -5,7 +5,7 @@ we want the 31B
 can we make it for both so we use an environment variable
 
 
-The steps below extend the “cook‑book” from the main answer.  
+The steps below extend the "cook‑book" from the main answer.  
 They are written for the **same Singularity container** (`pytorch‑rocm:2.2.1`) that already contains ROCm‑enabled PyTorch, 🤗 Transformers, DeepSpeed, FlashAttention‑2 (ROCm) and vLLM.  If you prefer a different container, just replace the image name – the rest of the workflow stays identical.
 
 ---
@@ -315,7 +315,7 @@ vLLM automatically handles **tensor‑parallel sharding**, so you get the same l
 | `RuntimeError: ROCm error: invalid device ordinal` | The job did not actually allocate GPUs (e.g., forgot `--gpus-per-task=1`). | Verify `scontrol show job $SLURM_JOB_ID` shows `NumNodes`, `NumGPUs`. |
 | `ImportError: cannot import name 'flash_attn'` | The container image is older than v2.1 of FlashAttention‑ROCm. | Pull the latest container: `singularity pull docker://ghcr.io/olcf/frontier-ml/pytorch-rocm:2.3.0` (or newer). |
 | `torch.cuda.is_available() returns False` | ROCm environment not loaded (missing `module load rocm`). | Ensure the `rocm` module is loaded **before** `singularity exec`. |
-| `OSError: [Errno 28] No space left on device` | Writing checkpoints to `/gpfs/fs2` while the allocation’s quota is exhausted. | Clean old checkpoint directories or request a larger quota from OLCF. |
+| `OSError: [Errno 28] No space left on device` | Writing checkpoints to `/gpfs/fs2` while the allocation's quota is exhausted. | Clean old checkpoint directories or request a larger quota from OLCF. |
 | `PermissionError: [Errno 13] Permission denied` | Trying to write to `/gpfs/fs1` (read‑only for users). | Write all runtime output to `/gpfs/fs2` (burst‑buffer) instead. |
 | `Segmentation fault` during generation (large `max_new_tokens`) | The model exceeds HBM2E capacity (e.g., trying to run 27B on a single GPU). | Reduce `max_new_tokens` or run with **tensor‑parallel** across more GPUs; for >7 B you must spread the model. |
 
@@ -397,4 +397,4 @@ PY
 cat /gpfs/fs2/<PROJECT_ID>/<USER>/gemma4/run01/gemma4_output.txt
 ```
 
-That’s it – you now have a reproducible, scalable workflow for **Gemma‑4** on the OLCF **Frontier** system.  Happy language‑modeling!
+That's it – you now have a reproducible, scalable workflow for **Gemma‑4** on the OLCF **Frontier** system.  Happy language‑modeling!

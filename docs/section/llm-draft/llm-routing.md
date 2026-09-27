@@ -2,9 +2,9 @@
 # 📚 Litellm vs OpenRouter (and the rest of the LLM‑routing ecosystem)
 
 **Litellm** is a **Python SDK** that lets you **talk to many LLM providers through a single, unified API** (OpenAI‑style, Azure‑style, etc.) and adds handy extras (cost tracking, rate‑limit handling, caching, tracing).  
-**OpenRouter** is a **hosted gateway** that aggregates dozens of model providers **behind a single OpenAI‑compatible endpoint**. It provides its own **pricing tier, quota management, and safety‑layers** but doesn’t give you a full‑featured SDK.
+**OpenRouter** is a **hosted gateway** that aggregates dozens of model providers **behind a single OpenAI‑compatible endpoint**. It provides its own **pricing tier, quota management, and safety‑layers** but doesn't give you a full‑featured SDK.
 
-Both solve the **“vendor lock‑in”** problem, but they sit at different layers:
+Both solve the **"vendor lock‑in"** problem, but they sit at different layers:
 
 | Layer | What it does | Primary artifact | Who you are |
 |-------|--------------|------------------|-------------|
@@ -22,7 +22,7 @@ Below is a **step‑by‑step tutorial** that:
 
 ---  
 
-## 1️⃣ The Landscape: Why “router” libraries / services exist
+## 1️⃣ The Landscape: Why "router" libraries / services exist
 
 | Problem | Traditional approach (single provider) | Router‑centric solution |
 |---------|----------------------------------------|--------------------------|
@@ -41,7 +41,7 @@ Two major patterns emerge:
 
 ---
 
-## 2️⃣ Litellm – The “Swiss‑army knife” Python SDK
+## 2️⃣ Litellm – The "Swiss‑army knife" Python SDK
 
 ### 2.1 What is Litellm?
 
@@ -58,6 +58,7 @@ Two major patterns emerge:
 
 ```bash
 pip install litellm
+
 ```
 
 ```python
@@ -76,11 +77,12 @@ resp = litellm.completion(
 )
 
 print(resp.choices[0].message.content)
+
 ```
 
 ### 2.3 Routing to multiple providers
 
-Litellm’s **`model="provider/model"`** syntax picks the backend:
+Litellm's **`model="provider/model"`** syntax picks the backend:
 
 | Syntax | Meaning |
 |--------|---------|
@@ -98,6 +100,7 @@ router_map = {
     # fallback order
     "fallbacks": ["groq/llama3-70b", "openai/gpt-3.5-turbo"]
 }
+
 ```
 
 Litellm supplies a helper **`router`**:
@@ -113,6 +116,7 @@ response = router.completion(
 )
 
 print(response.choices[0].message.content)
+
 ```
 
 If the primary model returns a **429 (rate‑limit)** or **500** error, Litellm will retry the request on the next fallback model automatically.
@@ -132,6 +136,7 @@ tokens = token_counter(
     messages=[{"role":"user","content":prompt}]
 )
 print(f"Prompt uses {tokens['prompt_tokens']} tokens")
+
 ```
 
 You can later **log usage** per request:
@@ -148,6 +153,7 @@ router.completion(
     messages=[...],
     callbacks=[logging_callback]   # Litellm forwards the raw response
 )
+
 ```
 
 ### 2.5 Caching (prevent duplicate calls)
@@ -168,6 +174,7 @@ resp2 = litellm.completion(            # instantly returned from cache
     model="gpt-3.5-turbo",
     messages=[{"role":"user","content":"What's 2+2?"}]
 )
+
 ```
 
 Supported back‑ends: **Redis**, **DynamoDB**, **Postgres**, **Mongo**, or custom key/value stores.
@@ -191,13 +198,14 @@ router = Router(
 router.completion(
     messages=[{"role":"user","content":"Tell me a joke about cats"}]
 )
+
 ```
 
 OpenRouter also implements a **content policy layer** (see §4).
 
 ---
 
-## 3️⃣ OpenRouter – A Managed “OpenAI‑compatible” Endpoint
+## 3️⃣ OpenRouter – A Managed "OpenAI‑compatible" Endpoint
 
 ### 3.1 What is OpenRouter?
 
@@ -211,6 +219,7 @@ OpenRouter also implements a **content policy layer** (see §4).
 
 ```bash
 pip install openai   # you already have an OpenAI client; just change the base URL
+
 ```
 
 ```python
@@ -234,9 +243,10 @@ response = openai.ChatCompletion.create(
 )
 
 print(response.choices[0].message.content)
+
 ```
 
-> **Note:** The list of available models (and each provider’s latest versions) can be fetched via:
+> **Note:** The list of available models (and each provider's latest versions) can be fetched via:
 > ```python
 > import requests, json
 > models = requests.get("https://openrouter.ai/api/v1/models",
@@ -245,9 +255,9 @@ print(response.choices[0].message.content)
 > print(json.dumps(models, indent=2))
 > ```
 
-### 3.3 Using OpenRouter with Litellm (if you still want Litellm’s extras)
+### 3.3 Using OpenRouter with Litellm (if you still want Litellm's extras)
 
-Litellm can treat **OpenRouter** as just another “provider”:
+Litellm can treat **OpenRouter** as just another "provider":
 
 ```python
 router = Router(
@@ -259,13 +269,14 @@ resp = router.completion(
     messages=[{"role":"user","content":"Explain the difference between supervised and reinforcement learning"}]
 )
 print(resp.choices[0].message.content)
+
 ```
 
 Behind the scenes Litellm sends the request to **`https://openrouter.ai/api/v1`** and automatically parses the response.
 
 ### 3.4 Safety & policy layer
 
-OpenRouter lets you **opt‑in** to “Safe Completion”:
+OpenRouter lets you **opt‑in** to "Safe Completion":
 
 | Parameter | Effect |
 |-----------|--------|
@@ -283,13 +294,14 @@ response = openai.ChatCompletion.create(
     metadata={"openrouter:mode":"safe"},
 )
 print(response)   # will contain a `moderation` field and possibly an error code
+
 ```
 
 If moderation triggers, the HTTP status is **400** and the response includes a `detail` explaining why it was blocked.
 
 ---
 
-## 4️⃣ Other Popular “router‑style” Options
+## 4️⃣ Other Popular "router‑style" Options
 
 | Tool | Type | Languages | Main selling point | Pricing |
 |------|------|-----------|--------------------|---------|
@@ -297,7 +309,7 @@ If moderation triggers, the HTTP status is **400** and the response includes a `
 | **LlamaIndex (GPT‑Index)** | Framework | Python, Node | Data‑centric retrieval‑augmented generation (RAG) | Free |
 | **OpenAI‑proxy** (GitHub) | Self‑hosted gateway | Python, Node | Acts like OpenAI but proxies to Azure, Anthropic, etc. | Free (self‑host) |
 | **RapidAPI LLM Hub** | Managed gateway | Any via HTTP | Pay‑as‑you‑go marketplace, many providers | Pay‑per‑request, no free tier |
-| **Cohere Platform** | Hosted API + playground | Python, JS, cURL | Cohere’s own models + ability to add external “custom” models | Free tier (500 req/mo) |
+| **Cohere Platform** | Hosted API + playground | Python, JS, cURL | Cohere's own models + ability to add external "custom" models | Free tier (500 req/mo) |
 | **Vercel AI SDK** | Edge‑optimised client | JS/TS | Serverless‑first, built‑in streaming & caching | Free (per Vercel usage) |
 | **BerriAI (Open‑Source)** | Self‑hosted 🤖 | Python | Open‑source LLMs + endpoint that mimics OpenAI API | Free (compute cost) |
 
@@ -308,7 +320,7 @@ If moderation triggers, the HTTP status is **400** and the response includes a `
 
 ---
 
-## 5️⃣ Hands‑On Mini‑Project: “Hybrid Router” (Litellm + OpenRouter)
+## 5️⃣ Hands‑On Mini‑Project: "Hybrid Router" (Litellm + OpenRouter)
 
 Below is a **complete, runnable example** that:
 
@@ -384,6 +396,7 @@ response = router.completion(
 
 print("\n🖨️ Model response:")
 print(response.choices[0].message.content)
+
 ```
 
 **What this script demonstrates**
@@ -392,9 +405,9 @@ print(response.choices[0].message.content)
 |------|---------|
 | **Fetch model catalog** | Dynamic discovery – no hard‑coded model names. |
 | **Cost‑aware selection** | Chooses cheapest + function‑calling ready provider. |
-| **Litellm router** | Still benefits from Litellm’s callbacks, token counting, and optional caching. |
-| **Safety metadata** | Uses OpenRouter’s “safe mode” to enforce policy. |
-| **Logging** | Prints token usage and a rough dollar estimate (uses Litellm’s pricing map). |
+| **Litellm router** | Still benefits from Litellm's callbacks, token counting, and optional caching. |
+| **Safety metadata** | Uses OpenRouter's "safe mode" to enforce policy. |
+| **Logging** | Prints token usage and a rough dollar estimate (uses Litellm's pricing map). |
 
 > **Running it:** Paste the script into a Python environment, replace `or_...your_key...` with your OpenRouter API key, and execute. The output will show the chosen model, usage stats, and a JSON‑formatted joke.
 
@@ -422,13 +435,13 @@ print(response.choices[0].message.content)
 |----------|--------|
 | **Do I still need an OpenAI API key when using Litellm?** | Only for models that belong to OpenAI. Litellm can be configured with multiple keys; you can omit the OpenAI key if you never call an OpenAI model. |
 | **Can Litellm work with non‑OpenAI‑style APIs (e.g., HuggingFace inference)?** | Yes. Litellm includes adapters for the HuggingFace Inference API, Ollama, and local `ggml`‑based servers. The request shape is still the OpenAI schema; Litellm translates under the hood. |
-| **Is OpenRouter a “drop‑in replacement” for the OpenAI Python client?** | Practically yes – the client library is unchanged; you only have to set `openai.api_base` to `https://openrouter.ai/api/v1`. |
+| **Is OpenRouter a "drop‑in replacement" for the OpenAI Python client?** | Practically yes – the client library is unchanged; you only have to set `openai.api_base` to `https://openrouter.ai/api/v1`. |
 | **How are token limits handled?** | OpenRouter forwards the `max_tokens` you send. Litellm will raise an error if you request more tokens than a provider supports (based on its model metadata). |
 | **Do I need to pay for both Litellm and OpenRouter?** | Litellm is free (MIT‑licensed). You pay **only** for the underlying model usage (OpenAI, Anthropic, etc.) **and** any OpenRouter usage fees. |
-| **Can I combine Litellm with LangChain?** | Absolutely. Pass a Litellm‑wrapped LLM class (`litellm.LLM`) into LangChain’s `ChatOpenAI` or `ChatLiteLLM` wrappers. |
+| **Can I combine Litellm with LangChain?** | Absolutely. Pass a Litellm‑wrapped LLM class (`litellm.LLM`) into LangChain's `ChatOpenAI` or `ChatLiteLLM` wrappers. |
 | **What about streaming responses?** | Both Litellm and OpenRouter support the OpenAI `stream=True` flag. Litellm yields `ChatCompletionChunk` objects; you can pipe them directly to a UI (e.g., FastAPI SSE). |
 | **Is there a limit on the number of providers I can add to Litellm?** | No hard limit. The only practical bound is the number of API keys you manage and the latency of remote calls. |
-| **Do OpenRouter’s safety filters affect token counting?** | No – token counts reported are for the **final model output** only. Filter rejections are returned as HTTP errors, not charged. |
+| **Do OpenRouter's safety filters affect token counting?** | No – token counts reported are for the **final model output** only. Filter rejections are returned as HTTP errors, not charged. |
 
 ---
 
@@ -438,7 +451,7 @@ print(response.choices[0].message.content)
 |----------|--------------------|
 | **You own the deployment, need fine‑grained control (caching, cost, custom routing).** | **Litellm** (plus optional Redis cache & OpenTelemetry). |
 | **You want a single endpoint, minimal ops, built‑in policy, free tier for experiments.** | **OpenRouter** (use the OpenAI client directly). |
-| **You’re building a chain of agents / RAG pipeline and want a high‑level framework.** | **LangChain** (internally you can plug Litellm or OpenRouter as the LLM). |
+| **You're building a chain of agents / RAG pipeline and want a high‑level framework.** | **LangChain** (internally you can plug Litellm or OpenRouter as the LLM). |
 | **You must keep all data on‑premise (HIPAA, GDPR‑strict).** | Self‑hosted **Litellm** + local model servers (e.g., Ollama, vLLM). |
 | **You need the cheapest possible inference (community models, fine‑tuned).** | Use **Litellm** with **OpenRouter** as a fallback, or directly to community providers (e.g., Mistral, Groq) via Litellm. |
 
@@ -485,6 +498,7 @@ router = Router(
 )
 out = router.completion(messages=[{"role":"user","content":"Summarize the plot of The Matrix"}])
 print(out.choices[0].message.content)
+
 ```
 
 ---
@@ -497,16 +511,16 @@ print(out.choices[0].message.content)
 | **Litellm Docs – Routing & Callbacks** | https://litellm.vercel.app/docs/ |
 | **OpenRouter Model Catalog (JSON)** | https://openrouter.ai/api/v1/models |
 | **OpenRouter Docs – Safety & Pricing** | https://openrouter.ai/docs |
-| **LangChain “LLM Wrapper” guide** | https://python.langchain.com/docs/integrations/llms |
+| **LangChain "LLM Wrapper" guide** | https://python.langchain.com/docs/integrations/llms |
 | **OpenAI‑compatible Proxy (Self‑hosted)** | https://github.com/acheong08/ChatGPT-Proxy |
 | **OpenTelemetry Python Quick‑Start** | https://opentelemetry.io/docs/instrumentation/python/ |
 
 ---
 
-### 🎉 You’re ready!
+### 🎉 You're ready!
 
 - **Start small**: write a few `litellm.completion` calls with different providers.  
 - **Add a router map** to bounce between cheap and high‑quality models.  
-- **If you need a managed endpoint**, swap the base URL to `https://openrouter.ai/api/v1` and you’re done.  
+- **If you need a managed endpoint**, swap the base URL to `https://openrouter.ai/api/v1` and you're done.  
 
 Happy building, and may your token bills stay low while your LLMs stay sharp! 🚀

@@ -25,7 +25,7 @@ Both extensions let you interact with a Large Language Model (LLM) from inside V
 | Option | When to use it | How to enable |
 |--------|----------------|---------------|
 | AI Assistant (native to VS Code ≥ 1.87) | You have the latest VS Code and prefer a *no‑extension* solution. | Open Settings (`Ctrl+,`) → search **AI Assistant: Enabled** → tick the checkbox. |
-| ChatGPT – EasyCode (or another OpenAI‑compatible extension) | You already use an extension for code‑completion or want extra features such as “Insert at cursor”. | Open the Extensions view (`Ctrl+Shift+X`), search **ChatGPT – EasyCode**, and click **Install**. |
+| ChatGPT – EasyCode (or another OpenAI‑compatible extension) | You already use an extension for code‑completion or want extra features such as "Insert at cursor". | Open the Extensions view (`Ctrl+Shift+X`), search **ChatGPT – EasyCode**, and click **Install**. |
 
 ---
 
@@ -42,7 +42,7 @@ The file opens in an editor tab titled `config.yaml`. Most settings can also be 
 
 ### 2.2 Core configuration UI (no manual YAML editing)
 
-1. Open the **Continue** sidebar (click the “C” icon on the left).  
+1. Open the **Continue** sidebar (click the "C" icon on the left).  
 2. Click the **gear/settings** icon at the top of the sidebar.  
 3. You will see three main sections:  
    * **Chat / Refactoring / Agent** – models used for conversational or multi‑file tasks.  
@@ -174,7 +174,7 @@ You can modify these shortcuts via the **Keybindings** button at the bottom of t
 
 | Goal | Continue (GUI) | Cline (GUI) |
 |------|----------------|-------------|
-| Open the core config file | Command Palette → “Continue: Open config.yaml” or gear icon in Continue sidebar | Not applicable – configuration is UI‑only |
+| Open the core config file | Command Palette → "Continue: Open config.yaml" or gear icon in Continue sidebar | Not applicable – configuration is UI‑only |
 | Select LLM provider | Settings → **Chat / Inline** → **Provider** dropdown (choose **Ollama** or **OpenRouter**) | Settings → **Provider** dropdown in Cline sidebar |
 | Enter API key securely | Use `${env:OLLAMA_API_KEY}` for local Ollama (optional) or `${env:OPENROUTER_API_KEY}` for cloud | Same – UI accepts `${env:…}` |
 | Choose model | In the same section type **`gpt-oss-120b`** | In the model dropdown type **`gpt-oss-120b`** |
@@ -188,8 +188,8 @@ You can modify these shortcuts via the **Keybindings** button at the bottom of t
 ## 5. Checklist – Are you ready?
 
 1. **Install the extensions**  
-   * Continue – search “Continue” in the Extensions view, click **Install**.  
-   * Cline – search “Cline”, click **Install**.  
+   * Continue – search "Continue" in the Extensions view, click **Install**.  
+   * Cline – search "Cline", click **Install**.  
 2. **Start any local servers** (if you chose Ollama)  
    ```bash
    ollama serve                      # starts the Ollama server
@@ -200,8 +200,8 @@ You can modify these shortcuts via the **Keybindings** button at the bottom of t
 4. **Save** the settings (Continue writes automatically; Cline requires clicking **Done**).  
 5. **Reload** the extension (`Ctrl + Shift + R`).  
 6. **Test a simple prompt**  
-   * Continue – open the chat panel, type “What is the capital of Canada?” → should reply “Ottawa”.  
-   * Cline – open its chat panel, type the same prompt → should reply “Ottawa”.  
+   * Continue – open the chat panel, type "What is the capital of Canada?" → should reply "Ottawa".  
+   * Cline – open its chat panel, type the same prompt → should reply "Ottawa".  
 7. **Add context providers** in Continue if you want `@files`, `@git`, or `@search`.  
 8. **Adjust shortcuts** if the defaults clash with other extensions.  
 9. **Save** – both extensions persist settings automatically; you can also click **Save** in each panel for certainty.  
@@ -213,7 +213,7 @@ You can modify these shortcuts via the **Keybindings** button at the bottom of t
 | Question | Answer |
 |----------|--------|
 | *The model does not appear in the dropdown* | Make sure the model has been pulled for Ollama (`ollama pull gpt-oss-120b`). For OpenRouter verify that your plan includes the model and that the name is typed exactly (`gpt-oss-120b`). |
-| *I get “context window exceeded”* | Increase the **Context Window Limit** in Cline’s advanced settings (e.g., to `8192`). In Continue you may lower **max_tokens** or reduce **temperature** to keep prompts smaller. |
+| *I get "context window exceeded"* | Increase the **Context Window Limit** in Cline's advanced settings (e.g., to `8192`). In Continue you may lower **max_tokens** or reduce **temperature** to keep prompts smaller. |
 | *Performance feels slow* | `gpt-oss-120b` is a very large model. If you run it locally, ensure you have enough RAM/VRAM or enable low‑VRAM mode in Ollama (`ollama run gpt-oss-120b --low-vram`). For cloud usage, consider a smaller model for quick edits and reserve `gpt-oss-120b` for heavyweight reasoning tasks. |
 | *Can I use the same model for both chat and autocomplete?* | Yes. In Continue set **Provider** to the same value in both the **Chat** and **Completions** sections and use `gpt-oss-120b` for both. In Cline the single provider applies to all interactions. |
 | *Can I store my keys in the VS Code settings file instead of the UI?* | It is possible, but not recommended because the settings file may be committed to source control. Prefer using environment variables (`${env:…}`) in the UI. |
@@ -271,7 +271,7 @@ Cline will now send all requests to OpenRouter using the selected `gpt-oss-120b`
 
 ## 8. Where to find more information
 
-| Resource | What you’ll find |
+| Resource | What you'll find |
 |----------|-------------------|
 | Continue documentation – *Configuration* | Full reference for every `config.yaml` field and UI screenshots. |
 | Continue YouTube channel | Video walkthroughs of the gear‑icon settings, context providers, and shortcuts. |
@@ -290,7 +290,7 @@ Cline will now send all requests to OpenRouter using the selected `gpt-oss-120b`
 4. **Fine‑tune** the advanced parameters (temperature, context window, allowed commands) to match your workflow.  
 5. **Start using the AI** – ask for whole‑file refactors, generate new functions inline, or let Cline execute safe terminal commands without leaving VS Code.  
 
-If you encounter any specific error messages or need a configuration that matches a particular operating system (Windows, macOS, Linux), let me know and I’ll provide a ready‑to‑copy snippet tailored to that environment.
+If you encounter any specific error messages or need a configuration that matches a particular operating system (Windows, macOS, Linux), let me know and I'll provide a ready‑to‑copy snippet tailored to that environment.
 
 ## Self-Assessment
 !!! tip "Self-Assessment"

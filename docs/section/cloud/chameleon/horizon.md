@@ -14,7 +14,7 @@
 - A **Chameleon Cloud** account with an active project.  
 - A **public SSH key** uploaded to the portal (Settings → Key Pairs).  
 - Sufficient credit / quota for at least one small instance.  
-- Your local machine’s **time zone** correctly set (the portal uses UTC).  
+- Your local machine's **time zone** correctly set (the portal uses UTC).  
 
 ---
 
@@ -37,7 +37,7 @@
    |------------------|------------------------------------------------------------------------------------|
    | **Name**         | `demo‑reservation‑<your-luc-email-id-before-at>`                                                  |
    | **Start time**   | *Current time + 1 min* (the portal will auto‑populate)                             |
-   | **End time**     | `0` (means “no explicit end”)                                                      |
+   | **End time**     | `0` (means "no explicit end")                                                      |
    | **Duration**     | `1 h` (maximum for small experiments)                                              |
    | **Time zone**    | Select your local time zone                                                         |
    | **Image**        | Choose an image with the **CC‑** prefix, e.g. **CC‑ubuntu‑24.04**                  |
@@ -112,7 +112,7 @@ A floating (public) IP lets you reach the VM from outside the private cloud netw
 | Symptom                     | Likely cause                              | Fix |
 |-----------------------------|-------------------------------------------|-----|
 | *VM stuck in BUILD*         | Reservation not active or quota exceeded  | Verify the reservation window, increase quota, or delete other running VMs. |
-| *SSH “Connection refused”* | No floating IP attached or security group missing port 22 | Attach a floating IP and ensure the security group allows inbound TCP 22. |
+| *SSH "Connection refused"* | No floating IP attached or security group missing port 22 | Attach a floating IP and ensure the security group allows inbound TCP 22. |
 | *Image not listed*          | Wrong image prefix or wrong project       | Use a **CC‑**‑prefixed image and confirm the project selection. |
 | *Time‑zone mismatch*        | Portal using UTC while you entered local time | Double‑check the **time zone** field in the reservation form. |
 

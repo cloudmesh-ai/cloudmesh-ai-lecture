@@ -34,7 +34,7 @@ Below is an overview of the current relevance, roles, and ideal use cases for fi
 ## 4. VirtualBox
 
 * **Status:** **Widely Used (Desktop / Cross-Platform), but Facing Headwinds**
-* **Role:** Oracle’s user-friendly, cross-platform type-2 hypervisor.
+* **Role:** Oracle's user-friendly, cross-platform type-2 hypervisor.
 * **Why it matters now:** It is still the go-to tool for casual users, students, and enterprise desktop support who need a simple GUI to run Windows VMs on Linux, Linux VMs on Windows, or legacy software. However, its popularity on macOS has plummeted due to Apple Silicon architecture shifts and competition from native hypervisors like Hyper-V (Windows) and KVM (Linux).
 
 ## 5. Canonical Multipass

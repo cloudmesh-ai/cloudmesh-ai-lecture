@@ -377,7 +377,7 @@ print(f"    {ssh_cmd}")
 | Source | When to use | How to enable |
 |--------|-------------|----------------|
 | **X.509 proxy** (default for many Chameleon users) | You already have a VOMS proxy | Export `X509_USER_PROXY=$HOME/.globus/proxy` before running the script. The SDK will pick it up automatically. |
-| **`clouds.yaml`** (OpenStack native format) | You prefer the OpenStack SDK’s built‑in config handling | Create `~/.config/openstack/clouds.yaml` with the same `cloud` block as in the YAML file; the SDK loads it automatically. |
+| **`clouds.yaml`** (OpenStack native format) | You prefer the OpenStack SDK's built‑in config handling | Create `~/.config/openstack/clouds.yaml` with the same `cloud` block as in the YAML file; the SDK loads it automatically. |
 | **`keyring`** (CI pipelines) | You want to avoid storing secrets on disk | Store credentials with `keyring set chameleon username`, etc., and modify `config_loader.py` to read them from `keyring`. |
 | **`.env` file** | Quick local testing | Install `python-dotenv` and add `from dotenv import load_dotenv; load_dotenv()` at the top of `config_loader.py`. Keep the `.env` file out of version control. |
 

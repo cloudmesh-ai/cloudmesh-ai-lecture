@@ -17,7 +17,7 @@ Cline's extensibility allows you to move beyond general-purpose prompts by provi
 
 | Concept | What it means for Cline |
 | :--- | :--- |
-| **Skill** | A self-contained piece of logic (function, script, API call) that performs a specific task – e.g., “summarise a document” or “look up a stock price”. |
+| **Skill** | A self-contained piece of logic (function, script, API call) that performs a specific task – e.g., "summarise a document" or "look up a stock price". |
 | **Skill Registration** | Exposing the skill via a **skill-registry file** (`cline.yaml`) or by placing the script in a designated **`skills/`** folder. |
 | **Invocation Syntax** | Calling the skill from the terminal: `cline summarise --file report.txt`. |
 | **Parameters & Output** | Skills define their own arguments and return structured output (JSON or plain text). |
@@ -37,6 +37,7 @@ First, create a file at `skills/summarise.py`. This skill uses a transformer pip
 
 ```python
 #!/usr/bin/env python3
+
 import sys, json, pathlib
 from transformers import pipeline
 
@@ -167,6 +168,7 @@ Create `skills/hello.py`:
 
 ```python
 #!/usr/bin/env python3
+
 import sys, json
 
 def main():
@@ -190,6 +192,7 @@ $ cline hello Alice
 ---
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 
