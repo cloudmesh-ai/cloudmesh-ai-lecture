@@ -46,18 +46,21 @@ Example: Comparing FIFO, LIFO, and PriorityQueue.
 import queue
 
 # FIFO Queue
+
 fifo = queue.Queue()
 fifo.put("Task 1")
 fifo.put("Task 2")
 print(f"FIFO: {fifo.get()}") # Output: Task 1
 
 # LIFO Queue
+
 lifo = queue.LifoQueue()
 lifo.put("Task 1")
 lifo.put("Task 2")
 print(f"LIFO: {lifo.get()}") # Output: Task 2
 
 # Priority Queue (lowest number = highest priority)
+
 pq = queue.PriorityQueue()
 pq.put((3, "Low Priority Task"))
 pq.put((1, "Critical Security Patch"))
@@ -82,8 +85,10 @@ import time
 import random
 
 # Initialize a thread-safe queue
+
 task_queue = queue.Queue()
 # Sentinel value to signal shutdown
+
 SHUTDOWN_SIGNAL = None
 
 def vm_worker(worker_id):
@@ -108,6 +113,7 @@ def vm_worker(worker_id):
         task_queue.task_done()
 
 # Start multiple worker threads
+
 num_workers = 3
 workers = []
 for i in range(num_workers):
@@ -116,6 +122,7 @@ for i in range(num_workers):
     workers.append(t)
 
 # Producer: Simulate submitting cloud tasks
+
 tasks = [
     ("vm-web-01", "Snapshot"),
     ("vm-db-01", "Backup"),
@@ -130,13 +137,16 @@ for t in tasks:
     task_queue.put(t)
 
 # Wait for all active tasks to be completed
+
 task_queue.join()
 
 # Send shutdown signals to all workers
+
 for _ in range(num_workers):
     task_queue.put(SHUTDOWN_SIGNAL)
 
 # Ensure all workers have exited
+
 for w in workers:
     w.join()
 
@@ -162,6 +172,7 @@ Example: Using `deque` for a simple sliding window of logs.
 from collections import deque
 
 # Create a deque with a maximum length of 3
+
 recent_logs = deque(maxlen=3)
 
 for i in range(5):
@@ -169,6 +180,7 @@ for i in range(5):
     recent_logs.append(log_entry)
     print(f"Current buffer: {list(recent_logs)}")
 # Only the last 3 entries are kept automatically
+
 ```
 
 ## Scaling Beyond In-Memory Queues
@@ -192,6 +204,7 @@ These tools allow multiple independent processes (potentially on different serve
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

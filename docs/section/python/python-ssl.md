@@ -2,12 +2,12 @@
 
 !!! info "Learning Objectives"
 
-    By the end of this chapter, you will be able to:
-    - Explain the role of SSL/TLS in securing data in transit within cloud environments.
-    - Implement secure socket connections using Python's `ssl` module.
-    - Configure `SSLContext` to enforce certificate validation and prevent man-in-the-middle attacks.
-    - Load custom Certificate Authority (CA) bundles for private cloud infrastructure.
-    - Handle SSL-related exceptions to build resilient network clients.
+ By the end of this chapter, you will be able to:
+ - Explain the role of SSL/TLS in securing data in transit within cloud environments.
+ - Implement secure socket connections using Python's `ssl` module.
+ - Configure `SSLContext` to enforce certificate validation and prevent man-in-the-middle attacks.
+ - Load custom Certificate Authority (CA) bundles for private cloud infrastructure.
+ - Handle SSL-related exceptions to build resilient network clients.
 
 In cloud computing, nearly all communication between management scripts, orchestration tools, and cloud provider APIs occurs over HTTPS. HTTPS is essentially HTTP wrapped in a Secure Sockets Layer (SSL) or Transport Layer Security (TLS) tunnel. This encryption is critical for protecting sensitive data, such as API keys, administrative credentials, and proprietary configuration data, from being intercepted during transit.
 
@@ -39,32 +39,35 @@ import socket
 import ssl
 
 # The hostname of the secure service (e.g., a cloud API endpoint)
+
 hostname = "www.google.com"
 port = 443
 
 # Create a default SSL context for client use
+
 # This automatically loads system CA certificates and enables hostname verification
+
 context = ssl.create_default_context()
 
 try:
-    # Create a standard TCP socket
-    with socket.create_connection((hostname, port)) as sock:
-        # Wrap the socket with SSL
-        # server_hostname is required for SNI (Server Name Indication) and hostname verification
-        with context.wrap_socket(sock, server_hostname=hostname) as ssock:
-            print(f"Connected using {ssock.version()}")
-            
-            # Send a basic HTTP request
-            request = f"GET / HTTP/1.1\r\nHost: {hostname}\r\nConnection: close\r\n\r\n"
-            ssock.sendall(request.encode())
-            
-            # Read the response
-            response = ssock.recv(1024)
-            print(response.decode())
+ # Create a standard TCP socket
+ with socket.create_connection((hostname, port)) as sock:
+ # Wrap the socket with SSL
+ # server_hostname is required for SNI (Server Name Indication) and hostname verification
+ with context.wrap_socket(sock, server_hostname=hostname) as ssock:
+ print(f"Connected using {ssock.version()}")
+ 
+ # Send a basic HTTP request
+ request = f"GET / HTTP/1.1\r\nHost: {hostname}\r\nConnection: close\r\n\r\n"
+ ssock.sendall(request.encode())
+ 
+ # Read the response
+ response = ssock.recv(1024)
+ print(response.decode())
 except ssl.SSLError as e:
-    print(f"SSL Error occurred: {e}")
+ print(f"SSL Error occurred: {e}")
 except socket.error as e:
-    print(f"Socket Error occurred: {e}")
+ print(f"Socket Error occurred: {e}")
 ```
 
 ### Analysis of the Implementation
@@ -75,7 +78,7 @@ except socket.error as e:
 
 ## Advanced SSL Configurations
 
-In professional environments, you may encounter servers with self-signed certificates or private CAs (common in internal corporate clouds). In these cases, the default system trust store is insufficient.
+In production environments, you may encounter servers with self-signed certificates or private CAs (common in internal corporate clouds). In these cases, the default system trust store is insufficient.
 
 ### Loading Custom CA Certificates
 
@@ -92,14 +95,15 @@ ca_file = "/path/to/internal_ca.pem"
 context = ssl.create_default_context()
 
 # Load a specific CA certificate to trust the internal server
+
 context.load_verify_locations(cafile=ca_file)
 
 try:
-    with socket.create_connection((hostname, port)) as sock:
-        with context.wrap_socket(sock, server_hostname=hostname) as ssock:
-            print(f"Securely connected to internal service using {ssock.version()}")
+ with socket.create_connection((hostname, port)) as sock:
+ with context.wrap_socket(sock, server_hostname=hostname) as ssock:
+ print(f"Securely connected to internal service using {ssock.version()}")
 except ssl.SSLError as e:
-    print(f"Verification failed: {e}")
+ print(f"Verification failed: {e}")
 ```
 
 ### Managing Verification Levels
@@ -108,6 +112,7 @@ While it is possible to disable certificate verification for debugging, this sho
 
 ```python
 # WARNING: This configuration is insecure and vulnerable to MITM attacks
+
 context = ssl.create_default_context()
 context.check_hostname = False
 context.verify_mode = ssl.CERT_NONE
@@ -117,40 +122,41 @@ By setting `verify_mode` to `ssl.CERT_NONE`, the client accepts any certificate 
 
 !!! tip "Summary Checklist"
 
-    - [ ] Used `ssl.create_default_context()` to initialize security settings.
-    - [ ] Specified `server_hostname` in `wrap_socket()` to enable SNI and hostname verification.
-    - [ ] Implemented `ssl.SSLError` and `socket.error` handling for network resilience.
-    - [ ] Avoided `ssl.CERT_NONE` in any production-ready code.
-    - [ ] Used `load_verify_locations()` when connecting to services using private CAs.
+ - [ ] Used `ssl.create_default_context()` to initialize security settings.
+ - [ ] Specified `server_hostname` in `wrap_socket()` to enable SNI and hostname verification.
+ - [ ] Implemented `ssl.SSLError` and `socket.error` handling for network resilience.
+ - [ ] Avoided `ssl.CERT_NONE` in any production-ready code.
+ - [ ] Used `load_verify_locations()` when connecting to services using private CAs.
 
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
 ??? question "What is the purpose of the `SSLContext` object in Python's `ssl` module?"
-    The `SSLContext` acts as a configuration factory. It defines the security settings, trusted CA certificates, and protocol versions that will be applied to every socket wrapped by that context.
+ The `SSLContext` acts as a configuration factory. It defines the security settings, trusted CA certificates, and protocol versions that will be applied to every socket wrapped by that context.
 
 ??? question "How does `server_hostname` in `wrap_socket()` prevent man-in-the-middle attacks?"
-    It enables Server Name Indication (SNI) and ensures that the hostname in the server's certificate matches the hostname the client intended to connect to, preventing an attacker from presenting a valid certificate for a different domain.
+ It enables Server Name Indication (SNI) and ensures that the hostname in the server's certificate matches the hostname the client intended to connect to, preventing an attacker from presenting a valid certificate for a different domain.
 
 ??? question "When should you use `load_verify_locations()` instead of `create_default_context()`?"
-    `load_verify_locations()` is used when the server uses a private Certificate Authority (CA) or a self-signed certificate that is not present in the system's default trust store.
+ `load_verify_locations()` is used when the server uses a private Certificate Authority (CA) or a self-signed certificate that is not present in the system's default trust store.
 
 !!! note "Assignment 1: Basic SSL Connectivity"
 
-    **Task**: Write a script that connects to `aws.amazon.com` on port 443 and prints the SSL version and the cipher suite used for the connection.
-    **Goal**: Familiarize yourself with the basic `ssl` module workflow.
+ **Task**: Write a script that connects to `aws.amazon.com` on port 443 and prints the SSL version and the cipher suite used for the connection.
+ **Goal**: Familiarize yourself with the basic `ssl` module workflow.
 
 !!! note "Assignment 2: Multi-Endpoint Auditor"
 
-    **Task**: Create a tool that takes a list of three cloud provider endpoints (e.g., `azure.microsoft.com`, `cloud.google.com`, `aws.amazon.com`) and attempts to connect to each. The script must:
-    1. Print the SSL version for successful connections.
-    2. Gracefully handle and log `ssl.SSLError` for any failed connections.
-    **Goal**: Implement robust error handling for network-based SSL clients.
+ **Task**: Create a tool that takes a list of three cloud provider endpoints (e.g., `azure.microsoft.com`, `cloud.google.com`, `aws.amazon.com`) and attempts to connect to each. The script must:
+ 1. Print the SSL version for successful connections.
+ 2. Gracefully handle and log `ssl.SSLError` for any failed connections.
+ **Goal**: Implement robust error handling for network-based SSL clients.
 
 !!! note "Assignment 3: Private Trust Implementation"
 
-    **Task**: Simulate a private cloud environment by using a self-signed certificate. Write a client that fails to connect using `create_default_context()`, then modify it to succeed by loading the self-signed certificate using `load_verify_locations()`.
-    **Goal**: Master the process of managing custom trust anchors for internal infrastructure.
+ **Task**: Simulate a private cloud environment by using a self-signed certificate. Write a client that fails to connect using `create_default_context()`, then modify it to succeed by loading the self-signed certificate using `load_verify_locations()`.
+ **Goal**: Master the process of managing custom trust anchors for internal infrastructure.

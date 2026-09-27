@@ -41,10 +41,13 @@ Example: Running a basic command via system SSH.
 import subprocess
 
 # Command to run on the remote server
+
 # The syntax follows the standard shell: ssh user@host command
+
 cmd = ["ssh", "cloud-user@vm-web-01.cloud.local", "uptime"]
 
 # Execute and capture output
+
 result = subprocess.run(cmd, capture_output=True, text=True)
 
 if result.returncode == 0:
@@ -147,6 +150,7 @@ Example: Executing a command with Fabric.
 from fabric import Connection
 
 # The Connection object handles authentication and session management
+
 with Connection(host="vm-web-01.cloud.local", user="cloud-user") as c:
     # run() executes a command and returns a result object
     result = c.run("uptime", hide=True)
@@ -171,6 +175,7 @@ Example: Using RemoteExecutor for commands and file transfers.
 from cloudmesh.ai.common.remote import RemoteExecutor
 
 # Initialize the executor
+
 remote = RemoteExecutor(
     host="vm-web-01.cloud.local", 
     username="cloud-user", 
@@ -178,11 +183,13 @@ remote = RemoteExecutor(
 )
 
 # Execute a command and get a structured ExecResult
+
 result = remote.execute("uptime")
 print(f"Exit Code: {result.exit_code}")
 print(f"Output: {result.stdout}")
 
 # Upload a file using the helper method
+
 remote.upload("local_script.py", "/tmp/remote_script.py")
 ```
 
@@ -216,6 +223,7 @@ When automating SSH, security must be the priority to prevent unauthorized acces
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

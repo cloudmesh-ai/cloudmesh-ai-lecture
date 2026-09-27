@@ -1,15 +1,15 @@
 # Subprocess: Orchestrating External Tools
 
 !!! info "Learning Outcomes"
-    - Understand the conceptual difference between a parent process and a subprocess.
-    - Manage the "Three Standard Streams" (stdin, stdout, stderr) to control process I/O.
-    - Execute system commands using the modern `subprocess.run()` for most automation tasks.
-    - Implement complex, non-blocking process interactions using the `Popen` class.
-    - Apply security best practices to prevent shell injection attacks.
+ - Understand the conceptual difference between a parent process and a subprocess.
+ - Manage the "Three Standard Streams" (stdin, stdout, stderr) to control process I/O.
+ - Execute system commands using the modern `subprocess.run()` for most automation tasks.
+ - Implement complex, non-blocking process interactions using the `Popen` class.
+ - Apply security best practices to prevent shell injection attacks.
 
 ## Introduction: Why Subprocesses?
 
-Python is a remarkably powerful language with a vast ecosystem of libraries. However, in the real world of system administration and DevOps, you will frequently encounter tools that are simply better suited for specific tasks than any Python library.
+Python is a remarkably language with a vast ecosystem of libraries. However, in the real world of system administration and DevOps, you will frequently encounter tools that are simply better suited for specific tasks than any Python library.
 
 Whether it is the speed of `grep`, the robustness of `git`, the processing power of `ffmpeg`, or the system-level access of `ipconfig`, the ability to "shell out" from Python allows you to leverage the entire history of Unix and Windows utilities.
 
@@ -58,7 +58,7 @@ While convenient, `os.system()` has several major drawbacks:
 - **Blocking**: Your Python script completely pauses until the command finishes.
 
 !!! tip "Best Practice"
-    Use `os.system()` only for trivial tasks like clearing the screen or running a command where you don't care about the output. For everything else, use `subprocess`.
+ Use `os.system()` only for trivial tasks like clearing the screen or running a command where you don't care about the output. For everything else, use `subprocess`.
 
 ---
 
@@ -76,8 +76,8 @@ print(result)
 # Since the result is a string, you can process it immediately
 lines = result.split("\n")
 for line in lines:
-    if line:
-        print(f"Processing: {line}")
+ if line:
+ print(f"Processing: {line}")
 ```
 
 This wrapper is ideal for rapid prototyping. `Shell.run` was invented before `subprocess.run()` existed and remains useful for simple string-based output.
@@ -122,10 +122,10 @@ In a script, you usually don't want to ignore errors. By setting `check=True`, P
 import subprocess
 
 try:
-    subprocess.run(["ls", "/root/secret"], check=True, capture_output=True, text=True)
+ subprocess.run(["ls", "/root/secret"], check=True, capture_output=True, text=True)
 except subprocess.CalledProcessError as e:
-    print(f"The command failed with code {e.returncode}")
-    print(f"System Error: {e.stderr}")
+ print(f"The command failed with code {e.returncode}")
+ print(f"System Error: {e.stderr}")
 ```
 
 ---
@@ -195,22 +195,22 @@ In this case, Python tells the OS to execute the `ls` program and pass the entir
 ## Assignments
 
 !!! note "Assignment: Subprocess Automation"
-    1. **System Auditor**: Write a script that runs `df -h` (disk usage) and `free -m` (memory usage). Parse the output to identify if any partition is over 80% full or if available memory is below 500MB. If so, print a warning to `stderr`.
-    2. **Log Processor**: Use `Popen` to run a command that generates a continuous stream of output (e.g., `ping google.com` or `tail -f /var/log/syslog`). Read the output line-by-line in real-time and print only the lines that contain the word "ERROR" or "timeout".
-    3. **Secure Wrapper**: Create a function `safe_execute(cmd_list)` that wraps `subprocess.run`. It should implement a timeout of 10 seconds, capture all output, and return a custom dictionary containing the status, stdout, and stderr.
+ 1. **System Auditor**: Write a script that runs `df -h` (disk usage) and `free -m` (memory usage). Parse the output to identify if any partition is over 80% full or if available memory is below 500MB. If so, print a warning to `stderr`.
+ 2. **Log Processor**: Use `Popen` to run a command that generates a continuous stream of output (e.g., `ping google.com` or `tail -f /var/log/syslog`). Read the output line-by-line in real-time and print only the lines that contain the word "ERROR" or "timeout".
+ 3. **Secure Wrapper**: Create a function `safe_execute(cmd_list)` that wraps `subprocess.run`. It should implement a timeout of 10 seconds, capture all output, and return a custom dictionary containing the status, stdout, and stderr.
 
 ---
 
 ## Self-Evaluation
 
 ??? note "What happens if a subprocess fills its output pipe buffer and the parent isn't reading?"
-    The child process will block (pause) and wait for the OS pipe buffer to be cleared. If the parent is waiting for the child to finish without reading the buffer, the system enters a deadlock.
+ The child process will block (pause) and wait for the OS pipe buffer to be cleared. If the parent is waiting for the child to finish without reading the buffer, the system enters a deadlock.
 
 ??? note "When is `subprocess.run()` a better choice than `Popen`?"
-    When the task is short-lived, and you only need the final result after the command has finished. It is simpler, safer, and less prone to deadlocks.
+ When the task is short-lived, and you only need the final result after the command has finished. It is simpler, safer, and less prone to deadlocks.
 
 ??? note "Why is passing a list to `subprocess.run` safer than passing a string with `shell=True`?"
-    Passing a list bypasses the system shell entirely. The arguments are passed directly to the OS exec call, meaning special shell characters (like `;`, `&`, `|`) are treated as literal text rather than command separators.
+ Passing a list bypasses the system shell entirely. The arguments are passed directly to the OS exec call, meaning special shell characters (like `;`, `&`, `|`) are treated as literal text rather than command separators.
 
 ??? note "What is the difference between `stdout` and `stderr`?"
-    `stdout` is for the successful output of a program, while `stderr` is reserved for error messages and diagnostics. This allows users to redirect errors to a log file while keeping the main output on the screen.
+ `stdout` is for the successful output of a program, while `stderr` is reserved for error messages and diagnostics. This allows users to redirect errors to a log file while keeping the main output on the screen.

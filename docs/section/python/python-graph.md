@@ -49,6 +49,7 @@ with Diagram("Flask Flow", show=False, direction="LR",
 
 # Display the output directly in the QMD report
 display(Image(filename="flask_architecture.png"))
+
 ```
 
 ## AWS Web Service Architecture
@@ -70,6 +71,7 @@ with Diagram("Web Service", show=False, filename="web_service", outformat="png")
 
 # Display the generated PNG
 display(Image(filename="web_service.png"))
+
 ```
 
 ```{python}
@@ -172,6 +174,7 @@ plt.axis('off')
 # Display output in Quarto
 print("Output:")
 plt.show()
+
 ```
 
 ```{python}
@@ -180,16 +183,19 @@ import sys
 # This prints the absolute path to the executable
 print("Current Python Interpreter:")
 print(sys.executable)
+
 ```
 
 ```{python}
 a = 1
 print(a)
+
 ```
 
 ```{python}
 b = 2 + a
 print(b)
+
 ```
 
 ## Self Assessment

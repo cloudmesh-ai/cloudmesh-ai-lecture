@@ -1,11 +1,11 @@
 # Command-Line Interfaces with Docopt
 
 !!! info "Learning Objectives"
-    - Install and configure the `docopt` library.
-    - Design command-line interfaces using standard POSIX-style usage patterns.
-    - Translate usage documentation into functional Python argument dictionaries.
-    - Handle optional and required arguments based on usage strings.
-    - Implement a multi-command CLI using a single docstring.
+ - Install and configure the `docopt` library.
+ - Design command-line interfaces using standard POSIX-style usage patterns.
+ - Translate usage documentation into functional Python argument dictionaries.
+ - Handle optional and required arguments based on usage strings.
+ - Implement a multi-command CLI using a single docstring.
 
 When designing command-line interfaces (CLIs), developers typically spend significant time writing code to parse arguments and an equal amount of time writing the help message that explains how to use those arguments. This redundancy often leads to "documentation drift," where the help text and the actual implementation of the argument parser diverge over time.
 
@@ -30,17 +30,17 @@ In a typical Python application, the usage pattern is defined in the module's do
 ```python
 """My Application
 Usage:
-  my_app.py <name>
-  my_app.py (-h | --help)
+ my_app.py <name>
+ my_app.py (-h | --help)
 
 Options:
-  -h --help     Show this screen.
+ -h --help Show this screen.
 """
 from docopt import docopt
 
 if __name__ == "__main__":
-    arguments = docopt(__doc__)
-    print(arguments)
+ arguments = docopt(__doc__)
+ print(arguments)
 ```
 
 If the user runs `python my_app.py Alice`, the resulting `arguments` dictionary will be `{'<name>': 'Alice', '--help': False}`. If the user provides invalid input, Docopt automatically prints the usage message and exits the program.
@@ -60,21 +60,21 @@ Docopt supports both short and long options, as well as the ability to group the
 
 ```text
 Usage:
-  my_tool.py [-v | --verbose] <input_file>
+ my_tool.py [-v | --verbose] <input_file>
 ```
 
 In this pattern, the user can provide either `-v` or `--verbose`, or neither.
 
 ### Multiple Usage Patterns
 
-Many professional tools support different "modes" of operation. You can define multiple usage patterns on separate lines to support this.
+Many tools support different "modes" of operation. You can define multiple usage patterns on separate lines to support this.
 
 ```text
 Usage:
-  tool.py start <name> [--cloud=CLOUD]
-  tool.py stop <name> [--cloud=CLOUD]
-  tool.py set --cloud=CLOUD
-  tool.py (-h | --help)
+ tool.py start <name> [--cloud=CLOUD]
+ tool.py stop <name> [--cloud=CLOUD]
+ tool.py set --cloud=CLOUD
+ tool.py (-h | --help)
 ```
 
 This definition tells Docopt that the tool has three distinct operational modes: starting a resource, stopping a resource, or setting a global configuration.
@@ -90,31 +90,31 @@ The following example demonstrates a tool for managing virtual machines.
 ```python
 """VM Manager
 Usage:
-  vm_tool.py start <name> [--cloud=CLOUD]
-  vm_tool.py stop <name> [--cloud=CLOUD]
-  vm_tool.py -h | --help
+ vm_tool.py start <name> [--cloud=CLOUD]
+ vm_tool.py stop <name> [--cloud=CLOUD]
+ vm_tool.py -h | --help
 
 Options:
-  -h --help         Show this screen.
-  --cloud=CLOUD     The name of the cloud provider [default: AWS].
+ -h --help Show this screen.
+ --cloud=CLOUD The name of the cloud provider [default: AWS].
 """
 from docopt import docopt
 
 def start_vm(name, cloud):
-    print(f"Starting VM {name} on cloud {cloud}...")
+ print(f"Starting VM {name} on cloud {cloud}...")
 
 def stop_vm(name, cloud):
-    print(f"Stopping VM {name} on cloud {cloud}...")
+ print(f"Stopping VM {name} on cloud {cloud}...")
 
 if __name__ == "__main__":
-    args = docopt(__doc__)
+ args = docopt(__doc__)
 
-    cloud_provider = args['--cloud']
-    
-    if args['start']:
-        start_vm(args['<name>'], cloud_provider)
-    elif args['stop']:
-        stop_vm(args['<name>'], cloud_provider)
+ cloud_provider = args['--cloud']
+ 
+ if args['start']:
+ start_vm(args['<name>'], cloud_provider)
+ elif args['stop']:
+ stop_vm(args['<name>'], cloud_provider)
 ```
 
 ### Handling Default Values
@@ -124,36 +124,37 @@ Default values can be specified directly in the Options section of the docstring
 ## Self Assessment
 
 ??? question "Self Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
-    ??? question "What is 'documentation-driven development' in the context of Docopt?"
-        It is the practice of writing the help message (usage string) first and having the library automatically generate the argument parser from that documentation.
+ ??? question "What is 'documentation-driven development' in the context of Docopt?"
+ It is the practice of writing the help message (usage string) first and having the library automatically generate the argument parser from that documentation.
 
-    ??? question "How do you define a mandatory positional argument versus an optional flag in a Docopt usage string?"
-        Mandatory arguments are written in uppercase or angle brackets (e.g., `<name>`); optional flags are defined with dashes (e.g., `--verbose`).
+ ??? question "How do you define a mandatory positional argument versus an optional flag in a Docopt usage string?"
+ Mandatory arguments are written in uppercase or angle brackets (e.g., `<name>`); optional flags are defined with dashes (e.g., `--verbose`).
 
-    ??? question "How can you support multiple operational modes (e.g., `start` and `stop`) in a single Docopt application?"
-        Define multiple usage patterns on separate lines within the usage section of the docstring.
+ ??? question "How can you support multiple operational modes (e.g., `start` and `stop`) in a single Docopt application?"
+ Define multiple usage patterns on separate lines within the usage section of the docstring.
 
-    ??? question "How are default values for options handled in Docopt?"
-        They are specified directly in the Options section of the docstring using the `[default: value]` syntax.
+ ??? question "How are default values for options handled in Docopt?"
+ They are specified directly in the Options section of the docstring using the `[default: value]` syntax.
 
-    ??? question "What is the primary benefit of using Docopt over a traditional parser like `argparse`?"
-        It eliminates 'documentation drift' because the help text is the actual specification used to generate the parser.
+ ??? question "What is the primary benefit of using Docopt over a traditional parser like `argparse`?"
+ It eliminates 'documentation drift' because the help text is the actual specification used to generate the parser.
 
 ## Assignments
+
 !!! note "Assignment 1: Basic Input Parser"
-    Create a CLI tool called `greet.py`. Design a usage string that requires a `<name>` argument and provides an optional `--formal` flag. If the flag is present, the output should be "Good day, [name]"; otherwise, "Hi, [name]!".
+ Create a CLI tool called `greet.py`. Design a usage string that requires a `<name>` argument and provides an optional `--formal` flag. If the flag is present, the output should be "Good day, [name]"; otherwise, "Hi, [name]!".
 
 !!! note "Assignment 2: Resource Management Tool"
-    Build a tool for managing a hypothetical "Cloud Storage" service. The usage string should support three patterns:
-    1. `storage.py upload <file> <bucket>`
-    2. `storage.py download <bucket> <file>`
-    3. `storage.py list <bucket>`
-    Implement the logic to print which action is being performed and which files/buckets are involved.
+ Build a tool for managing a hypothetical "Cloud Storage" service. The usage string should support three patterns:
+ 1. `storage.py upload <file> <bucket>`
+ 2. `storage.py download <bucket> <file>`
+ 3. `storage.py list <bucket>`
+ Implement the logic to print which action is being performed and which files/buckets are involved.
 
 !!! note "Assignment 3: Advanced Option Handling"
-    Implement a CLI that takes a mandatory `<filename>` and supports mutually exclusive options: `--encrypt` and `--decrypt`. Use the usage pattern `tool.py (--encrypt | --decrypt) <filename>`. Ensure the program prints an error if both or neither are provided (Docopt should handle this automatically).
+ Implement a CLI that takes a mandatory `<filename>` and supports mutually exclusive options: `--encrypt` and `--decrypt`. Use the usage pattern `tool.py (--encrypt | --decrypt) <filename>`. Ensure the program prints an error if both or neither are provided (Docopt should handle this automatically).
 
 ## Further Reading
 

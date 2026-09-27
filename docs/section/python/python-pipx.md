@@ -2,16 +2,16 @@
 
 !!! info "Learning Objectives"
 
-    By the end of this chapter, you will be able to:
-    - Differentiate between application-level and library-level Python installations.
-    - Utilize `pipx` to install global command-line tools without inducing dependency conflicts.
-    - Configure a stable development environment using `pyenv` and editable installations.
-    - Resolve common dependency collisions in mixed-use Python environments.
-    - Implement a workflow that allows simultaneous use of heavy CLI tools and custom project development.
+ By the end of this chapter, you will be able to:
+ - Differentiate between application-level and library-level Python installations.
+ - Utilize `pipx` to install global command-line tools without inducing dependency conflicts.
+ - Configure a stable development environment using `pyenv` and editable installations.
+ - Resolve common dependency collisions in mixed-use Python environments.
+ - Implement a workflow that allows simultaneous use of heavy CLI tools and custom project development.
 
 In the Python ecosystem, managing dependencies is a critical operational challenge. When multiple tools share the same global environment, "dependency collision" often occurs—a state where two different packages require different versions of the same library. For example, a cloud management tool might require an older version of a cryptography library, while a modern AI framework requires a newer one. Installing both globally typically results in one package breaking the other.
 
-Professional Python development requires a strategic separation of concerns. Instead of a single environment, engineers employ different isolation strategies based on whether the software is being used as a standalone application or developed as a library.
+Python development requires a strategic separation of concerns. Instead of a single environment, engineers employ different isolation strategies based on whether the software is being used as a standalone application or developed as a library.
 
 ## Understanding Dependency Collisions
 
@@ -59,12 +59,15 @@ This process installs the OpenStack client as a global command while isolating i
 
 ```bash
 # Install pipx via Homebrew
+
 brew install pipx
 
 # Ensure pipx binaries are in the system PATH
+
 pipx ensurepath
 
 # Install the OpenStack client globally
+
 pipx install python-openstackclient
 ```
 
@@ -76,6 +79,7 @@ Before setting up the development project, it is necessary to remove any leftove
 
 ```bash
 # Replace 3.14.4 with your active pyenv version
+
 rm -rf ~/.pyenv/versions/3.14.4/lib/python3.14/site-packages/~*
 ```
 
@@ -87,49 +91,52 @@ Navigate to the project root and install the package in editable mode.
 
 ```bash
 # Navigate to the project directory
+
 cd ~/work/cloudmesh-ai-llm
 
 # Install the project and its dependencies in editable mode
-pip install -e .
+
+pip install -e.
 ```
 
-By using `-e .`, the `cloudmesh-ai-llm` package is linked to the current directory. Modifications to the source code will take effect instantly.
+By using `-e.`, the `cloudmesh-ai-llm` package is linked to the current directory. Modifications to the source code will take effect instantly.
 
 !!! tip "Summary Checklist"
 
-    - [ ] Installed `pipx` and configured the system PATH.
-    - [ ] Installed `python-openstackclient` using `pipx` to isolate dependencies.
-    - [ ] Verified that the `openstack` command works globally.
-    - [ ] Cleaned the `pyenv` site-packages directory to remove conflicts.
-    - [ ] Performed an editable install (`pip install -e .`) for the development project.
-    - [ ] Confirmed that code changes are reflected without re-installation.
+ - [ ] Installed `pipx` and configured the system PATH.
+ - [ ] Installed `python-openstackclient` using `pipx` to isolate dependencies.
+ - [ ] Verified that the `openstack` command works globally.
+ - [ ] Cleaned the `pyenv` site-packages directory to remove conflicts.
+ - [ ] Performed an editable install (`pip install -e.`) for the development project.
+ - [ ] Confirmed that code changes are reflected without re-installation.
 
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
 ??? question "What is the primary difference between an application-level installation (`pipx`) and a library-level installation (`pip`)?"
-    Application-level installations are for standalone CLI tools that are executed from the shell; they are isolated in their own venvs to avoid dependency collisions. Library-level installations are for packages intended to be imported into other Python code.
+ Application-level installations are for standalone CLI tools that are executed from the shell; they are isolated in their own venvs to avoid dependency collisions. Library-level installations are for packages intended to be imported into other Python code.
 
 ??? question "How does `pipx` allow a tool to be available globally while remaining isolated?"
-    `pipx` creates a private virtual environment for the tool and then creates a symbolic link (symlink) from the tool's executable binary to a global directory in the user's PATH (e.g., `~/.local/bin`).
+ `pipx` creates a private virtual environment for the tool and then creates a symbolic link (symlink) from the tool's executable binary to a global directory in the user's PATH (e.g., `~/.local/bin`).
 
-??? question "What is an 'editable install' (`pip install -e .`) and why is it critical for development?"
-    An editable install links the installed package to the source code directory rather than copying the files. This allows developers to see the effects of code changes immediately without having to re-install the package.
+??? question "What is an 'editable install' (`pip install -e.`) and why is it critical for development?"
+ An editable install links the installed package to the source code directory rather than copying the files. This allows developers to see the effects of code changes immediately without having to re-install the package.
 
 !!! note "Assignment 1: Application Isolation"
 
-    **Task**: Use `pipx` to install a common Python-based CLI tool (e.g., `black` or `httpie`). Verify that the tool is available globally but that its dependencies are not visible in your current `pyenv` or global `pip list`.
-    **Goal**: Confirm the isolation mechanism of `pipx`.
+ **Task**: Use `pipx` to install a common Python-based CLI tool (e.g., `black` or `httpie`). Verify that the tool is available globally but that its dependencies are not visible in your current `pyenv` or global `pip list`.
+ **Goal**: Confirm the isolation mechanism of `pipx`.
 
 !!! note "Assignment 2: OpenStack CLI Setup"
 
-    **Task**: Install the `python-openstackclient` using the steps in this chapter. Run `openstack --version` to verify installation, then check if `oslo.config` is present in your project's `pip list`.
-    **Goal**: Verify that the application is functional while remaining isolated from the development environment.
+ **Task**: Install the `python-openstackclient` using the steps in this chapter. Run `openstack --version` to verify installation, then check if `oslo.config` is present in your project's `pip list`.
+ **Goal**: Verify that the application is functional while remaining isolated from the development environment.
 
 !!! note "Assignment 3: Editable Mode Verification"
 
-    **Task**: In the `cloudmesh-ai-llm` project, add a simple print statement to one of the main functions. Execute the tool and verify the print statement appears without running `pip install` again.
-    **Goal**: Demonstrate the efficiency of editable installs for rapid development.
+ **Task**: In the `cloudmesh-ai-llm` project, add a simple print statement to one of the main functions. Execute the tool and verify the print statement appears without running `pip install` again.
+ **Goal**: Demonstrate the efficiency of editable installs for rapid development.

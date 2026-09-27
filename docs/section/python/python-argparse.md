@@ -10,7 +10,7 @@
     - Generate automatic, user‑friendly help pages and error messages.  
     - Add simple interactive prompts when required options are missing.  
 
-The Command Line Interface (CLI) remains a fundamental tool for system administrators, DevOps engineers, and developers. While many third‑party packages (e.g., Click, Typer) provide a more “declarative” feel, `argparse` is the **built‑in** way to parse command‑line arguments in Python. Because it ships with the interpreter, you never need to add a dependency, and it offers a complete feature set: positional arguments, optional flags, type validation, sub‑commands, mutually‑exclusive groups, automatic help, and even builtin tab‑completion via `argcomplete`.
+The Command Line Interface (CLI) remains a fundamental tool for system administrators, DevOps engineers, and developers. While many third‑party packages (e.g., Click, Typer) provide a more "declarative" feel, `argparse` is the **built‑in** way to parse command‑line arguments in Python. Because it ships with the interpreter, you never need to add a dependency, and it offers a complete feature set: positional arguments, optional flags, type validation, sub‑commands, mutually‑exclusive groups, automatic help, and even builtin tab‑completion via `argcomplete`.
 
 ---
 

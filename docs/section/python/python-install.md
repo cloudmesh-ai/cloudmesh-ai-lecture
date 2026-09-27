@@ -106,9 +106,11 @@ python --version
 An alternative is to use Python from within the Linux Subsystem (WSL). This is highly recommended for developers on Windows to have a more Unix-like environment.
 
 To activate the Linux Subsystem, please follow the instructions at:
+
 - <https://docs.microsoft.com/en-us/windows/wsl/install-win10>
 
 A suitable distribution would be:
+
 - <https://www.microsoft.com/en-us/p/ubuntu-1804-lts/9n9tngvndl3q?activetab=pivot:overviewtab>
 
 ### Python 3.12.9 from Source (Ubuntu 24.04)
@@ -195,10 +197,12 @@ On Windows, you can set Git Bash to automatically use this venv:
    cd ~
    vi .bashrc
    ```
+
 2. Add the following line:
    ```vim
    source ~/ENV3/Scripts/activate
    ```
+
 3. Save and exit (`:wq`).
 
 ### Confirm Python is installed
@@ -277,14 +281,19 @@ pip --version
 ```
 
 Expected versions:
+
 - Python 3.12.9 (or similar)
+
 - pip 21.3.1 (or similar)
 
 ## Assignments
 
 !!! note "Assignment: Python Environment Setup"
+
     1. **Installation Audit**: Install Python 3.12 using the method most appropriate for your OS. Verify the installation by printing the version and the location of the binary using `sys.executable`.
+
     2. **Venv Lifecycle**: Create a virtual environment named `ai_lecture`. Install the `requests` library inside it, verify it is available, then deactivate the environment and verify that `requests` is *not* available in your system Python.
+
     3. **Profile Automation**: Configure your shell profile (`.bashrc`, `.zprofile`, etc.) so that your `ai_lecture` environment activates automatically upon opening a new terminal. Verify this by opening a new tab and checking the shell prompt.
 
 ## Self-Evaluation

@@ -11,6 +11,7 @@
 In a distributed cloud environment, a single request may traverse several services, containers, or serverless functions. When an error occurs, the only reliable source of information is the observability data emitted by each component:
 
 - **Logging**: Records a chronological, immutable stream of events, errors, and diagnostic context.
+
 - **Monitoring**: Aggregates numerical metrics (latency, error counts, resource usage) and raises alerts when thresholds are breached.
 
 Together, these enable rapid root-cause analysis, performance baselines, compliance audit trails, and automated incident response.
@@ -32,9 +33,13 @@ Together, these enable rapid root-cause analysis, performance baselines, complia
 ## Production-Ready Logging Configuration
 
 A production-grade logging setup should satisfy these requirements:
+
 - **JSON output**: For easy ingestion by log aggregation services (e.g., AWS CloudWatch, Google Cloud Logging, Elastic Stack).
+
 - **Timed rotating files**: To bound disk usage and keep recent logs locally.
+
 - **Separate handlers**: Human-readable output for the console and JSON for files.
+
 - **Contextual information**: Automatic injection of `service_name` and `request_id` into every record.
 
 ```python
@@ -129,8 +134,11 @@ Each line in the resulting log file is a complete JSON object. This makes it tri
 While logging captures *what happened*, metrics capture *how the system is behaving over time*. A typical Python metrics stack includes:
 
 1. **Metrics library**: `prometheus_client` is the industry standard.
+
 2. **Instrumentation points**: Measuring request latency, error counters, and resource usage.
+
 3. **Exporter**: An HTTP endpoint (`/metrics`) that Prometheus scrapes.
+
 4. **Dashboard/Alerting**: Grafana for visualization and Alertmanager for threshold alerts.
 
 ```python
@@ -194,9 +202,13 @@ if __name__ == '__main__':
 ## Assignments
 
 !!! note "Assignment: Observability Implementation"
+
     1. **Logging Setup**: Implement the `JsonFormatter` and `configure_logging` function in a Python project.
+
     2. **Correlation ID**: Create a middleware or decorator that generates a `request_id` and injects it into the logging context.
+
     3. **Metrics**: Integrate `prometheus_client` to track the number of requests and the average latency of a specific function.
+
     4. **Verification**: Run the service, generate logs, and verify that each log entry contains the same `request_id` for a a single request.
 
 ---

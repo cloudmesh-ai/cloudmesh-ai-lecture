@@ -199,7 +199,7 @@ profile = "black"
 
 ### Why avoid a hard‑coded version in `pyproject.toml`?  
 
-Hard‑coding the version string in the `pyproject.toml` file creates a second source of truth. When the version is also stored in the package’s `__init__.py`, a `__about__.py` file, or a VCS tag, the three locations can easily diverge – a situation known as **version drift**.  
+Hard‑coding the version string in the `pyproject.toml` file creates a second source of truth. When the version is also stored in the package's `__init__.py`, a `__about__.py` file, or a VCS tag, the three locations can easily diverge – a situation known as **version drift**.  
 Dynamic versioning eliminates the drift by letting the build backend obtain the version from a **single** place at build time.
 
 ---
@@ -253,7 +253,7 @@ path = "VERSION"               # file must contain only the version string, e.g.
 
 ## 3. Attribute‑Based Versioning with Setuptools  
 
-Setuptools can retrieve the version from a Python module (the classic “single‑source of truth” pattern). The module must expose a string variable, usually called `__version__`.
+Setuptools can retrieve the version from a Python module (the classic "single‑source of truth" pattern). The module must expose a string variable, usually called `__version__`.
 
 ### 3.1 Minimal configuration
 

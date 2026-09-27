@@ -40,6 +40,7 @@ def check_status(url):
         return f"{url}: Error {e}"
 
 # Use ThreadPoolExecutor to run tasks concurrently
+
 with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
     results = list(executor.map(check_status, urls))
 
@@ -99,6 +100,7 @@ async def main():
             print(res)
 
 # Run the event loop
+
 asyncio.run(main())
 ```
 
@@ -120,6 +122,7 @@ hostname = 'google.com'
 port = 443
 
 # Create a default SSL context for client-side connections
+
 context = ssl.create_default_context()
 
 with socket.create_connection((hostname, port)) as sock:
@@ -182,7 +185,9 @@ from queue import PriorityQueue
 import time
 
 # Queue items are tuples: (priority, task_name)
+
 # Lower number = Higher priority
+
 task_queue = PriorityQueue()
 
 task_queue.put((2, "Backup Logs"))
@@ -206,6 +211,7 @@ Example: Implementing a fixed-size log buffer.
 from collections import deque
 
 # Maxlen ensures the deque never exceeds 5 elements
+
 log_buffer = deque(maxlen=5)
 
 for i in range(10):
@@ -213,6 +219,7 @@ for i in range(10):
     print(f"Current buffer: {list(log_buffer)}")
 
 # Only the last 5 entries are kept
+
 ```
 
 !!! tip "Summary Checklist"
@@ -227,6 +234,7 @@ for i in range(10):
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

@@ -2,12 +2,12 @@
 
 !!! info "Learning Objectives"
 
-    By the end of this chapter, you will be able to:
-    - Install and configure the `matplotlib` library for data visualization.
-    - Generate line plots by integrating `NumPy` for data sampling and `matplotlib.pyplot` for rendering.
-    - Enhance plot readability using axis labels, titles, legends, and predefined visual styles.
-    - Implement bar charts to represent and compare categorical data.
-    - Evaluate the differences between static plotting and interactive, browser-based visualization tools like `Bokeh`.
+ By the end of this chapter, you will be able to:
+ - Install and configure the `matplotlib` library for data visualization.
+ - Generate line plots by integrating `NumPy` for data sampling and `matplotlib.pyplot` for rendering.
+ - Enhance plot readability using axis labels, titles, legends, and predefined visual styles.
+ - Implement bar charts to represent and compare categorical data.
+ - Evaluate the differences between static plotting and interactive, browser-based visualization tools like `Bokeh`.
 
 In the fields of AI and Cloud Engineering, the ability to visualize data is as critical as the ability to process it. Whether monitoring the loss curve of a training neural network, analyzing the latency of a microservice, or visualizing resource distribution across a cluster, graphical representations allow engineers to identify patterns and anomalies that remain hidden in raw logs or tables.
 
@@ -19,6 +19,7 @@ Before creating visualizations, the library must be installed in your environmen
 
 ```bash
 $ pip install matplotlib
+
 ```
 
 ## Line Plots and Functional Data
@@ -35,6 +36,7 @@ import matplotlib.pyplot as plt
 
 # Generate 16 evenly spaced samples between -pi and pi
 x = np.linspace(-np.pi, np.pi, 16)
+
 ```
 
 With the x-axis defined, we can generate the corresponding y-axis values using NumPy's trigonometric functions.
@@ -42,6 +44,7 @@ With the x-axis defined, we can generate the corresponding y-axis values using N
 ```python
 cos = np.cos(x)
 sin = np.sin(x)
+
 ```
 
 ### Rendering the Plot
@@ -52,6 +55,7 @@ The `plt.plot()` function maps the x and y arrays to a coordinate system. To dis
 # Plot the cosine function
 plt.plot(x, cos)
 plt.show()
+
 ```
 
 To visualize multiple datasets on the same graph, simply call `plt.plot()` multiple times before calling `plt.show()`.
@@ -60,11 +64,12 @@ To visualize multiple datasets on the same graph, simply call `plt.plot()` multi
 plt.plot(x, cos)
 plt.plot(x, sin)
 plt.show()
+
 ```
 
 ## Enhancing Plot Readability
 
-A plot without context is technically accurate but practically useless. Professional visualizations require clear labeling to ensure they are interpretable by others.
+A plot without context is technically accurate but practically useless. visualizations require clear labeling to ensure they are interpretable by others.
 
 ### Labels, Titles, and Legends
 
@@ -81,6 +86,7 @@ plt.title("A clever Title for your Figure")
 # Position the legend in the upper right corner
 plt.legend(loc='upper right')
 plt.show()
+
 ```
 
 ### Complete Implementation Example
@@ -108,6 +114,7 @@ plt.legend(loc='upper right')
 
 # 4. Rendering
 plt.show()
+
 ```
 
 ## Categorical Data with Bar Charts
@@ -121,10 +128,10 @@ import matplotlib.pyplot as plt
 
 # Define categories and values
 x = [' Toyota Prius',
-     'Tesla Roadster ',
-     ' Bugatti Veyron',
-     ' Honda Civic ',
-     ' Lamborghini Aventador ']
+ 'Tesla Roadster ',
+ ' Bugatti Veyron',
+ ' Honda Civic ',
+ ' Lamborghini Aventador ']
 horse_power = [120, 288, 1200, 158, 695]
 
 # Map categories to integer positions for the x-axis
@@ -142,6 +149,7 @@ plt.title("Horse Power for Selected Cars")
 plt.xticks(x_pos, x)
 
 plt.show()
+
 ```
 
 ## Visual Styling and Aesthetics
@@ -154,6 +162,7 @@ You can list all available styles installed in your environment using the follow
 
 ```python
 print(plt.style.available)
+
 ```
 
 ### Applying a Style
@@ -162,11 +171,12 @@ To apply a style, such as the popular `seaborn` theme, use `plt.style.use()`. Th
 
 ```python
 plt.style.use('seaborn')
+
 ```
 
 ## Beyond Static Plots: Interactive Visualization
 
-While `matplotlib` generates static images, modern data science often requires interactive plots that allow users to zoom, pan, and hover over data points. `Bokeh` is a powerful library designed specifically for this purpose, outputting visualizations directly to a web browser.
+While `matplotlib` generates static images, modern data science often requires interactive plots that allow users to zoom, pan, and hover over data points. `Bokeh` is a library designed specifically for this purpose, outputting visualizations directly to a web browser.
 
 Example of creating an interactive scatter plot with `Bokeh`:
 
@@ -186,46 +196,47 @@ p.circle(x=x_values, y=y_values)
 
 # Display the plot in a browser
 show(p)
+
 ```
 
 !!! tip "Summary Checklist"
 
-    - [ ] Installed `matplotlib` via `pip`.
-    - [ ] Used `np.linspace` to generate coordinate samples for functional plots.
-    - [ ] Implemented `plt.plot()` to render line graphs.
-    - [ ] Added `xlabel`, `ylabel`, and `title` to provide plot context.
-    - [ ] Used `label` and `plt.legend()` to distinguish multiple datasets.
-    - [ ] Created bar charts using `plt.bar()` and `plt.xticks()`.
-    - [ ] Applied visual themes using `plt.style.use()`.
-    - [ ] Identified the use case for interactive plotting via `Bokeh`.
+ - [ ] Installed `matplotlib` via `pip`.
+ - [ ] Used `np.linspace` to generate coordinate samples for functional plots.
+ - [ ] Implemented `plt.plot()` to render line graphs.
+ - [ ] Added `xlabel`, `ylabel`, and `title` to provide plot context.
+ - [ ] Used `label` and `plt.legend()` to distinguish multiple datasets.
+ - [ ] Created bar charts using `plt.bar()` and `plt.xticks()`.
+ - [ ] Applied visual themes using `plt.style.use()`.
+ - [ ] Identified the use case for interactive plotting via `Bokeh`.
 
 !!! note "Assignment 1: Sampling and Resolution"
 
-    **Task**: Recreate the sine and cosine plot, but vary the third parameter of `np.linspace`. Compare the results using 5, 50, and 500 samples.
-    **Goal**: Understand how sampling resolution affects the visual smoothness of a curve.
+ **Task**: Recreate the sine and cosine plot, but vary the third parameter of `np.linspace`. Compare the results using 5, 50, and 500 samples.
+ **Goal**: Understand how sampling resolution affects the visual smoothness of a curve.
 
 !!! note "Assignment 2: Performance Comparison"
 
-    **Task**: Create a bar chart that compares the response times (in milliseconds) of three different API endpoints (e.g., `/login`, `/search`, `/upload`). Use different colors for each bar.
-    **Goal**: Practice representing categorical performance metrics.
+ **Task**: Create a bar chart that compares the response times (in milliseconds) of three different API endpoints (e.g., `/login`, `/search`, `/upload`). Use different colors for each bar.
+ **Goal**: Practice representing categorical performance metrics.
 
 !!! note "Assignment 3: Multi-Plot Dashboard"
 
-    **Task**: Use `plt.subplot()` to create a single figure containing two plots: one showing a line graph of a function and another showing a bar chart of related categorical data.
-    **Goal**: Master the layout of complex figures for comprehensive data reporting.
+ **Task**: Use `plt.subplot()` to create a single figure containing two plots: one showing a line graph of a function and another showing a bar chart of related categorical data.
+ **Goal**: Master the layout of complex figures for comprehensive data reporting.
 
 
 ## Self Assessment
 
 ??? question "Self Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
-    ??? question "How do you generate the x-axis coordinates for a smooth functional plot in Matplotlib?"
-        By using `np.linspace(start, stop, num)`, which creates an array of `num` evenly spaced samples over the specified interval.
+ ??? question "How do you generate the x-axis coordinates for a smooth functional plot in Matplotlib?"
+ By using `np.linspace(start, stop, num)`, which creates an array of `num` evenly spaced samples over the specified interval.
 
-    ??? question "What is the purpose of the `label` argument in `plt.plot()` and the `plt.legend()` function?"
-        The `label` argument assigns a name to a specific line, and `plt.legend()` renders a key on the plot that associates those names with their corresponding colors/styles.
+ ??? question "What is the purpose of the `label` argument in `plt.plot()` and the `plt.legend()` function?"
+ The `label` argument assigns a name to a specific line, and `plt.legend()` renders a key on the plot that associates those names with their corresponding colors/styles.
 
-    ??? question "When would you use `Bokeh` instead of `Matplotlib` for data visualization?"
-        You would use `Bokeh` when you need interactive visualizations (zooming, panning, hovering) that are rendered as HTML/JavaScript for use in a web browser, whereas `Matplotlib` is better for static, publication-quality images.
+ ??? question "When would you use `Bokeh` instead of `Matplotlib` for data visualization?"
+ You would use `Bokeh` when you need interactive visualizations (zooming, panning, hovering) that are rendered as HTML/JavaScript for use in a web browser, whereas `Matplotlib` is better for static, publication-quality images.
 

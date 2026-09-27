@@ -1,13 +1,13 @@
 # Interactive Shells with Python cmd
 
 !!! info "Learning Objectives"
-    - Implement an interactive command-line interpreter using the `cmd.Cmd` base class.
-    - Create custom command handlers using the `do_` method pattern.
-    - Manage the shell lifecycle, including handling EOF (Ctrl-D) and graceful exits.
-    - Customize the user experience with custom prompts and welcome messages.
-    - Implement a built-in help system for custom commands.
+ - Implement an interactive command-line interpreter using the `cmd.Cmd` base class.
+ - Create custom command handlers using the `do_` method pattern.
+ - Manage the shell lifecycle, including handling EOF (Ctrl-D) and graceful exits.
+ - Customize the user experience with custom prompts and welcome messages.
+ - Implement a built-in help system for custom commands.
 
-Most command-line tools operate on a "one-shot" basis: the user provides arguments, the program executes a task, and the process terminates. However, many professional tools—such as database consoles (e.g., `psql` or `mysql`), network switches, and debuggers—operate as persistent interactive shells. This pattern is known as a REPL (Read-Eval-Print Loop).
+Most command-line tools operate on a "one-shot" basis: the user provides arguments, the program executes a task, and the process terminates. However, many tools—such as database consoles (e.g., `psql` or `mysql`), network switches, and debuggers—operate as persistent interactive shells. This pattern is known as a REPL (Read-Eval-Print Loop).
 
 The Python `cmd` module provides a framework for building these line-oriented command processors. By providing a base class that handles the loop, input reading, and basic command dispatching, `cmd` allows developers to focus on implementing the actual logic of the commands rather than the mechanics of the shell. While libraries like `click` are ideal for one-off CLI tools, `cmd` is the standard choice for building a dedicated interactive console.
 
@@ -27,22 +27,22 @@ The following example demonstrates a basic shell that greets the user.
 import cmd
 
 class GreetingShell(cmd.Cmd):
-    """A simple command processor example."""
+ """A simple command processor example."""
 
-    def do_greet(self, line):
-        """Greet the user. Usage: greet [name]"""
-        if line.strip():
-            print(f"Hello, {line.strip().title()}!")
-        else:
-            print("Hello!")
+ def do_greet(self, line):
+ """Greet the user. Usage: greet [name]"""
+ if line.strip():
+ print(f"Hello, {line.strip().title()}!")
+ else:
+ print("Hello!")
 
-    def do_EOF(self, line):
-        """Handle Ctrl-D to exit the shell."""
-        print("\nExiting shell... Goodbye!")
-        return True
+ def do_EOF(self, line):
+ """Handle Ctrl-D to exit the shell."""
+ print("\nExiting shell... Goodbye!")
+ return True
 
 if __name__ == "__main__":
-    GreetingShell().cmdloop()
+ GreetingShell().cmdloop()
 ```
 
 In this implementation:
@@ -52,7 +52,7 @@ In this implementation:
 
 ## Managing the Shell Lifecycle
 
-A professional interactive shell requires more than just command handling; it needs a defined lifecycle and a user-friendly interface.
+A interactive shell requires more than just command handling; it needs a defined lifecycle and a user-friendly interface.
 
 ### Exiting the Shell
 
@@ -67,12 +67,12 @@ The `cmd.Cmd` class provides several attributes that can be overridden to change
 
 ```python
 class MyCustomShell(cmd.Cmd):
-    prompt = "my-shell >> "
-    intro = "Welcome to the Custom Shell. Type 'help' for a list of commands."
+ prompt = "my-shell >> "
+ intro = "Welcome to the Custom Shell. Type 'help' for a list of commands."
 
-    def do_quit(self, line):
-        """Exit the shell."""
-        return True
+ def do_quit(self, line):
+ """Exit the shell."""
+ return True
 ```
 
 ## Command Arguments and Parsing
@@ -85,33 +85,33 @@ For simple tools, using `split()` is often sufficient to separate the command ar
 
 ```python
 class CalculatorShell(cmd.Cmd):
-    prompt = "calc >>> "
+ prompt = "calc >>> "
 
-    def do_add(self, line):
-        """Add numbers together. Usage: add 1 2 3"""
-        try:
-            args = line.split()
-            total = sum(float(arg) for arg in args)
-            print(f"Total: {total}")
-        except ValueError:
-            print("Error: Please provide only numbers.")
+ def do_add(self, line):
+ """Add numbers together. Usage: add 1 2 3"""
+ try:
+ args = line.split()
+ total = sum(float(arg) for arg in args)
+ print(f"Total: {total}")
+ except ValueError:
+ print("Error: Please provide only numbers.")
 
-    def do_subtract(self, line):
-        """Subtract numbers from the first argument. Usage: subtract 10 2 3"""
-        try:
-            args = line.split()
-            if not args:
-                print("Error: No numbers provided.")
-                return
-            total = float(args[0])
-            for arg in args[1:]:
-                total -= float(arg)
-            print(f"Total: {total}")
-        except ValueError:
-            print("Error: Please provide only numbers.")
+ def do_subtract(self, line):
+ """Subtract numbers from the first argument. Usage: subtract 10 2 3"""
+ try:
+ args = line.split()
+ if not args:
+ print("Error: No numbers provided.")
+ return
+ total = float(args[0])
+ for arg in args[1:]:
+ total -= float(arg)
+ print(f"Total: {total}")
+ except ValueError:
+ print("Error: Please provide only numbers.")
 
-    def do_EOF(self, line):
-        return True
+ def do_EOF(self, line):
+ return True
 ```
 
 ### Advanced Parsing
@@ -134,16 +134,16 @@ To document a command, create a method with the prefix `help_` followed by the c
 
 ```python
 class DocumentedShell(cmd.Cmd):
-    def do_status(self, line):
-        """Check system status."""
-        print("System is operational.")
+ def do_status(self, line):
+ """Check system status."""
+ print("System is operational.")
 
-    def help_status(self):
-        print("status")
-        print("  Displays the current operational status of the system.")
+ def help_status(self):
+ print("status")
+ print(" Displays the current operational status of the system.")
 
-    def do_EOF(self, line):
-        return True
+ def do_EOF(self, line):
+ return True
 ```
 
 When the user types `help status`, the `help_status` method is executed, providing the user with specific instructions.
@@ -151,40 +151,41 @@ When the user types `help status`, the `help_status` method is executed, providi
 ## Self Assessment
 
 ??? question "Self Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
-    ??? question "How does the `cmd` module identify which methods should be treated as shell commands?"
-        It uses a naming convention: any method starting with the prefix `do_` (e.g., `do_greet`) is automatically mapped to a command (`greet`).
+ ??? question "How does the `cmd` module identify which methods should be treated as shell commands?"
+ It uses a naming convention: any method starting with the prefix `do_` (e.g., `do_greet`) is automatically mapped to a command (`greet`).
 
-    ??? question "How do you signal the `cmdloop()` to terminate and exit the interactive shell?"
-        A command method (such as `do_EOF` or `do_exit`) must return `True`.
+ ??? question "How do you signal the `cmdloop()` to terminate and exit the interactive shell?"
+ A command method (such as `do_EOF` or `do_exit`) must return `True`.
 
-    ??? question "What is the difference between a 'documented' and an 'undocumented' command in the `cmd` module?"
-        An undocumented command is just a `do_` method; a documented command has a corresponding `help_` method that provides detailed usage instructions.
+ ??? question "What is the difference between a 'documented' and an 'undocumented' command in the `cmd` module?"
+ An undocumented command is just a `do_` method; a documented command has a corresponding `help_` method that provides detailed usage instructions.
 
-    ??? question "How can you customize the initial experience of a user entering your `cmd` shell?"
-        Override the `prompt` attribute for the input line and the `intro` attribute for the welcome message.
+ ??? question "How can you customize the initial experience of a user entering your `cmd` shell?"
+ Override the `prompt` attribute for the input line and the `intro` attribute for the welcome message.
 
-    ??? question "How do you handle arguments passed to a command in a `cmd.Cmd` subclass?"
-        The command method receives a `line` string containing everything typed after the command; this string can be parsed using `line.split()` or libraries like `shlex`.
+ ??? question "How do you handle arguments passed to a command in a `cmd.Cmd` subclass?"
+ The command method receives a `line` string containing everything typed after the command; this string can be parsed using `line.split()` or libraries like `shlex`.
 
 ## Assignments
+
 !!! note "Assignment 1: Basic Shell Setup"
-    Create a shell called `SimpleShell`. Implement two commands: `hello` (which prints a greeting) and `exit` (which closes the shell). Ensure the shell has a custom prompt like `(Simple) > `.
+ Create a shell called `SimpleShell`. Implement two commands: `hello` (which prints a greeting) and `exit` (which closes the shell). Ensure the shell has a custom prompt like `(Simple) > `.
 
 !!! note "Assignment 2: Interactive Task Manager"
-    Build a task management shell. Implement the following commands:
-    1. `add [task]`: Adds a task to a Python list.
-    2. `list`: Displays all current tasks with their index.
-    3. `done [index]`: Removes a task from the list by its index.
-    Include a `help_` method for each command to explain the usage.
+ Build a task management shell. Implement the following commands:
+ 1. `add [task]`: Adds a task to a Python list.
+ 2. `list`: Displays all current tasks with their index.
+ 3. `done [index]`: Removes a task from the list by its index.
+ Include a `help_` method for each command to explain the usage.
 
 !!! note "Assignment 3: Virtual Storage Simulator"
-    Create a shell that simulates a key-value store. Use a dictionary to store data. Implement:
-    1. `set [key] [value]`: Stores a value associated with a key.
-    2. `get [key]`: Retrieves the value for a given key.
-    3. `delete [key]`: Removes the key from the store.
-    Handle cases where the user tries to `get` or `delete` a key that does not exist by printing a clear error message.
+ Create a shell that simulates a key-value store. Use a dictionary to store data. Implement:
+ 1. `set [key] [value]`: Stores a value associated with a key.
+ 2. `get [key]`: Retrieves the value for a given key.
+ 3. `delete [key]`: Removes the key from the store.
+ Handle cases where the user tries to `get` or `delete` a key that does not exist by printing a clear error message.
 
 ## Further Reading
 

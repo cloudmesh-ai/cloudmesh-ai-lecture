@@ -35,6 +35,7 @@ import time
 import random
 
 # Create a scheduler instance using system time and sleep
+
 scheduler = sched.scheduler(time.time, time.sleep)
 
 def check_vm_health(vm_name):
@@ -51,6 +52,7 @@ def check_vm_health(vm_name):
     print(f"Next check for {vm_name} scheduled in {next_check:.2f}s")
 
 # List of VMs to monitor
+
 vms = ["web-server-01", "db-master-01", "cache-node-01"]
 
 print("Starting Cloud Resource Health Monitor...")
@@ -62,6 +64,7 @@ for vm in vms:
     print(f"Scheduled initial check for {vm} in {delay:.2f}s")
 
 # Run the scheduler until all events are processed
+
 try:
     scheduler.run()
 except KeyboardInterrupt:
@@ -120,6 +123,7 @@ scheduler.run()
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

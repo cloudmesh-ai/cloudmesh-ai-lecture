@@ -1,18 +1,18 @@
 # Efficient Python Project Management with uv
 
 !!! info "Learning Objectives"
-    - Install and verify `uv` across different operating systems.
-    - Manage virtual environments and execute code without manual activation.
-    - Implement deterministic dependency management using `uv.lock`.
-    - Transition existing `requirements.txt` projects to a `uv` workflow.
-    - Integrate `uv` into CI/CD pipelines to accelerate build times.
+ - Install and verify `uv` across different operating systems.
+ - Manage virtual environments and execute code without manual activation.
+ - Implement deterministic dependency management using `uv.lock`.
+ - Transition existing `requirements.txt` projects to a `uv` workflow.
+ - Integrate `uv` into CI/CD pipelines to accelerate build times.
 
 The Python packaging ecosystem has long been fragmented, requiring developers to juggle multiple tools: `pip` for installation, `venv` for isolation, and often third-party tools like Poetry or Pipenv for lock-file generation. This fragmentation often leads to "works on my machine" bugs and slow CI pipelines due to repeated dependency resolution.
 
 `uv` is a fast, Rust-based tool that unifies these workflows into a single executable. By replacing `pip`, `venv`, and traditional lock-file managers, `uv` provides a deterministic environment where every developer and production container runs the exact same package versions. This unification reduces cognitive load and dramatically increases the speed of dependency resolution.
 
 !!! info "Why this matters"
-    In a professional DevOps environment, consistency is critical. When dependency resolution is slow or non-deterministic, it introduces fragility into the delivery pipeline. `uv` minimizes this risk by providing near-instantaneous environment synchronization and a strict lock-file mechanism.
+ In a DevOps environment, consistency is critical. When dependency resolution is slow or non-deterministic, it introduces fragility into the delivery pipeline. `uv` minimizes this risk by providing near-instantaneous environment synchronization and a strict lock-file mechanism.
 
 ## Installing and Verifying uv
 
@@ -49,11 +49,11 @@ uv --version
 ```
 
 !!! warning "Path Configuration"
-    If the `uv` command is not found, you may need to manually add the installation directory to your shell profile. For the official script on Linux/macOS, add `export PATH="$HOME/.cargo/bin:$PATH"` to your `~/.bashrc` or `~/.zshrc`.
+ If the `uv` command is not found, you may need to manually add the installation directory to your shell profile. For the official script on Linux/macOS, add `export PATH="$HOME/.cargo/bin:$PATH"` to your `~/.bashrc` or `~/.zshrc`.
 
 ## Core Environment Management
 
-`uv` simplifies the creation and use of virtual environments, removing the need for the repetitive `source .venv/bin/activate` dance.
+`uv` simplifies the creation and use of virtual environments, removing the need for the repetitive `source.venv/bin/activate` dance.
 
 ### Creating an Environment
 
@@ -64,7 +64,7 @@ uv venv
 ```
 
 !!! info "Why this matters"
-    Creating an isolated environment ensures that project-specific dependencies do not conflict with global system packages, preventing "dependency hell" and making the project portable across different machines.
+ Creating an isolated environment ensures that project-specific dependencies do not conflict with global system packages, preventing "dependency hell" and making the project portable across different machines.
 
 ### Running Code without Activation
 
@@ -79,7 +79,7 @@ uv run python -m http.server
 ```
 
 !!! info "Why this matters"
-    Manual activation of virtual environments is error-prone; developers often forget to activate the environment or accidentally run commands in the wrong one. `uv run` explicitly binds the execution to the project's environment, ensuring consistency.
+ Manual activation of virtual environments is error-prone; developers often forget to activate the environment or accidentally run commands in the wrong one. `uv run` explicitly binds the execution to the project's environment, ensuring consistency.
 
 ## Dependency Management and Reproducibility
 
@@ -108,12 +108,12 @@ While `pyproject.toml` specifies version ranges (e.g., `requests>=2.31.0`), the 
 # Generate or update the lock file
 uv lock
 
-# Synchronize the .venv to exactly match the lock file
+# Synchronize the.venv to exactly match the lock file
 uv sync
 ```
 
 !!! info "Why this matters"
-    Without a lock file, two developers running `pip install` on the same `requirements.txt` might end up with different versions of sub-dependencies if a new version was released in between. `uv.lock` guarantees that every environment is a byte-for-byte replica of the others.
+ Without a lock file, two developers running `pip install` on the same `requirements.txt` might end up with different versions of sub-dependencies if a new version was released in between. `uv.lock` guarantees that every environment is a byte-for-byte replica of the others.
 
 ## Extended Tooling and Publishing
 
@@ -157,20 +157,20 @@ name: Tests
 on: [push, pull_request]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
-      - name: Install dependencies
-        run: uv sync
-      - name: Run test suite
-        run: uv run pytest
+ test:
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v4
+ - name: Install uv
+ run: curl -LsSf https://astral.sh/uv/install.sh | sh
+ - name: Install dependencies
+ run: uv sync
+ - name: Run test suite
+ run: uv run pytest
 ```
 
 !!! info "Why this matters"
-    Traditional `pip install` steps in CI often take minutes due to network latency and resolution logic. Because `uv` is written in Rust and uses an optimized resolution engine, it can reduce environment setup time from minutes to seconds, significantly accelerating the feedback loop for developers.
+ Traditional `pip install` steps in CI often take minutes due to network latency and resolution logic. Because `uv` is written in Rust and uses an optimized resolution engine, it can reduce environment setup time from minutes to seconds, significantly accelerating the feedback loop for developers.
 
 ## Migrating from Traditional Workflows
 
@@ -192,26 +192,26 @@ uv lock
 From this point forward, you can replace `pip install -r requirements.txt` with `uv sync`.
 
 !!! warning "Version Control"
-    Never commit the `.venv` directory to version control. It contains platform-specific binaries. Always commit `pyproject.toml` and `uv.lock`.
+ Never commit the `.venv` directory to version control. It contains platform-specific binaries. Always commit `pyproject.toml` and `uv.lock`.
 
 !!! tip "Summary Checklist"
-    - [ ] Installed `uv` and verified the version.
-    - [ ] Created a virtual environment using `uv venv`.
-    - [ ] Executed commands within the environment using `uv run`.
-    - [ ] Added and removed dependencies using `uv add` and `uv remove`.
-    - [ ] Generated a deterministic `uv.lock` file via `uv lock`.
-    - [ ] Synchronized an environment exactly to the lock file with `uv sync`.
-    - [ ] Installed a global CLI tool using `uv tool install`.
-    - [ ] Integrated `uv` into a CI pipeline.
+ - [ ] Installed `uv` and verified the version.
+ - [ ] Created a virtual environment using `uv venv`.
+ - [ ] Executed commands within the environment using `uv run`.
+ - [ ] Added and removed dependencies using `uv add` and `uv remove`.
+ - [ ] Generated a deterministic `uv.lock` file via `uv lock`.
+ - [ ] Synchronized an environment exactly to the lock file with `uv sync`.
+ - [ ] Installed a global CLI tool using `uv tool install`.
+ - [ ] Integrated `uv` into a CI pipeline.
 
 !!! note "Assignment 1: Basic Setup"
-    Install `uv` on your machine. Create a new directory, initialize a virtual environment, and verify that you can run `uv --version` and `uv venv`.
+ Install `uv` on your machine. Create a new directory, initialize a virtual environment, and verify that you can run `uv --version` and `uv venv`.
 
 !!! note "Assignment 2: Dependency Lifecycle"
-    Create a small project. Use `uv add` to install `httpx` and `rich`. Generate a `uv.lock` file, then delete the `.venv` directory and use `uv sync` to restore the environment exactly as it was.
+ Create a small project. Use `uv add` to install `httpx` and `rich`. Generate a `uv.lock` file, then delete the `.venv` directory and use `uv sync` to restore the environment exactly as it was.
 
 !!! note "Assignment 3: CI Integration"
-    Create a simple Python script and a corresponding `pytest` test. Write a local shell script (or a GitHub Action YAML) that installs `uv`, syncs dependencies, and runs the tests using `uv run pytest`.
+ Create a simple Python script and a corresponding `pytest` test. Write a local shell script (or a GitHub Action YAML) that installs `uv`, syncs dependencies, and runs the tests using `uv run pytest`.
 
 ## Further Reading
 
@@ -219,16 +219,16 @@ From this point forward, you can replace `pip install -r requirements.txt` with 
 ## Self Assessment
 
 ??? question "Self Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
-    ??? question "What does it mean for `uv` to provide 'deterministic' dependency management?"
-        It means that `uv` uses a lock-file (`uv.lock`) to record the exact versions of all dependencies and their transitive dependencies. This ensures that every developer and production environment installs the identical set of packages, eliminating \"works on my machine\" bugs.
+ ??? question "What does it mean for `uv` to provide 'deterministic' dependency management?"
+ It means that `uv` uses a lock-file (`uv.lock`) to record the exact versions of all dependencies and their transitive dependencies. This ensures that every developer and production environment installs the identical set of packages, eliminating \"works on my machine\" bugs.
 
-    ??? question "How does the `uv run` command improve the developer experience compared to traditional `venv` usage?"
-        `uv run` executes a script or command within the project's virtual environment automatically, removing the need for the developer to manually run `source .venv/bin/activate` before every command.
+ ??? question "How does the `uv run` command improve the developer experience compared to traditional `venv` usage?"
+ `uv run` executes a script or command within the project's virtual environment automatically, removing the need for the developer to manually run `source.venv/bin/activate` before every command.
 
-    ??? question "Why is `uv` significantly faster than `pip` in CI/CD pipelines?"
-        `uv` is written in Rust and uses an optimized resolution engine and a global cache, which reduces the time spent resolving dependencies and downloading packages from minutes to seconds.
+ ??? question "Why is `uv` significantly faster than `pip` in CI/CD pipelines?"
+ `uv` is written in Rust and uses an optimized resolution engine and a global cache, which reduces the time spent resolving dependencies and downloading packages from minutes to seconds.
 
 
 - [Official uv Documentation](https://docs.astral.sh/uv/)

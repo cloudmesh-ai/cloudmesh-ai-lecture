@@ -43,6 +43,7 @@ Subscribers can use wildcards to subscribe to multiple topics at once:
 
 - **Single-level wildcard (`+`)**: Matches one level in the hierarchy.
     - `datacenter/+/rack_4/server_12/temperature` matches any building in rack 4 on server 12.
+
 - **Multi-level wildcard (`#`)**: Matches all remaining levels in the hierarchy.
     - `datacenter/building_1/#` matches every single metric coming from building 1.
 
@@ -175,6 +176,7 @@ client.connect("mqtt.eclipseprojects.io", 1883, 60)
 Because MQTT is often used over public networks, security is mandatory.
 
 - **Authentication**: Use `client.username_pw_set("username", "password")` to authenticate with the broker.
+
 - **Encryption (TLS/SSL)**: Use `client.tls_set()` to wrap the connection in TLS. This prevents eavesdropping and Man-in-the-Middle (MITM) attacks.
 
 Example: Configuring TLS and authentication.
@@ -223,7 +225,11 @@ Test your knowledge by expanding the questions below.
 
 !!! note "Assignment 3: Robust IoT Gateway"
     Develop a system that implements the following:
+
     1. A publisher that sets an LWT message to "DISCONNECTED" on the topic `gateway/status`.
+
     2. The publisher sends heartbeats every 10 seconds using QoS 1.
+
     3. The publisher uses a Retained message to signal its current "Config Version".
+
     4. A subscriber that monitors `gateway/status` and alerts the user if a device goes OFFLINE.

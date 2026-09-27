@@ -2,13 +2,13 @@
 
 !!! info "Learning Objectives"
 
-    By the end of this chapter, you will be able to:
-    - Select and implement the appropriate data format (JSON, YAML, CSV, XML) based on the use case.
-    - Perform efficient text file operations, including line-by-line processing for large datasets.
-    - Extract structured data from HTML and XML using BeautifulSoup and ElementTree.
-    - Implement data serialization using Pickle while understanding its security implications.
-    - Apply asymmetric encryption to secure sensitive data using RSA keys via OpenSSL and Python.
-    - Integrate diverse data sources into a cohesive Python-based data processing pipeline.
+ By the end of this chapter, you will be able to:
+ - Select and implement the appropriate data format (JSON, YAML, CSV, XML) based on the use case.
+ - Perform efficient text file operations, including line-by-line processing for large datasets.
+ - Extract structured data from HTML and XML using BeautifulSoup and ElementTree.
+ - Implement data serialization using Pickle while understanding its security implications.
+ - Apply asymmetric encryption to secure sensitive data using RSA keys via OpenSSL and Python.
+ - Integrate diverse data sources into a cohesive Python-based data processing pipeline.
 
 In modern cloud and AI engineering, data rarely exists in a single format. A typical pipeline might ingest JSON from a REST API, read configuration from a YAML file, parse a CSV dataset for training, and store the final results in a database or an encrypted file. The ability to seamlessly translate between these formats—a process known as serialization and deserialization—is a fundamental skill for any backend or data engineer.
 
@@ -26,21 +26,24 @@ The `with` statement is the industry standard for file I/O, as it ensures the fi
 
 ```python
 # Reading the entire content of a file
+
 with open('filename.txt', 'r') as file:
-    content = file.read()
+ content = file.read()
 
 # Splitting content into a list of lines
+
 with open('filename.txt', 'r') as file:
-    lines = file.read().splitlines()
+ lines = file.read().splitlines()
 ```
 
 For large files that exceed available memory, reading the file line-by-line is mandatory to prevent system crashes.
 
 ```python
 # Memory-efficient line-by-line processing
+
 with open('filename.txt', 'r') as file:
-    for line in file:
-        print(line.strip())
+ for line in file:
+ print(line.strip())
 ```
 
 ### Comma Separated Values (CSV)
@@ -51,18 +54,20 @@ CSV files are used for tabular data. While a simple `.split(',')` might seem con
 import csv
 
 # Reading a CSV file using the csv module
+
 with open('data.csv', 'r') as f:
-    reader = csv.reader(f)
-    for row in reader:
-        print(row)
+ reader = csv.reader(f)
+ for row in reader:
+ print(row)
 ```
 
-For more complex data analysis, the `pandas` library provides a more powerful abstraction.
+For more complex data analysis, the `pandas` library provides a more abstraction.
 
 ```python
 import pandas as pd
 
 # Reading CSV directly into a DataFrame
+
 df = pd.read_csv("example.csv")
 ```
 
@@ -75,13 +80,15 @@ import json
 import yaml
 
 # JSON: Serialization and Deserialization
+
 data = {"project": "cloudmesh", "version": 1.0}
-json_string = json.dumps(data)  # Serialize to string
-parsed_data = json.loads(json_string)  # Deserialize back to dict
+json_string = json.dumps(data) # Serialize to string
+parsed_data = json.loads(json_string) # Deserialize back to dict
 
 # YAML: Reading a configuration file
+
 with open('config.yaml', 'r') as f:
-    config = yaml.safe_load(f)
+ config = yaml.safe_load(f)
 ```
 
 ## Structured and Web Data
@@ -96,12 +103,14 @@ XML is widely used in legacy enterprise systems and configuration formats. Pytho
 import xml.etree.ElementTree as ET
 
 # Parsing an XML file
+
 tree = ET.parse('data.xml')
 root = tree.getroot()
 
 # Searching for specific elements
+
 for elem in root.findall('item'):
-    print(elem.text)
+ print(elem.text)
 ```
 
 ### HTML and BeautifulSoup
@@ -116,14 +125,17 @@ html_doc = "<html><body><a class='sample' href='http://example.com'>Link 1</a></
 soup = BeautifulSoup(html_doc, 'html.parser')
 
 # Find the first 'a' tag
+
 search_elem = soup.find('a')
 print(search_elem.prettify())
 
 # Find all 'a' tags with a specific class
+
 search_elems = soup.find_all("a", class_="sample")
 pprint(search_elems)
 
 # Use CSS selectors for precise targeting
+
 a_tag_elems = soup.select('a.sample')
 print(a_tag_elems)
 ```
@@ -152,18 +164,20 @@ The `pickle` module allows for the serialization of almost any Python object. Ho
 import pickle
 
 flavor = {
-    "small": 100,
-    "medium": 1000,
-    "large": 10000
+ "small": 100,
+ "medium": 1000,
+ "large": 10000
 }
 
 # Serialize to a file
+
 with open("data.p", "wb") as f:
-    pickle.dump(flavor, f)
+ pickle.dump(flavor, f)
 
 # Deserialize from a file
+
 with open("data.p", "rb") as f:
-    loaded_flavor = pickle.load(f)
+ loaded_flavor = pickle.load(f)
 ```
 
 ### Configuration Management
@@ -189,15 +203,19 @@ In a Linux environment, this is often achieved using the `openssl` CLI:
 #! /bin/sh
 
 # 1. Create data
+
 echo "Sensitive Cloud Data" > file.txt
 
 # 2. Extract the public key into PEM format
+
 openssl rsa -in ~/.ssh/id_rsa -pubout > ~/.ssh/id_rsa.pub.pem
 
 # 3. Encrypt the file using the public key
+
 openssl rsautl -encrypt -pubin -inkey ~/.ssh/id_rsa.pub.pem -in file.txt -out secret.txt
 
 # 4. Decrypt the file using the private key
+
 openssl rsautl -decrypt -inkey ~/.ssh/id_rsa -in secret.txt
 ```
 
@@ -209,12 +227,15 @@ The `cloudmesh.ai.common.ssh.encrypt` module simplifies this process by wrapping
 from cloudmesh.ai.common.ssh.encrypt import EncryptFile
 
 # Initialize with source and destination paths
+
 e = EncryptFile('file.txt', 'secret.txt')
 
 # Encrypt the file using the default system SSH key
+
 e.encrypt()
 
 # Decrypt the file back to its original form
+
 e.decrypt()
 ```
 
@@ -227,44 +248,45 @@ For structured data that requires complex querying, flat files are replaced by d
 
 !!! tip "Summary Checklist"
 
-    - [ ] Implemented efficient file reading using the `with` statement.
-    - [ ] Used `csv.reader` instead of `.split(',')` to handle quoted fields.
-    - [ ] Applied `json.dumps()` and `json.loads()` for API data interchange.
-    - [ ] Used `BeautifulSoup` CSS selectors to extract data from HTML.
-    - [ ] Avoided `pickle` for untrusted data due to security risks.
-    - [ ] Implemented RSA encryption for sensitive files using `EncryptFile`.
-    - [ ] Selected the appropriate storage (CSV, JSON, or SQLite) based on data complexity.
+ - [ ] Implemented efficient file reading using the `with` statement.
+ - [ ] Used `csv.reader` instead of `.split(',')` to handle quoted fields.
+ - [ ] Applied `json.dumps()` and `json.loads()` for API data interchange.
+ - [ ] Used `BeautifulSoup` CSS selectors to extract data from HTML.
+ - [ ] Avoided `pickle` for untrusted data due to security risks.
+ - [ ] Implemented RSA encryption for sensitive files using `EncryptFile`.
+ - [ ] Selected the appropriate storage (CSV, JSON, or SQLite) based on data complexity.
 
 !!! note "Assignment 1: Format Conversion"
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
 ??? question "When is line-by-line processing mandatory over reading an entire file into memory?"
-    Line-by-line processing is mandatory when dealing with large datasets that exceed the available system RAM. Reading a multi-gigabyte file into memory would cause the process to crash due to an `OutOfMemory` error.
+ Line-by-line processing is mandatory when dealing with large datasets that exceed the available system RAM. Reading a multi-gigabyte file into memory would cause the process to crash due to an `OutOfMemory` error.
 
 ??? question "Why should you use the `csv` module instead of simply calling `.split(',')` on a line?"
-    The `csv` module correctly handles complex cases, such as fields that contain commas enclosed in double quotes, which a simple `.split(',')` would incorrectly split into multiple fields.
+ The `csv` module correctly handles complex cases, such as fields that contain commas enclosed in double quotes, which a simple `.split(',')` would incorrectly split into multiple fields.
 
 ??? question "Explain the security risk associated with the `pickle` module for untrusted data."
-    `pickle` can execute arbitrary Python code during deserialization. If an attacker provides a malicious pickle file, they can achieve Remote Code Execution (RCE) on the system running the `pickle.load()` command.
+ `pickle` can execute arbitrary Python code during deserialization. If an attacker provides a malicious pickle file, they can achieve Remote Code Execution (RCE) on the system running the `pickle.load()` command.
 
 
-    **Task**: Create a CSV file with three columns (Name, Role, Email). Write a Python script that reads this CSV and converts it into a JSON array of objects.
-    **Goal**: Practice basic data transformation between two common interchange formats.
+ **Task**: Create a CSV file with three columns (Name, Role, Email). Write a Python script that reads this CSV and converts it into a JSON array of objects.
+ **Goal**: Practice basic data transformation between two common interchange formats.
 
 !!! note "Assignment 2: Web Data Extraction"
 
-    **Task**: Write a script using `BeautifulSoup` to fetch a webpage and extract all links (`<a>` tags) that have a specific class or are located within a specific `div` ID.
-    **Goal**: Master the use of CSS selectors and the DOM tree for data extraction.
+ **Task**: Write a script using `BeautifulSoup` to fetch a webpage and extract all links (`<a>` tags) that have a specific class or are located within a specific `div` ID.
+ **Goal**: Master the use of CSS selectors and the DOM tree for data extraction.
 
 !!! note "Assignment 3: Secure Data Pipeline"
 
-    **Task**: Implement a pipeline that:
-    1. Reads a sensitive configuration from a YAML file.
-    2. Serializes the configuration to a JSON string.
-    3. Encrypts the resulting JSON file using the `EncryptFile` class.
-    4. Decrypts the file and verifies the content matches the original YAML.
-    **Goal**: Integrate serialization and encryption into a single secure workflow.
+ **Task**: Implement a pipeline that:
+ 1. Reads a sensitive configuration from a YAML file.
+ 2. Serializes the configuration to a JSON string.
+ 3. Encrypts the resulting JSON file using the `EncryptFile` class.
+ 4. Decrypts the file and verifies the content matches the original YAML.
+ **Goal**: Integrate serialization and encryption into a single secure workflow.

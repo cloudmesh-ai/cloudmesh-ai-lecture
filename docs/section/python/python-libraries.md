@@ -2,16 +2,16 @@
 
 !!! info "Learning Objectives"
 
-    By the end of this chapter, you will be able to:
-    - Install and manage third-party Python libraries using `pip` and the Python Package Index (PyPI).
-    - Implement environment isolation using virtual environments (`venv`) to prevent system-wide dependency conflicts.
-    - Utilize automatic formatting and linting tools such as `autopep8` and `pylint` to maintain professional code quality.
-    - Develop simple graphical user interfaces (GUIs) using libraries like `guizero` and `Kivy`.
-    - Evaluate various Python distributions and versions to determine the appropriate runtime for production and development.
+ By the end of this chapter, you will be able to:
+ - Install and manage third-party Python libraries using `pip` and the Python Package Index (PyPI).
+ - Implement environment isolation using virtual environments (`venv`) to prevent system-wide dependency conflicts.
+ - Utilize automatic formatting and linting tools such as `autopep8` and `pylint` to maintain code quality.
+ - Develop simple graphical user interfaces (GUIs) using libraries like `guizero` and `Kivy`.
+ - Evaluate various Python distributions and versions to determine the appropriate runtime for production and development.
 
 The Python standard library is extensive, following a "batteries included" philosophy. However, the true strength of Python lies in its vast ecosystem of third-party libraries. Whether you need to perform complex mathematical operations, interface with cloud APIs, or build a graphical user interface, there is likely an existing implementation available on the Python Package Index (PyPI).
 
-In professional software engineering, the challenge is not just finding the right library, but managing its installation and dependencies. Installing packages globally can lead to "dependency hell," where two different projects require conflicting versions of the same library. To mitigate this, engineers use isolation tools and formatting standards to ensure that code is portable, maintainable, and stable.
+In software engineering, the challenge is not just finding the right library, but managing its installation and dependencies. Installing packages globally can lead to "dependency hell," where two different projects require conflicting versions of the same library. To mitigate this, engineers use isolation tools and formatting standards to ensure that code is portable, maintainable, and stable.
 
 ## The Python Package Index (PyPI) and pip
 
@@ -23,6 +23,7 @@ To ensure compatibility with the latest package standards and security patches, 
 
 ```bash
 pip install -U pip
+
 ```
 
 ### Installing Packages
@@ -33,19 +34,23 @@ Example of installing multiple packages:
 
 ```bash
 $ pip install autopep8 pylint
+
 ```
 
 This command triggers a sequence of actions: `pip` downloads the packages from PyPI, extracts the archives, resolves and installs all required dependencies, and finally installs the requested tools.
 
 ## Environment Isolation with venv
 
-Installing libraries globally is a discouraged practice in professional development. A system-wide installation can break OS-level tools that rely on specific Python versions. Instead, engineers use virtual environments.
+Installing libraries globally is a discouraged practice in development. A system-wide installation can break OS-level tools that rely on specific Python versions. Instead, engineers use virtual environments.
 
 ### The Purpose of Isolation
 
 A virtual environment (`venv`) is a self-contained directory tree that contains a Python installation for a particular version of Python, plus a number of additional packages. By using a `venv`, you ensure that:
+
 1. Project dependencies are isolated from the system.
+
 2. Different projects can use different versions of the same library.
+
 3. The environment can be easily recreated on another machine using a `requirements.txt` file.
 
 ### Workflow for Virtual Environments
@@ -61,6 +66,7 @@ source env/bin/activate
 
 # Install packages only within this environment
 pip install requests
+
 ```
 
 ## Code Quality and Formatting
@@ -79,6 +85,7 @@ $ wget --no-check-certificate http://git.io/pXqb -O bad_code_example.py
 
 # Format the code in-place using autopep8
 $ autopep8 --in-place bad_code_example.py
+
 ```
 
 ### Static Analysis with pylint
@@ -96,6 +103,7 @@ Python provides several options for creating visual applications, ranging from s
 ```bash
 # Install guizero
 pip install guizero
+
 ```
 
 For a comprehensive guide on creating interfaces with `guizero`, refer to the [GUIZero How-To](https://lawsie.github.io/guizero/howto/).
@@ -114,9 +122,11 @@ brew install pkg-config sdl2 sdl2_image sdl2_ttf sdl2_mixer gstreamer
 pip install -U Cython
 pip install kivy
 pip install pygame
+
 ```
 
 A practical example of a Kivy application can be found in the `cloudmesh.robot` repository:
+
 - [Kivy Project Source](https://github.com/cloudmesh/cloudmesh.robot/tree/master/projects/kivy)
 
 To execute the example program:
@@ -124,6 +134,7 @@ To execute the example program:
 ```bash
 cd cloudmesh.robot/projects/kivy
 python swim.py
+
 ```
 
 ## Python Distributions and Versions
@@ -136,58 +147,63 @@ The standard version of Python downloaded from `python.org` is known as CPython.
 
 ### Specialized Distributions
 
-- **IronPython**: An implementation of Python that runs on the .NET framework.
+- **IronPython**: An implementation of Python that runs on the.NET framework.
+
 - **Anaconda/Canopy**: Heavy distributions focused on data science. While convenient for beginners, these are often avoided in production due to their size and the potential for environment bloat.
 
-Professional best practice is to use a minimal CPython installation combined with `pyenv` for version management and `venv` for project isolation.
+Best practice is to use a minimal CPython installation combined with `pyenv` for version management and `venv` for project isolation.
 
 !!! tip "Summary Checklist"
 
-    - [ ] Updated `pip` to the latest version.
-    - [ ] Installed third-party packages using `pip install`.
-    - [ ] Created and activated a virtual environment using `venv`.
-    - [ ] Formatted code using `autopep8` to meet PEP 8 standards.
-    - [ ] Ran `pylint` to identify static analysis issues in the code.
-    - [ ] Identified the appropriate GUI library (`guizero` vs `Kivy`) based on project needs.
-    - [ ] Selected a lightweight Python distribution for production deployment.
+ - [ ] Updated `pip` to the latest version.
+ - [ ] Installed third-party packages using `pip install`.
+ - [ ] Created and activated a virtual environment using `venv`.
+ - [ ] Formatted code using `autopep8` to meet PEP 8 standards.
+ - [ ] Ran `pylint` to identify static analysis issues in the code.
+ - [ ] Identified the appropriate GUI library (`guizero` vs `Kivy`) based on project needs.
+ - [ ] Selected a lightweight Python distribution for production deployment.
 
 !!! note "Assignment 1: Library Management"
 
-    **Task**: Create a new project directory. Initialize a virtual environment, activate it, and install the `requests` and `pylint` libraries. Generate a `requirements.txt` file using `pip freeze`.
-    **Goal**: Master the basic lifecycle of environment and dependency management.
+ **Task**: Create a new project directory. Initialize a virtual environment, activate it, and install the `requests` and `pylint` libraries. Generate a `requirements.txt` file using `pip freeze`.
+ **Goal**: Master the basic lifecycle of environment and dependency management.
 
 !!! note "Assignment 2: Code Refactoring"
 
-    **Task**: Write a Python script with intentionally poor formatting (excessive whitespace, inconsistent indentation, and long lines). Use `autopep8` to format the file and `pylint` to analyze the remaining logical issues.
-    **Goal**: Implement an automated code quality pipeline.
+ **Task**: Write a Python script with intentionally poor formatting (excessive whitespace, inconsistent indentation, and long lines). Use `autopep8` to format the file and `pylint` to analyze the remaining logical issues.
+ **Goal**: Implement an automated code quality pipeline.
 
 !!! note "Assignment 3: Interactive Interface"
 
-    **Task**: Use `guizero` to create a simple window with a text input field and a button. When the button is clicked, the application should print the content of the input field to the console.
-    **Goal**: Implement a basic event-driven GUI application.
+ **Task**: Use `guizero` to create a simple window with a text input field and a button. When the button is clicked, the application should print the content of the input field to the console.
+ **Goal**: Implement a basic event-driven GUI application.
 
 ## Resources
 
 The following resources are recommended for further study of Python libraries and environments:
 
 - [Python Package Index (PyPI)](https://pypi.org/) - The central repository for Python libraries.
+
 - [Pyenv GitHub](https://github.com/yyuu/pyenv) - Version management for Python.
+
 - [Virtualenvwrapper](https://virtualenvwrapper.readthedocs.io) - Extensions for managing multiple virtual environments.
+
 - [Awesome Python](https://github.com/vinta/awesome-python) - A curated list of the best Python frameworks and libraries.
+
 - [Learn Python the Hard Way](http://learnpythonthehardway.org/book/) - A practical approach to learning Python.
 
 
 ## Self Assessment
 
 ??? question "Self Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
-    ??? question "What is the risk of installing Python libraries globally on an operating system?"
-        Global installation can lead to \"dependency hell,\" where two different projects require conflicting versions of the same library, or worse, it can break OS-level tools that rely on a specific version of the system Python.
+ ??? question "What is the risk of installing Python libraries globally on an operating system?"
+ Global installation can lead to \"dependency hell,\" where two different projects require conflicting versions of the same library, or worse, it can break OS-level tools that rely on a specific version of the system Python.
 
-    ??? question "How does a `requirements.txt` file facilitate the recreation of a virtual environment?"
-        A `requirements.txt` file lists all the packages and their versions used in a project. Another developer can recreate the exact same environment by running `pip install -r requirements.txt` within a fresh virtual environment.
+ ??? question "How does a `requirements.txt` file facilitate the recreation of a virtual environment?"
+ A `requirements.txt` file lists all the packages and their versions used in a project. Another developer can recreate the exact same environment by running `pip install -r requirements.txt` within a fresh virtual environment.
 
-    ??? question "When would you choose `Kivy` over `guizero` for building a Python GUI?"
-        You would choose `Kivy` for professional, touch-enabled, or cross-platform applications (Android/iOS), whereas `guizero` is better for simple, lightweight desktop tools and educational purposes.
+ ??? question "When would you choose `Kivy` over `guizero` for building a Python GUI?"
+ You would choose `Kivy` for, touch-enabled, or cross-platform applications (Android/iOS), whereas `guizero` is better for simple, lightweight desktop tools and educational purposes.
 

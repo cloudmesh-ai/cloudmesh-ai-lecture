@@ -1,11 +1,11 @@
 # Hatch vs uv: Project Management and Dependency Installation
 
 !!! info "Learning Objectives"
-    After completing this tutorial, you will be able to:
-    - Distinguish between a project manager (Hatch) and a package installer (uv).
-    - Evaluate when to use Hatch for project orchestration and publishing.
-    - Implement `uv` to accelerate dependency resolution and virtual environment creation in CI/CD.
-    - Configure a hybrid workflow using Hatch for orchestration and `uv` for installation speed.
+ After completing this tutorial, you will be able to:
+ - Distinguish between a project manager (Hatch) and a package installer (uv).
+ - Evaluate when to use Hatch for project orchestration and publishing.
+ - Implement `uv` to accelerate dependency resolution and virtual environment creation in CI/CD.
+ - Configure a hybrid workflow using Hatch for orchestration and `uv` for installation speed.
 
 Choosing between Hatch and `uv` depends on whether you need full-lifecycle project orchestration or high-performance dependency management.
 
@@ -34,7 +34,7 @@ In a benchmark creating a virtual environment and installing a modest set of dep
 ### Benchmark Results (Illustrative)
 
 | Step | Hatch | uv |
-| :--- | :--- | :--- |
+|:--- |:--- |:--- |
 | **Env Creation** | $\approx$ 2.8s | $\approx$ 0.3s |
 | **Dependency Install** | Included in Env Create | $\approx$ 1.1s |
 | **Sanity Check** | $\approx$ 0.6s | $\approx$ 0.4s |
@@ -96,7 +96,7 @@ Use `uv` when installation speed and a lightweight footprint are the primary con
 
 ```bash
 # 1. Create virtual environment
-uv venv .venv
+uv venv.venv
 
 # 2. Install dependencies fast
 uv pip install -r requirements.txt
@@ -142,21 +142,21 @@ By delegating the installation step to `uv`, `hatch env create` becomes signific
 ## Assignments
 
 !!! note "Assignment: Tooling Migration"
-    1. **Project Setup**: Initialize a new project using `hatch new`.
-    2. **Dependency Management**: Add three common libraries to `pyproject.toml`.
-    3. **Speed Test**: Compare the time taken by `hatch env create` versus creating a venv with `uv venv` and installing the same dependencies via `uv pip install`.
-    4. **Hybrid Config**: Implement the hybrid configuration in `pyproject.toml` to use `uv` as the installer for Hatch.
-    5. **Verification**: Run `hatch env prune` and then `hatch env create` to verify the speed increase.
+ 1. **Project Setup**: Initialize a new project using `hatch new`.
+ 2. **Dependency Management**: Add three common libraries to `pyproject.toml`.
+ 3. **Speed Test**: Compare the time taken by `hatch env create` versus creating a venv with `uv venv` and installing the same dependencies via `uv pip install`.
+ 4. **Hybrid Config**: Implement the hybrid configuration in `pyproject.toml` to use `uv` as the installer for Hatch.
+ 5. **Verification**: Run `hatch env prune` and then `hatch env create` to verify the speed increase.
 
 ---
 
 ## Self-Evaluation
 
 ??? note "If you need to manage project metadata and publishing, why is Hatch a better choice than uv?"
-    Hatch is a full project manager that handles scaffolding, versioning, and publishing to PyPI. `uv` is primarily a high-performance package installer and resolver; it does not manage project metadata or the publishing lifecycle.
+ Hatch is a full project manager that handles scaffolding, versioning, and publishing to PyPI. `uv` is primarily a high-performance package installer and resolver; it does not manage project metadata or the publishing lifecycle.
 
 ??? note "How can you achieve both orchestration (Hatch) and installation speed (uv) in the same project?"
-    By configuring Hatch to use `uv` as the internal installer. This can be done by defining a custom script in `pyproject.toml` that invokes `uv pip install` instead of the default pip.
+ By configuring Hatch to use `uv` as the internal installer. This can be done by defining a custom script in `pyproject.toml` that invokes `uv pip install` instead of the default pip.
 
 ??? note "When is `uv run` more advantageous than traditional virtual environment activation?"
-    `uv run` allows executing a script within an environment without manually activating it. It is especially powerful for one-off scripts because it can create a temporary environment, install dependencies, and run the code in a single step.
+ `uv run` allows executing a script within an environment without manually activating it. It is especially for one-off scripts because it can create a temporary environment, install dependencies, and run the code in a single step.

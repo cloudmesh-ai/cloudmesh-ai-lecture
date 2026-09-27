@@ -1,11 +1,11 @@
 # Data Analysis and Big Data with Python
 
 !!! info "Learning Objectives"
-    - Utilize the SciPy ecosystem (NumPy, Pandas, Matplotlib) for data manipulation and visualization.
-    - Load, clean, and explore large datasets using Pandas DataFrames.
-    - Perform statistical analysis and generate data visualizations.
-    - Implement data parsing techniques for semi-structured files.
-    - Understand and apply parallel computing concepts using Dask for larger-than-memory datasets.
+ - Utilize the SciPy ecosystem (NumPy, Pandas, Matplotlib) for data manipulation and visualization.
+ - Load, clean, and explore large datasets using Pandas DataFrames.
+ - Perform statistical analysis and generate data visualizations.
+ - Implement data parsing techniques for semi-structured files.
+ - Understand and apply parallel computing concepts using Dask for larger-than-memory datasets.
 
 Working with large datasets in Python requires a move away from standard lists and loops toward vectorized operations and specialized data structures. The "Big Data" challenge in Python primarily revolves around memory management; since Python objects have significant overhead, loading a multi-gigabyte CSV into a standard list can quickly exhaust system RAM.
 
@@ -37,10 +37,12 @@ Data is often distributed across multiple files (e.g., by quarter). The first st
 
 ```bash
 # Create a project directory for the dataset
+
 mkdir btown-citations
 cd btown-citations
 
 # Download the first quarter citations data
+
 wget https://data.bloomington.in.gov/dataset/c543f0c1-1e37-46ce-a0ba-e0a949bd248a/resource/24841976-fd35-4483-a2b4-573bd1e77cfb/download/2016-first-quarter-citations.csv
 ```
 
@@ -56,25 +58,32 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the dataset into a Pandas DataFrame
+
 data = pd.read_csv('2016-first-quarter-citations.csv')
 
 # Verify the object type
+
 print(f"Object Type: {type(data)}")
 # Output: <class 'pandas.core.frame.DataFrame'>
 
 # Inspect the index (the row labels)
+
 print(f"Index: {data.index}")
 
 # Inspect the columns (the column names)
+
 print(f"Columns: {data.columns}")
 
 # Preview the first few rows of data
+
 print(data.head())
 
 # Check for data types and identify missing values (nulls)
+
 print(data.info())
 
 # Generate a summary of central tendency and dispersion for numerical columns
+
 print(data.describe())
 ```
 
@@ -86,14 +95,17 @@ Example: Cleaning the \"Cited Person Age\" column.
 
 ```python
 # Identify the number of missing values in the age column
+
 missing_ages = data['Cited Person Age'].isnull().sum()
 print(f"Number of missing ages: {missing_ages}")
 
 # Fill missing values with the median age to maintain statistical distribution
+
 median_age = data['Cited Person Age'].median()
 data['Cited Person Age'] = data['Cited Person Age'].fillna(median_age)
 
 # Convert the column to an integer type for analysis
+
 data['Cited Person Age'] = data['Cited Person Age'].astype(int)
 ```
 
@@ -120,20 +132,20 @@ Not all data arrives in clean CSV formats. Semi-structured data, such as Markdow
 
 ### Parsing Semi-Structured Text
 
-A common task is parsing a `notebook.md` file to track student progress. In a professional automation context, this is often implemented as a CLI command.
+A common task is parsing a `notebook.md` file to track student progress. In a automation context, this is often implemented as a CLI command.
 
 Example: CLI specification for a notebook parser.
 
 ```text
 cms class notebook [--git=GITREPONAME] --verify hid
-    verifies the correctness of the notebook.md file
+ verifies the correctness of the notebook.md file
 
 cms class notebook [--git=GITREPONAME] --log
-    displays the log of the notebook.md
+ displays the log of the notebook.md
 
 cms class notebook [--git=GITREPONAME] --history
-    displays a true or false for each week since the first occurrence
-    of the notebook.md file in the git repository
+ displays a true or false for each week since the first occurrence
+ of the notebook.md file in the git repository
 ```
 
 Example: Basic implementation of a line-by-line parser.
@@ -142,15 +154,15 @@ Example: Basic implementation of a line-by-line parser.
 import re
 
 def parse_notebook(filepath):
-    results = []
-    with open(filepath, 'r') as f:
-        for line in f:
-            # Search for lines indicating a completed task
-            if "Completed:" in line:
-                # Extract the task name after the marker
-                task = line.split("Completed:")[1].strip()
-                results.append(task)
-    return results
+ results = []
+ with open(filepath, 'r') as f:
+ for line in f:
+ # Search for lines indicating a completed task
+ if "Completed:" in line:
+ # Extract the task name after the marker
+ task = line.split("Completed:")[1].strip()
+ results.append(task)
+ return results
 ```
 
 ### Extracting Data from LaTeX
@@ -163,17 +175,22 @@ Example: Using regular expressions to extract `\\video{name}{length}`.
 import re
 
 # Sample LaTeX content containing video macros
+
 latex_content = r"This section covers basics in \video{Introduction to Python}{10:30} and advanced topics in \video{Asyncio Deep Dive}{15:45}"
 
 # Pattern explanation:
+
 # \\video matches the literal '\video'
+
 # \{([^}]*)\} captures everything inside the first curly braces (the name)
+
 # \{([^}]*)\} captures everything inside the second curly braces (the length)
+
 pattern = r"\\\\video\{([^}]*)\}\{([^}]*)\}"
 
 matches = re.findall(pattern, latex_content)
 for name, length in matches:
-    print(f"Video: {name}, Length: {length}")
+ print(f"Video: {name}, Length: {length}")
 ```
 
 ## Scaling with Dask
@@ -195,10 +212,12 @@ import pandas as pd
 import dask.dataframe as dd
 
 # Pandas: Loads the entire file into memory (Sequential execution)
+
 df_pandas = pd.read_csv('large_dataset.csv')
 pandas_sum = df_pandas['value'].sum()
 
 # Dask: Loads data lazily and processes in parallel (Distributed execution)
+
 df_dask = dd.read_csv('large_dataset.csv')
 dask_sum = df_dask['value'].sum().compute()
 
@@ -206,33 +225,34 @@ print(f"Pandas Sum: {pandas_sum}, Dask Sum: {dask_sum}")
 ```
 
 !!! tip "Summary Checklist"
-    - Used NumPy for efficient array operations and vectorization.
-    - Loaded and explored datasets using Pandas DataFrames.
-    - Performed data cleaning by handling missing values and type conversion.
-    - Generated statistical visualizations using Matplotlib.
-    - Implemented custom text parsers using regex for semi-structured files.
-    - Transitioned from Pandas to Dask for larger-than-memory datasets.
+ - Used NumPy for efficient array operations and vectorization.
+ - Loaded and explored datasets using Pandas DataFrames.
+ - Performed data cleaning by handling missing values and type conversion.
+ - Generated statistical visualizations using Matplotlib.
+ - Implemented custom text parsers using regex for semi-structured files.
+ - Transitioned from Pandas to Dask for larger-than-memory datasets.
 
 !!! note "Assignment 1: Data Exploration"
 
 
 ## Self-Assessment
+
 !!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+ Test your knowledge by expanding the questions below.
 
 ??? question "What is the main advantage of NumPy's `ndarray` over standard Python lists for big data?"
-    `ndarray` is significantly more memory-efficient and supports vectorization, allowing mathematical operations to be performed on entire arrays without explicit `for` loops, which is orders of magnitude faster.
+ `ndarray` is significantly more memory-efficient and supports vectorization, allowing mathematical operations to be performed on entire arrays without explicit `for` loops, which is orders of magnitude faster.
 
 ??? question "How does Dask's approach to data processing differ from Pandas' approach?"
-    Pandas uses eager evaluation, loading the entire dataset into RAM. Dask uses lazy evaluation, partitioning the data and building a task graph that is executed in parallel only when `compute()` is called.
+ Pandas uses eager evaluation, loading the entire dataset into RAM. Dask uses lazy evaluation, partitioning the data and building a task graph that is executed in parallel only when `compute()` is called.
 
 ??? question "Why is regular expression (regex) parsing useful for semi-structured files like LaTeX or system logs?"
-    Regex allows for the definition of flexible patterns to extract specific data (e.g., timestamps, IDs, or macro arguments) from text that does not follow a strict tabular format like CSV or JSON.
+ Regex allows for the definition of flexible patterns to extract specific data (e.g., timestamps, IDs, or macro arguments) from text that does not follow a strict tabular format like CSV or JSON.
 
-    Download a public dataset from data.gov. Use Pandas to load the data, identify columns with the most missing values, and generate a histogram for one of the numerical columns.
+ Download a public dataset from data.gov. Use Pandas to load the data, identify columns with the most missing values, and generate a histogram for one of the numerical columns.
 
 !!! note "Assignment 2: Custom Log Parser"
-    Write a tool that parses a system log file. The tool should identify all lines containing "ERROR" or "CRITICAL", extract the timestamp, and output the results to a CSV file.
+ Write a tool that parses a system log file. The tool should identify all lines containing "ERROR" or "CRITICAL", extract the timestamp, and output the results to a CSV file.
 
 !!! note "Assignment 3: Dask Performance Study"
-    Create a large CSV file (e.g., 1 million rows). Implement the same aggregation logic (e.g., mean of a column) using both Pandas and Dask. Measure the execution time and memory usage for both and report the findings.
+ Create a large CSV file (e.g., 1 million rows). Implement the same aggregation logic (e.g., mean of a column) using both Pandas and Dask. Measure the execution time and memory usage for both and report the findings.
