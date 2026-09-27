@@ -1,15 +1,27 @@
+## Learning Objectives
 
-Below is a quick, programmatic way to fetch **everything that is directly reachable from** `https://openclaw.ai/ecosystem` (the HTML page itself and the static resources it references such as images, CSS, JavaScript, PDFs, etc.).  
+!!! info "Learning Objectives"
+    By the end of this chapter, you will be able to:
+    - Programmatically fetch static resources from a web page.
+    - Use Python to parse HTML and identify downloadable assets.
+    - Normalize relative URLs to absolute paths for resource retrieval.
+    - Rewrite HTML links to enable offline viewing of a web page.
 
-The script:
+## Overview
 
-1. **Downloads the HTML** of the page.  
-2. **Parses the markup** to collect URLs of linked resources ( `<img>`, `<link rel="stylesheet">`, `<script src>`, `<a href>` that point to files such as PDFs, PNGs, JPGs, etc.).  
-3. **Normalises relative URLs** to absolute URLs.  
-4. **Downloads each resource** into a local folder called `openclaw_ecosystem/`.  
-5. **Creates a small `index.html`** that references the downloaded assets so you can open the page offline and see it rendered correctly.
+Below is a programmatic method to fetch everything that is directly reachable from `https://openclaw.ai/ecosystem` (the HTML page itself and the static resources it references such as images, CSS, JavaScript, PDFs, etc.).
 
-You can run the code in a Python environment that has internet access (e.g., your local machine, a virtual‑env, or any notebook).  
+## Programmatic Asset Retrieval
+
+The script performs the following operations:
+
+1. **Downloads the HTML** of the page.
+2. **Parses the markup** to collect URLs of linked resources (`<img>`, `<link rel="stylesheet">`, `<script src>`, `<a href>` that point to files such as PDFs, PNGs, JPGs, etc.).
+3. **Normalises relative URLs** to absolute URLs.
+4. **Downloads each resource** into a local folder called `openclaw_ecosystem/`.
+5. **Creates a small `index.html`** that references the downloaded assets so the page can be opened offline and rendered correctly.
+
+This code can be run in any Python environment with internet access.
 
 ```python
 import os, re, sys, json, hashlib
@@ -23,7 +35,7 @@ from bs4 import BeautifulSoup
 BASE_URL = "https://openclaw.ai/ecosystem"
 OUTPUT_DIR = "openclaw_ecosystem"
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; OpenClawDownloader/1.0)"}
-# file extensions we consider “downloadable” assets (you can extend this list)
+# file extensions we consider "downloadable" assets
 DOWNLOADABLE_EXTS = {
     ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp",
     ".css", ".js",
@@ -35,7 +47,7 @@ DOWNLOADABLE_EXTS = {
 # Helper utilities
 # ------------------------------------------------------------------
 def safe_filename(url):
-    """Create a reproducible, filesystem‑safe filename from a URL."""
+    """Create a reproducible, filesystem-safe filename from a URL."""
     url = urldefrag(url)[0]            # strip fragment
     parsed = urlparse(url)
     path = parsed.path
@@ -144,40 +156,89 @@ with open(main_path, "w", encoding="utf-8") as f:
 print(f"\nAll assets downloaded. Open the offline page at: {main_path}")
 ```
 
-### What the script does
+### Execution Summary
 
 | Step | Result |
 |------|--------|
 | **Fetch main page** | Saves the original HTML as `openclaw_ecosystem/index.html`. |
 | **Collect assets** | Gathers every image, stylesheet, script, and direct file link (PDF, DOCX, etc.) that the page references. |
 | **Download assets** | Stores each file under the same directory hierarchy as on the site (e.g., `openclaw_ecosystem/static/css/style.css`). |
-| **Rewrite links** | Alters the saved `index.html` so that all `src`/`href` attributes now point to the locally‑saved copies, enabling offline viewing. |
-| **Final output** | You can open `openclaw_ecosystem/index.html` in any browser and the page will render exactly as on the live site (provided the assets are not dynamically fetched via APIs that require authentication). |
+| **Rewrite links** | Alters the saved `index.html` so that all `src`/`href` attributes now point to the locally-saved copies. |
+| **Final output** | The `openclaw_ecosystem/index.html` file can be opened in any browser for offline viewing. |
 
-### How to run it
+### Implementation Steps
 
-1. **Install required Python packages** (if you don’t already have them):
+1. **Install required Python packages**:
 
    ```bash
    pip install requests beautifulsoup4
    ```
 
-2. **Save the script** to a file, e.g. `download_openclaw_ecosystem.py`.  
-3. **Execute**:
+2. **Save the script** to a file, such as `download_openclaw_ecosystem.py`.
+
+3. **Execute the script**:
 
    ```bash
    python download_openclaw_ecosystem.py
    ```
 
-4. After the script finishes, navigate to the created folder `openclaw_ecosystem` and open `index.html` in a browser. All images, styles, and downloadable files will be available offline.
+4. Navigate to the `openclaw_ecosystem` folder and open `index.html` in a browser.
 
-### Things to keep in mind
+## Technical Constraints
 
-* **Robots & Terms of Service** – The script respects the public‑facing structure of the site, but you should verify that your usage complies with OpenClaw’s terms of service or any `robots.txt` rules.  
-* **Dynamic content** – Some parts of modern sites are loaded via client‑side JavaScript (e.g., API calls for dashboards). This downloader captures only the static assets that are directly linked in the HTML. Dynamic data won’t be saved unless the page embeds it in the markup.  
-* **Rate‑limiting** – The script makes a request per asset. If you plan to scrape many pages from the same domain, consider adding a short `time.sleep()` between requests to avoid overloading the server.  
-* **Authentication‑protected files** – If the ecosystem page contains links that require a login session or API token, the script will receive a 403/401 response and skip those files. You would need to add the appropriate headers/cookies manually.
+* **Robots & Terms of Service** - Verify that usage complies with OpenClaw terms of service and `robots.txt` rules.
+* **Dynamic Content** - This downloader captures static assets linked in the HTML. Data loaded via client-side JavaScript APIs is not captured.
+* **Rate Limiting** - For large-scale scraping, implement `time.sleep()` between requests to avoid server overload.
+* **Authentication** - Links requiring login sessions or API tokens will result in 403/401 responses.
 
----
+## Summary Checklist
 
-**In short:** Yes—you can download the entire “ecosystem” page and its static resources using the Python script above. Once run, you’ll have a local, self‑contained copy that can be opened offline or further processed (e.g., archived, converted to PDF, etc.). If you need any modifications (e.g., recursive crawling of linked sub‑pages, handling of additional MIME types, or adding a delay between requests), let me know and I can adjust the script accordingly.
+- [ ] Python environment configured with `requests` and `beautifulsoup4`.
+- [ ] Target URL defined in `BASE_URL`.
+- [ ] Assets downloaded to local directory.
+- [ ] HTML links rewritten to relative local paths.
+- [ ] Offline page verified in browser.
+
+## Assignments
+
+!!! note "Assignment.1: Extend Asset Types"
+    Modify the `DOWNLOADABLE_EXTS` set in the script to include additional file formats (e.g., `.zip`, `.tar.gz`) and verify that these files are correctly identified and downloaded.
+
+??? tip "Solution: Extend Asset Types"
+    Add the desired extensions to the `DOWNLOADABLE_EXTS` set:
+    ```python
+    DOWNLOADABLE_EXTS = {
+        # ... existing extensions ...
+        ".zip", ".tar.gz", ".7z"
+    }
+    ```
+
+!!! note "Assignment.2: Implement Request Delay"
+    To prevent server overload, add a 1-second delay between each file download using the `time` module.
+
+??? tip "Solution: Implement Request Delay"
+    Import the `time` module and add `time.sleep(1)` inside the download loop:
+    ```python
+    import time
+    # ...
+    for url in sorted(asset_urls):
+        # ...
+        download_file(url, local_path)
+        time.sleep(1)
+    ```
+
+## References
+
+- [BeautifulSoup Documentation](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+- [Requests Library Documentation](https://requests.readthedocs.io/)
+
+## Self-Evaluation
+
+??? note "How does the script handle relative URLs found in the HTML?"
+    The script uses `urllib.parse.urljoin` to combine the `BASE_URL` with relative paths, converting them into absolute URLs before downloading.
+
+??? note "What is the purpose of the `safe_filename` function?"
+    It ensures that URLs are converted into valid filesystem paths by removing fragments, normalizing paths, and replacing unsafe characters with underscores.
+
+??? note "Why are the HTML links rewritten after downloading assets?"
+    The original HTML contains absolute URLs pointing to the live server. Rewriting them to relative paths ensures the page renders correctly when opened from the local filesystem without an internet connection.
