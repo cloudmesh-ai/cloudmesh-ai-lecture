@@ -111,7 +111,7 @@ Historically, the company developed VMware Workstation, which was one of the ear
 Because its initial software virtualized fundamental system components—including "hardware for a video adapter, a network adapter, and hard disk adapters," alongside "pass-through drivers for guest USB, serial, and parallel devices"—it provided a highly attractive solution for running multiple isolated operating systems on a single host computer.
 A significant architectural advantage of early VMware software was that it did not rely on hardware-assisted virtualization extensions (like Intel VT-x or AMD-V) to the x86 instruction set; it was engineered before those hardware features even existed. This allowed early VMware products to implement software-based binary translation to run on standard, legacy x86 platforms. However, this software-translation advantage has largely diminished due to the now-ubiquitous availability of virtualization extensions built directly into modern CPU hardware.
 
-Following Broadcom's acquisition of VMware, the enterprise virtualization market has experienced a significant structural reset. Broadcom’s aggressive restructuring has led to intense customer backlash, major policy overhauls, and legal challenges. [1, 2, 3] 
+Following Broadcom's acquisition of VMware, the enterprise virtualization market has experienced a significant structural reset. Broadcom's aggressive restructuring has led to intense customer backlash, major policy overhauls, and legal challenges. [1, 2, 3] 
 The primary issues surrounding the acquisition involve several key areas:
 
 1. Elimination of Perpetual Licenses and Mandatory Bundling:
@@ -839,7 +839,7 @@ VIRTUALIZATION
     ├── Renode
     └── gem5
 ```
-The modern ecosystem isn't really one list of “VM software”; it's an interconnected stack of **hypervisors → VMMs → VM runtimes → management platforms → automation → storage/networking → container/VM hybrids**. ([Emir Beganović][3])
+The modern ecosystem isn't really one list of "VM software"; it's an interconnected stack of **hypervisors → VMMs → VM runtimes → management platforms → automation → storage/networking → container/VM hybrids**. ([Emir Beganović][3])
 
 If your eventual goal is to build a **local VM toolkit/API that can dynamically create and destroy isolated machines**, I'd narrow this enormous list to about **15 technologies worth actually investigating** rather than trying to use all of them.
 
