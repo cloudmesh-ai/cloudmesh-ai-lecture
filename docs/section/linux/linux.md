@@ -9,7 +9,7 @@
 
 In this chapter we introduce you to a number of useful shell commands. You may ask:
 
-> “Why is he so keen on telling me all about shells when I already have a beautiful GUI?”
+> "Why is he so keen on telling me all about shells when I already have a beautiful GUI?"
 
 You will soon learn that a GUI may not be suitable when you need to manage **10, 100, 1 000, 10 000…** virtual machines. A command‑line interface can be *much* simpler and allows you to script repetitive tasks.
 
@@ -146,7 +146,7 @@ We provide in the next sections a number of useful commands that you want to exp
 <tr><td>`cron`</td><td>daemon that executes scheduled commands (periodic jobs)</td></tr>
 <tr><td>`crontab`</td><td>manage the timetable for <code>cron</code> jobs</td></tr>
 <tr><td>`dmesg`</td><td>display the kernel ring buffer (system messages)</td></tr>
-<tr><td>`which`</td><td>locate a program file in the user’s PATH</td></tr>
+<tr><td>`which`</td><td>locate a program file in the user's PATH</td></tr>
 <tr><td>`shutdown -h "shut down"`</td><td>shut down the computer</td></tr>
 
 <!-- ---------- Networking ---------- -->
@@ -244,7 +244,7 @@ DESCRIPTION
 
      The following options are available:
      -@      Display extended attribute keys and sizes in long (-l) output.
-     -1      (The numeric digit “one”.) Force output to be one entry per line.
+     -1      (The numeric digit "one".) Force output to be one entry per line.
      -A      List all entries except for . and ..  Always set for the super‑user.
      -a      Include directory entries whose names begin with a dot (.).
 
@@ -287,7 +287,7 @@ These shortcuts are handy when working in a Bash (or compatible) terminal. Many 
 | **Ctrl + l**        | Clear the screen (same as the `clear` command)                         |
 | **Ctrl + a**        | Move cursor to the beginning of the line                                 |
 | **Ctrl + e**        | Move cursor to the end of the line                                       |
-| **Ctrl + k**        | Cut everything after the cursor (stores in the “kill ring”)            |
+| **Ctrl + k**        | Cut everything after the cursor (stores in the "kill ring")            |
 | **Ctrl + y**        | Paste the most recent kill‑ring entry (undo a cut)                      |
 | **Ctrl + d**        | Log out of the current session (same effect as `exit` when at a prompt) |
 
@@ -351,7 +351,7 @@ chmod [options] mode[,mode] file1 [file2 …]
 |-----------------------|------------------------------------------------------------------------|
 | `-f`, `--silent`, `--quiet` | Suppress most error messages.                                    |
 | `-v`, `--verbose`     | Explain each change as it is made.                                     |
-| `-c`, `--changes`     | Report only when a file’s mode actually changes.                       |
+| `-c`, `--changes`     | Report only when a file's mode actually changes.                       |
 | `--reference=RFILE`   | Apply the mode of *RFILE* to the target files.                         |
 | `-R`, `--recursive`   | Apply changes recursively to all files/sub‑directories.                |
 | `--help`              | Show a help message and exit.                                           |
@@ -363,7 +363,7 @@ Permissions are expressed for three classes of users:
 | Class   | Symbol | Meaning                              |
 |---------|--------|--------------------------------------|
 | Owner   | `u`    | The user that owns the file          |
-| Group   | `g`    | Users that belong to the file’s group|
+| Group   | `g`    | Users that belong to the file's group|
 | Others  | `o`    | Everyone else                        |
 | All     | `a`    | Shortcut for `u,g,o`                 |
 
@@ -424,7 +424,7 @@ Both commands allow you to execute commands with **elevated privileges**, but th
 
 | Command | What it does | Typical use‑case |
 |---------|--------------|------------------|
-| `su`    | Starts a new shell as another user (default is `root`). You are prompted for the target user’s password. | When you need an interactive root shell or to become another user for a longer session. |
+| `su`    | Starts a new shell as another user (default is `root`). You are prompted for the target user's password. | When you need an interactive root shell or to become another user for a longer session. |
 | `sudo`  | Executes a single command as another user (default is `root`). You are prompted for **your** password (unless configured otherwise). | When you want to run a privileged command without opening a full root shell. |
 | `sudo -i` | Starts an interactive login shell as root (similar to `su -`). | Convenient shortcut to get a root environment while keeping your own password. |
 
@@ -443,7 +443,7 @@ Linux provides two main utilities for running commands automatically at a later 
 | Utility | Description | Typical scenario |
 |---------|-------------|------------------|
 | `cron`  | Daemon that runs **periodic** jobs defined in *crontab* files. | Back‑up databases every night, rotate logs daily. |
-| `crontab` | Command‑line tool to edit a user’s cron table. | `crontab -e` opens the editor to add scheduled entries. |
+| `crontab` | Command‑line tool to edit a user's cron table. | `crontab -e` opens the editor to add scheduled entries. |
 | `at`    | Schedules a **one‑time** job to run at a specific time/date. | Run a script at 02:30 AM tomorrow. |
 
 ### Crontab Syntax

@@ -71,7 +71,7 @@ Before starting any work, synchronize your local `main` with upstream:
 git checkout main
 git fetch upstream
 git reset --hard upstream/main   # discard any local diverging commits
-git push origin main --force     # keep fork’s main identical to upstream
+git push origin main --force     # keep fork's main identical to upstream
 ```
 
 > **Tip:** Perform this step at the beginning of each day or before a new feature.
@@ -82,12 +82,12 @@ git push origin main --force     # keep fork’s main identical to upstream
 git checkout -b feature/awesome‑logic
 ```
 
-- Branch names should be descriptive and follow your team’s naming convention (`feature/`, `bugfix/`, `docs/`).  
+- Branch names should be descriptive and follow your team's naming convention (`feature/`, `bugfix/`, `docs/`).  
 - The branch is **based on the freshly synced `main`**, ensuring a minimal diff.
 
 ### 4.6 Develop, Commit, and Push  
 
-1. **Write code** – adhere to the project’s style guide.  
+1. **Write code** – adhere to the project's style guide.  
 2. **Stage changes**  
    ```bash
    git add path/to/file1 path/to/file2
@@ -104,13 +104,13 @@ git checkout -b feature/awesome‑logic
 
 ### 4.7 Open a Pull Request  
 
-1. Go to the fork’s GitHub page.  
-2. You’ll see a banner: *“Compare & pull request”* – click it.  
+1. Go to the fork's GitHub page.  
+2. You'll see a banner: *"Compare & pull request"* – click it.  
 3. Ensure the **base repository** is the upstream (`org/project`) and **base branch** is `main`.  
 4. The **compare branch** should be `your‑user:feature/awesome‑logic`.  
 5. Fill in the PR template:  
    - **Title** – concise, prefixed with the ticket/issue ID if applicable.  
-   - **Description** – what the change does, why it’s needed, and any relevant screenshots or logs.  
+   - **Description** – what the change does, why it's needed, and any relevant screenshots or logs.  
    - **Testing instructions** – how the reviewer can verify the change locally.  
 
 6. Add **reviewers** (your colleague, team leads, or CI bots).  
@@ -168,11 +168,11 @@ git push --force-with-lease   # safely overwrite remote branch
    git push --force-with-lease
    ```
 
-Rebasing keeps the PR’s commit history linear, which simplifies the final merge.
+Rebasing keeps the PR's commit history linear, which simplifies the final merge.
 
 ### 4.11 Merge the Pull Request  
 
-When CI passes, reviewers approve, and any conflicts are resolved, you can merge. Choose the merge strategy that matches your project’s policy:
+When CI passes, reviewers approve, and any conflicts are resolved, you can merge. Choose the merge strategy that matches your project's policy:
 
 | Strategy | Result | When to use |
 |----------|--------|-------------|
@@ -195,7 +195,7 @@ After merging:
 | **Update documentation** (README, changelog) | Keeps users informed of new behavior. |
 | **Tag a release (if applicable)** | Provides an immutable snapshot for downstream consumers. |
 | **Notify stakeholders** (Slack, email) | Communication loop closes the development cycle. |
-| **Sync fork’s `main`** (as in 4.4) | Ensures the fork stays a clean mirror of upstream. |
+| **Sync fork's `main`** (as in 4.4) | Ensures the fork stays a clean mirror of upstream. |
 
 ---
 
@@ -207,7 +207,7 @@ After merging:
 | Accidentally pushing directly to upstream `main` | CI fails, maintainers reject. | Set branch protection rules on upstream; work only on feature branches. |
 | Stale CI pipeline | PR passes locally but fails after merge. | Run the CI on the **latest** `main` (GitHub checks the merge commit automatically). |
 | Forgetting to update the PR description after large changes | Reviewers lack context. | Edit the PR description whenever the scope changes. |
-| Over‑writing a teammate’s commits with `git push --force` | Lost work, frustration. | Use `--force-with-lease` and avoid force‑pushing after a reviewer has begun a review. |
+| Over‑writing a teammate's commits with `git push --force` | Lost work, frustration. | Use `--force-with-lease` and avoid force‑pushing after a reviewer has begun a review. |
 
 ---
 
@@ -232,7 +232,7 @@ After merging:
    - Delete the feature branch both locally and on the remote.  
 
 6. **Document the changes**:  
-   - Update the project’s `CHANGELOG.md` entry.  
+   - Update the project's `CHANGELOG.md` entry.  
    - Tag a new version (`v2.28.1`) on the fork and push the tag.  
 
 Submit a short report (≈300 words) describing each step you performed, any problems you encountered, and how you solved them.
@@ -244,12 +244,12 @@ Submit a short report (≈300 words) describing each step you performed, any p
 - [ ] I can create a fork and add the upstream remote.  
 - [ ] My local `main` stays in sync with upstream before I start work.  
 - [ ] I use feature branches with clear, conventional names.  
-- [ ] My commits are atomic, well‑described, and follow the project’s commit‑message style.  
+- [ ] My commits are atomic, well‑described, and follow the project's commit‑message style.  
 - [ ] I can open a PR, fill in a proper description, and assign reviewers.  
 - [ ] I understand how CI integrates with the PR and can interpret failing checks.  
 - [ ] I know how to rebase a branch onto an updated `main` and resolve conflicts.  
 - [ ] I can choose the appropriate merge strategy and perform the merge safely.  
 - [ ] I clean up remote and local branches after merging.  
-- [ ] I update documentation, tag releases, and keep the fork’s `main` mirrored to upstream.  
+- [ ] I update documentation, tag releases, and keep the fork's `main` mirrored to upstream.  
 
 If you can answer **yes** to every bullet, you are ready to collaborate on any fork‑based open‑source or internal project with confidence.
