@@ -8,7 +8,8 @@ Dask is a python-based parallel computing library for analytics. Parallel comput
 Dask is composed of two components:
 
 1.  *Dynamic task scheduling optimized for computation.* This is similar to Airflow, Luigi, Celery, or Make, but optimized for interactive computational workloads.
-2.  *Big Data collections* like parallel arrays, dataframes, and lists that extend common interfaces like NumPy, Pandas, or Python iterators to larger-than-memory or distributed environments. These parallel collections run on top of the dynamic task schedulers.
+2.  *Big Data collections* like parallel arrays, dataframes, and lists that extend common interfaces like N
+umPy, Pandas, or Python iterators to larger-than-memory or distributed environments. These parallel collections run on top of the dynamic task schedulers.
 
 Dask emphasizes the following virtues:
 
@@ -58,7 +59,7 @@ We can summarize the basics of Dask as follows:
 
 We use for-loops to build basic tasks, Python iterators, and the Numpy (array) and Pandas (dataframe) functions for multi-dimensional or tabular data, respectively.
 
-Dask allows us to construct a prescription for the calculation we want to carry out. A module named Dask.delayed lets us parallelize custom code. It is useful whenever our problem doesn’t quite fit a high-level parallel object like dask.array or dask.dataframe but could still benefit from parallelism. Dask.delayed works by delaying our function evaluations and putting them into a dask graph. Here is a small example:
+Dask allows us to construct a prescription for the calculation we want to carry out. A module named Dask.delayed lets us parallelize custom code. It is useful whenever our problem doesn't quite fit a high-level parallel object like dask.array or dask.dataframe but could still benefit from parallelism. Dask.delayed works by delaying our function evaluations and putting them into a dask graph. Here is a small example:
 
 ```         
 from dask import delayed
@@ -130,7 +131,7 @@ For more details on Dask Bag check <https://dask.pydata.org/en/latest/bag.html>
 
 ## Concurrency Features
 
-Dask supports a real-time task framework that extends Python’s concurrent.futures interface. This interface is good for arbitrary task scheduling, like dask.delayed, but is immediate rather than lazy, which provides some more flexibility in situations where the computations may evolve. These features depend on the second-generation task scheduler found in dask.distributed (which, despite its name, runs very well on a single machine).
+Dask supports a real-time task framework that extends Python's concurrent.futures interface. This interface is good for arbitrary task scheduling, like dask.delayed, but is immediate rather than lazy, which provides some more flexibility in situations where the computations may evolve. These features depend on the second-generation task scheduler found in dask.distributed (which, despite its name, runs very well on a single machine).
 
 Dask allows us to simply construct graphs of tasks with dependencies. We can find that graphs can also be created automatically for us using functional, Numpy, or Pandas syntax on data collections. None of this would be very useful if there weren't also a way to execute these graphs, in a parallel and memory-aware way. Dask comes with four available schedulers:
 

@@ -8,7 +8,7 @@ One of the most important and popular programming languages these days is Python
 
 One may consider the following comparison between Python and Java to decide what is right for you.
 
-|  |  |  |
+| | | |
 |------------------------|------------------------|------------------------|
 | **Feature** | **Python** | **Java** |
 | **Primary Strength** | Development Speed & AI | Execution Speed & Reliability |
@@ -18,7 +18,7 @@ One may consider the following comparison between Python and Java to decide what
 
 The question come up, why is Python a good choice for Cloud Computing and AI? We summarize some aspects of it in the next table:
 
-|  |  |  |
+| | | |
 |------------------------|------------------------|------------------------|
 | **Feature** | **Python** | **Java** |
 | **Serverless Cold Starts** | **Fast.** Minimal runtime overhead makes it ideal for AWS Lambda or Google Cloud Functions. | **Slow.** The Java Virtual Machine (JVM) takes time to initialize, though "GraalVM" helps. |
@@ -26,14 +26,14 @@ The question come up, why is Python a good choice for Cloud Computing and AI? We
 | **Data Manipulation** | **Superior.** Libraries like Pandas and Polars allow for "vectorized" math on massive datasets. | **Verbose.** Handling complex data structures requires more boilerplate and manual loops. |
 | **Containerization** | **Small to Medium.** Images can be optimized (e.g., Alpine) but often carry heavy AI dependencies. | **Large.** JVM images tend to be heavier, though modularity (jlink) has improved this. |
 | **Memory Management** | **Automatic (GC).** Easier for developers but can be less predictable under extreme load. | **Fine-Tuned.** Highly configurable Garbage Collection for high-throughput cloud clusters. |
-| **API Development** | **High Velocity.** FastAPI and Flask allow for instant deployment of AI endpoints. | **High Complexity.** Spring Boot is powerful but requires significant configuration. |
+| **API Development** | **High Velocity.** FastAPI and Flask allow for instant deployment of AI endpoints. | **High Complexity.** Spring Boot is but requires significant configuration. |
 | **GPU/TPU Access** | **Direct.** Seamless integration with CUDA for hardware-accelerated AI training. | **Indirect.** Typically requires specialized bindings or external service calls. |
 
 Due to its popularity based on its simplicity, it has been adopted as an universal "glue language" that provides easy to use Appliction Interfaces (API)s to Clouds, AI. It also has established itself as an interface to cloud providers (AWS, Azure, Google Cloud, and many others), as well, as the foundation upon which almost every major AI framework—from TensorFlow to PyTorch—is built.
 
 The power of Python lies in three pillars:
 
-**Readability:** Python’s syntax is easy to understand and provides visual clues of the program structure through indentation.
+**Readability:** Python's syntax is easy to understand and provides visual clues of the program structure through indentation.
 
 **The Ecosystem:** Due to pythons popularity an enormous amount of reusable packages have been developed for most activities we are interested in such as managing virtual machines, processing massive datasets, or deploying neural networks. THus we do not have to reinvent the wheel, but can reuse the expertise of the community.
 
@@ -47,7 +47,7 @@ The power of Python lies in three pillars:
 
 In this book you will find information on how to move from a simple hello to managing virtaul machines and working on AI tasks and with AI agents
 
-Moving Forward The goal of this book isn't just to teach you a programming language; it’s to give you the keys to many of the powerful toolkit in today's computing ecosystem.
+Moving Forward The goal of this book isn't just to teach you a programming language; it's to give you the keys to many of the toolkit in today's computing ecosystem.
 
 ## Prerequisites
 
