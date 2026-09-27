@@ -1,68 +1,93 @@
 # Chameleon Cloud Account Setup
 
-To participate in the course Assignments that require a public cloud environment, you will need an account on [Chameleon Cloud](https://chameleoncloud.org). Chameleon Cloud is a testbed for cloud computing research and education.
+!!! info "Learning Objectives"
+    By the end of this section, you will be able to:
+    - Navigate the Chameleon Cloud registration and application process.
+    - Provide the necessary institutional and project-specific information for account approval.
+    - Access the Horizon Dashboard and verify project membership.
+
+## Overview
+
+To participate in course Assignments requiring a public cloud environment, you require an account on [Chameleon Cloud](https://chameleoncloud.org). Chameleon Cloud is a specialized testbed designed for cloud computing research and education, providing access to both virtualized and bare metal infrastructure.
 
 ## Step-by-Step Application Process
 
-1. **Visit the Website**: Go to [chameleoncloud.org](https://chameleoncloud.org).
+1. **Visit the Website**: Navigate to [chameleoncloud.org](https://chameleoncloud.org).
+
 2. **Create an Account**:
-   - Click on the **Sign Up** or **Register** button.
-   - You will likely be asked to create a username and password.
-3. **Fill out the Application**:
-   - Chameleon Cloud requires an application to ensure that the resources are used for legitimate research or educational purposes.
-   - **Personal Information**: Provide your name and institutional email address (use your university email).
+   - Select the **Sign Up** or **Register** button.
+   - Create a unique username and password.
+
+3. **Complete the Application**:
+   Chameleon Cloud requires an application to verify that resources are used for legitimate research or educational purposes.
+   - **Personal Information**: Provide your full name and institutional email address (university email).
    - **Institutional Affiliation**: Enter your university and department.
-   - **Project Description**: 
-     - You will be asked why you need an account. 
-     - **For Students**: State that you are a student in the "Cloud Computing/DevOps/AI" course and that you need the account to perform course Assignments and labs.
-     - Mention that you will be learning about cloud infrastructure, virtualization, and automation.
-4. **Submit and Wait**:
-   - After submitting your application, it will be reviewed by the Chameleon Cloud administrators.
-   - Approval typically takes a few business days. You will receive a confirmation email once your account is activated.
+   - **Project Description**:
+     - For students, state that you are enrolled in the "Cloud Computing/DevOps/AI" course.
+     - Explain that the account is required for course Assignments and labs focusing on cloud infrastructure, virtualization, and automation.
 
-## Tips for Approval
+4. **Submission and Review**:
+   - Submit the application for review by Chameleon Cloud administrators.
+   - Approval typically takes several business days. You will receive a confirmation email upon activation.
 
-- **Use Institutional Email**: Applications from `@gmail.com` or `@yahoo.com` are more likely to be scrutinized or rejected. Always use your `.edu` or university-provided email.
-- **Be Specific**: Instead of saying "for a class," say "for the [Course Name/Number] at [University Name] to learn about [Specific Topic, e.g., OpenStack, Bare Metal servers]."
+## Guidelines for Approval
 
-## After Approval
+To increase the likelihood of prompt approval:
 
-Once your account is approved:
+- **Use Institutional Email**: Applications using `.edu` or university-provided email addresses are prioritized. Applications from generic providers (e.g., `@gmail.com`, `@yahoo.com`) are subject to higher scrutiny or rejection.
+
+- **Provide Specificity**: Avoid generic descriptions. Instead of stating "for a class," specify the course name/number, the university, and the technical topics being studied (e.g., "OpenStack," "Bare Metal servers").
+
+## Post-Approval Configuration
+
+Once the account is activated:
 
 1. Log in to the [Chameleon Cloud Portal](https://chameleoncloud.org/login).
-2. Explore the **Horizon Dashboard** to start creating your virtual instances or requesting bare metal nodes.
-3. Follow the subsequent course modules to configure your environment and connect via SSH.
 
+2. Use the **Horizon Dashboard** to create virtual instances or request bare metal nodes.
 
-!!! assignment "Assignment: Chameleon Cloud Account"
+3. Follow subsequent course modules to configure the environment and establish SSH connectivity.
 
+## Summary Checklist
+
+- [ ] Application submitted via institutional email.
+- [ ] Project description includes course and university details.
+- [ ] Account activation email received.
+- [ ] Login to Horizon Dashboard verified.
+- [ ] Membership in the `cloudmesh` project confirmed.
+
+## Assignments
+
+!!! note "Assignment.1: Chameleon Cloud Account"
     **Goal**: Successfully apply for a Chameleon Cloud account and request access to the course project.
 
-    **Tasks:**
+    **Tasks**:
+    1. Navigate to [chameleoncloud.org](https://chameleoncloud.org) and begin the registration process.
+    2. Complete the application using an **institutional email address**.
+    3. In the project description, clearly state enrollment in the **LUC 2026 Cloud Computing/DevOps/AI** course.
+    4. Explicitly request to be added to project `cloudmesh` (ID: `CH-817419`).
+    5. Submit the application and retain a record of the submission.
 
-    1. [ ] Navigate to [chameleoncloud.org](https://chameleoncloud.org) and start the registration process.
-    2. [ ] Complete the application using your **institutional email address**.
-    3. [ ] In the project description, clearly state that you are a student in the **LUC 2026 Cloud Computing/DevOps/AI** course.
-    4. [ ] Explicitly request to be added to project `cloudmesh` (ID: `CH-817419`).
-    5. [ ] Submit the application and keep a record of your submission.
+    **Validation**:
+    - Receipt of the approval email from Chameleon Cloud.
+    - Verification of the `cloudmesh` project within the Horizon Dashboard project list.
 
-    **Validation:**
+    ??? tip "Solution: Chameleon Cloud Account"
+        When filling out the project description, be as explicit as possible about the academic nature of the request. Ensure the project ID `CH-817419` is correctly cited to avoid manual routing delays.
 
-    - The Assignment is considered complete when you receive the **approval email** from Chameleon Cloud and can log in to the portal.
-    - Verify that you can see the `cloudmesh` project in your project list within the Horizon Dashboard.
+## References
 
+- [Chameleon Cloud Homepage](https://chameleoncloud.org)
+- [Chameleon Cloud User Guide](https://docs.chameleoncloud.org)
+- [OpenStack Horizon Documentation](https://docs.openstack.org/horizon/)
 
-# Self-Assessment
+## Self-Evaluation
 
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+??? note "What is Chameleon Cloud and who is it intended for?"
+    Chameleon Cloud is a cloud computing testbed specifically intended for research and education, providing infrastructure for legitimate academic and research purposes.
 
-    ??? question "What is Chameleon Cloud and who is it intended for?"
-        Chameleon Cloud is a testbed for cloud computing research and education, providing users with access to cloud infrastructure for legitimate research or educational purposes.
+??? note "Why is using an institutional email address critical for the application?"
+    Institutional emails (e.g., `.edu`) serve as a primary verification method for academic status, making these applications more likely to be approved than those from generic email providers.
 
-    ??? question "Why is using an institutional email address important when applying for a Chameleon Cloud account?"
-        Applications from institutional emails (e.g., `.edu`) are more likely to be approved, as applications from generic providers like Gmail or Yahoo are more likely to be scrutinized or rejected.
-
-    ??? question "What information should students include in their project description to increase the chance of approval?"
-        Students should clearly state that they are in a specific course (e.g., \"Cloud Computing/DevOps/AI\") and explain that they need the account for course Assignments and labs involving cloud infrastructure and automation.
-
+??? note "What specific details should be included in the project description to ensure approval?"
+    Students should include the exact course name (e.g., "Cloud Computing/DevOps/AI"), the university name, and the specific technical goals, such as learning cloud infrastructure and automation.
