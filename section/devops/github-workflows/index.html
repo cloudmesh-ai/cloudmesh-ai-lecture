@@ -2956,15 +2956,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-implementing-a-professional-ci-pipeline" class="md-nav__link">
+  <a href="#2-implementing-a-ci-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Implementing a Professional CI Pipeline
+        2. Implementing a CI Pipeline
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Implementing a Professional CI Pipeline">
+    <nav class="md-nav" aria-label="2. Implementing a CI Pipeline">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -6196,15 +6196,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-implementing-a-professional-ci-pipeline" class="md-nav__link">
+  <a href="#2-implementing-a-ci-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Implementing a Professional CI Pipeline
+        2. Implementing a CI Pipeline
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Implementing a Professional CI Pipeline">
+    <nav class="md-nav" aria-label="2. Implementing a CI Pipeline">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -6284,6 +6284,7 @@
 <h1 id="automating-the-software-lifecycle-with-github-actions">Automating the Software Lifecycle with GitHub Actions<a class="headerlink" href="#automating-the-software-lifecycle-with-github-actions" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
+</div>
 <ul>
 <li>Define GitHub Actions and its role in modern CI/CD.</li>
 <li>Understand the core components of a workflow: Events, Jobs, Steps, and Actions.</li>
@@ -6292,12 +6293,11 @@
 <li>Utilize Matrix builds to test across multiple environments.</li>
 <li>Manage sensitive data using GitHub Secrets.</li>
 </ul>
-</div>
-<p>In the modern DevOps era, the "integration" part of Continuous Integration (CI) has moved from dedicated servers (like Jenkins) directly into the source control platform. <strong>GitHub Actions</strong> is a powerful event-driven automation platform that allows you to run complex workflows directly in your repository. Whether it is running a test suite every time a developer pushes code or deploying a website to a cloud provider, GitHub Actions eliminates the need for external CI infrastructure.</p>
+<p>In the modern DevOps era, the "integration" part of Continuous Integration (CI) has moved from dedicated servers (like Jenkins) directly into the source control platform. <strong>GitHub Actions</strong> is a event-driven automation platform that allows you to run complex workflows directly in your repository. Whether it is running a test suite every time a developer pushes code or deploying a website to a cloud provider, GitHub Actions eliminates the need for external CI infrastructure.</p>
 <div class="admonition info">
 <p class="admonition-title">Why this matters</p>
-<p>The "Time to Feedback" is the most critical metric in software development. If a developer has to wait hours to know if their change broke the build, productivity plummets. GitHub Actions provides near-instant feedback by triggering automation on every `git push` or `pull_request`. By integrating the CI/CD pipeline directly into the GitHub UI, the "code" and the "test" live in the same place, making the path to production transparent and auditable.</p>
 </div>
+<p>The "Time to Feedback" is the most critical metric in software development. If a developer has to wait hours to know if their change broke the build, productivity plummets. GitHub Actions provides near-instant feedback by triggering automation on every `git push` or `pull_request`. By integrating the CI/CD pipeline directly into the GitHub UI, the "code" and the "test" live in the same place, making the path to production transparent and auditable.</p>
 <p></p><figure id="_figure-1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/github-actions-chatgpt.png" data-desc-position="bottom"><img alt="GitHub Actions" src="../images/github-actions-chatgpt.png"></a><figcaption>Figure 1: GitHub Actions</figcaption></figure><p></p>
 <h2 id="1-the-anatomy-of-a-workflow">1. The Anatomy of a Workflow<a class="headerlink" href="#1-the-anatomy-of-a-workflow" title="Permanent link">¶</a></h2>
 <p>A GitHub Action is defined by a <strong>Workflow</strong> file—a YAML document located in the `.github/workflows/` directory of your repository.</p>
@@ -6344,76 +6344,87 @@
 name: Hello World Workflow
 on: [push] # Trigger on every push</p>
 <p>jobs:
-  greet:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Say Hello
-        run: echo "Hello, CloudMesh AI Student!"
-      - name: Check Python
-        run: python --version
+ greet:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Say Hello
+ run: echo "Hello, CloudMesh AI Student!"
+ - name: Check Python
+ run: python --version
 ```</p>
-<h2 id="2-implementing-a-professional-ci-pipeline">2. Implementing a Professional CI Pipeline<a class="headerlink" href="#2-implementing-a-professional-ci-pipeline" title="Permanent link">¶</a></h2>
+<h2 id="2-implementing-a-ci-pipeline">2. Implementing a CI Pipeline<a class="headerlink" href="#2-implementing-a-ci-pipeline" title="Permanent link">¶</a></h2>
 <p>In a real-world scenario, a CI pipeline doesn't just say "Hello"; it ensures code quality through linting and testing.</p>
 <h3 id="example-python-testing-pipeline">Example: Python Testing Pipeline<a class="headerlink" href="#example-python-testing-pipeline" title="Permanent link">¶</a></h3>
 <p>This workflow triggers on every Pull Request to the `main` branch. It installs dependencies, runs a linter (`flake8`), and executes tests (`pytest`).</p>
 <p>```yaml
 name: Python Quality Check</p>
 <p>on:
-  pull_request:
-    branches: [ main ]</p>
+ pull_request:
+ branches: [ main ]</p>
 <p>jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4</p>
-<div class="highlight"><pre><span></span><code>  - name: Set up Python
-    uses: actions/setup-python@v5
-    with:
-      python-version: '3.11'
-
-  - name: Install dependencies
-    run: |
-      pip install flake8 pytest
-      pip install -r requirements.txt
-
-  - name: Lint with flake8
-    run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-
-  - name: Run tests
-    run: pytest
-</code></pre></div>
-<p>```</p>
+ test:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Checkout code
+ uses: actions/checkout@v4</p>
+<ul>
+<li>
+<p>name: Set up Python
+ uses: actions/setup-python@v5
+ with:
+ python-version: '3.11'</p>
+</li>
+<li>
+<p>name: Install dependencies
+ run: |
+ pip install flake8 pytest
+ pip install -r requirements.txt</p>
+</li>
+<li>
+<p>name: Lint with flake8
+ run: flake8. --count --select=E9,F63,F7,F82 --show-source --statistics</p>
+</li>
+<li>
+<p>name: Run tests
+ run: pytest
+```</p>
+</li>
+</ul>
 <h3 id="22-building-and-publishing-container-images">2.2 Building and Publishing Container Images<a class="headerlink" href="#22-building-and-publishing-container-images" title="Permanent link">¶</a></h3>
 <p>Integrating container builds into your CI pipeline ensures that every verified commit is automatically packaged into an image ready for deployment.</p>
 <p>```yaml
 name: Containerized Build</p>
 <p>on:
-  push:
-    branches: [ main ]</p>
+ push:
+ branches: [ main ]</p>
 <p>jobs:
-  build-image:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4</p>
-<div class="highlight"><pre><span></span><code>  - name: Set up Docker Buildx
-    uses: docker/setup-buildx-action@v3
-
-  - name: Login to GitHub Container Registry
-    uses: docker/login-action@v3
-    with:
-      registry: ghcr.io
-      username: \${{ github.actor }}
-      password: \${{ secrets.GITHUB_TOKEN }}
-
-  - name: Build and push
-    uses: docker/build-push-action@v5
-    with:
-      push: true
-      tags: ghcr.io/\${{ github.repository }}:latest
-</code></pre></div>
-<p>```</p>
+ build-image:
+ runs-on: ubuntu-latest
+ steps:
+ - name: Checkout code
+ uses: actions/checkout@v4</p>
+<ul>
+<li>
+<p>name: Set up Docker Buildx
+ uses: docker/setup-buildx-action@v3</p>
+</li>
+<li>
+<p>name: Login to GitHub Container Registry
+ uses: docker/login-action@v3
+ with:
+ registry: ghcr.io
+ username: \${{ github.actor }}
+ password: \${{ secrets.GITHUB_TOKEN }}</p>
+</li>
+<li>
+<p>name: Build and push
+ uses: docker/build-push-action@v5
+ with:
+ push: true
+ tags: ghcr.io/\${{ github.repository }}:latest
+```</p>
+</li>
+</ul>
 <h3 id="33-managing-secrets">3.3 Managing Secrets<a class="headerlink" href="#33-managing-secrets" title="Permanent link">¶</a></h3>
 <p>Never hardcode API keys or passwords in your YAML files. Use <strong>GitHub Secrets</strong>:
 1. Go to <strong>Settings</strong> $\rightarrow$ <strong>Secrets and variables</strong> $\rightarrow$ <strong>Actions</strong>.
@@ -6424,40 +6435,40 @@ name: Containerized Build</p>
 <h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h1>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
-<p>Test your knowledge by expanding the questions below.</p>
 </div>
+<p>Test your knowledge by expanding the questions below.</p>
 <details class="question">
 <summary>What is the difference between a Workflow, a Job, and a Step?</summary>
-<p>A <strong>Workflow</strong> is the overall automated process defined in a YAML file. A <strong>Job</strong> is a set of steps that run on the same runner (VM), allowing them to share a filesystem. A <strong>Step</strong> is an individual task within a job, which can either be a shell command (`run`) or a reusable action (`uses`).</p>
 </details>
+<p>A <strong>Workflow</strong> is the overall automated process defined in a YAML file. A <strong>Job</strong> is a set of steps that run on the same runner (VM), allowing them to share a filesystem. A <strong>Step</strong> is an individual task within a job, which can either be a shell command (`run`) or a reusable action (`uses`).</p>
 <details class="question">
 <summary>How do I trigger a workflow using push and pull_request?</summary>
-<p>Workflows are triggered by events defined in the `on:` section. `on: [push]` triggers the workflow whenever code is pushed to any branch. `on: [pull_request]` triggers it when a PR is opened, synchronized, or reopened. You can further refine these triggers to specific branches or tags.</p>
 </details>
+<p>Workflows are triggered by events defined in the `on:` section. `on: [push]` triggers the workflow whenever code is pushed to any branch. `on: [pull_request]` triggers it when a PR is opened, synchronized, or reopened. You can further refine these triggers to specific branches or tags.</p>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
-<p>Test your knowledge by expanding the questions below.</p>
 </div>
+<p>Test your knowledge by expanding the questions below.</p>
 <details class="question">
 <summary>What are community actions and how are actions/checkout and actions/setup-python used?</summary>
-<p>Community actions are reusable units of code shared by the community to perform common tasks. `actions/checkout@v4` is used to clone the repository onto the runner so that the workflow can access the code. `actions/setup-python@v5` is used to install a specific version of Python on the runner, ensuring a consistent environment for tests.</p>
 </details>
+<p>Community actions are reusable units of code shared by the community to perform common tasks. `actions/checkout@v4` is used to clone the repository onto the runner so that the workflow can access the code. `actions/setup-python@v5` is used to install a specific version of Python on the runner, ensuring a consistent environment for tests.</p>
 <details class="question">
 <summary>How does a Matrix build help in testing multiple environments?</summary>
-<p>A <strong>Matrix</strong> allows you to run the same job across multiple combinations of variables (e.g., multiple Python versions or multiple operating systems) without duplicating the job definition. GitHub Actions spawns a separate job for each combination in the matrix, ensuring the code works across all target environments.</p>
 </details>
+<p>A <strong>Matrix</strong> allows you to run the same job across multiple combinations of variables (e.g., multiple Python versions or multiple operating systems) without duplicating the job definition. GitHub Actions spawns a separate job for each combination in the matrix, ensuring the code works across all target environments.</p>
 <details class="question">
 <summary>How do I securely manage credentials using GitHub Secrets?</summary>
-<p>Credentials should be stored in <strong>GitHub Secrets</strong> (found in repository settings). These are encrypted and not visible in the YAML file. They are accessed using the `${{ secrets.SECRET_NAME }}` syntax, and GitHub automatically masks them in the workflow logs to prevent accidental exposure.</p>
 </details>
+<p>Credentials should be stored in <strong>GitHub Secrets</strong> (found in repository settings). These are encrypted and not visible in the YAML file. They are accessed using the `${{ secrets.SECRET_NAME }}` syntax, and GitHub automatically masks them in the workflow logs to prevent accidental exposure.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 1: The Linting Guard</p>
-<p>Create a GitHub Actions workflow for a repository that prevents a Pull Request from being merged if the code doesn't pass a linter check (e.g., `black` or `flake8`).</p>
 </div>
+<p>Create a GitHub Actions workflow for a repository that prevents a Pull Request from being merged if the code doesn't pass a linter check (e.g., `black` or `flake8`).</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 2: The Image Factory</p>
-<p>Design a workflow that builds a Docker image only when a new <strong>Tag</strong> (e.g., `v1.0.0`) is pushed to the repository, and then pushes that tagged image to a container registry.</p>
 </div>
+<p>Design a workflow that builds a Docker image only when a new <strong>Tag</strong> (e.g., `v1.0.0`) is pushed to the repository, and then pushes that tagged image to a container registry.</p>
 <hr>
 <h2 id="appendix-publishing-the-cloudmesh-ai-lecture">Appendix: Publishing the cloudmesh-ai-lecture<a class="headerlink" href="#appendix-publishing-the-cloudmesh-ai-lecture" title="Permanent link">¶</a></h2>
 <p>The `cloudmesh-ai-lecture` website is automatically published using a specialized GitHub Actions workflow located at <a href="https://github.com/cloudmesh-ai/cloudmesh-ai-lecture/blob/main/.github/workflows/docs.yml">.github/workflows/docs.yml</a>. This is a prime example of <strong>Continuous Deployment (CD)</strong>.</p>
@@ -6466,12 +6477,10 @@ name: Containerized Build</p>
 <ol>
 <li><strong>Trigger</strong>: The `on: push: branches: [main]` event fires.</li>
 <li><strong>Environment Setup</strong>: A virtual machine (`ubuntu-latest`) is provisioned, and Python 3.12 is installed.</li>
-<li><strong>Dependency Installation</strong>:<ul>
+<li><strong>Dependency Installation</strong>:</li>
 <li>The workflow installs `mkdocs` and `mkdocs-material`.</li>
 <li>It installs the custom `cloudmesh-ai-theme` directly from GitHub.</li>
-<li>It installs the local package in editable mode (`pip install -e .`) so that `mkdocstrings` can automatically extract documentation from the Python source code.</li>
-</ul>
-</li>
+<li>It installs the local package in editable mode (`pip install -e.`) so that `mkdocstrings` can automatically extract documentation from the Python source code.</li>
 <li><strong>Site Generation</strong>: The `mkdocs build` command transforms the Markdown files into a static HTML website.</li>
 <li><strong>Deployment</strong>: The `peaceiris/actions-gh-pages` action takes the generated `./site` folder and pushes it to a special branch called `gh-pages`. GitHub then automatically hosts this branch as a website.</li>
 </ol>
@@ -6480,13 +6489,13 @@ name: Containerized Build</p>
 <hr>
 <div class="admonition note">
 <p class="admonition-title">Assignment: The Open Source Contribution</p>
-<p>The best way to learn GitHub Actions is to participate in a real project. 
-1. Identify a small improvement, a typo fix, or a new documentation section in the `cloudmesh-ai-lecture` repository.
-2. Create a new branch and commit your changes.
-3. Open a <strong>Pull Request (PR)</strong>.
-4. Observe how the `docs.yml` workflow automatically triggers to validate your changes.
-5. Engage with the maintainer in the PR comments and refine your contribution until it is approved and merged.</p>
 </div>
+<p>The best way to learn GitHub Actions is to participate in a real project. 
+ 1. Identify a small improvement, a typo fix, or a new documentation section in the `cloudmesh-ai-lecture` repository.
+ 2. Create a new branch and commit your changes.
+ 3. Open a <strong>Pull Request (PR)</strong>.
+ 4. Observe how the `docs.yml` workflow automatically triggers to validate your changes.
+ 5. Engage with the maintainer in the PR comments and refine your contribution until it is approved and merged.</p>
 
 
 

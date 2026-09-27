@@ -6462,6 +6462,7 @@
 <h1 id="enterprise-configuration-management-with-puppet">Enterprise Configuration Management with Puppet<a class="headerlink" href="#enterprise-configuration-management-with-puppet" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
+</div>
 <ul>
 <li>Define configuration management and its role in Infrastructure as Code (IaC).</li>
 <li>Compare Puppet's "pull-based" architecture with Ansible's "push-based" approach.</li>
@@ -6469,12 +6470,11 @@
 <li>Implement and configure both Open Source and Puppet Enterprise installations.</li>
 <li>Distinguish between monolithic and split installation architectures.</li>
 </ul>
-</div>
-<p>Managing a handful of servers is easy; managing ten thousand is a different challenge entirely. When infrastructure reaches a certain scale, manual updates become impossible, and even simple scripts can fail. Puppet is a powerful configuration management tool designed to solve this problem by ensuring that every server in a large cluster remains in its desired state.</p>
+<p>Managing a handful of servers is easy; managing ten thousand is a different challenge entirely. When infrastructure reaches a certain scale, manual updates become impossible, and even simple scripts can fail. Puppet is a configuration management tool designed to solve this problem by ensuring that every server in a large cluster remains in its desired state.</p>
 <div class="admonition info">
 <p class="admonition-title">Why this matters</p>
-<p>The core philosophy of Puppet is <strong>state enforcement</strong>. While some tools simply run a list of commands (procedural), Puppet defines what the server <em>should</em> look like (declarative). If a user manually changes a configuration file on a server, Puppet will detect this "drift" during its next check and automatically change it back to the correct state. This makes Puppet an industry standard for high-compliance enterprise environments.</p>
 </div>
+<p>The core philosophy of Puppet is <strong>state enforcement</strong>. While some tools simply run a list of commands (procedural), Puppet defines what the server <em>should</em> look like (declarative). If a user manually changes a configuration file on a server, Puppet will detect this "drift" during its next check and automatically change it back to the correct state. This makes Puppet an industry standard for high-compliance enterprise environments.</p>
 <h2 id="puppets-architecture-the-pull-model">Puppet's Architecture: The Pull Model<a class="headerlink" href="#puppets-architecture-the-pull-model" title="Permanent link">¶</a></h2>
 <p>One of the most significant differences between Puppet and tools like Ansible is how they communicate with target nodes.</p>
 <h3 id="push-vs-pull-configuration">Push vs. Pull Configuration<a class="headerlink" href="#push-vs-pull-configuration" title="Permanent link">¶</a></h3>
@@ -6540,17 +6540,13 @@
 <h3 id="installation-types-in-puppet-enterprise">Installation Types in Puppet Enterprise<a class="headerlink" href="#installation-types-in-puppet-enterprise" title="Permanent link">¶</a></h3>
 <p>Depending on the size of the organization, PE can be installed in two ways:</p>
 <ol>
-<li><strong>Monolithic Installation</strong>: The Puppet Master, PuppetDB, and the Console are all installed on a single node.<ul>
+<li><strong>Monolithic Installation</strong>: The Puppet Master, PuppetDB, and the Console are all installed on a single node.</li>
 <li><strong>Pros</strong>: Easy to install, simple to troubleshoot.</li>
 <li><strong>Scale</strong>: Supports up to 20,000 managed nodes.</li>
 <li><strong>Best For</strong>: Small to mid-sized organizations.</li>
-</ul>
-</li>
-<li><strong>Split Installation</strong>: The Master, PuppetDB, and Console are installed on separate nodes.<ul>
+<li><strong>Split Installation</strong>: The Master, PuppetDB, and Console are installed on separate nodes.</li>
 <li><strong>Pros</strong>: Highly scalable, better performance for massive fleets.</li>
 <li><strong>Best For</strong>: Large-scale enterprises with more than 20,000 nodes.</li>
-</ul>
-</li>
 </ol>
 <h3 id="configuring-the-environment">Configuring the Environment<a class="headerlink" href="#configuring-the-environment" title="Permanent link">¶</a></h3>
 <p>The primary configuration for Puppet is handled in the <code>puppet.conf</code> file. Key settings include:
@@ -6559,44 +6555,44 @@
 - <code>runinterval</code>: How often the agent polls the master (e.g., <code>4h</code> for every four hours).</p>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
-<p>Test your knowledge by expanding the questions below.</p>
 </div>
+<p>Test your knowledge by expanding the questions below.</p>
 <details class="question">
 <summary>What is the difference between 'Push' and 'Pull' configuration management?</summary>
-<p>A <strong>Push Model</strong> (e.g., Ansible) involves a central server pushing configurations to nodes via SSH; the nodes are passive until told to act. A <strong>Pull Model</strong> (e.g., Puppet) involves an agent running on each node that periodically polls the central Master to pull its configuration and apply it locally.</p>
 </details>
+<p>A <strong>Push Model</strong> (e.g., Ansible) involves a central server pushing configurations to nodes via SSH; the nodes are passive until told to act. A <strong>Pull Model</strong> (e.g., Puppet) involves an agent running on each node that periodically polls the central Master to pull its configuration and apply it locally.</p>
 <details class="question">
 <summary>What are the roles of the Puppet Master and the Puppet Agent?</summary>
-<p>The <strong>Puppet Master</strong> acts as the central authority that stores manifests and compiles catalogs (the lapped-out desired state) for each node. The <strong>Puppet Agent</strong> runs on target nodes, sends its local facts to the Master, retrieves its specific catalog, applies the changes locally, and reports the results.</p>
 </details>
+<p>The <strong>Puppet Master</strong> acts as the central authority that stores manifests and compiles catalogs (the lapped-out desired state) for each node. The <strong>Puppet Agent</strong> runs on target nodes, sends its local facts to the Master, retrieves its specific catalog, applies the changes locally, and reports the results.</p>
 <details class="question">
 <summary>Can you describe the process of Fact $\rightarrow$ Catalog $\rightarrow$ Application?</summary>
-<p>The process starts with <strong>Fact Collection</strong>, where the Agent sends system details (OS, IP, etc.) to the Master. The Master then performs <strong>Catalog Compilation</strong>, using those facts and the manifests to create a tailored list of resources for that node. Finally, the Agent performs <strong>Configuration Application</strong>, implementing the resources in the catalog to reach the desired state.</p>
 </details>
+<p>The process starts with <strong>Fact Collection</strong>, where the Agent sends system details (OS, IP, etc.) to the Master. The Master then performs <strong>Catalog Compilation</strong>, using those facts and the manifests to create a tailored list of resources for that node. Finally, the Agent performs <strong>Configuration Application</strong>, implementing the resources in the catalog to reach the desired state.</p>
 <details class="question">
 <summary>What is the difference between a monolithic and a split Puppet Enterprise installation?</summary>
-<p>A <strong>monolithic</strong> installation hosts all Puppet services (Master, CA, etc.) on a single server, which is suitable for smaller environments. A <strong>split</strong> installation distributes these components across multiple servers, providing better scalability, redundancy, and higher availability for enterprise-scale infrastructure.</p>
 </details>
+<p>A <strong>monolithic</strong> installation hosts all Puppet services (Master, CA, etc.) on a single server, which is suitable for smaller environments. A <strong>split</strong> installation distributes these components across multiple servers, providing better scalability, redundancy, and higher availability for enterprise-scale infrastructure.</p>
 <details class="question">
 <summary>What is the purpose of SSL certificates in a Puppet architecture?</summary>
-<p><strong>SSL certificates</strong> ensure that all communication between the Master and Agents is encrypted and authenticated. A new Agent must have its certificate signed by the Master's Certificate Authority (CA) before it can securely retrieve its configuration catalog, preventing unauthorized nodes from accessing the infrastructure.</p>
 </details>
+<p><strong>SSL certificates</strong> ensure that all communication between the Master and Agents is encrypted and authenticated. A new Agent must have its certificate signed by the Master's Certificate Authority (CA) before it can securely retrieve its configuration catalog, preventing unauthorized nodes from accessing the infrastructure.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 1: Architecture Design</p>
-<p>You are designing the infrastructure for a company with 50,000 servers across three global data centers. Would you choose a monolithic or split Puppet installation? Justify your answer based on scalability and availability.</p>
 </div>
+<p>You are designing the infrastructure for a company with 50,000 servers across three global data centers. Would you choose a monolithic or split Puppet installation? Justify your answer based on scalability and availability.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 2: Drift Detection</p>
-<p>Imagine a developer manually changes the permissions of <code>/etc/passwd</code> on a production server to <code>777</code> for a quick fix. Describe exactly how Puppet detects this and what it does to resolve the issue.</p>
 </div>
+<p>Imagine a developer manually changes the permissions of <code>/etc/passwd</code> on a production server to <code>777</code> for a quick fix. Describe exactly how Puppet detects this and what it does to resolve the issue.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 3: Tool Selection</p>
-<p>You have a choice between Ansible and Puppet for a new project. The project requires:
-1. Rapid prototyping (setup in 1 hour).
-2. No software installed on target nodes.
-3. Occasional updates to a few servers.
-Which tool do you choose and why?</p>
 </div>
+<p>You have a choice between Ansible and Puppet for a new project. The project requires:
+ 1. Rapid prototyping (setup in 1 hour).
+ 2. No software installed on target nodes.
+ 3. Occasional updates to a few servers.
+ Which tool do you choose and why?</p>
 <hr>
 <h2 id="appendix-local-deployment-with-puppet">Appendix: Local Deployment with Puppet<a class="headerlink" href="#appendix-local-deployment-with-puppet" title="Permanent link">¶</a></h2>
 <h3 id="0-clone-the-repository">0. Clone the Repository<a class="headerlink" href="#0-clone-the-repository" title="Permanent link">¶</a></h3>
@@ -6608,42 +6604,46 @@ Which tool do you choose and why?</p>
 <h3 id="1-the-puppet-manifest">1. The Puppet Manifest<a class="headerlink" href="#1-the-puppet-manifest" title="Permanent link">¶</a></h3>
 <p>Create a file named <code>site.pp</code>. This manifest ensures that Python is installed, the required MkDocs plugins are present, and the server is running as a system service.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c"># Ensure Python and Pip are installed</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">package</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">'python3-pip'</span><span class="p">:</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="na">ensure</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">installed</span><span class="p">,</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c"># Install MkDocs and Plugins using a shell command</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">exec</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">'install_mkdocs_plugins'</span><span class="p">:</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="na">command</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">'/usr/bin/pip3 install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions'</span><span class="p">,</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="na">require</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">Package</span><span class="p">[</span><span class="s">'python3-pip'</span><span class="p">],</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c"># Define a systemd unit to run mkdocs serve in the background</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="k">file</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">'/etc/systemd/system/mkdocs.service'</span><span class="p">:</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="na">ensure</span><span class="w">  </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">file</span><span class="p">,</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="na">content</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="s">[Unit]</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="s">Description=MkDocs Course Site Server</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="s">After=network.target</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="s">[Service]</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="s">Type=simple</span>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="s">User=ubuntu</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="s">WorkingDirectory=/home/ubuntu/cloudmesh-ai-lecture</span>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="s">ExecStart=/usr/local/bin/mkdocs serve -a 0.0.0.0:8000</span>
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="s">Restart=always</span>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="s">[Install]</span>
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="s">WantedBy=multi-user.target</span>
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="s">"</span><span class="p">,</span>
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="p">}</span>
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="c"># Ensure the service is started and enabled</span>
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="k">service</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">'mkdocs'</span><span class="p">:</span>
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">  </span><span class="na">ensure</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">running</span><span class="p">,</span>
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">  </span><span class="na">enable</span><span class="w">    </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">true</span><span class="p">,</span>
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">  </span><span class="k">subscribe</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">File</span><span class="p">[</span><span class="s">'/etc/systemd/system/mkdocs.service'</span><span class="p">],</span>
-</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="p">}</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">package</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">'python3-pip'</span><span class="p">:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w"> </span><span class="na">ensure</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">installed</span><span class="p">,</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c"># Install MkDocs and Plugins using a shell command</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">exec</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">'install_mkdocs_plugins'</span><span class="p">:</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w"> </span><span class="na">command</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">'/usr/bin/pip3 install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions'</span><span class="p">,</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w"> </span><span class="na">require</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">Package</span><span class="p">[</span><span class="s">'python3-pip'</span><span class="p">],</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">}</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c"># Define a systemd unit to run mkdocs serve in the background</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="k">file</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">'/etc/systemd/system/mkdocs.service'</span><span class="p">:</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w"> </span><span class="na">ensure</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">file</span><span class="p">,</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w"> </span><span class="na">content</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s">"</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="s">[Unit]</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="s">Description=MkDocs Course Site Server</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="s">After=network.target</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="s">[Service]</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="s">Type=simple</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="s">User=ubuntu</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="s">WorkingDirectory=/home/ubuntu/cloudmesh-ai-lecture</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="s">ExecStart=/usr/local/bin/mkdocs serve -a 0.0.0.0:8000</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="s">Restart=always</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="s">[Install]</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="s">WantedBy=multi-user.target</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="s">"</span><span class="p">,</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="p">}</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="c"># Ensure the service is started and enabled</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="k">service</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">'mkdocs'</span><span class="p">:</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w"> </span><span class="na">ensure</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">running</span><span class="p">,</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w"> </span><span class="na">enable</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">true</span><span class="p">,</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w"> </span><span class="k">subscribe</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">File</span><span class="p">[</span><span class="s">'/etc/systemd/system/mkdocs.service'</span><span class="p">],</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="2-execution">2. Execution<a class="headerlink" href="#2-execution" title="Permanent link">¶</a></h3>
 <p>Run the manifest locally using the <code>puppet apply</code> command:</p>
@@ -6654,20 +6654,20 @@ Which tool do you choose and why?</p>
 <h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
-<p>Test your knowledge by expanding the questions below.</p>
 </div>
+<p>Test your knowledge by expanding the questions below.</p>
 <details class="question">
 <summary>What is the core difference between a 'procedural' tool and a 'declarative' tool like Puppet?</summary>
-<p>A procedural tool executes a sequence of commands to achieve a result (e.g., \"install package X, then start service Y\"). A declarative tool defines the desired end-state (e.g., \"package X must be installed and service Y must be running\"), and the tool automatically determines the necessary steps to reach that state.</p>
 </details>
+<p>A procedural tool executes a sequence of commands to achieve a result (e.g., \"install package X, then start service Y\"). A declarative tool defines the desired end-state (e.g., \"package X must be installed and service Y must be running\"), and the tool automatically determines the necessary steps to reach that state.</p>
 <details class="question">
 <summary>Explain the 'Pull Model' of configuration management used by Puppet.</summary>
-<p>In the pull model, an agent installed on each target node periodically polls the central Puppet Master for its specific configuration catalog. This is opposite to the push model (e.g., Ansible), where the central server pushes configurations to the nodes via SSH.</p>
 </details>
+<p>In the pull model, an agent installed on each target node periodically polls the central Puppet Master for its specific configuration catalog. This is opposite to the push model (e.g., Ansible), where the central server pushes configurations to the nodes via SSH.</p>
 <details class="question">
 <summary>What is 'configuration drift' and how does Puppet resolve it?</summary>
-<p>Configuration drift occurs when a server's actual state deviates from the defined desired state (e.g., a user manually edits a config file). Puppet detects this during its regular check-in and automatically reapplies the correct configuration to bring the server back into compliance.</p>
 </details>
+<p>Configuration drift occurs when a server's actual state deviates from the defined desired state (e.g., a user manually edits a config file). Puppet detects this during its regular check-in and automatically reapplies the correct configuration to bring the server back into compliance.</p>
 <p>The power of Puppet lies in <strong>drift detection</strong>. If you accidentally uninstall a plugin or stop the server, running <code>puppet apply</code> will immediately detect that the system is not in the "desired state" and will automatically reinstall the dependencies and restart the server, ensuring your environment is always stable.</p>
 
 

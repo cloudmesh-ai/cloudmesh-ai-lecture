@@ -6552,6 +6552,7 @@
 <h1 id="securing-your-automation-github-actions-security">Securing Your Automation: GitHub Actions Security<a class="headerlink" href="#securing-your-automation-github-actions-security" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
+</div>
 <ul>
 <li>Identify the primary security vulnerabilities associated with CI/CD pipelines.</li>
 <li>Implement best practices for managing GitHub Secrets to prevent leakage.</li>
@@ -6560,7 +6561,6 @@
 <li>Apply the Principle of Least Privilege to the <code>GITHUB_TOKEN</code>.</li>
 <li>Evaluate the security trade-offs of provisioning cloud VMs directly from GitHub Actions.</li>
 </ul>
-</div>
 <p>As organizations shift toward "everything as code," the CI/CD pipeline becomes the most critical piece of infrastructure. Because a GitHub Action often has the power to deploy code to production, access databases, and manage cloud resources, it is a <strong>high-value target</strong> for attackers. A single compromised workflow or a leaked secret can lead to a full-scale cloud breach.</p>
 <h2 id="1-secrets-management-and-the-risk-of-leakage">1. Secrets Management and the Risk of Leakage<a class="headerlink" href="#1-secrets-management-and-the-risk-of-leakage" title="Permanent link">¶</a></h2>
 <p>Secrets (API keys, SSH keys, passwords) are the keys to your kingdom. If they are leaked, your security is gone.</p>
@@ -6601,9 +6601,9 @@ While SHAs are harder to read, they are <strong>immutable</strong>. To keep thin
 <h3 id="hardening-the-token">Hardening the Token<a class="headerlink" href="#hardening-the-token" title="Permanent link">¶</a></h3>
 <p>You should explicitly define the permissions your workflow needs at the top of your YAML file. If your workflow only needs to read the code and push to the <code>gh-pages</code> branch, do not give it full write access to the entire repository.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">permissions</span><span class="p">:</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span><span class="w">   </span><span class="c1"># Can read the repo</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">pages</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w">     </span><span class="c1"># Can update GitHub Pages</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w">  </span><span class="c1"># Required for OIDC cloud authentication</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w"> </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span><span class="w"> </span><span class="c1"># Can read the repo</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w"> </span><span class="nt">pages</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w"> </span><span class="c1"># Can update GitHub Pages</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w"> </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w"> </span><span class="c1"># Required for OIDC cloud authentication</span>
 </span></code></pre></div>
 <h2 id="5-runner-security-hosted-vs-self-hosted">5. Runner Security: Hosted vs. Self-Hosted<a class="headerlink" href="#5-runner-security-hosted-vs-self-hosted" title="Permanent link">¶</a></h2>
 <h3 id="github-hosted-runners">GitHub-Hosted Runners<a class="headerlink" href="#github-hosted-runners" title="Permanent link">¶</a></h3>
@@ -6638,60 +6638,61 @@ While SHAs are harder to read, they are <strong>immutable</strong>. To keep thin
 </tbody>
 </table>
 <h3 id="the-verdict-do-it-but-do-it-right">The Verdict: Do it, but do it Right<a class="headerlink" href="#the-verdict-do-it-but-do-it-right" title="Permanent link">¶</a></h3>
-<p>Provisioning VMs via GitHub Actions is a powerful pattern, but it must follow these three security mandates:</p>
+<p>Provisioning VMs via GitHub Actions is a pattern, but it must follow these three security mandates:</p>
 <ol>
 <li><strong>No Static Keys (Use OIDC)</strong>: Never store <code>AWS_ACCESS_KEY_ID</code> in GitHub Secrets. Use <strong>OpenID Connect (OIDC)</strong> to allow GitHub to authenticate directly with the cloud provider using a short-lived token.</li>
 <li><strong>Use IaC, Not Scripts</strong>: Do not use <code>curl</code> or <code>aws cli</code> to create VMs. Use <strong>Terraform</strong> or <strong>Ansible</strong>. This ensures that the environment is defined as code and can be destroyed reliably.</li>
 <li><strong>Automated Cleanup</strong>: Always implement a "Destroy" step in your workflow. Use a <code>post</code> block or a separate "cleanup" job to ensure that no matter if the test fails or passes, the VM is terminated.</li>
 </ol>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Example of the "Correct" way to handle Cloud VMs</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">jobs</span><span class="p">:</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">test-on-vm</span><span class="p">:</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w"> </span><span class="c1"># Required for OIDC</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Provision VM with Terraform</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform apply -auto-approve</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Tests</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./run-tests.sh</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Destroy VM</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">        </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always()</span><span class="w"> </span><span class="c1"># Ensure cleanup happens even if tests fail</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform destroy -auto-approve</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nt">jobs</span><span class="p">:</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w"> </span><span class="nt">test-on-vm</span><span class="p">:</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w"> </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w"> </span><span class="nt">permissions</span><span class="p">:</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w"> </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w"> </span><span class="c1"># Required for OIDC</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w"> </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w"> </span><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Provision VM with Terraform</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform apply -auto-approve</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Tests</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">run:./run-tests.sh</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Destroy VM</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w"> </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always()</span><span class="w"> </span><span class="c1"># Ensure cleanup happens even if tests fail</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">terraform destroy -auto-approve</span>
 </span></code></pre></div>
 <hr>
 <h2 id="learning-wrap-up">🎓 Learning Wrap-up<a class="headerlink" href="#learning-wrap-up" title="Permanent link">¶</a></h2>
 <h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h1>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
-<p>Test your knowledge by expanding the questions below.</p>
 </div>
+<p>Test your knowledge by expanding the questions below.</p>
 <details class="question">
 <summary>Why should I pin third-party actions to a specific Commit SHA instead of a version tag?</summary>
-<p>Version tags (like <code>@v4</code>) are <strong>mutable</strong>, meaning a maintainer or an attacker who compromises the repository can move the tag to a different, potentially malicious commit. <strong>Commit SHAs</strong> are immutable; pinning to a SHA guarantees that the exact code you reviewed and approved is what actually runs in your pipeline.</p>
 </details>
+<p>Version tags (like <code>@v4</code>) are <strong>mutable</strong>, meaning a maintainer or an attacker who compromises the repository can move the tag to a different, potentially malicious commit. <strong>Commit SHAs</strong> are immutable; pinning to a SHA guarantees that the exact code you reviewed and approved is what actually runs in your pipeline.</p>
 <details class="question">
 <summary>What is the benefit of defining explicit permissions for the GITHUB_TOKEN?</summary>
-<p>Applying the <strong>Principle of Least Privilege</strong> by defining explicit permissions (e.g., <code>contents: read</code>) ensures that the <code>GITHUB_TOKEN</code> only has the access it absolutely needs. This significantly reduces the blast radius if a third-party action is compromised or if the token is accidentally leaked.</p>
 </details>
+<p>Applying the <strong>Principle of Least Privilege</strong> by defining explicit permissions (e.g., <code>contents: read</code>) ensures that the <code>GITHUB_TOKEN</code> only has the access it absolutely needs. This significantly reduces the blast radius if a third-party action is compromised or if the token is accidentally leaked.</p>
 <details class="question">
 <summary>When should I use pull_request instead of pull_request_target?</summary>
-<p>You should use <code>on: pull_request</code> for any workflow that processes untrusted code from a fork. It runs in the context of a merge commit with read-only access and no access to secrets. <code>on: pull_request_target</code> is dangerous because it runs in the context of the base branch and has access to secrets, which can be exploited by a malicious contributor to steal credentials.</p>
 </details>
+<p>You should use <code>on: pull_request</code> for any workflow that processes untrusted code from a fork. It runs in the context of a merge commit with read-only access and no access to secrets. <code>on: pull_request_target</code> is dangerous because it runs in the context of the base branch and has access to secrets, which can be exploited by a malicious contributor to steal credentials.</p>
 <details class="question">
 <summary>How can I prevent secrets from leaking into GitHub Action logs?</summary>
-<p>Secrets should be stored in <strong>GitHub Secrets</strong> and never hardcoded. To prevent leakage, avoid using <code>echo</code> or printing variables containing secrets. While GitHub masks secrets with <code>***</code>, attackers can bypass this using encoding. The best practice is to use dedicated secret-scanning tools and regularly rotate credentials.</p>
 </details>
+<p>Secrets should be stored in <strong>GitHub Secrets</strong> and never hardcoded. To prevent leakage, avoid using <code>echo</code> or printing variables containing secrets. While GitHub masks secrets with <code>***</code>, attackers can bypass this using encoding. The best practice is to use dedicated secret-scanning tools and regularly rotate credentials.</p>
 <details class="question">
 <summary>How does OIDC improve the security of provisioning cloud VMs?</summary>
-<p><strong>OpenID Connect (OIDC)</strong> eliminates the need to store long-lived, static cloud credentials (like <code>AWS_ACCESS_KEY_ID</code>) in GitHub Secrets. Instead, it allows GitHub Actions to authenticate directly with the cloud provider using a short-lived, dynamically generated token, significantly reducing the risk of credential theft.</p>
 </details>
+<p><strong>OpenID Connect (OIDC)</strong> eliminates the need to store long-lived, static cloud credentials (like <code>AWS_ACCESS_KEY_ID</code>) in GitHub Secrets. Instead, it allows GitHub Actions to authenticate directly with the cloud provider using a short-lived, dynamically generated token, significantly reducing the risk of credential theft.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment: The Security Audit</p>
-<p>Review a public open-source project's <code>.github/workflows</code> directory. Identify at least two security weaknesses (e.g., mutable tags, over-privileged tokens, or insecure event triggers) and write a short proposal on how to fix them.</p>
 </div>
+<p>Review a public open-source project's <code>.github/workflows</code> directory. Identify at least two security weaknesses (e.g., mutable tags, over-privileged tokens, or insecure event triggers) and write a short proposal on how to fix them.</p>
 
 
 
