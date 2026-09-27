@@ -6372,15 +6372,15 @@
 <h1 id="managing-python-environments-with-pipx-and-pyenv">Managing Python Environments with pipx and pyenv<a class="headerlink" href="#managing-python-environments-with-pipx-and-pyenv" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
-<p>By the end of this chapter, you will be able to:
-- Differentiate between application-level and library-level Python installations.
-- Utilize <code>pipx</code> to install global command-line tools without inducing dependency conflicts.
-- Configure a stable development environment using <code>pyenv</code> and editable installations.
-- Resolve common dependency collisions in mixed-use Python environments.
-- Implement a workflow that allows simultaneous use of heavy CLI tools and custom project development.</p>
 </div>
+<p>By the end of this chapter, you will be able to:
+ - Differentiate between application-level and library-level Python installations.
+ - Utilize <code>pipx</code> to install global command-line tools without inducing dependency conflicts.
+ - Configure a stable development environment using <code>pyenv</code> and editable installations.
+ - Resolve common dependency collisions in mixed-use Python environments.
+ - Implement a workflow that allows simultaneous use of heavy CLI tools and custom project development.</p>
 <p>In the Python ecosystem, managing dependencies is a critical operational challenge. When multiple tools share the same global environment, "dependency collision" often occurs—a state where two different packages require different versions of the same library. For example, a cloud management tool might require an older version of a cryptography library, while a modern AI framework requires a newer one. Installing both globally typically results in one package breaking the other.</p>
-<p>Professional Python development requires a strategic separation of concerns. Instead of a single environment, engineers employ different isolation strategies based on whether the software is being used as a standalone application or developed as a library.</p>
+<p>Python development requires a strategic separation of concerns. Instead of a single environment, engineers employ different isolation strategies based on whether the software is being used as a standalone application or developed as a library.</p>
 <h2 id="understanding-dependency-collisions">Understanding Dependency Collisions<a class="headerlink" href="#understanding-dependency-collisions" title="Permanent link">¶</a></h2>
 <p>A dependency collision occurs when the Python package manager (<code>pip</code>) is forced to choose between conflicting version requirements for a shared dependency. In a global installation, only one version of a library can exist at a time.</p>
 <h3 id="application-vs-library-dependencies">Application vs. Library Dependencies<a class="headerlink" href="#application-vs-library-dependencies" title="Permanent link">¶</a></h3>
@@ -6408,73 +6408,79 @@
 <h3 id="step-1-install-openstack-via-pipx">Step 1: Install OpenStack via pipx<a class="headerlink" href="#step-1-install-openstack-via-pipx" title="Permanent link">¶</a></h3>
 <p>This process installs the OpenStack client as a global command while isolating its heavy dependencies.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Install pipx via Homebrew</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>brew<span class="w"> </span>install<span class="w"> </span>pipx
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Ensure pipx binaries are in the system PATH</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>pipx<span class="w"> </span>ensurepath
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>brew<span class="w"> </span>install<span class="w"> </span>pipx
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Ensure pipx binaries are in the system PATH</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Install the OpenStack client globally</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>pipx<span class="w"> </span>install<span class="w"> </span>python-openstackclient
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>pipx<span class="w"> </span>ensurepath
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Install the OpenStack client globally</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>pipx<span class="w"> </span>install<span class="w"> </span>python-openstackclient
 </span></code></pre></div>
 <p>After execution, the <code>openstack</code> command is available in any terminal session, regardless of the active Python environment.</p>
 <h3 id="step-2-clean-the-pyenv-environment">Step 2: Clean the pyenv Environment<a class="headerlink" href="#step-2-clean-the-pyenv-environment" title="Permanent link">¶</a></h3>
 <p>Before setting up the development project, it is necessary to remove any leftover package conflicts from previous global installation attempts.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Replace 3.14.4 with your active pyenv version</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>~/.pyenv/versions/3.14.4/lib/python3.14/site-packages/~*
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>rm<span class="w"> </span>-rf<span class="w"> </span>~/.pyenv/versions/3.14.4/lib/python3.14/site-packages/~*
 </span></code></pre></div>
 <p>This step ensures a "clean slate" for the project dependencies, preventing legacy conflicts from interfering with the editable install.</p>
 <h3 id="step-3-setup-cloudmesh-ai-llm-in-pyenv">Step 3: Setup Cloudmesh-AI-LLM in pyenv<a class="headerlink" href="#step-3-setup-cloudmesh-ai-llm-in-pyenv" title="Permanent link">¶</a></h3>
 <p>Navigate to the project root and install the package in editable mode.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Navigate to the project directory</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>~/work/cloudmesh-ai-llm
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Install the project and its dependencies in editable mode</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">cd</span><span class="w"> </span>~/work/cloudmesh-ai-llm
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Install the project and its dependencies in editable mode</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>pip<span class="w"> </span>install<span class="w"> </span>-e.
 </span></code></pre></div>
-<p>By using <code>-e .</code>, the <code>cloudmesh-ai-llm</code> package is linked to the current directory. Modifications to the source code will take effect instantly.</p>
+<p>By using <code>-e.</code>, the <code>cloudmesh-ai-llm</code> package is linked to the current directory. Modifications to the source code will take effect instantly.</p>
 <div class="admonition tip">
 <p class="admonition-title">Summary Checklist</p>
+</div>
 <ul>
 <li>[ ] Installed <code>pipx</code> and configured the system PATH.</li>
 <li>[ ] Installed <code>python-openstackclient</code> using <code>pipx</code> to isolate dependencies.</li>
 <li>[ ] Verified that the <code>openstack</code> command works globally.</li>
 <li>[ ] Cleaned the <code>pyenv</code> site-packages directory to remove conflicts.</li>
-<li>[ ] Performed an editable install (<code>pip install -e .</code>) for the development project.</li>
+<li>[ ] Performed an editable install (<code>pip install -e.</code>) for the development project.</li>
 <li>[ ] Confirmed that code changes are reflected without re-installation.</li>
 </ul>
-</div>
 <h2 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
-<p>Test your knowledge by expanding the questions below.</p>
 </div>
+<p>Test your knowledge by expanding the questions below.</p>
 <details class="question">
 <summary>What is the primary difference between an application-level installation (<code>pipx</code>) and a library-level installation (<code>pip</code>)?</summary>
-<p>Application-level installations are for standalone CLI tools that are executed from the shell; they are isolated in their own venvs to avoid dependency collisions. Library-level installations are for packages intended to be imported into other Python code.</p>
 </details>
+<p>Application-level installations are for standalone CLI tools that are executed from the shell; they are isolated in their own venvs to avoid dependency collisions. Library-level installations are for packages intended to be imported into other Python code.</p>
 <details class="question">
 <summary>How does <code>pipx</code> allow a tool to be available globally while remaining isolated?</summary>
+</details>
 <p><code>pipx</code> creates a private virtual environment for the tool and then creates a symbolic link (symlink) from the tool's executable binary to a global directory in the user's PATH (e.g., <code>~/.local/bin</code>).</p>
-</details>
 <details class="question">
-<summary>What is an 'editable install' (<code>pip install -e .</code>) and why is it critical for development?</summary>
-<p>An editable install links the installed package to the source code directory rather than copying the files. This allows developers to see the effects of code changes immediately without having to re-install the package.</p>
+<summary>What is an 'editable install' (<code>pip install -e.</code>) and why is it critical for development?</summary>
 </details>
+<p>An editable install links the installed package to the source code directory rather than copying the files. This allows developers to see the effects of code changes immediately without having to re-install the package.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 1: Application Isolation</p>
-<p><strong>Task</strong>: Use <code>pipx</code> to install a common Python-based CLI tool (e.g., <code>black</code> or <code>httpie</code>). Verify that the tool is available globally but that its dependencies are not visible in your current <code>pyenv</code> or global <code>pip list</code>.
-<strong>Goal</strong>: Confirm the isolation mechanism of <code>pipx</code>.</p>
 </div>
+<p><strong>Task</strong>: Use <code>pipx</code> to install a common Python-based CLI tool (e.g., <code>black</code> or <code>httpie</code>). Verify that the tool is available globally but that its dependencies are not visible in your current <code>pyenv</code> or global <code>pip list</code>.
+ <strong>Goal</strong>: Confirm the isolation mechanism of <code>pipx</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 2: OpenStack CLI Setup</p>
-<p><strong>Task</strong>: Install the <code>python-openstackclient</code> using the steps in this chapter. Run <code>openstack --version</code> to verify installation, then check if <code>oslo.config</code> is present in your project's <code>pip list</code>.
-<strong>Goal</strong>: Verify that the application is functional while remaining isolated from the development environment.</p>
 </div>
+<p><strong>Task</strong>: Install the <code>python-openstackclient</code> using the steps in this chapter. Run <code>openstack --version</code> to verify installation, then check if <code>oslo.config</code> is present in your project's <code>pip list</code>.
+ <strong>Goal</strong>: Verify that the application is functional while remaining isolated from the development environment.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 3: Editable Mode Verification</p>
-<p><strong>Task</strong>: In the <code>cloudmesh-ai-llm</code> project, add a simple print statement to one of the main functions. Execute the tool and verify the print statement appears without running <code>pip install</code> again.
-<strong>Goal</strong>: Demonstrate the efficiency of editable installs for rapid development.</p>
 </div>
+<p><strong>Task</strong>: In the <code>cloudmesh-ai-llm</code> project, add a simple print statement to one of the main functions. Execute the tool and verify the print statement appears without running <code>pip install</code> again.
+ <strong>Goal</strong>: Demonstrate the efficiency of editable installs for rapid development.</p>
 
 
 

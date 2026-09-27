@@ -6404,6 +6404,7 @@
 <h1 id="command-line-interfaces-with-docopt">Command-Line Interfaces with Docopt<a class="headerlink" href="#command-line-interfaces-with-docopt" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
+</div>
 <ul>
 <li>Install and configure the <code>docopt</code> library.</li>
 <li>Design command-line interfaces using standard POSIX-style usage patterns.</li>
@@ -6411,7 +6412,6 @@
 <li>Handle optional and required arguments based on usage strings.</li>
 <li>Implement a multi-command CLI using a single docstring.</li>
 </ul>
-</div>
 <p>When designing command-line interfaces (CLIs), developers typically spend significant time writing code to parse arguments and an equal amount of time writing the help message that explains how to use those arguments. This redundancy often leads to "documentation drift," where the help text and the actual implementation of the argument parser diverge over time.</p>
 <p>Docopt takes a fundamentally different approach known as documentation-driven development. Instead of writing code to define a parser, the developer writes the help message first, following a standardized POSIX-style usage pattern. Docopt then parses this help message and automatically generates the argument parser. This ensures that the documentation and the implementation are always in perfect synchronization, as the documentation <em>is</em> the specification.</p>
 <h2 id="introduction-to-docopt">Introduction to Docopt<a class="headerlink" href="#introduction-to-docopt" title="Permanent link">¶</a></h2>
@@ -6424,17 +6424,17 @@
 <p>In a typical Python application, the usage pattern is defined in the module's docstring (<code>__doc__</code>). The <code>docopt()</code> function then reads this string and parses the command-line input (<code>sys.argv</code>) against it.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="sd">"""My Application</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="sd">Usage:</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="sd">  my_app.py &lt;name&gt;</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="sd">  my_app.py (-h | --help)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="sd"> my_app.py &lt;name&gt;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="sd"> my_app.py (-h | --help)</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="sd">Options:</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="sd">  -h --help     Show this screen.</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="sd"> -h --help Show this screen.</span>
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="sd">"""</span>
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">docopt</span><span class="w"> </span><span class="kn">import</span> <span class="n">docopt</span>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">arguments</span> <span class="o">=</span> <span class="n">docopt</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a> <span class="n">arguments</span> <span class="o">=</span> <span class="n">docopt</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a> <span class="nb">print</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
 </span></code></pre></div>
 <p>If the user runs <code>python my_app.py Alice</code>, the resulting <code>arguments</code> dictionary will be <code>{'&lt;name&gt;': 'Alice', '--help': False}</code>. If the user provides invalid input, Docopt automatically prints the usage message and exits the program.</p>
 <h2 id="designing-usage-patterns">Designing Usage Patterns<a class="headerlink" href="#designing-usage-patterns" title="Permanent link">¶</a></h2>
@@ -6447,16 +6447,16 @@
 <h3 id="short-and-long-options">Short and Long Options<a class="headerlink" href="#short-and-long-options" title="Permanent link">¶</a></h3>
 <p>Docopt supports both short and long options, as well as the ability to group them together.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Usage:
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  my_tool.py [-v | --verbose] &lt;input_file&gt;
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> my_tool.py [-v | --verbose] &lt;input_file&gt;
 </span></code></pre></div>
 <p>In this pattern, the user can provide either <code>-v</code> or <code>--verbose</code>, or neither.</p>
 <h3 id="multiple-usage-patterns">Multiple Usage Patterns<a class="headerlink" href="#multiple-usage-patterns" title="Permanent link">¶</a></h3>
-<p>Many professional tools support different "modes" of operation. You can define multiple usage patterns on separate lines to support this.</p>
+<p>Many tools support different "modes" of operation. You can define multiple usage patterns on separate lines to support this.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Usage:
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  tool.py start &lt;name&gt; [--cloud=CLOUD]
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  tool.py stop &lt;name&gt; [--cloud=CLOUD]
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  tool.py set --cloud=CLOUD
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  tool.py (-h | --help)
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a> tool.py start &lt;name&gt; [--cloud=CLOUD]
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a> tool.py stop &lt;name&gt; [--cloud=CLOUD]
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a> tool.py set --cloud=CLOUD
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a> tool.py (-h | --help)
 </span></code></pre></div>
 <p>This definition tells Docopt that the tool has three distinct operational modes: starting a resource, stopping a resource, or setting a global configuration.</p>
 <h2 id="implementing-the-parser">Implementing the Parser<a class="headerlink" href="#implementing-the-parser" title="Permanent link">¶</a></h2>
@@ -6465,76 +6465,66 @@
 <p>The following example demonstrates a tool for managing virtual machines.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="sd">"""VM Manager</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="sd">Usage:</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="sd">  vm_tool.py start &lt;name&gt; [--cloud=CLOUD]</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="sd">  vm_tool.py stop &lt;name&gt; [--cloud=CLOUD]</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="sd">  vm_tool.py -h | --help</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="sd"> vm_tool.py start &lt;name&gt; [--cloud=CLOUD]</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="sd"> vm_tool.py stop &lt;name&gt; [--cloud=CLOUD]</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="sd"> vm_tool.py -h | --help</span>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="sd">Options:</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="sd">  -h --help         Show this screen.</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="sd">  --cloud=CLOUD     The name of the cloud provider [default: AWS].</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="sd"> -h --help Show this screen.</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="sd"> --cloud=CLOUD The name of the cloud provider [default: AWS].</span>
 </span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="sd">"""</span>
 </span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="kn">from</span><span class="w"> </span><span class="nn">docopt</span><span class="w"> </span><span class="kn">import</span> <span class="n">docopt</span>
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
 </span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">start_vm</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">):</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting VM </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> on cloud </span><span class="si">{</span><span class="n">cloud</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting VM </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> on cloud </span><span class="si">{</span><span class="n">cloud</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
 </span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
 </span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="k">def</span><span class="w"> </span><span class="nf">stop_vm</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cloud</span><span class="p">):</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Stopping VM </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> on cloud </span><span class="si">{</span><span class="n">cloud</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Stopping VM </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> on cloud </span><span class="si">{</span><span class="n">cloud</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
 </span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
 </span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="n">args</span> <span class="o">=</span> <span class="n">docopt</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a> <span class="n">args</span> <span class="o">=</span> <span class="n">docopt</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
 </span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="n">cloud_provider</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">'--cloud'</span><span class="p">]</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a> <span class="n">cloud_provider</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">'--cloud'</span><span class="p">]</span>
 </span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]:</span>
-</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>        <span class="n">start_vm</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">'&lt;name&gt;'</span><span class="p">],</span> <span class="n">cloud_provider</span><span class="p">)</span>
-</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="s1">'stop'</span><span class="p">]:</span>
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        <span class="n">stop_vm</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">'&lt;name&gt;'</span><span class="p">],</span> <span class="n">cloud_provider</span><span class="p">)</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]:</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a> <span class="n">start_vm</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">'&lt;name&gt;'</span><span class="p">],</span> <span class="n">cloud_provider</span><span class="p">)</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a> <span class="k">elif</span> <span class="n">args</span><span class="p">[</span><span class="s1">'stop'</span><span class="p">]:</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a> <span class="n">stop_vm</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">'&lt;name&gt;'</span><span class="p">],</span> <span class="n">cloud_provider</span><span class="p">)</span>
 </span></code></pre></div>
 <h3 id="handling-default-values">Handling Default Values<a class="headerlink" href="#handling-default-values" title="Permanent link">¶</a></h3>
 <p>Default values can be specified directly in the Options section of the docstring using the <code>[default: value]</code> syntax. Docopt will automatically populate the dictionary with these values if the user does not provide the option.</p>
 <h2 id="self-assessment">Self Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h2>
 <details class="question">
 <summary>Self Assessment</summary>
+</details>
 <p>Test your knowledge by expanding the questions below.</p>
-<details class="question">
-<summary>What is 'documentation-driven development' in the context of Docopt?</summary>
-<p>It is the practice of writing the help message (usage string) first and having the library automatically generate the argument parser from that documentation.</p>
-</details>
-<details class="question">
-<summary>How do you define a mandatory positional argument versus an optional flag in a Docopt usage string?</summary>
-<p>Mandatory arguments are written in uppercase or angle brackets (e.g., <code>&lt;name&gt;</code>); optional flags are defined with dashes (e.g., <code>--verbose</code>).</p>
-</details>
-<details class="question">
-<summary>How can you support multiple operational modes (e.g., <code>start</code> and <code>stop</code>) in a single Docopt application?</summary>
-<p>Define multiple usage patterns on separate lines within the usage section of the docstring.</p>
-</details>
-<details class="question">
-<summary>How are default values for options handled in Docopt?</summary>
-<p>They are specified directly in the Options section of the docstring using the <code>[default: value]</code> syntax.</p>
-</details>
-<details class="question">
-<summary>What is the primary benefit of using Docopt over a traditional parser like <code>argparse</code>?</summary>
-<p>It eliminates 'documentation drift' because the help text is the actual specification used to generate the parser.</p>
-</details>
-</details>
+<p>??? question "What is 'documentation-driven development' in the context of Docopt?"
+ It is the practice of writing the help message (usage string) first and having the library automatically generate the argument parser from that documentation.</p>
+<p>??? question "How do you define a mandatory positional argument versus an optional flag in a Docopt usage string?"
+ Mandatory arguments are written in uppercase or angle brackets (e.g., <code>&lt;name&gt;</code>); optional flags are defined with dashes (e.g., <code>--verbose</code>).</p>
+<p>??? question "How can you support multiple operational modes (e.g., <code>start</code> and <code>stop</code>) in a single Docopt application?"
+ Define multiple usage patterns on separate lines within the usage section of the docstring.</p>
+<p>??? question "How are default values for options handled in Docopt?"
+ They are specified directly in the Options section of the docstring using the <code>[default: value]</code> syntax.</p>
+<p>??? question "What is the primary benefit of using Docopt over a traditional parser like <code>argparse</code>?"
+ It eliminates 'documentation drift' because the help text is the actual specification used to generate the parser.</p>
 <h2 id="assignments">Assignments<a class="headerlink" href="#assignments" title="Permanent link">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Assignment 1: Basic Input Parser</p>
-<p>Create a CLI tool called <code>greet.py</code>. Design a usage string that requires a <code>&lt;name&gt;</code> argument and provides an optional <code>--formal</code> flag. If the flag is present, the output should be "Good day, [name]"; otherwise, "Hi, [name]!".</p>
 </div>
+<p>Create a CLI tool called <code>greet.py</code>. Design a usage string that requires a <code>&lt;name&gt;</code> argument and provides an optional <code>--formal</code> flag. If the flag is present, the output should be "Good day, [name]"; otherwise, "Hi, [name]!".</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 2: Resource Management Tool</p>
-<p>Build a tool for managing a hypothetical "Cloud Storage" service. The usage string should support three patterns:
-1. <code>storage.py upload &lt;file&gt; &lt;bucket&gt;</code>
-2. <code>storage.py download &lt;bucket&gt; &lt;file&gt;</code>
-3. <code>storage.py list &lt;bucket&gt;</code>
-Implement the logic to print which action is being performed and which files/buckets are involved.</p>
 </div>
+<p>Build a tool for managing a hypothetical "Cloud Storage" service. The usage string should support three patterns:
+ 1. <code>storage.py upload &lt;file&gt; &lt;bucket&gt;</code>
+ 2. <code>storage.py download &lt;bucket&gt; &lt;file&gt;</code>
+ 3. <code>storage.py list &lt;bucket&gt;</code>
+ Implement the logic to print which action is being performed and which files/buckets are involved.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 3: Advanced Option Handling</p>
-<p>Implement a CLI that takes a mandatory <code>&lt;filename&gt;</code> and supports mutually exclusive options: <code>--encrypt</code> and <code>--decrypt</code>. Use the usage pattern <code>tool.py (--encrypt | --decrypt) &lt;filename&gt;</code>. Ensure the program prints an error if both or neither are provided (Docopt should handle this automatically).</p>
 </div>
+<p>Implement a CLI that takes a mandatory <code>&lt;filename&gt;</code> and supports mutually exclusive options: <code>--encrypt</code> and <code>--decrypt</code>. Use the usage pattern <code>tool.py (--encrypt | --decrypt) &lt;filename&gt;</code>. Ensure the program prints an error if both or neither are provided (Docopt should handle this automatically).</p>
 <h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">¶</a></h2>
 <ul>
 <li>Docopt Official GitHub: https://github.com/docopt/docopt</li>
