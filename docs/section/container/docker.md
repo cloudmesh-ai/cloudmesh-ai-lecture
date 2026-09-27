@@ -18,7 +18,7 @@ A **hands‑on, step‑by‑step guide** that walks you through installing Docke
 ---
 
 
-![Docker container landscape](images/dockercontainer-landscape-chatgp.png)
+![Docker container landscape](images/docker-container-landscape.png)
 
 ## 1. What is Docker?
 
