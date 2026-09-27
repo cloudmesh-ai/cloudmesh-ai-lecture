@@ -65,7 +65,7 @@ JSON written to: /tmp/kernels.json
 
 These rankings can be fed directly to the next stage of the pipeline (LLM prompt generation). For each hot kernel you would:
 
-1. **Generate a prompt** (using the Jinja2 template) that includes the full source of the function, the target GPU (e.g., AMD MI‑250X), and a request such as “rewrite this kernel using HIP off‑load pragmas or OpenMP target directives.”
+1. **Generate a prompt** (using the Jinja2 template) that includes the full source of the function, the target GPU (e.g., AMD MI‑250X), and a request such as "rewrite this kernel using HIP off‑load pragmas or OpenMP target directives."
 2. **Send the prompt** to the chosen LLM (OpenAI, Claude, etc.) and capture the returned code.
 3. **Create a unified diff**, run a syntax‑only compile check, and, if it passes, apply the patch.
 4. **Benchmark the patched kernel** with the `benchmark/benchmark.py` driver (wall‑time + `rocprof` counters) and store the results.
@@ -75,16 +75,16 @@ These rankings can be fed directly to the next stage of the pipeline (LLM prompt
 
 | Action | Why | Quick tip |
 |--------|-----|-----------|
-| **Add real source files** | The prototype used a hard‑coded string; in the actual project you’ll read all `*.c`, `*.cpp`, `*.f90` files from the repository. | `glob.glob('src/**/*.c', recursive=True)` |
+| **Add real source files** | The prototype used a hard‑coded string; in the actual project you'll read all `*.c`, `*.cpp`, `*.f90` files from the repository. | `glob.glob('src/**/*.c', recursive=True)` |
 | **Persist metadata** | Instead of an in‑memory list, store kernel metadata (name, file, line range, FLOPs) in SQLite or a JSON file that the CI can cache. | Use `sqlite3` in the real CI environment (available on the runner). |
 | **Refine FLOP estimate** | The current estimate assumes 1 000 iterations per loop. A more accurate approach parses loop bounds (`N`, `n`) from the code or reads runtime configuration. | Extend `estimate_flops` to resolve constant or macro values when possible. |
-| **Build LLM prompt template** | A well‑crafted prompt yields better GPU‑aware suggestions. Include explicit constraints (e.g., “keep the same API, only add `#pragma omp target` or HIP kernels”). | Store the template in `templates/prompt.j2`. |
+| **Build LLM prompt template** | A well‑crafted prompt yields better GPU‑aware suggestions. Include explicit constraints (e.g., "keep the same API, only add `#pragma omp target` or HIP kernels"). | Store the template in `templates/prompt.j2`. |
 | **Implement patch validator** | Syntax‑only compile (`clang -fsyntax-only`) catches most errors before the costly benchmark. | Add a CI step that aborts on non‑zero exit code. |
 | **Create benchmark driver** | A driver that compiles the patched kernel into a small executable, runs it repeatedly, and invokes `rocprof` will produce the performance numbers needed for the feedback loop. | Wrap the driver in a Python script that writes a JSON result file. |
 | **Integrate CI workflow** | Wire all steps together in `.github/workflows/optimize.yml`. The workflow should run on every PR to a `candidate/` branch, post a markdown table with speed‑up percentages, and optionally auto‑merge when the target is reached. | Use the `actions/github-script` action to comment on the PR. |
-| **Document the process** | A clear `README.md` and MkDocs site make the project reproducible for future students. | Include sections: “How to add a new kernel”, “Running the CI locally”, “Extending the LLM prompt”. |
+| **Document the process** | A clear `README.md` and MkDocs site make the project reproducible for future students. | Include sections: "How to add a new kernel", "Running the CI locally", "Extending the LLM prompt". |
 
-By following this checklist, you’ll move from the **kernel‑detection prototype** to a **fully automated AI‑guided optimisation pipeline** that satisfies the project requirements: cloud‑ready Docker image, GitHub‑based CI, AI integration, and measurable performance gains. Good luck
+By following this checklist, you'll move from the **kernel‑detection prototype** to a **fully automated AI‑guided optimisation pipeline** that satisfies the project requirements: cloud‑ready Docker image, GitHub‑based CI, AI integration, and measurable performance gains. Good luck
 
 
 
@@ -315,7 +315,7 @@ conn.close()
 ### 11 AI‑Guided Code‑Optimization Agent  
 > **Goal:** Build an *agentic* AI that takes a scientific codebase (C, C++, Fortran, or CUDA), automatically discovers the compute‑intensive kernels, proposes GPU‑friendly rewrites (e.g., using HIP/ROCm, OpenMP offload, or vendor‑specific intrinsics), generates a reproducible benchmark, evaluates the new version, and iterates until a target speed‑up or performance‑per‑watt metric is reached.  
 
-Below is a **comprehensive, “cook‑book”‑style** plan that expands the original short description into concrete tasks, artefacts, and a realistic semester‑long schedule.
+Below is a **comprehensive, "cook‑book"‑style** plan that expands the original short description into concrete tasks, artefacts, and a realistic semester‑long schedule.
 
 ---
 
@@ -370,7 +370,7 @@ Below is a **comprehensive, “cook‑book”‑style** plan that expands the or
 |-------|-------------------|------------|----------------------|
 | **A – Project Setup** | 1‑2 | • Create GitHub repo (private → public at semester end) <br>• Define issue board (Backlog, In‑Progress, Review, Done) <br>• Write initial README & roadmap <br>• Set up CI (GitHub Actions) with a base Docker image (Ubuntu 22.04 + clang‑13 + ROCm 6.2) | Repo skeleton, CI badge, Dockerfile |
 | **B – Static Code Introspection** | 3‑4 | • Choose a target codebase (e.g., a mini‑CFD solver written in C++) <br>• Implement a **Python‑wrapper** around `clang.cindex` to extract all function definitions, call‑graphs, and loop nests <br>• Store metadata (file, line‑range, estimated FLOPs) in a SQLite DB | `intake.py`, `metadata.db`, unit‑tests |
-| **C – Kernel Detection & Scoring** | 5‑6 | • Compute a **“hotness” score** = (estimated FLOPs × call‑frequency) <br>• Auto‑select top‑N kernels (default N=3) <br>• Visualise ranking (matplotlib bar chart) | `detect_kernels.ipynb` → `kernel_ranking.png` |
+| **C – Kernel Detection & Scoring** | 5‑6 | • Compute a **"hotness" score** = (estimated FLOPs × call‑frequency) <br>• Auto‑select top‑N kernels (default N=3) <br>• Visualise ranking (matplotlib bar chart) | `detect_kernels.ipynb` → `kernel_ranking.png` |
 | **D – Prompt Engineering & LLM Call** | 7‑8 | • Build Jinja2 templates that feed the kernel source, performance goals, and target GPU (AMD MI‑250X) to the LLM <br>• Wrap OpenAI/Claude API with exponential‑back‑off, token‑counters, and a **thread‑safe Stopwatch** (reuse `cloudmesh‑ai StopWatch`) <br>• Store raw LLM response in `suggestions/` folder | `prompt_builder.py`, `llm_client.py`, sample JSON response |
 | **E – Diff‑Based Patch Generation** | 9‑10 | • Parse LLM output (usually a complete function) <br>• Use `libcst` (for C) or `clang‑tidy` to produce a **unified diff** <br>• Run a sanity check: compile‑only → no syntax errors | `apply_patch.py`, diff files in `patches/` |
 | **F – Automated Benchmark Harness** | 11‑12 | • Choose a lightweight benchmark suite (e.g., `benchmark.py` that runs each kernel 100 ×, measures wall‑time with `time.perf_counter()` and GPU counters via `rocprof`) <br>• Automate result storage to `results/<commit>.json` <br>• Generate plots (speed‑up, TFLOP/s) | `benchmark/` directory, `results/` JSON, `plots/` PNG |
@@ -412,7 +412,7 @@ The script below shows **how to parse a small C file**, extract every function d
 ### 11 AI‑Guided Code‑Optimization Agent  
 > **Goal:** Build an *agentic* AI that takes a scientific codebase (C, C++, Fortran, or CUDA), automatically discovers the compute‑intensive kernels, proposes GPU‑friendly rewrites (e.g., using HIP/ROCm, OpenMP offload, or vendor‑specific intrinsics), generates a reproducible benchmark, evaluates the new version, and iterates until a target speed‑up or performance‑per‑watt metric is reached.  
 
-Below is a **comprehensive, “cook‑book”‑style** plan that expands the original short description into concrete tasks, artefacts, and a realistic semester‑long schedule.
+Below is a **comprehensive, "cook‑book"‑style** plan that expands the original short description into concrete tasks, artefacts, and a realistic semester‑long schedule.
 
 ---
 
@@ -469,7 +469,7 @@ Below is a **comprehensive, “cook‑book”‑style** plan that expands the or
 |-------|-------------------|------------|----------------------|
 | **A – Project Setup** | 1‑2 | • Create GitHub repo (private → public at semester end) <br>• Define issue board (Backlog, In‑Progress, Review, Done) <br>• Write initial README & roadmap <br>• Set up CI (GitHub Actions) with a base Docker image (Ubuntu 22.04 + clang‑13 + ROCm 6.2) | Repo skeleton, CI badge, Dockerfile |
 | **B – Static Code Introspection** | 3‑4 | • Choose a target codebase (e.g., a mini‑CFD solver written in C++) <br>• Implement a **Python‑wrapper** around `clang.cindex` to extract all function definitions, call‑graphs, and loop nests <br>• Store metadata (file, line‑range, estimated FLOPs) in a SQLite DB | `intake.py`, `metadata.db`, unit‑tests |
-| **C – Kernel Detection & Scoring** | 5‑6 | • Compute a **“hotness” score** = (estimated FLOPs × call‑frequency) <br>• Auto‑select top‑N kernels (default N=3) <br>• Visualise ranking (matplotlib bar chart) | `detect_kernels.ipynb` → `kernel_ranking.png` |
+| **C – Kernel Detection & Scoring** | 5‑6 | • Compute a **"hotness" score** = (estimated FLOPs × call‑frequency) <br>• Auto‑select top‑N kernels (default N=3) <br>• Visualise ranking (matplotlib bar chart) | `detect_kernels.ipynb` → `kernel_ranking.png` |
 | **D – Prompt Engineering & LLM Call** | 7‑8 | • Build Jinja2 templates that feed the kernel source, performance goals, and target GPU (AMD MI‑250X) to the LLM <br>• Wrap OpenAI/Claude API with exponential‑back‑off, token‑counters, and a **thread‑safe Stopwatch** (reuse `cloudmesh‑ai StopWatch`) <br>• Store raw LLM response in `suggestions/` folder | `prompt_builder.py`, `llm_client.py`, sample JSON response |
 | **E – Diff‑Based Patch Generation** | 9‑10 | • Parse LLM output (usually a complete function) <br>• Use `libcst` (for C) or `clang‑tidy` to produce a **unified diff** <br>• Run a sanity check: compile‑only → no syntax errors | `apply_patch.py`, diff files in `patches/` |
 | **F – Automated Benchmark Harness** | 11‑12 | • Choose a lightweight benchmark suite (e.g., `benchmark.py` that runs each kernel 100 ×, measures wall‑time with `time.perf_counter()` and GPU counters via `rocprof`) <br>• Automate result storage to `results/<commit>.json` <br>• Generate plots (speed‑up, TFLOP/s) | `benchmark/` directory, `results/` JSON, `plots/` PNG |
@@ -506,7 +506,7 @@ The script below shows **how to parse a small C file**, extract every function d
 
 
 Below is a **complete, step‑by‑step outline** for **Project 11 – AI‑Guided Code‑Optimization Agent**.  
-It expands the original sketch into a realistic semester‑long effort, provides concrete artefacts, a concrete timeline, and a **working Python example** (pure‑Python, no external libraries) that shows how the first‑stage “kernel‑detection” could be implemented today.
+It expands the original sketch into a realistic semester‑long effort, provides concrete artefacts, a concrete timeline, and a **working Python example** (pure‑Python, no external libraries) that shows how the first‑stage "kernel‑detection" could be implemented today.
 
 ---
 
@@ -564,13 +564,13 @@ All steps are **containerised**, **CI‑driven**, and **documented** on GitHub.
 | Phase | Weeks (approx.) | Core Activities | Expected Artefacts |
 |-------|-----------------|-----------------|--------------------|
 | **A – Project Foundations** | 1‑2 | • Create GitHub repo (private → public at semester end)  <br>• Define issue board, CI skeleton, Dockerfile (Ubuntu 22.04 + ROCm 6.2)  <br>• Write high‑level README & roadmap | `README.md`, `.github/workflows/base.yml`, `Dockerfile` |
-| **B – Static Code Introspection** | 3‑4 | • Choose a modest scientific code (e.g., 2‑D heat‑diffusion solver)  <br>• Implement `code_intake.py` – uses **regex + Python’s `ast`** for C‑like languages (or `fparser` for Fortran)  <br>• Store metadata (file, line‑range, #loops, estimated FLOPs) in SQLite | `code_intake.py`, `metadata.db`, unit‑tests (`tests/test_intake.py`) |
+| **B – Static Code Introspection** | 3‑4 | • Choose a modest scientific code (e.g., 2‑D heat‑diffusion solver)  <br>• Implement `code_intake.py` – uses **regex + Python's `ast`** for C‑like languages (or `fparser` for Fortran)  <br>• Store metadata (file, line‑range, #loops, estimated FLOPs) in SQLite | `code_intake.py`, `metadata.db`, unit‑tests (`tests/test_intake.py`) |
 | **C – Kernel Scoring & Ranking** | 5‑6 | • Compute a **hotness score** = (estimated FLOPs × call‑frequency)  <br>• Visualise top‑N kernels (matplotlib bar chart)  <br>• Export `kernels.json` for the next stage | `kernel_scoring.py`, `kernel_ranking.png`, `kernels.json` |
-| **D – Prompt Engineering & LLM Interface** | 7‑8 | • Build Jinja2 templates that embed: <br> • Original kernel source  <br> • Target GPU (AMD MI‑250X)  <br> • Desired optimisation goal (e.g., “use HIP parallel loops”)  <br>• Wrap OpenAI/Claude API into `llm_client.py` with exponential back‑off and **thread‑safe `cloudmesh‑ai StopWatch`** for token timing | `prompt_builder.py`, `llm_client.py`, sample `prompt_template.txt` |
-| **E – Patch Generation & Validation** | 9‑10 | • Parse LLM output (usually a complete function)  <br>• Use **`difflib.unified_diff`** or `clang‑tidy` (optional) to create a patch file  <br>• Run a **syntax‑only compile** (`-fsyntax-only`) to catch errors before CI proceeds | `apply_patch.py`, `patches/<kernel>.diff`, CI step “syntax‑check” |
+| **D – Prompt Engineering & LLM Interface** | 7‑8 | • Build Jinja2 templates that embed: <br> • Original kernel source  <br> • Target GPU (AMD MI‑250X)  <br> • Desired optimisation goal (e.g., "use HIP parallel loops")  <br>• Wrap OpenAI/Claude API into `llm_client.py` with exponential back‑off and **thread‑safe `cloudmesh‑ai StopWatch`** for token timing | `prompt_builder.py`, `llm_client.py`, sample `prompt_template.txt` |
+| **E – Patch Generation & Validation** | 9‑10 | • Parse LLM output (usually a complete function)  <br>• Use **`difflib.unified_diff`** or `clang‑tidy` (optional) to create a patch file  <br>• Run a **syntax‑only compile** (`-fsyntax-only`) to catch errors before CI proceeds | `apply_patch.py`, `patches/<kernel>.diff`, CI step "syntax‑check" |
 | **F – Benchmark Harness** | 11‑12 | • Wrap each kernel in a driver that runs **100×** and measures: <br> • Wall‑clock time (`time.perf_counter`)  <br> • GPU counters (`rocprof --stats`)  <br>• Store results as `results/<commit>.json`  <br>• Auto‑generate **speed‑up**, **TFLOP/s**, and **energy‑per‑operation** plots | `benchmark/benchmark.py`, `results/…json`, `plots/speedup.png` |
 | **G – CI‑Driven Feedback Loop** | 13‑14 | • GitHub Action flow (`optimize.yml`): <br> 1. Checkout  <br> 2. Run `code_intake` → `kernel_scoring`  <br> 3. Call LLM → generate patch  <br> 4. Apply, build, benchmark  <br> 5. Compare to baseline  <br> 6. Post a markdown table in the PR comment  <br> 7. Auto‑merge if speed‑up ≥ **1.3×** (or user‑defined) | `/.github/workflows/optimize.yml`, PR comment template, auto‑merge rule |
-| **H – Documentation & Final Report** | 15‑16 | • Write user guide (`docs/`) with Docker run‑commands, CI explanation, and “how to add a new kernel” tutorial  <br>• Produce a **technical report** (2‑3 pages) covering methodology, results, lessons learned  <br>• Record a 5‑minute demo video (optional) | `docs/`, `report.pdf`, `demo.mp4` |
+| **H – Documentation & Final Report** | 15‑16 | • Write user guide (`docs/`) with Docker run‑commands, CI explanation, and "how to add a new kernel" tutorial  <br>• Produce a **technical report** (2‑3 pages) covering methodology, results, lessons learned  <br>• Record a 5‑minute demo video (optional) | `docs/`, `report.pdf`, `demo.mp4` |
 | **I – Presentation & Demo** | 17 | Live demo: push a new commit → watch CI produce a patch, benchmark, and PR comment in real time. | Slides (Google Slides / PowerPoint) |
 
 > **Total effort ≈ 17 weeks**, which fits a typical 15‑week semester plus a couple of buffer weeks for polishing.
@@ -614,8 +614,8 @@ All numbers will be plotted in the final report (speed‑up bar chart, energy‑
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
-| **LLM hallucination (invalid GPU code)** | Medium | CI fails, wasted hours | ‑ Enforce syntax‑check compile step before benchmarking <br>‑ Keep a “fallback” branch with manual patches |
-| **Missing GPU drivers on CI runner** | Low (if using self‑hosted GPU runner) | CI cannot profile | ‑ Provide a CPU‑only fallback mode that still runs functional tests <br>‑ Document how to spin up a public GPU runner (e.g., GitHub Actions “ubuntu‑latest‑gpu”) |
+| **LLM hallucination (invalid GPU code)** | Medium | CI fails, wasted hours | ‑ Enforce syntax‑check compile step before benchmarking <br>‑ Keep a "fallback" branch with manual patches |
+| **Missing GPU drivers on CI runner** | Low (if using self‑hosted GPU runner) | CI cannot profile | ‑ Provide a CPU‑only fallback mode that still runs functional tests <br>‑ Document how to spin up a public GPU runner (e.g., GitHub Actions "ubuntu‑latest‑gpu") |
 | **Large codebase → slow static analysis** | Medium | Long CI times | ‑ Cache the SQLite metadata between runs (GitHub Action cache) <br>‑ Limit analysis to files that changed (`git diff`) |
 | **Security of API keys** | Low | Credential leak | ‑ Store LLM keys in GitHub Secrets, never in repo <br>‑ Rotate every month |
 | **Vendor lock‑in (only AMD)** | Low | Limits portability | ‑ Design the benchmark wrapper to accept `rocprof` **or** `nvprof` via config flag |
@@ -635,7 +635,7 @@ It reads a C‑style source file, extracts function definitions and any `for` lo
 
 ## 11 AI‑Guided Code‑Optimization Agent – Expanded Detail  
 
-Below is a **complete “cook‑book”** that turns the one‑sentence sketch you posted into a **semester‑long, production‑ready project**.  
+Below is a **complete "cook‑book"** that turns the one‑sentence sketch you posted into a **semester‑long, production‑ready project**.  
 Everything is broken down into concrete deliverables, a realistic timeline, the technology stack, evaluation criteria, risk handling, and a **working Python prototype** that already shows how the first step (kernel detection) can be performed without any external libraries.
 
 ---  
@@ -694,8 +694,8 @@ All steps are **containerised**, **CI‑driven**, and **fully documented** on Gi
 | **A – Project Foundations** | 1‑2 | Create GitHub repo, issue board, Docker base image, README + roadmap | `README.md`, `.github/workflows/base.yml`, `Dockerfile` |
 | **B – Static Code Introspection** | 3‑4 | Choose a modest scientific code (e.g., a 2‑D heat‑diffusion solver) <br>Implement `code_intake.py` – regex‑based parser (fallback) + optional clang‑cindex for later <br>Store metadata in SQLite | `code_intake.py`, `metadata.db`, unit tests (`tests/test_intake.py`) |
 | **C – Kernel Scoring & Ranking** | 5‑6 | Compute a **hotness score** = (estimated FLOPs × call‑frequency) <br>Visualise top‑N kernels (matplotlib bar chart) <br>Export sorted list `kernels.json` | `kernel_scoring.py`, `kernel_ranking.png`, `kernels.json` |
-| **D – Prompt Engineering & LLM Call** | 7‑8 | Build Jinja2 templates that embed: <br> • Original kernel source <br> • Target GPU (AMD MI‑250X) <br> • Desired optimisation goal (e.g., “use HIP parallel loops”) <br>Wrap OpenAI/Claude API in `llm_client.py` with exponential back‑off and **thread‑safe `cloudmesh‑ai StopWatch`** | `prompt_builder.py`, `llm_client.py`, sample prompt/template |
-| **E – Patch Generation & Validation** | 9‑10 | Parse LLM output (full function) <br>Generate a unified diff with `difflib.unified_diff` (or `clang‑tidy` for production) <br>Run **syntax‑only compilation** (`-fsyntax-only`) to catch errors before benchmarking | `apply_patch.py`, `patches/<kernel>.diff`, CI step “syntax‑check” |
+| **D – Prompt Engineering & LLM Call** | 7‑8 | Build Jinja2 templates that embed: <br> • Original kernel source <br> • Target GPU (AMD MI‑250X) <br> • Desired optimisation goal (e.g., "use HIP parallel loops") <br>Wrap OpenAI/Claude API in `llm_client.py` with exponential back‑off and **thread‑safe `cloudmesh‑ai StopWatch`** | `prompt_builder.py`, `llm_client.py`, sample prompt/template |
+| **E – Patch Generation & Validation** | 9‑10 | Parse LLM output (full function) <br>Generate a unified diff with `difflib.unified_diff` (or `clang‑tidy` for production) <br>Run **syntax‑only compilation** (`-fsyntax-only`) to catch errors before benchmarking | `apply_patch.py`, `patches/<kernel>.diff`, CI step "syntax‑check" |
 | **F – Benchmark Harness** | 11‑12 | Driver that runs each kernel N = 100 times, measures: <br> • Wall‑clock (`time.perf_counter`) <br> • GPU counters (`rocprof --stats`) <br>Store per‑commit results as JSON; generate speed‑up & TFLOP/s PNGs | `benchmark/benchmark.py`, `results/…json`, `plots/speedup.png` |
 | **G – CI‑Driven Feedback Loop** | 13‑14 | GitHub Action workflow (`optimize.yml`): <br>1. Checkout 2. Run B‑F 3. Call LLM → patch 4. Apply, build, benchmark 5. Compare to baseline 6. Post a markdown table in the PR comment 7. Auto‑merge if speed‑up ≥ **1.3×** (or user‑defined) | `.github/workflows/optimize.yml`, PR comment template, auto‑merge rule |
 | **H – Documentation & Final Report** | 15‑16 | Write user guide (`docs/`), architecture diagram, technical report (2‑3 pages) and a short demo video | `docs/`, `report.pdf`, `demo.mp4` |

@@ -83,6 +83,7 @@
     **2.3 Quality Assurance & Testing**
 
     - **Shell Script Validation**: Create a `verify_vm.sh` script that iterates through all commands:
+
         ```bash
         # Example verification loop
         COMMANDS=("start" "info" "stop" "delete")
@@ -213,6 +214,7 @@
     Document your activity with a screenshot of the terminal (800x600).
 
     Put the solution in file vms.md
+
     ```
     # Jetstream VM
 
@@ -235,6 +237,7 @@
     5. Start up a VM using a Chameleon Cloud image for Ubuntu 24.04. Make sure to use the smallest image size possible for it (what size is that? It is part of your plan).
 
     Put the solution in file vms.md
+
     ```
     # Chameleon Cloud VM
 
@@ -248,6 +251,7 @@
     Document with screenshots how you created your account. Make sure you blur out sensitive information in the screenshot, including your name, credit card numbers and key, and other security details.
 
     Put the solution in file vms.md
+
     ```
     # XYZ VM
 
@@ -259,6 +263,7 @@
     Compare your experience between starting a VM on your local machine vs using Chameleon Cloud and Jetstream 2. If you did others also add them. 
 
     Put the solution in file vms.md
+
     ```
     # Comparing VM Creation
 
@@ -340,7 +345,7 @@
 
 !!! note "Assignment W2.3: Backup Your Computer"
 
-    Computers store the work, photos, and projects you’ve spent time creating including that of your classes. If a virus, hardware failure, or accidental delete occurs, those files can disappear forever. A regular backup gives you a safe copy that you can restore instantly, protecting both your effort and your grades. Think of a backup as a “reset button” that saves you from losing everything.
+    Computers store the work, photos, and projects you've spent time creating including that of your classes. If a virus, hardware failure, or accidental delete occurs, those files can disappear forever. A regular backup gives you a safe copy that you can restore instantly, protecting both your effort and your grades. Think of a backup as a "reset button" that saves you from losing everything.
    
     1. Write a one‑paragraph explanation (4‑6 sentences) of why backing up your own computer is important, using the ideas discussed earlier.
 
@@ -377,9 +382,9 @@
     |---|--------|---------|
     | **1** | **Install a terminal on Windows** | • Download & install **Git Bash** (or enable WSL). <br>• macOS and Linux already have a usable shell. |
     | **2** | **Pick a VM framework** | Choose a hypervisor that runs on your hardware and that you like. Typical options are: <br>• *VirtualBox* (free, cross‑platform) <br>• *VMware Workstation/Player* <br>• *Microsoft Hyper‑V* (Windows Pro) <br>• *Multipass* (lightweight CLI) <br>Make sure the download size fits on your drive. |
-    | **3** | **Create and start a VM** | • Follow the hypervisor’s wizard or CLI to create a minimal VM (e.g., Ubuntu 22.04). <br>• Boot the VM, log in at least once, and verify that the terminal works. |
-    | **4** | **Capture proof of login** | Take a screenshot of the VM’s terminal **≤ 800 × 600 px**. The image must show:<br>• Your prompt (username/hostname) <br>• At least one command you ran (e.g., `uname -a` or `ls -la`). |
-    | **5** | **Write / update the tutorial** | • In your repository, create (or edit) a file named **`local-vm.md`**. <br>• The file should contain a concise, step‑by‑step guide that includes:<br>   1. Prerequisites (Git Bash, chosen hypervisor, etc.)<br>   2. Installation of the hypervisor<br>   3. VM creation commands (or GUI instructions) and how to log in<br>   4. The screenshot (embed it or link to `vm-login.png`)<br>   5. Any system‑specific quirks you encountered<br>   6. A “Contributing” section that tells others how to submit a PR if the official lecture notes need fixing. <br> **Note**: Do not waste your time duplicating a tutorial if it is already in the Lecture Notes; create a pull request if you see something is wrong.|
+    | **3** | **Create and start a VM** | • Follow the hypervisor's wizard or CLI to create a minimal VM (e.g., Ubuntu 22.04). <br>• Boot the VM, log in at least once, and verify that the terminal works. |
+    | **4** | **Capture proof of login** | Take a screenshot of the VM's terminal **≤ 800 × 600 px**. The image must show:<br>• Your prompt (username/hostname) <br>• At least one command you ran (e.g., `uname -a` or `ls -la`). |
+    | **5** | **Write / update the tutorial** | • In your repository, create (or edit) a file named **`local-vm.md`**. <br>• The file should contain a concise, step‑by‑step guide that includes:<br>   1. Prerequisites (Git Bash, chosen hypervisor, etc.)<br>   2. Installation of the hypervisor<br>   3. VM creation commands (or GUI instructions) and how to log in<br>   4. The screenshot (embed it or link to `vm-login.png`)<br>   5. Any system‑specific quirks you encountered<br>   6. A "Contributing" section that tells others how to submit a PR if the official lecture notes need fixing. <br> **Note**: Do not waste your time duplicating a tutorial if it is already in the Lecture Notes; create a pull request if you see something is wrong.|
     | **6** | **Submit** | • Add the screenshot (e.g., `vm-login.png`). <br>• Commit **`local-vm.md`** and the screenshot to your repository. <br>• If the lecture notes already contain a tutorial, verify it works on your machine. <br>   – If you found errors, open a pull request to correct them. <br>   – If it works, simply note any differences in your `local‑vm.md`. <br>• If no tutorial exists, your `local‑vm.md` becomes the canonical guide. |
 
     **Deliverables**
@@ -402,7 +407,7 @@
 
     **Tips**:
 
-    - **CLI vs. GUI** – include the command‑line version of the VM creation steps (e.g., `VBoxManage …`) even if you used the GUI; it’s useful for automation.  
+    - **CLI vs. GUI** – include the command‑line version of the VM creation steps (e.g., `VBoxManage …`) even if you used the GUI; it's useful for automation.  
     - **Version info** – note the version numbers of the hypervisor and OS you used; future students can compare.  
 
 
@@ -452,6 +457,7 @@
 
     Once submitted, the results are in:
     [this link](https://piazza.com/class/mt5rkdsycb31c3#folder=logistics%E2%88%95accounts)
+
     ```
     class: 388 or 488 (use only one number)
     Firstname:
