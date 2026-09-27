@@ -2974,7 +2974,7 @@
   <a href="#youre-done" class="md-nav__link">
     <span class="md-ellipsis">
       
-        You’re done!
+        You're done!
       
     </span>
   </a>
@@ -6749,7 +6749,7 @@
   <a href="#youre-done" class="md-nav__link">
     <span class="md-ellipsis">
       
-        You’re done!
+        You're done!
       
     </span>
   </a>
@@ -6783,7 +6783,7 @@
 
 <h1 id="containers-on-jetstream2">Containers on Jetstream2<a class="headerlink" href="#containers-on-jetstream2" title="Permanent link">¶</a></h1>
 <p>This document is a hands on tutorial on how to use Docker or Kubernetes on Jetstream 2   </p>
-<p>Jetstream 2 is an NSF‑funded research cloud that runs <strong>OpenStack</strong> (Newton → Ussuri).  It gives you the same IaaS primitives you’d find on any OpenStack cloud, plus the <strong>Magnum</strong> service for managed Kubernetes clusters and the <strong>Zun</strong> service for “Docker‑as‑a‑service”.  </p>
+<p>Jetstream 2 is an NSF‑funded research cloud that runs <strong>OpenStack</strong> (Newton → Ussuri).  It gives you the same IaaS primitives you'd find on any OpenStack cloud, plus the <strong>Magnum</strong> service for managed Kubernetes clusters and the <strong>Zun</strong> service for "Docker‑as‑a‑service".  </p>
 <h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
@@ -6804,7 +6804,7 @@
 <thead>
 <tr>
 <th>Section</th>
-<th>What you’ll accomplish</th>
+<th>What you'll accomplish</th>
 </tr>
 </thead>
 <tbody>
@@ -6848,11 +6848,11 @@
 <tbody>
 <tr>
 <td><strong>Jetstream 2 OpenStack RC file</strong> (<code>jetstream-2-openrc.sh</code>)</td>
-<td>Log in to the Jetstream portal → <em>Project</em> → <em>Access &amp; Security</em> → <strong>Download OpenStack RC File</strong> (choose the project you’ll work in).</td>
+<td>Log in to the Jetstream portal → <em>Project</em> → <em>Access &amp; Security</em> → <strong>Download OpenStack RC File</strong> (choose the project you'll work in).</td>
 </tr>
 <tr>
 <td><strong>OpenStack CLI (<code>python-openstackclient</code>)</strong></td>
-<td><code>pip install --user python-openstackclient</code> (or install via your distro’s package manager).</td>
+<td><code>pip install --user python-openstackclient</code> (or install via your distro's package manager).</td>
 </tr>
 <tr>
 <td><strong>SSH key pair</strong></td>
@@ -6868,7 +6868,7 @@
 </tr>
 <tr>
 <td><strong><code>docker</code> CLI</strong> (only needed for the Zun part)</td>
-<td>If you want to invoke Zun’s Docker‑compatible API locally you can <code>pip install docker</code>.  You can also just use <code>openstack container …</code> commands.</td>
+<td>If you want to invoke Zun's Docker‑compatible API locally you can <code>pip install docker</code>.  You can also just use <code>openstack container …</code> commands.</td>
 </tr>
 </tbody>
 </table>
@@ -6881,10 +6881,10 @@
 <hr>
 <h2 id="1-spin-a-plain-vm-and-run-docker-via-cloudinit">1 Spin a plain VM and run Docker via <strong>cloud‑init</strong><a class="headerlink" href="#1-spin-a-plain-vm-and-run-docker-via-cloudinit" title="Permanent link">¶</a></h2>
 <p><strong>Why?</strong><br>
-A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun.  You’ll see how a <em>single</em> VM can become a container host.</p>
+A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun.  You'll see how a <em>single</em> VM can become a container host.</p>
 <h3 id="11-choose-an-image-and-flavor">1.1 Choose an image and flavor<a class="headerlink" href="#11-choose-an-image-and-flavor" title="Permanent link">¶</a></h3>
 <p>Jetstream 2 ships with a few ready‑to‑use images.  The easiest for Docker is <strong>Rocky 8</strong> (or <strong>CentOS 8</strong>).  Use the flavor <strong><code>m1.medium</code></strong> (2 vCPU, 4 GB RAM) – enough for a tiny web server.
-</p><div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># List images (look for “Rocky”)</span>
+</p><div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># List images (look for "Rocky")</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>openstack<span class="w"> </span>image<span class="w"> </span>list<span class="w"> </span>--public<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>rocky
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># List flavors</span>
@@ -6916,7 +6916,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <p>Replace <code>&lt;ROCKY_IMAGE_ID&gt;</code> and <code>&lt;YOUR_KEY_NAME&gt;</code> with the IDs you obtained earlier.</p>
 <p><strong>Wait</strong> until the server goes to <code>ACTIVE</code> (you can monitor with <code>openstack server list -c Name -c Status</code>).</p>
 <h3 id="14-verify-the-service-on-the-vm">1.4 Verify the service on the VM<a class="headerlink" href="#14-verify-the-service-on-the-vm" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Get the floating IP (or assign one if you don’t have)</span>
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Get the floating IP (or assign one if you don't have)</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>openstack<span class="w"> </span>floating<span class="w"> </span>ip<span class="w"> </span>create<span class="w"> </span>public<span class="w">   </span><span class="c1"># creates a new floating IP</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>openstack<span class="w"> </span>server<span class="w"> </span>add<span class="w"> </span>floating<span class="w"> </span>ip<span class="w"> </span>demo-docker-host<span class="w"> </span>&lt;FLOATING_IP&gt;
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
@@ -7020,19 +7020,19 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <p>Wait a few seconds, then check the external IP that the <strong>LoadBalancer</strong> service got:
 </p><div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>hello-svc
 </span></code></pre></div>
-<p>When the <code>EXTERNAL-IP</code> field shows an IP (usually allocated from the <code>public</code> neutron network), open it in a browser – you’ll see the nginx welcome page served by the two pods.</p>
+<p>When the <code>EXTERNAL-IP</code> field shows an IP (usually allocated from the <code>public</code> neutron network), open it in a browser – you'll see the nginx welcome page served by the two pods.</p>
 <h3 id="26-optional-enable-kuryr-for-neutronnative-networking">2.6 (Optional) Enable <strong>Kuryr</strong> for Neutron‑native networking<a class="headerlink" href="#26-optional-enable-kuryr-for-neutronnative-networking" title="Permanent link">¶</a></h3>
 <p>If your Jetstream 2 deployment has the <strong>Kuryr</strong> service enabled, you can replace <code>--network-driver flannel</code> with <code>--network-driver kuryr</code>.  This will give each pod a <strong>real Neutron port</strong>, allowing you to apply security‑group rules directly to pods.</p>
 <hr>
 <h2 id="3-run-a-container-directly-with-zun">3 Run a Container Directly with <strong>Zun</strong><a class="headerlink" href="#3-run-a-container-directly-with-zun" title="Permanent link">¶</a></h2>
-<p>Zun implements a <strong>Docker‑compatible REST API</strong> on top of OpenStack services.  It’s handy for short‑lived jobs or when you don’t need a full K8s stack.</p>
+<p>Zun implements a <strong>Docker‑compatible REST API</strong> on top of OpenStack services.  It's handy for short‑lived jobs or when you don't need a full K8s stack.</p>
 <h3 id="31-verify-zun-service">3.1 Verify Zun service<a class="headerlink" href="#31-verify-zun-service" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>openstack<span class="w"> </span>container<span class="w"> </span>service<span class="w"> </span>list
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># You should see something like:</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1">#  ID | Name | Enabled |</span>
 </span></code></pre></div>
 <h3 id="32-upload-a-container-image-if-not-already-in-glance">3.2 Upload a container image (if not already in Glance)<a class="headerlink" href="#32-upload-a-container-image-if-not-already-in-glance" title="Permanent link">¶</a></h3>
-<p>Zun pulls images from the OpenStack Image service (Glance).  Let’s upload a tiny <code>alpine</code> image:
+<p>Zun pulls images from the OpenStack Image service (Glance).  Let's upload a tiny <code>alpine</code> image:
 </p><div class="highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Pull the image locally first (if you have Docker)</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>docker<span class="w"> </span>pull<span class="w"> </span>alpine:latest
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># Export it as a tarball</span>
@@ -7061,7 +7061,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <h3 id="34-inspect-logs">3.4 Inspect logs<a class="headerlink" href="#34-inspect-logs" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>openstack<span class="w"> </span>container<span class="w"> </span>logs<span class="w"> </span>my-alpine
 </span></code></pre></div>
-<p>You’ll see the “Hello from Zun!” line.</p>
+<p>You'll see the "Hello from Zun!" line.</p>
 <h3 id="35-delete-the-container">3.5 Delete the container<a class="headerlink" href="#35-delete-the-container" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>openstack<span class="w"> </span>container<span class="w"> </span>delete<span class="w"> </span>my-alpine
 </span></code></pre></div>
@@ -7071,7 +7071,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </div>
 <hr>
 <h2 id="4-cleanup">4 Clean‑up<a class="headerlink" href="#4-cleanup" title="Permanent link">¶</a></h2>
-<p>Never leave resources running when you’re done; Jetstream 2 quota is limited.
+<p>Never leave resources running when you're done; Jetstream 2 quota is limited.
 </p><div class="highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># 1 Delete the Docker VM</span>
 </span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>openstack<span class="w"> </span>server<span class="w"> </span>delete<span class="w"> </span>demo-docker-host
 </span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>openstack<span class="w"> </span>floating<span class="w"> </span>ip<span class="w"> </span>delete<span class="w"> </span>&lt;FLOATING_IP_OF_VM&gt;
@@ -7155,7 +7155,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <p>Run it locally after you have sourced your RC file:
 </p><div class="highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>python3<span class="w"> </span>flavor_table.py
 </span></code></pre></div>
-<p>You’ll get an output like:
+<p>You'll get an output like:
 </p><div class="highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>## Jetstream 2 Flavor Summary (RAM shown in GB)
 </span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
 </span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>Name       | RAM (GB) | VCPU | Disk (GB)
@@ -7198,14 +7198,14 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <td>Verify <code>openstack service list</code> includes <em>orchestration</em> (Heat). Check <code>openstack stack list</code> for errors.</td>
 </tr>
 <tr>
-<td><code>kubectl get nodes</code> shows “NotReady”</td>
+<td><code>kubectl get nodes</code> shows "NotReady"</td>
 <td>Worker nodes missing the required security‑group rules (port 10250).</td>
 <td>OpenStack default SG may block kubelet traffic. Add rule: <code>openstack security group rule create --proto tcp --dst-port 10250:10250 default</code>.</td>
 </tr>
 <tr>
-<td>Zun container can’t pull image</td>
+<td>Zun container can't pull image</td>
 <td>Image not public or not in Glance.</td>
-<td>Ensure the image is <code>--public</code> or give the tenant’s project access via <code>openstack image share</code>.</td>
+<td>Ensure the image is <code>--public</code> or give the tenant's project access via <code>openstack image share</code>.</td>
 </tr>
 <tr>
 <td>Floating IP not reachable after assigning</td>
@@ -7214,7 +7214,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </tr>
 <tr>
 <td><code>docker ps</code> shows nothing after cloud‑init</td>
-<td>Docker service didn’t start.</td>
+<td>Docker service didn't start.</td>
 <td>Check <code>/var/log/cloud-init-output.log</code> on the VM, look for errors installing <code>docker.io</code>.</td>
 </tr>
 </tbody>
@@ -7243,7 +7243,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <p>Create a table comparing the startup time and resource overhead of a Zun container vs. a Magnum node on Jetstream 2. This includes not only features, but also billing.</p>
 </div>
 <hr>
-<h2 id="youre-done">You’re done!<a class="headerlink" href="#youre-done" title="Permanent link">¶</a></h2>
+<h2 id="youre-done">You're done!<a class="headerlink" href="#youre-done" title="Permanent link">¶</a></h2>
 <p>You now have three <strong>different ways</strong> to run containers on Jetstream 2:</p>
 <table>
 <thead>
@@ -7263,7 +7263,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 </tr>
 <tr>
 <td><strong>Zun (Docker‑as‑a‑service)</strong></td>
-<td>Short‑lived batch jobs, “run‑a‑container” from the OpenStack API, or when you want containers to obey OpenStack quotas without the overhead of a K8s control plane.</td>
+<td>Short‑lived batch jobs, "run‑a‑container" from the OpenStack API, or when you want containers to obey OpenStack quotas without the overhead of a K8s control plane.</td>
 </tr>
 </tbody>
 </table>
@@ -7287,7 +7287,7 @@ A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. 
 <p>A common cause is that the OpenStack default security group blocks the required kubelet traffic (port 10250). This can be fixed by adding a security group rule: <code>openstack security group rule create --proto tcp --dst-port 10250:10250 default</code>.</p>
 </details>
 </div>
-<p>All three respect Jetstream 2’s <strong>quota, RBAC, and billing</strong> mechanisms, and they all use the same underlying OpenStack services (Nova, Neutron, Glance, Keystone).  </p>
+<p>All three respect Jetstream 2's <strong>quota, RBAC, and billing</strong> mechanisms, and they all use the same underlying OpenStack services (Nova, Neutron, Glance, Keystone).  </p>
 
 
 

@@ -6318,12 +6318,24 @@
 <p>This tutorial walks through installing Apptainer on a local <strong>Ubuntu / Debian</strong> system and running your first container.</p>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
-<p>By the end of this guide, you will be able to:
-1. <strong>Install</strong> and compile Apptainer on a Linux system.
-2. <strong>Execute</strong> containers using the SIF (Singularity Image Format).
-3. <strong>Build</strong> custom container images using Apptainer definition files (<code>.def</code>).
-4. <strong>Configure</strong> runtime environments using bind mounts and port mapping.
-5. <strong>Understand</strong> the security advantages of Apptainer in HPC environments.</p>
+<p>By the end of this guide, you will be able to:</p>
+<ol>
+<li>
+<p><strong>Install</strong> and compile Apptainer on a Linux system.</p>
+</li>
+<li>
+<p><strong>Execute</strong> containers using the SIF (Singularity Image Format).</p>
+</li>
+<li>
+<p><strong>Build</strong> custom container images using Apptainer definition files (<code>.def</code>).</p>
+</li>
+<li>
+<p><strong>Configure</strong> runtime environments using bind mounts and port mapping.</p>
+</li>
+<li>
+<p><strong>Understand</strong> the security advantages of Apptainer in HPC environments.</p>
+</li>
+</ol>
 </div>
 <p></p><figure id="_figure-1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/apptainer-chatgpt.png" data-desc-position="bottom"><img alt="Apptainer Landscape" src="../images/apptainer-chatgpt.png"></a><figcaption>Figure 1: Apptainer Landscape</figcaption></figure><p></p>
 <h2 id="_1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/apptainer-hpc-chatgpt.png" data-desc-position="bottom"><img alt="Apptainer HPC" src="../images/apptainer-hpc-chatgpt.png"></a><a class="headerlink" href="#_1" title="Permanent link">¶</a></h2>
@@ -6344,25 +6356,23 @@
 <h2 id="step-2-install-go-golang">Step 2: Install Go (Golang)<a class="headerlink" href="#step-2-install-go-golang" title="Permanent link">¶</a></h2>
 <p>Apptainer is written in Go. Since system repositories often carry outdated versions, it is best to download and install a recent stable version directly from the official Go website.</p>
 <ol>
-<li>
-<p><strong>Download Go</strong> (check the official site for the latest version if needed; <code>1.22.x</code> or newer is standard):
-</p><div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GO_VERSION</span><span class="o">=</span><span class="m">1</span>.22.0
+<li><strong>Download Go</strong> (check the official site for the latest version if needed; <code>1.22.x</code> or newer is standard):</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GO_VERSION</span><span class="o">=</span><span class="m">1</span>.22.0
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>wget<span class="w"> </span>https://golang.org/dl/go<span class="nv">$GO_VERSION</span>.linux-amd64.tar.gz
 </span></code></pre></div>
-</li>
-<li>
-<p><strong>Extract and install</strong> it to <code>/usr/local</code>:
-</p><div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/usr/local/go
+<ol>
+<li><strong>Extract and install</strong> it to <code>/usr/local</code>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/usr/local/go
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sudo<span class="w"> </span>tar<span class="w"> </span>-C<span class="w"> </span>/usr/local<span class="w"> </span>-xzf<span class="w"> </span>go<span class="nv">$GO_VERSION</span>.linux-amd64.tar.gz
 </span></code></pre></div>
-</li>
-<li>
-<p><strong>Add Go to your system PATH</strong>:
-</p><div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">'export PATH=$PATH:/usr/local/go/bin'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<ol>
+<li><strong>Add Go to your system PATH</strong>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">'export PATH=$PATH:/usr/local/go/bin'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">source</span><span class="w"> </span>~/.bashrc
 </span></code></pre></div>
-</li>
-</ol>
 <p>Verify the installation by running:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>go<span class="w"> </span>version
 </span></code></pre></div>
@@ -6370,26 +6380,24 @@
 <h2 id="step-3-download-and-compile-apptainer">Step 3: Download and Compile Apptainer<a class="headerlink" href="#step-3-download-and-compile-apptainer" title="Permanent link">¶</a></h2>
 <p>Next, download the source code for the latest Apptainer release from GitHub and compile it.</p>
 <ol>
-<li>
-<p><strong>Clone or download the release archive</strong> (check GitHub releases for the latest version number, e.g., <code>v1.3.x</code> or later):
-</p><div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINER_VERSION</span><span class="o">=</span><span class="m">1</span>.3.0
+<li><strong>Clone or download the release archive</strong> (check GitHub releases for the latest version number, e.g., <code>v1.3.x</code> or later):</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINER_VERSION</span><span class="o">=</span><span class="m">1</span>.3.0
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>wget<span class="w"> </span>https://github.com/apptainer/apptainer/releases/download/v<span class="si">${</span><span class="nv">APPTAINER_VERSION</span><span class="si">}</span>/apptainer-<span class="si">${</span><span class="nv">APPTAINER_VERSION</span><span class="si">}</span>.tar.gz
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>tar<span class="w"> </span>-xzf<span class="w"> </span>apptainer-<span class="si">${</span><span class="nv">APPTAINER_VERSION</span><span class="si">}</span>.tar.gz
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nb">cd</span><span class="w"> </span>apptainer-<span class="si">${</span><span class="nv">APPTAINER_VERSION</span><span class="si">}</span>
 </span></code></pre></div>
-</li>
-<li>
-<p><strong>Configure and compile</strong>:
-</p><div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>./mconfig
+<ol>
+<li><strong>Configure and compile</strong>:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>./mconfig
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>make<span class="w"> </span>-C<span class="w"> </span>builddir
 </span></code></pre></div>
-</li>
-<li>
-<p><strong>Install globally</strong>:
-</p><div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>sudo<span class="w"> </span>make<span class="w"> </span>-C<span class="w"> </span>builddir<span class="w"> </span>install
-</span></code></pre></div>
-</li>
+<ol>
+<li><strong>Install globally</strong>:</li>
 </ol>
+<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>sudo<span class="w"> </span>make<span class="w"> </span>-C<span class="w"> </span>builddir<span class="w"> </span>install
+</span></code></pre></div>
 <p>Verify that Apptainer is successfully installed:</p>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>apptainer<span class="w"> </span>--version
 </span></code></pre></div>
@@ -6397,19 +6405,21 @@
 <h2 id="step-4-run-your-first-container">Step 4: Run Your First Container<a class="headerlink" href="#step-4-run-your-first-container" title="Permanent link">¶</a></h2>
 <p>Unlike Docker, Apptainer runs containers as single-file images called <strong>SIF (Singularity Image Format)</strong> and executes them with the privileges of the invoking user, making it ideal for local workstations and shared clusters.</p>
 <ol>
-<li><strong>Pull a test image</strong> from an OCI registry (like Docker Hub):
-<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>apptainer<span class="w"> </span>pull<span class="w"> </span>docker://alpine
-</span></code></pre></div></li>
+<li><strong>Pull a test image</strong> from an OCI registry (like Docker Hub):</li>
 </ol>
-<p><em>This downloads the Alpine Linux Docker image and automatically converts it into a local <code>alpine_latest.sif</code> file.</em>
-2. <strong>Execute a command</strong> inside the container:
-</p><div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>alpine_latest.sif<span class="w"> </span>cat<span class="w"> </span>/etc/os-release
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>apptainer<span class="w"> </span>pull<span class="w"> </span>docker://alpine
+</span></code></pre></div>
+<p><em>This downloads the Alpine Linux Docker image and automatically converts it into a local <code>alpine_latest.sif</code> file.</em></p>
+<ol>
+<li><strong>Execute a command</strong> inside the container:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>alpine_latest.sif<span class="w"> </span>cat<span class="w"> </span>/etc/os-release
 </span></code></pre></div>
 <ol>
-<li><strong>Open an interactive shell</strong> inside the container:
-<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>apptainer<span class="w"> </span>shell<span class="w"> </span>alpine_latest.sif
-</span></code></pre></div></li>
+<li><strong>Open an interactive shell</strong> inside the container:</li>
 </ol>
+<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>apptainer<span class="w"> </span>shell<span class="w"> </span>alpine_latest.sif
+</span></code></pre></div>
 <p><em>You are now inside an isolated Alpine environment. Type <code>exit</code> to return to your host terminal.</em></p>
 <hr>
 <div class="admonition tip">

@@ -6272,16 +6272,16 @@
 <h1 id="openclaw-agentic-ai-orchestration">OpenClaw: Agentic AI Orchestration<a class="headerlink" href="#openclaw-agentic-ai-orchestration" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
-<p>By the end of this chapter, you will be able to:
-- Analyze the architecture of OpenClaw as an agentic AI framework.
-- Deploy and operate the OpenClaw Gateway as a local control plane.
-- Integrate diverse LLM providers, balancing hosted APIs with local model runners.
-- Implement custom Tools, Skills, and Plugins using the OpenClaw SDK.
-- Orchestrate multi-platform interaction via the Channel abstraction layer.
-- Apply security best practices, including user pairing and tool sandboxing to mitigate prompt injection.
-- Debug agentic loops using observability tools and the internal monologue trace.
-- Evaluate agent performance using success-rate metrics and LLM-as-a-Judge patterns.</p>
 </div>
+<p>By the end of this chapter, you will be able to:
+ - Analyze the architecture of OpenClaw as an agentic AI framework.
+ - Deploy and operate the OpenClaw Gateway as a local control plane.
+ - Integrate diverse LLM providers, balancing hosted APIs with local model runners.
+ - Implement custom Tools, Skills, and Plugins using the OpenClaw SDK.
+ - Orchestrate multi-platform interaction via the Channel abstraction layer.
+ - Apply security best practices, including user pairing and tool sandboxing to mitigate prompt injection.
+ - Debug agentic loops using observability tools and the internal monologue trace.
+ - Evaluate agent performance using success-rate metrics and LLM-as-a-Judge patterns.</p>
 <p>In the current trajectory of Artificial Intelligence, the industry is shifting from "Chatbots"—stateless interfaces that generate text—to "AI Agents"—stateful systems capable of interacting with environments to achieve goals. A chatbot can explain how to deploy a Kubernetes cluster; an agent can authenticate with a cloud provider, execute the deployment, and verify the cluster's health.</p>
 <p>OpenClaw is an open-source framework designed to implement this agentic shift. Its philosophy—termed the "Lobster Way"—prioritizes extreme portability (Any OS, Any Platform), user data sovereignty, and actionable autonomy. Unlike simple API wrappers, OpenClaw introduces a persistent local control plane—the Gateway—that decouples the reasoning engine (the LLM) from the execution environment (the host system and external APIs). This architecture ensures that the user, not the LLM provider, maintains control over what tools are available and what data is accessed.</p>
 <h2 id="core-architecture">Core Architecture<a class="headerlink" href="#core-architecture" title="Permanent link">¶</a></h2>
@@ -6337,25 +6337,25 @@
 <li><strong>Plugins</strong>: Bundles of tools and skills that can be distributed and shared via <strong>ClawHub</strong>.</li>
 </ol>
 <h4 id="implementation-example-a-robust-tool">Implementation Example: A Robust Tool<a class="headerlink" href="#implementation-example-a-robust-tool" title="Permanent link">¶</a></h4>
-<p>A professional tool must provide a precise description to guide the LLM's reasoning and handle errors gracefully to avoid agent hallucinations.</p>
+<p>A tool must provide a precise description to guide the LLM's reasoning and handle errors gracefully to avoid agent hallucinations.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// Example of a production-ready tool definition using the OpenClaw SDK</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">networkDiagnosticsTool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"network_diagnostics"</span><span class="p">,</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">"Checks the connectivity to a specific host. Input should be a valid hostname or IP."</span><span class="p">,</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nx">execute</span><span class="o">:</span><span class="w"> </span><span class="kt">async</span><span class="w"> </span><span class="p">(</span><span class="nx">args</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">      </span><span class="c1">// Validate input to prevent command injection</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">isValidHostname</span><span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">host</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">"Invalid hostname provided."</span><span class="p">);</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"network_diagnostics"</span><span class="p">,</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w"> </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">"Checks the connectivity to a specific host. Input should be a valid hostname or IP."</span><span class="p">,</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w"> </span><span class="nx">execute</span><span class="o">:</span><span class="w"> </span><span class="kt">async</span><span class="w"> </span><span class="p">(</span><span class="nx">args</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">host</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w"> </span><span class="c1">// Validate input to prevent command injection</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">isValidHostname</span><span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">host</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">"Invalid hostname provided."</span><span class="p">);</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w"> </span><span class="p">}</span>
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">pingHost</span><span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">host</span><span class="p">);</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="sb">`Connectivity to </span><span class="si">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="sb"> is </span><span class="si">${</span><span class="nx">result</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb">. Latency: </span><span class="si">${</span><span class="nx">result</span><span class="p">.</span><span class="nx">latency</span><span class="si">}</span><span class="sb">ms`</span><span class="p">;</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="c1">// Returning a clear error allows the LLM to explain the failure to the user</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="sb">`Error diagnosing </span><span class="si">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="sb">: </span><span class="si">${</span><span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="si">}</span><span class="sb">. Please verify the hostname.`</span><span class="p">;</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">pingHost</span><span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">host</span><span class="p">);</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="sb">`Connectivity to </span><span class="si">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="sb"> is </span><span class="si">${</span><span class="nx">result</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb">. Latency: </span><span class="si">${</span><span class="nx">result</span><span class="p">.</span><span class="nx">latency</span><span class="si">}</span><span class="sb">ms`</span><span class="p">;</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w"> </span><span class="c1">// Returning a clear error allows the LLM to explain the failure to the user</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="sb">`Error diagnosing </span><span class="si">${</span><span class="nx">args</span><span class="p">.</span><span class="nx">host</span><span class="si">}</span><span class="sb">: </span><span class="si">${</span><span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="si">}</span><span class="sb">. Please verify the hostname.`</span><span class="p">;</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w"> </span><span class="p">}</span>
 </span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">};</span>
 </span></code></pre></div>
 <h4 id="example-complex-skill-orchestration">Example: Complex Skill Orchestration<a class="headerlink" href="#example-complex-skill-orchestration" title="Permanent link">¶</a></h4>
@@ -6368,7 +6368,7 @@
 <h2 id="observability-and-debugging">Observability and Debugging<a class="headerlink" href="#observability-and-debugging" title="Permanent link">¶</a></h2>
 <p>Debugging an agent is significantly more complex than debugging a standard function because the execution path is non-deterministic.</p>
 <h3 id="the-internal-monologue">The Internal Monologue<a class="headerlink" href="#the-internal-monologue" title="Permanent link">¶</a></h3>
-<p>The most powerful debugging tool in OpenClaw is the <strong>Internal Monologue</strong>, visible in the TUI. It exposes the ReAct (Reason + Act) loop:
+<p>The most debugging tool in OpenClaw is the <strong>Internal Monologue</strong>, visible in the TUI. It exposes the ReAct (Reason + Act) loop:
 - <strong>Thought</strong>: "The user wants to check the database status. I should first list the active pods to find the database pod name."
 - <strong>Action</strong>: <code>list_pods(namespace="prod")</code>
 - <strong>Observation</strong>: <code>[pod-db-01, pod-web-01, pod-cache-01]</code>
@@ -6395,9 +6395,10 @@
 <li><strong>Completion Rate</strong>: The percentage of requests that result in a successful action rather than an error or hallucination.</li>
 </ul>
 <h3 id="the-llm-as-a-judge-pattern">The LLM-as-a-Judge Pattern<a class="headerlink" href="#the-llm-as-a-judge-pattern" title="Permanent link">¶</a></h3>
-<p>Because agent outputs are often non-deterministic, OpenClaw developers use a second, more powerful LLM (the "Judge") to evaluate the first agent's performance. The Judge is provided with the agent's internal monologue and the final output, then asked to score the execution based on a rubric of accuracy, safety, and efficiency.</p>
+<p>Because agent outputs are often non-deterministic, OpenClaw developers use a second, more LLM (the "Judge") to evaluate the first agent's performance. The Judge is provided with the agent's internal monologue and the final output, then asked to score the execution based on a rubric of accuracy, safety, and efficiency.</p>
 <div class="admonition tip">
 <p class="admonition-title">Summary Checklist</p>
+</div>
 <ul>
 <li>[ ] Deployed the OpenClaw Gateway using the <code>pnpm</code> or <code>docker-compose</code> workflow.</li>
 <li>[ ] Configured a model provider (Local or Hosted) via the Control UI.</li>
@@ -6408,25 +6409,24 @@
 <li>[ ] Analyzed an agent's failure mode by tracing the internal monologue.</li>
 <li>[ ] Defined a success rubric for agent evaluation using the LLM-as-a-Judge pattern.</li>
 </ul>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Assignment 1: Local Agent Deployment</p>
-<p><strong>Task</strong>: Install OpenClaw and connect it to a local Ollama instance running <code>llama3</code>. Configure a Discord channel and verify the agent can answer simple questions while running locally.
-<strong>Goal</strong>: Establish a fully local, private agentic loop.</p>
 </div>
+<p><strong>Task</strong>: Install OpenClaw and connect it to a local Ollama instance running <code>llama3</code>. Configure a Discord channel and verify the agent can answer simple questions while running locally.
+ <strong>Goal</strong>: Establish a fully local, private agentic loop.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 2: The 'Infrastructure Auditor' Skill</p>
-<p><strong>Task</strong>: Create a Tool that reads a local configuration file and a second Tool that checks if a specific network port is open. Combine these into a Skill that allows the agent to audit the local environment setup.
-<strong>Goal</strong>: Implement tool-chaining and environmental awareness.</p>
 </div>
+<p><strong>Task</strong>: Create a Tool that reads a local configuration file and a second Tool that checks if a specific network port is open. Combine these into a Skill that allows the agent to audit the local environment setup.
+ <strong>Goal</strong>: Implement tool-chaining and environmental awareness.</p>
 <div class="admonition note">
 <p class="admonition-title">Assignment 3: Secure Cross-Platform Orchestration</p>
-<p><strong>Task</strong>: Build a workflow where:
-1. The agent monitors a specific system log via a Tool.
-2. Upon detecting a "CRITICAL" error, the agent uses the Gateway to send an alert to a <em>different</em> channel (e.g., from Slack to Telegram).
-3. The agent provides a summary of the error and a suggested fix based on the log content.
-<strong>Goal</strong>: Master the Gateway's role as a multi-channel orchestrator and implement automated alerting.</p>
 </div>
+<p><strong>Task</strong>: Build a workflow where:
+ 1. The agent monitors a specific system log via a Tool.
+ 2. Upon detecting a "CRITICAL" error, the agent uses the Gateway to send an alert to a <em>different</em> channel (e.g., from Slack to Telegram).
+ 3. The agent provides a summary of the error and a suggested fix based on the log content.
+ <strong>Goal</strong>: Master the Gateway's role as a multi-channel orchestrator and implement automated alerting.</p>
 
 
 

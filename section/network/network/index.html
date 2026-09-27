@@ -6950,6 +6950,7 @@
 <h1 id="networking-for-cloud-computing">Networking for Cloud Computing<a class="headerlink" href="#networking-for-cloud-computing" title="Permanent link">¶</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
+</div>
 <ul>
 <li>Understand the fundamental layers of networking (OSI and TCP/IP).</li>
 <li>Master Cloud Networking components (VPC, Subnets, Gateways, Route Tables).</li>
@@ -6957,7 +6958,6 @@
 <li>Implement a secure networking strategy using Security Groups and NACLs.</li>
 <li>Design a scalable and resilient cloud network architecture.</li>
 </ul>
-</div>
 <hr>
 <h2 id="1-the-foundations-of-networking">1. The Foundations of Networking<a class="headerlink" href="#1-the-foundations-of-networking" title="Permanent link">¶</a></h2>
 <p>Networking is the "glue" of cloud computing. Whether you are deploying a simple website or a complex microservices architecture, the way data moves between your components determines the security, performance, and reliability of your application.</p>
@@ -6967,9 +6967,15 @@
 <h4 id="how-data-moves-encapsulation">How Data Moves: Encapsulation<a class="headerlink" href="#how-data-moves-encapsulation" title="Permanent link">¶</a></h4>
 <p>When you send a request (e.g., typing <code>https://google.com</code> in a browser), your data undergoes <strong>encapsulation</strong>. It starts at the top layer (Application) and moves down. Each layer adds its own "header" (metadata) to the data, like putting a letter inside multiple envelopes.</p>
 <ul>
-<li>The <strong>Transport layer</strong> adds a TCP header (port numbers).</li>
-<li>The <strong>Network layer</strong> adds an IP header (source and destination IP).</li>
-<li>The <strong>Data Link layer</strong> adds a MAC address.</li>
+<li>
+<p>The <strong>Transport layer</strong> adds a TCP header (port numbers).</p>
+</li>
+<li>
+<p>The <strong>Network layer</strong> adds an IP header (source and destination IP).</p>
+</li>
+<li>
+<p>The <strong>Data Link layer</strong> adds a MAC address.</p>
+</li>
 </ul>
 <p>Once the data reaches the destination, it undergoes <strong>de-encapsulation</strong>, stripping away the headers layer by layer until the original request reaches the application.</p>
 <table>
@@ -7042,37 +7048,65 @@
 <p>The OSI model was developed as a theoretical framework. However, the TCP/IP model was developed to make the internet <em>work</em>. </p>
 <p>In a software-defined cloud environment:</p>
 <ul>
-<li>The distinctions between the Session, Presentation, and Application layers are blurred because they are almost always handled by the same piece of software (the application code or a library).</li>
-<li>The physical cable and the data link (the way bits are framed) are handled by the cloud provider's underlying infrastructure, making them functionally a single "Link" layer from the user's perspective.</li>
+<li>
+<p>The distinctions between the Session, Presentation, and Application layers are blurred because they are almost always handled by the same piece of software (the application code or a library).</p>
+</li>
+<li>
+<p>The physical cable and the data link (the way bits are framed) are handled by the cloud provider's underlying infrastructure, making them functionally a single "Link" layer from the user's perspective.</p>
+</li>
 </ul>
 <h3 id="detailed-breakdown-of-the-four-layers">Detailed Breakdown of the Four Layers<a class="headerlink" href="#detailed-breakdown-of-the-four-layers" title="Permanent link">¶</a></h3>
 <h4 id="layer-4-the-application-layer">Layer 4: The Application Layer<a class="headerlink" href="#layer-4-the-application-layer" title="Permanent link">¶</a></h4>
 <p>This layer is the top of the stack. It combines the functions of the OSI's Application, Presentation, and Session layers. </p>
 <ul>
-<li><strong>Function</strong>: Defines the protocols that applications use to exchange data.</li>
-<li><strong>Cloud Context</strong>: This is where your APIs live. When you configure a <strong>Layer 7 Load Balancer (ALB)</strong>, you are operating at this layer. The load balancer can "see" the HTTP headers, the URL path, and the cookies to make routing decisions.</li>
-<li><strong>Common Protocols</strong>: HTTP, HTTPS, DNS, SMTP, FTP, SSH.</li>
+<li>
+<p><strong>Function</strong>: Defines the protocols that applications use to exchange data.</p>
+</li>
+<li>
+<p><strong>Cloud Context</strong>: This is where your APIs live. When you configure a <strong>Layer 7 Load Balancer (ALB)</strong>, you are operating at this layer. The load balancer can "see" the HTTP headers, the URL path, and the cookies to make routing decisions.</p>
+</li>
+<li>
+<p><strong>Common Protocols</strong>: HTTP, HTTPS, DNS, SMTP, FTP, SSH.</p>
+</li>
 </ul>
 <h4 id="layer-3-the-transport-layer">Layer 3: The Transport Layer<a class="headerlink" href="#layer-3-the-transport-layer" title="Permanent link">¶</a></h4>
 <p>This layer is responsible for end-to-end communication and reliability.</p>
 <ul>
-<li><strong>Function</strong>: Handles segmentation, flow control, and error checking.</li>
-<li><strong>Cloud Context</strong>: This is where you configure <strong>Security Group rules</strong> for specific ports (e.g., Port 80 for HTTP, Port 22 for SSH). A <strong>Layer 4 Load Balancer (NLB)</strong> operates here; it only looks at the IP and Port and forwards the packets as fast as possible without looking at the content.</li>
-<li><strong>Common Protocols</strong>: TCP (Reliable, connection-oriented), UDP (Fast, connectionless).</li>
+<li>
+<p><strong>Function</strong>: Handles segmentation, flow control, and error checking.</p>
+</li>
+<li>
+<p><strong>Cloud Context</strong>: This is where you configure <strong>Security Group rules</strong> for specific ports (e.g., Port 80 for HTTP, Port 22 for SSH). A <strong>Layer 4 Load Balancer (NLB)</strong> operates here; it only looks at the IP and Port and forwards the packets as fast as possible without looking at the content.</p>
+</li>
+<li>
+<p><strong>Common Protocols</strong>: TCP (Reliable, connection-oriented), UDP (Fast, connectionless).</p>
+</li>
 </ul>
 <h4 id="layer-2-the-internet-layer">Layer 2: The Internet Layer<a class="headerlink" href="#layer-2-the-internet-layer" title="Permanent link">¶</a></h4>
 <p>This layer is responsible for routing packets across different networks.</p>
 <ul>
-<li><strong>Function</strong>: Determines the best path for data to travel from the source IP to the destination IP.</li>
-<li><strong>Cloud Context</strong>: This is the realm of the <strong>VPC</strong>, <strong>Subnets</strong>, and <strong>Route Tables</strong>. When you define a CIDR block or a route to an Internet Gateway (IGW), you are operating at the Internet Layer.</li>
-<li><strong>Common Protocols</strong>: IP (IPv4, IPv6), ICMP (used for <code>ping</code> and <code>traceroute</code>), ARP.</li>
+<li>
+<p><strong>Function</strong>: Determines the best path for data to travel from the source IP to the destination IP.</p>
+</li>
+<li>
+<p><strong>Cloud Context</strong>: This is the realm of the <strong>VPC</strong>, <strong>Subnets</strong>, and <strong>Route Tables</strong>. When you define a CIDR block or a route to an Internet Gateway (IGW), you are operating at the Internet Layer.</p>
+</li>
+<li>
+<p><strong>Common Protocols</strong>: IP (IPv4, IPv6), ICMP (used for <code>ping</code> and <code>traceroute</code>), ARP.</p>
+</li>
 </ul>
 <h4 id="layer-1-the-link-layer-network-access">Layer 1: The Link Layer (Network Access)<a class="headerlink" href="#layer-1-the-link-layer-network-access" title="Permanent link">¶</a></h4>
 <p>This layer combines the OSI's Physical and Data Link layers.</p>
 <ul>
-<li><strong>Function</strong>: Handles MAC addressing and the framing of data for physical transmission.</li>
-<li><strong>Cloud Context</strong>: In the cloud, this layer is mostly abstracted away. You don't manage the physical switches or the fiber cables. However, it is still present in the form of <strong>Virtual NICs (vNICs)</strong> and the underlying SDN (Software-Defined Network) that maps your virtual IP to a physical host in the provider's data center.</li>
-<li><strong>Common Technologies</strong>: Ethernet, Wi-Fi (802.11), Fiber Optics.</li>
+<li>
+<p><strong>Function</strong>: Handles MAC addressing and the framing of data for physical transmission.</p>
+</li>
+<li>
+<p><strong>Cloud Context</strong>: In the cloud, this layer is mostly abstracted away. You don't manage the physical switches or the fiber cables. However, it is still present in the form of <strong>Virtual NICs (vNICs)</strong> and the underlying SDN (Software-Defined Network) that maps your virtual IP to a physical host in the provider's data center.</p>
+</li>
+<li>
+<p><strong>Common Technologies</strong>: Ethernet, Wi-Fi (802.11), Fiber Optics.</p>
+</li>
 </ul>
 <h3 id="comparison-mapping-osi-vs-tcpip">Comparison Mapping: OSI vs. TCP/IP<a class="headerlink" href="#comparison-mapping-osi-vs-tcpip" title="Permanent link">¶</a></h3>
 <table>
@@ -7115,19 +7149,39 @@
 <p>Choosing between different types of load balancers is a critical cloud architecture decision.</p>
 <h4 id="layer-4-l4-load-balancing-network-load-balancer">Layer 4 (L4) Load Balancing (Network Load Balancer)<a class="headerlink" href="#layer-4-l4-load-balancing-network-load-balancer" title="Permanent link">¶</a></h4>
 <ul>
-<li><strong>Operating Layer</strong>: Transport Layer.</li>
-<li><strong>What it sees</strong>: Source IP, Destination IP, and Port.</li>
-<li><strong>Behavior</strong>: It simply forwards packets. It does not "open" the packet to see what's inside.</li>
-<li><strong>Pros</strong>: Extremely fast, low latency, handles millions of requests per second.</li>
-<li><strong>Cons</strong>: Cannot route based on URL paths.</li>
+<li>
+<p><strong>Operating Layer</strong>: Transport Layer.</p>
+</li>
+<li>
+<p><strong>What it sees</strong>: Source IP, Destination IP, and Port.</p>
+</li>
+<li>
+<p><strong>Behavior</strong>: It simply forwards packets. It does not "open" the packet to see what's inside.</p>
+</li>
+<li>
+<p><strong>Pros</strong>: Extremely fast, low latency, handles millions of requests per second.</p>
+</li>
+<li>
+<p><strong>Cons</strong>: Cannot route based on URL paths.</p>
+</li>
 </ul>
 <h4 id="layer-7-l7-load-balancing-application-load-balancer">Layer 7 (L7) Load Balancing (Application Load Balancer)<a class="headerlink" href="#layer-7-l7-load-balancing-application-load-balancer" title="Permanent link">¶</a></h4>
 <ul>
-<li><strong>Operating Layer</strong>: Application Layer.</li>
-<li><strong>What it sees</strong>: Everything in the packet, including HTTP headers, Cookies, and URL paths.</li>
-<li><strong>Behavior</strong>: It terminates the connection, reads the request, and then opens a new connection to the backend server.</li>
-<li><strong>Pros</strong>: Intelligent routing (Path-based or Host-based routing).</li>
-<li><strong>Cons</strong>: Slower than L4 because it must perform deep packet inspection.</li>
+<li>
+<p><strong>Operating Layer</strong>: Application Layer.</p>
+</li>
+<li>
+<p><strong>What it sees</strong>: Everything in the packet, including HTTP headers, Cookies, and URL paths.</p>
+</li>
+<li>
+<p><strong>Behavior</strong>: It terminates the connection, reads the request, and then opens a new connection to the backend server.</p>
+</li>
+<li>
+<p><strong>Pros</strong>: Intelligent routing (Path-based or Host-based routing).</p>
+</li>
+<li>
+<p><strong>Cons</strong>: Slower than L4 because it must perform deep packet inspection.</p>
+</li>
 </ul>
 <hr>
 <h2 id="3-cloud-networking-building-blocks">3. Cloud Networking Building Blocks<a class="headerlink" href="#3-cloud-networking-building-blocks" title="Permanent link">¶</a></h2>
@@ -7135,14 +7189,22 @@
 <h3 id="the-virtual-private-cloud-vpc">The Virtual Private Cloud (VPC)<a class="headerlink" href="#the-virtual-private-cloud-vpc" title="Permanent link">¶</a></h3>
 <p>A <strong>VPC</strong> is your own isolated section of the cloud provider's network. Think of it as a virtual data center. Within this boundary, you have complete control over:</p>
 <ul>
-<li>Your own IP address range.</li>
-<li>The creation of subnets.</li>
-<li>The routing tables that direct traffic.</li>
-<li>The network gateways that connect you to the outside world.</li>
+<li>
+<p>Your own IP address range.</p>
+</li>
+<li>
+<p>The creation of subnets.</p>
+</li>
+<li>
+<p>The routing tables that direct traffic.</p>
+</li>
+<li>
+<p>The network gateways that connect you to the outside world.</p>
+</li>
 </ul>
 <h3 id="core-components-and-their-roles">Core Components and Their Roles<a class="headerlink" href="#core-components-and-their-roles" title="Permanent link">¶</a></h3>
-<p>Below is a <strong>single “Unified Core‑Networking Building Blocks” table</strong> that merges the two markdown tables you posted.  </p>
-<p><em>All columns from the originals are kept, so you get the plain‑English description, the high‑level purpose (the “cloud role”), the vendor‑specific names, and the security‑hardening notes – all on one line for each component.</em>  </p>
+<p>Below is a <strong>single "Unified Core‑Networking Building Blocks" table</strong> that merges the two markdown tables you posted. </p>
+<p><em>All columns from the originals are kept, so you get the plain‑English description, the high‑level purpose (the "cloud role"), the vendor‑specific names, and the security‑hardening notes – all on one line for each component.</em> </p>
 <table>
 <thead>
 <tr>
@@ -7186,7 +7248,7 @@
 <td><strong>Route Table</strong></td>
 <td>Set of CIDR‑to‑target rules (IGW, NAT, peering, VPN, etc.).</td>
 <td>Route Table (AWS / Azure / GCP)</td>
-<td>The “brain” that decides where packets go.</td>
+<td>The "brain" that decides where packets go.</td>
 <td>Keep the default <code>0.0.0.0/0</code> route limited to an IGW (public) <strong>or</strong> a NAT (private) as appropriate.</td>
 </tr>
 <tr>
@@ -7201,7 +7263,7 @@
 <td>Stateless, subnet‑level firewall.</td>
 <td>NACL (AWS) • (Azure combines with NSG) • VPC firewall rules (GCP)</td>
 <td>Adds a second line of defense at the subnet border.</td>
-<td>Good for “deny‑first” rules (e.g., block all inbound then allow specific ports).</td>
+<td>Good for "deny‑first" rules (e.g., block all inbound then allow specific ports).</td>
 </tr>
 <tr>
 <td><strong>Load Balancer</strong></td>
@@ -7250,8 +7312,12 @@
 <h3 id="understanding-subnet-logic-public-vs-private">Understanding Subnet Logic: Public vs. Private<a class="headerlink" href="#understanding-subnet-logic-public-vs-private" title="Permanent link">¶</a></h3>
 <p>The difference between a public and private subnet is not a "setting" on the subnet itself, but rather the <strong>Route Table</strong> associated with it.</p>
 <ul>
-<li><strong>Public Subnet</strong>: Has a route in its table that directs non-local traffic (<code>0.0.0.0/0</code>) to the <strong>Internet Gateway (IGW)</strong>.</li>
-<li><strong>Private Subnet</strong>: Does NOT have a route to the IGW. To reach the internet (e.g., for software updates), it must send traffic to a <strong>NAT Gateway</strong> located in a public subnet.</li>
+<li>
+<p><strong>Public Subnet</strong>: Has a route in its table that directs non-local traffic (<code>0.0.0.0/0</code>) to the <strong>Internet Gateway (IGW)</strong>.</p>
+</li>
+<li>
+<p><strong>Private Subnet</strong>: Does NOT have a route to the IGW. To reach the internet (e.g., for software updates), it must send traffic to a <strong>NAT Gateway</strong> located in a public subnet.</p>
+</li>
 </ul>
 <hr>
 <h2 id="4-understanding-ip-addressing-and-cidr">4. Understanding IP Addressing and CIDR<a class="headerlink" href="#4-understanding-ip-addressing-and-cidr" title="Permanent link">¶</a></h2>
@@ -7259,8 +7325,12 @@
 <h3 id="how-cidr-works">How CIDR Works<a class="headerlink" href="#how-cidr-works" title="Permanent link">¶</a></h3>
 <p>An IPv4 address consists of 32 bits. CIDR notation (<code>x.x.x.x/n</code>) tells us how many of those bits are "locked" as the network address.</p>
 <ul>
-<li>The <code>/n</code> (prefix) is the network portion.</li>
-<li>The remaining bits (<code>32 - n</code>) are available for hosts (individual devices).</li>
+<li>
+<p>The <code>/n</code> (prefix) is the network portion.</p>
+</li>
+<li>
+<p>The remaining bits (<code>32 - n</code>) are available for hosts (individual devices).</p>
+</li>
 </ul>
 <p>For example, in a <code>/24</code> network, the first 24 bits are fixed. This leaves 8 bits for hosts. $2^8 = 256$. So, a <code>/24</code> block contains 256 IP addresses.</p>
 <h3 id="common-cidr-blocks-and-their-sizes">Common CIDR Blocks and Their Sizes<a class="headerlink" href="#common-cidr-blocks-and-their-sizes" title="Permanent link">¶</a></h3>
@@ -7328,14 +7398,22 @@
 <h4 id="1-security-groups-the-door-to-the-instance">1. Security Groups (The "Door" to the Instance)<a class="headerlink" href="#1-security-groups-the-door-to-the-instance" title="Permanent link">¶</a></h4>
 <p>Security Groups act as a virtual firewall for your <strong>individual instances</strong> (VMs). </p>
 <ul>
-<li><strong>Stateful</strong>: This is the most important feature. If you allow an inbound request on port 80, the Security Group "remembers" this connection and automatically allows the response to go back out, regardless of outbound rules.</li>
-<li><strong>Allow-only</strong>: You only define what is <em>allowed</em>. Everything else is denied by default.</li>
+<li>
+<p><strong>Stateful</strong>: This is the most important feature. If you allow an inbound request on port 80, the Security Group "remembers" this connection and automatically allows the response to go back out, regardless of outbound rules.</p>
+</li>
+<li>
+<p><strong>Allow-only</strong>: You only define what is <em>allowed</em>. Everything else is denied by default.</p>
+</li>
 </ul>
 <h4 id="2-network-acls-the-gate-to-the-subnet">2. Network ACLs (The "Gate" to the Subnet)<a class="headerlink" href="#2-network-acls-the-gate-to-the-subnet" title="Permanent link">¶</a></h4>
 <p>NACLs act as a firewall for the <strong>entire subnet</strong>.</p>
 <ul>
-<li><strong>Stateless</strong>: NACLs have no memory. If you allow inbound traffic on port 80, you <strong>must</strong> also explicitly create an outbound rule to allow the response to leave the subnet.</li>
-<li><strong>Allow and Deny</strong>: You can explicitly block specific IP addresses (e.g., blocking a known malicious actor).</li>
+<li>
+<p><strong>Stateless</strong>: NACLs have no memory. If you allow inbound traffic on port 80, you <strong>must</strong> also explicitly create an outbound rule to allow the response to leave the subnet.</p>
+</li>
+<li>
+<p><strong>Allow and Deny</strong>: You can explicitly block specific IP addresses (e.g., blocking a known malicious actor).</p>
+</li>
 </ul>
 <table>
 <thead>
@@ -7371,8 +7449,12 @@
 <h3 id="the-danger-of-00000">The Danger of <code>0.0.0.0/0</code><a class="headerlink" href="#the-danger-of-00000" title="Permanent link">¶</a></h3>
 <p>The CIDR <code>0.0.0.0/0</code> means "Anywhere on the Internet." </p>
 <ul>
-<li><strong>Acceptable</strong>: For public web ports (80/443) on a Load Balancer.</li>
-<li><strong>Dangerous</strong>: For SSH (22), RDP (3389), or Database ports (3306, 5432). </li>
+<li>
+<p><strong>Acceptable</strong>: For public web ports (80/443) on a Load Balancer.</p>
+</li>
+<li>
+<p><strong>Dangerous</strong>: For SSH (22), RDP (3389), or Database ports (3306, 5432). </p>
+</li>
 </ul>
 <p>Opening these ports to the world makes your servers visible to automated botnets that scan the entire internet for open ports to launch brute-force attacks.</p>
 <h3 id="3-securitygroup-vs-firewall-vs-networkacl-when-to-use-which">3. Security‑Group vs. Firewall vs. Network‑ACL – When to Use Which?<a class="headerlink" href="#3-securitygroup-vs-firewall-vs-networkacl-when-to-use-which" title="Permanent link">¶</a></h3>
@@ -7408,7 +7490,7 @@
 <tr>
 <td><strong>Typical Use</strong></td>
 <td>Fine‑tuned host‑level allow lists (e.g., allow LB → app on 443)</td>
-<td>Broad “deny‑all‑except” for a whole subnet (e.g., block all inbound to a data‑layer subnet)</td>
+<td>Broad "deny‑all‑except" for a whole subnet (e.g., block all inbound to a data‑layer subnet)</td>
 <td>Central egress/ingress inspection, DDoS protection, WAF for web apps</td>
 </tr>
 <tr>
@@ -7419,51 +7501,81 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Best‑practice pattern</strong>  </p>
+<p><strong>Best‑practice pattern</strong> </p>
 <ol>
-<li><strong>Security Group</strong> – whitelist only required ports/IPs.  </li>
-<li><strong>Network ACL</strong> – “deny‑all” inbound on the private subnet; explicitly allow the SG‑controlled traffic.  </li>
-<li><strong>Managed Firewall / WAF</strong> – place at the VPC edge (IGW or Transit Gateway) for logging, threat intel feeds, and L7 protection.</li>
+<li>
+<p><strong>Security Group</strong> – whitelist only required ports/IPs. </p>
+</li>
+<li>
+<p><strong>Network ACL</strong> – "deny‑all" inbound on the private subnet; explicitly allow the SG‑controlled traffic. </p>
+</li>
+<li>
+<p><strong>Managed Firewall / WAF</strong> – place at the VPC edge (IGW or Transit Gateway) for logging, threat intel feeds, and L7 protection.</p>
+</li>
 </ol>
 <hr>
 <h2 id="6-designing-a-typical-cloud-web-architecture">6. Designing a Typical Cloud Web Architecture<a class="headerlink" href="#6-designing-a-typical-cloud-web-architecture" title="Permanent link">¶</a></h2>
-<p>A professional production environment is designed to minimize the <strong>Attack Surface</strong>. The goal is to ensure that no database or application server is ever directly reachable from the public internet.</p>
+<p>A production environment is designed to minimize the <strong>Attack Surface</strong>. The goal is to ensure that no database or application server is ever directly reachable from the public internet.</p>
 <h3 id="the-three-tier-architecture">The Three-Tier Architecture<a class="headerlink" href="#the-three-tier-architecture" title="Permanent link">¶</a></h3>
 <ol>
-<li><strong>Public Tier (The Entry Point)</strong>:<ul>
+<li><strong>Public Tier (The Entry Point)</strong>:</li>
 <li><strong>Load Balancer</strong>: Receives traffic from the internet and distributes it.</li>
-<li><strong>Bastion Host (Jumpbox)</strong>: A tiny, highly secured server that admins use to SSH into the private servers. It is the only "door" into the private network.</li>
-</ul>
+<li>
+<p><strong>Bastion Host (Jumpbox)</strong>: A tiny, highly secured server that admins use to SSH into the private servers. It is the only "door" into the private network.</p>
 </li>
-<li><strong>Application Tier (The Logic)</strong>:<ul>
-<li><strong>App Servers</strong>: These live in a <strong>Private Subnet</strong>. They only accept traffic from the Load Balancer.</li>
-</ul>
+<li>
+<p><strong>Application Tier (The Logic)</strong>:</p>
 </li>
-<li><strong>Database Tier (The Data)</strong>:<ul>
+<li>
+<p><strong>App Servers</strong>: These live in a <strong>Private Subnet</strong>. They only accept traffic from the Load Balancer.</p>
+</li>
+<li>
+<p><strong>Database Tier (The Data)</strong>:</p>
+</li>
 <li><strong>Databases</strong>: These live in the most restricted <strong>Private Subnet</strong>. They only accept traffic from the Application Tier.</li>
-</ul>
-</li>
 </ol>
 <h3 id="request-journey-example">Request Journey Example<a class="headerlink" href="#request-journey-example" title="Permanent link">¶</a></h3>
 <ol>
-<li><strong>User</strong> $\rightarrow$ Requests <code>example.com</code> $\rightarrow$ <strong>Internet Gateway</strong>.</li>
-<li><strong>Internet Gateway</strong> $\rightarrow$ Routes to <strong>Load Balancer</strong> (Public Subnet).</li>
-<li><strong>Load Balancer</strong> $\rightarrow$ Checks health and forwards to <strong>App Server</strong> (Private Subnet).</li>
-<li><strong>App Server</strong> $\rightarrow$ Queries <strong>Database</strong> (Database Subnet).</li>
-<li><strong>Database</strong> $\rightarrow$ Returns data $\rightarrow$ <strong>App Server</strong> $\rightarrow$ <strong>Load Balancer</strong> $\rightarrow$ <strong>User</strong>.</li>
+<li>
+<p><strong>User</strong> $\rightarrow$ Requests <code>example.com</code> $\rightarrow$ <strong>Internet Gateway</strong>.</p>
+</li>
+<li>
+<p><strong>Internet Gateway</strong> $\rightarrow$ Routes to <strong>Load Balancer</strong> (Public Subnet).</p>
+</li>
+<li>
+<p><strong>Load Balancer</strong> $\rightarrow$ Checks health and forwards to <strong>App Server</strong> (Private Subnet).</p>
+</li>
+<li>
+<p><strong>App Server</strong> $\rightarrow$ Queries <strong>Database</strong> (Database Subnet).</p>
+</li>
+<li>
+<p><strong>Database</strong> $\rightarrow$ Returns data $\rightarrow$ <strong>App Server</strong> $\rightarrow$ <strong>Load Balancer</strong> $\rightarrow$ <strong>User</strong>.</p>
+</li>
 </ol>
 <hr>
 <h2 id="7-securityhardening-checklist">7. Security‑Hardening Checklist<a class="headerlink" href="#7-securityhardening-checklist" title="Permanent link">¶</a></h2>
 <p>It is handy to create a security checklist. The following may inspire you with some checks you want to conduct to see if your security is harened.</p>
-<p>To practivcall use it :</p>
+<p>To practivcall use it:</p>
 <ol>
-<li><strong>Paste it into your documentation repository</strong> (e.g., <code>SECURITY_CHECKLIST.md</code>).  </li>
-<li><strong>Augment</strong> the table as neccesary with your architectural designs.</li>
-<li><strong>Mark items as complete</strong> by with <code>- [x]</code> and add a timestamp when that audit has been conducted.  </li>
-<li><strong>Automate verification where possible</strong>:  </li>
-<li>Small scripts (AWS CLI, Azure CLI, GCP <code>gcloud</code>) can query the current state and output “PASS/FAIL” for each row.  </li>
-<li>Hook those scripts into CI/CD pipelines or a scheduled audit job.  </li>
-<li><strong>Review quarterly</strong> or whenever a major network change is planned to keep the checklist current.</li>
+<li>
+<p><strong>Paste it into your documentation repository</strong> (e.g., <code>SECURITY_CHECKLIST.md</code>). </p>
+</li>
+<li>
+<p><strong>Augment</strong> the table as neccesary with your architectural designs.</p>
+</li>
+<li>
+<p><strong>Mark items as complete</strong> by with <code>- [x]</code> and add a timestamp when that audit has been conducted. </p>
+</li>
+<li>
+<p><strong>Automate verification where possible</strong>: </p>
+</li>
+<li>Small scripts (AWS CLI, Azure CLI, GCP <code>gcloud</code>) can query the current state and output "PASS/FAIL" for each row. </li>
+<li>
+<p>Hook those scripts into CI/CD pipelines or a scheduled audit job. </p>
+</li>
+<li>
+<p><strong>Review quarterly</strong> or whenever a major network change is planned to keep the checklist current.</p>
+</li>
 </ol>
 <table>
 <thead>
@@ -7483,7 +7595,7 @@
 <td>Separate CIDR ranges per environment (prod, dev, test)</td>
 <td>Assign non‑overlapping CIDRs (e.g., <code>10.0.0.0/16</code> Prod, <code>10.1.0.0/16</code> Dev, <code>10.2.0.0/16</code> Test)</td>
 <td>Prevents routing conflicts &amp; accidental cross‑talk; simplifies VPC peering</td>
-<td><code>aws ec2 describe-vpcs</code> → confirm CIDR blocks don’t intersect (or similar CLI in Azure/GCP)</td>
+<td><code>aws ec2 describe-vpcs</code> → confirm CIDR blocks don't intersect (or similar CLI in Azure/GCP)</td>
 </tr>
 <tr>
 <td>2 [-]</td>
@@ -7497,7 +7609,7 @@
 <td>3 [-]</td>
 <td><strong>Security Groups – Least Privilege</strong></td>
 <td>Restrict inbound traffic to specific ports &amp; source SGs</td>
-<td>• DB tier SG: inbound <code>3306</code> from App‑tier SG only  <br>• App tier SG: inbound <code>443/80</code> from ALB SG only  <br>• No <code>0.0.0.0/0</code> except for public web ports</td>
+<td>• DB tier SG: inbound <code>3306</code> from App‑tier SG only <br>• App tier SG: inbound <code>443/80</code> from ALB SG only <br>• No <code>0.0.0.0/0</code> except for public web ports</td>
 <td>Minimises blast‑radius if a host is compromised</td>
 <td><code>aws ec2 describe-security-groups</code> – ensure no wide‑open rules</td>
 </tr>
@@ -7505,7 +7617,7 @@
 <td>4 [-]</td>
 <td><strong>Network ACLs – Second Line of Defense</strong></td>
 <td>Deny‑all inbound/outbound on private subnets, then allow only needed traffic</td>
-<td>Example: <br>• Inbound allow VPC CIDR on needed ports  <br>• Outbound allow VPC CIDR + NAT GW</td>
+<td>Example: <br>• Inbound allow VPC CIDR on needed ports <br>• Outbound allow VPC CIDR + NAT GW</td>
 <td>Provides stateless, subnet‑level protection beyond SGs</td>
 <td><code>aws ec2 describe-network-acls</code> – confirm default deny‑all plus explicit allow rules</td>
 </tr>
@@ -7521,9 +7633,9 @@
 <td>6 [-]</td>
 <td><strong>Load Balancer Configuration</strong></td>
 <td>Enable health checks <strong>and</strong> attach a WAF</td>
-<td>• HTTP/HTTPS health checks on a specific path (e.g., <code>/healthz</code>)  <br>• AWS WAF (or Azure / GCP equivalent) with OWASP‑Top‑10 rule‑set</td>
+<td>• HTTP/HTTPS health checks on a specific path (e.g., <code>/healthz</code>) <br>• AWS WAF (or Azure / GCP equivalent) with OWASP‑Top‑10 rule‑set</td>
 <td>Prevents traffic to unhealthy nodes &amp; blocks common web attacks before they hit the app</td>
-<td>ALB → “Health Check” tab shows healthy targets; WAF → “WebACL” shows rules attached</td>
+<td>ALB → "Health Check" tab shows healthy targets; WAF → "WebACL" shows rules attached</td>
 </tr>
 <tr>
 <td>7 [-]</td>
@@ -7552,7 +7664,7 @@
 <tr>
 <td>10 [-]</td>
 <td><strong>Documentation &amp; Change Control</strong></td>
-<td>Keep a living “Network Architecture Diagram” and a “Change Log” for all networking changes</td>
+<td>Keep a living "Network Architecture Diagram" and a "Change Log" for all networking changes</td>
 <td>Store in a version‑controlled repo (Git) and link each change to a ticket ID</td>
 <td>Guarantees knowledge transfer and audit trail</td>
 <td>Review repo commit history; confirm every change is ticket‑referenced</td>
@@ -7565,7 +7677,7 @@
 <tr>
 <th>Platform</th>
 <th>Resource</th>
-<th>What You’ll Learn</th>
+<th>What You'll Learn</th>
 </tr>
 </thead>
 <tbody>
@@ -7617,7 +7729,7 @@
 </tr>
 <tr>
 <td><strong>Do you have a bastion host or jump box?</strong></td>
-<td>Point the rule at the bastion’s <em>private</em> subnet CIDR (e.g., <code>10.0.1.0/24</code>).</td>
+<td>Point the rule at the bastion's <em>private</em> subnet CIDR (e.g., <code>10.0.1.0/24</code>).</td>
 </tr>
 <tr>
 <td><strong>Is the client a known static IP?</strong></td>
@@ -7633,7 +7745,7 @@
 </tr>
 <tr>
 <td><strong>Do you need to allow a whole ISP range?</strong></td>
-<td>Prefer a <em>deny‑by‑default</em> approach and add explicit allow for the ISP’s CIDRs only if absolutely required.</td>
+<td>Prefer a <em>deny‑by‑default</em> approach and add explicit allow for the ISP's CIDRs only if absolutely required.</td>
 </tr>
 </tbody>
 </table>
@@ -7641,6 +7753,7 @@
 <hr>
 <div class="admonition assignment">
 <p class="admonition-title">Networking Assignment 1</p>
+</div>
 <p>Research the different applications running on the different ports. Give a short explanation of what they do. Explain why one is good and the other is bad. Are there other settings or alternative settings that should be used?</p>
 <p><strong>What a "good" rule looks like</strong></p>
 <table>
@@ -7657,7 +7770,7 @@
 <td>22 (SSH)</td>
 <td>TCP</td>
 <td><code>203.0.113.45/32</code> (your admin IP)</td>
-<td>Only the admin’s static IP can SSH.</td>
+<td>Only the admin's static IP can SSH.</td>
 </tr>
 <tr>
 <td>22 (SSH)</td>
@@ -7692,7 +7805,7 @@
 <th>Port</th>
 <th>Protocol</th>
 <th>Source CIDR</th>
-<th>Why it’s risky</th>
+<th>Why it's risky</th>
 </tr>
 </thead>
 <tbody>
@@ -7718,13 +7831,13 @@
 <td>8080 (Custom API)</td>
 <td>TCP</td>
 <td><code>0.0.0.0/0</code></td>
-<td>If the API isn’t meant to be public, you expose it to DoS and credential‑stuffing.</td>
+<td>If the API isn't meant to be public, you expose it to DoS and credential‑stuffing.</td>
 </tr>
 </tbody>
 </table>
-</div>
 <div class="admonition assignment">
 <p class="admonition-title">Network Assignment 2</p>
+</div>
 <p>The following Python program conducts a simple check on a CIDR block to help you understand how many IP addresses are available in different configurations.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">ipaddress</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">cidr</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="s1">'10.0.0.0/16'</span><span class="p">)</span>
@@ -7733,128 +7846,123 @@
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total IPs: </span><span class="si">{</span><span class="n">cidr</span><span class="o">.</span><span class="n">num_addresses</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span></code></pre></div>
 <p><strong>Task</strong>: Execute this code and try different combinations (e.g., <code>/8</code>, <code>/24</code>, <code>/28</code>, <code>/32</code>). Observe how the number of available IPs changes drastically with just a small change in the prefix number.</p>
-<details class="tip">
-<summary>Solution</summary>
+<p>??? tip "Solution"</p>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Network bits: 16
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Host bits: 16
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Total IPs: 65536
 </span></code></pre></div>
 <p>The Python functions show that a <code>/16</code> block contains <strong>65,536</strong> IP addresses, with 16 bits dedicated to the network portion and 16 bits available for host addresses. This makes it a common choice for medium-sized private networks (e.g., a VPC, a departmental subnet, or a campus-wide address space).</p>
-</details>
-</div>
 <div class="admonition assignment">
 <p class="admonition-title">Networking Assignment 3</p>
-<p>The script below shows how you can <strong>audit</strong> a list of security‑group rules and flag any rule that uses <code>0.0.0.0/0</code> on a non‑web port. It also prints the number of IP addresses contained in each allowed CIDR, which helps you understand how “wide” a rule really is.</p>
+</div>
+<p>The script below shows how you can <strong>audit</strong> a list of security‑group rules and flag any rule that uses <code>0.0.0.0/0</code> on a non‑web port. It also prints the number of IP addresses contained in each allowed CIDR, which helps you understand how "wide" a rule really is.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">ipaddress</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Sample security‑group rules (port, protocol, source CIDR)</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">rules</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"0.0.0.0/0"</span><span class="p">),</span>          <span class="c1"># bad</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"0.0.0.0/0"</span><span class="p">),</span>          <span class="c1"># acceptable (public web)</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="p">(</span><span class="mi">443</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"0.0.0.0/0"</span><span class="p">),</span>         <span class="c1"># acceptable (public web)</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="p">(</span><span class="mi">3306</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"10.0.0.0/16"</span><span class="p">),</span>      <span class="c1"># good (internal only)</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"203.0.113.45/32"</span><span class="p">),</span>    <span class="c1"># good (single admin IP)</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="p">(</span><span class="mi">3389</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"0.0.0.0/0"</span><span class="p">),</span>        <span class="c1"># bad</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="p">(</span><span class="mi">8080</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"198.51.100.0/24"</span><span class="p">)</span>   <span class="c1"># depends – not a standard web port</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"0.0.0.0/0"</span><span class="p">),</span> <span class="c1"># bad</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"0.0.0.0/0"</span><span class="p">),</span> <span class="c1"># acceptable (public web)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">(</span><span class="mi">443</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"0.0.0.0/0"</span><span class="p">),</span> <span class="c1"># acceptable (public web)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">(</span><span class="mi">3306</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"10.0.0.0/16"</span><span class="p">),</span> <span class="c1"># good (internal only)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"203.0.113.45/32"</span><span class="p">),</span> <span class="c1"># good (single admin IP)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">(</span><span class="mi">3389</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"0.0.0.0/0"</span><span class="p">),</span> <span class="c1"># bad</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">(</span><span class="mi">8080</span><span class="p">,</span> <span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"198.51.100.0/24"</span><span class="p">)</span> <span class="c1"># depends – not a standard web port</span>
 </span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">]</span>
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
 </span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="k">def</span><span class="w"> </span><span class="nf">cidr_size</span><span class="p">(</span><span class="n">cidr</span><span class="p">):</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="sd">"""Return the total number of IP addresses the CIDR contains."""</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="n">net</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="n">cidr</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="k">return</span> <span class="n">net</span><span class="o">.</span><span class="n">num_addresses</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="sd">"""Return the total number of IP addresses the CIDR contains."""</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="n">net</span> <span class="o">=</span> <span class="n">ipaddress</span><span class="o">.</span><span class="n">ip_network</span><span class="p">(</span><span class="n">cidr</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="k">return</span> <span class="n">net</span><span class="o">.</span><span class="n">num_addresses</span>
 </span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
 </span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="k">def</span><span class="w"> </span><span class="nf">is_public_web_port</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="k">return</span> <span class="n">port</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">443</span><span class="p">)</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="k">return</span> <span class="n">port</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">443</span><span class="p">)</span>
 </span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
 </span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="k">def</span><span class="w"> </span><span class="nf">analyse_rules</span><span class="p">(</span><span class="n">rules</span><span class="p">):</span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>    <span class="k">for</span> <span class="n">port</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>        <span class="n">size</span> <span class="o">=</span> <span class="n">cidr_size</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>        <span class="n">issue</span> <span class="o">=</span> <span class="s2">""</span>
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>        <span class="c1"># Flag anything that is 0.0.0.0/0 on a non‑web port</span>
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>        <span class="k">if</span> <span class="n">src</span> <span class="o">==</span> <span class="s2">"0.0.0.0/0"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_public_web_port</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>            <span class="n">issue</span> <span class="o">=</span> <span class="s2">"⚠️  Too open (non‑web port)"</span>
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">port</span><span class="p">,</span> <span class="n">proto</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">src</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">size</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">issue</span><span class="p">])</span>
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>    <span class="k">return</span> <span class="n">rows</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="k">for</span> <span class="n">port</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="n">size</span> <span class="o">=</span> <span class="n">cidr_size</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="n">issue</span> <span class="o">=</span> <span class="s2">""</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="c1"># Flag anything that is 0.0.0.0/0 on a non‑web port</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="k">if</span> <span class="n">src</span> <span class="o">==</span> <span class="s2">"0.0.0.0/0"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_public_web_port</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="n">issue</span> <span class="o">=</span> <span class="s2">"⚠️ Too open (non‑web port)"</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">port</span><span class="p">,</span> <span class="n">proto</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">src</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">size</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">issue</span><span class="p">])</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="k">return</span> <span class="n">rows</span>
 </span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>
 </span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="n">table</span> <span class="o">=</span> <span class="n">analyse_rules</span><span class="p">(</span><span class="n">rules</span><span class="p">)</span>
 </span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">[</span><span class="s2">"Port"</span><span class="p">,</span> <span class="s2">"Proto"</span><span class="p">,</span> <span class="s2">"Source CIDR"</span><span class="p">,</span> <span class="s2">"IP Count"</span><span class="p">,</span> <span class="s2">"Problem"</span><span class="p">],</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">"github"</span><span class="p">))</span>
 </span></code></pre></div>
 <p><strong>Result</strong></p>
-<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>|   Port | Proto   | Source CIDR      |   IP Count | Problem                     |
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>| Port | Proto | Source CIDR | IP Count | Problem |
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>|--------|----------|------------------|------------|----------------------------|
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>|     22 | TCP      | 0.0.0.0/0        | 4,294,967,296 | ⚠️  Too open (non‑web port) |
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>|     80 | TCP      | 0.0.0.0/0        | 4,294,967,296 |                            |
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>|    443 | TCP      | 0.0.0.0/0        | 4,294,967,296 |                            |
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>|   3306 | TCP      | 10.0.0.0/16      |      65,536 |                            |
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>|     22 | TCP      | 203.0.113.45/32  |           1 |                            |
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>|   3389 | TCP      | 0.0.0.0/0        | 4,294,967,296 | ⚠️  Too open (non‑web port) |
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>|    8080 | TCP      | 198.51.100.0/24  |        256 |                            |
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>| 22 | TCP | 0.0.0.0/0 | 4,294,967,296 | ⚠️ Too open (non‑web port) |
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>| 80 | TCP | 0.0.0.0/0 | 4,294,967,296 | |
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>| 443 | TCP | 0.0.0.0/0 | 4,294,967,296 | |
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>| 3306 | TCP | 10.0.0.0/16 | 65,536 | |
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>| 22 | TCP | 203.0.113.45/32 | 1 | |
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>| 3389 | TCP | 0.0.0.0/0 | 4,294,967,296 | ⚠️ Too open (non‑web port) |
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>| 8080 | TCP | 198.51.100.0/24 | 256 | |
 </span></code></pre></div>
 <p><strong>Question:</strong></p>
 <p>How can the output from this program be interpreted?</p>
-<details class="tip">
-<summary>Solution</summary>
+<p>??? tip "Solution"</p>
 <ul>
-<li>The two rows flagged with <strong>⚠️</strong> are risky because they expose <strong>SSH</strong> (22) and <strong>RDP</strong> (3389) to the entire Internet.  </li>
-<li>Port 80/443 are allowed from <code>0.0.0.0/0</code>—that is fine for some public web services.  </li>
-<li>The rule <code>203.0.113.45/32</code> allows only a single IP, which is the most restrictive (only <strong>1</strong> address).  </li>
-<li>The internal DB rule <code>10.0.0.0/16</code> still contains 65 536 addresses, but it is limited to the private VPC space, which is <strong>not reachable from the public Internet</strong>.  </li>
+<li>The two rows flagged with <strong>⚠️</strong> are risky because they expose <strong>SSH</strong> (22) and <strong>RDP</strong> (3389) to the entire Internet. </li>
+<li>Port 80/443 are allowed from <code>0.0.0.0/0</code>—that is fine for some public web services. </li>
+<li>The rule <code>203.0.113.45/32</code> allows only a single IP, which is the most restrictive (only <strong>1</strong> address). </li>
+<li>The internal DB rule <code>10.0.0.0/16</code> still contains 65 536 addresses, but it is limited to the private VPC space, which is <strong>not reachable from the public Internet</strong>. </li>
 </ul>
-</details>
-</div>
 <div class="admonition assignment">
 <p class="admonition-title">Networking Assignment 4</p>
+</div>
 <p>What should I do if I am constantly pinged, probed, and I detect logins from an IP address that has no need to access my "public" service?</p>
 <ul>
 <li>Why is the 0.0.0.0 IP sometimes a bad idea? </li>
 <li>How can this be prevented? </li>
 <li>How can you block IP addresses from a specific country? 
-Why would they be able to mask that they are from a specific country or IP address range?</li>
+ Why would they be able to mask that they are from a specific country or IP address range?</li>
 </ul>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Research how to set up firewalls in Linux and apply the rules to the given IP or IP ranges.
-Show the explicit rule.</p>
-</div>
-</div>
+<p>!!! tip
+ Research how to set up firewalls in Linux and apply the rules to the given IP or IP ranges.
+ Show the explicit rule.</p>
 <div class="admonition assignment">
 <p class="admonition-title">Network Assignment 5: Architecture</p>
+</div>
 <p>Given the following diagram, explain what each component is and come up with an example application that needs such an architecture.</p>
 <p></p><figure id="_figure-2"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/cloud_network.png" data-desc-position="bottom"><img alt="Network layout for an example cloud Web App" src="../images/cloud_network.png"></a><figcaption>Figure 2: Network layout for an example cloud Web App</figcaption></figure><p></p>
 <p>As you have by now identified </p>
 <ol>
-<li><strong>Public subnet</strong> holds the Load Balancer (LB) and optionally a bastion host.  </li>
-<li><strong>Private subnet</strong> holds application servers, databases, and any services that should not be directly reachable.  </li>
-<li><strong>NAT Gateway</strong> lives in a public subnet, lets private instances initiate outbound connections (e.g., <code>apt-get update</code>).  </li>
-<li><strong>Security Groups</strong> lock down ports (e.g., LB allows 80/443 inbound; app SG allows traffic only from LB).  </li>
-<li><strong>Route Tables</strong> send <code>0.0.0.0/0</code> from public subnets to the IGW and from private subnets to the NAT.  </li>
+<li>
+<p><strong>Public subnet</strong> holds the Load Balancer (LB) and optionally a bastion host. </p>
+</li>
+<li>
+<p><strong>Private subnet</strong> holds application servers, databases, and any services that should not be directly reachable. </p>
+</li>
+<li>
+<p><strong>NAT Gateway</strong> lives in a public subnet, lets private instances initiate outbound connections (e.g., <code>apt-get update</code>). </p>
+</li>
+<li>
+<p><strong>Security Groups</strong> lock down ports (e.g., LB allows 80/443 inbound; app SG allows traffic only from LB). </p>
+</li>
+<li>
+<p><strong>Route Tables</strong> send <code>0.0.0.0/0</code> from public subnets to the IGW and from private subnets to the NAT. </p>
+</li>
 </ol>
 <p><strong>Question 1:</strong> Explain the "concrete" application and conduct a security audit.</p>
 <p><strong>Question 2:</strong> If the application is run in a university, how do the security requirements need to be changed?</p>
-</div>
 <h1 id="self-assessment">Self-Assessment<a class="headerlink" href="#self-assessment" title="Permanent link">¶</a></h1>
 <div class="admonition tip">
 <p class="admonition-title">Self-Assessment</p>
-<p>Test your knowledge by expanding the questions below.</p>
-<details class="question">
-<summary>What is the primary difference between the OSI model and the TCP/IP stack in the context of cloud computing?</summary>
-<p>The OSI model is a theoretical 7-layer framework, while the TCP/IP stack is a practical 4-layer model (Application, Transport, Internet, Link) that is the actual standard used by the internet and cloud providers.</p>
-</details>
-<details class="question">
-<summary>What is CIDR notation and why is it used in cloud networking?</summary>
-<p>CIDR (Classless Inter-Domain Routing) is a method for allocating IP addresses and routing. It uses a slash notation (e.g., <code>/24</code>) to define the network prefix and the size of the IP range, allowing for more flexible and efficient address allocation than traditional class-based networking.</p>
-</details>
-<details class="question">
-<summary>Compare Security Groups and Network Access Control Lists (NACLs).</summary>
-<p><strong>Security Groups</strong> act as a virtual firewall for individual instances and are stateful (if an inbound request is allowed, the outbound response is automatically allowed). <strong>NACLs</strong> act as a firewall for the entire subnet and are stateless (both inbound and outbound rules must be explicitly defined).</p>
-</details>
-<details class="question">
-<summary>What is the difference between a Public Subnet and a Private Subnet?</summary>
-<p>A <strong>Public Subnet</strong> has a direct route to an Internet Gateway (IGW), allowing resources within it to be accessible from the public internet. A <strong>Private Subnet</strong> does not have a direct route to the IGW; resources within it typically use a NAT Gateway to initiate outbound connections while remaining hidden from inbound public traffic.</p>
-</details>
 </div>
+<p>Test your knowledge by expanding the questions below.</p>
+<p>??? question "What is the primary difference between the OSI model and the TCP/IP stack in the context of cloud computing?"
+ The OSI model is a theoretical 7-layer framework, while the TCP/IP stack is a practical 4-layer model (Application, Transport, Internet, Link) that is the actual standard used by the internet and cloud providers.</p>
+<p>??? question "What is CIDR notation and why is it used in cloud networking?"
+ CIDR (Classless Inter-Domain Routing) is a method for allocating IP addresses and routing. It uses a slash notation (e.g., <code>/24</code>) to define the network prefix and the size of the IP range, allowing for more flexible and efficient address allocation than traditional class-based networking.</p>
+<p>??? question "Compare Security Groups and Network Access Control Lists (NACLs)."
+ <strong>Security Groups</strong> act as a virtual firewall for individual instances and are stateful (if an inbound request is allowed, the outbound response is automatically allowed). <strong>NACLs</strong> act as a firewall for the entire subnet and are stateless (both inbound and outbound rules must be explicitly defined).</p>
+<p>??? question "What is the difference between a Public Subnet and a Private Subnet?"
+ A <strong>Public Subnet</strong> has a direct route to an Internet Gateway (IGW), allowing resources within it to be accessible from the public internet. A <strong>Private Subnet</strong> does not have a direct route to the IGW; resources within it typically use a NAT Gateway to initiate outbound connections while remaining hidden from inbound public traffic.</p>
 
 
 

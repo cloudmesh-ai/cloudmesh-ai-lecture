@@ -6174,10 +6174,10 @@
 <li>allocates a worker node,  </li>
 <li>starts the LLM inference server (vLLM) on that node, and  </li>
 <li>
-<p>writes the node’s hostname to a small “heartbeat” file that the login node can read.  </p>
+<p>writes the node's hostname to a small "heartbeat" file that the login node can read.  </p>
 </li>
 <li>
-<p><strong>On your laptop</strong> poll the batch system for the job’s node name, then open a two‑hop SSH tunnel<br>
+<p><strong>On your laptop</strong> poll the batch system for the job's node name, then open a two‑hop SSH tunnel<br>
 <code>laptop ←→ login‑node ←→ worker‑node</code>.  </p>
 </li>
 <li>
@@ -6257,7 +6257,7 @@
 </tr>
 <tr>
 <td><code>HEARTBEAT</code> file</td>
-<td>Placed on the Lustre burst‑buffer (<code>/gpfs/fs2</code>). The login node (and you, from the laptop) can read the file to discover the node’s hostname.</td>
+<td>Placed on the Lustre burst‑buffer (<code>/gpfs/fs2</code>). The login node (and you, from the laptop) can read the file to discover the node's hostname.</td>
 </tr>
 <tr>
 <td><code>echo … &gt; $HEARTBEAT</code></td>
@@ -6342,7 +6342,7 @@
 </span><span id="__span-2-60"><a id="__codelineno-2-60" name="__codelineno-2-60" href="#__codelineno-2-60"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Tunnel closed."</span>
 </span></code></pre></div>
 <h3 id="how-to-use-the-helper">How to use the helper<a class="headerlink" href="#how-to-use-the-helper" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 1) Submit the batch job (if you haven’t already)</span>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 1) Submit the batch job (if you haven't already)</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sbatch<span class="w"> </span>run_gemma4_batch.slurm<span class="w">   </span><span class="c1"># note the job id printed, e.g. 12345678</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># 2) From your laptop, start the tunnel</span>
@@ -6390,7 +6390,7 @@
 </ol>
 <div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>scancel<span class="w"> </span><span class="m">12345678</span>
 </span></code></pre></div>
-<p>The batch script’s <code>rm -f $HEARTBEAT</code> will delete the heartbeat file, so future runs will not pick up a stale node name.</p>
+<p>The batch script's <code>rm -f $HEARTBEAT</code> will delete the heartbeat file, so future runs will not pick up a stale node name.</p>
 <hr>
 <h2 id="5-full-picture-what-happens-behind-the-scenes">5.  Full picture – what happens behind the scenes<a class="headerlink" href="#5-full-picture-what-happens-behind-the-scenes" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Laptop (localport 8000)  &lt;--SSH tunnel--&gt;  frontier-login.olcf.ornl.gov
@@ -6400,7 +6400,7 @@
 <ul>
 <li>The <strong>batch script</strong> runs entirely on the compute node; it cannot be accessed directly from outside the OLCF network.  </li>
 <li>The <strong>heartbeat file</strong> is the only piece of information the login node needs to tell the outside world which compute node is hosting the server.  </li>
-<li>The <strong>two‑hop tunnel</strong> (<code>ssh -J</code>) uses the login node as a jump host; the final destination (<code>nid0XXXXX</code>) is resolved by the login node’s internal DNS, which knows the compute‑node hostnames.  </li>
+<li>The <strong>two‑hop tunnel</strong> (<code>ssh -J</code>) uses the login node as a jump host; the final destination (<code>nid0XXXXX</code>) is resolved by the login node's internal DNS, which knows the compute‑node hostnames.  </li>
 </ul>
 <hr>
 <h2 id="6-optional-automated-oneliner-if-you-prefer-a-single-command">6.  Optional: Automated one‑liner (if you prefer a single command)<a class="headerlink" href="#6-optional-automated-oneliner-if-you-prefer-a-single-command" title="Permanent link">¶</a></h2>
@@ -6438,7 +6438,7 @@
 <td>Verify the batch job actually started (<code>squeue -j &lt;JOBID&gt;</code>). If the job is still pending due to lack of resources, wait or request a different partition.</td>
 </tr>
 <tr>
-<td>Tunnel fails with “Permission denied (publickey)”</td>
+<td>Tunnel fails with "Permission denied (publickey)"</td>
 <td>SSH key not registered on OLCF portal</td>
 <td>Add your public key (<code>~/.ssh/id_rsa.pub</code> or <code>id_ed25519.pub</code>) via the OLCF user portal, then reload your ssh‑agent (<code>ssh-add</code>).</td>
 </tr>
@@ -6449,7 +6449,7 @@
 </tr>
 <tr>
 <td>Port conflict on the worker node</td>
-<td>“Address already in use” in the batch log</td>
+<td>"Address already in use" in the batch log</td>
 <td>Change <code>SERVER_PORT</code> (and consequently <code>REMOTE_PORT</code>) to an unused value (e.g., 8010).</td>
 </tr>
 <tr>
