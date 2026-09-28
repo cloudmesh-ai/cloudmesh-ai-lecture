@@ -1,5 +1,7 @@
 # Virtual Machine Management with WSL2
 
+This guide explains how to install and configure the Windows Subsystem for Linux 2 (WSL 2) to run a native Linux environment on Windows. It covers the installation process, essential CLI commands for distribution management, and techniques for creating custom-named isolated instances.
+
 Windows Subsystem for Linux 2 (WSL 2) allows developers to run a native Linux environment—including most command-line tools, utilities, and applications—directly on Windows, unmodified, alongside traditional Windows desktop and GUI applications.
 
 

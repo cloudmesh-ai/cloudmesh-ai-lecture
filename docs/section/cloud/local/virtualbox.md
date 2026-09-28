@@ -1,5 +1,7 @@
 # Virtual Machine Management with VirtualBox
 
+This document provides a comprehensive tutorial on using Oracle VirtualBox for local virtualization, covering both the graphical user interface and the `VBoxManage` CLI. It details optimal resource configurations, the importance of Guest Additions, and methods for automating VM deployment using shell scripts.
+
 !!! info "Learning Objectives"
     After completing this chapter, you will be able to:
     - Install and configure Oracle VirtualBox and an Ubuntu LTS guest OS.

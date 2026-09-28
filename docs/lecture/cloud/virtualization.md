@@ -1,5 +1,7 @@
 # Virtualization
 
+This document introduces the fundamental concepts of virtualization, distinguishing between system and process virtual machines. It provides a detailed comparison of Type 1 (bare-metal) and Type 2 (hosted) hypervisors and explores various virtualization approaches, including full and paravirtualization.
+
 !!! note "Learning Outcomes"
 
  - Gain a fundamental understanding of virtualization concepts.

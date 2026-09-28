@@ -1,5 +1,7 @@
 # SSH Key Management in WSL2 and Windows 11
 
+This section describes how to establish a single source of truth for SSH identities by sharing keys between Windows and WSL2 using symbolic links. It provides a step-by-step workflow for generating keys on the host, securing permissions in Linux, and importing public keys into OpenStack Horizon.
+
 !!! info "Learning Objectives"
     After completing this chapter, you will be able to:
     - Understand the relationship between Windows and WSL2 file systems regarding SSH configuration.

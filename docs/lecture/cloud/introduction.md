@@ -1,6 +1,8 @@
 
 # Introduction to Cloud Computing 
 
+This introductory lecture provides a comprehensive overview of cloud computing, tracing its evolution from mainframes to the modern era of containers and serverless architectures. It covers key service models (IaaS, PaaS, SaaS), deployment strategies, and the fundamental shift from capital expenditure (CapEx) to operational expenditure (OpEx).
+
 Presenter: Gregor von Laszewski
 
 !!! note "Learning Outcome"

@@ -1,5 +1,7 @@
 # Virtualization Landscape
 
+This summary provides a high-level overview of the virtualization ecosystem through a conceptual landscape and hierarchy. It clarifies the distinctions between different VM types, hardware extensions, and the trade-offs between virtual machines and containers in terms of performance and security.
+
 This summary is significantly simplified, but provides in a convenient landsacpe diagram as well as a hierarchy of some important key concepts.
 
 

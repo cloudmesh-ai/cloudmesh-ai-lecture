@@ -1,5 +1,7 @@
 # Virtual Machine Technologies
 
+This section examines the specific hardware and software technologies that power modern virtualization, including Intel VT-x/AMD-V and IOMMU. It provides a comparative analysis of key tools like KVM, QEMU, Xen, and Hyper-V, and discusses the impact of Broadcom's acquisition of VMware on the industry.
+
 In this section, we cover an introduction to the underlying virtualization technologies used on some mainstream platforms.
 
 Cloud providers, such as AWS, Azure, and Google, and OpenStack use, for example, QEMU and KVM technologies for compute instance virtualization.

@@ -1,6 +1,8 @@
 
 # Lecture: Privacy Concerns in the Cloud
 
+This lecture explores the critical privacy challenges introduced by the shift to cloud computing, specifically examining the Shared Responsibility Model and multi-tenancy risks. It discusses the legal complexities of data residency, regulatory frameworks like GDPR and HIPAA, and the technical controls—such as encryption and confidential computing—needed to preserve privacy.
+
 ![Dealing with Privacy in Clouds](images/privacy-cloud-chatgpt.png)
 
 ---

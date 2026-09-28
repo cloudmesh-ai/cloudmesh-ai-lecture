@@ -1,5 +1,7 @@
 # Virtual Machine Management with virsh
 
+This guide focuses on using the `virsh` command-line tool to manage guest virtual machines via the `libvirt` API. It covers connecting to hypervisors, monitoring VM status, executing lifecycle operations like starting and stopping, and modifying VM configurations using XML definitions.
+
 !!! info "Learning Objectives"
     - Connect to a hypervisor using the `virsh` command-line interface.
     - Monitor the state and resource utilization of guest virtual machines.

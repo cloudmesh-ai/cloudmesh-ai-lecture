@@ -1,5 +1,7 @@
 # Class Videos
 
+This document serves as a centralized repository for recorded class videos, categorized by topic such as Cloud Computing and Virtualization. It provides embedded YouTube links to help students review lectures and access supplemental tutorials like SSH key generation.
+
 
 
 ## Cloud Computing (Part 1): Overview
@@ -32,7 +34,7 @@ A summary generatited from the lecture notes that are not yet published.
 
 
 
-## Cloud Computing (Part 3): Virtualization
+## Cloud Computing (Part 3): Virtualization - 1
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
   <iframe src="https://www.youtube.com/embed/i8-UpVeMWZg" 
@@ -41,10 +43,18 @@ A summary generatited from the lecture notes that are not yet published.
 </div>
 
 
-## Cloud Computing (Part 4): Virtualization
+## Cloud Computing (Part 4): Virtualization - 2
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
   <iframe src="https://www.youtube.com/embed/TlrLxptqqFo" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+          frameborder="0" allowfullscreen></iframe>
+</div>
+
+## Cloud Computing (Part 4): Virtualization - 3
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+  <iframe src="https://www.youtube.com/embed/xRcZph32oPg" 
           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
           frameborder="0" allowfullscreen></iframe>
 </div>

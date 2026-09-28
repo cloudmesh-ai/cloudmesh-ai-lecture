@@ -1,5 +1,7 @@
 # Google Cloud Platform (GCP) Account Setup
 
+This section explains how to establish a Google Cloud Platform account using the Free Trial and "Always Free" tier. It outlines the setup process, provides strategies for monitoring credits and setting budget alerts, and emphasizes the use of dedicated projects for resource isolation.
+
 !!! info "Learning Objectives"
     After completing this chapter, you will be able to:
     - Set up a Google Cloud Platform (GCP) account using the Free Trial.

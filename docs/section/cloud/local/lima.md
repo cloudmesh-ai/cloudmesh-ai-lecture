@@ -1,5 +1,7 @@
 # Linux Virtualization with Lima
 
+This document introduces Lima, a lightweight tool for running Linux VMs on macOS with a focus on automation and seamless host-guest integration. It details the installation process, the use of YAML configuration files for resource management, and the deployment of Linux-only software like Apptainer.
+
 !!! info "Learning Objectives"
     - Install and configure Lima on macOS.
     - Launch and manage Linux instances using the `limactl` command-line tool.

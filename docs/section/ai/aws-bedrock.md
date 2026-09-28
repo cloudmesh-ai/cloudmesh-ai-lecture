@@ -1,22 +1,30 @@
 # Amazon Bedrock
 
-**Amazon Bedrock** is a fully managed AWS service that makes high-performing foundation models (FMs) from leading AI companies (such as Anthropic, Meta, Cohere, Stability AI, and Amazon) accessible through a single API.
+!!! info "Learning Objectives"
+    By the end of this chapter, you will be able to:
+    - Describe the core features and serverless architecture of Amazon Bedrock.
+    - Interact with foundation models using the Bedrock GUI and AWS CLI.
+    - Estimate the cost of Large Language Model (LLM) operations based on token usage.
+    - Compare on-demand serverless pricing versus provisioned throughput for dedicated hosting.
+    - Analyze the economic trade-offs of using AI for large-scale codebase optimization.
 
-Instead of needing to provision, manage, and scale heavy GPU infrastructure or train custom machine learning models from scratch, developers can use Bedrock to seamlessly build and scale generative AI applications.
+## Overview
 
-Key aspects and features of AWS Bedrock include:
+**Amazon Bedrock** is a fully managed AWS service that makes high-performing foundation models (FMs) from leading AI companies—such as Anthropic, Meta, Cohere, Stability AI, and Amazon—accessible through a single API.
 
-* **Choice of Foundation Models:** Gives you flexibility to choose from various top-tier text, image, and embedding models through a unified endpoint.
-* **Serverless Architecture:** Because it is fully managed and serverless, you do not have to handle servers or infrastructure management; AWS takes care of scaling and availability automatically.
-* **Customization and RAG:** Allows you to securely fine-tune models with your own proprietary data or connect them to external data sources using **Retrieval-Augmented Generation (RAG)** via managed Knowledge Bases.
-* **Enterprise Security and Privacy:** Integrated natively with AWS security controls (like IAM, KMS, and Virtual Private Clouds), ensuring your data remains encrypted in transit/at rest and is never used to train the underlying base models.
-* **Guardrails and Agents:** Provides built-in safety features to filter toxic content and block inappropriate topics, as well as managed **Agents** that can autonomously orchestrate and execute multi-step tasks across enterprise systems.
+Instead of provisioning, managing, and scaling GPU infrastructure or training custom machine learning models from scratch, developers can use Bedrock to build and scale generative AI applications seamlessly.
 
-Here are concrete, simple examples of how to interact with Amazon Bedrock using both the web graphical user interface (GUI) and the command-line interface (CLI).
+### Key Features
 
----
+- **Choice of Foundation Models**: Flexibility to choose from various top-tier text, image, and embedding models through a unified endpoint.
+- **Serverless Architecture**: Being fully managed and serverless, it eliminates the need for infrastructure management; AWS handles scaling and availability automatically.
+- **Customization and RAG**: Supports fine-tuning models with proprietary data or connecting them to external data sources using **Retrieval-Augmented Generation (RAG)** via managed Knowledge Bases.
+- **Enterprise Security and Privacy**: Native integration with AWS security controls (IAM, KMS, and VPCs) ensures data is encrypted in transit and at rest, and is never used to train the underlying base models.
+- **Guardrails and Agents**: Built-in safety features filter toxic content and block inappropriate topics, while managed **Agents** orchestrate multi-step tasks across enterprise systems.
 
-### 1. GUI Example: The Amazon Bedrock Playground
+## Interaction Examples
+
+### 1. Graphical User Interface (GUI): The Amazon Bedrock Playground
 
 The graphical interface is ideal for testing prompts visually without writing code.
 
@@ -24,19 +32,15 @@ The graphical interface is ideal for testing prompts visually without writing co
 2. In the left-hand navigation pane, look under **Playgrounds** and select either **Chat** or **Text**.
 3. Click the **Select model** button and choose a provider and model (e.g., *Anthropic Claude* or *Meta Llama*).
 4. In the text box at the bottom, type a simple prompt:
-> *Explain what a container is in one sentence.*
-
+   > *Explain what a container is in one sentence.*
 
 5. Click **Run** to see the response instantly rendered in the browser window, along with token counts and latency metrics.
+
 *(Tip: You can click the code/ellipsis icon in the playground to view or copy the equivalent API request structure).*
 
----
+### 2. Command-Line Interface (CLI): AWS CLI (`aws bedrock-runtime`)
 
-### 2. Command-Line Example: AWS CLI (`aws bedrock-runtime`)
-
-You can invoke models directly from your terminal using the AWS CLI.
-
-First, ensure you have your AWS credentials configured and permission to access the model. Then run the following command to query a Meta Llama model (using a raw payload structure):
+You can invoke models directly from your terminal using the AWS CLI. Ensure your AWS credentials are configured and you have permission to access the desired model.
 
 ```bash
 aws bedrock-runtime invoke-model \
@@ -45,241 +49,128 @@ aws bedrock-runtime invoke-model \
     --cli-binary-format raw-in-base64-out \
     --region us-east-1 \
     output.json
-
 ```
 
-* **What happens:** The model evaluates your prompt, writes the resulting JSON payload containing the answer directly into a local file named `output.json`, which you can then view using `cat output.json`.
+The model evaluates the prompt and writes the resulting JSON payload containing the answer directly into a local file named `output.json`.
 
-Amazon Bedrock does not use a flat subscription fee for its core models; instead, it operates primarily on a **pay-as-you-go token pricing model** (with options for batch processing, prompt caching, or provisioned throughput).
+## Cost Structure and Token Pricing
 
-### How Costs Are Structured (The Cost Per Token / "CoS")
+Amazon Bedrock operates primarily on a **pay-as-you-go token pricing model**, rather than a flat subscription fee.
 
-1. **Input vs. Output Tokens:**
-* You are billed separately for **input tokens** (the prompt text and context you send to the model) and **output tokens** (the response generated by the model).
-* Output tokens generally cost significantly more than input tokens because generating text requires more intensive computational resources.
+### Cost Per Token (CoS)
 
+1. **Input vs. Output Tokens**:
+    - **Input tokens**: The prompt text and context sent to the model.
+    - **Output tokens**: The response generated by the model.
+    - Output tokens generally cost more than input tokens because generating text is computationally more intensive.
 
-2. **Model Tier Variations:**
-* Pricing depends heavily on which model you choose. Lightweight models (like *Amazon Nova Micro*) cost a fraction of a cent per million tokens, whereas frontier models (like *Anthropic Claude 3.5 Sonnet* or *Claude Opus*) cost substantially more per million tokens.
+2. **Model Tier Variations**:
+    - Pricing varies by model. Lightweight models (e.g., *Amazon Nova Micro*) are significantly cheaper than frontier models (e.g., *Anthropic Claude 3.5 Sonnet* or *Claude Opus*).
 
+3. **Additional Infrastructure Costs**:
+    - **Knowledge Bases (RAG)**: Managed vector stores, such as Amazon OpenSearch Serverless, incur baseline infrastructure compute costs (e.g., ~$345/month minimum) regardless of query traffic.
+    - **Guardrails & Agents**: Content filtering and autonomous agent orchestration add incremental charges per request.
 
-3. **Additional/Hidden Architecture Costs:**
-* **Knowledge Bases (RAG):** If you hook up a managed vector store like Amazon OpenSearch Serverless for Retrieval-Augmented Generation, there is a baseline infrastructure compute cost (roughly $345/month minimum) even with zero query traffic.
-* **Guardrails & Agents:** Extra features like content filtering (Guardrails) or multi-step agent token amplification add minor incremental charges per request or per text unit.
+### Cost Calculation Example: Code Analysis
 
+Assume a codebase of 70,000 lines. At approximately 15 tokens per line, this equals **1.05 million tokens**.
 
----
-
-### Simple Calculation Example 
-
-!!! Problem 
-    "Assume i have a 70000 line program and i want to analyze if its performance can be improved wile using an itterative RAG what do you think the cost for it would be?"
-
-
-Lets simply ask an LLM (Gemini). 
-
-* However at one point we need to to verify the cost as we can not trust the LLM.
-* What are other LLMs return
-
-* **Base Codebase Size:** At roughly 15 tokens per line, 70,000 lines equals **1,050,000 tokens** (1.05 million tokens).
-* **Iterative RAG / Agent Loop Amplification:** If an iterative agentic loop runs multiple cycles (e.g., retrieving context, analyzing chunks, self-correcting, and re-querying across 6 to 8 iterations), it repeatedly processes chunks and system history. Using an 8x multiplier, your total processed input volume per analysis run jumps to roughly **8.4 million input tokens**.
-
----
+If an iterative agentic loop (Retrieval-Augmented Generation) runs 8 cycles to analyze the code, the total processed input volume increases:
+$$1.05\text{M tokens} \times 8 \text{ iterations} = 8.4\text{ million input tokens}$$
 
 #### Scenario A: High-End Frontier Model (e.g., Claude 3.5 Sonnet)
 
-* *Rates:* ~\$3.00 / million input tokens, ~\$15.00 / million output tokens.
-* **Per Run:**
-* Input (~8.4M tokens): ~\$.25.20
-* Output (~50K generated tokens): ~\$.0.75
+- **Input Rates**: ~$3.00 / million tokens $\rightarrow$ ~$25.20
+- **Output Rates**: ~$15.00 / million tokens (for ~50K tokens) $\rightarrow$ ~$0.75
+- **Estimated Total**: **~$26.00 per run**
 
+#### Scenario B: Cost-Optimized Model (e.g., Amazon Nova Pro)
 
-* **Estimated Cost per Analysis:** **~\$.26.00 per full run**
+- **Input Rates**: ~$0.80 / million tokens $\rightarrow$ ~$6.72
+- **Output Rates**: ~$3.20 / million tokens (for ~50K tokens) $\rightarrow$ ~$0.16
+- **Estimated Total**: **~$7.00 per run**
 
-#### Scenario B: Mid-Tier / Cost-Optimized Model (e.g., Amazon Nova Pro or DeepSeek V3)
+### Optimization via Prompt Caching
 
-* *Rates:* ~\$0.80 / million input tokens, ~\$3.20 / million output tokens.
-* **Per Run:**
-* Input (~8.4M tokens): ~\$6.72
-* Output (~50K tokens): ~\$0.16
+For large, static codebases, **Prompt Caching** is essential. Bedrock can cache the initial 1.05M-token read. Subsequent iterations read the cached content at a significant discount (often up to 90%), potentially reducing the cost per run from ~$26.00 to under $5.00.
 
+## Case Study: Large-Scale Ecosystem Refactoring
 
-* **Estimated Cost per Analysis:** **~\$.7.00 per full run**
+To estimate the cost of improving code across a comprehensive ecosystem like **Cloudmesh** (approximately 140 repositories), we scale calculations based on aggregate volume.
 
----
+1. **Total Codebase Volume**:
+    - Assumed size: **500,000 lines of code (LoC)**.
+    - Token conversion: ~15 tokens/line $\rightarrow$ **7.5 million tokens**.
 
-### 3. Crucial Optimization Strategy for Large Codebases
+2. **Agentic Amplification**:
+    - An automated pipeline (analyzing style, fixing bugs, and verifying syntax) typically consumes 5x to 10x the base volume.
+    - Total processed input: $7.5\text{M} \times 8 \approx \mathbf{60\text{ million input tokens}}$.
 
-At 70,000 lines, **Prompt Caching** becomes mandatory to keep costs manageable:
+3. **Cost Scenarios**:
+    - **Frontier Model (Claude 3.5 Sonnet)**: Input (~$180) + Output (~$60) $\approx$ **$240 to $300**.
+    - **Mid-Tier Model (Amazon Nova Pro)**: Total $\approx$ **$60 to $80**.
 
-* Because your codebase remains mostly static across iterations, features like **Bedrock Prompt Caching** allow AWS to cache the 1.05M-token codebase after the first read.
-* Subsequent iterations read the cached code at a **90% discount** (e.g., dropping cached input token costs to around $0.30 per million instead of $3.00).
-* Utilizing prompt caching on a 70,000-line loop can slash your per-run cost down from **~\$.26** to under **~\$.5**.
+## Dedicated Hosting vs. Serverless
 
+When considering dedicated capacity (e.g., for a university class or security policy), AWS provides **Provisioned Throughput**. This guarantees capacity via **Model Units (MUs)** at a fixed hourly rate.
 
+### Annual Cost Projection for Dedicated Capacity
 
-----
+- **Lightweight Model Unit**:
+    - ~$15.00/hour $\rightarrow$ $15 \times 24 \times 365 \approx$ **$131,400 / year**.
 
-## Example: Code optimization (cloudmesh-ai)
+- **Mid-to-Large Model Unit**:
+    - ~$39.60/hour $\rightarrow$ $39.60 \times 24 \times 365 \approx$ **$346,896 / year**.
 
-We ask Gemini LLM: Assume i want to improve all code in the repositories in cloudmesh (not cloudmesh-ai), how much would that cost?
+**Recommendation**: For small groups (e.g., 10 students), **Serverless On-Demand** is highly recommended, as costs scale strictly with usage and can remain under $20.00 for the year if usage is light, whereas dedicated hardware is cost-prohibitive.
 
-!!! note 
-    this is done to ceate for example cloudmesh-ai
+## Large-Scale Scientific Code Analysis (GROMACS)
 
-To estimate the cost of improving or refactoring code across a comprehensive ecosystem like Cloudmesh (which spans over 140 repositories encompassing core toolkits, command-line interfaces, and multi-cloud integrations), we can scale up the calculations based on aggregate codebase size and iterative agentic refactoring loops.
+Analyzing a codebase like GROMACS (~4.7 million lines) requires strategic token management.
 
-To estimate the cost of improving or refactoring code across a comprehensive ecosystem like **Cloudmesh** (which spans over 140 repositories encompassing core toolkits, command-line interfaces, and multi-cloud integrations), we can scale up the calculations based on aggregate codebase size and iterative agentic refactoring loops.
+1. **Token Estimation**:
+    - Total size: ~41 million tokens.
+    - Core compute kernels: ~10-15% of codebase (~400K to 700K tokens).
 
----
+2. **Analysis Cost (Claude Sonnet)**:
+    - **Targeted Kernel Analysis**: ~500K input + 100K output $\approx$ **$3.00 to $5.00 per run**.
+    - **Full Codebase Static Scan**: ~5M input + 1M output $\approx$ **$30.00 to $50.00 per scan**.
 
-### 1. Estimating Total Codebase Volume for Cloudmesh
+## Summary Checklist
 
-While exact sizes vary per package, an active ecosystem of this scale typically contains hundreds of thousands to a few million lines of code when combining Python modules, shell scripts, tests, Makefiles, and configuration templates.
+- [ ] Understand the difference between on-demand and provisioned throughput.
+- [ ] Calculate the token volume for a given codebase.
+- [ ] Apply an amplification factor for iterative agentic loops.
+- [ ] Identify where prompt caching can reduce costs.
+- [ ] Compare the costs of frontier models versus cost-optimized models.
 
-* **Assumed Total Size:** Let's assume a collective codebase size of **500,000 lines of code (LoC)** across the active core repositories.
-* **Token Conversion:** At an average of ~15 tokens per line of code, the raw baseline codebase equals roughly **7.5 million tokens**.
+## Assignments
 
-### 2. Factoring in Iterative Refactoring Loops (Agentic RAG)
+!!! note "Assignment 1: Bedrock Cost Estimation"
+    **Goal**: Estimate the cost of analyzing a specific local repository using Amazon Bedrock.
 
-An automated code-improvement pipeline (such as an AI agent analyzing style, fixing bugs, refactoring architecture, writing unit tests, and verifying syntax iteratively) typically consumes **5x to 10x** the base token volume due to multi-step reasoning, context retrieval chunks, and self-correction loops.
+    **Tasks**:
+    1. Count the lines of code in a project of your choice.
+    2. Convert lines to tokens (assume 15 tokens/line).
+    3. Calculate the cost for a single pass using Claude 3.5 Sonnet.
+    4. Calculate the cost for an 8-iteration agentic loop with prompt caching enabled.
 
-* **Total Processed Input Volume:**
+??? tip "Solution: Bedrock Cost Estimation"
+    Use `find . -name "*.py" | xargs wc -l` to get total lines. Multiply by 15 for base tokens. For the loop: (Base Tokens $\times$ 1) + (Base Tokens $\times$ 7 $\times$ 0.1) to account for the 90% cache discount on subsequent iterations.
 
-$$7.5\text{M base tokens} \times 8 \text{ (amplification factor)} = \mathbf{60\text{ million input tokens}}$$
+## References
 
----
+- [Amazon Bedrock Documentation](https://aws.amazon.com/bedrock/)
+- [AWS Bedrock Pricing](https://aws.amazon.com/bedrock/pricing/)
+- [AWS CLI Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/bedrock-runtime/index.html)
 
-### 3. Estimated Cost Scenarios (Using Amazon Bedrock Pricing)
+## Self-Evaluation
 
-#### Scenario A: High-End Frontier Model (e.g., Claude 3.5 Sonnet)
+??? note "What is the primary advantage of Amazon Bedrock's serverless architecture?"
+    It eliminates the need to provision or manage GPU infrastructure, allowing developers to access multiple foundation models via a single API with automatic scaling.
 
-* *Rates:* ~\$.3.00 per million input tokens, ~\$.15.00 per million output tokens.
-* **Calculation:**
-* Input (~60M tokens): ~\$.180.00
-* Output (~4M generated code/test tokens): ~\$.60.00
+??? note "How does prompt caching impact the cost of iterative RAG loops?"
+    Prompt caching allows the model to reuse previously processed tokens (such as a large codebase), typically offering a significant discount (up to 90%) on input tokens for subsequent requests.
 
-
-* **Total Estimated Cost:** **~\$.240.00 to $300.00** for a complete, deep refactor of the entire multi-repository ecosystem.
-
-!!! warning
-    This means we will exceed the free tier while doing this.
-
-#### Scenario B: Cost-Optimized / Mid-Tier Model (e.g., Amazon Nova Pro or DeepSeek V3)
-
-* *Rates:* ~\$.0.80 per million input tokens, ~\$.3.20 per million output tokens.
-* **Total Estimated Cost:** **~\$.60.00 to $80.00**
-
----
-
-### 4. Key Factors That Can Lower or Raise Costs
-
-* **Prompt Caching:** Because much of the codebase remains unchanged between iterative loops, leveraging Bedrock's prompt caching can slash repetitive input token costs by up to 90%, reducing a high-end model run down closer to **$60–$80 total**.
-* **Scope Control:** Refactoring only active core components (such as `cloudmesh-ai`, `cloudmesh-common`, and specific client wrappers) rather than all 140+ legacy or documentation repositories will naturally scale costs down linearly.
-
-
-## Example: Desdicated Hosting of Gemma 4
-
-Hosting or accessing Gemma 4 for a class of 10 students on Amazon Bedrock for a year costs may be small dependednt on what students do, because Bedrock is a fully managed, serverless pay-as-you-go service. You do not need to reserve, rent, or provision dedicated GPU servers (like EC2 instances) that incur hourly fees whether they are used or not. This however is only true if the needs for the students is very small, which may be questionable. Maybe this statement is a marketing trick the LLM fell for?
-
-However, let us consider that we need to reserve it to for example meed security policies or have an always on system potentially for the University and even more students let us consider the following estimeates.
-
-On Amazon Bedrock, "dedicated hardware" is implemented via **Provisioned Throughput**, which guarantees dedicated model capacity measured in **Model Units (MUs)** rather than renting raw EC2 GPU instances. You are billed a fixed hourly rate regardless of whether your traffic is high or zero.
-
-For a class of 10 students, purchasing dedicated model units is heavily cost-prohibitive compared to standard serverless on-demand billing. Here is the annual cost projection for dedicated capacity:
-
----
-
-### 1. Hourly & Annual Rates for Dedicated Model Units
-
-Provisioned throughput rates vary depending on the model scale and whether you choose a commitment term (such as a 6-month contract) or a flexible hourly no-commitment option:
-
-* **Lightweight Model Dedicated Unit (e.g., smaller Llama or Lite models):**
-* *Hourly Rate:* ~\$.15.00 to $21.00 per hour per Model Unit
-* *Calculation:* $15.00 \times 24 \text{ hours} \times 365 \text{ days}$
-* **Total Annual Cost:** **~\$.131,400 / year**
-
-
-* **Mid-to-Large Model Dedicated Unit (e.g., standard enterprise or reasoning model tier):**
-* *Hourly Rate:* ~\$.39.60 per hour per Model Unit
-* *Calculation:* $39.60 \times 24 \text{ hours} \times 365 \text{ days}$
-* **Total Annual Cost:** **~\$.346,896 / year**
-
-
-
----
-
-### 2. Summary & Recommendation
-
-* **Dedicated Hardware (Provisioned Throughput):** Ranges from **$130,000 to over $345,000 per year** because you are paying a 24/7 continuous hourly rate to reserve isolated compute infrastructure.
-* **Serverless On-Demand (Recommended for 10 Students):** **Under $2.00 to $20.00 total for the year**, because it charges strictly per token and scales down to $0 when your students are not running labs or assignments.
-
-!!! note
-    Gregor doubts the last statement reverse argument what can be done with a total of 10 * $20 = $200 within the 1 year.
-    Remember we work on code that has tens of thausend of lines of code and not 10 lines of code ;-)
-
-## Example: Gromacs Analysis
-
-How much would it cos to find kernels that can be optimized in the code using aws bedrock? (Note this doe snot include improvements.)
-
-Analyzing a large scientific codebase like GROMACS (~4.7 million lines of code) to find performance bottlenecks and kernels that can be optimized using an LLM on **Amazon Bedrock** comes down to **token volume** and **model choice**.
-
-Because codebases of this scale cannot fit into a single prompt context window, you have two primary architectural options: **on-demand file-by-file scanning (RAG/Agentic approach)** or **bulk repository analysis**.
-
----
-
-### 1. Estimating Code Size in Tokens
-
-* **Total Lines of Code (LoC):** ~4.7 million lines (primarily C++, C, CUDA/HIP, and headers).
-* **Average Characters per Line:** ~35 characters (including indentation and syntax).
-* **Total Characters:** ~164.5 million characters.
-* **Token Conversion:** Assuming roughly 4 characters per token, the raw GROMACS source tree equals roughly **41 million tokens**.
-
-*Note: You would rarely feed all 4.7 million lines to an LLM at once. Typically, you target performance-critical directories (e.g., `src/gromacs/innerloop`, `src/gromacs/gpu_utils`), which usually comprise about 10% to 15% of the codebase (~400,000 to 700,000 tokens of core compute kernels).*
-
----
-
-### 2. Cost Breakdown Using Bedrock On-Demand APIs
-
-Using a high-performance frontier model capable of advanced reasoning and code comprehension (such as **Claude Sonnet**, priced at **\$3.00 per million input tokens** and **\$15.00 per million output tokens**), here is what the math looks like for different analysis scopes:
-
-#### Option A: Targeted Core Kernel Analysis (Single Deep-Dive)
-
-If you isolate the specific compute-heavy inner loops and GPU acceleration directories (~500,000 tokens of code) and ask an agentic workflow to analyze them, suggest optimizations, and rewrite bottlenecks:
-
-* **Input Tokens (Code + Prompt Context):** ~500,000 tokens $\rightarrow$ **\$1.50**
-* **Output Tokens (Explanations, Profiling Analysis, Rewritten Code):** ~100,000 tokens $\rightarrow$ **\$1.50**
-* **Total Estimated Cost:** **~\$3.00 to \$5.00 per run**
-
-#### Option B: Full Codebase Static Analysis (Multi-Agent Scan)
-
-If you run an automated script that chunks through the major C++ and CUDA modules of the entire codebase to flag inefficient memory access patterns, missed vectorization, or unrolled loop opportunities:
-
-* **Input Tokens (Full Core C++ / CUDA Codebase):** ~5 million tokens $\rightarrow$ **\$15.00**
-* **Output Tokens (Comprehensive Report & Recommendations):** ~1 million tokens $\rightarrow$ **\$15.00**
-* **Total Estimated Cost:** **~\$30.00 to \$50.00 per full scan**
-
-*(If using a cheaper, lightweight model like **Amazon Nova Pro**, input/output costs drop by roughly 70% to 80%, bringing a full repository scan down to under **$10**).*
-
----
-
-### 3. Hidden Infrastructure Costs to Watch For
-
-If you decide to build a persistent automated tool using Bedrock (like an internal RAG knowledge base or continuous code-review agent):
-
-* **Vector Store / Knowledge Base:** If you index the entire repository into Bedrock Knowledge Bases using **Amazon OpenSearch Serverless**, expect a baseline cost of roughly **\$345/month** just for the infrastructure, though newer alternatives like Amazon S3 Vectors or local embedding scripts can bypass this overhead.
-* **Token Amplification:** If you deploy an autonomous AI coding agent (like a custom loop that reads files, tests assumptions, and cross-references header files), multi-step prompt loops can easily multiply your base token consumption by **5x to 8x**.
-
-### Summary
-
-To find and optimize kernels in a massive package like GROMACS using AWS Bedrock, the raw API compute cost is surprisingly cheap—ranging from **less than \$5 for targeted kernel profiling** up to **$50 for a comprehensive full-repo assessment** using top-tier models like Claude Sonnet.
-
-## The Human Cost
-
-Some follow up thoughts
-
-Q. Can a human even do this by temselfs?
-Q. What is the cost of such an expert?
-Q. Will we lay of all scientists and software engeneers?
-Q. What shoudl they do in this new world instead?
-Q. Is there a similarity to printing press, steamengins, assemply code vs programming languages, ...?
+??? note "Why is Provisioned Throughput generally avoided for small-scale academic use?"
+    Provisioned Throughput charges a fixed hourly rate for dedicated capacity, leading to massive annual costs (>$100k) regardless of actual usage, whereas on-demand billing is pay-as-you-go.

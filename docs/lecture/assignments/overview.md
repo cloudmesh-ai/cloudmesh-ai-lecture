@@ -1,75 +1,98 @@
-# Assignments and Project Guidelines
+---
+title: "Assignments and Project Guidelines"
+---
 
-To ensure a high standard of technical rigor and innovation, please adhere to the following requirements for all course assignments and your final project:
+## Learning Objectives
 
-- **Timely Completion:** All assignments must be submitted by the specified deadlines to receive full credit. Late submissions will incur a penalty of 10% deduction per week.
+!!! info "Learning Objectives"
+    - Understand the technical and academic requirements for course assignments and the final project.
+    - Apply DevOps principles (automation, reproducibility, and version control) to all submissions.
+    - Manage cloud resources responsibly to avoid costs and resource exhaustion.
+    - Implement security best practices for credential management in public repositories.
 
-## Project Scope and Innovation
+## Overview
 
-- **Project Approval:** Throughout the semester the students will work with the instructor to obtain a project approval.
+To ensure a high standard of technical rigor and innovation, all students must adhere to the following requirements for course assignments and the final project. These guidelines are designed to foster professional development in cloud computing, AI, and DevOps.
 
-- **Prohibited Topics:** Projects centered on *recommender system analysis* are strictly disallowed. As these are frequently covered in introductory courses, you are expected to pursue more original and technically challenging research directions. We may add additional topics as they arise, so share your information early.
+## Core Sections
 
-- **Novelty:** Projects should address a specific, non-trivial problem. This could involve benchmarking a specific AI model across different cloud architectures, implementing a custom distributed system, or optimizing a high-performance computing (HPC) workflow. Simply "deploying a website" is not sufficient. As stated in the University Policies, the same project cannot be submitted in multiple classes. You are, however, required to provide significant extensions.
+### 1. Project Scope and Innovation
 
-- **Automation Requirement:** You may utilize any cloud service provider; however, the deployment and management of containers or Virtual Machines (VMs) must be **fully automated**.
+The final project is a cornerstone of the course and must demonstrate a non-trivial application of the concepts learned.
 
-- **CLI vs. GUI:** Interactions must be possible via Command Line Interface (CLI) or API. If you believe a Graphical User Interface (GUI) is indispensable for a specific task, you must provide a technical justification within your documentation.
+- **Project Approval**: Students must work with the instructor throughout the semester to obtain formal project approval.
+- **Prohibited Topics**: Projects centered on *recommender system analysis* are strictly disallowed. Students are expected to pursue more original and technically challenging research directions.
+- **Novelty**: Projects must address a specific, non-trivial problem. Examples include benchmarking AI models across different cloud architectures, implementing custom distributed systems, or optimizing high-performance computing (HPC) workflows. Simple website deployments are not sufficient.
+- **Academic Integrity**: In accordance with University Policies, the same project cannot be submitted in multiple classes. Significant extensions are required if building upon previous work.
+- **Automation Requirement**: Regardless of the cloud provider used, the deployment and management of containers or Virtual Machines (VMs) must be **fully automated**.
+- **Interface Requirement**: All interactions must be possible via Command Line Interface (CLI) or API. Use of a Graphical User Interface (GUI) requires a technical justification within the project documentation.
+- **Reproducibility**: Projects must include a `README.md` and automation scripts (e.g., Terraform, Ansible, or Shell scripts) that allow a grader to recreate the entire environment and results through a clearly defined sequence of non-interactive steps.
+- **Version Control**: Git must be used for every assignment. Frequent, atomic commits are required to provide a "paper trail" of progress.
 
-- **Reproducibility:** A project is only as good as its documentation. You must provide a `README.md` and automation scripts (e.g., Terraform, Ansible, or Shell scripts) that allow a grader to recreate your entire environment and results with a single command or a clearly defined sequence of non-interactive steps.
+!!! note "Repository"
+    Students will be provided with an open-source git repository set up by the instructor for their work.
 
-- **Version Control:** You must use Git for every assignment. Commit early and   
-  often. This acts as both a backup and a "paper trail" of your progress.
+### 2. Resource Management and Liability
 
-    !!! note "Repository"
-        You will be provided an open source git repository set up by the instructor.
+Students are encouraged to use a variety of environments, but must do so responsibly.
 
-## Resource Management and Liability
+- **Local Simulation**: The use of a local computer to simulate a cloud environment is permitted.
+- **Employer Equipment**: Using employer-provided equipment for coursework may violate corporate IT policies. The university and the instructor are not responsible for any disciplinary actions resulting from the use of company hardware.
+- **Hardware Recommendations**: While Raspberry Pis are useful, "Mini PCs" (refurbished enterprise small-form-factor PCs) are recommended for local cloud simulation due to superior compute power, RAM, and virtualization support (VT-x/AMD-V).
+- **Cost Responsibility**: Students are solely responsible for all costs incurred through the use of remote or commercial cloud resources.
+- **Resource Abuse**: Careless resource management that exhausts class-assigned resources on ACCESS CI or Chameleon Cloud—thereby impacting other students—will result in a failing grade ("F"). 
 
-- **Local Computer:** You are allowed to use your local computer to simulate a cloud.
+!!! warning "Resource Management Incident"
+    In previous iterations of this course, a student abused the system by starting thousands of unused VMs, consuming 20,000 hours of compute time in a few days. This resulted in all students losing access to the cloud resources. This policy exists to protect the shared resource pool for the entire class.
 
-- **Liability of Use:** Using employer-provided equipment for coursework often violates corporate IT policies and "Acceptable Use" agreements. The university and the instructor are not responsible for any disciplinary actions taken by your employer resulting from the use of company hardware for this course.
+- **Data Management**: Do not upload raw data, container images, or VM disks to GitHub. Upload only the scripts required to create and manage them. Utilize a `.gitignore` file to prevent accidental uploads.
 
-- **Hardware Alternatives:** While Raspberry Pis are great for learning, consider "Mini PCs" (used enterprise small-form-factor PCs) for local cloud simulation. They offer significantly more compute power, RAM, and virtualization support (VT-x/AMD-V) for a similar price point. However, they must support virtualization in some form.
+### 3. Security and Ethics
 
+- **Security Protocols**: Students must implement best practices for identity protection, including the use of IAM roles and billing alerts. Storing passwords or sensitive credentials in public repositories (GitHub, DockerHub) will result in a grade reduction.
+- **Data Privacy**: Datasets used in projects must be in the public domain or used with explicit rights. Sensitive personal data or proprietary company information must never be uploaded to public cloud buckets or repositories.
 
-- **Cost Responsibility:** Students are solely responsible for any costs incurred
-  through the use of remote or cloud resources. 
-  
-- **Resource Abuse:** If you exhaust the class-assigned resources on access-ci or chameleon cloud and impact other students due to careless resource management, you will receive an "F" (this is standard practice at universities in cloud computing classes). However, this is very unlikely as we explicitly state this policy and we are sure you will avoid this as it is easy to do!  
+### 4. Collaboration
 
-    !!! note "The incident by an inconsiderate student."
+Collaboration is encouraged, provided the scale and complexity of the project match the group size. The current limit for project groups is two students.
 
-        I previously did not have this policy, but a single student abused the system and used up 20,000 hours of compute time in a couple of days, despite the fact that he was reminded multiple times to shut down his cloud resources. Due to the shared nature of the account with all students, all students in the class lost access to the cloud resources. When confronted on the first day he started the resources, his argument was "No I will not shut down the resources as it took me too much time to start them." Later on I worked with the cloud provider and we looked into his computational load and found out it was 0. He started thousands of VMs and did not even use them.
-        Due to this incident and the student's disregard for others in the class, it is best to protect other students with such a policy. 
+### 5. General Tips
 
-        Since it has been in place, no other student has ever done this as it is easy to avoid. It remains the sole student. Since I had not established an explicit policy, I also did not give the student an F like he would have with other professors.
+- **Backup Strategy**: Regularly back up all work to a combination of local storage and cloud services (e.g., GitHub).
+- **LLMs as Assistants**: Large Language Models (LLMs) may be used for debugging or clarifying concepts. However, they frequently hallucinate technical specifications or use outdated API syntax. Students are responsible for the correctness of all submitted code. Unverified LLM-generated security configurations are high-risk and may lead to system failure.
+- **Credit Monitoring**: For those using "Free Tiers" (AWS, Azure, GCP), set up **Billing Alarms** immediately. These tiers have strict limits and expiration dates.
 
+## Summary Checklist
 
-- **Understand the cost models:**
+- [ ] Obtain formal project approval from the instructor.
+- [ ] Ensure the project topic is not a prohibited recommender system.
+- [ ] Implement full automation for all VM/container deployments.
+- [ ] Verify that all project interactions are possible via CLI or API.
+- [ ] Provide a `README.md` that enables a single-command environment recreation.
+- [ ] Set up billing alarms for all commercial cloud accounts.
+- [ ] Confirm that no sensitive credentials are stored in the git repository.
 
-As you are in charge of your commercial cloud credits make sure you understand the cost model carefully.
+## Assignments
 
-- **Data**: Do not upload data by accident to your repository. Github is extremely limited. This includes containers, and virtual machines. Instead you need to upload the scripts that create and manage them. Make sure to utilize .gitignore
+!!! note "Assignment 1: Environment Setup"
+    Set up your local development environment, including Git, a chosen hypervisor, and the necessary CLI tools for your target cloud providers.
 
+!!! note "Assignment 2: Project Proposal"
+    Draft a project proposal including a title, architectural diagram, and a description of the non-trivial problem you intend to solve.
 
-## Security
+## References
 
-- **Security Protocols:** It is your responsibility to implement best practices for identity protection (e.g., managing API keys, using IAM roles, and setting up billing alerts) to prevent unauthorized access or unexpected charges. You will get a grade reduction if you store passwords or sensitive credentials in a public online repository such as GitHub and DockerHub.
+- [University Academic Integrity Policy](https://example.edu/policy)
+- [GitHub Documentation](https://docs.github.com/)
+- [Terraform Documentation](https://developer.hashicorp.com/terraform)
 
-- **Data Privacy and Ethics:** If your project involves collecting or using datasets, you must ensure they are either public domain or that you have the rights to use them. Do not upload sensitive personal data or proprietary company information to public cloud buckets or repositories.
+## Self-Evaluation
 
-## Collaboration
+??? note "What is the 'Automation Requirement' for the final project?"
+    All deployments and management of containers or Virtual Machines must be fully automated using scripts (e.g., Terraform, Ansible, Shell), meaning a grader can recreate the environment without manual GUI intervention.
 
-You are able to collaborate with others on a project or assignment. The size and complexity should match the group size. At this time the group limit is two.
+??? note "What happens if a student exhausts shared cloud resources through negligence?"
+    Due to the shared nature of the allocations on ACCESS CI and Chameleon Cloud, resource abuse that impacts other students' ability to work will result in a failing grade ("F").
 
-## Tips
-
-- **Backup:** Back up your computer before the class starts and do it regularly throughout the semester. Evaluate the options you have local SSD/HDD, cloud storage, GitHub. WHich system you use depends on you. Often the free tiers on cloud storage services are enough.
-
-- **Reuse:** You can often use an old computer for other things, I for example used to do a lot on Raspberry Pis, but I think there are better options nowadays. I even used an EV3 Lego robot to interface via Python to and from external resources. However this class will need more then a Lego robot.
-
-- **LLMs as Assistants, Not Authors:** While Large Language Models can be helpful for debugging or clarifying concepts, they frequently hallucinate technical specifications or use outdated API syntax. You are responsible for the correctness of all code and documentation. Using LLM-generated content without verification—especially regarding security configurations—is a high-risk strategy that often leads to system failure or security breaches.
-
-- **Credit Monitoring:** If you use "Free Tiers" from providers (AWS, Azure, GCP), be aware that they often expire or have strict usage limits. Set up **Billing Alarms** on day one. You may have to research this yourself as it may not be covered on day one in class. It could be a valuable contribution to the class to develop a tutorial for others on this.
-
+??? note "How should sensitive credentials like API keys be handled in a public GitHub repository?"
+    Sensitive credentials must never be stored in the repository. Instead, use environment variables, secret management tools, or IAM roles, and ensure a `.gitignore` file is used to prevent accidental commits.

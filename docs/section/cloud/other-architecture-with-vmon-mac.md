@@ -1,5 +1,7 @@
 # Other Architectures with VM on Apple Silicon
 
+This chapter analyzes the capabilities of various hypervisors on Apple Silicon, emphasizing QEMU's unique ability to perform full software emulation for different ISAs. It compares hardware-assisted virtualization (Parallels, VMware) with software translation, specifically for running Android and Raspberry Pi images.
+
 !!! info "Learning Objectives"
     By the end of this chapter, you will be able to:
 

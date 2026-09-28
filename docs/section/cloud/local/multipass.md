@@ -1,5 +1,7 @@
 # Virtual Machine Management with Multipass
 
+This guide provides a practical introduction to Multipass, a tool for managing Ubuntu VMs on local workstations. It covers installation and configuration across different operating systems, core lifecycle commands, and advanced automation using cloud-init and Makefiles.
+
 !!! note "Learning Outcome"
     By the end of this section, you will be able to:
 

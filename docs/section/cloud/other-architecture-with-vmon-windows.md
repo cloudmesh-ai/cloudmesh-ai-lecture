@@ -1,5 +1,7 @@
 # Other Architectures with VM on Windows
 
+This section explores cross-architecture virtualization on Windows x86_64, highlighting QEMU's role in emulating ARM and RISC-V architectures. It contrasts software emulation (TCG) with hardware-assisted virtualization (WHPX) and discusses the best tools for running Android and Raspberry Pi images on Windows.
+
 !!! info "Learning Objectives"
     By the end of this chapter, you will be able to:
     - **Differentiate** between software emulation (QEMU) and hardware-assisted virtualization (Hyper-V, VMware, VirtualBox) on Windows x86_64.

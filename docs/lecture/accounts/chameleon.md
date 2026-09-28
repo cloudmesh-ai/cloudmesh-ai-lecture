@@ -1,5 +1,7 @@
 # Chameleon Cloud Account Setup
 
+This document details the application process for obtaining an account on the Chameleon Cloud testbed for research and education. It provides step-by-step instructions for registration, guidelines for ensuring application approval, and post-approval configuration steps.
+
 !!! info "Learning Objectives"
     By the end of this section, you will be able to:
     - Navigate the Chameleon Cloud registration and application process.

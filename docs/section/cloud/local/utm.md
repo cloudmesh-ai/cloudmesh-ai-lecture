@@ -1,5 +1,7 @@
 # macOS Virtualization with UTM
 
+This guide presents UTM as a graphical wrapper for QEMU and Apple's Virtualization framework, enabling both native virtualization and cross-architecture emulation on macOS. It covers the configuration of VirtIO drivers for performance, the use of snapshots for state management, and automation via the `utmctl` CLI.
+
 !!! info "Learning Objectives"
     - Install and configure UTM on macOS.
     - Differentiate between "Virtualize" and "Emulate" modes.

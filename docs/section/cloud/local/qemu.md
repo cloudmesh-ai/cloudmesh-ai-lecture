@@ -1,5 +1,7 @@
 # Hardware Emulation and Virtualization with QEMU
 
+This guide explains the use of QEMU for both high-performance virtualization and full system emulation across different CPU architectures. It provides detailed installation steps, instructions for managing virtual storage with `qcow2`, and examples of emulating non-native hardware like Raspberry Pi.
+
 !!! info "Learning Objectives"
     - Install and configure QEMU on Linux and macOS.
     - Create and manage virtual disk images using `qemu-img`.

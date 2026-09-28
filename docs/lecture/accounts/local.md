@@ -1,5 +1,7 @@
 # Local VM and Container Setup
 
+This section focuses on establishing a local development environment using virtualization and containerization tools to test code safely and avoid cloud costs. It provides an overview of frameworks like Multipass and VirtualBox, along with instructions for setting up Docker.
+
 !!! info "Learning Objectives"
     By the end of this section, you will be able to:
     - Implement local-first development practices to test code safely and avoid unexpected cloud costs.

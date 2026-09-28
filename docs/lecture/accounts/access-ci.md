@@ -1,5 +1,7 @@
 # ACCESS CI Account Setup
 
+This guide explains how to set up an account with ACCESS CI to obtain allocations for high-performance computing and cloud resources like Jetstream2. It outlines the registration process for students and provides administrative guidance for PIs to manage project memberships.
+
 !!! info "Learning Objectives"
     After completing this chapter, you will be able to:
     - Understand the role of ACCESS CI in providing cloud and HPC resources.

@@ -1,5 +1,7 @@
 # AWS Account Setup
 
+This section provides a comprehensive guide to setting up an AWS account using the Free Tier to minimize costs. It includes instructions for creating a billing alarm, configuring an administrative IAM user, and managing resources to stay within free limits.
+
 !!! info "Learning Objectives"
     By the end of this section, you will be able to:
     - Create and verify an AWS account using the Free Tier.

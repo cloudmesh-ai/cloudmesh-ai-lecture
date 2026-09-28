@@ -1,5 +1,7 @@
 # Azure Account Setup
 
+This guide provides a detailed walkthrough for setting up a Microsoft Azure account, focusing on the Azure Free Account and Azure for Students offers. It covers the registration process, cost management through budget alerts, and the organization of cloud resources using Resource Groups.
+
 !!! info "Learning Objectives"
     By the end of this chapter, you will be able to:
     - Create and verify a Microsoft Azure account.

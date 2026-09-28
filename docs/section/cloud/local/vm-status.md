@@ -1,5 +1,7 @@
 # The Modern State of Virtual Machines
 
+This document analyzes the current relevance and roles of various virtualization tools like QEMU, libvirt, Vagrant, and Multipass. It provides a decision guide for choosing the right tool based on the environment, cost, and specific use case, such as seamless Windows operation on Apple Silicon.
+
 !!! note "Learning Outcome"
     By the end of this section, you will be able to:
     * Understand the current landscape of virtual machine technologies.

@@ -1,5 +1,7 @@
 # Networking for Cloud Computing
 
+This section provides a deep dive into the networking foundations essential for cloud computing, comparing the OSI and TCP/IP models. It details core cloud networking components such as VPCs, subnets, and load balancers, and explains CIDR notation and security strategies using Security Groups and NACLs.
+
 !!! info "Learning Objectives"
  - Understand the fundamental layers of networking (OSI and TCP/IP).
  - Master Cloud Networking components (VPC, Subnets, Gateways, Route Tables).

@@ -1,4 +1,4 @@
-# Cloudmesh OpenStack Command Line Interface {#sec:chameleon-cm-cli}
+# Cloudmesh OpenStack Command Line Interface
 
 OpenStack on Chameleon delivers KVM based compute resources to provision
 virtual machines. It provides various image types on which we can deploy
