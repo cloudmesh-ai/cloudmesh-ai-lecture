@@ -591,7 +591,7 @@ Just point me at the piece you want to flesh out, and I'll provide the code or d
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

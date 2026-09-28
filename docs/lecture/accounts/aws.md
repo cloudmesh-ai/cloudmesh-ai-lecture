@@ -90,8 +90,8 @@ Once the account is active:
 - [AWS Billing and Cost Management](https://aws.amazon.com/aws-cost-management/)
 - [IAM Best Practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the recommended way to avoid costs when using AWS for course Assignments?"
     Utilize the AWS Free Tier and select resources explicitly marked as "Free tier eligible" (e.g., `t2.micro` or `t3.micro`).
 

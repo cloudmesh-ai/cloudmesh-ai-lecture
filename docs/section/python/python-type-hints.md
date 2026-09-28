@@ -176,8 +176,8 @@ jobs:
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "How do type hints improve the reliability of distributed cloud systems?"
     Type hints create explicit contracts for data shapes and API boundaries. This allows static analysis tools to detect mismatched data types or missing fields before the code is deployed, reducing the risk of cascading failures across microservices.
 

@@ -146,7 +146,7 @@ To help you navigate between different environments, use this table as a quick r
     Intentionally change the permissions of your `id_rsa` file to be world-readable using `chmod 777 ~/.ssh/id_rsa` and attempt to SSH into a server. Observe the "unprotected private key file" error message, then restore the permissions to `600` and verify the connection works again.
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

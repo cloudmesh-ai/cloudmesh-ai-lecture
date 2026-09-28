@@ -608,8 +608,8 @@ Understanding what a `LibcloudError` actually means in the underlying cloud is k
 - [Apache Libcloud GitHub Repository](https://github.com/apache/libcloud)
 - [OpenStack clouds.yaml Specification](https://docs.openstack.org/cli/latest/user/config.html#clouds-yaml)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary advantage of using Libcloud over a provider-specific SDK?"
     The primary advantage is portability. Libcloud provides a unified API, allowing you to write infrastructure code once and run it across different cloud providers by simply changing the driver, which prevents vendor lock-in.
 

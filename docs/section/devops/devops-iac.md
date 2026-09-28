@@ -86,8 +86,8 @@ These tools are optimized for a single provider and often support new features t
 
 **Terraform** is the industry standard for multi-vendor infrastructure. While Terraform scripts are not always portable (the resource definitions for AWS differ from Azure), the *workflow* and *tooling* remain identical across all providers.
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 
@@ -105,6 +105,8 @@ These tools are optimized for a single provider and often support new features t
 
 ??? question "How do I identify the appropriate IaC tool for a specific cloud provider?"
     Depending on the needs, you can choose **Cloud-Specific tools** (like AWS CloudFormation, Azure ARM, or Google Deployment Manager) for deep integration and immediate support for new provider features, or **Cloud-Agnostic tools** (like Terraform) to maintain a consistent workflow and toolset across multiple cloud vendors.
+
+## Assignments
 
 !!! note "Assignment 1: Procedural vs Declarative"
     Write a simple shell script (procedural) to create a directory and a file. Now, explain why this script is NOT idempotent (what happens if you run it a second time?). Propose how a declarative tool would handle the same task.

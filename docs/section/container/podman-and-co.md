@@ -91,8 +91,8 @@ To understand the landscape, we must look at the **Open Container Initiative (OC
 
 ## Learning Wrap-up
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "🎓 Self-Assessment"
     Test your knowledge by expanding the questions below.
 

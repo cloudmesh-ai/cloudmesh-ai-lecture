@@ -497,8 +497,8 @@ This schedules `cleanup.sh` to run once at 02:30 AM today (or tomorrow if the 
 !!! assignment "Assignment E.Linux.8"
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

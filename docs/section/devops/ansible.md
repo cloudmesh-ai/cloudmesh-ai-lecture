@@ -173,36 +173,39 @@ To master Ansible, you must understand these core concepts:
 - **Playbook**: A YAML file containing one or more "plays" (groups of tasks targeted at specific hosts).
 - **Inventory**: A list of managed nodes, often organized into groups.
 
-!!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
+## Self-Assessment
+Test your knowledge by expanding the questions below.
+Test your knowledge by expanding the questions below.
 
 ??? question "What is the difference between agent-based and agentless automation?"
- Agent-based automation (like Puppet or Chef) requires a dedicated software agent to be installed and running on every target node. Agentless automation (like Ansible) communicates over standard protocols like SSH, meaning no special software is needed on the target nodes, which simplifies deployment and reduces resource overhead.
+ 	Agent-based automation (like Puppet or Chef) requires a dedicated software agent to be installed and running on every target node. Agentless automation (like Ansible) communicates over standard protocols like SSH, meaning no special software is needed on the target nodes, which simplifies deployment and reduces resource overhead.
 
 ??? question "How do I set up an Ansible inventory and target specific host groups?"
- An inventory is a file (e.g., `hosts.txt`) that lists the IP addresses or hostnames of your managed nodes. By organizing these hosts into groups (e.g., `[webservers]`, `[databases]`), you can target specific subsets of your infrastructure in your playbooks or ad-hoc commands using the group name instead of individual IPs.
+ 	An inventory is a file (e.g., `hosts.txt`) that lists the IP addresses or hostnames of your managed nodes. By organizing these hosts into groups (e.g., `[webservers]`, `[databases]`), you can target specific subsets of your infrastructure in your playbooks or ad-hoc commands using the group name instead of individual IPs.
 
 ??? question "How do I write a basic YAML playbook to install software?"
- A basic playbook is a YAML file that defines one or more \"plays\". Each play targets a specific host group and contains a list of tasks. To install software, you use a module like `apt` (for Ubuntu/Debian) or `yum` (for CentOS/RHEL), specifying the package name and ensuring the state is set to `present`.
+ 	A basic playbook is a YAML file that defines one or more \"plays\". Each play targets a specific host group and contains a list of tasks. To install software, you use a module like `apt` (for Ubuntu/Debian) or `yum` (for CentOS/RHEL), specifying the package name and ensuring the state is set to `present`.
 
 ??? question "What is the concept of idempotence and how can I verify it in Ansible?"
- Idempotence is the property where an operation can be applied multiple times without changing the result beyond the initial application. In Ansible, if a system is already in the desired state, Ansible will not make any changes. You can verify this by running the same playbook twice; the second run should report `changed=0` for all tasks.
+ 	Idempotence is the property where an operation can be applied multiple times without changing the result beyond the initial application. In Ansible, if a system is already in the desired state, Ansible will not make any changes. You can verify this by running the same playbook twice; the second run should report `changed=0` for all tasks.
 
 ??? question "How do handlers manage service restarts based on configuration changes?"
- Handlers are special tasks that are only executed if they are \"notified\" by another task using the `notify` keyword. This is typically used when a configuration file is updated (e.g., via the `template` module); the task notifies the handler to restart the service, ensuring the service is only restarted when a change actually occurs, rather than on every playbook run.
+ 	Handlers are special tasks that are only executed if they are \"notified\" by another task using the `notify` keyword. This is typically used when a configuration file is updated (e.g., via the `template` module); the task notifies the handler to restart the service, ensuring the service is only restarted when a change actually occurs, rather than on every playbook run.
+
+## Assignments
 
 !!! note "Assignment 1: Basic Web Server"
- Set up a virtual machine and write an Ansible playbook to install Nginx. Ensure the playbook is idempotent and that you can verify the installation by visiting the server's IP in a browser.
+ 	Set up a virtual machine and write an Ansible playbook to install Nginx. Ensure the playbook is idempotent and that you can verify the installation by visiting the server's IP in a browser.
 
 !!! note "Assignment 2: User and Security Management"
- Create a playbook that performs the following on a target VM:
- 1. Creates a new system user named `devops_user`.
- 2. Adds the user to the `sudo` group.
- 3. Copies a public SSH key to the user's `authorized_keys` file.
- 4. Ensures the SSH service is running.
+	Create a playbook that performs the following on a target VM:
+	1. Creates a new system user named `devops_user`.
+	2. Adds the user to the `sudo` group.
+	3. Copies a public SSH key to the user's `authorized_keys` file.
+	4. Ensures the SSH service is running.
 
 !!! note "Assignment 3: Multi-Service Deployment"
- Develop a playbook that installs both a database (e.g., PostgreSQL) and a web application. Use a handler to ensure the web application restarts only after the database configuration is successfully updated.
+ 	Develop a playbook that installs both a database (e.g., PostgreSQL) and a web application. Use a handler to ensure the web application restarts only after the database configuration is successfully updated.
 
 ## References
 
@@ -355,8 +358,8 @@ make all
 For this local course site, the `Makefile` is faster and more lightweight, but the Ansible approach prepares you for managing a fleet of production servers.
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

@@ -309,7 +309,7 @@ If you receive an error, revisit the steps where the API key, base URL, or model
 Following these steps gives you full command‑line access and a fully integrated graphical chat experience for Jetstream's language models inside Visual Studio Code.
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What are the three main ways to call the Jetstream LLM from VS Code?"

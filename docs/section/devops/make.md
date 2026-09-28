@@ -318,18 +318,64 @@ Each subdirectory holds only the files relevant to that concern. The `README.md`
 
 ---
 
-### Self‑Assessment Questions  
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 
-1. **Conceptual** – Explain how `make` decides whether a target needs to be rebuilt. Which timestamps are compared?  
-2. **Syntax** – What is the purpose of the leading TAB character in a recipe line? What happens if you replace it with spaces?  
-3. **Variables** – Given `SRC = a.c b.c c.c`, write a Makefile line that creates the variable `OBJ` containing the corresponding object file names.  
-4. **Pattern Rules** – In the rule `%.o: %.c`, what do the automatic variables `$@` and `$<` expand to when building `foo.o`?  
-5. **Phony Targets** – Why must the `clean` target be declared `.PHONY`? What could go wrong if it is not?  
-6. **Multipass** – List the sequence of `make` commands you would run to (a) create a VM, (b) start it, (c) open a shell inside it, and (d) finally delete it.  
-7. **OpenStack** – If you want to launch a server named `db‑01` using the image `centos‑8` and flavor `m1.large`, write the exact `make` command you would issue (assume the OpenStack Makefile shown above).  
-8. **Safety** – Propose a simple modification to the OpenStack `delete` target that requires an explicit `FORCE=1` flag before the deletion is executed. Write the modified rule.  
-9. **Extensibility** – Sketch a target that waits until an OpenStack VM reaches the `ACTIVE` state before proceeding to the next step. Provide the target name and a brief description of the recipe (full code not required).  
-10. **Best Practices** – Identify three best‑practice items from the table in § 10 and explain why each improves the reliability of a Makefile used for cloud automation.  
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
+??? question "Explain how `make` decides whether a target needs to be rebuilt. Which timestamps are compared?"
+    `make` compares the timestamp of the target file with the timestamps of its prerequisites. If the target does not exist, or if any of its prerequisites have a newer timestamp than the target, `make` considers the target out-of-date and executes its recipe.
+
+??? question "What is the purpose of the leading TAB character in a recipe line? What happens if you replace it with spaces?"
+    The leading TAB is a syntax requirement of Makefiles to identify the lines that belong to a recipe. If you replace the TAB with spaces, `make` will fail to recognize the line as a command and will throw a "missing separator" error.
+
+??? question "Given `SRC = a.c b.c c.c`, how do you create a variable `OBJ` containing the corresponding object file names?"
+    You can use substitution references: `OBJ = $(SRC:.c=.o)`. This tells `make` to take the value of `SRC` and replace all occurrences of `.c` with `.o`.
+
+??? question "In the pattern rule `%.o: %.c`, what do the automatic variables `$@` and `$<` expand to when building `foo.o`?"
+    `$@` expands to the target name (`foo.o`), and `$<` expands to the name of the first prerequisite (`foo.c`).
+
+??? question "Why must the `clean` target be declared `.PHONY`? What could go wrong if it is not?"
+    The `clean` target is a symbolic action, not a file. If a file named `clean` were to be created in the directory, `make` would see that the "file" `clean` exists and has no prerequisites, thus concluding it is up-to-date and skipping the recipe. Declaring it `.PHONY` forces `make` to always run the recipe.
+
+??? question "List the sequence of `make` commands to create a Multipass VM, start it, open a shell, and delete it."
+    The sequence would be: `make launch`, `make start`, `make shell`, and finally `make delete`.
+
+??? question "How would you launch an OpenStack server named `db-01` using image `centos-8` and flavor `m1.large` via the provided Makefile?"
+    You would override the variables on the command line: `make SERVER_NAME=db-01 IMAGE=centos-8 FLAVOR=m1.large create`.
+
+??? question "How can you modify a `delete` target to require an explicit `FORCE=1` flag?"
+    You can add a shell check to the recipe:
+    ```make
+    delete:
+        @if [ "$(FORCE)" != "1" ]; then echo "Error: Set FORCE=1 to delete"; exit 1; fi
+        @$(OS_CMD) openstack server delete $(SERVER_NAME)
+    ```
+
+??? question "How would you implement a target that waits for an OpenStack VM to become `ACTIVE`?"
+    You could create a target (e.g., `wait-active`) with a recipe that uses a `while` loop to poll the `openstack server show` command until the status field equals `ACTIVE`, using `sleep` between checks.
+
+??? question "Which best practices improve the reliability of cloud automation Makefiles?"
+    1. **`.PHONY` declarations**: Prevents accidental skipping of tasks.
+    2. **Configuration Variables**: Ensures consistency and makes it easy to target different environments (dev vs prod).
+    3. **Safety Guards**: Prevents catastrophic accidental deletions in cloud environments.
+
+---
+
+## Assignments
+
+!!! note "Assignment 1: Basic Build System"
+    Create a small project with three `.c` files and a `main.c`. Write a Makefile that uses variables for the compiler and flags, implements a pattern rule for object files, and provides `all`, `run`, and `clean` targets.
+
+!!! note "Assignment 2: Local VM Automation"
+    Using Multipass, create a Makefile that allows you to launch a VM with a specific name, CPU count, and memory limit. Add a target that automatically installs `git` and `curl` inside the VM using `multipass exec`.
+
+!!! note "Assignment 3: Cloud VM Automation"
+    Expand the OpenStack Makefile to include a `snapshot` target that creates an image of the current server and a `resize` target that changes the server's flavor.
+
+!!! note "Assignment 4: The Façade Pattern"
+    Organize your work into the directory structure described in §9. Create a top-level Makefile that can drive the build process in `src/` and the VM management in `vm/multipass/` using the `-C` flag (e.g., `make -C src all`).
 
 ---  
 

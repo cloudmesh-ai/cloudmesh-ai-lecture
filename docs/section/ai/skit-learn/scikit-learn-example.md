@@ -939,8 +939,8 @@ The API expects a JSON object representing a single wine sample. It converts thi
     ![Actual vs. Predicted – Gradient Boosting](images/scikit-learn-example/figure_12_actual_vs_predicted.png)
 
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the difference between an Estimator and a Transformer?"
     An Estimator is any object that can learn from data via the `fit` method. A Transformer is a specific type of Estimator that also implements a `transform` method to modify the data.
 

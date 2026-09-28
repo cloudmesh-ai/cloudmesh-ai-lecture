@@ -164,8 +164,8 @@ Analyzing a codebase like GROMACS (~4.7 million lines) requires strategic token 
 - [AWS Bedrock Pricing](https://aws.amazon.com/bedrock/pricing/)
 - [AWS CLI Reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/bedrock-runtime/index.html)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary advantage of Amazon Bedrock's serverless architecture?"
     It eliminates the need to provision or manage GPU infrastructure, allowing developers to access multiple foundation models via a single API with automatic scaling.
 

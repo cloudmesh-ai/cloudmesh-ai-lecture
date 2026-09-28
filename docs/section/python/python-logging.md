@@ -213,8 +213,8 @@ if __name__ == '__main__':
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the difference between logging and monitoring in a distributed system?"
     Logging records a chronological stream of discrete events and errors (the "what happened"), while monitoring aggregates numerical metrics like latency and error rates to track system health (the "how is it performing").
 

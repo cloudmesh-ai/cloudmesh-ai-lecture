@@ -26,7 +26,7 @@ CM can range from simple application health checks to complex, end-to-end visibi
 
 A robust pipeline for consistent and scalable deployment consists of two primary phases: Continuous Development and Continuous Improvement.
 
-### Step 1: Continuous Development (Plan $\rightarrow$ Test)
+### Step 1: Continuous Development (Plan &rarr; Test)
 
 This phase encompasses everything from the initial idea to the creation of a deployable artifact.
 
@@ -35,7 +35,7 @@ This phase encompasses everything from the initial idea to the creation of a dep
 - **Building**: Compiling code and packaging configuration and database scripts.
 - **Testing**: Running a comprehensive suite of automated tests—from unit tests (technical) to integration and business-logic tests (external).
 
-### Step 2: Continuous Improvement (Deploy $\rightarrow$ Monitor)
+### Step 2: Continuous Improvement (Deploy &rarr; Monitor)
 
 Once the artifact is deployed to production, the focus shifts to operational excellence.
 
@@ -47,10 +47,10 @@ Once the artifact is deployed to production, the focus shifts to operational exc
 !!! info "Why this matters"
     The "Improvement" phase completes the feedback loop. Data gathered during monitoring flows back into the "Planning" phase of the next development cycle, allowing teams to prioritize the most impactful optimizations based on real-world production data.
 
-# Self-Assessment
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+Test your knowledge by expanding the questions below.
 
 ??? question "What are the differences between CI, CD, and CM?"
     **Continuous Integration (CI)** focuses on merging code changes into a shared repository frequently and verifying them with automated builds and tests. **Continuous Deployment (CD)** automates the delivery of verified code to production environments. **Continuous Monitoring (CM)** integrates observability into every stage of the lifecycle to ensure the production system stays healthy.
@@ -62,10 +62,12 @@ Once the artifact is deployed to production, the focus shifts to operational exc
     The Continuous Development phase encompasses the path from idea to artifact: **Planning** (defining the feature), **Coding** (implementing the logic), **Building** (compiling code and packaging artifacts), and **Testing** (running automated unit, integration, and business-logic tests).
 
 ??? question "What is the purpose of the Continuous Improvement phase?"
-    The Continuous Improvement phase (Deploy $\rightarrow$ Monitor $\rightarrow$ Optimize) focuses on operational excellence. It ensures the application is healthy in production, identifies performance bottlenecks (like \"cold delays\"), and uses that data to optimize the infrastructure or code for a better user experience.
+    The Continuous Improvement phase (Deploy &rarr; Monitor &rarr; Optimize) focuses on operational excellence. It ensures the application is healthy in production, identifies performance bottlenecks (like \"cold delays\"), and uses that data to optimize the infrastructure or code for a better user experience.
 
 ??? question "How does monitoring data influence the development planning process?"
     Monitoring data provides a real-world feedback loop. Instead of relying on assumptions, teams use production metrics (e.g., \"checkout failures\" or \"API latency\") to inform the **Planning** stage of the next cycle, allowing them to prioritize the most impactful optimizations and bug fixes based on actual user experience.
+
+## Assignments
 
 !!! note "Assignment 1: Pipeline Mapping"
     Draw a diagram of a CI/CD/CM pipeline for a hypothetical web application. Label each stage and identify at least one tool (e.g., GitHub Actions, Prometheus, Jenkins) that could be used to automate that stage.

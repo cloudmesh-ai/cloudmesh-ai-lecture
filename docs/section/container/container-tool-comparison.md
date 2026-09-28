@@ -83,7 +83,7 @@ Choosing the right tool depends on your priorities: security, speed of deploymen
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

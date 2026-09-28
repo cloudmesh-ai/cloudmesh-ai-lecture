@@ -228,8 +228,8 @@ For those who prefer to stay within the terminal, tools such as `tldr` (simplifi
     **Goal**: Implement a personalized knowledge management system.
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

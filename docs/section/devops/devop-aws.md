@@ -51,10 +51,9 @@ CloudWatch is the central nervous system for monitoring. It:
 
 While CloudWatch tells you *that* a system is slow, X-Ray tells you *where* it is slow. X-Ray provides distributed tracing, allowing you to follow a single request as it travels through multiple microservices, helping you pinpoint the exact bottleneck in a complex architecture.
 
-# Self-Assessment
-
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+## Self-Assessment
+Test your knowledge by expanding the questions below.
+Test your knowledge by expanding the questions below.
 
 ??? question "What is the difference between CodeBuild and CodeDeploy?"
     **CodeBuild** is a managed build service that compiles source code, runs tests, and produces deployable artifacts (like Docker images) without the need to manage build servers. **CodeDeploy** is a deployment service that automates the rollout of those artifacts to compute services like EC2, AWS Lambda, or Amazon ECS, supporting strategies like Blue/Green deployments to ensure zero downtime.
@@ -70,6 +69,8 @@ While CloudWatch tells you *that* a system is slow, X-Ray tells you *where* it i
 
 ??? question "What is the 'NoOps' benefit of AWS Lambda?"
     AWS Lambda enables a \"NoOps\" (No Operations) model because it is a serverless platform. AWS handles all the underlying infrastructure management, including server provisioning, patching, scaling, and high availability. Developers only need to upload their code as functions, removing the operational burden of managing servers.
+
+## Assignments
 
 !!! note "Assignment 1: Pipeline Design"
     Design a CI/CD pipeline for a Flask application. Specify which AWS CodeSuite tools you would use for:

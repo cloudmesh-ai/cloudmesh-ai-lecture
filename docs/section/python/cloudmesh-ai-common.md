@@ -357,8 +357,8 @@ StopWatch.benchmark(sysinfo=True)
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "How does `DotDict` simplify access to nested dictionary values?"
  `DotDict` allows you to access nested values using attribute notation (e.g., `config.cloudmesh.ai.server`) instead of traditional bracket notation (e.g., `config['cloudmesh']['ai']['server']`), making the code cleaner and more readable.
 

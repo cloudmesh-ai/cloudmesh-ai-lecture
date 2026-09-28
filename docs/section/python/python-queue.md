@@ -204,7 +204,7 @@ These tools allow multiple independent processes (potentially on different serve
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

@@ -163,8 +163,8 @@ python3 -c "import sys; [print(line.replace('\r\n', '\n'), end='') for line in s
     **Goal**: Implement a multi-file update logic using Python's `glob` and `os` modules.
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

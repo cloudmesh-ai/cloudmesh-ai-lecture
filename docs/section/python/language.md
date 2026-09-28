@@ -1702,8 +1702,8 @@ To run tests, simply execute `pytest` in your terminal.
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the difference between an integer and a floating-point number in Python?"
  An integer (int) is a whole number without a fractional component, whereas a floating-point number (float) represents a real number and includes a decimal point.
 

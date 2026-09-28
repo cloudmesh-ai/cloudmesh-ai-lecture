@@ -183,8 +183,8 @@ When the primary requirement is *single-step, low-latency command generation* wi
 * NemoClay Framework Specification: https://github.com/ai-automation/nemoclay
 * NIST Guide to Generative AI Security: https://nist.gov/genai-security
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary architectural difference between OpenClaw and NemoClay?"
     OpenClaw is designed for single-step, lightweight CLI wrapping executing on the host, whereas NemoClay is a DAG-based orchestrator that uses containerized execution for complex, multi-modal pipelines.
 

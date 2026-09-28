@@ -159,8 +159,8 @@ AIAgent <|-- CodingAgent
 
 - [PlantUML Guide](https://plantuml.com/guide)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the main benefit of using Diagram-as-Code over GUI tools?"
     The main benefits include the ability to use version control (Git) for tracking changes, ensuring visual consistency, and increasing the speed of modifications.
 

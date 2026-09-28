@@ -169,7 +169,7 @@ Deleting a virtual machine or terminating a lease does **not** always automatica
 ---
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
 Test your knowledge by expanding the questions below.
 

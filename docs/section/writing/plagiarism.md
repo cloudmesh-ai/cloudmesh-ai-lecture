@@ -176,8 +176,8 @@ Assignments in this course follow numbered ACM or IEEE proceedings and journal c
 !!! note "Exercise 4"
     Identify the plagiarism guidelines and policies at Loyola University Chicago.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the general definition of plagiarism?"
     Plagiarism is the practice of taking someone else's work or ideas and passing them off as one's own.
 

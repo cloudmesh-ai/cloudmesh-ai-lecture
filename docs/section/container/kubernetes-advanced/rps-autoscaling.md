@@ -233,8 +233,8 @@ KEDA provides support for various event triggers.
 2. **Test Scale-to-Zero**: Configure a `ScaledObject` with `minReplicaCount: 0` and verify that pods are terminated when the event source is empty.
 3. **Analyze Cooldown**: Modify the `cooldownPeriod` and observe how it affects the timing of scale-down events during fluctuating traffic.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary difference between KEDA and the standard Kubernetes HPA?"
     Standard HPA typically scales based on resource metrics like CPU and memory, while KEDA allows scaling based on external event sources such as message queues or Prometheus queries.
 

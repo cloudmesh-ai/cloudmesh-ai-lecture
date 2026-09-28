@@ -272,8 +272,8 @@ The output contains the real run time and the user run time. `real` is wall cloc
 - [Map, Filter and Reduce](http://book.pythontips.com/en/latest/map_filter.html)
 - [multiprocessing API](https://docs.python.org/2/library/multiprocessing.html)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "Why is a document collection of random numbers used for benchmarking instead of actual language text?"
     It allows for controlled testing of scale and avoids bias from natural language patterns, ensuring that the performance metrics reflect the algorithm's efficiency rather than the nature of the input data.
 

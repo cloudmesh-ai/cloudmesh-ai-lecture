@@ -168,8 +168,8 @@ Financial firms use Azure Event Hubs for transaction streaming and the Azure ML 
 - Azure Architecture Center
 - Google Cloud Architecture Framework
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the difference between a managed ML platform and a pre-built AI API?"
     Managed ML platforms (e.g., SageMaker, Vertex AI) provide the full lifecycle tools for building, training, and deploying custom models. Pre-built AI APIs (e.g., Rekognition, Azure Computer Vision) provide ready-to-use AI capabilities via a simple API call and require no model training.
 

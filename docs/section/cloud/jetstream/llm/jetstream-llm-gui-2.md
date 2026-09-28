@@ -293,7 +293,7 @@ Cline will now send all requests to OpenRouter using the selected `gpt-oss-120b`
 If you encounter any specific error messages or need a configuration that matches a particular operating system (Windows, macOS, Linux), let me know and I'll provide a ready‑to‑copy snippet tailored to that environment.
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the main difference between how Continue and Cline store their configurations?"

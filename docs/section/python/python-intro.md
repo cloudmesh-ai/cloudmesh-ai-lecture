@@ -110,7 +110,7 @@ In production environments, bloated distributions like Anaconda are typically av
 ## References
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

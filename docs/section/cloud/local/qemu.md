@@ -147,7 +147,7 @@ qemu-system-arm -kernel ./kernel-qemu-4.4.34-jessie \
 - `-append`: Passes boot arguments to the kernel.
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the difference between virtualization and emulation in QEMU?"

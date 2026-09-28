@@ -173,7 +173,7 @@ if __name__ == "__main__":
 Once launched, the user remains inside `my-shell >` and can execute `hello` or `greet` repeatedly without exiting the program.
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

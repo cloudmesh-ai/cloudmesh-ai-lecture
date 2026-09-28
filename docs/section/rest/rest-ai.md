@@ -397,8 +397,8 @@ AI jobs are often long-running. While the implementation uses Python threading f
 !!! note "Assignmet: Result Export"
     Create a new endpoint `/jobs/{id}/centers` that returns the cluster centers for a given Job ID in JSON format.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "How does the Job ID facilitate the separation of the fit and predict services?"
 The Job ID acts as a unique identifier that links the uploaded training data, the resulting fitted model stored in memory, and the subsequent prediction requests. This allows the server to remain stateless regarding the client session while maintaining state regarding the AI model.
 

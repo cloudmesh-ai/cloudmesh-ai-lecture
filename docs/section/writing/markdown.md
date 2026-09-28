@@ -207,12 +207,27 @@ sequenceDiagram
     John-->>Alice: Hello Alice
 ```
 
+~~~
+```mermaid
+sequenceDiagram
+    Alice->>John: Hello John
+    John-->>Alice: Hello Alice
+```
+~~~
+
 **Flowchart Example:**
 
 ```mermaid
 graph LR
     Start --> End
 ```
+
+~~~
+```mermaid
+graph LR
+    Start --> End
+```
+~~~
 
 ## Presentations in Markdown
 
@@ -447,8 +462,8 @@ Before submitting work, verify the following:
 !!! note "Assignment 4: Validation"
     Validate the output by converting the report to ePub using Pandoc.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the correct way to create a heading in Markdown for this project?"
     Use the hash symbol (`#`) followed by a space. Do not use underscores or equal signs for underlines.
 

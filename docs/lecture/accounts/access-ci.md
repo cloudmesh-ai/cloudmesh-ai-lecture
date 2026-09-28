@@ -105,8 +105,8 @@ To use Jetstream2, the PI must first obtain an allocation through the ACCESS por
 - [ACCESS Portal](https://my.access-ci.org/)
 - [Jetstream2 Portal](https://jetstream2.cloud.iu.edu/)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is ACCESS CI and why is it used?"
     ACCESS (Advanced Cyberinfrastructure Coordination Ecosystem: Services) is a gateway for researchers and educators to obtain allocations for high-performance computing and cloud resources, such as Jetstream2.
 

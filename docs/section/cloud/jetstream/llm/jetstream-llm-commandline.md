@@ -264,7 +264,7 @@ All numeric literals (`max_tokens`: 120, `temperature`: 0.7) are plain integ
 ---
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "How do you configure the Jetstream Cloud LLM for use in the VS Code terminal?"

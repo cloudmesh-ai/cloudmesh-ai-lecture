@@ -39,8 +39,8 @@ In the `cloudmesh-ai-lecture` project, the `.travis.yml` file is used to automat
 
 - **Simplified Execution**: Because the project uses sophisticated `Makefiles`, the `script` section is kept simple, merely calling the appropriate `make` commands in the relevant directories.
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 
@@ -58,6 +58,8 @@ In the `cloudmesh-ai-lecture` project, the `.travis.yml` file is used to automat
 
 ??? question "Why can using a `Makefile` simplify a CI configuration?"
     A `Makefile` allows you to move complex, multi-line shell commands out of the `.travis.yml` file and into a version-controlled script within the repository. This simplifies the CI configuration to a few simple calls (e.g., `make test`), making the pipeline easier to read, maintain, and execute locally by developers.
+
+## Assignments
 
 !!! note "Assignment 1: Containerized Travis"
     Develop an alternative `.travis.yml` file that uses a preconfigured Docker container (e.g., for Ubuntu 18.04) instead of the default Travis environment. Explain the advantage of using a container for environment consistency.

@@ -83,8 +83,8 @@ Once your account is active:
 - [Azure for Students](https://azure.microsoft.com/free/students/)
 - [Azure Portal](https://portal.azure.com/)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the 'Azure for Students' offer and how does it differ from the standard free account?"
     The Azure for Students offer often provides free credits without requiring a credit card, whereas the standard free account requires a credit card for identity verification.
 

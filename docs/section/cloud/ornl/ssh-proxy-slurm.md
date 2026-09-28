@@ -308,8 +308,8 @@ Press `Ctrl‑C` (or `kill %1`) to stop the tunnel and the job will end automati
 
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

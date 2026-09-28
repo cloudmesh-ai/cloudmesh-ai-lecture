@@ -212,8 +212,8 @@ When `backup=True`, a file named `catalog.yaml.bak` is created before any write 
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "How do you insert multiple records into a YAMLDB at once?"
     Use the `insert_many()` method, passing a list of dictionaries containing the records.
 

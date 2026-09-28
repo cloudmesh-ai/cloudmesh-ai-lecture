@@ -161,8 +161,8 @@ Edge AI moves the inference phase of the machine learning lifecycle to the devic
 - [AWS Greengrass Documentation](https://aws.amazon.com/greengrass/)
 - [NVIDIA Jetson Documentation](https://developer.nvidia.com/embedded/jetson)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary goal of edge computing compared to centralized cloud computing?"
     The primary goal of edge computing is to move compute, storage, and networking resources closer to the data source (devices, sensors, users). This reduces latency, saves bandwidth, improves privacy (by keeping data local), and increases resilience for offline operations.
 

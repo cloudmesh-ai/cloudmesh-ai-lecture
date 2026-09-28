@@ -83,8 +83,8 @@ Once the account is activated:
 - [Chameleon Cloud User Guide](https://docs.chameleoncloud.org)
 - [OpenStack Horizon Documentation](https://docs.openstack.org/horizon/)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is Chameleon Cloud and who is it intended for?"
     Chameleon Cloud is a cloud computing testbed specifically intended for research and education, providing infrastructure for legitimate academic and research purposes.
 

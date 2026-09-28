@@ -159,7 +159,7 @@ When multiple options are available for completion, Zsh can display them in an i
 Zsh handles multiline commands more gracefully than bash. If a command is incomplete (e.g., an unclosed quote or bracket), Zsh provides a visual indicator and allows for easy editing of previous lines before execution.
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

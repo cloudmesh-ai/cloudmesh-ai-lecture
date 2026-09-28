@@ -166,8 +166,8 @@ The Prometheus Adapter bridges Prometheus and the Kubernetes Custom Metrics API 
 2. Use a load testing tool (e.g., `hey` or `ab`) to generate traffic and observe the HPA scaling via `kubectl get hpa -w`.
 3. Modify the HPA target utilization to 20% and observe how the scaling speed changes.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "Why are resource requests mandatory for CPU-based HPA?"
     HPA calculates utilization as a percentage of the requested resources. Without a defined request, the HPA cannot determine the current utilization percentage.
 

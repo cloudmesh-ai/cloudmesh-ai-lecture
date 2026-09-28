@@ -277,8 +277,8 @@ if __name__ == '__main__':
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "Why is multi-threading suitable for I/O-bound tasks but not for CPU-bound tasks in Python?"
     Due to the Global Interpreter Lock (GIL), only one thread can execute Python bytecode at a time. I/O tasks frequently yield control while waiting, allowing other threads to run. CPU tasks would compete for the GIL, resulting in no real parallelism.
 

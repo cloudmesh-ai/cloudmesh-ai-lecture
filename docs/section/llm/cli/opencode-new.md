@@ -353,8 +353,8 @@ Using the markdown_formatter agent, draft a technical chapter on "Configuring Sl
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "Can you explain the difference between Plan Mode and Build Mode in OpenCode?"
     Plan Mode (`Tab`) is used to define the strategy and intent before any file changes occur. Build Mode (`Tab`) is where the agent actually executes the plan and writes to the filesystem.
 

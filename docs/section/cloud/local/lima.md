@@ -114,7 +114,7 @@ By combining Lima with Apptainer, macOS developers can build and test high-perfo
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the core focus of Lima compared to traditional VM managers?"

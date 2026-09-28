@@ -17,6 +17,45 @@ OpenStack Heat solves this by introducing **Infrastructure‑as‑Code (IaC)**. 
 
 This approach ensures that your environment is repeatable, auditable, and version-controlled, allowing you to treat your infrastructure with the same rigor as your application code.
 
+```mermaid
+graph TD
+    subgraph User Interaction
+        A[HOT Template .yaml] -->|Parameters & CLI| B(OpenStack Heat Engine)
+    end
+
+    subgraph Heat Orchestration Engine
+        B --> C{DAG Dependency Graph}
+        C --> D[Resource Plugins]
+    end
+
+    subgraph OpenStack Cloud Services
+        D --> E[OS::Neutron::Net / Subnet]
+        D --> F[OS::Neutron::SecurityGroup]
+        D --> G[OS::Nova::Server]
+        D --> H[OS::Neutron::FloatingIP]
+    end
+
+    subgraph Deployed Infrastructure Stack
+        E --> I[Private Network Ready]
+        F --> J[Firewall Rules Applied]
+        G --> K[Web Server Running]
+        H --> L[Public IP Accessible]
+    end
+
+    style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b
+    style B fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#2e7d32
+    style C fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#ef6c00
+    style D fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#7b1fa2
+    style E fill:#e0f7fa,stroke:#006064,stroke-width:2px,color:#006064
+    style F fill:#e0f7fa,stroke:#006064,stroke-width:2px,color:#006064
+    style G fill:#e0f7fa,stroke:#006064,stroke-width:2px,color:#006064
+    style H fill:#e0f7fa,stroke:#006064,stroke-width:2px,color:#006064
+    style I fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#880e4f
+    style J fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#880e4f
+    style K fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#880e4f
+    style L fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#880e4f
+```
+
 ## Core Concepts
 
 At its heart, Heat operates on a few fundamental primitives.
@@ -236,7 +275,7 @@ To maintain a production-grade infrastructure, adhere to these guidelines:
     - [ ] All critical infrastructure outputs (like IPs) are defined in the `outputs` section.
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

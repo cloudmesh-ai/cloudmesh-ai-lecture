@@ -78,7 +78,7 @@ However, it has a hughe price increase recieved for commercial users when transi
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "When would you choose Multipass over VirtualBox for local Ubuntu VMs?"

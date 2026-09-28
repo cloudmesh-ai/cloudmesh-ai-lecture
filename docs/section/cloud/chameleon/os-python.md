@@ -410,7 +410,7 @@ You can now SSH into the instance (assuming the security group allows port 22):
 You now have a complete, reusable Python script and a step‑by‑step guide for launching OpenStack VMs programmatically. Adjust the configuration variables to match your environment, run the script, and you'll have a running instance ready for SSH or further automation. Happy building!
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "Which Python library is used to programmatically create VMs in the OpenStack SDK tutorial?"

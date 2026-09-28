@@ -440,7 +440,7 @@ By default, the database (`db-sg`) only allows traffic from the web server (`web
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is a '2-tier web-database architecture' in the context of this lab?"

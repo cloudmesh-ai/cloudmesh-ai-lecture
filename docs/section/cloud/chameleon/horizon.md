@@ -124,7 +124,7 @@ A floating (public) IP lets you reach the VM from outside the private cloud netw
 - [Chameleon Cloud Help Form](https://chameleoncloud.org/help/)
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is a 'reservation' in Chameleon Cloud and why is it used?"

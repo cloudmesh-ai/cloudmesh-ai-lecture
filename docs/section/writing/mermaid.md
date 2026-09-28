@@ -166,8 +166,8 @@ mermaid.initialize({ startOnLoad: true });
 !!! note "Assignment 2: Authentication Flow"
     Create a sequence diagram showing the OAuth2 Authorization Code flow between a User, a Client Application, an Authorization Server, and a Resource Server.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary advantage of using Mermaid over static image files for diagrams?"
     Diagrams are stored as text, allowing them to be managed via version control systems like Git, facilitating easier updates and tracking.
 

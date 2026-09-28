@@ -287,7 +287,7 @@ You should see a short joke printed, confirming the full pipeline works end‑to
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the purpose of `lm-proxy` and is it required for modern LM Studio versions?"

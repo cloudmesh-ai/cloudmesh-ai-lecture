@@ -868,8 +868,8 @@ If you would like to **export this slide deck into a printable format**, customi
 - **Quantum Cloud Network Integration**: Peeking into the future of computing by executing hybrid classical-quantum algorithms over abstract public cloud API tunnels.
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

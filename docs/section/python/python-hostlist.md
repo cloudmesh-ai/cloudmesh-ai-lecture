@@ -240,8 +240,8 @@ echo "node[1-3]" | hostlist expand
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "How does the `hostlist` library handle zero-padding in compressed lists?"
     The library automatically detects the padding width of the numeric range in the compressed string and preserves leading zeros when expanding the list into individual hostnames.
 

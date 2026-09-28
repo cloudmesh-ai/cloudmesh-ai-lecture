@@ -371,8 +371,8 @@ Run the script with `bash launch_gemma4.sh`. It will:
 ---  
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

@@ -105,8 +105,8 @@ For more details, see the [Installation Guide](guide/install.md).
 2. Create a basic project structure with an `index.md` and a subfolder containing at least two documentation pages.
 3. Configure a `mkdocs.yml` file to reflect this structure and launch the local server to verify the navigation.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary purpose of the mkdocs.yml file?"
     The `mkdocs.yml` file serves as the central configuration file where the site name, theme, and navigation structure are defined.
 

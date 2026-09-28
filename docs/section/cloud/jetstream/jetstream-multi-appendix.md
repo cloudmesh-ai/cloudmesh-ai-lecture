@@ -507,7 +507,7 @@ if __name__ == "__main__":
 ```
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the purpose of the `01-keypair.sh` script?"

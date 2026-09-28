@@ -557,7 +557,7 @@ That single command pulls an NGINX image, runs it in detached mode, maps host po
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "Explain the 'Build, Ship, Run' workflow in Docker."

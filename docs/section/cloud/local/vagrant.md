@@ -115,7 +115,7 @@ After exiting the VM (`exit`), you can manage the state of the machine from your
 | `vagrant destroy` | Completely removes the VM and all associated virtual disks. |
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What does it mean that Vagrant is 'provider-agnostic'?"

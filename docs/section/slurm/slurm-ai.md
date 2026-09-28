@@ -74,8 +74,8 @@ While Slurm dominates academic and dedicated government/enterprise supercomputin
 * *Slurm:* Exceptionally straightforward for dedicated training clusters, but lacks native microservice capabilities (such as serving APIs, web dashboards, or dynamic scaling).
 * *Kueue:* Integrates directly into the broader Kubernetes MLOps ecosystem. The same cluster can manage data engineering pipelines, distributed training queues via Kueue, and downstream model-serving endpoints, though it introduces a steeper operational learning curve and control-plane complexity.
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

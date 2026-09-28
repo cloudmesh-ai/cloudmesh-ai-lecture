@@ -268,7 +268,7 @@ You should see a short joke printed to the console—proving that LM Studio �
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the function of `lm-link` in the connection chain between VS Code and LM Studio?"

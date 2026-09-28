@@ -456,7 +456,7 @@ print(f"Total SU for {HOURS_PER_MONTH:.0f} h: {result['su_total']:.2f}")
     Also explain in detail how you are impacted by the difference.
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is a Service Unit (SU) in Jetstream 2?"

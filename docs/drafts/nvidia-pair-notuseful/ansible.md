@@ -631,7 +631,7 @@ That's the full Ansible‑based, production‑ready way to **deploy NVIDIA AI Pa
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the purpose of `ansible-vault` in this workflow?"

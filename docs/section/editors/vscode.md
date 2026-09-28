@@ -154,8 +154,8 @@ As you rely more on AI, you must develop a critical eye for **hallucinations**â€
  3. Review the proposed changes and approve the execution of the tests.
  **Deliverable:** A screenshot of the terminal showing the `pytest` results (all green) and the newly created test file.
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

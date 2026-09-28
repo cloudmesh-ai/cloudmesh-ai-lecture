@@ -76,8 +76,8 @@ This summary is significantly simplified, but provides in a convenient landsacpe
 * **Internal:** Providing network functionality to processes/containers on a single server.
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

@@ -338,7 +338,7 @@ multipass launch --name secured-web --cloud-init cloud-config.yaml
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is Multipass and what is its primary goal?"

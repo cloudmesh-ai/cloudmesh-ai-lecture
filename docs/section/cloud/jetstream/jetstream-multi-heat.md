@@ -247,7 +247,7 @@ openstack stack delete jetstream-multi-stack
 ---
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is a 'Stack' in OpenStack Heat?"

@@ -144,7 +144,7 @@ When generating slang, LLMs risk falling into "linguistic stereotyping"—using 
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

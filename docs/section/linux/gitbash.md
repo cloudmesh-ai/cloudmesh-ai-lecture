@@ -114,8 +114,8 @@ Once installed via any of these tools, Git Bash is automatically placed on your 
     In the last two cases you still have to set the username and email. please work as a team and create a pull request completing the documentation
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

@@ -86,8 +86,8 @@ Once your account is active:
 - [Google Cloud Console](https://console.cloud.google.com/)
 - [GCP Free Tier Documentation](https://cloud.google.com/free/docs/free-cloud-features)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "Why does GCP require credit card information during the free trial setup?"
     GCP requires payment information for identity verification. Google will not charge the user unless they manually upgrade to a paid subscription after the free trial credits are exhausted.
 

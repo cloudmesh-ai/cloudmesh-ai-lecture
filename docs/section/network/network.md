@@ -541,8 +541,8 @@ The following guide gives a quick overview how to chose the CIDR.
 
  **Question 2:** If the application is run in a university, how do the security requirements need to be changed?
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

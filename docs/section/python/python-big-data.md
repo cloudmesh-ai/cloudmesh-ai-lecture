@@ -236,7 +236,7 @@ print(f"Pandas Sum: {pandas_sum}, Dask Sum: {dask_sum}")
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

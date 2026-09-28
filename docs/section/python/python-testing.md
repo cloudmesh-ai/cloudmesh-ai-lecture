@@ -326,7 +326,7 @@ The `scope="session"` setting on the `docker_service` fixture is critical; it en
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

@@ -349,7 +349,7 @@ Python tracebacks and CUDA errors can be lost upon pod restarts. Production clus
 ---
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 
@@ -427,7 +427,7 @@ Here is the improved, structured version of your guide. The text has been reorga
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
 Test your knowledge by expanding the questions below.
 

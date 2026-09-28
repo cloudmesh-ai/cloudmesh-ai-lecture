@@ -70,8 +70,8 @@ Docker is the industry standard for containerization. It allows developers to pa
 - [VirtualBox User Manual](https://www.virtualbox.org/manual/)
 - [Docker Get Started Guide](https://docs.docker.com/get-started/)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "Why is it recommended to test scripts and containers locally before deploying to the cloud?"
     Local testing ensures that code is functionally correct and prevents unexpected costs resulting from misconfigurations or the exhaustion of free tier limits in cloud environments.
 

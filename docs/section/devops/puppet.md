@@ -46,15 +46,15 @@ Puppet operates through a structured cycle that ensures security and consistency
 3. **Configuration Application**: The Master sends the Catalog to the Agent. The Agent applies the changes locally to reach the desired state.
 4. **Reporting**: The Agent sends a report back to the Master confirming what was changed or if any errors occurred.
 
-![Master and Slave Architecture](images/master-slave.jpg){#fig:master-slave}
+![Master and worker Architecture](images/master-worker.jpg){#fig:master-worker}
 
-![Master Slave Workflow](images/master-slave1.jpg){#fig:master-slave1}
+![Master worker Workflow](images/master-worker1.jpg){#fig:master-worker1}
 
 ### Security via SSL
 
 Because the Master sends critical configuration data, all communication between the Master and Agent is encrypted using SSL certificates. The agent must be "signed" by the Master before it can receive its catalog.
 
-![Master Slave SSL Workflow](images/master-slave-connection.jpg){#fig:master-slave-connection}
+![Master worker SSL Workflow](images/master-worker-connection.jpg){#fig:master-worker-connection}
 
 ## Deploying Puppet
 
@@ -88,7 +88,7 @@ The primary configuration for Puppet is handled in the `puppet.conf` file. Key s
 ??? question "What are the roles of the Puppet Master and the Puppet Agent?"
  The **Puppet Master** acts as the central authority that stores manifests and compiles catalogs (the lapped-out desired state) for each node. The **Puppet Agent** runs on target nodes, sends its local facts to the Master, retrieves its specific catalog, applies the changes locally, and reports the results.
 
-??? question "Can you describe the process of Fact $\rightarrow$ Catalog $\rightarrow$ Application?"
+??? question "Can you describe the process of Fact &rarr; Catalog &rarr; Application?"
  The process starts with **Fact Collection**, where the Agent sends system details (OS, IP, etc.) to the Master. The Master then performs **Catalog Compilation**, using those facts and the manifests to create a tailored list of resources for that node. Finally, the Agent performs **Configuration Application**, implementing the resources in the catalog to reach the desired state.
 
 ??? question "What is the difference between a monolithic and a split Puppet Enterprise installation?"
@@ -187,17 +187,16 @@ Once applied, you can open your browser and visit `http://localhost:8000`.
 ### Why use Puppet for this?
 
 ## Self-Assessment
+Test your knowledge by expanding the questions below.
+Test your knowledge by expanding the questions below.
 
-!!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
-
-??? question "What is the core difference between a 'procedural' tool and a 'declarative' tool like Puppet?"
- A procedural tool executes a sequence of commands to achieve a result (e.g., \"install package X, then start service Y\"). A declarative tool defines the desired end-state (e.g., \"package X must be installed and service Y must be running\"), and the tool automatically determines the necessary steps to reach that state.
+??? question "What is the core difference between a 'procedural' tool and a     'declarative' tool like Puppet?"
+    A procedural tool executes a sequence of commands to achieve a result (e.g., \"install package X, then start service Y\"). A declarative tool defines the desired end-state (e.g., \"package X must be installed and service Y must be running\"), and the tool automatically determines the necessary steps to reach that state.
 
 ??? question "Explain the 'Pull Model' of configuration management used by Puppet."
- In the pull model, an agent installed on each target node periodically polls the central Puppet Master for its specific configuration catalog. This is opposite to the push model (e.g., Ansible), where the central server pushes configurations to the nodes via SSH.
+    In the pull model, an agent installed on each target node periodically polls the central Puppet Master for its specific configuration catalog. This is opposite to the push model (e.g., Ansible), where the central server pushes configurations to the nodes via SSH.
 
 ??? question "What is 'configuration drift' and how does Puppet resolve it?"
- Configuration drift occurs when a server's actual state deviates from the defined desired state (e.g., a user manually edits a config file). Puppet detects this during its regular check-in and automatically reapplies the correct configuration to bring the server back into compliance.
+    Configuration drift occurs when a server's actual state deviates from the defined desired state (e.g., a user manually edits a config file). Puppet detects this during its regular check-in and automatically reapplies the correct configuration to bring the server back into compliance.
 
 The power of Puppet lies in **drift detection**. If you accidentally uninstall a plugin or stop the server, running `puppet apply` will immediately detect that the system is not in the "desired state" and will automatically reinstall the dependencies and restart the server, ensuring your environment is always stable.

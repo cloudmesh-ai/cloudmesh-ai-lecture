@@ -133,7 +133,7 @@ In development, scripts should be named using meaningful, descriptive identifier
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

@@ -297,8 +297,8 @@ If you are looking for a single, Python-native solution that reduces the number 
     3. **Dependency Management**: Add `requests` as a project dependency and run a simple script via `hatch run` that fetches a webpage.
     4. **Versioning**: Set the version to `0.1.0` using the CLI and verify it was written to the `__about__.py` file.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary advantage of using `pyproject.toml` as the single source of truth in Hatch?"
     It centralizes build system requirements, project metadata, and tool configurations in one declarative file, eliminating the need for fragmented files like `setup.py`, `requirements.txt`, or `MANIFEST.in`.
 

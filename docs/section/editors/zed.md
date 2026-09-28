@@ -123,8 +123,8 @@ You can choose your preferred AI backend in the **Agent Settings**:
  5. **AI**: Use the **Inline Assistant** to add a docstring or comment to a function in your code.
  **Deliverable:** A screenshot of your modified settings file and the result of the AI-generated comment.
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

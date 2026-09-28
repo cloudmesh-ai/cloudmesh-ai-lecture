@@ -539,8 +539,8 @@ Figure 9: ROC AUC score.
 - [Keras Documentation](https://keras.io/)
 - [XGBoost Documentation](https://xgboost.readthedocs.io/)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the difference between Supervised and Unsupervised Learning?"
     Supervised learning uses labeled data to predict targets, while unsupervised learning discovers hidden patterns or groups in unlabeled data.
 

@@ -181,8 +181,8 @@ LXD is a tool for running and managing containers or virtual machines. Visit [ca
 
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

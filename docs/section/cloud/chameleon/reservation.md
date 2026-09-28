@@ -129,7 +129,7 @@ Presence of an entry indicates that the reservation capability is installed and 
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is Blazar and what is its primary purpose in OpenStack?"

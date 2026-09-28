@@ -390,7 +390,7 @@ Once inside an active `claude` session in your project directory:
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What does it mean to run an LLM service \"daemon-free\"?"

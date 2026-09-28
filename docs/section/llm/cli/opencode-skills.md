@@ -137,8 +137,8 @@ make linkchecker-file FILE=path/to/modified.md
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary architectural difference between an OpenCode skill and a static system prompt?"
     A system prompt is global, monolithic, and always present in the context window, whereas an OpenCode skill is modularly indexed by description and injected dynamically only when a task matches its trigger criteria, preserving token space.
 

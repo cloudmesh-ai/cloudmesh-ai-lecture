@@ -240,7 +240,7 @@ Once running, open your web browser and navigate to `http://localhost:8000` to v
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

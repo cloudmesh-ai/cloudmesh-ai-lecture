@@ -149,8 +149,8 @@ Figure 10: K-means clustering results on digits dataset.
 
 - [Scikit-learn Documentation: KMeans](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What does Inertia represent in K-Means?"
     It is the sum of squared distances of samples to their closest cluster center.
 

@@ -175,8 +175,8 @@ This creates a feedback loop with local control.
 !!! note "Assignment 3: LaTeX Environment"
     Install `latexmk` on your system. Create a simple LaTeX document in Emacs, launch `latexmk` in a separate terminal, and verify that the PDF updates automatically every time you save the file (`C-x C-s`).
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "Can you navigate a buffer quickly using both character-level and line/word-level movements?"
     Yes, using shortcuts like `C-f`/`C-b` for characters, `C-n`/`C-p` for lines, and `M-f`/`M-b` for words.
 

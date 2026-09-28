@@ -309,7 +309,7 @@ Both Postman and Insomnia let you export the request as a collection file for sh
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What are the typical use-cases for the Continue extension versus the Cline extension?"

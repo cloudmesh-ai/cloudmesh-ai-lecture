@@ -260,7 +260,7 @@ For structured data that requires complex querying, flat files are replaced by d
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

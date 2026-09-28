@@ -189,8 +189,8 @@ Modern IDEs integrate Git directly into their editor, reducing the need to switc
     **Deliverable:** A screenshot of the resolved file and the final commit message.
 
 
-# Self-Assessment
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.
 

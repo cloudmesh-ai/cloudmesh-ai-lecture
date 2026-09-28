@@ -144,8 +144,8 @@ A common question is whether to use OpenClaw or NemoClay. The choice depends pri
 - [OpenClaw Documentation](https://github.com/cloudmesh-ai/openclaw)
 - [NemoClay Framework Specification](https://github.com/cloudmesh-ai/nemoclay)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary difference between OpenClaw and NemoClay?"
     OpenClaw is designed for single-step, low-latency command wrapping, whereas NemoClay is an orchestration framework that uses a DAG to chain multiple isolated, containerized AI actions into a complex workflow.
 

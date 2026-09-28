@@ -226,7 +226,7 @@ Closing issues from the CLI is the final step in the feature lifecycle. By linki
 ---
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "How do you initially connect your GitHub account to the CLI?"

@@ -339,7 +339,7 @@ python wsl_manager.py --help
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the primary difference between WSL 1 and WSL 2?"

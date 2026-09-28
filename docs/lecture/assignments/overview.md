@@ -86,8 +86,8 @@ Collaboration is encouraged, provided the scale and complexity of the project ma
 - [GitHub Documentation](https://docs.github.com/)
 - [Terraform Documentation](https://developer.hashicorp.com/terraform)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the 'Automation Requirement' for the final project?"
     All deployments and management of containers or Virtual Machines must be fully automated using scripts (e.g., Terraform, Ansible, Shell), meaning a grader can recreate the environment without manual GUI intervention.
 

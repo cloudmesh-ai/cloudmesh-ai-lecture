@@ -176,7 +176,7 @@ Here are the most useful `utmctl` commands for daily management:
 | `dict` | Displays detailed VM configuration | `utmctl dict "Ubuntu"` |
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "In UTM, when should you use 'Virtualize' instead of 'Emulate'?"

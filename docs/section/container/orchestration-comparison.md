@@ -126,7 +126,7 @@ Choosing an orchestrator is a balance between **Operational Effort** and **Requi
 ---
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

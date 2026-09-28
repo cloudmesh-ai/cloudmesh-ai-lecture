@@ -156,7 +156,7 @@ virsh console <vm_name>
 To exit the console and return to the host terminal, press `Ctrl + ]`.
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the relationship between `virsh` and `libvirt`?"

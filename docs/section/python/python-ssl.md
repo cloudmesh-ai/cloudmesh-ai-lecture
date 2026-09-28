@@ -131,7 +131,7 @@ By setting `verify_mode` to `ssl.CERT_NONE`, the client accepts any certificate 
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
  Test your knowledge by expanding the questions below.
 

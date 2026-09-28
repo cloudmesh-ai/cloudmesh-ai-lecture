@@ -155,7 +155,7 @@ This runs the server in the background and saves all logs to `mkdocs.log`. You c
 ---
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What infrastructure is required before deploying an MkDocs site on Jetstream2?"

@@ -223,7 +223,7 @@ When automating SSH, security must be the priority to prevent unauthorized acces
 
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 

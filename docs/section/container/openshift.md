@@ -144,8 +144,8 @@ RHOAI integrates with **KServe** and **vLLM**, allowing users to deploy large la
 - [Red Hat OpenShift Documentation](https://docs.openshift.com/)
 - [OpenShift AI (RHOAI) Documentation](https://docs.openshift.com/container-platform/latest/openai/index.html)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "If I am already familiar with `kubectl`, do I need to learn a new tool for OpenShift?"
     No. The `oc` CLI is a superset of `kubectl`. Almost every `kubectl` command works exactly the same way when typed as `oc`.
 

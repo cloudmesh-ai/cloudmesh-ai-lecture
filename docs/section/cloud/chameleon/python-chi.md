@@ -466,7 +466,7 @@ print(f"    {ssh_cmd}")
 You now have a clean, secure, and maintainable workflow for provisioning VMs from Python. Happy scripting!
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the `python-chi` library and how does it differ from the OpenStack SDK?"

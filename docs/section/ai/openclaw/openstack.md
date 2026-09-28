@@ -460,8 +460,8 @@ You should see the OpenClaw landing page HTML.
 * Jetstream2 user guide – <https://jetstream2.nimbul.utah.edu/docs>
 * Chameleon Cloud documentation – <https://www.chameleoncloud.org/docs/>
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the purpose of the floating IP in the OpenStack deployment?"
     The floating IP provides a public-facing IP address that allows users to access the OpenClaw UI and API from the external internet, as the VM's internal IP is only reachable within the private network.
 

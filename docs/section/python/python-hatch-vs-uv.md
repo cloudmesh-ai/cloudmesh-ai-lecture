@@ -150,8 +150,8 @@ By delegating the installation step to `uv`, `hatch env create` becomes signific
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "If you need to manage project metadata and publishing, why is Hatch a better choice than uv?"
  Hatch is a full project manager that handles scaffolding, versioning, and publishing to PyPI. `uv` is primarily a high-performance package installer and resolver; it does not manage project metadata or the publishing lifecycle.
 

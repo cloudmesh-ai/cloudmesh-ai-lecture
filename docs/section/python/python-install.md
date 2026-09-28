@@ -296,8 +296,8 @@ Expected versions:
 
     3. **Profile Automation**: Configure your shell profile (`.bashrc`, `.zprofile`, etc.) so that your `ai_lecture` environment activates automatically upon opening a new terminal. Verify this by opening a new tab and checking the shell prompt.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the purpose of `make altinstall` when installing Python from source?"
     It prevents the installer from overwriting the system's default `python3` binary. This is critical because many OS-level tools depend on the system Python, and overwriting it could break the operating system.
 

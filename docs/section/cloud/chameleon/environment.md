@@ -369,7 +369,7 @@ pointing to `~/.config/chameleon/env.yaml` and with a simplified `--name`
 parameter for reservation creation.*
 
 ## Self-Assessment
-
+Test your knowledge by expanding the questions below.
 ??? question "Where should the `env.yaml` file be located for it to be discovered by the loader?"
     It should be placed in `~/.config/chameleon/env.yaml`.
 

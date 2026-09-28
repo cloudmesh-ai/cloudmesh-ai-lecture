@@ -22,7 +22,7 @@ Secrets (API keys, SSH keys, passwords) are the keys to your kingdom. If they ar
 
 ### Best Practices for Secrets
 
-- **Use GitHub Secrets**: Never hardcode credentials. Store them in **Settings $\rightarrow$ Secrets and variables $\rightarrow$ Actions**.
+- **Use GitHub Secrets**: Never hardcode credentials. Store them in **Settings &rarr; Secrets and variables &rarr; Actions**.
 - **Avoid `echo`**: Never print secrets. If you must debug, use a tool that masks output or a dedicated secret-scanning tool.
 - **Rotation**: Regularly rotate your secrets. If a developer leaves the team or a laptop is lost, change the keys immediately.
 
@@ -132,27 +132,28 @@ jobs:
 
 ---
 
-## 🎓 Learning Wrap-up
 
-# Self-Assessment
+## Self-Assessment
 
-!!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
+Test your knowledge by expanding the questions below.
+
 
 ??? question "Why should I pin third-party actions to a specific Commit SHA instead of a version tag?"
- Version tags (like `@v4`) are **mutable**, meaning a maintainer or an attacker who compromises the repository can move the tag to a different, potentially malicious commit. **Commit SHAs** are immutable; pinning to a SHA guarantees that the exact code you reviewed and approved is what actually runs in your pipeline.
+    Version tags (like `@v4`) are **mutable**, meaning a maintainer or an attacker who compromises the repository can move the tag to a different, potentially malicious commit. **Commit SHAs** are immutable; pinning to a SHA guarantees that the exact code you reviewed and approved is what actually runs in your pipeline.
 
 ??? question "What is the benefit of defining explicit permissions for the GITHUB_TOKEN?"
- Applying the **Principle of Least Privilege** by defining explicit permissions (e.g., `contents: read`) ensures that the `GITHUB_TOKEN` only has the access it absolutely needs. This significantly reduces the blast radius if a third-party action is compromised or if the token is accidentally leaked.
+    Applying the **Principle of Least Privilege** by defining explicit permissions (e.g., `contents: read`) ensures that the `GITHUB_TOKEN` only has the access it absolutely needs. This significantly reduces the blast radius if a third-party action is compromised or if the token is accidentally leaked.
 
 ??? question "When should I use pull_request instead of pull_request_target?"
- You should use `on: pull_request` for any workflow that processes untrusted code from a fork. It runs in the context of a merge commit with read-only access and no access to secrets. `on: pull_request_target` is dangerous because it runs in the context of the base branch and has access to secrets, which can be exploited by a malicious contributor to steal credentials.
+    You should use `on: pull_request` for any workflow that processes untrusted code from a fork. It runs in the context of a merge commit with read-only access and no access to secrets. `on: pull_request_target` is dangerous because it runs in the context of the base branch and has access to secrets, which can be exploited by a malicious contributor to steal credentials.
 
 ??? question "How can I prevent secrets from leaking into GitHub Action logs?"
- Secrets should be stored in **GitHub Secrets** and never hardcoded. To prevent leakage, avoid using `echo` or printing variables containing secrets. While GitHub masks secrets with `***`, attackers can bypass this using encoding. The best practice is to use dedicated secret-scanning tools and regularly rotate credentials.
+    Secrets should be stored in **GitHub Secrets** and never hardcoded. To prevent leakage, avoid using `echo` or printing variables containing secrets. While GitHub masks secrets with `***`, attackers can bypass this using encoding. The best practice is to use dedicated secret-scanning tools and regularly rotate credentials.
 
 ??? question "How does OIDC improve the security of provisioning cloud VMs?"
- **OpenID Connect (OIDC)** eliminates the need to store long-lived, static cloud credentials (like `AWS_ACCESS_KEY_ID`) in GitHub Secrets. Instead, it allows GitHub Actions to authenticate directly with the cloud provider using a short-lived, dynamically generated token, significantly reducing the risk of credential theft.
+    **OpenID Connect (OIDC)** eliminates the need to store long-lived, static cloud credentials (like `AWS_ACCESS_KEY_ID`) in GitHub Secrets. Instead, it allows GitHub Actions to authenticate directly with the cloud provider using a short-lived, dynamically generated token, significantly reducing the risk of credential theft.
+
+## Assignments
 
 !!! note "Assignment: The Security Audit"
- Review a public open-source project's `.github/workflows` directory. Identify at least two security weaknesses (e.g., mutable tags, over-privileged tokens, or insecure event triggers) and write a short proposal on how to fix them.
+    Review a public open-source project's `.github/workflows` directory. Identify at least two security weaknesses (e.g., mutable tags, over-privileged tokens, or insecure event triggers) and write a short proposal on how to fix them.

@@ -71,12 +71,10 @@ The ecosystem of DevOps tools is vast, spanning everything from version control 
 
 ![DevOps Landscape](images/devops-chatgpt.png)
 
-## 🎓 Learning Wrap-up
 
-# Self-Assessment
-
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+## Self-Assessment
+Test your knowledge by expanding the questions below.
+Test your knowledge by expanding the questions below.
 
 ??? question "How do I define DevOps and why is it necessary for modern cloud development?"
     DevOps is a set of practices designed to reduce the time between committing a change and placing it into production while ensuring high quality. It is necessary because it breaks down the "wall" between developers and operations, eliminating the "it works on my machine" syndrome by integrating the two roles into a continuous, reliable delivery pipeline.
@@ -93,11 +91,13 @@ The ecosystem of DevOps tools is vast, spanning everything from version control 
 ??? question "How does reproducibility enable multi-cloud strategies?"
     Reproducibility, achieved through Infrastructure as Code (IaC) and containerization, ensures that an environment can be recreated identically regardless of the underlying provider. This prevents "cloud lock-in" and allows organizations to move workloads between providers (e.g., AWS to Azure) for cost or availability reasons.
 
+## Assignments
+
 !!! note "Assignment 1: Mapping your Workflow"
     Identify a software project you are currently working on. List the tools you use for each stage of the DevOps cycle (e.g., Git for version control, GitHub Actions for verification, Docker for packaging). Identify one \"gap\" where manual effort is still required and suggest a tool to automate it.
 
 !!! note "Assignment 2: Analyzing the Feedback Loop"
-    Imagine a scenario where a production application is experiencing intermittent 500 errors. Trace the path of this issue through the DevOps cycle: from Monitoring (Ops) $\rightarrow$ Ops Planning $\rightarrow$ Dev Planning $\rightarrow$ Creating $\rightarrow$ Verifying $\rightarrow$ Releasing.
+    Imagine a scenario where a production application is experiencing intermittent 500 errors. Trace the path of this issue through the DevOps cycle: from Monitoring (Ops) &rarr; Ops Planning &rarr; Dev Planning &rarr; Creating &rarr; Verifying &rarr; Releasing.
 
 !!! note "Assignment 3: Reproducibility Audit"
     Review a deployment script or configuration file you use. Determine if it contains hard-coded values (IP addresses, paths) that would prevent it from running on a different cloud provider or a different region. Propose a way to make these values dynamic using environment variables.

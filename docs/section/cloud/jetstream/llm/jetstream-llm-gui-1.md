@@ -247,7 +247,7 @@ Both tools let you save the request for later reuse or share it with teammates.
 You now have a fully functional, graphical interface to Jetstream's LLM inside Visual Studio Code (and, optionally, in external REST clients). No terminal commands or manual JSON editing are required. Enjoy the AI‑powered workflow!
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "Where can you obtain the Jetstream API key?"

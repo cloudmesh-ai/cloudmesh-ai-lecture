@@ -54,10 +54,9 @@ Implementing CircleCI generally follows these steps:
 3.  **Trigger the Build**: Push the config file to your main branch. CircleCI will automatically detect the change and start the pipeline.
 4.  **Iterate**: Use the CircleCI dashboard to view logs, identify failures, and optimize your build times using caching.
 
-# Self-Assessment
-
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+## Self-Assessment
+Test your knowledge by expanding the questions below.
+Test your knowledge by expanding the questions below.
 
 ??? question "What is the difference between a hosted CI (CircleCI) and a self-hosted CI (Jenkins)?"
     A hosted CI like CircleCI is a managed service (SaaS), meaning the platform provider handles the infrastructure, updates, and maintenance, allowing teams to focus on their pipelines. A self-hosted CI like Jenkins requires the user to provision, secure, and maintain the build servers, offering more control but increasing operational overhead.
@@ -73,6 +72,8 @@ Implementing CircleCI generally follows these steps:
 
 ??? question "How do I trigger a build in CircleCI?"
     Builds in CircleCI are typically triggered automatically by events in the connected source control provider (e.g., a `git push` to any branch or a `pull_request` event). Once the `.circleci/config.yml` is pushed to the repository, CircleCI detects the change and initiates the pipeline.
+
+## Assignments
 
 !!! note "Assignment 1: Project Framework"
     Develop a CircleCI framework for your current project. Define at least two jobs (e.g., `lint` and `test`) and organize them into a workflow where the `test` job only runs if the `lint` job succeeds.

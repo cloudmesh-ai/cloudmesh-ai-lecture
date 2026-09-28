@@ -336,8 +336,8 @@ openstack server list
 - [OpenStack Foundation](https://docs.openstack.org/en/latest/)
 - [Ubuntu LTS Documentation](https://ubuntu.com/server/lts)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary purpose of DevStack?"
     DevStack is used for development and testing of OpenStack services, providing an automated way to deploy a complete cloud environment from source on a single machine.
 

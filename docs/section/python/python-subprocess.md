@@ -201,8 +201,8 @@ In this case, Python tells the OS to execute the `ls` program and pass the entir
 
 ---
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What happens if a subprocess fills its output pipe buffer and the parent isn't reading?"
  The child process will block (pause) and wait for the OS pipe buffer to be cleared. If the parent is waiting for the child to finish without reading the buffer, the system enters a deadlock.
 

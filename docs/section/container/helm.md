@@ -414,7 +414,7 @@ jobs:
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is a Helm 'Chart' and how does it differ from a 'Release'?"

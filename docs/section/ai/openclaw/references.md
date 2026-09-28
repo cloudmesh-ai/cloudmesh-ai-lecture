@@ -135,8 +135,8 @@ for p in papers:
 * Wang, X., & Gupta, R. (2026). A survey of low-code and no-code AI platforms.
 * Hernandez, P., & Zhao, L. (2025). Tool-chain analysis for reproducible AI research: The role of OpenClaw.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the main advantage of OpenClaw over highly specialized MLOps stacks according to the literature?"
 OpenClaw excels in user productivity and significantly reduces the engineering effort required to move from data ingestion to model serving, although it may have slightly higher latency for very large batch jobs.
 

@@ -232,8 +232,8 @@ print(f"\nAll assets downloaded. Open the offline page at: {main_path}")
 - [BeautifulSoup Documentation](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 - [Requests Library Documentation](https://requests.readthedocs.io/)
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "How does the script handle relative URLs found in the HTML?"
     The script uses `urllib.parse.urljoin` to combine the `BASE_URL` with relative paths, converting them into absolute URLs before downloading.
 

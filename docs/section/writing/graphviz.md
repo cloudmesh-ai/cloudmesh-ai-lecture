@@ -177,8 +177,8 @@ echo "digraph G {}" | dot -Tpng > hello.png
 !!! note "Assignment 3"
     Develop a REST service that accepts a graph as input and stores the rendered output on a cloud storage provider (e.g., Box or Google Drive). Ensure that authentication credentials and access keys are not exposed in the source code.
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the primary advantage of using Graphviz over manual drawing tools?"
     Graphviz uses automatic layout algorithms, which means the user defines the relationships (edges) between elements (nodes) and the tool determines the optimal visual positioning.
 

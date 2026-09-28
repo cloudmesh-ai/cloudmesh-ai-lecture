@@ -142,7 +142,7 @@ openstack server create \
 - Network concepts – <https://docs.openstack.org/neutron/latest/admin/networks.html>
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is an 'RC file' and how is it used to authenticate the OpenStack CLI?"

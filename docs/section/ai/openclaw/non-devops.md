@@ -150,8 +150,8 @@ openclaw invoke pdf-summarizer --input_path papers/transformer.pdf
 * NemoClay Framework Specification: https://github.com/ai-automation/nemoclay
 * NIST Guide to Generative AI Security: https://nist.gov/genai-security
 
-## Self-Evaluation
-
+## Self-Assessment
+Test your knowledge by expanding the questions below.
 ??? note "What is the pedagogical value of building non-DevOps OpenClaw projects?"
     It allows students to practice the integration of heterogeneous command-line utilities under a unified AI-driven interface, while learning the critical importance of input validation and sandboxing in AI-mediated automation.
 

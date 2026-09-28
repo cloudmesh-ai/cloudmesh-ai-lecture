@@ -883,7 +883,7 @@ Because Cline requires an explicit string in the **Model ID** field to match wha
 
 
 ## Self-Assessment
-!!! tip "Self-Assessment"
+Test your knowledge by expanding the questions below.
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the primary purpose of the `lms bootstrap` command on remote nodes?"
