@@ -541,11 +541,11 @@ Figure 9: ROC AUC score.
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the difference between Supervised and Unsupervised Learning?"
+??? question "What is the difference between Supervised and Unsupervised Learning?"
     Supervised learning uses labeled data to predict targets, while unsupervised learning discovers hidden patterns or groups in unlabeled data.
 
-??? note "Why is a data pipeline used in machine learning?"
+??? question "Why is a data pipeline used in machine learning?"
     Pipelines automate the sequence of data transformations and model application, ensuring consistency between training and testing data.
 
-??? note "What is the purpose of Cross-Validation in model selection?"
+??? question "What is the purpose of Cross-Validation in model selection?"
     Cross-validation evaluates the model's ability to generalize to unseen data by partitioning the training set into multiple folds.

@@ -20,11 +20,8 @@ Once Travis is activated for a GitHub project, it looks for a `.travis.yml` file
 A typical Travis configuration is divided into several phases:
 
 1.  **Language and Version**: Specifies the runtime (e.g., `language: python` or `language: node_js`) and the versions to be tested (e.g., `python: 3.8`).
-
 2.  **Install Phase**: This is where you set up the environment. You can install system-level dependencies, update the OS, or install specific versions of tools (like `pandoc`).
-
 3.  **Environment Variables (`env`)**: Used to define paths or configuration settings that the build scripts need to access.
-
 4.  **Script Phase**: The core part of the build where the actual tests are executed. This often involves calling a `Makefile` or a test runner like `pytest`.
 
 ### Practical Example: The Book's Build Process
@@ -34,15 +31,14 @@ In the `cloudmesh-ai-lecture` project, the `.travis.yml` file is used to automat
 **Key implementation details in our project:**
 
 - **OS Updates**: Since some Travis environments may use older OS versions, the `install` phase is used to update the operating system and install the latest version of `pandoc`.
-
 - **PATH Management**: The `env` section is used to ensure that custom executables are correctly located by the system.
-
 - **Simplified Execution**: Because the project uses sophisticated `Makefiles`, the `script` section is kept simple, merely calling the appropriate `make` commands in the relevant directories.
 
 ## Self-Assessment
+
+## Self-Assessment
+
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
 
 ??? question "How does Travis CI integrate with GitHub?"
     Travis CI integrates with GitHub by listening for events (like `git push` or `pull_request`). When a change is committed to a repository that has Travis CI activated, GitHub notifies Travis, which then automatically triggers a build based on the instructions in the repository's configuration file.
@@ -76,57 +72,8 @@ Test your knowledge by expanding the questions below.
 
 ---
 
-## Appendix: Local Deployment with Travis CI
+## What's Next?
 
-### 0. Clone the Repository
+Having explored the landscape of CI tools, it's time to move from general automation to cloud-native implementation. Head over to **DevOps on AWS** to see how these principles are applied using a major cloud provider's ecosystem.
 
-Before running the automation, clone the course repository to your local machine:
-
-```bash
-git clone https://github.com/cloudmesh-ai/cloudmesh-ai-lecture.git
-cd cloudmesh-ai-lecture
-```
-
-
-Travis CI is primarily a cloud-based CI service, but its "Configuration as Code" philosophy using `.travis.yml` can be applied to standardize the deployment of the `cloudmesh-ai-lecture` site. By defining the environment and execution steps in a YAML file, we ensure that the site is served identically regardless of the environment.
-
-### 1. The Travis Configuration
-
-Create a `.travis.yml` file in the root of the project. This file defines the language, the installation phase for dependencies, and the script to launch the server.
-
-```yaml
-language: python
-python:
-  - "3.11"
-
-# Install required MkDocs plugins and dependencies
-
-install:
-  - pip install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions
-
-# Launch the server and open the browser
-
-script:
-  - nohup mkdocs serve -a 0.0.0.0:8000 > travis_mkdocs.log 2>&1 &
-  - sleep 5 # Give the server a few seconds to start
-  - open http://localhost:8000 || xdg-open http://localhost:8000
-```
-
-### 2. Execution
-
-While Travis CI usually triggers on a Git push, you can simulate the `install` and `script` phases locally by running the commands defined in the `.travis.yml` file:
-
-```bash
-# Simulate 'install' phase
-
-pip install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions
-
-# Simulate 'script' phase
-
-nohup mkdocs serve -a 0.0.0.0:8000 > travis_mkdocs.log 2>&1 &
-open http://localhost:8000
-```
-
-### Why use Travis CI for this?
-
-Travis CI's power lies in its **transparent build process**. By documenting the deployment in `.travis.yml`, any contributor to the `cloudmesh-ai-lecture` project can immediately see exactly which dependencies are required to run the site locally, eliminating the "it works on my machine" problem.
+Visit the [Local Lab](local-lab.md) for instructions on how to run Travis CI locally.

@@ -43,6 +43,9 @@ Jenkins focuses on automating the repetitive parts of software delivery. Its ext
 
 To avoid performance bottlenecks and ensure environment isolation, Jenkins uses a distributed architecture:
 
+![Jenkins Master-Agent Architecture](images/jenkins-architecture.png)
+Figure 2: Jenkins Master-Agent Architecture.
+
 - **Jenkins Master**: The "brain" of the operation. It handles the UI, manages plugin configurations, schedules jobs, and monitors the agents.
 
 - **Jenkins Agents**: The "workers." These are separate machines or containers that actually execute the build steps. This allows you to run a Linux build on a Linux agent and a Windows build on a Windows agent, all orchestrated by one master.
@@ -55,13 +58,13 @@ A typical Jenkins pipeline follows a rigorous path from code commit to productio
 
 2. **Trigger** - Jenkins receives a webhook or polls the repo and starts a job/pipeline.
 
-3. **Build** - Compiles the code, resolves dependencies, and creates artefacts.
+3. **Build** - Compiles the code, resolves dependencies, and creates artifacts.
 
 4. **Test** - Executes automated tests; results are recorded and reported.
 
-5. **Artifact storage** - Successful artefacts are pushed to a Docker registry, Nexus, Artifactory, etc.
+5. **Artifact storage** - Successful artifacts are pushed to a Docker registry, Nexus, Artifactory, etc.
 
-6. **Deployment** - The pipeline deploys the artefact to a staging environment; optional approvals promote it to production.
+6. **Deployment** - The pipeline deploys the artifact to a staging environment; optional approvals promote it to production.
 
 7. **Verification** - Post-deployment smoke tests, monitoring hooks, or manual QA checks.
 
@@ -109,7 +112,38 @@ A typical Jenkins pipeline follows a rigorous path from code commit to productio
 
 ### Installation & Security Guide
 
-To set up a production-ready Jenkins instance, follow these steps:
+Depending on your environment, you can deploy Jenkins using a containerized approach for rapid development or a native installation for dedicated servers.
+
+#### Option 1: Containerized Setup (Docker Compose)
+For a rapid local laboratory setup, use Docker Compose. This configuration mounts the host's Docker socket, allowing Jenkins to build and push Docker images directly from the container. For more detailed setup and exercises, see the [Local Lab](local-lab.md).
+
+```yaml
+version: '3.8'
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-local
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
+```
+
+**To start the lab:**
+```bash
+docker-compose up -d
+```
+
+#### Option 2: Native Installation (Ubuntu)
+To set up a production-ready Jenkins instance on Ubuntu, follow these steps:
 
 1. **Install Java**
    Jenkins requires Java 11 or later.
@@ -139,7 +173,7 @@ To set up a production-ready Jenkins instance, follow these steps:
 
 5. **Install Essential Plugins**
    During the setup wizard, install the suggested plugins and add these for cloud and AI capabilities:
-   - **Docker Pipeline**
+   - **Docker Pipeline** ([Plugin Documentation](https://plugins.jenkins.io/docker-workflow/))
    - **Kubernetes CI**
    - **Git** & **GitHub Branch Source**
    - **Pipeline: Multibranch**
@@ -154,6 +188,20 @@ To set up a production-ready Jenkins instance, follow these steps:
    sudo apt-get install -y nginx
    sudo ln -s /etc/nginx/sites-available/jenkins /etc/nginx/sites-enabled/
    ```
+
+#### Hardening Jenkins Security
+
+!!! warning "Avoid the Default Administrator Account"
+    The default "Administrator" account is a high-value target for attackers. Once you have completed the initial setup, create individual user accounts with specific permissions and disable or strictly limit the use of the primary admin account.
+
+!!! info "Implement Role-Based Access Control (RBAC)"
+    For production environments, avoid assigning "Overall/Admin" permissions to multiple users. Install the **[Role-based Strategy plugin](https://plugins.jenkins.io/role-strategy/)**. This allows you to define roles (e.g., `Developer`, `QA`, `Ops`) and map them to specific project folders or global permissions, ensuring the principle of least privilege.
+
+**Additional Security Checklist:**
+- **Prefer OIDC over Static Keys**: When deploying to AWS, Azure, or GCP, use OpenID Connect (OIDC) or IAM Roles (e.g., AWS IRSA) instead of static access keys to provide short-lived, dynamically generated credentials.
+- **Disable SSH for agents** where possible; use the JNLP (Java Network Launch Protocol) for more secure agent communication.
+- **Audit Plugins regularly**: Remove unused plugins to reduce the attack surface.
+- **Enable Audit Logging**: Use plugins that track who changed what configuration in the Jenkins Master.
 
 > **Tip:** If you prefer a fully-managed Jenkins, spin up **Jenkins X** on a cloud Kubernetes cluster - the same pipeline concepts apply.
 
@@ -206,9 +254,19 @@ pipeline {
             }
         }
         stage('Lint & Test') {
-            steps {
-                sh 'python -m pip install -r requirements.txt'
-                sh 'python -m unittest discover -s src/tests'
+            parallel {
+                stage('Lint') {
+                    steps {
+                        sh 'python -m pip install -r requirements.txt'
+                        sh 'flake8 src/' 
+                    }
+                }
+                stage('Unit Tests') {
+                    steps {
+                        sh 'python -m pip install -r requirements.txt'
+                        sh 'python -m unittest discover -s src/tests'
+                    }
+                }
             }
         }
         stage('Build Docker Image') {
@@ -336,6 +394,16 @@ stage('Deploy to GKE') {
 ## Extending for AI/ML
 
 Assume you have a **Python model** that you want to (re)train on every successful build and then ship as a **REST micro-service**.
+
+![AI/ML Lifecycle Sequence](images/jenkins-ml-lifecycle.png)
+Figure 3: AI/ML Lifecycle (Data $\rightarrow$ Train $\rightarrow$ Validate $\rightarrow$ Registry $\rightarrow$ Deploy).
+
+!!! info "The MLOps Ecosystem"
+    While Jenkins orchestrates the *process* (triggering training, running tests), it is often paired with specialized MLOps tools for the *lifecycle*:
+    - **Experiment Tracking**: Tools like **MLflow** or **Weights & Biases** track hyperparameters and metrics for every run.
+    - **Model Registries**: **Kubeflow** or **Hugging Face Hub** manage model versioning and staging (e.g., `Staging` $\rightarrow$ `Production`).
+    - **Feature Stores**: **Feast** or **Tecton** ensure consistent data features between training and inference.
+    Jenkins acts as the "glue" that triggers these tools and manages the deployment of the final model.
 
 ### Project structure addition
 
@@ -465,56 +533,39 @@ The complete Jenkins-driven workflow spans from source control &rarr; CI &rarr; 
 | :--- | :--- |
 | **GitHub** | Source repository (code + ML scripts) |
 | **Jenkins Master** | Orchestrates jobs, holds credentials |
-| **Jenkins Agents** | Build runners (Docker, K8s, or cloud VMs) |
+| **Jenkins Agents** | Build runners (Docker, K8s, or cloud VMs). For AI/ML workloads, these are often **specialized GPU nodes** (e.g., NVIDIA A100/H100) configured with the NVIDIA Container Toolkit to enable hardware acceleration for training. |
 | **Docker Registry** | ECR / ACR / GCR - stores app & model images |
 | **Cloud Runtime** | ECS, AKS, or GKE - runs the web app |
 | **Model Service** | Separate container (Python/Flask) serving predictions |
 | **S3 / Blob / GCS** | Persistent artifact store for versioned models |
 | **Monitoring** | Prometheus/Grafana, CloudWatch, Azure Monitor, etc. |
 
-## Local Deployment with Jenkins
+---
 
-While Jenkins is usually a centralized server, you can use it to orchestrate local deployments by running a **Jenkins Agent** on your own machine. This allows you to use the same pipeline logic for your local development as you do for production.
+## Jenkins vs. Cloud-Native CI
 
-### Local Deployment Pipeline
+While Jenkins is a powerful orchestrator, it represents a different philosophy than "cloud-native" CI tools like GitHub Actions, GitLab CI, or CircleCI.
 
-Create a `Jenkinsfile` in the root of the project. This pipeline uses a Declarative syntax to prepare the environment and launch the site.
+| Feature | Jenkins | Cloud-Native CI (SaaS) |
+| :--- | :--- | :--- |
+| **Hosting** | Self-hosted (You manage the server, OS, and Java) | Managed (SaaS provider handles infrastructure) |
+| **Configuration** | `Jenkinsfile` (Groovy DSL) + UI-based plugins | YAML-based configuration |
+| **Scaling** | Manual/Plugin-based Agent scaling | Automatic, ephemeral runners |
+| **Extensibility** | Massive plugin ecosystem (1,800+ plugins) | Standardized "Actions" or "Orbs" |
+| **Cost Model** | Infrastructure costs + High operational overhead | Usage-based pricing (minutes/concurrency) |
+| **Best For** | Complex, highly customized, or air-gapped workflows | Rapid iteration, standardized pipelines, and low ops |
 
-```groovy
-pipeline {
-    agent any
-    
-    stages {
-        stage('Environment Setup') {
-            steps {
-                echo 'Installing MkDocs and Plugins...'
-                sh 'pip install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions'
-            }
-        }
-        
-        stage('Deploy and Serve') {
-            steps {
-                echo 'Launching Site on Port 8000...'
-                // Use nohup to keep the server running after the job finishes
-                sh 'nohup mkdocs serve -a 0.0.0.0:8000 > jenkins_mkdocs.log 2>&1 &'
-            }
-        }
-        
-        stage('Open Browser') {
-            steps {
-                echo 'Opening browser to http://localhost:8000'
-                sh 'open http://localhost:8000 || xdg-open http://localhost:8000'
-            }
-        }
-    }
-    
-    post {
-        success {
-            echo 'Site is now live at http://localhost:8000'
-        }
-    }
-}
-```
+**Which one to choose?**
+- Choose **Jenkins** if you need absolute control over the build environment, have strict on-premise security requirements, or have a workflow so complex that it requires custom Groovy logic.
+- Choose **Cloud-Native CI** if you want to minimize "tooling toil," prefer a standardized YAML approach, and want your pipelines to scale automatically without managing a master node.
+
+## What's Next?
+
+While Jenkins offers unmatched flexibility for complex, self-hosted orchestration, modern teams often shift toward managed, container-first platforms to reduce operational overhead and "plugin fatigue."
+
+Explore **[CircleCI](circleci.md)** to see how a cloud-native, managed CI/CD service simplifies the pipeline, removes the need for master-agent management, and provides a more streamlined experience for rapid scaling.
+
+Visit the [Local Lab](local-lab.md) for instructions on how to run Jenkins locally.
 
 ## Summary Checklist
 
@@ -536,22 +587,29 @@ pipeline {
     Define a `pipeline` block with `agent any`. Create three `stage` blocks. In the `Deploy` stage, use the `when` directive or simply rely on the default behavior where a failure in `Test` stops the pipeline before it reaches `Deploy`.
 
 !!! note "Assignment.2: Agent Configuration"
-    Research how to configure a **Kubernetes pod as a Jenkins agent**. Describe the benefits of this approach compared to using a static virtual machine as an agent, especially regarding resource utilization and scaling.
+    Configure a **Kubernetes pod as a Jenkins agent** using the Kubernetes plugin. Create a pod template in the Jenkins cloud configuration that specifies a Docker image and resource requests (CPU/RAM). Launch a pipeline job that explicitly requests this label and verify that the build executes within an ephemeral pod.
 
 ??? tip "Solution: Agent Configuration"
-    The Kubernetes plugin allows Jenkins to spawn pods dynamically for each job. This provides "ephemeral" environments that are deleted after the job finishes, ensuring a clean state and allowing the cluster to scale based on current demand.
+    In *Manage Jenkins* $\rightarrow$ *Nodes and Clouds* $\rightarrow$ *Clouds*, add a Kubernetes cloud. Define a Pod Template with a label (e.g., `k8s-agent`) and a container image (e.g., `jenkins/inbound-agent`). In the `Jenkinsfile`, use `agent { label 'k8s-agent' }`. This provides ephemeral environments that are deleted after the job finishes, ensuring a clean state and efficient resource utilization.
 
 !!! note "Assignment.3: AI/ML Integration"
-    Design a Jenkins pipeline that incorporates a "Model Validation" step. After the training stage, the pipeline should run a script that calculates the model's accuracy. If the accuracy is below 80%, the pipeline should fail and send a notification to the team.
+    Design a Jenkins pipeline that incorporates a "Model Validation" step. After the training stage, the pipeline should run a script that calculates the model's accuracy and checks for **data drift** (comparing the current training distribution to the production baseline) and **prediction bias**. If the accuracy is below 80% or significant drift is detected, the pipeline should fail and send a notification to the team.
 
 ??? tip "Solution: AI/ML Integration"
-    Add a stage `Model Validation` after `Train`. Use a shell script to run the validation code. Use a conditional `error "Accuracy too low!"` if the output of the script is below the threshold.
+    Add a stage `Model Validation` after `Train`. Use a shell script to run the validation code. The script should output a JSON report of accuracy, drift metrics (e.g., using the Kolmogorov-Smirnov test), and bias scores. Use a conditional `error "Model validation failed: accuracy too low or drift detected!"` if the metrics fall outside acceptable thresholds.
 
 !!! note "Assignment.4: Secret Management"
-    Research the **HashiCorp Vault plugin** for Jenkins. Describe how it improves security over using Jenkins' built-in "Credentials" store, particularly in a multi-cluster environment.
+    Implement secret retrieval using the **HashiCorp Vault plugin**. Configure a Jenkins pipeline to fetch a sensitive API key from a Vault path (e.g., `secret/data/my-app`) using the `withVault` wrapper. Verify that the secret is used during the build but is correctly masked in the Jenkins console output.
 
 ??? tip "Solution: Secret Management"
-    HashiCorp Vault provides centralized secret management with dynamic secrets, better auditing, and strict access control policies, reducing the risk of secret leakage across multiple Jenkins instances.
+    Install the HashiCorp Vault plugin and configure the Vault URL and token in the system settings. In the `Jenkinsfile`, use the `withVault` step:
+    ```groovy
+    withVault(configuration: [vaultUrl: 'https://vault.example.com', vaultCredentialId: 'vault-token'], 
+              secrets: [[path: 'secret/my-app', secretKey: 'api_key', variable: 'API_KEY']]) {
+        sh 'echo "Using API Key: $API_KEY"' // Jenkins will mask this as ****
+    }
+    ```
+    This provides centralized secret management with dynamic secrets and strict auditing.
 
 !!! note "Assignment.5: Local Setup"
     In Jenkins, create a new "Pipeline" job. Select "Pipeline script from SCM," choose Git, and point it to your repository. Click "Build Now" to execute the stages and launch the server locally.
@@ -565,20 +623,20 @@ pipeline {
 
 ## Self-Evaluation
 
-??? note "What is the difference between the Jenkins Master and its Agents?"
+??? question "What is the difference between the Jenkins Master and its Agents?"
     The **Jenkins Master** is the "brain" of the operation; it manages the web UI, stores configurations, schedules jobs, and coordinates the workflow. **Jenkins Agents** (or slaves) are the "workers" that actually execute the build and test steps on specific environments (e.g., a Linux agent for Bash scripts, a Windows agent for .NET builds), allowing for parallel execution and environment isolation.
 
-??? note "Can you describe the typical 8 stages of a CI/CD pipeline?"
+??? question "Can you describe the typical 8 stages of a CI/CD pipeline?"
     A comprehensive CI/CD pipeline typically includes: 1) **Source Control** (triggering on commit), 2) **Build/Compile** (creating binaries/artifacts), 3) **Unit Testing** (verifying small code blocks), 4) **Static Analysis** (checking code quality/security), 5) **Integration Testing** (verifying module interaction), 6) **Packaging** (containerizing the app), 7) **Staging Deployment** (deploying to a pre-prod environment), and 8) **Production Deployment** (releasing to the end user).
 
-??? note "What is the benefit of using a `Jenkinsfile` (Pipeline as Code)?"
+??? question "What is the benefit of using a `Jenkinsfile` (Pipeline as Code)?"
     **Pipeline as Code** allows the CI/CD definition to be stored in the repository alongside the application code. This means the pipeline is versioned, can be peer-reviewed via Pull Requests, is easily reproducible across different Jenkins instances, and allows for a clear audit trail of how the deployment process has evolved.
 
-??? note "How do you distinguish between a Declarative and a Scripted pipeline?"
+??? question "How do you distinguish between a Declarative and a Scripted pipeline?"
     **Declarative Pipelines** use a strictly defined, simplified structure (starting with the `pipeline` block) that is easier to write and maintain, with built-in syntax validation. **Scripted Pipelines** use a flexible Groovy-based DSL, allowing for complex logic, loops, and conditional branching, but they are more difficult to manage and prone to errors.
 
-??? note "How do Jenkins roles map to modern scenarios like IaC, AI/ML, and Cloud-native?"
+??? question "How do Jenkins roles map to modern scenarios like IaC, AI/ML, and Cloud-native?"
     Jenkins acts as the orchestrator: for **IaC**, it triggers Terraform/Ansible to provision infra; for **AI/ML**, it manages the lifecycle of data ingestion, model training on GPU agents, and validation; for **Cloud-native**, it builds Docker images and manages deployments to Kubernetes (K8s) clusters via Helm or kubectl.
 
-??? note "Can you outline a pipeline that trains a model and deploys it as a microservice?"
+??? question "Can you outline a pipeline that trains a model and deploys it as a microservice?"
     An AI/ML pipeline consists of: 1) **Data Prep** (fetching and cleaning data), 2) **Training** (executing training scripts on a specialized GPU agent), 3) **Validation** (checking accuracy against a threshold), 4) **Containerization** (packaging the model into a Docker image with an API wrapper), and 5) **Deployment** (deploying the image to a production K8s cluster).

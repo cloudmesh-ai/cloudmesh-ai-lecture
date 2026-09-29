@@ -85,11 +85,11 @@ Once the account is activated:
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is Chameleon Cloud and who is it intended for?"
+??? question "What is Chameleon Cloud and who is it intended for?"
     Chameleon Cloud is a cloud computing testbed specifically intended for research and education, providing infrastructure for legitimate academic and research purposes.
 
-??? note "Why is using an institutional email address critical for the application?"
+??? question "Why is using an institutional email address critical for the application?"
     Institutional emails (e.g., `.edu`) serve as a primary verification method for academic status, making these applications more likely to be approved than those from generic email providers.
 
-??? note "What specific details should be included in the project description to ensure approval?"
+??? question "What specific details should be included in the project description to ensure approval?"
     Students should include the exact course name (e.g., "Cloud Computing/DevOps/AI"), the university name, and the specific technical goals, such as learning cloud infrastructure and automation.

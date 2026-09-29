@@ -178,16 +178,16 @@ Assignments in this course follow numbered ACM or IEEE proceedings and journal c
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the general definition of plagiarism?"
+??? question "What is the general definition of plagiarism?"
     Plagiarism is the practice of taking someone else's work or ideas and passing them off as one's own.
 
-??? note "Does a lack of intent to deceive excuse a student from plagiarism charges?"
+??? question "Does a lack of intent to deceive excuse a student from plagiarism charges?"
     No. According to institutional policies (such as those at LUC), the absence of intent is not a valid defense; students are expected to be proficient in citation styles.
 
-??? note "What is the difference between a 'Correct Quote' and a 'Dippy Dupe'?"
+??? question "What is the difference between a 'Correct Quote' and a 'Dippy Dupe'?"
     A Correct Quote uses quotation marks, an in-text citation with a locator, and a reference. A Dippy Dupe has the citation and reference but misses the quotation marks.
 
-??? note "Which citation style is typically preferred in technical and scientific writing, and why?"
+??? question "Which citation style is typically preferred in technical and scientific writing, and why?"
     Numbered citations (e.g., ACM or IEEE) are preferred because they focus on the technology/content rather than the author and save space.
 
 ## References

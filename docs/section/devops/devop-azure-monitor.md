@@ -10,7 +10,7 @@ In the cloud, knowing that a server is "up" is not enough. Modern DevOps require
 
 Monitoring is reactive (telling you that something is broken), but observability is proactive. By using detailed telemetry, DevOps teams can identify "performance degradation" *before* it becomes a "system outage." Azure Monitor allows teams to move from "the site is down" to "the database query in the checkout service has slowed down by 200ms over the last hour."
 
-![Azure Monitor](images/devops-azure-monitor.jpg){#fig:azuremonitor}
+![Azure Monitor](images/devops-azure-monitor.jpg){#fig:6}
 
 ## End-to-End Monitoring with Azure Monitor
 
@@ -83,3 +83,9 @@ Test your knowledge by expanding the questions below.
 
 !!! note "Assignment 3: Alerting Logic"
     Create a logic flow for a proactive alert system. For example: *If [Metric X] exceeds [Threshold Y] for [Z minutes], then [Action A] and [Notify Person B].* Apply this logic to a scenario where your application's memory usage is steadily climbing (a memory leak).
+
+---
+
+## What's Next?
+
+You've covered the full DevOps lifecycle from planning to monitoring. However, a fast pipeline is only an asset if it is secure. Head over to **Securing the Pipeline** to learn how to protect your automation from attacks and manage secrets safely.

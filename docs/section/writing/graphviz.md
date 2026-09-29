@@ -179,13 +179,13 @@ echo "digraph G {}" | dot -Tpng > hello.png
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary advantage of using Graphviz over manual drawing tools?"
+??? question "What is the primary advantage of using Graphviz over manual drawing tools?"
     Graphviz uses automatic layout algorithms, which means the user defines the relationships (edges) between elements (nodes) and the tool determines the optimal visual positioning.
 
-??? note "Which output format is preferred for LaTeX documents and why?"
+??? question "Which output format is preferred for LaTeX documents and why?"
     PDF is preferred because it provides vector-based quality and typically results in smaller file sizes than raster formats like PNG.
 
-??? note "How do you specify the output format in the `dot` command?"
+??? question "How do you specify the output format in the `dot` command?"
     The output format is specified using the `-T` flag (e.g., `-Tpng`, `-Tsvg`, `-TPDF`).
 
 ## References

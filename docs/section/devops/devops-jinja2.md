@@ -81,16 +81,19 @@ http {
 
     {{ render_upstream(upstream_name, upstream_servers) }}
 
+    {# Loop over a dictionary of virtual hosts #}
+    {% for vhost, config in vhosts.items() %}
     server {
-        listen {{ listen_port }};
-        server_name {{ server_name | default('_') }};
+        listen {{ config.port | default(listen_port) }};
+        server_name {{ vhost }};
 
         location / {
-            proxy_pass http://{{ upstream_name }};
+            proxy_pass http://{{ config.backend | default(upstream_name) }};
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
         }
     }
+    {% endfor %}
 }
 ```
 
@@ -101,6 +104,7 @@ The following table summarizes the key Jinja2 constructs used in the example:
 | Macro import | `{% from "_helpers.j2" import render_upstream %}` | Centralizes upstream generation, reusable by many services. |
 | Filters with defaults | `{{ ansible_processor_vcpus \| default(2) }}` | Guarantees a sensible value even when the fact is missing. |
 | Conditional block | `{% if ssl_enabled %}` ... `{% endif %}` | Enables the same template for HTTP-only or HTTPS services. |
+| Dictionary Loop | `{% for vhost, config in vhosts.items() %}` | Generates multiple server blocks from a single data structure. |
 | Variables from facts | `{{ ansible_processor_vcpus }}` | Leverages automatically gathered host facts. |
 
 ### Helper Partials and Reusable Macros
@@ -122,6 +126,24 @@ upstream {{ name }} {
 }
 {%- endmacro %}
 ```
+
+### Advanced Template Composition
+
+Beyond macros, Jinja2 provides tools to manage complexity and whitespace.
+
+#### Includes and Inheritance
+While macros are like functions, `include` and `extends` are about structure:
+
+- **`{% include "snippet.j2" %}`**: Literally inserts the content of another template. Use this for common headers or legal footers.
+- **`{% extends "base.j2" %}`**: Defines a base layout with `{% block %}` sections that child templates can override. This is common in web development but can be used in complex config files to define a "standard" skeleton.
+
+#### Whitespace Control
+Jinja2 often leaves behind blank lines where tags (`{% ... %}`) were located. To prevent this, use the minus sign (`-`) to strip whitespace:
+
+- `{%- ... %}`: Strips whitespace **before** the block.
+- `{% ... -%}`: Strips whitespace **after** the block.
+
+In the `render_upstream` macro above, `{%- endmacro %}` ensures that the calling template doesn't end up with an empty line after the upstream block is rendered.
 
 ### Supplying Data to Templates
 
@@ -153,6 +175,13 @@ upstream_name: app_backends
 upstream_servers:
   - { host: 10.0.1.10, port: 8080, weight: 2 }
   - { host: 10.0.1.11, port: 8080 }
+vhosts:
+  example.com:
+    port: 80
+    backend: app_backends
+  api.example.com:
+    port: 443
+    backend: api_backends
 ```
 
 #### External Data Loading
@@ -229,6 +258,37 @@ Use the custom filter in a template as follows:
 {{ inventory_hostname | slugify }}.example.com
 ```
 
+### Essential Ansible-Specific Filters
+
+While custom filters are powerful, Ansible provides several built-in filters that are essential for DevOps workflows:
+
+| Filter | Use Case | Example |
+|--------|----------|---------|
+| `combine` | Merging two dictionaries into one. | `{{ var_a | combine(var_b) }}` |
+| `json_query` | Extracting specific data from complex JSON using JMESPath. | `{{ users | json_query('[?status==`active`].name') }}` |
+| `unique` | Removing duplicates from a list. | `{{ all_ports | unique }}` |
+| `flatten` | Converting a list of lists into a single flat list. | `{{ nested_list | flatten }}` |
+
+### Security and Debugging
+
+#### Handling Secrets with Ansible Vault
+When variables are encrypted using `ansible-vault`, they are decrypted automatically by Ansible before being passed to Jinja2. In your template, you use them exactly like plain-text variables:
+
+```jinja
+db_password {{ vault_db_password }}
+```
+**Security Tip:** Avoid using the `debug` module to print vaulted variables to the console in production logs.
+
+#### Debugging Templates
+If a template is not rendering as expected, the best practice is to inspect the variables *before* they reach the template using the `debug` module in your playbook:
+
+```yaml
+- name: Debug vhosts data
+  debug:
+    var: vhosts
+```
+This allows you to verify if the issue is in the **data** (variable precedence) or the **logic** (Jinja2 syntax).
+
 ### Testing and Linting Templates
 
 #### Unit Testing with Playbooks
@@ -303,10 +363,16 @@ http {
     {% endfor %}
     }
 
+    {% for vhost, config in vhosts.items() %}
     server {
-        listen {{ listen_port }};
-        server_name {{ server_name | default('_') }};
+        listen {{ config.port | default(listen_port) }};
+        server_name {{ vhost }};
+
+        location / {
+            proxy_pass http://{{ config.backend | default(upstream_name) }};
+        }
     }
+    {% endfor %}
 }
 """
 
@@ -325,8 +391,11 @@ context = {
         {"host": "10.0.1.10", "port": 8080, "weight": 2},
         {"host": "10.0.1.11", "port": 8080}
     ],
-    "listen_port": 443,
-    "server_name": "example.com"
+    "listen_port": 80,
+    "vhosts": {
+        "example.com": {"port": 80, "backend": "app_backends"},
+        "api.example.com": {"port": 443, "backend": "api_backends"},
+    }
 }
 
 env = Environment(undefined=StrictUndefined, trim_blocks=True, lstrip_blocks=True)
@@ -377,13 +446,23 @@ print(rendered.strip())
 - Ansible Documentation: [Template Module](https://docs.ansible.com/ansible/latest/collections/ansible.builtin/template_module.html)
 - Jinja2 Documentation: [Template Designer Documentation](https://jinja.palletsprojects.com/)
 
-## Self-Evaluation
+## Self-Assessment
 
-??? note "What is the purpose of the `_helpers.j2` file in an Ansible role?"
+## Self-Assessment
+
+Test your knowledge by expanding the questions below.
+
+??? question "What is the purpose of the `_helpers.j2` file in an Ansible role?"
     It serves as a partial template used to store reusable macros and shared logic, preventing duplication across multiple templates in the same role.
 
-??? note "How does `jinja2_native = True` in `ansible.cfg` affect the output of a template?"
+??? question "How does `jinja2_native = True` in `ansible.cfg` affect the output of a template?"
     It ensures that Python data types (like integers, booleans, and lists) are preserved in the rendered output rather than being converted to strings, which is critical when generating JSON or other structured data.
 
-??? note "Where should custom Jinja2 filter plugins be placed for automatic discovery by Ansible?"
+??? question "Where should custom Jinja2 filter plugins be placed for automatic discovery by Ansible?"
     They should be placed in a directory named `filter_plugins/` within the role's directory structure or in a path specified by the `ANSIBLE_FILTER_PLUGINS` environment variable.
+
+---
+
+## What's Next?
+
+Infrastructure is now consistent, and your configurations are dynamic. The final step is to orchestrate these tools into a seamless delivery pipeline. Dive into **Continuous Integration, Deployment, and Monitoring** to see the whole lifecycle in action.

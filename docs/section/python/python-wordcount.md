@@ -274,11 +274,11 @@ The output contains the real run time and the user run time. `real` is wall cloc
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "Why is a document collection of random numbers used for benchmarking instead of actual language text?"
+??? question "Why is a document collection of random numbers used for benchmarking instead of actual language text?"
     It allows for controlled testing of scale and avoids bias from natural language patterns, ensuring that the performance metrics reflect the algorithm's efficiency rather than the nature of the input data.
 
-??? note "How does `multiprocessing.Pool.map()` differ from a standard `map()` in terms of execution?"
+??? question "How does `multiprocessing.Pool.map()` differ from a standard `map()` in terms of execution?"
     `Pool.map` distributes the workload across multiple CPU cores in parallel by spawning separate worker processes, whereas the standard `map` executes the function sequentially in a single process.
 
-??? note "What is the difference between \"real time\" and \"user time\" when using the Linux `time` command?"
+??? question "What is the difference between \"real time\" and \"user time\" when using the Linux `time` command?"
     Real time is the actual wall-clock time elapsed from the start to the finish of the command. User time is the total CPU time spent executing the process in user-mode, which can be higher than real time in parallel execution.

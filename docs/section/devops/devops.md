@@ -21,6 +21,8 @@ DevOps is best visualized as a continuous loop of interactions between developme
 
 ![Wikipedia Ven Diagram about DevOps](images/devops-ven.png)
 
+Figure 1: Wikipedia Ven Diagram about DevOps
+
 ### The Development (Dev) Phase
 
 The "Dev" portion of the cycle focuses on the creation and validation of the software:
@@ -38,6 +40,8 @@ The "Dev" portion of the cycle focuses on the creation and validation of the sof
 The "Ops" portion focuses on the stability and delivery of the software to the end user:
 
 ![Wikipedia Ven Diagram about DevOps](images/devops-toolchain.png)
+
+Figure 2: Wikipedia Ven Diagram about DevOps
 
 - **Releasing**: Deploying the package to staging or production environments.
 
@@ -69,11 +73,44 @@ This is achieved by creating common underlying layers:
 
 The ecosystem of DevOps tools is vast, spanning everything from version control and CI/CD to observability and security (DevSecOps). This landscape is continuously evolving, with new tools emerging to solve specific problems in container orchestration, serverless deployments, and automated testing.
 
+### Chapter Roadmap: Modern DevOps and Cloud Automation
+
+To master these concepts, we will explore the DevOps lifecycle through the following sequence:
+
+#### Part I: Foundations of DevOps
+- **Introduction to DevOps** (`devops.md`): The philosophy and lifecycle.
+- **DevOps and Organizational Culture** ([`devops-team.md`](devops-team.md)): Conway's Law, Team Topologies, and collaborative engineering.
+
+#### Part II: Infrastructure as Code (IaC)
+- **The Core of IaC** ([`devops-iac.md`](devops-iac.md)): Declarative vs. Procedural and Idempotence.
+- **Server Provisioning with Terraform** ([`terraform.md`](terraform.md)): The Terraform lifecycle and state management.
+- **Configuration Management with Ansible** ([`ansible.md`](ansible.md)): Agentless architecture and Playbooks.
+- **Enterprise Scale with Puppet** ([`puppet.md`](puppet.md)): The pull model and state enforcement at scale.
+- **Dynamic Configuration with Jinja2** ([`devops-jinja2.md`](devops-jinja2.md)): Templating for infrastructure.
+
+#### Part III: Continuous Integration and Delivery (CI/CD)
+- **The CI/CD/CM Framework** ([`devop-ci.md`](devop-ci.md)): Defining the integrated DevOps pipeline.
+- **Task Automation with Make** ([`make.md`](make.md)): Using Makefiles as DevOps glue.
+- **CI/CD Tooling Landscape**:
+    - **GitHub Actions** ([`github-workflows.md`](github-workflows.md)): Event-driven automation.
+    - **Jenkins** ([`jenkins.md`](jenkins.md)): The universal orchestrator.
+    - **CircleCI** ([`circleci.md`](circleci.md)): Container-first pipelines.
+    - **Travis CI** ([`travis.md`](travis.md)): Open-source pioneering.
+
+#### Part IV: Cloud-Native Implementation & Observability
+- **DevOps on AWS** ([`devop-aws.md`](devop-aws.md)): AWS CodeSuite and Serverless DevOps.
+- **Observability and Monitoring** ([`devop-azure-monitor.md`](devop-azure-monitor.md)): Monitoring vs. Observability and telemetry.
+
+#### Part V: DevSecOps and Hardening
+- **Securing the Pipeline** ([`github-workflow-security.md`](github-workflow-security.md)): Secrets management and supply chain security.
+
 ![DevOps Landscape](images/devops-chatgpt.png)
+
+Figure 3: DevOps Landscape
 
 
 ## Self-Assessment
-Test your knowledge by expanding the questions below.
+
 Test your knowledge by expanding the questions below.
 
 ??? question "How do I define DevOps and why is it necessary for modern cloud development?"
@@ -109,3 +146,9 @@ Test your knowledge by expanding the questions below.
 - Tox: [tox.readthedocs.io](https://tox.readthedocs.io/en/latest/)
 
 - Travis CI: [about.travis-ci.com](https://about.travis-ci.com/)
+
+---
+
+## What's Next?
+
+Understanding the DevOps lifecycle is the first step. However, DevOps is as much about people as it is about tools. Head over to **DevOps and Teamwork** to explore how organizational structure and culture impact your technical success.

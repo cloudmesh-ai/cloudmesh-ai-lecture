@@ -55,7 +55,9 @@ Implementing CircleCI generally follows these steps:
 4.  **Iterate**: Use the CircleCI dashboard to view logs, identify failures, and optimize your build times using caching.
 
 ## Self-Assessment
-Test your knowledge by expanding the questions below.
+
+## Self-Assessment
+
 Test your knowledge by expanding the questions below.
 
 ??? question "What is the difference between a hosted CI (CircleCI) and a self-hosted CI (Jenkins)?"
@@ -86,59 +88,8 @@ Test your knowledge by expanding the questions below.
 
 ---
 
-## Appendix: Local Deployment with CircleCI
+## What's Next?
 
-### 0. Clone the Repository
+CircleCI provides a high-velocity, managed experience for modern teams. To complete your understanding of the CI landscape, explore **Travis CI**, the open-source pioneer that set the stage for the hosted CI movement.
 
-Before running the automation, clone the course repository to your local machine:
-
-```bash
-git clone https://github.com/cloudmesh-ai/cloudmesh-ai-lecture.git
-cd cloudmesh-ai-lecture
-```
-
-
-CircleCI is a hosted platform, but you can simulate the deployment process locally using a **CircleCI Runner**. This allows you to test your CI configuration on your own machine before pushing it to GitHub.
-
-### 1. The Configuration
-
-Create a `.circleci/config.yml` file in your project root. This configuration defines a job that prepares the environment and launches the site.
-
-```yaml
-version: 2.1
-
-jobs:
-  deploy_local:
-    docker:
-      - image: cimg/python:3.11
-    steps:
-      - checkout
-      - run:
-          name: Install Dependencies
-          command: pip install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions
-      - run:
-          name: Serve Site
-          command: |
-            nohup mkdocs serve -a 0.0.0.0:8000 > circleci_mkdocs.log 2>&1 &
-            echo "Site is serving at http://localhost:8000"
-      - run:
-          name: Open Browser
-          command: open http://localhost:8000 || xdg-open http://localhost:8000
-
-workflows:
-  local_dev:
-    jobs:
-      - deploy_local
-```
-
-### 2. Execution with Local Runner
-
-To execute this locally, you would use the CircleCI local CLI:
-
-```bash
-circleci local execute --job deploy_local
-```
-
-### Why use CircleCI for this?
-
-CircleCI's strength is its **container-first approach**. By defining your deployment in a `config.yml`, you ensure that the environment (OS, Python version, and plugins) is identical regardless of whether the site is being served on your laptop or in a cloud-based preview environment.
+Visit the [Local Lab](local-lab.md) for instructions on how to run CircleCI locally.

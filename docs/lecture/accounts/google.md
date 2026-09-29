@@ -88,11 +88,11 @@ Once your account is active:
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "Why does GCP require credit card information during the free trial setup?"
+??? question "Why does GCP require credit card information during the free trial setup?"
     GCP requires payment information for identity verification. Google will not charge the user unless they manually upgrade to a paid subscription after the free trial credits are exhausted.
 
-??? note "How can you ensure you stay within the GCP Free Tier and avoid unexpected charges?"
+??? question "How can you ensure you stay within the GCP Free Tier and avoid unexpected charges?"
     You can monitor credits in the Billing section, set budget alerts to receive email notifications, use 'Always Free' resources (like `e2-micro` in specific regions), and delete projects or instances when finished.
 
-??? note "What is the purpose of creating a new project for course work in the GCP Console?"
+??? question "What is the purpose of creating a new project for course work in the GCP Console?"
     Creating a separate project helps keep course resources isolated from other projects, making it easier to manage and clean up resources.

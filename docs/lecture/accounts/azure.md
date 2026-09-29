@@ -85,12 +85,12 @@ Once your account is active:
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the 'Azure for Students' offer and how does it differ from the standard free account?"
+??? question "What is the 'Azure for Students' offer and how does it differ from the standard free account?"
     The Azure for Students offer often provides free credits without requiring a credit card, whereas the standard free account requires a credit card for identity verification.
 
-??? note "How can you avoid unexpected charges in Microsoft Azure?"
+??? question "How can you avoid unexpected charges in Microsoft Azure?"
     Users should use the Cost Management + Billing tool to monitor spending, set budget alerts, select services labeled as "Free for 12 months" or "Always free", and delete resource groups when finished.
 
-??? note "What is the purpose of using Resource Groups in Azure?"
+??? question "What is the purpose of using Resource Groups in Azure?"
     Resource Groups are used to organize and manage related resources for a specific project or environment, making it easier to deploy and delete them as a single unit.
 

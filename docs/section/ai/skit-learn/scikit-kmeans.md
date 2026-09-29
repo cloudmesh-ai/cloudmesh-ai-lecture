@@ -151,11 +151,11 @@ Figure 10: K-means clustering results on digits dataset.
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What does Inertia represent in K-Means?"
+??? question "What does Inertia represent in K-Means?"
     It is the sum of squared distances of samples to their closest cluster center.
 
-??? note "Why is feature scaling necessary for K-Means?"
+??? question "Why is feature scaling necessary for K-Means?"
     K-Means relies on Euclidean distance, so features with larger scales would disproportionately influence the results.
 
-??? note "How does K-means++ improve upon random initialization?"
+??? question "How does K-means++ improve upon random initialization?"
     It spreads out the initial centroids by selecting new ones based on their distance from existing ones, leading to faster convergence and more stable results.

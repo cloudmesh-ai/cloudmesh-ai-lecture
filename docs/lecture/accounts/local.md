@@ -72,11 +72,11 @@ Docker is the industry standard for containerization. It allows developers to pa
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "Why is it recommended to test scripts and containers locally before deploying to the cloud?"
+??? question "Why is it recommended to test scripts and containers locally before deploying to the cloud?"
     Local testing ensures that code is functionally correct and prevents unexpected costs resulting from misconfigurations or the exhaustion of free tier limits in cloud environments.
 
-??? note "What are the primary tools used for local virtualization and containerization?"
+??? question "What are the primary tools used for local virtualization and containerization?"
     Virtualization tools include Multipass, VirtualBox, and VMware. For containerization, Docker is the primary tool.
 
-??? note "What are the general goals of local-first development practices?"
+??? question "What are the general goals of local-first development practices?"
     The primary goals are to enable safe code testing, eliminate unnecessary cloud expenditure during the development phase, and ensure environment stability before production deployment.

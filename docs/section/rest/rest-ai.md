@@ -399,13 +399,13 @@ AI jobs are often long-running. While the implementation uses Python threading f
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "How does the Job ID facilitate the separation of the fit and predict services?"
+??? question "How does the Job ID facilitate the separation of the fit and predict services?"
 The Job ID acts as a unique identifier that links the uploaded training data, the resulting fitted model stored in memory, and the subsequent prediction requests. This allows the server to remain stateless regarding the client session while maintaining state regarding the AI model.
 
-??? note "Why is multipart/form-data used for the upload and predict endpoints instead of a JSON body?"
+??? question "Why is multipart/form-data used for the upload and predict endpoints instead of a JSON body?"
 `multipart/form-data` is more efficient for transferring large binary or text files (like CSVs) compared to encoding file content as a base64 string within a JSON payload, which increases the data size and processing overhead.
 
-??? note "What are the limitations of storing fitted models in an in-memory dictionary?"
+??? question "What are the limitations of storing fitted models in an in-memory dictionary?"
 In-memory storage is volatile; if the server restarts, all fitted models are lost. Additionally, this approach does not scale across multiple server instances (load balancing), as the model would only exist on the instance that performed the fitting. A distributed cache or database would be required for production scalability.
 
 ***

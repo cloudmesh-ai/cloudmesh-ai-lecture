@@ -1704,20 +1704,20 @@ To run tests, simply execute `pytest` in your terminal.
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the difference between an integer and a floating-point number in Python?"
+??? question "What is the difference between an integer and a floating-point number in Python?"
  An integer (int) is a whole number without a fractional component, whereas a floating-point number (float) represents a real number and includes a decimal point.
 
-??? note "How do boolean operators `and` and `or` behave in Python?"
+??? question "How do boolean operators `and` and `or` behave in Python?"
  The `and` operator returns `True` only if both operands are true; otherwise, it returns `False`. The `or` operator returns `True` if at least one of the operands is true.
 
-??? note "What is a generator in Python and how does it differ from a list?"
+??? question "What is a generator in Python and how does it differ from a list?"
  A generator is a special type of iterator that yields values one at a time using the `yield` keyword, rather than computing and storing the entire sequence in memory like a list. This makes generators significantly more memory-efficient for large datasets (Lazy Evaluation).
 
-??? note "In asynchronous programming with `asyncio`, what does the `await` keyword do?"
+??? question "In asynchronous programming with `asyncio`, what does the `await` keyword do?"
  The `await` keyword pauses the execution of the current coroutine, yielding control back to the event loop. This allows other tasks to run while the current task waits for an I/O operation (like a network response) to complete.
 
-??? note "Why is `pathlib` preferred over string-based path manipulation?"
+??? question "Why is `pathlib` preferred over string-based path manipulation?"
  `pathlib` provides an object-oriented approach that handles cross-platform path differences (e.g., `/` on Linux vs `\` on Windows) automatically, reducing bugs in multi-platform cloud scripts.
 
-??? note "What is the difference between a blocking and non-blocking call in an async function?"
+??? question "What is the difference between a blocking and non-blocking call in an async function?"
  A blocking call (like `time.sleep()`) stops the entire thread and the event loop, preventing any other concurrent tasks from running. A non-blocking call (like `await asyncio.sleep()`) tells the event loop to pause this specific task and run others until the timer expires.

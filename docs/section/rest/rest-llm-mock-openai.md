@@ -253,11 +253,11 @@ Here is a core table of the primary **OpenAI API** routes, methods, and descript
     - Implement a simulated "latency" middleware that adds a random delay to responses to test client timeouts.
     - Add a `/v1/chat/completions` error handler that randomly returns a 429 (Too Many Requests) to test retry logic in your application.
 
-??? note "Can I explain the difference between a standard REST response and a Server-Sent Event (SSE) stream?"
+??? question "Can I explain the difference between a standard REST response and a Server-Sent Event (SSE) stream?"
     A standard REST response sends the entire payload at once after the request is processed. An SSE stream sends data in small chunks as they become available, allowing the client to display text in real-time as it is "generated".
 
-??? note "Do I understand why Pydantic models are used to mimic the OpenAI specification?"
+??? question "Do I understand why Pydantic models are used to mimic the OpenAI specification?"
     Pydantic models ensure that the request and response payloads exactly match the OpenAI API schema (keys, data types, and structures). This allows any client designed for OpenAI to interact with the mock server without modification.
 
-??? note "Can I successfully integrate this mock server into a Python client using the `openai` library by changing the `base_url`?"
+??? question "Can I successfully integrate this mock server into a Python client using the `openai` library by changing the `base_url`?"
     Yes, by initializing the OpenAI client with `base_url="http://localhost:8000/v1"`, the library directs all requests to the mock server instead of the actual OpenAI endpoints.

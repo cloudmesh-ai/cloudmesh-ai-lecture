@@ -178,13 +178,13 @@ jobs:
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "How do type hints improve the reliability of distributed cloud systems?"
+??? question "How do type hints improve the reliability of distributed cloud systems?"
     Type hints create explicit contracts for data shapes and API boundaries. This allows static analysis tools to detect mismatched data types or missing fields before the code is deployed, reducing the risk of cascading failures across microservices.
 
-??? note "What is the difference between `TypedDict` and a `pydantic.BaseModel`?"
+??? question "What is the difference between `TypedDict` and a `pydantic.BaseModel`?"
     `TypedDict` provides static type checking for dictionary-like objects at compile-time but does not perform runtime validation. `pydantic.BaseModel` enforces type constraints at runtime, throwing errors if the input data does not match the defined schema.
 
-??? note "Why is it important to avoid the `Any` type in public function signatures?"
+??? question "Why is it important to avoid the `Any` type in public function signatures?"
     Using `Any` effectively disables type checking for that variable, allowing any type to be passed or returned. This propagates unchecked data throughout the codebase, defeating the purpose of static analysis and increasing the likelihood of runtime `TypeError` exceptions.
 
 ---

@@ -25,6 +25,9 @@ While Docker provides the "container" (the package), **Kubernetes (K8s)** provid
 
 ### The AI Lifecycle and Kubernetes
 
+!!! info "Why this matters"
+    AI development is iterative and resource-intensive. Without an orchestrator, moving a model from a researcher's notebook to a GPU cluster involves manual image builds and SSH-based deployments. Kubernetes transforms this into a repeatable process, ensuring that the exact same environment used for training is used for inference, reducing "environment drift."
+
 AI is not just about the model; it is a lifecycle. Kubernetes provides the glue for each stage:
 
 1. **Data Engineering**: Orchestrating Spark or Ray clusters to clean and preprocess terabytes of data.
@@ -116,6 +119,8 @@ Before looking at the manifests, let's trace a single user request through the s
 ### 4.2 Data Persistence (PV & PVC) for Model Weights
 
 In AI workloads, the most critical assets are the **Model Weights**—billions of numerical parameters (tensors) stored in formats like `.safetensors` or PyTorch `.bin` files.
+
+For a detailed explanation of the storage abstraction layers (CSI) and how persistent data is managed, see **[Container Storage & Networking](container-storage-networking.md)**.
 
 In a production environment, these weights are rarely stored inside the container image because AI models are massive (several gigabytes), making images too slow to pull or rebuild. Instead, they are mirrored to a **shared network file system** (such as NFS, Azure Files, or Google Filestore).
 

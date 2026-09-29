@@ -170,11 +170,11 @@ Financial firms use Azure Event Hubs for transaction streaming and the Azure ML 
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the difference between a managed ML platform and a pre-built AI API?"
+??? question "What is the difference between a managed ML platform and a pre-built AI API?"
     Managed ML platforms (e.g., SageMaker, Vertex AI) provide the full lifecycle tools for building, training, and deploying custom models. Pre-built AI APIs (e.g., Rekognition, Azure Computer Vision) provide ready-to-use AI capabilities via a simple API call and require no model training.
 
-??? note "How does a feature store prevent training-serving skew?"
+??? question "How does a feature store prevent training-serving skew?"
     A feature store provides a single source of truth for feature definitions. By using the same feature logic for both the offline training set and the online real-time inference request, it ensures that the model receives data in the same format and distribution it saw during training.
 
-??? note "Why is the 'Principle of Least Privilege' critical for AI workloads?"
+??? question "Why is the 'Principle of Least Privilege' critical for AI workloads?"
     AI workloads often have access to massive datasets and high-cost compute resources. Least-privilege ensures that a compromised service or a buggy script cannot delete an entire data lake or spin up expensive GPU clusters across the entire cloud account.

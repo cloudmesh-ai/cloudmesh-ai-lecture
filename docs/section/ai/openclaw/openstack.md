@@ -462,11 +462,11 @@ You should see the OpenClaw landing page HTML.
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the purpose of the floating IP in the OpenStack deployment?"
+??? question "What is the purpose of the floating IP in the OpenStack deployment?"
     The floating IP provides a public-facing IP address that allows users to access the OpenClaw UI and API from the external internet, as the VM's internal IP is only reachable within the private network.
 
-??? note "How does Docker Compose simplify the deployment of OpenClaw?"
+??? question "How does Docker Compose simplify the deployment of OpenClaw?"
     Docker Compose allows for the definition of multiple interconnected services (database, storage, API, UI) in a single YAML file, ensuring that they are started in the correct order and share a common network.
 
-??? note "What is the critical step when moving data volumes to an external SSD volume on Jetstream?"
+??? question "What is the critical step when moving data volumes to an external SSD volume on Jetstream?"
     The external volume must be formatted (e.g., `mkfs.ext4`), mounted to a directory (e.g., `/mnt/openclaw-data`), and added to `/etc/fstab` for persistence across reboots, before updating the `docker-compose.yml` volume mappings.

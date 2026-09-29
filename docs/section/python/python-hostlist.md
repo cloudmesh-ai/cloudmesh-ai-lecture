@@ -242,13 +242,13 @@ echo "node[1-3]" | hostlist expand
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "How does the `hostlist` library handle zero-padding in compressed lists?"
+??? question "How does the `hostlist` library handle zero-padding in compressed lists?"
     The library automatically detects the padding width of the numeric range in the compressed string and preserves leading zeros when expanding the list into individual hostnames.
 
-??? note "What is the difference between `nth()` and standard Python indexing (e.g., `hl[0]`)?"
+??? question "What is the difference between `nth()` and standard Python indexing (e.g., `hl[0]`)?"
     The `nth()` method uses 1-based indexing, whereas standard Python indexing (`hl[0]`) uses 0-based indexing.
 
-??? note "Which set operators are supported by the `Hostlist` class for combining host groups?"
+??? question "Which set operators are supported by the `Hostlist` class for combining host groups?"
     The `Hostlist` class supports Union (`|`), Intersection (`&`), Difference (`-`), and Symmetric Difference (`^`).
 
 ---

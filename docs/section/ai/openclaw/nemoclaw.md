@@ -146,11 +146,11 @@ A common question is whether to use OpenClaw or NemoClay. The choice depends pri
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary difference between OpenClaw and NemoClay?"
+??? question "What is the primary difference between OpenClaw and NemoClay?"
     OpenClaw is designed for single-step, low-latency command wrapping, whereas NemoClay is an orchestration framework that uses a DAG to chain multiple isolated, containerized AI actions into a complex workflow.
 
-??? note "Why does NemoClay use container-native execution instead of a shared Python environment?"
+??? question "Why does NemoClay use container-native execution instead of a shared Python environment?"
     Containerization prevents "dependency hell" by ensuring each claw has its own isolated runtime, allowing the use of conflicting versions of libraries like PyTorch or TensorFlow within the same pipeline.
 
-??? note "In what scenario would OpenClaw be a better choice than NemoClay?"
+??? question "In what scenario would OpenClaw be a better choice than NemoClay?"
     OpenClaw is a better choice when low latency is critical, when deploying to resource-constrained edge devices, or when the task is a simple, single-step translation from natural language to a CLI command.

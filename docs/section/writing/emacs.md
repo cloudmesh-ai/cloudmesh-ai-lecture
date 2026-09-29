@@ -177,20 +177,20 @@ This creates a feedback loop with local control.
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "Can you navigate a buffer quickly using both character-level and line/word-level movements?"
+??? question "Can you navigate a buffer quickly using both character-level and line/word-level movements?"
     Yes, using shortcuts like `C-f`/`C-b` for characters, `C-n`/`C-p` for lines, and `M-f`/`M-b` for words.
 
-??? note "Do you know how to recover from an accidental prefix key press or stop a frozen operation?"
+??? question "Do you know how to recover from an accidental prefix key press or stop a frozen operation?"
     Yes, by using `C-g` to cancel the current command or stop long-running operations.
 
-??? note "Can you record a macro to automate a repetitive editing task and play it back multiple times?"
+??? question "Can you record a macro to automate a repetitive editing task and play it back multiple times?"
     Yes, by using `M-x (` to start recording, `M-x )` to stop, and `M-x e` (or `M-number C-x e`) for playback.
 
-??? note "Do you understand the difference between Major and Minor modes and how to activate them?"
+??? question "Do you understand the difference between Major and Minor modes and how to activate them?"
     Yes. Major modes define the primary behavior for a file type (e.g., `python-mode`), while minor modes provide additional optional features (e.g., `flyspell-mode`).
 
-??? note "Are you able to run Emacs in a terminal environment and integrate it with Bash?"
+??? question "Are you able to run Emacs in a terminal environment and integrate it with Bash?"
     Yes, by using the `emacs -nw` flag and executing `set -o emacs` in the Bash shell.
 
-??? note "Have you successfully set up a LaTeX compilation loop using LatexMk?"
+??? question "Have you successfully set up a LaTeX compilation loop using LatexMk?"
     Yes, by running `latexmk` in a terminal and editing the source file in Emacs to trigger automatic PDF updates.

@@ -1,246 +1,121 @@
-# Installing Apptainer locally
+# Apptainer: Containers for High-Performance Computing
 
-Setting up **Apptainer** (formerly known as Singularity) on a local Linux computer is a straightforward process. Because Apptainer is designed natively for Linux, native installation is easiest, though Windows and macOS users can run it via a Linux virtual machine.
-
-This tutorial walks through installing Apptainer on a local **Ubuntu / Debian** system and running your first container.
-
+Apptainer (formerly known as Singularity) is a container platform specifically designed for High-Performance Computing (HPC) and enterprise environments. While Docker is the standard for microservices and cloud-native apps, Apptainer is the standard for scientific research and supercomputing.
 
 !!! info "Learning Objectives"
-    By the end of this guide, you will be able to:
-
-    1. **Install** and compile Apptainer on a Linux system.
-
-    2. **Execute** containers using the SIF (Singularity Image Format).
-
-    3. **Build** custom container images using Apptainer definition files (`.def`).
-
-    4. **Configure** runtime environments using bind mounts and port mapping.
-
-    5. **Understand** the security advantages of Apptainer in HPC environments.
-
-
-![Apptainer Landscape](images/apptainer-chatgpt.png)
-
-
-![Apptainer HPC](images/apptainer-hpc-chatgpt.png)
----
-
-## Step 1: Install System Dependencies
-
-First, open your terminal and make sure your package lists are up to date. Then, install the essential packages required to compile and run Apptainer (such as `build-essential`, `squashfs-tools`, and `cryptsetup`).
-
-```bash
-sudo apt-get update
-sudo apt-get install -y \
-    build-essential \
-    libseccomp-dev \
-    pkg-config \
-    squashfs-tools \
-    cryptsetup \
-    curl \
-    wget \
-    git
-
-```
+    By the end of this chapter, you will be able to:
+    1. **Distinguish** between Apptainer and Docker (specifically the SIF format vs. layers).
+    2. **Execute** containers using `exec`, `shell`, and `run` commands.
+    3. **Build** custom immutable images using Apptainer definition files (`.def`).
+    4. **Manage** host-to-container data flow using bind mounts (`--bind`).
+    5. **Understand** why Apptainer's "no-root" architecture is critical for shared HPC clusters.
 
 ---
 
-## Step 2: Install Go (Golang)
+## 1. Why Apptainer? (The HPC Perspective)
 
-Apptainer is written in Go. Since system repositories often carry outdated versions, it is best to download and install a recent stable version directly from the official Go website.
+In a standard Docker environment, a background daemon runs with root privileges. On a shared supercomputer with thousands of users, giving users access to a root daemon is a massive security risk. Apptainer solves this by eliminating the daemon entirely.
 
-1. **Download Go** (check the official site for the latest version if needed; `1.22.x` or newer is standard):
+### SIF: The Single-File Image
+Unlike Docker images, which are composed of many layers stored in a hidden directory, Apptainer primarily uses the **SIF (Singularity Image Format)**. A SIF image is a single, compressed, read-only file.
 
-```bash
-export GO_VERSION=1.22.0
-wget https://golang.org/dl/go$GO_VERSION.linux-amd64.tar.gz
-
-```
-
-
-2. **Extract and install** it to `/usr/local`:
-
-```bash
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf go$GO_VERSION.linux-amd64.tar.gz
-
-```
-
-
-3. **Add Go to your system PATH**:
-
-```bash
-echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
-source ~/.bashrc
-
-```
-
-
-
-Verify the installation by running:
-
-```bash
-go version
-
-```
+**Advantages of the SIF format:**
+*   **Portability**: Moving a container is as simple as copying a single file (`my_env.sif`).
+*   **Performance**: SIF images are highly optimized for parallel file systems (like Lustre or GPFS) used in HPC.
+*   **Security**: Because the image is immutable and runs as the user who launched it, there is no risk of "container breakout" to gain root access to the host.
 
 ---
 
-## Step 3: Download and Compile Apptainer
+## 2. Quick Start: Running Containers
 
-Next, download the source code for the latest Apptainer release from GitHub and compile it.
+You don't need to build an image to start using Apptainer. You can pull existing images from OCI registries (like Docker Hub) and convert them to SIF on the fly.
 
-1. **Clone or download the release archive** (check GitHub releases for the latest version number, e.g., `v1.3.x` or later):
-
+### Pulling and Executing
 ```bash
-export APPTAINER_VERSION=1.3.0
-wget https://github.com/apptainer/apptainer/releases/download/v${APPTAINER_VERSION}/apptainer-${APPTAINER_VERSION}.tar.gz
-tar -xzf apptainer-${APPTAINER_VERSION}.tar.gz
-cd apptainer-${APPTAINER_VERSION}
-
-```
-
-
-2. **Configure and compile**:
-
-```bash
-./mconfig
-make -C builddir
-
-```
-
-
-3. **Install globally**:
-
-```bash
-sudo make -C builddir install
-
-```
-
-
-
-Verify that Apptainer is successfully installed:
-
-```bash
-apptainer --version
-
-```
-
----
-
-## Step 4: Run Your First Container
-
-Unlike Docker, Apptainer runs containers as single-file images called **SIF (Singularity Image Format)** and executes them with the privileges of the invoking user, making it ideal for local workstations and shared clusters.
-
-1. **Pull a test image** from an OCI registry (like Docker Hub):
-
-```bash
+# 1. Pull a Docker image and convert it to a .sif file
 apptainer pull docker://alpine
 
-```
-
-
-*This downloads the Alpine Linux Docker image and automatically converts it into a local `alpine_latest.sif` file.*
-
-2. **Execute a command** inside the container:
-
-```bash
+# 2. Execute a specific command inside the container
 apptainer exec alpine_latest.sif cat /etc/os-release
 
-```
-
-
-3. **Open an interactive shell** inside the container:
-
-```bash
+# 3. Open an interactive shell inside the container
 apptainer shell alpine_latest.sif
 
+# 4. Run the container's default script (the %runscript)
+apptainer run alpine_latest.sif
 ```
 
-
-*You are now inside an isolated Alpine environment. Type `exit` to return to your host terminal.*
+### Command Reference
+| Goal | Command | Effect |
+| :--- | :--- | :--- |
+| **Fetch Image** | `apptainer pull <url>` | Downloads an image and saves it as a `.sif` file. |
+| **Run Command** | `apptainer exec <img.sif> <cmd>` | Runs a specific command and exits. |
+| **Interactive** | `apptainer shell <img.sif>` | Drops you into a bash/sh session inside the image. |
+| **Default Execution**| `apptainer run <img.sif>` | Executes the image's predefined `%runscript`. |
+| **Build Image** | `apptainer build <img.sif> <def>` | Creates a SIF image from a definition file. |
 
 ---
 
-!!! tip  "Using Windows or macOS?"
+## 3. Building Custom Images with `.def` Files
 
-    Apptainer requires a Linux kernel. If you are on Windows, install **WSL 2 (Ubuntu)** and follow the steps above inside your WSL terminal. If you are on a Mac, use **Lima** or **UTM** to spin up a lightweight Linux environment first.
+To create a reproducible environment, you use a **Definition File (`.def`)**. This is a recipe that Apptainer follows to build the SIF image.
 
----
+### Anatomy of a Definition File
+A `.def` file is divided into sections:
+*   **Bootstrap**: Defines the base image (e.g., `docker`, `ubuntu`).
+*   **%post**: A shell script that runs *during* the build to install software and configure the system.
+*   **%environment**: Sets environment variables that persist when the container runs.
+*   **%runscript**: The default command executed when `apptainer run` is called.
 
-## Appendix: Creating a Custom Apptainer Image for MkDocs
-
-If you want to package a documentation site built with **MkDocs** and its Material theme inside an immutable Apptainer image, you can use a definition (`.def`) file. This approach ensures your documentation is fully self-contained and reproducible.
-
-### 1. Create the Definition File (`mkdocs.def`)
-
-Create a file named `mkdocs.def` using a text editor:
+### Case Study: Packaging a Documentation Site (MkDocs)
+If you want to package a site built with **MkDocs**, your `.def` file would look like this:
 
 ```aiignore
 Bootstrap: docker
 From: python:3.11-slim
 
 %post
-    # Update system packages and install necessary tools
-    apt-get update && apt-get install -y --no-install-recommends \
-        git \
-        curl \
-        && rm -rf /var/lib/apt/lists/*
-
-    # Install MkDocs and the Material theme
-    pip install --no-cache-dir \
-        mkdocs \
-        mkdocs-material
+    apt-get update && apt-get install -y git curl
+    pip install --no-cache-dir mkdocs mkdocs-material
 
 %environment
-    # Set default environment variables if needed
     export LC_ALL=C.UTF-8
-    export LANG=C.UTF-8
 
 %runscript
-    # Default behavior when running the container (e.g., serve the site)
-    # Assumes your MkDocs project directory is mounted to /docs inside the container
+    # Serve the site from the /docs mount point
     cd /docs
     exec mkdocs serve -a 0.0.0.0:8000
-
-%labels
-    Author YourName
-    Version 1.0
-    Description Apptainer image containing MkDocs and MkDocs-Material
-
 ```
 
----
-
-### 2. Build the SIF Image
-
-Because building a container image requires administrative privileges to create the file system, you can build it locally using `--fakeroot` (which allows unprivileged users to build containers using user namespaces):
-
+**Building the image:**
+Because building requires temporary root privileges to create the file system, use the `--fakeroot` flag:
 ```bash
 apptainer build --fakeroot mkdocs.sif mkdocs.def
-
 ```
-
-This compiles your definition file and outputs a single, portable `mkdocs.sif` file.
 
 ---
 
-### 3. Run the MkDocs Container and Serve Your Website
+## 4. Advanced Runtime: Bind Mounts and Ports
 
-To use the image, navigate to the local directory where your MkDocs project (containing your `mkdocs.yml` file and `docs/` folder) is located.
+Apptainer containers are immutable, meaning you cannot save files *inside* the image. To work with your own data, you must **bind** host directories into the container.
 
-You can bind your current host directory to the `/docs` mount point inside the container and expose port `8000` to your host machine:
-
+### Bind Mounts (`--bind`)
+Bind mounts map a directory on your host machine to a path inside the container.
 ```bash
-apptainer run --bind $(pwd):/docs -p 8000:8000 mkdocs.sif
-
+# Mount current directory to /docs inside the container
+apptainer run --bind $(pwd):/docs mkdocs.sif
 ```
 
-Once running, open your web browser and navigate to `http://localhost:8000` to view your live MkDocs website.
+### Port Mapping (`-p`)
+If your container runs a server (like MkDocs), you must expose the port to your host:
+```bash
+apptainer run --bind $(pwd):/docs -p 8000:8000 mkdocs.sif
+```
 
+---
 
 ## Self-Assessment
-Test your knowledge by expanding the questions below.
+
 !!! tip "Self-Assessment"
     Test your knowledge by expanding the questions below.
 
@@ -250,11 +125,56 @@ Test your knowledge by expanding the questions below.
 ??? question "Why is Apptainer particularly well-suited for High-Performance Computing (HPC) clusters?"
     Apptainer is designed for HPC because it executes containers with the privileges of the invoking user rather than requiring a root-privileged daemon. This prevents security risks on shared supercomputers where users are not allowed to have root access.
 
-??? question "What is a SIF file in the context of Apptainer?"
-    A SIF (Singularity Image Format) file is a single-file compressed image that contains the entire root filesystem of the container. It is immutable and can be executed directly like a binary.
-
-??? question "How can an Apptainer container be executed with the privileges of the invoking user?"
-    Apptainer's architecture is designed to avoid the need for a root daemon. It leverages user namespaces to map the internal root user to the external unprivileged user, ensuring the process always runs with the caller's permissions.
-
 ??? question "What is the purpose of a `.def` (definition) file in Apptainer?"
     A `.def` file is a recipe used to build an Apptainer image. It defines the base image, the packages to install (`%post` section), environment variables (`%environment`), and the default command to run (`%runscript`).
+
+??? question "What does the `--bind` flag do?"
+    The `--bind` flag maps a directory or file from the host system into the container's filesystem. This is essential because SIF images are read-only, so any data the container needs to read or write must be provided via a bind mount.
+
+---
+
+## Assignments
+
+!!! note "Assignment 1: Pull and Inspect"
+    Pull the official `alpine` image from Docker Hub using Apptainer. Use `apptainer exec` to find the version of the OS and the current user's ID inside the container. Compare this to your ID on the host.
+
+!!! note "Assignment 2: Custom Tool Image"
+    Create a `.def` file that starts from `ubuntu:latest`, installs a simple CLI tool (e.g., `htop` or `tree`), and sets the `%runscript` to execute that tool. Build the image using `--fakeroot` and run it.
+
+!!! note "Assignment 3: Data Processing Workflow"
+    Create a local directory with a text file. Build or pull an image containing `grep`. Use `apptainer exec` with a `--bind` mount to search for a specific keyword in your host file from *inside* the container.
+
+---
+
+## Appendix: Local Installation Guide
+
+If you are installing Apptainer on a local **Ubuntu/Debian** system, follow these steps:
+
+### 1. Install Dependencies
+```bash
+sudo apt-get update
+sudo apt-get install -y build-essential libseccomp-dev pkg-config squashfs-tools cryptsetup curl wget git
+```
+
+### 2. Install Go (Golang)
+```bash
+export GO_VERSION=1.22.0
+wget https://golang.org/dl/go$GO_VERSION.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go$GO_VERSION.linux-amd64.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### 3. Compile and Install Apptainer
+```bash
+export APPTAINER_VERSION=1.3.0
+wget https://github.com/apptainer/apptainer/releases/download/v${APPTAINER_VERSION}/apptainer-${APPTAINER_VERSION}.tar.gz
+tar -xzf apptainer-${APPTAINER_VERSION}.tar.gz
+cd apptainer-${APPTAINER_VERSION}
+./mconfig
+make -C builddir
+sudo make -C builddir install
+```
+
+!!! tip "Using Windows or macOS?"
+    Apptainer requires a Linux kernel. If you are on Windows, install **WSL 2 (Ubuntu)** and follow the steps above. If you are on a Mac, use **Lima** or **UTM** to spin up a lightweight Linux environment.

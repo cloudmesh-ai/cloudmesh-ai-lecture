@@ -185,11 +185,11 @@ When the primary requirement is *single-step, low-latency command generation* wi
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary architectural difference between OpenClaw and NemoClay?"
+??? question "What is the primary architectural difference between OpenClaw and NemoClay?"
     OpenClaw is designed for single-step, lightweight CLI wrapping executing on the host, whereas NemoClay is a DAG-based orchestrator that uses containerized execution for complex, multi-modal pipelines.
 
-??? note "How does OpenClaw mitigate the risk of 'hallucinated' destructive commands?"
+??? question "How does OpenClaw mitigate the risk of 'hallucinated' destructive commands?"
     It employs command whitelisting to restrict the executor to approved binaries and requires explicit user confirmation before executing any command flagged as destructive.
 
-??? note "Why is NemoClay preferable for regulated industries like healthcare or finance?"
+??? question "Why is NemoClay preferable for regulated industries like healthcare or finance?"
     NemoClay provides native observability and versioning, automatically logging execution traces, input/output schemas, and model versions to ensure reproducibility and auditability.

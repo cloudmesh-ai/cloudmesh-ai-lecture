@@ -161,11 +161,11 @@ AIAgent <|-- CodingAgent
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the main benefit of using Diagram-as-Code over GUI tools?"
+??? question "What is the main benefit of using Diagram-as-Code over GUI tools?"
     The main benefits include the ability to use version control (Git) for tracking changes, ensuring visual consistency, and increasing the speed of modifications.
 
-??? note "Which PlantUML diagram is most suitable for documenting a Kubernetes pod structure?"
+??? question "Which PlantUML diagram is most suitable for documenting a Kubernetes pod structure?"
     The Deployment Diagram is most suitable, as it uses `node` and `package` elements to represent physical or virtual infrastructure.
 
-??? note "In a PlantUML class diagram, what does the `<|--` symbol represent?"
+??? question "In a PlantUML class diagram, what does the `<|--` symbol represent?"
     The `<|--` symbol represents inheritance or generalization, indicating that a subclass extends a base class.

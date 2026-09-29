@@ -48,7 +48,8 @@ Once the artifact is deployed to production, the focus shifts to operational exc
     The "Improvement" phase completes the feedback loop. Data gathered during monitoring flows back into the "Planning" phase of the next development cycle, allowing teams to prioritize the most impactful optimizations based on real-world production data.
 
 ## Self-Assessment
-Test your knowledge by expanding the questions below.
+
+## Self-Assessment
 
 Test your knowledge by expanding the questions below.
 
@@ -77,3 +78,9 @@ Test your knowledge by expanding the questions below.
 
 !!! note "Assignment 3: Analyzing Deployment Risks"
     Compare a manual deployment process (where a developer SSHs into a server to update code) with a CI/CD process. List three specific risks associated with the manual process and explain how a CI/CD pipeline mitigates each risk.
+
+## What's Next?
+
+## What's Next?
+
+Now that you understand the framework of CI/CD, it's time to look at a tool that provides the 'glue' for these processes. Head over to **Task Automation with Make** to learn how to orchestrate complex workflows with Makefiles.

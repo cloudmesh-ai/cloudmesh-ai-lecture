@@ -355,21 +355,21 @@ Using the markdown_formatter agent, draft a technical chapter on "Configuring Sl
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "Can you explain the difference between Plan Mode and Build Mode in OpenCode?"
+??? question "Can you explain the difference between Plan Mode and Build Mode in OpenCode?"
     Plan Mode (`Tab`) is used to define the strategy and intent before any file changes occur. Build Mode (`Tab`) is where the agent actually executes the plan and writes to the filesystem.
 
-??? note "What is the purpose of the `.opencode/agents/` directory?"
+??? question "What is the purpose of the `.opencode/agents/` directory?"
     This directory stores specialized instruction sets (custom agents) that allow OpenCode to perform specific tasks (like technical formatting) with consistent rules and personas.
 
-??? note "How do you configure a local model provider like Ollama in `opencode.json`?"
+??? question "How do you configure a local model provider like Ollama in `opencode.json`?"
     You add a `provider` block to `opencode.json` using the `@ai-sdk/openai-compatible` npm package and specify the `baseURL` (e.g., `http://localhost:11434/v1` for Ollama).
 
-??? note "Why is it important to define strict formatting rules for technical documentation agents?"
+??? question "Why is it important to define strict formatting rules for technical documentation agents?"
     They ensure a professional, neutral, and consistent output across a large documentation set, removing AI-generated fluff and ensuring compatibility with specific tools like mkdocs-material.
 
-??? note "Which admonition style should be used for learning objectives according to the `markdown_formatter` agent?"
+??? question "Which admonition style should be used for learning objectives according to the `markdown_formatter` agent?"
     The `!!! info "Title"` style should be used for objectives, tips, and general high-level information.
 
-??? note "What are some of the prohibited terms when using the `markdown_formatter` agent to ensure a neutral technical tone?"
+??? question "What are some of the prohibited terms when using the `markdown_formatter` agent to ensure a neutral technical tone?"
     Terms like "best tool", "cutting-edge", "revolutionary", "state-of-the-art", and "game-changer" are prohibited to maintain a direct, neutral technical tone.
 

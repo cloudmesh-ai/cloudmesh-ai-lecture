@@ -214,13 +214,13 @@ When `backup=True`, a file named `catalog.yaml.bak` is created before any write 
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "How do you insert multiple records into a YAMLDB at once?"
+??? question "How do you insert multiple records into a YAMLDB at once?"
     Use the `insert_many()` method, passing a list of dictionaries containing the records.
 
-??? note "Which operator is used to filter records where a numeric value is greater than a certain threshold?"
+??? question "Which operator is used to filter records where a numeric value is greater than a certain threshold?"
     The `"$gt"` operator is used within the `where` parameter of the `find()` method.
 
-??? note "How does the context manager with `backup=True` protect the database?"
+??? question "How does the context manager with `backup=True` protect the database?"
     It creates a `.bak` copy of the YAML file before writing; if an exception occurs during the session, the original file is restored from this backup.
 
 ---

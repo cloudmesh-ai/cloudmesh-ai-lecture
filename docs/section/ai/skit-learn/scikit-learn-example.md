@@ -941,11 +941,11 @@ The API expects a JSON object representing a single wine sample. It converts thi
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the difference between an Estimator and a Transformer?"
+??? question "What is the difference between an Estimator and a Transformer?"
     An Estimator is any object that can learn from data via the `fit` method. A Transformer is a specific type of Estimator that also implements a `transform` method to modify the data.
 
-??? note "Why is the Pipeline abstraction critical for preventing data leakage?"
+??? question "Why is the Pipeline abstraction critical for preventing data leakage?"
     Pipelines ensure that transformers are fitted only on the training data and then applied to the test data, preventing information from the test set from leaking into the training process.
 
-??? note "When should you prefer RandomizedSearchCV over GridSearchCV?"
+??? question "When should you prefer RandomizedSearchCV over GridSearchCV?"
     RandomizedSearchCV should be preferred when the hyper-parameter search space is large, as it samples a fixed number of parameter settings, making it significantly more computationally efficient while often finding a similarly good solution.

@@ -107,13 +107,13 @@ For more details, see the [Installation Guide](guide/install.md).
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary purpose of the mkdocs.yml file?"
+??? question "What is the primary purpose of the mkdocs.yml file?"
     The `mkdocs.yml` file serves as the central configuration file where the site name, theme, and navigation structure are defined.
 
-??? note "Which command is used to preview documentation changes locally?"
+??? question "Which command is used to preview documentation changes locally?"
     The `mkdocs serve` command starts a local server that provides a live preview of the documentation.
 
-??? note "How should links between different pages be formatted in MkDocs?"
+??? question "How should links between different pages be formatted in MkDocs?"
     Links between pages should use relative paths to the Markdown files within the `docs/` directory.
 
 ## Appendix: Integrating Multiple Repositories

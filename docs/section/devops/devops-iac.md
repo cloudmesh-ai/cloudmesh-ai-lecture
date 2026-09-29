@@ -28,6 +28,9 @@ Using scripts or declarative descriptions for infrastructure provides several cr
 !!! info "Why this matters"
     Manual changes lead to "snowflake servers"—unique configurations that no one remembers how to reproduce. When a snowflake server crashes, recovery is slow and painful. IaC ensures that servers are "cattle, not pets," meaning any instance can be destroyed and recreated from code instantly.
 
+!!! tip "AI Insight"
+    Modern IaC is increasingly augmented by LLMs. AI can generate the initial boilerplate for complex architectures, allowing engineers to focus on the high-level design. For a guide on prompting for infrastructure and managing the risks of "Infrastructure Hallucinations," see [[ai-devops]].
+
 ## IaC and the DevOps Lifecycle
 
 IaC is the engine that powers the "Automated Infrastructure" pillar of DevOps. To achieve a full CI/CD pipeline, IaC must be integrated into the shared version control system alongside the application code.
@@ -88,8 +91,9 @@ These tools are optimized for a single provider and often support new features t
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
+## Self-Assessment
+
+Test your knowledge by expanding the questions below.
 
 ??? question "What is Infrastructure as Code (IaC) and why is it superior to manual provisioning?"
     **Infrastructure as Code (IaC)** is the practice of managing and provisioning computer data centers through machine-readable definition files rather than manual hardware configuration or interactive tools. It is superior because it ensures consistency across environments (Dev, Staging, Prod), enables rapid replicability, reduces human error, and provides a version-controlled history of infrastructure changes.
@@ -121,3 +125,9 @@ Test your knowledge by expanding the questions below.
 
 - **Terraform Up and Running**: A practical guide to structuring Terraform code and deployment practices.
 - **Infrastructure as Code (Book)**: A deep dive into the theory and application of IaC.
+
+---
+
+## What's Next?
+
+Now that you understand the theory of IaC, it's time to get hands-on. Start with **Provisioning Infrastructure with Terraform** to learn how to create your first cloud resources declaratively.

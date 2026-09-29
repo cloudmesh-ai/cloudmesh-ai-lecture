@@ -166,11 +166,11 @@ Analyzing a codebase like GROMACS (~4.7 million lines) requires strategic token 
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary advantage of Amazon Bedrock's serverless architecture?"
+??? question "What is the primary advantage of Amazon Bedrock's serverless architecture?"
     It eliminates the need to provision or manage GPU infrastructure, allowing developers to access multiple foundation models via a single API with automatic scaling.
 
-??? note "How does prompt caching impact the cost of iterative RAG loops?"
+??? question "How does prompt caching impact the cost of iterative RAG loops?"
     Prompt caching allows the model to reuse previously processed tokens (such as a large codebase), typically offering a significant discount (up to 90%) on input tokens for subsequent requests.
 
-??? note "Why is Provisioned Throughput generally avoided for small-scale academic use?"
+??? question "Why is Provisioned Throughput generally avoided for small-scale academic use?"
     Provisioned Throughput charges a fixed hourly rate for dedicated capacity, leading to massive annual costs (>$100k) regardless of actual usage, whereas on-demand billing is pay-as-you-go.

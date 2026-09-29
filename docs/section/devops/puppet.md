@@ -12,6 +12,9 @@ Managing a handful of servers is easy; managing ten thousand is a different chal
 !!! info "Why this matters"
  The core philosophy of Puppet is **state enforcement**. While some tools simply run a list of commands (procedural), Puppet defines what the server *should* look like (declarative). If a user manually changes a configuration file on a server, Puppet will detect this "drift" during its next check and automatically change it back to the correct state. This makes Puppet an industry standard for high-compliance enterprise environments.
 
+!!! tip "AI Insight"
+    Puppet's declarative DSL is well-suited for AI generation because it describes the *state* rather than the *steps*. AI can help translate complex compliance requirements into Puppet manifests. See [[ai-devops]] for guidance on using AI for state-based configuration.
+
 ## Puppet's Architecture: The Pull Model
 
 One of the most significant differences between Puppet and tools like Ansible is how they communicate with target nodes.
@@ -21,9 +24,13 @@ One of the most significant differences between Puppet and tools like Ansible is
 - **Push Model (e.g., Ansible)**: A central server "pushes" configurations to the nodes via SSH. The nodes are passive until the server tells them to do something.
 - **Pull Model (e.g., Puppet)**: Each node runs a **Puppet Agent** that "pulls" its configuration from the central **Puppet Master** at regular intervals.
 
-![Infrastructure As Code](images/IAC.jpg){#fig:InfrastructureAsCode}
+![Infrastructure As Code](images/IAC.jpg)
 
-![Push-Pull Configuration](images/push-pull-configuration.jpg){#fig:push-pull-config}
+Figure 7: Infrastructure As Code
+
+![Push-Pull Configuration](images/push-pull-configuration.jpg)
+
+Figure 8: Push-Pull Configuration
 
 ### Comparison: Puppet vs. Ansible
 
@@ -41,20 +48,74 @@ Puppet operates through a structured cycle that ensures security and consistency
 
 ### The Lifecycle of a Configuration
 
-1. **Fact Collection**: The Puppet Agent sends "Facts" (IP address, OS version, hardware details) to the Master.
+1. **Fact Collection**: The Puppet Agent uses a tool called **Facter** to collect system "Facts" (IP address, OS version, hardware details) and sends them to the Master.
 2. **Catalog Compilation**: The Master uses these facts and the defined **Manifests** (code) to compile a **Catalog**—a specific list of resources the agent must manage.
 3. **Configuration Application**: The Master sends the Catalog to the Agent. The Agent applies the changes locally to reach the desired state.
 4. **Reporting**: The Agent sends a report back to the Master confirming what was changed or if any errors occurred.
 
-![Master and worker Architecture](images/master-worker.jpg){#fig:master-worker}
+![Master and worker Architecture](images/master-worker.jpg)
 
-![Master worker Workflow](images/master-worker1.jpg){#fig:master-worker1}
+Figure 9: Master and worker Architecture
+
+![Master worker Workflow](images/master-worker1.jpg)
+
+Figure 10: Master worker Workflow
 
 ### Security via SSL
 
 Because the Master sends critical configuration data, all communication between the Master and Agent is encrypted using SSL certificates. The agent must be "signed" by the Master before it can receive its catalog.
 
-![Master worker SSL Workflow](images/master-worker-connection.jpg){#fig:master-worker-connection}
+![Master worker SSL Workflow](images/master-worker-connection.jpg)
+
+Figure 11: Master worker SSL Workflow
+
+## Puppet DSL Basics
+
+Unlike procedural scripts that list *how* to do something, Puppet uses a **Declarative Domain Specific Language (DSL)** to describe *what* the system should look like.
+
+### The Resource Model
+The fundamental unit of configuration in Puppet is the **Resource**. A resource is defined by its type, a unique title, and a set of attributes.
+
+```puppet
+resource_type { 'title':
+  attribute => value,
+}
+```
+
+For example, to ensure the `nginx` package is installed and the service is running:
+
+```puppet
+package { 'nginx':
+  ensure => installed,
+}
+
+service { 'nginx':
+  ensure => running,
+  enable => true,
+}
+```
+
+### Common Puppet Resources
+The following table lists the most frequently used resource types in enterprise environments:
+
+| Resource Type | Purpose | Common Attributes |
+| :--- | :--- | :--- |
+| `package` | Manages software installation/removal | `ensure => installed` / `absent` |
+| `file` | Manages files, directories, and permissions | `ensure => file`, `mode => '0644'`, `content => '...'` |
+| `service` | Manages system daemons (systemd/init) | `ensure => running`, `enable => true` |
+| `user` | Manages system user accounts | `ensure => present`, `shell => '/bin/bash'` |
+| `exec` | Runs arbitrary shell commands (last resort) | `command => '/usr/bin/some-script.sh'` |
+
+## Standalone Puppet (`puppet apply`)
+
+While the Master-Agent architecture is designed for scale, you don't always need a Master—especially during development or for single-server setups.
+
+**Standalone Mode** allows you to apply a manifest directly to the local machine using the `puppet apply` command. This bypasses the network call to a Master and is the primary way to test configurations in a local lab.
+
+Example:
+`sudo puppet apply site.pp`
+
+This command tells Puppet to read the `site.pp` file and immediately implement the desired state on the local system.
 
 ## Deploying Puppet
 
@@ -79,8 +140,9 @@ The primary configuration for Puppet is handled in the `puppet.conf` file. Key s
 - `server`: The hostname of the Puppet Master.
 - `runinterval`: How often the agent polls the master (e.g., `4h` for every four hours).
 
-!!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
+## Self-Assessment
+
+Test your knowledge by expanding the questions below.
 
 ??? question "What is the difference between 'Push' and 'Pull' configuration management?"
  A **Push Model** (e.g., Ansible) involves a central server pushing configurations to nodes via SSH; the nodes are passive until told to act. A **Pull Model** (e.g., Puppet) involves an agent running on each node that periodically polls the central Master to pull its configuration and apply it locally.
@@ -97,6 +159,8 @@ The primary configuration for Puppet is handled in the `puppet.conf` file. Key s
 ??? question "What is the purpose of SSL certificates in a Puppet architecture?"
  **SSL certificates** ensure that all communication between the Master and Agents is encrypted and authenticated. A new Agent must have its certificate signed by the Master's Certificate Authority (CA) before it can securely retrieve its configuration catalog, preventing unauthorized nodes from accessing the infrastructure.
 
+## Assignments
+
 !!! note "Assignment 1: Architecture Design"
  You are designing the infrastructure for a company with 50,000 servers across three global data centers. Would you choose a monolithic or split Puppet installation? Justify your answer based on scalability and availability.
 
@@ -112,91 +176,8 @@ The primary configuration for Puppet is handled in the `puppet.conf` file. Key s
 
 ---
 
-## Appendix: Local Deployment with Puppet
+## What's Next?
 
-### 0. Clone the Repository
+Infrastructure is now consistent, but we need to make our configurations dynamic and reusable. Learn about **Jinja 2 Templates** to bring programming logic to your infrastructure files.
 
-Before running the automation, clone the course repository to your local machine:
-
-```bash
-git clone https://github.com/cloudmesh-ai/cloudmesh-ai-lecture.git
-cd cloudmesh-ai-lecture
-```
-
-
-Puppet is designed for "state enforcement." While it's typically used for thousands of servers, you can use it locally to ensure your development environment is always correctly configured to serve the course site.
-
-### 1. The Puppet Manifest
-
-Create a file named `site.pp`. This manifest ensures that Python is installed, the required MkDocs plugins are present, and the server is running as a system service.
-
-```puppet
-# Ensure Python and Pip are installed
-
-package { 'python3-pip':
- ensure => installed,
-}
-
-# Install MkDocs and Plugins using a shell command
-
-exec { 'install_mkdocs_plugins':
- command => '/usr/bin/pip3 install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions',
- require => Package['python3-pip'],
-}
-
-# Define a systemd unit to run mkdocs serve in the background
-
-file { '/etc/systemd/system/mkdocs.service':
- ensure => file,
- content => "
-[Unit]
-Description=MkDocs Course Site Server
-After=network.target
-
-[Service]
-Type=simple
-User=ubuntu
-WorkingDirectory=/home/ubuntu/cloudmesh-ai-lecture
-ExecStart=/usr/local/bin/mkdocs serve -a 0.0.0.0:8000
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-",
-}
-
-# Ensure the service is started and enabled
-
-service { 'mkdocs':
- ensure => running,
- enable => true,
- subscribe => File['/etc/systemd/system/mkdocs.service'],
-}
-```
-
-### 2. Execution
-
-Run the manifest locally using the `puppet apply` command:
-
-```bash
-sudo puppet apply site.pp
-```
-
-Once applied, you can open your browser and visit `http://localhost:8000`.
-
-### Why use Puppet for this?
-
-## Self-Assessment
-Test your knowledge by expanding the questions below.
-Test your knowledge by expanding the questions below.
-
-??? question "What is the core difference between a 'procedural' tool and a     'declarative' tool like Puppet?"
-    A procedural tool executes a sequence of commands to achieve a result (e.g., \"install package X, then start service Y\"). A declarative tool defines the desired end-state (e.g., \"package X must be installed and service Y must be running\"), and the tool automatically determines the necessary steps to reach that state.
-
-??? question "Explain the 'Pull Model' of configuration management used by Puppet."
-    In the pull model, an agent installed on each target node periodically polls the central Puppet Master for its specific configuration catalog. This is opposite to the push model (e.g., Ansible), where the central server pushes configurations to the nodes via SSH.
-
-??? question "What is 'configuration drift' and how does Puppet resolve it?"
-    Configuration drift occurs when a server's actual state deviates from the defined desired state (e.g., a user manually edits a config file). Puppet detects this during its regular check-in and automatically reapplies the correct configuration to bring the server back into compliance.
-
-The power of Puppet lies in **drift detection**. If you accidentally uninstall a plugin or stop the server, running `puppet apply` will immediately detect that the system is not in the "desired state" and will automatically reinstall the dependencies and restart the server, ensuring your environment is always stable.
+Visit the [Local Lab](local-lab.md) for instructions on how to run Puppet locally.

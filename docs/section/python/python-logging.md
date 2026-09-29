@@ -215,11 +215,11 @@ if __name__ == '__main__':
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the difference between logging and monitoring in a distributed system?"
+??? question "What is the difference between logging and monitoring in a distributed system?"
     Logging records a chronological stream of discrete events and errors (the "what happened"), while monitoring aggregates numerical metrics like latency and error rates to track system health (the "how is it performing").
 
-??? note "What is 'structured logging' and why is it preferred for cloud-native applications?"
+??? question "What is 'structured logging' and why is it preferred for cloud-native applications?"
     Structured logging involves emitting logs as machine-readable formats (typically JSON) rather than plain text. This allows log aggregation tools to filter, query, and analyze logs efficiently based on specific fields.
 
-??? note "How do correlation IDs (like `request_id`) facilitate troubleshooting in a microservices architecture?"
+??? question "How do correlation IDs (like `request_id`) facilitate troubleshooting in a microservices architecture?"
     A correlation ID is generated at the entry point of a request and propagated via HTTP headers to all downstream services. By including this ID in every log record, engineers can trace the entire lifecycle of a single request across multiple services.

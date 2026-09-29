@@ -203,14 +203,14 @@ In this case, Python tells the OS to execute the `ls` program and pass the entir
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What happens if a subprocess fills its output pipe buffer and the parent isn't reading?"
+??? question "What happens if a subprocess fills its output pipe buffer and the parent isn't reading?"
  The child process will block (pause) and wait for the OS pipe buffer to be cleared. If the parent is waiting for the child to finish without reading the buffer, the system enters a deadlock.
 
-??? note "When is `subprocess.run()` a better choice than `Popen`?"
+??? question "When is `subprocess.run()` a better choice than `Popen`?"
  When the task is short-lived, and you only need the final result after the command has finished. It is simpler, safer, and less prone to deadlocks.
 
-??? note "Why is passing a list to `subprocess.run` safer than passing a string with `shell=True`?"
+??? question "Why is passing a list to `subprocess.run` safer than passing a string with `shell=True`?"
  Passing a list bypasses the system shell entirely. The arguments are passed directly to the OS exec call, meaning special shell characters (like `;`, `&`, `|`) are treated as literal text rather than command separators.
 
-??? note "What is the difference between `stdout` and `stderr`?"
+??? question "What is the difference between `stdout` and `stderr`?"
  `stdout` is for the successful output of a program, while `stderr` is reserved for error messages and diagnostics. This allows users to redirect errors to a log file while keeping the main output on the screen.

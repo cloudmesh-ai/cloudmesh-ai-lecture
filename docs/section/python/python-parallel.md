@@ -279,11 +279,11 @@ if __name__ == '__main__':
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "Why is multi-threading suitable for I/O-bound tasks but not for CPU-bound tasks in Python?"
+??? question "Why is multi-threading suitable for I/O-bound tasks but not for CPU-bound tasks in Python?"
     Due to the Global Interpreter Lock (GIL), only one thread can execute Python bytecode at a time. I/O tasks frequently yield control while waiting, allowing other threads to run. CPU tasks would compete for the GIL, resulting in no real parallelism.
 
-??? note "What is a \"race condition\" and how does a `Lock` prevent it?"
+??? question "What is a \"race condition\" and how does a `Lock` prevent it?"
     A race condition occurs when multiple threads or processes attempt to modify shared data simultaneously, leading to unpredictable results. A `Lock` ensures that only one thread or process can access the critical section of code at a time.
 
-??? note "How do `multiprocessing.Value` and `multiprocessing.Array` enable communication between independent processes?"
+??? question "How do `multiprocessing.Value` and `multiprocessing.Array` enable communication between independent processes?"
     They allocate memory in a shared segment accessible to all child processes, providing a way to share state using `ctypes` types without the overhead of passing messages through pipes or queues.

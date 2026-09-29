@@ -610,14 +610,14 @@ Understanding what a `LibcloudError` actually means in the underlying cloud is k
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary advantage of using Libcloud over a provider-specific SDK?"
+??? question "What is the primary advantage of using Libcloud over a provider-specific SDK?"
     The primary advantage is portability. Libcloud provides a unified API, allowing you to write infrastructure code once and run it across different cloud providers by simply changing the driver, which prevents vendor lock-in.
 
-??? note "How does the Mock driver improve the development lifecycle?"
+??? question "How does the Mock driver improve the development lifecycle?"
     The Mock driver allows developers to simulate cloud operations in memory. This enables testing of orchestration logic, API call sequences, and error handling without needing an active cloud account or incurring costs.
 
-??? note "Why is idempotency critical in cloud automation scripts?"
+??? question "Why is idempotency critical in cloud automation scripts?"
     Idempotency ensures that running a script multiple times does not create redundant resources (like duplicate VMs). This is achieved by checking for the existence of a resource (e.g., via `ex_keypair_get`) before attempting to create it.
 
-??? note "What is the benefit of using a DAG-like approach to resource provisioning?"
+??? question "What is the benefit of using a DAG-like approach to resource provisioning?"
     A DAG approach allows for the management of complex dependencies (e.g., ensuring a network exists before a VM is created) and enables the parallel execution of independent tasks, significantly reducing total deployment time.

@@ -338,11 +338,11 @@ openstack server list
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary purpose of DevStack?"
+??? question "What is the primary purpose of DevStack?"
     DevStack is used for development and testing of OpenStack services, providing an automated way to deploy a complete cloud environment from source on a single machine.
 
-??? note "What is the laocal.conf file and why is it important?"
+??? question "What is the laocal.conf file and why is it important?"
     The `local.conf` file is the primary configuration point for DevStack; it allows users to define passwords, host IPs, and which services should be enabled or disabled.
 
-??? note "What is the difference between `unstack.sh` and `clean.sh`?"
+??? question "What is the difference between `unstack.sh` and `clean.sh`?"
     S_unstack.sh_ stops the OpenStack services but keeps the configuration and databases, while _clean.sh_ removes all services, databases, and configuration files to return the host to a pristine state.

@@ -11,6 +11,11 @@
 
 KEDA (Kubernetes Event-driven Autoscaling) is a lightweight component that enables Kubernetes applications to scale based on the volume of events or requests from external systems. It extends the native Horizontal Pod Autoscaler (HPA) by allowing scaling based on metrics other than CPU or memory.
 
+!!! info "Why this matters"
+    CPU and memory are "lagging" indicators. By the time a GPU-heavy AI model causes CPU stress, the request queue may already be backed up, leading to high latency. Scaling based on Requests Per Second (RPS) allows the cluster to be "proactive"—adding capacity the moment traffic spikes, *before* the existing pods become overwhelmed.
+
+## KEDA Core Concepts
+
 ## KEDA Core Concepts
 
 KEDA allows applications to scale based on the exact volume of events coming from external systems.
@@ -235,11 +240,11 @@ KEDA provides support for various event triggers.
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary difference between KEDA and the standard Kubernetes HPA?"
+??? question "What is the primary difference between KEDA and the standard Kubernetes HPA?"
     Standard HPA typically scales based on resource metrics like CPU and memory, while KEDA allows scaling based on external event sources such as message queues or Prometheus queries.
 
-??? note "What is the purpose of the `cooldownPeriod` in a `ScaledObject`?"
+??? question "What is the purpose of the `cooldownPeriod` in a `ScaledObject`?"
     The `cooldownPeriod` defines the number of seconds KEDA waits after the last scale-up event before it begins scaling down, preventing "flapping" (rapidly scaling up and down).
 
-??? note "How does KEDA achieve 'Scale to Zero'?"
+??? question "How does KEDA achieve 'Scale to Zero'?"
     KEDA monitors the event source directly; when no events are detected, it scales the deployment to 0. When a new event arrives, KEDA triggers the creation of the first pod, which is then managed by the HPA.

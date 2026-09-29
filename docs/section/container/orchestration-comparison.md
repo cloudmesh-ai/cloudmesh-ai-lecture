@@ -113,6 +113,9 @@ Choosing an orchestrator is a balance between **Operational Effort** and **Requi
 4. **Do you have a large team of developers who aren't Kubernetes experts but need a "Push-to-Deploy" experience?**
    - $\rightarrow$ **Choose OpenShift**. The S2I and Developer Console drastically reduce the friction of onboarding.
 
+!!! info "Automating the Transition"
+    Regardless of the orchestrator you choose, the goal is to remove manual intervention. To learn how to bridge the gap between your container images and these orchestration platforms using automated pipelines, see **[Bridging Containers and CI/CD](containers-in-pipeline.md)**.
+
 ### Summary Matrix
 
 | If you value... | Use... | Why? |

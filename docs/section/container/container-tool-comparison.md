@@ -38,6 +38,8 @@ At the base of the stack is the container runtime. While Docker popularized cont
 | **Compatibility** | The industry standard | OCI compliant (Docker CLI) | Can convert Docker images to SIF |
 | **Container Pods** | No (needs Compose) | Native Support | Not primary focus |
 | **Use Case** | General purpose, CI/CD | Rootless dev, K8s-native | HPC, Research, Supercomputers |
+| **AI/GPU Support** | Excellent (NVIDIA Container Toolkit) | Good (via NVIDIA Toolkit) | Superior (Optimized for GPU clusters) |
+| **Image Format** | Multi-layered OCI | Multi-layered OCI | Single-file immutable SIF |
 
 ## 3. Orchestration: Kubernetes vs. The Alternatives
 

@@ -8,7 +8,12 @@
 
 ## Overview
 
-The Horizontal Pod Autoscaler (HPA) automatically adjusts the number of pod replicas in a deployment to maintain a target resource utilization level. While Kubernetes can scale based on custom metrics using tools like Prometheus or KEDA, the standard approach is scaling based on CPU utilization. As request volume increases, CPU usage rises, triggering the HPA to instantiate additional pods.
+The Horizontal Pod Autoscaler (HPA) automatically adjusts the number of pod replicas in a deployment to maintain a target resource utilization level. 
+
+!!! info "Why this matters"
+    In AI workloads, GPU resources are extremely expensive. Over-provisioning (keeping 10 GPU pods running when only 2 are needed) wastes significant budget. Conversely, under-provisioning during a traffic spike leads to request timeouts and model crashes. HPA allows the cluster to be "elastic," scaling capacity up for peak demand and down to save costs during idle periods.
+
+While Kubernetes can scale based on custom metrics using tools like Prometheus or KEDA, the standard approach is scaling based on CPU utilization. As request volume increases, CPU usage rises, triggering the HPA to instantiate additional pods.
 
 ## Implementation Steps
 
@@ -168,11 +173,11 @@ The Prometheus Adapter bridges Prometheus and the Kubernetes Custom Metrics API 
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "Why are resource requests mandatory for CPU-based HPA?"
+??? question "Why are resource requests mandatory for CPU-based HPA?"
     HPA calculates utilization as a percentage of the requested resources. Without a defined request, the HPA cannot determine the current utilization percentage.
 
-??? note "What is the primary difference between Standard HPA and KEDA scaling?"
+??? question "What is the primary difference between Standard HPA and KEDA scaling?"
     Standard HPA is primarily reactive and relies on internal resource metrics (CPU/Memory), while KEDA is proactive and can scale based on external event sources and custom metrics, including scaling to zero.
 
-??? note "In what scenario is RPS scaling preferred over CPU scaling?"
+??? question "In what scenario is RPS scaling preferred over CPU scaling?"
     RPS scaling is preferred for I/O-bound services where traffic spikes may cause latency increases before CPU usage significantly rises.

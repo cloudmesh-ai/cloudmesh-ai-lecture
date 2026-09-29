@@ -400,7 +400,57 @@ jobs:
 ---
 
 
-## Appendix
+## 12. AI Model Deployment: Example `values.yaml`
+
+When deploying an AI model (e.g., a vLLM or TGI instance), your `values.yaml` needs to handle GPU resources and large model weights.
+
+```yaml
+# values-ai-model.yaml
+replicaCount: 1
+
+image:
+  repository: vllm/vllm-openai
+  tag: "v0.4.0"
+  pullPolicy: IfNotPresent
+
+# GPU Resource Allocation
+resources:
+  limits:
+    nvidia.com/gpu: 1
+    memory: "40Gi"
+    cpu: "8"
+  requests:
+    nvidia.com/gpu: 1
+    memory: "20Gi"
+    cpu: "4"
+
+# Model Configuration
+model:
+  name: "meta-llama/Meta-Llama-3-8B"
+  tokenizer: "meta-llama/Meta-Llama-3-8B"
+  tensorParallelSize: 1
+  maxModelLen: 4096
+
+# Persistent Storage for Weights
+persistence:
+  enabled: true
+  storageClass: "premium-rwo"
+  size: 100Gi
+  mountPath: /models
+
+# Networking
+service:
+  type: LoadBalancer
+  port: 8000
+```
+
+---
+
+## What's Next?
+
+You have now mastered the art of packaging and deploying containers, from the local Docker/Podman level up to enterprise-scale Kubernetes and OpenShift clusters. 
+
+To tie everything together, head over to **Bridging Containers and CI/CD** to learn how to automate this entire flow into a production-ready pipeline.
 
 !!! note "Hands-on Challenges"
     1. **Chart Exploration**: Find a popular public chart on Artifact Hub (e.g., Redis or PostgreSQL) and install it in your local cluster.

@@ -3,7 +3,6 @@
 Below is a plain‑text guide for creating a Kubernetes cluster that runs locally on a single machine.  
 It covers the most common single‑node tools, the prerequisite software, and the exact commands you can copy‑paste. No emojis or special symbols are used.
 
-
 !!! info "Learning Objectives"
     By the end of this guide, you will be able to:
     1. **Evaluate** and choose a local Kubernetes distribution (kind, minikube, k3d, or MicroK8s) based on your OS and resources.
@@ -16,10 +15,7 @@ It covers the most common single‑node tools, the prerequisite software, and th
 !!! note "Next Steps"
     Now that you have a local cluster, learn how to scale AI workloads in production $\rightarrow$ [kubernetes.md](./kubernetes.md).
 
-
 ---
-
-
 
 ![Kubernetes on your Local Computer](images/kubernetes-local-chatgpt.png)
 
@@ -27,16 +23,12 @@ It covers the most common single‑node tools, the prerequisite software, and th
 
 Setting up Kubernetes locally can be done using several different tools. The right choice depends on your operating system, available RAM, and whether you need a simple single-node cluster or a more complex multi-node simulation for testing.
 
-
-
-
 | Tool | How it works | Main advantages | When to use it |
 |------|--------------|---------|--------|
 | **kind** (Kubernetes IN Docker) | Starts one or more Docker containers that host the control‑plane and worker nodes. | Very fast to start/stop; can simulate multi‑node clusters; works wherever Docker runs. | CI pipelines, quick local development, testing multi‑node configurations. |
 | **minikube** | Runs a single VM (via Docker, VirtualBox, KVM2, HyperKit, etc.) that contains a full Kubernetes node. | Supports many drivers; full feature set; easy to enable addons. | General development when you want a "real" VM node. |
 | **k3d** (k3s in Docker) | Runs a lightweight k3s distribution inside Docker containers. | Small memory/CPU footprint; fast startup; still CNCF‑conformant. | Low‑resource laptops, ARM machines, edge‑style demos. |
 | **MicroK8s** (snap package) | Installs a native Kubernetes binary on the host OS (no VM). | All‑in‑one installation; easy to enable/disable addons. | Ubuntu or WSL2 users who prefer a native install. |
-
 
 ### Understanding the Local Control Plane
 It is important to understand that tools like `kind` and `k3d` use a concept called **Containers-as-Nodes**. Unlike a traditional Kubernetes cluster where each node is a physical or virtual machine, `kind` starts a Docker container and runs the Kubernetes components (Kubelet, Kube-proxy, etc.) *inside* that container. 
@@ -51,14 +43,11 @@ Pick the tool that best matches the software already installed on your computer 
 
 Before installing any of the local Kubernetes distributions, you must ensure that your system has the necessary container runtime and command-line tools installed. Without these, the cluster tools will fail to provision the underlying nodes.
 
-
-
-
 | Operating System | Packages you need | Installation command |
 |-----------|-----------|--------------|
 | Ubuntu / Debian | `docker.io` (or Docker CE), `curl`, `git` | `sudo apt update && sudo apt install -y docker.io curl git` |
 | macOS | Docker Desktop (or Docker CLI via Homebrew), `kubectl` | `brew install kubectl` (Docker Desktop already provides `docker`) |
-| Windows 10/11 | Docker Desktop **or** WSL2 + Docker Engine, PowerShell, `kubectl` | Install Docker Desktop → it includes `kubectl`. Or `winget install Kubernetes.kubectl` for a separate install. |
+| Windows 10/11 | Docker Desktop **or** WSL2 + Docker Engine, PowerShell, `kubectl` | Install Docker Desktop $\rightarrow$ it includes `kubectl`. Or `winget install Kubernetes.kubectl` for a separate install. |
 | All platforms | Optional but useful: `helm` (Kubernetes package manager) | `curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash` |
 
 After installing Docker, verify it works:
@@ -75,12 +64,7 @@ If you see the "Hello from Docker!" message, Docker is ready.
 
 To get your cluster up and running quickly, use the following commands. We have provided the most direct installation paths for each tool; simply copy and paste the block that matches your chosen distribution.
 
-
-
-
-Below are the exact commands you can run in a terminal. Choose the block that matches the tool you want to use.
-
-### 31. Kind (Docker‑based)
+### 3.1 Kind (Docker‑based)
 
 ```bash
 # Install kind (latest release)
@@ -110,7 +94,7 @@ EOF
 kind create cluster --name multi-node --config kind-config.yaml
 ```
 
-### 32. Minikube (VM‑based)
+### 3.2 Minikube (VM‑based)
 
 ```bash
 # Install minikube (latest release)
@@ -133,7 +117,7 @@ minikube addons enable ingress
 minikube addons enable metrics-server
 ```
 
-### 33. k3d (k3s in Docker)
+### 3.3 k3d (k3s in Docker)
 
 ```bash
 # Install k3d
@@ -153,7 +137,7 @@ kubectl get nodes
 k3d cluster create multi-k3d --servers 1 --agents 2
 ```
 
-### 34. MicroK8s (Snap on Ubuntu)
+### 3.4 MicroK8s (Snap on Ubuntu)
 
 ```bash
 # Install MicroK8s
@@ -181,37 +165,37 @@ alias kubectl='microk8s kubectl'
 
 ## 4. Quick "Hello‑World" Test
 
-The following manifest deploys a simple Nginx server and exposes it via a NodePort. It works with any of the clusters created above.
+The following manifest deploys a simple AI-powered API (Flask) and exposes it via a NodePort. It works with any of the clusters created above.
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-nginx
+  name: ai-hello-world
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: hello-nginx
+      app: ai-hello-world
   template:
     metadata:
       labels:
-        app: hello-nginx
+        app: ai-hello-world
     spec:
       containers:
-      - name: nginx
-        image: nginx:stable-alpine
+      - name: flask-api
+        image: cloudmesh/flask-ai-demo:latest
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-nginx
+  name: ai-hello-world
 spec:
   type: NodePort
   selector:
-    app: hello-nginx
+    app: ai-hello-world
   ports:
   - port: 80
     targetPort: 80
@@ -221,11 +205,11 @@ spec:
 Apply it:
 
 ```bash
-kubectl apply -f nginx.yaml
-kubectl get pods,svc hello-nginx
+kubectl apply -f ai-hello-world.yaml
+kubectl get pods,svc ai-hello-world
 ```
 
-Open a browser and navigate to `http://localhost:30007`. You should see the default Nginx welcome page.
+Open a browser and navigate to `http://localhost:30007`. You should see the AI API welcome page.
 
 ---
 
@@ -245,9 +229,6 @@ Open a browser and navigate to `http://localhost:30007`. You should see the defa
 ## 6. Optional: Install Helm and Deploy a Chart
 
 While kubectl is sufficient for basic resources, Helm is the industry standard for managing complex applications. It allows you to define, install, and upgrade 'Charts' (packages) with a single command.
-
-
-
 
 Helm simplifies installing complex applications.
 
@@ -274,9 +255,6 @@ Point your browser to `http://localhost:<shown-port>` to see the WordPress insta
 
 To help you work more efficiently, here is a curated list of the most frequently used commands for both the Kubernetes CLI (kubectl) and the various cluster tools.
 
-
-
-
 ```
 kubectl get all --all-namespaces       # show everything
 kubectl describe pod <pod-name>        # detailed pod info
@@ -299,6 +277,7 @@ docker logs <container-id>             # view node logs for kind/k3d
 
 If you are in a hurry and already have Docker installed, the combination of Docker and `kind` is the fastest way to get a functional cluster. Use the following sequence to go from zero to 'Ready'.
 
+---
 
 ## 9. Alternative Runtime: Podman
 
@@ -310,16 +289,6 @@ Podman provides several key advantages over the traditional Docker architecture:
 2. **Rootless by Default**: Podman is designed to run containers without root privileges, significantly improving the security posture of your local machine.
 3. **OCI Compliant**: Podman follows the Open Container Initiative (OCI) standards, meaning it can run the same images as Docker and use the same `Dockerfile` syntax.
 4. **Seamless Integration**: For most users, Podman is a drop-in replacement; you can often simply `alias docker=podman` and continue using your existing workflows.
-
-If you wish to use Podman with `kind` or `k3d`, ensure you have Podman installed and the `podman.socket` enabled.
-
----
-
-## 9. Alternative Runtime: Podman
-
-While Docker is the most common runtime for local clusters, **Podman** (Pod Manager) is a powerful, daemonless alternative that is increasingly popular in enterprise and security-focused environments.
-
-### Motivation for using Podman
 
 #### Deep Dive: The "Rootless" Concept
 Podman's primary advantage is that it is **daemonless** and **rootless**. In Docker, the daemon runs as root, meaning any process that escapes the container might have root access to your host. Podman uses "User Namespaces" to map the root user inside the container to a non-privileged user on the host.
@@ -327,27 +296,10 @@ Podman's primary advantage is that it is **daemonless** and **rootless**. In Doc
 To use Podman with `kind`, the `podman.socket` must be active because `kind` needs a way to tell Podman to create and manage the node containers. You can enable it with:
 `systemctl --user enable --now podman.socket`
 
-Podman provides several key advantages over the traditional Docker architecture:
-1. **Daemonless Architecture**: Unlike Docker, Podman does not require a background daemon (`dockerd`) to run containers. This eliminates a single point of failure and reduces system overhead.
-
-## Troubleshooting Common Local Issues
-
-Setting up Kubernetes locally often comes with a few common hurdles. Here are the most frequent pitfalls and how to solve them:
-
-*   **Wrong Context**: If you have multiple clusters (e.g., one from Minikube and one from Kind), `kubectl` might be talking to the wrong one. 
-    *   *Check*: `kubectl config current-context`
-    *   *Fix*: `kubectl config use-context kind-kind`
-*   **Resource Starvation**: Local clusters can be memory-hungry. If your nodes are in `NotReady` state, check if your Docker Desktop / VM has enough RAM allocated (at least 4GB is recommended).
-*   **Port Conflicts**: If you use `NodePort` and the port is already taken by another app on your laptop, the service will fail to connect. Try a different port in the range 30000-32767.
-*   **Rootless Podman Permissions**: If you use Podman in rootless mode, you might encounter permission errors when mounting volumes. Ensure the `:Z` flag is used in volume mounts to handle SELinux relabeling.
-
-2. **Rootless by Default**: Podman is designed to run containers without root privileges, significantly improving the security posture of your local machine.
-3. **OCI Compliant**: Podman follows the Open Container Initiative (OCI) standards, meaning it can run the same images as Docker and use the same `Dockerfile` syntax.
-4. **Seamless Integration**: For most users, Podman is a drop-in replacement; you can often simply `alias docker=podman` and continue using your existing workflows.
-
 If you wish to use Podman with `kind` or `k3d`, ensure you have Podman installed and the `podman.socket` enabled.
 
 ---
+
 ## Appendix
 
 ### Tool Comparison: Podman vs. Docker
@@ -361,18 +313,13 @@ If you wish to use Podman with `kind` or `k3d`, ensure you have Podman installed
 | **Ecosystem** | Vast, industry standard | Growing, compatible with Docker |
 | **Startup Speed** | Fast | Very Fast (no daemon to wait for) |
 
-
-
 ### Assignments
-
-
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-    Test your knowledge by expanding the questions below.
 
 ??? question "Compare `kind` and `minikube` in terms of how they host the Kubernetes nodes."
-    `kind` (Kubernetes IN Docker) runs Kubernetes nodes as Docker containers on the host. `minikube` typically runs a single node inside a virtual machine (using drivers like VirtualBox or KVM), though it also supports a Docker driver.
+    `kind` (Kubernetes IN Docker) runs Kubernetes nodes as Docker containers on the host. `minikube` typically runs a single node inside a virtual machine (using drivers like VirtualBox, KVM, or HyperKit), though it also supports a Docker driver.
 
 ??? question "Which local Kubernetes tool is best suited for low-resource environments or ARM machines?"
     `k3d` (k3s in Docker) is generally the best choice for low-resource environments because it runs k3s, a lightweight, certified Kubernetes distribution, inside Docker containers.
@@ -396,12 +343,12 @@ Test your knowledge by expanding the questions below.
 !!! tip "Solution with kind"
     ```
     # Install kind
-    url -Lo ./kind https://kind.sigs.k8s.io/download/v0.23.0/kind-$(uname -s)-$(uname -m) && \
+    curl -Lo ./kind https://kind.sigs.k8s.io/download/v0.23.0/kind-$(uname -s)-$(uname -m) && \
     chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind
     
     # Create a single‑node cluster
     kind create cluster --name local-kind
-
+    
     # Verify
     kubectl cluster-info && kubectl get nodes
     ```

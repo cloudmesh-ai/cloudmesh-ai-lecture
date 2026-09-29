@@ -146,11 +146,11 @@ RHOAI integrates with **KServe** and **vLLM**, allowing users to deploy large la
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "If I am already familiar with `kubectl`, do I need to learn a new tool for OpenShift?"
+??? question "If I am already familiar with `kubectl`, do I need to learn a new tool for OpenShift?"
     No. The `oc` CLI is a superset of `kubectl`. Almost every `kubectl` command works exactly the same way when typed as `oc`.
 
-??? note "What is the primary advantage of an ImageStream over a standard Docker image reference?"
+??? question "What is the primary advantage of an ImageStream over a standard Docker image reference?"
     ImageStreams allow for "triggers." When a new image is pushed to a stream, OpenShift can automatically trigger a new build or a redeployment of the application, enabling a true GitOps workflow.
 
-??? note "Why would an AI researcher prefer 'Projects' over standard Kubernetes 'Namespaces'?"
+??? question "Why would an AI researcher prefer 'Projects' over standard Kubernetes 'Namespaces'?"
     While a Project is technically a Namespace, it adds a layer of administrative metadata, including integrated quotas, user access control, and a simplified view in the Web Console, making it easier to manage multi-tenant research environments.

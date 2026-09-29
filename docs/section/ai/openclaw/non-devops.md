@@ -152,11 +152,11 @@ openclaw invoke pdf-summarizer --input_path papers/transformer.pdf
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the pedagogical value of building non-DevOps OpenClaw projects?"
+??? question "What is the pedagogical value of building non-DevOps OpenClaw projects?"
     It allows students to practice the integration of heterogeneous command-line utilities under a unified AI-driven interface, while learning the critical importance of input validation and sandboxing in AI-mediated automation.
 
-??? note "How does a 'dry-run' mode in an OpenClaw claw protect the user?"
+??? question "How does a 'dry-run' mode in an OpenClaw claw protect the user?"
     A 'dry-run' mode prints the synthesized CLI command to the terminal without executing it, allowing the user to verify the arguments and flags before any changes are made to the system or data.
 
-??? note "How does OpenClaw facilitate research reproducibility in scientific automation?"
+??? question "How does OpenClaw facilitate research reproducibility in scientific automation?"
     By using declarative YAML templates and containerized execution, OpenClaw ensures that the exact sequence of CLI calls and the environment they run in are documented and reproducible across different research sites.

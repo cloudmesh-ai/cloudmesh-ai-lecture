@@ -5,15 +5,15 @@
 
 Here are 10 demo‑project ideas that blend **REST services**, **cloud computing**, **DevOps**, and **AI**. Each one is scoped so students can build a working end‑to‑end prototype in a single lab session (≈30 min) and then extend it for deeper exploration.
 
-!!! warning
-    🔴 4. not recommended. MongoDB had some issues in the past due to licensing. Maybe instead use Openstack, AWS, Azure, Object store.  4. needs to be modified. At one point MongoDB wanted to make money and broke their deployment stack to do so. I spend time to get around this, but why make your life complicated. FerretDB may be an alternative, but we can just avoid MongoDB alltogether. I will update 4. at one point.
+!!! info "Note on Database Choice for Project 4"
+    For Project 4, we recommend using a document-oriented store such as **FerretDB**, **AWS DynamoDB**, or **Azure CosmosDB**. Avoid older MongoDB installations that may have restrictive licensing or deployment complexities.
 
 | # | Project idea | Core AI task | Cloud/DevOps focus |
 |---|--------------|--------------|--------------------|
 | 1 | **Document‑summarizer API** | Text summarisation with a Hugging Face `pegasus` model | Deploy to a serverless function (AWS Lambda / Azure Functions) → API Gateway, versioned CI/CD, cost‑monitoring |
 | 2 | **Image‑tagger microservice** | Multi‑label image classification (e.g., MobileNet) | Containerise, push to a private registry, roll out on a K8s cluster with a Horizontal‑Pod‑Autoscaler |
 | 3 | **Real‑time language‑translation gateway** | Translate English↔Spanish using MarianMT | Blue‑green deployment with Helm, traffic split via an ingress controller, observability with OpenTelemetry |
-| 🔴 4 | **SQL‑to‑NoSQL migration assistant** | Parse SQL DDL and suggest equivalent MongoDB schema (NLP + rule‑based) | IaC (Terraform) to provision the DB services, GitOps‑style rollout with Argo CD |
+| 🔴 4 | **SQL‑to‑Document migration assistant** | Parse SQL DDL and suggest equivalent JSON/Document schemas (NLP + rule‑based) for stores like DynamoDB or CosmosDB | IaC (Terraform) to provision the DB services, GitOps‑style rollout with Argo CD |
 | 5 | **Chat‑bot "FAQ" endpoint** | Retrieval‑augmented generation (RAG) on a static knowledge‑base | Deploy to a managed Kubernetes service (EKS/AKS/GKE), integrate Secrets Manager for API keys, log queries with Loki |
 | 6 | **Anomaly‑detector for IoT telemetry** | One‑class Isolation Forest on streaming sensor data (CSV payload) | Use Kafka → KNative → REST, demonstrate canary releases and automated rollback on error‑rate thresholds |
 | 7 | **Voice‑to‑text transcription service** | Whisper‑tiny model (audio → text) | GPU‑enabled node pool, show resource‑request tuning, expose Prometheus metrics for inference latency |
@@ -38,28 +38,27 @@ These ideas give a ready‑made menu of projects that are **different enough** b
 
 ## Semester Long Project ideas
 
-A **semester long** project is ideal for a focused, highly scoped technical project. It allows for 1 week of research/setup, 4 weeks of core implementation, and 1 week of testing, documentation, and final write-up and 1 week of refining the project. The midterm deliverable is an extensive project report justifying the cloud resources and haveing finished a detailed implementation plan.
+A **semester long** project is ideal for a focused, highly scoped technical project. It allows for 1 week of research/setup, 4 weeks of core implementation, 1 week of testing and documentation, and 1 week of refinement. The midterm deliverable is an extensive project report justifying the cloud resources and including a detailed implementation plan.
 
-All projects need to have:
+All projects must include:
 
-* All projects must demnstarte dockerization (this can be as easy as installing it in a container. Some projects may need multiple containers)
-* README.md
-* TUTORIAL.md
-* Final report.
+* **Dockerization**: The project must be containerized (this can be as simple as a single container; some projects may require multiple containers).
+* **README.md**: A comprehensive guide on how to run the project.
+* **TUTORIAL.md**: A step-by-step guide for users to interact with the tool.
+* **Final Report**: A technical summary of the design and implementation.
 
 The following project suggestions are tailored for a cloud, automation, and AI-focused course context:
 
 !!! tip "The cmc command trick"
-    Gregor will help you with the setup of the cmc command interface so you can essentially plug in your functions. This will safe you a lot of work.
-    cmc contains a command generator.\, but if it does not work, get Gregors help
+    Gregor will help you with the setup of the `cmc` command interface so you can essentially plug in your functions. This will save you a lot of work.
+    `cmc` contains a command generator. If it does not work, please ask for help.
 
-    ```
+    Example usage:
+    ```bash
     mkdir vm
-    cd cm
+    cd vm
     cmc command generate vm .
     ```
-
-    is an example 
 
 ### Overview Table
 
@@ -78,7 +77,7 @@ The following project suggestions are tailored for a cloud, automation, and AI-f
 | 8 | **Kubernetes Edge Cluster Deployment Automation** | Ansible playbook or Python script that bootstraps K3s across local VMs/servers; includes a `cloudmesh‑ai‑cmc` CLI for cluster management. | CLI design, K3s install automation, health‑check scripts, multi‑node validation, user guide |
 | 9 | **Multi‑Cloud Secret Management Utility** | Unified CLI to encrypt, store, rotate, and sync secrets/API keys across local storage and cloud parameter stores (AWS SSM, Azure Key Vault, etc.). | AES/Fernet encryption, `cmc sec` commands (init, set, get, list, sync, rotate), cloud‑key‑vault integration |
 | 10 | **Automated Documentation & Architecture Diagram Generator** | Tool that parses a GitHub repo (Dockerfiles, compose files, requirements) and automatically produces an architectural summary and dependency graph (e.g., Mermaid.js). | Repo traversal, dependency parsing, graph generation, integration tests, package release |
-| 11 | **Code Optimization** | Define an Agentic AI that has as input a scientific code, identifies its cernals and provides improved implementations based on GPU optimizations. Create a benchmark automatically and let it improve. | Design, implementation, deployment, testing, refinement, GitHub workflow, documentation. |
+| 11 | **AI Guided Code Optimization** | Define an Agentic AI that identifies compute kernels in scientific code and provides improved implementations based on GPU optimizations. | Design, implementation, deployment, testing, refinement, GitHub workflow, documentation. |
 | 12 | **Define Your Own** | Student‑chosen project that must involve cloud resources (VM/Container/DB), Dockerization, and AI integration, following the same DevOps workflow. | Design, implementation, deployment, testing, refinement, GitHub workflow, documentation |
 
 *All projects must demonstrate use of clouds, Dockerization, and AI, and follow a GitHub‑based DevOps workflow as outlined in the original brief.*

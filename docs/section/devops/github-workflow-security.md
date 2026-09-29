@@ -153,6 +153,14 @@ Test your knowledge by expanding the questions below.
 ??? question "How does OIDC improve the security of provisioning cloud VMs?"
     **OpenID Connect (OIDC)** eliminates the need to store long-lived, static cloud credentials (like `AWS_ACCESS_KEY_ID`) in GitHub Secrets. Instead, it allows GitHub Actions to authenticate directly with the cloud provider using a short-lived, dynamically generated token, significantly reducing the risk of credential theft.
 
+---
+
+## Summary
+
+You have now completed the DevOps section! You've moved from the core philosophy of DevOps to implementing a full, secure, and observable pipeline.
+
+To review the entire journey or dive back into a specific topic, return to the **[Master Index: Introduction to DevOps](devops.md)**.
+
 ## Assignments
 
 !!! note "Assignment: The Security Audit"

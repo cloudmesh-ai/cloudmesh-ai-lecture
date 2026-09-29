@@ -1,18 +1,63 @@
 # Automating Infrastructure with Ansible
 
 !!! info "Learning Objectives"
- - Define Ansible and its role in the DevOps ecosystem.
- - Install and configure Ansible for remote server management.
- - Create and execute Ansible Playbooks using YAML syntax.
- - Understand key Ansible concepts: Modules, Tasks, Handlers, and Inventories.
- - Implement an automated deployment of a service (e.g., Apache or MariaDB).
+    - Compare the roles of Ansible, Docker, and Kubernetes in a modern DevOps stack.
+    - Identify specific scenarios where Ansible is essential even in containerized environments.
+    - Understand the concept of "bootstrapping" infrastructure.
+    - Determine when to use a managed cloud service versus self-managed infrastructure.
+    - Define Ansible and its role in the DevOps ecosystem.
+    - Install and configure Ansible for remote server management.
+    - Create and execute Ansible Playbooks using YAML syntax.
+    - Understand key Ansible concepts: Modules, Tasks, Handlers, and Inventories.
+    - Implement an automated deployment of a service (e.g., Apache or MariaDB).
+
+## Ansible in the Age of Kubernetes and Docker
+
+A common question for developers moving to the cloud is: *"If I'm using Docker and Kubernetes, do I still need a configuration management tool like Ansible?"*
+
+The answer depends on which layer of your infrastructure you are managing. While these tools are often discussed together, they solve fundamentally different problems and are complementary rather than interchangeable.
+
+### The DevOps Trinity
+
+To understand why you might need all three, consider their primary roles:
+
+| Tool | Primary Role | Analogy |
+| :--- | :--- | :--- |
+| **Docker** | **Packaging**: Wraps an application and its dependencies into a portable container. | The "shipping container" that holds the goods. |
+| **Kubernetes** | **Orchestration**: Manages the deployment, scaling, and networking of those containers across a cluster. | The "crane and ship captain" managing the containers. |
+| **Ansible** | **Provisioning**: Sets up the underlying servers, OS, and network settings that allow Kubernetes to run. | The "dockyard" building the pier and installing the electricity. |
+
+!!! info "Why this matters"
+    Containers abstract the application from the OS, but they do not abstract the *hardware or the VM* from the cloud provider. Someone still has to install the OS, configure the firewall, set up the container runtime (like containerd), and join the node to the Kubernetes cluster. This "bootstrapping" phase is where Ansible excels.
+
+### When Ansible is Essential
+
+Even in a "Kubernetes-first" world, Ansible is critical for the following tasks:
+
+- **Provisioning and Bootstrapping Nodes**: Setting up raw virtual machines on AWS, GCP, or Azure. This includes installing OS dependencies, security hardening, and preparing the machine to join a K8s cluster.
+- **Managing Non-Containerized Infrastructure**: Not everything can be a container. You still need to configure physical load balancers, external database clusters, storage arrays, or corporate monitoring agents that must run directly on the host OS.
+- **Day-2 Infrastructure Operations**: Automating critical OS-level tasks such as kernel updates, disk partitioning, or managing SSH access and user accounts across your cluster nodes.
+- **Cluster Bootstrapping (GitOps)**: Using tools like **Kubespray** (which is built on Ansible) to provision the Kubernetes cluster itself from scratch.
+
+### When You Can Skip Ansible
+
+You may find that you don't need Ansible if your environment fits these criteria:
+
+1.  **Fully Managed Kubernetes**: If you use AWS EKS, Google GKE, or Azure AKS, the cloud provider manages the underlying worker nodes for you. You interact with the API, and the provider handles the OS and runtime.
+2.  **Pure Immutable Infrastructure**: If you use Terraform to create "Golden Images" (via Packer) that already have everything installed, and you replace the entire VM whenever a change is needed rather than updating it in place.
+3.  **Pure GitOps**: If you use ArgoCD or Flux to manage everything *inside* the cluster, and your cluster was provisioned via a managed service.
+
+---
 
 Managing dozens or hundreds of servers manually via SSH is inefficient and error-prone. When a system administrator has to run the same sequence of commands on fifty different machines, the risk of a typo or a missed step increases exponentially. Ansible provides a way to automate these tasks in a scalable, consistent, and reliable manner.
 
 Ansible is an open-source IT automation engine that allows you to manage and configure compute resources. Unlike many other automation tools, Ansible is "agentless," meaning you do not need to install any special software on the target nodes; it communicates over standard SSH.
 
 !!! info "Why this matters"
- In a DevOps pipeline, "Infrastructure as Code" (IaC) is a requirement. Ansible allows you to treat your server configurations as code, which can be version-controlled in Git, reviewed by peers, and tested in staging before being applied to production. This eliminates "configuration drift" and ensures that every server in a cluster is configured identically.
+    In a DevOps pipeline, "Infrastructure as Code" (IaC) is a requirement. Ansible allows you to treat your server configurations as code, which can be version-controlled in Git, reviewed by peers, and tested in staging before being applied to production. This eliminates "configuration drift" and ensures that every server in a cluster is configured identically.
+
+!!! tip "AI Insight"
+    AI can significantly accelerate the creation of Ansible Playbooks and Roles by generating YAML tasks based on a list of requirements. When using AI for configuration, ensure you validate the modules being suggested, as LLMs may occasionally suggest deprecated modules. See [[ai-devops]] for more.
 
 ## Core Capabilities of Ansible
 
@@ -22,6 +67,216 @@ Ansible is versatile and can be used across the entire software delivery lifecyc
 - **Configuration Management**: Changing the state of the OS, installing packages, managing users, and implementing security policies.
 - **Service Management**: Starting, stopping, or restarting services and managing system updates.
 - **Application Deployment**: Automating the rollout of application code in a way that integrates with CI/CD strategies.
+
+## Detailed Use Case: Automating a Web Stack
+
+To see Ansible in action, let's look at a real-world scenario: deploying a secure web server with a custom configuration and a firewall.
+
+### The Playbook: `webserver.yml`
+
+```yaml
+---
+- hosts: webservers
+  become: yes
+  vars:
+    http_port: 80
+    app_user: www-data
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+
+    - name: Install Nginx and basic tools
+      apt:
+        name: 
+          - nginx
+          - curl
+          - ufw
+        state: present
+
+    - name: Configure Nginx custom index page
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+        owner: {{ app_user }}
+        group: {{ app_user }}
+        mode: '0644'
+      notify: restart nginx
+
+    - name: Setup basic firewall (Allow SSH and HTTP)
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - 22
+        - "{{ http_port }}"
+
+    - name: Enable UFW firewall
+      ufw:
+        state: enabled
+        policy: deny
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+```
+
+### Typical Usage Reference
+
+| Task | Ansible Module | Key Attribute | Effect |
+| :--- | :--- | :--- | :--- |
+| **Install Software** | `apt` / `yum` | `state: present` | Ensures package is installed. |
+| **Manage Files** | `copy` / `template` | `dest: /path/to/file` | Copies a file or renders a Jinja2 template. |
+| **Control Services** | `service` / `systemd` | `state: started` | Ensures a service is running. |
+| **User Mgmt** | `user` | `state: present` | Creates or updates a system user. |
+| **Firewall** | `ufw` / `firewalld` | `rule: allow` | Opens or closes network ports. |
+| **Shell Commands** | `shell` / `command` | `cmd: "ls -l"` | Runs a raw shell command (use sparingly). |
+
+---
+
+## Detailed Use Case: Automating a Web Stack
+
+To see Ansible in action, let's look at a real-world scenario: deploying a secure web server with a custom configuration and a firewall.
+
+### The Playbook: `webserver.yml`
+
+```yaml
+---
+- hosts: webservers
+  become: yes
+  vars:
+    http_port: 80
+    app_user: www-data
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+
+    - name: Install Nginx and basic tools
+      apt:
+        name: 
+          - nginx
+          - curl
+          - ufw
+        state: present
+
+    - name: Configure Nginx custom index page
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+        owner: {{ app_user }}
+        group: {{ app_user }}
+        mode: '0644'
+      notify: restart nginx
+
+    - name: Setup basic firewall (Allow SSH and HTTP)
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - 22
+        - "{{ http_port }}"
+
+    - name: Enable UFW firewall
+      ufw:
+        state: enabled
+        policy: deny
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+```
+
+### Typical Usage Reference
+
+| Task | Ansible Module | Key Attribute | Effect |
+| :--- | :--- | :--- | :--- |
+| **Install Software** | `apt` / `yum` | `state: present` | Ensures package is installed. |
+| **Manage Files** | `copy` / `template` | `dest: /path/to/file` | Copies a file or renders a Jinja2 template. |
+| **Control Services** | `service` / `systemd` | `state: started` | Ensures a service is running. |
+| **User Mgmt** | `user` | `state: present` | Creates or updates a system user. |
+| **Firewall** | `ufw` / `firewalld` | `rule: allow` | Opens or closes network ports. |
+| **Shell Commands** | `shell` / `command` | `cmd: "ls -l"` | Runs a raw shell command (use sparingly). |
+
+---
+
+## Detailed Use Case: Automating a Web Stack
+
+To see Ansible in action, let's look at a real-world scenario: deploying a secure web server with a custom configuration and a firewall.
+
+### The Playbook: `webserver.yml`
+
+```yaml
+---
+- hosts: webservers
+  become: yes
+  vars:
+    http_port: 80
+    app_user: www-data
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+
+    - name: Install Nginx and basic tools
+      apt:
+        name: 
+          - nginx
+          - curl
+          - ufw
+        state: present
+
+    - name: Configure Nginx custom index page
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+        owner: {{ app_user }}
+        group: {{ app_user }}
+        mode: '0644'
+      notify: restart nginx
+
+    - name: Setup basic firewall (Allow SSH and HTTP)
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - 22
+        - "{{ http_port }}"
+
+    - name: Enable UFW firewall
+      ufw:
+        state: enabled
+        policy: deny
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+```
+
+### Typical Usage Reference
+
+| Task | Ansible Module | Key Attribute | Effect |
+| :--- | :--- | :--- | :--- |
+| **Install Software** | `apt` / `yum` | `state: present` | Ensures package is installed. |
+| **Manage Files** | `copy` / `template` | `dest: /path/to/file` | Copies a file or renders a Jinja2 template. |
+| **Control Services** | `service` / `systemd` | `state: started` | Ensures a service is running. |
+| **User Mgmt** | `user` | `state: present` | Creates or updates a system user. |
+| **Firewall** | `ufw` / `firewalld` | `rule: allow` | Opens or closes network ports. |
+| **Shell Commands** | `shell` / `command` | `cmd: "ls -l"` | Runs a raw shell command (use sparingly). |
+
+---
 
 ## Getting Started with Ansible
 
@@ -83,13 +338,13 @@ Create a file named `apache.yml`. This playbook ensures that the Apache2 web ser
 ```yaml
 ---
 - hosts: apache
- become: yes
- tasks:
- - name: install apache2
- apt:
- name: apache2
- update_cache: yes
- state: present
+  become: yes
+  tasks:
+    - name: install apache2
+      apt:
+        name: apache2
+        update_cache: yes
+        state: present
 
 ```
 
@@ -105,11 +360,10 @@ Run the playbook using the `ansible-playbook` command:
 
 ```bash
 ansible-playbook -i hosts.txt apache.yml
-
 ```
 
 !!! info "Why this matters"
- One of Ansible's most features is **idempotence**. If you run the same playbook a second time, Ansible will detect that Apache is already installed and will report `ok` instead of `changed`. This allows you to run playbooks frequently to ensure servers haven't drifted from their intended configuration.
+    One of Ansible's most features is **idempotence**. If you run the same playbook a second time, Ansible will detect that Apache is already installed and will report `ok` instead of `changed`. This allows you to run playbooks frequently to ensure servers haven't drifted from their intended configuration.
 
 ## Advanced Implementation: Deploying MariaDB
 
@@ -118,28 +372,28 @@ For more complex services, you may need to perform multiple steps, such as impor
 ```yaml
 ---
 - hosts: db_servers
- become: yes
- tasks:
- - name: Import MariaDB public GPG key
- apt_key:
- url: https://mariadb.org/mariadb_release_signing_key.asc
- state: present
-
- - name: Add MariaDB repository
- apt_repository:
- repo: deb [arch=amd64] http://mirror.mariadb.org/repo/10.6/ubuntu focal main
- state: present
-
- - name: Install MariaDB Server
- apt:
- name: mariadb-server
- state: present
-
- - name: Ensure MariaDB is started and enabled
- service:
- name: mariadb
- state: started
- enabled: yes
+  become: yes
+  tasks:
+    - name: Import MariaDB public GPG key
+      apt_key:
+        url: https://mariadb.org/mariadb_release_signing_key.asc
+        state: present
+    
+    - name: Add MariaDB repository
+      apt_repository:
+        repo: deb [arch=amd64] http://mirror.mariadb.org/repo/10.6/ubuntu focal main
+        state: present
+    
+    - name: Install MariaDB Server
+      apt:
+        name: mariadb-server
+        state: present
+    
+    - name: Ensure MariaDB is started and enabled
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
 
 ```
 
@@ -148,20 +402,53 @@ For more complex services, you may need to perform multiple steps, such as impor
 In a real-world scenario, you might want to restart a service only if a configuration file was changed. This is where **Handlers** come in. A handler is a special task that only runs when "notified" by another task.
 
 ```yaml
- tasks:
- - name: Update MariaDB configuration
- template:
- src: my.cnf.j2
- dest: /etc/mysql/mariadb.conf.d/50-server.cnf
- notify: restart mariadb
-
- handlers:
- - name: restart mariadb
- service:
- name: mariadb
- state: restarted
+  tasks:
+    - name: Update MariaDB configuration
+      template:
+        src: my.cnf.j2
+        dest: /etc/mysql/mariadb.conf.d/50-server.cnf
+        notify: restart mariadb
+  
+  handlers:
+    - name: restart mariadb
+      service:
+        name: mariadb
+        state: restarted
 
 ```
+
+## Structuring Automation with Ansible Roles
+
+As playbooks grow in complexity, putting all tasks in a single YAML file becomes difficult to manage. **Ansible Roles** provide a standardized way to bundle tasks, handlers, variables, and files into a reusable directory structure.
+
+### The Anatomy of a Role
+A role is organized into specific folders, each with a dedicated purpose:
+- `tasks/main.yml`: The primary list of tasks to be executed.
+- `handlers/main.yml`: Handlers that can be notified by tasks.
+- `vars/main.yml`: High-priority variables for the role.
+- `defaults/main.yml`: Default variables that can be easily overridden.
+- `templates/`: Jinja2 templates for configuration files.
+- `files/`: Static files to be copied to the target nodes.
+
+### Why Use Roles?
+- **Organization**: Separates the *logic* of a service (e.g., "how to install MariaDB") from the *deployment* (e.g., "which servers get MariaDB").
+- **Shareability**: Roles can be shared publicly via **Ansible Galaxy**, allowing you to leverage community-tested automation instead of writing everything from scratch.
+- **Reusability**: You can apply the same "common" role (SSH hardening, NTP sync) to every server in your infrastructure regardless of its primary purpose.
+
+### Example: Using a Role in a Playbook
+Once a role is created, your playbook becomes significantly cleaner:
+
+```yaml
+---
+- hosts: db_servers
+  become: yes
+  roles:
+    - common
+    - mariadb_server
+```
+
+!!! info "Why this matters"
+    Roles transform Ansible from a task-runner into a full-scale configuration management system. They allow teams to build a library of "company-standard" configurations that can be deployed consistently across thousands of nodes.
 
 ## Key Ansible Terminology
 
@@ -174,8 +461,9 @@ To master Ansible, you must understand these core concepts:
 - **Inventory**: A list of managed nodes, often organized into groups.
 
 ## Self-Assessment
-Test your knowledge by expanding the questions below.
-Test your knowledge by expanding the questions below.
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
 
 ??? question "What is the difference between agent-based and agentless automation?"
  	Agent-based automation (like Puppet or Chef) requires a dedicated software agent to be installed and running on every target node. Agentless automation (like Ansible) communicates over standard protocols like SSH, meaning no special software is needed on the target nodes, which simplifies deployment and reduces resource overhead.
@@ -192,20 +480,43 @@ Test your knowledge by expanding the questions below.
 ??? question "How do handlers manage service restarts based on configuration changes?"
  	Handlers are special tasks that are only executed if they are \"notified\" by another task using the `notify` keyword. This is typically used when a configuration file is updated (e.g., via the `template` module); the task notifies the handler to restart the service, ensuring the service is only restarted when a change actually occurs, rather than on every playbook run.
 
+??? question "How do I distinguish between packaging (Docker), orchestration (Kubernetes), and provisioning (Ansible)?"
+    **Packaging** (Docker) focuses on bundling an application and its dependencies into a portable container. **Orchestration** (Kubernetes) manages the deployment, scaling, and networking of those containers across a cluster. **Provisioning** (Ansible) handles the setup of the underlying servers, operating systems, and network settings that allow the orchestration layer to run.
+
+??? question "What does 'bootstrapping a node' mean in a DevOps context?"
+    Bootstrapping a node is the process of taking a "vanilla" or raw virtual machine and installing the necessary OS dependencies, performing security hardening, and setting up the container runtime (like containerd) so that the node can successfully join a Kubernetes cluster.
+
+??? question "What are three tasks that still require Ansible even if the application is containerized?"
+    1. **Provisioning raw VMs**: Setting up the base OS on AWS, GCP, or Azure.
+    2. **Managing non-containerized infrastructure**: Configuring physical load balancers, external databases, or storage arrays.
+    3. **Day-2 Operations**: Performing OS-level maintenance like kernel updates, disk partitioning, or managing SSH access.
+
+??? question "When does a managed service (like EKS, GKE, or AKS) remove the need for manual provisioning?"
+    Managed services remove the need for manual provisioning because the cloud provider manages the underlying worker nodes' operating system, security patches, and container runtime. The user interacts with the Kubernetes API, and the provider handles the "bootstrapping" and maintenance of the nodes.
+
 ## Assignments
 
 !!! note "Assignment 1: Basic Web Server"
  	Set up a virtual machine and write an Ansible playbook to install Nginx. Ensure the playbook is idempotent and that you can verify the installation by visiting the server's IP in a browser.
 
 !!! note "Assignment 2: User and Security Management"
-	Create a playbook that performs the following on a target VM:
-	1. Creates a new system user named `devops_user`.
-	2. Adds the user to the `sudo` group.
-	3. Copies a public SSH key to the user's `authorized_keys` file.
-	4. Ensures the SSH service is running.
+		Create a playbook that performs the following on a target VM:
+		1. Creates a new system user named `devops_user`.
+		2. Adds the user to the `sudo` group.
+		3. Copies a public SSH key to the user's `authorized_keys` file.
+		4. Ensures the SSH service is running.
 
 !!! note "Assignment 3: Multi-Service Deployment"
  	Develop a playbook that installs both a database (e.g., PostgreSQL) and a web application. Use a handler to ensure the web application restarts only after the database configuration is successfully updated.
+
+!!! note "Assignment 4: Infrastructure Audit"
+    Look at a hypothetical architecture consisting of: an AWS VPC, three EC2 instances running a K8s cluster, an external RDS database, and an S3 bucket. Identify which parts of this architecture would be managed by Terraform, which by Ansible, and which by Kubernetes.
+
+!!! note "Assignment 5: Bootstrapping Workflow"
+    Describe the sequence of events required to take a "vanilla" Ubuntu VM and turn it into a Kubernetes worker node. Which of these steps are "provisioning" (Ansible) and which are "orchestration" (Kubernetes)?
+
+!!! note "Assignment 6: Managed vs. Self-Managed"
+    Compare the operational overhead of managing a K8s cluster via Kubespray (Ansible) versus using Google GKE. List two advantages and two disadvantages of each approach.
 
 ## References
 
@@ -214,173 +525,8 @@ Test your knowledge by expanding the questions below.
 
 ---
 
-## Appendix: Local Deployment of the Course Site
+## What's Next?
 
-### 0. Clone the Repository
+With infrastructure and configuration managed, it's time to look at how to scale this to an enterprise level. Explore **Enterprise Configuration Management with Puppet** to see the pull-based model in action.
 
-Before running the automation, clone the course repository to your local machine:
-
-```bash
-git clone https://github.com/cloudmesh-ai/cloudmesh-ai-lecture.git
-cd cloudmesh-ai-lecture
-
-```
-
-
-As a practical Assignment in "Localhost Automation," you can use Ansible to set up the environment and launch this very lecture site on your own machine. This demonstrates how Ansible can be used not just for remote servers, but for standardizing local development environments.
-
-### 1. Local Inventory
-
-Since we are targeting the machine we are currently on, we use a special local inventory. Create a file named `local_inventory` with the following content:
-
-```ini
-[local]
-localhost ansible_connection=local
-
-```
-
-### 2. The Deployment Playbook
-
-Create a playbook named `deploy_site.yml`. This playbook ensures that all required Python dependencies for the MkDocs site are installed and then launches the server in the background.
-
-```yaml
----
-- hosts: local
- become: yes
- tasks:
- - name: Update apt cache
- apt:
- update_cache: yes
-
- - name: Install Python and Pip
- apt:
- name: 
- - python3
- - python3-pip
- state: present
-
- - name: Install MkDocs and required plugins
- pip:
- name: 
- - mkdocs-material
- - mkdocs-video
- - mkdocs-slides
- - mkdocs-caption
- - mkdocs-blog
- - pymdown-extensions
- state: present
- 
- - name: Start MkDocs server on port 8000
- shell: "nohup mkdocs serve -a 0.0.0.0:8000 > mkdocs.log 2>&1 &"
- async: 10
- poll: 0
-
- - name: Open the browser to view the site
- shell: "open http://localhost:8000"
- become: no # 'open' command should be run as the regular user, not root
-
-```
-
-### 3. Execution
-
-Run the following command from the root of the `cloudmesh-ai-lecture` directory:
-
-```bash
-ansible-playbook -i local_inventory deploy_site.yml
-
-```
-
-### What happens under the hood?
-
-1. **`ansible_connection=local`**: This tells Ansible to bypass SSH and execute commands directly on the local shell.
-2. **`async: 10, poll: 0`**: Because `mkdocs serve` is a blocking process (it stays open to serve requests), we tell Ansible to launch it as an asynchronous task and not wait for it to finish.
-3. **`nohup`**: Ensures that the server continues to run even after the Ansible session ends.
-4. **`become: no`**: We switch back to the regular user for the `open` command so the browser launches in your user session rather than as the root user.
-
-
-### 4. Alternative: Using a Makefile for Local Deployment
-
-While Ansible is for orchestration, for simple local tasks, a `Makefile` is often the industry standard. It provides a short, memorable interface for complex shell commands.
-
-Create a file named `Makefile` in the root of the project:
-
-```makefile
-PORT=8000
-URL=http://localhost:$(PORT).PHONY: install serve open all clean
-
-# Install all required Python dependencies
-
-install:
-	pip install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blog pymdown-extensions
-
-# Start the MkDocs server in the background
-
-serve:
-	nohup mkdocs serve -a 0.0.0.0:$(PORT) > mkdocs.log 2>&1 &
-	@echo "Server started in background on $(URL)"
-
-# Open the site in the default browser
-
-open:
-	open $(URL)
-
-# Complete setup: Install, Serve, and Open
-
-all: install serve open
-
-# Stop the server and clean logs
-
-clean:
-	pkill -f "mkdocs serve"
-	rm -f mkdocs.log
-
-```
-
-#### Execution
-
-To deploy and view the site in one go, simply run:
-
-```bash
-make all
-
-```
-
-#### Ansible vs. Makefile: Which one to use?
-
-| Feature | Ansible | Makefile |
-|:--- |:--- |:--- |
-| **Scope** | Cross-server orchestration | Local task automation |
-| **Complexity** | High (YAML, Inventories) | Low (Shell scripts) |
-| **Idempotency** | Built-in (checks state) | Manual (requires shell checks) |
-| **Target** | Remote and Local | Local only |
-| **Standard** | DevOps Industry Standard | Developer Build Standard |
-
-For this local course site, the `Makefile` is faster and more lightweight, but the Ansible approach prepares you for managing a fleet of production servers.
-
-
-## Self-Assessment
-Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
-
-??? question "What does 'agentless' mean in the context of Ansible, and how does it communicate with target nodes?"
- Being "agentless" means that you do not need to install any special software or "agent" on the target servers being managed. Ansible communicates with these nodes using standard SSH (for Linux/Unix) or WinRM (for Windows).
-
-??? question "Explain the concept of 'Infrastructure as Code' (IaC) and how Ansible helps prevent 'configuration drift'."
- IaC is the practice of managing and provisioning infrastructure through machine-readable definition files rather than manual hardware configuration or interactive configuration tools. Ansible prevents "configuration drift" (where servers slowly become different over time) by ensuring that the desired state defined in the playbook is applied consistently across all target machines.
-
-??? question "What is an Ansible Inventory, and why are groups useful?"
- An inventory is a file (or a script) that lists the hosts and groups of hosts that Ansible can manage. Groups allow you to target sets of servers (e.g., `[webservers]`, `[dbservers]`) with a single command or playbook, rather than specifying every individual IP address.
-
-??? question "Differentiate between an Ansible Module and an Ansible Playbook."
- A **Module** is a small, discrete piece of code that performs a specific task (e.g., `apt` for package management, `copy` for moving files). A **Playbook** is a YAML file that orchestrates multiple modules in a specific order to achieve a larger goal (e.g., "Install and Configure Apache").
-
-??? question "What is the purpose of the `become: yes` directive in a playbook?"
- The `become: yes` directive tells Ansible to perform the task with privileged permissions (usually as the `root` user), which is necessary for tasks like installing packages or modifying system configuration files.
-
-??? question "When should you use `async` and `poll` in an Ansible task?"
- Use `async` and `poll` when a task is expected to take a long time to complete or is a blocking process (like starting a server) that should not hang the Ansible connection. Setting `poll: 0` allows Ansible to fire off the task and move on immediately without waiting for a result.
-
-??? question "Contrast Ansible with a `Makefile` for automation tasks."
- **Ansible** is designed for cross-server orchestration, focuses on idempotency (checking state before acting), and is an industry standard for DevOps. **Makefiles** are primarily used for local task automation (e.g., compiling code or local deployments) and generally rely on simple shell scripts without built-in state checking.
-
+Visit the [Local Lab](local-lab.md) for instructions on how to run Ansible locally.

@@ -139,16 +139,16 @@ make linkchecker-file FILE=path/to/modified.md
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary architectural difference between an OpenCode skill and a static system prompt?"
+??? question "What is the primary architectural difference between an OpenCode skill and a static system prompt?"
     A system prompt is global, monolithic, and always present in the context window, whereas an OpenCode skill is modularly indexed by description and injected dynamically only when a task matches its trigger criteria, preserving token space.
 
-??? note "Why is the `description` field in the YAML frontmatter critical for OpenCode execution?"
+??? question "Why is the `description` field in the YAML frontmatter critical for OpenCode execution?"
     The OpenCode orchestrator evaluates available skill descriptions against user prompts during initialization and runtime to decide when to trigger the skill. Vague descriptions lead to missed activations or false positives.
 
-??? note "How do reference directories help maintain context efficiency in large skills?"
+??? question "How do reference directories help maintain context efficiency in large skills?"
     By keeping the primary `SKILL.md` concise and offloading verbose documentation, schemas, or error tables into a `references/` subdirectory, the agent loads detailed context only on-demand when explicitly required.
 
-??? note "What is the recommended approach for writing workflow instructions within a skill?"
+??? question "What is the recommended approach for writing workflow instructions within a skill?"
     Instructions should consist of direct, deterministic, and executable steps (specifying exact commands, tools, and error-handling conditions) rather than vague behavioral goals.
 
 ## Appendix

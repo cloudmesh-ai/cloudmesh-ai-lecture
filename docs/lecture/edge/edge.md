@@ -163,11 +163,11 @@ Edge AI moves the inference phase of the machine learning lifecycle to the devic
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the primary goal of edge computing compared to centralized cloud computing?"
+??? question "What is the primary goal of edge computing compared to centralized cloud computing?"
     The primary goal of edge computing is to move compute, storage, and networking resources closer to the data source (devices, sensors, users). This reduces latency, saves bandwidth, improves privacy (by keeping data local), and increases resilience for offline operations.
 
-??? note "Why is K3s often preferred over standard Kubernetes for edge deployments?"
+??? question "Why is K3s often preferred over standard Kubernetes for edge deployments?"
     K3s is a highly lightweight distribution of Kubernetes designed for resource-constrained environments. It removes unnecessary components and reduces the memory footprint, making it ideal for running on small devices like Raspberry Pis or at the network edge.
 
-??? note "What is Federated Learning in the context of edge AI?"
+??? question "What is Federated Learning in the context of edge AI?"
     Federated Learning is a machine learning technique that trains an algorithm across multiple decentralized edge devices holding local data samples, without exchanging the data itself. Only the model updates (gradients) are sent to a central cloud server, which aggregates them to improve the global model, thereby enhancing data privacy.

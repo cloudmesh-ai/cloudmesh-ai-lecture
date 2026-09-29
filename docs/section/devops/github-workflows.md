@@ -194,17 +194,23 @@ This automation ensures that the documentation is always in sync with the code. 
 
 ## Self-Evaluation
 
-??? note "What is the difference between a Workflow, a Job, and a Step?"
+??? question "What is the difference between a Workflow, a Job, and a Step?"
     A **Workflow** is the overall automated process defined in a YAML file. A **Job** is a set of steps that run on the same runner (VM), allowing them to share a filesystem. A **Step** is an individual task within a job, which can either be a shell command (`run`) or a reusable action (`uses`).
 
-??? note "How do I trigger a workflow using push and pull_request?"
+??? question "How do I trigger a workflow using push and pull_request?"
     Workflows are triggered by events defined in the `on:` section. `on: [push]` triggers the workflow whenever code is pushed to any branch. `on: [pull_request]` triggers it when a PR is opened, synchronized, or reopened. You can further refine these triggers to specific branches or tags.
 
-??? note "What are community actions and how are actions/checkout and actions/setup-python used?"
+??? question "What are community actions and how are actions/checkout and actions/setup-python used?"
     Community actions are reusable units of code shared by the community to perform common tasks. `actions/checkout@v4` is used to clone the repository onto the runner so that the workflow can access the code. `actions/setup-python@v5` is used to install a specific version of Python on the runner, ensuring a consistent environment for tests.
 
-??? note "How does a Matrix build help in testing multiple environments?"
+??? question "How does a Matrix build help in testing multiple environments?"
     A **Matrix** allows you to run the same job across multiple combinations of variables (e.g., multiple Python versions or multiple operating systems) without duplicating the job definition. GitHub Actions spawns a separate job for each combination in the matrix, ensuring the code works across all target environments.
 
-??? note "How do I securely manage credentials using GitHub Secrets?"
+??? question "How do I securely manage credentials using GitHub Secrets?"
     Credentials should be stored in **GitHub Secrets** (found in repository settings). These are encrypted and not visible in the YAML file. They are accessed using the `${{ secrets.SECRET_NAME }}` syntax, and GitHub automatically masks them in the workflow logs to prevent accidental exposure.
+
+---
+
+## What's Next?
+
+GitHub Actions represents the modern, integrated approach to CI/CD. To understand how these patterns evolved and how to handle more complex, self-hosted orchestration, head over to **The Universal Orchestrator: Jenkins**.

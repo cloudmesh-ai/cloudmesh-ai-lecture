@@ -39,8 +39,8 @@ To record audio and configure autoplay, follow these steps:
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "How do you ensure that audio transitions are seamless between slides?"
+??? question "How do you ensure that audio transitions are seamless between slides?"
     By using the "Record Slide Show" feature, PowerPoint automatically handles the timing and sequencing of audio clips across consecutive slides.
 
-??? note "Which tab in PowerPoint is used to access recording features?"
+??? question "Which tab in PowerPoint is used to access recording features?"
     The "Slide Show" tab contains the options for recording the slide show and managing timings.

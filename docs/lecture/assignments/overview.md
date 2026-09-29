@@ -88,11 +88,11 @@ Collaboration is encouraged, provided the scale and complexity of the project ma
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the 'Automation Requirement' for the final project?"
+??? question "What is the 'Automation Requirement' for the final project?"
     All deployments and management of containers or Virtual Machines must be fully automated using scripts (e.g., Terraform, Ansible, Shell), meaning a grader can recreate the environment without manual GUI intervention.
 
-??? note "What happens if a student exhausts shared cloud resources through negligence?"
+??? question "What happens if a student exhausts shared cloud resources through negligence?"
     Due to the shared nature of the allocations on ACCESS CI and Chameleon Cloud, resource abuse that impacts other students' ability to work will result in a failing grade ("F").
 
-??? note "How should sensitive credentials like API keys be handled in a public GitHub repository?"
+??? question "How should sensitive credentials like API keys be handled in a public GitHub repository?"
     Sensitive credentials must never be stored in the repository. Instead, use environment variables, secret management tools, or IAM roles, and ensure a `.gitignore` file is used to prevent accidental commits.

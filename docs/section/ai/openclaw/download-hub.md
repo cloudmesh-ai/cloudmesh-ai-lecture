@@ -234,11 +234,11 @@ print(f"\nAll assets downloaded. Open the offline page at: {main_path}")
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "How does the script handle relative URLs found in the HTML?"
+??? question "How does the script handle relative URLs found in the HTML?"
     The script uses `urllib.parse.urljoin` to combine the `BASE_URL` with relative paths, converting them into absolute URLs before downloading.
 
-??? note "What is the purpose of the `safe_filename` function?"
+??? question "What is the purpose of the `safe_filename` function?"
     It ensures that URLs are converted into valid filesystem paths by removing fragments, normalizing paths, and replacing unsafe characters with underscores.
 
-??? note "Why are the HTML links rewritten after downloading assets?"
+??? question "Why are the HTML links rewritten after downloading assets?"
     The original HTML contains absolute URLs pointing to the live server. Rewriting them to relative paths ensures the page renders correctly when opened from the local filesystem without an internet connection.

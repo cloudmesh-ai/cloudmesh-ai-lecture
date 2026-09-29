@@ -12,7 +12,9 @@
 
 Bringing DevOps and team structure together successfully is all about how organizations break down the traditional silos between Development (Dev), Operations (Ops), and Security (Sec). Conway's Law states that organizations design systems that mimic their communication structures—so if your teams are siloed, your software and infrastructure will be siloed, too.
 
-![alt text](images/team-chatgpt.png)
+![Organizational Communication](images/team-chatgpt.png)
+
+Figure 4: Organizational Communication
 
 Industry-accepted patterns for organizing teams around a secure DevOps model include:
 
@@ -23,12 +25,12 @@ Industry-accepted patterns for organizing teams around a secure DevOps model inc
 
 **Embedded Skill Sets**: Ensure each team has a healthy mix of perspectives, including software engineers, infrastructure/reliability focus, and shared security consciousness.
 
-!!! tip "Self-Assessment"
-    ??? question "What is 'Whole-Lifecycle Ownership' and why does it reduce the 'wall' between teams?"
-        It is the "you build it, you run it" mentality where a single team owns a service from design through operations. This eliminates the friction and delays caused by handoffs to separate QA, Ops, or Security teams.
+## Self-Assessment
 
+Test your knowledge by expanding the questions below.
 
-## Team Topologies (The Stream-Aligned Model)
+??? question "What is 'Whole-Lifecycle Ownership' and why does it reduce the 'wall' between teams?"
+    It is the "you build it, you run it" mentality where a single team owns a service from design through operations. This eliminates the friction and delays caused by handoffs to separate QA, Ops, or Security teams.
 
 According to the widely adopted Team Topologies framework, healthy DevOps organizations typically rely on four fundamental team types:
 
@@ -40,9 +42,9 @@ According to the widely adopted Team Topologies framework, healthy DevOps organi
 
 **Complicated-Subsystem Teams**: Dedicated groups that handle highly complex components (like cryptography algorithms or core data pipelines) requiring deep specialized expertise.
 
-!!! tip "Self-Assessment"
-    ??? question "In the Team Topologies framework, what is the primary difference between a Platform Team and an Enabling Team?"
-        Platform Teams build the shared internal tools and infrastructure (treated as a product) that other teams consume. Enabling Teams are specialists who act as consultants to bridge knowledge gaps and help other teams adopt new capabilities.
+## Self-Assessment
+
+Test your knowledge by expanding the questions below.
 
 
 ## Clear Boundaries and Platform-as-a-Product
@@ -50,6 +52,13 @@ According to the widely adopted Team Topologies framework, healthy DevOps organi
 **Self-Service Infrastructure**: Platform teams should treat internal developers as their customers. Instead of manually approving every server request or firewall change, the platform team provides self-service, secure-by-default templates (like pre-approved Terraform modules or hardened container base images).
 
 **Guardrails, Not Gates**: Traditional ticketing systems and manual review boards slow delivery to a crawl. Effective DevOps teams replace these with automated guardrails (e.g., automated policy-as-code checks in the pipeline) that allow teams to move fast as long as they stay within safe boundaries.
+
+| Manual Gate (Slow) | Automated Guardrail (Fast) | Tooling Example |
+| :--- | :--- | :--- |
+| Weekly Security Review Meeting | Mandatory vulnerability scan on every commit | Snyk, Trivy, or GitHub Advanced Security |
+| Ops Manager approval for Firewall changes | Policy-as-Code checks for open ports | Terraform Sentinel or OPA (Open Policy Agent) |
+| Manual QA sign-off for every release | Automated integration and regression suite | Pytest, Selenium, or Playwright |
+| CAB (Change Advisory Board) approval | Automated canary analysis and health checks | Argo Rollouts or Spinnaker |
 
 !!! tip "Self-Assessment"
     ??? question "How does a 'guardrail' differ from a 'gate' in a CI/CD pipeline?"
@@ -93,17 +102,28 @@ The introduction of AI and large language models introduces unique lifecycle cha
 
 * **Continuous Monitoring and Feedback Loops:** Post-deployment AI services require ongoing tracking for data drift, inference latency, and accuracy degradation, feeding real-world data back into the next development cycle.
 
+### The MLOps Bridge: Data Scientists $\leftrightarrow$ DevOps
+The integration of AI introduces a unique tension: Data Scientists prioritize **model accuracy and experimental flexibility**, while DevOps Engineers prioritize **latency, stability, and reproducibility**.
+
+To resolve this, high-performing teams implement a "Common Language" through shared platforms:
+* **Model Registries**: A shared source of truth for versioned models, preventing the "it worked on my notebook" syndrome.
+* **Feature Stores**: A centralized repository for curated data features, ensuring that the same data used for training is used for real-time inference.
+* **Automated Retraining Pipelines**: Moving the model from a manual script to a versioned pipeline that triggers based on data drift alerts.
 
 As illustrated in the lifecycle framework below, successful modern engineering unites agile planning, automated deployment, and AI feedback loops into a continuous, cohesive ecosystem.
 
-![![alt text](images/Gemini_Generated_Image_pckmqypckmqypckm.jpeg)]
+![Agile/DevOps/AI Lifecycle](images/Gemini_Generated_Image_pckmqypckmqypckm.jpeg)
+
+Figure 5: Agile/DevOps/AI Lifecycle
 
 
 ## Collaborative Engineering—Pair Programming Across DevOps, Cloud, and AI
 
 Traditional pair programming involves two developers sharing a workstation: one acts as the "driver" writing code, while the other acts as the "navigator" reviewing logic in real-time. In modern engineering, this collaborative practice scales far beyond basic application code, becoming a critical strategy for managing complex cloud infrastructure and AI integration.
 
-![alt text](images/pair-chatgpt.png)
+![Collaborative Engineering](images/pair-chatgpt.png)
+
+Figure 6: Collaborative Engineering
 
 ### 1. Scaling Pair Programming to DevOps and Infrastructure as Code
 
@@ -147,4 +167,10 @@ By integrating peer collaboration into cloud automation and AI workflows, engine
 
 !!! note "Assignment 3: Metric Dashboard"
     Draft a mockup of a shared dashboard containing 3 metrics that would force a developer and a security engineer to collaborate on the same goal. Explain why these specific metrics discourage siloed thinking.
+
+---
+
+## What's Next?
+
+With the right team structure in place, you can now focus on the technical implementation. Start by learning the fundamentals of **Infrastructure as Code (IaC)** to turn your manual setup into version-controlled software.
 

@@ -70,6 +70,12 @@ Test your knowledge by expanding the questions below.
 ??? question "What is the 'NoOps' benefit of AWS Lambda?"
     AWS Lambda enables a \"NoOps\" (No Operations) model because it is a serverless platform. AWS handles all the underlying infrastructure management, including server provisioning, patching, scaling, and high availability. Developers only need to upload their code as functions, removing the operational burden of managing servers.
 
+---
+
+## What's Next?
+
+Infrastructure and deployment are only half the battle. The final piece is understanding how your system behaves in production. Head over to **Observability with Azure Monitor** (or AWS CloudWatch) to learn about telemetry and proactive health checks.
+
 ## Assignments
 
 !!! note "Assignment 1: Pipeline Design"

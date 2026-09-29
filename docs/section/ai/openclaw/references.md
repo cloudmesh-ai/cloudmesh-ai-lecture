@@ -137,11 +137,11 @@ for p in papers:
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the main advantage of OpenClaw over highly specialized MLOps stacks according to the literature?"
+??? question "What is the main advantage of OpenClaw over highly specialized MLOps stacks according to the literature?"
 OpenClaw excels in user productivity and significantly reduces the engineering effort required to move from data ingestion to model serving, although it may have slightly higher latency for very large batch jobs.
 
-??? note "How does OpenClaw handle extensibility for domain-specific requirements?"
+??? question "How does OpenClaw handle extensibility for domain-specific requirements?"
 OpenClaw allows for extensibility via custom actions, typically implemented as Docker-based Python scripts, enabling the use of any external library or specialized preprocessor.
 
-??? note "Which mechanism does OpenClaw use to ensure GDPR compliance and data governance?"
+??? question "Which mechanism does OpenClaw use to ensure GDPR compliance and data governance?"
 OpenClaw implements a formal model of Role-Based Access Control (RBAC) and a comprehensive audit-log schema to track data lineage and user access.

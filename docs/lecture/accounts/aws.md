@@ -92,11 +92,11 @@ Once the account is active:
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the recommended way to avoid costs when using AWS for course Assignments?"
+??? question "What is the recommended way to avoid costs when using AWS for course Assignments?"
     Utilize the AWS Free Tier and select resources explicitly marked as "Free tier eligible" (e.g., `t2.micro` or `t3.micro`).
 
-??? note "Why is creating an IAM User preferred over using the Root account for daily tasks?"
+??? question "Why is creating an IAM User preferred over using the Root account for daily tasks?"
     IAM users provide granular access control and reduce the risk of accidental, critical changes to the account, enhancing overall security.
 
-??? note "What steps prevent unexpected charges in AWS?"
+??? question "What steps prevent unexpected charges in AWS?"
     Monitoring usage via the Billing Dashboard, configuring AWS Budgets alarms (e.g., $1 threshold), and terminating all resources (instances, volumes, elastic IPs) after use.

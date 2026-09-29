@@ -464,19 +464,19 @@ Before submitting work, verify the following:
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-??? note "What is the correct way to create a heading in Markdown for this project?"
+??? question "What is the correct way to create a heading in Markdown for this project?"
     Use the hash symbol (`#`) followed by a space. Do not use underscores or equal signs for underlines.
 
-??? note "Where should images be stored and how should they be referenced?"
+??? question "Where should images be stored and how should they be referenced?"
     Images must be stored locally in an `images/` directory. They should be referenced using the syntax `![Caption](images/filename.png)`.
 
-??? note "Which character should be used for bold and italic text to ensure compatibility?"
+??? question "Which character should be used for bold and italic text to ensure compatibility?"
     Asterisks (`*` or `**`) should be used instead of underscores.
 
-??? note "How do you cite a source in Markdown when using BibTeX?"
+??? question "How do you cite a source in Markdown when using BibTeX?"
     Use the `[@label]` syntax, where `label` corresponds to the key defined in the `.bib` file.
 
-??? note "What is the purpose of Pandoc in the Markdown workflow?"
+??? question "What is the purpose of Pandoc in the Markdown workflow?"
     Pandoc is used to convert Markdown files into other formats such as PDF, ePub, or LaTeX, and to validate the document structure.
 
 ## References
