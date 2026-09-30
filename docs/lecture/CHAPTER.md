@@ -18,7 +18,7 @@ Here, you will find the overarching schedule, communication channels for communi
     * **[🟢 Assignments Overview](/lecture/assignments/overview.md)**: A high-level guide to the course assignments.
     * **[🟢 Assignments List](/lecture/assignments/assignments.md)**: Detailed requirements and instructions for all course tasks.
     * **[🔴 Project Report Format](/section/writing/report.md)**: Detailed requirements and instructions for all course tasks.
-        * **[🔴 Markdown Format](/lsection/writing/markdown.md)**: Markdown syntax
+        * **[🔴 Markdown Format](/section/writing/markdown.md)**: Markdown syntax
         * **Diagrams:** [🔴 Mermaid Diagrams](/section/writing/mermaid.md), [🔴 Mermaid Diagrams](/section/writing/graphviz.md) 
         
 
