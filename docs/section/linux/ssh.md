@@ -3,6 +3,7 @@
 ---
 
 !!! info "Learning Outcomes"
+
     - Learn how to use SSH keys securely.
     - Master `ssh-add` and agent configuration so you only have to type your passphrase once per session.
     - Understand why each computer requires its own unique SSH key pair.
@@ -59,6 +60,7 @@ Because multiple users may share a computer, servers maintain a list of authoriz
 ---
 
 !!! warning "Security Best Practice"
+
     **Never copy your private key to another machine, and always protect your private key with a strong passphrase.** 
 
 ---
@@ -318,52 +320,60 @@ graph LR
 ## Assignments
 
 !!! assignment "SSH.1 Keypair"
+
     Create an SSH key pair
 
 !!! assignment "E.SSH.2 Key upload"
+
     Upload the public key to git repository you use. 
 
 !!! assignment "E.SSH.3 githib.com"
+
     Get an account on. Upload your key. Provide a guide in md.
 
 !!! assignment "E.SSH.4 access-ci.org"
+
     Get an account on access-ci.org (if you are authorized to do
     so). Upload your key. Provide a guide.
 
 !!! assignment "E.SSH.5 chamelopncloud.org"
+
     Get an account on (if you are authorized to do
     so). Upload your key. Provide a guide.
 
 !!! assignment "E.SSH.6: Private key handeling"
+
     What can happen if you copy your private key to a machine on the network?
 
 !!! assignment "E.SSH.6: Private key sharing"
+
     Should I share my provate key with others?
 
 !!! assignment "E.SSH.7: Private key via video"
+
     Assume I participate in a video conference call and I accidently share
     my private key. What should I do?
 
 !!! assignment "E.SSH.8: Public key via video"
+
     Assume I participate in a video conference call and I accidently share
     my public key. What should I do?
 
 !!! assignment "E.SSH.8: Can i share my ?ublic key?"
+
     Am I allowed to share my public key?
 
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge of the concepts covered in this section.
 
-    ??? question "Explain the basic process of SSH authentication using public-key cryptography."
-        SSH uses a public-private key pair. The user generates a pair, uploads the **public key** to the server's `authorized_keys` file, and keeps the **private key** secret. During connection, the server sends a challenge that only the holder of the corresponding private key can solve, proving the user's identity without sending a password over the network.
+??? question "Explain the basic process of SSH authentication using public-key cryptography."
+    SSH uses a public-private key pair. The user generates a pair, uploads the **public key** to the server's `authorized_keys` file, and keeps the **private key** secret. During connection, the server sends a challenge that only the holder of the corresponding private key can solve, proving the user's identity without sending a password over the network.
 
-    ??? question "Why is it a critical security risk to share or copy your private SSH key to another machine?"
-        The private key is the sole proof of identity. Anyone who possesses the private key can impersonate the owner and gain unauthorized access to any server that trusts the corresponding public key. Copying it increases the attack surface and the risk of theft.
+??? question "Why is it a critical security risk to share or copy your private SSH key to another machine?"
+    The private key is the sole proof of identity. Anyone who possesses the private key can impersonate the owner and gain unauthorized access to any server that trusts the corresponding public key. Copying it increases the attack surface and the risk of theft.
 
-    ??? question "What is the difference between Local Port Forwarding (`-L`) and Remote Port Forwarding (`-R`)?"
-        - **Local Port Forwarding (`-L`)**: Forwards a port from the local machine to a port on the remote server (or a machine reachable by that server). Used to access a remote service as if it were running locally.
-        - **Remote Port Forwarding (`-R`)**: Forwards a port from the remote server back to a port on the local machine. Used to expose a local service to users on the remote network.
+??? question "What is the difference between Local Port Forwarding (`-L`) and Remote Port Forwarding (`-R`)?"
+    - **Local Port Forwarding (`-L`)**: Forwards a port from the local machine to a port on the remote server (or a machine reachable by that server). Used to access a remote service as if it were running locally.
+    - **Remote Port Forwarding (`-R`)**: Forwards a port from the remote server back to a port on the local machine. Used to expose a local service to users on the remote network.
 

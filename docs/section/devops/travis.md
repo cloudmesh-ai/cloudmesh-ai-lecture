@@ -76,4 +76,4 @@ Test your knowledge by expanding the questions below.
 
 Having explored the landscape of CI tools, it's time to move from general automation to cloud-native implementation. Head over to **DevOps on AWS** to see how these principles are applied using a major cloud provider's ecosystem.
 
-Visit the [Local Lab](local-lab.md) for instructions on how to run Travis CI locally.
+Visit the [Local Lab](/section/devops/local-lab.md) for instructions on how to run Travis CI locally.

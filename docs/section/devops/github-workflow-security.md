@@ -155,11 +155,9 @@ Test your knowledge by expanding the questions below.
 
 ---
 
-## Summary
+## What's Next?
 
-You have now completed the DevOps section! You've moved from the core philosophy of DevOps to implementing a full, secure, and observable pipeline.
-
-To review the entire journey or dive back into a specific topic, return to the **[Master Index: Introduction to DevOps](devops.md)**.
+You have now secured your automation pipeline. The final step in our journey is to explore how Artificial Intelligence is transforming the role of the DevOps engineer. Head over to **[AI-Augmented DevOps](/section/devops/ai-devops.md)** to see the future of the field.
 
 ## Assignments
 

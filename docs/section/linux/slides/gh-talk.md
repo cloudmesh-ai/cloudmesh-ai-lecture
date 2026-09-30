@@ -1,7 +1,4 @@
----
-title: Mastering the GitHub CLI (gh)
-type: presentation
----
+# Mastering the GitHub CLI (gh)
 
 # Mastering the GitHub CLI (`gh`)
 ## Streamlining the GitHub Workflow from the Terminal
@@ -227,7 +224,6 @@ Closing issues from the CLI is the final step in the feature lifecycle. By linki
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-    Test your knowledge by expanding the questions below.
 
 ??? question "How do you initially connect your GitHub account to the CLI?"
     Use the `gh auth login` command to authenticate and set up your account.

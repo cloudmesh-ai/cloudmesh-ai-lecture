@@ -1,6 +1,4 @@
----
-title: LUC Lecture 388/488 03
----
+# LUC Lecture 388/488 03
 
 # Cloud Computing, DevOps, and AI
 

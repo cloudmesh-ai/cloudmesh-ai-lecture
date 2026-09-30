@@ -1,6 +1,7 @@
 # Word Count with Parallel Python
 
 !!! info "Learning Outcomes"
+
     - Build automated document generation scripts to create custom data collections for benchmarking and testing.
     - Implement serial word-count algorithms using standard loops and functional programming patterns (`map` and `reduce`).
     - Scale data processing pipelines in parallel using `multiprocessing.Pool` and evaluate performance gains through system timing tools.
@@ -261,6 +262,7 @@ The output contains the real run time and the user run time. `real` is wall cloc
 ## Assignment
 
 !!! note "Assignment wordcount"
+
     Run the three different programs (serial, serial w/ map and reduce, parallel) and answer the following questions:
 
     1. Is there any performance difference between the different versions of the program?

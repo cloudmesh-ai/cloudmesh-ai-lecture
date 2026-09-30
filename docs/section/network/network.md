@@ -3,11 +3,12 @@
 This section provides a deep dive into the networking foundations essential for cloud computing, comparing the OSI and TCP/IP models. It details core cloud networking components such as VPCs, subnets, and load balancers, and explains CIDR notation and security strategies using Security Groups and NACLs.
 
 !!! info "Learning Objectives"
- - Understand the fundamental layers of networking (OSI and TCP/IP).
- - Master Cloud Networking components (VPC, Subnets, Gateways, Route Tables).
- - Understand CIDR notation and IP address allocation.
- - Implement a secure networking strategy using Security Groups and NACLs.
- - Design a scalable and resilient cloud network architecture.
+
+    - Understand the fundamental layers of networking (OSI and TCP/IP).
+    - Master Cloud Networking components (VPC, Subnets, Gateways, Route Tables).
+    - Understand CIDR notation and IP address allocation.
+    - Implement a secure networking strategy using Security Groups and NACLs.
+    - Design a scalable and resilient cloud network architecture.
 
 ---
 
@@ -15,7 +16,7 @@ This section provides a deep dive into the networking foundations essential for 
 
 Networking is the "glue" of cloud computing. Whether you are deploying a simple website or a complex microservices architecture, the way data moves between your components determines the security, performance, and reliability of your application.
 
-![alt text](images/network-chatgpt.png)
+![Networking Foundations for Cloud Computing](images/network-chatgpt.png)
 
 
 ### The OSI Model vs. TCP/IP Stack
@@ -387,64 +388,64 @@ The following guide gives a quick overview how to chose the CIDR.
 
 !!! Assignment "Networking Assignment 1"
 
- Research the different applications running on the different ports. Give a short explanation of what they do. Explain why one is good and the other is bad. Are there other settings or alternative settings that should be used?
+    Research the different applications running on the different ports. Give a short explanation of what they do. Explain why one is good and the other is bad. Are there other settings or alternative settings that should be used?
 
- **What a "good" rule looks like**
+     **What a "good" rule looks like**
 
- | Port | Protocol | Allowed Source CIDR | Reason |
- |------|----------|---------------------|--------|
- | 22 (SSH) | TCP | `203.0.113.45/32` (your admin IP) | Only the admin's static IP can SSH. |
- | 22 (SSH) | TCP | `10.0.0.0/16` (internal VPC) | Allows bastion‑host‑to‑instance SSH, but not the Internet. |
- | 443 (HTTPS) | TCP | `0.0.0.0/0` | Public web traffic must be reachable from everywhere. |
- | 3306 (MySQL) | TCP | `10.0.2.0/24` (app‑tier subnet) | Database only accepts connections from the application servers. |
- | 3389 (RDP) | TCP | `198.51.100.0/24` (corporate office range) | Remote‑desktop only from corporate LAN. |
+     | Port | Protocol | Allowed Source CIDR | Reason |
+     |------|----------|---------------------|--------|
+     | 22 (SSH) | TCP | `203.0.113.45/32` (your admin IP) | Only the admin's static IP can SSH. |
+     | 22 (SSH) | TCP | `10.0.0.0/16` (internal VPC) | Allows bastion‑host‑to‑instance SSH, but not the Internet. |
+     | 443 (HTTPS) | TCP | `0.0.0.0/0` | Public web traffic must be reachable from everywhere. |
+     | 3306 (MySQL) | TCP | `10.0.2.0/24` (app‑tier subnet) | Database only accepts connections from the application servers. |
+     | 3389 (RDP) | TCP | `198.51.100.0/24` (corporate office range) | Remote‑desktop only from corporate LAN. |
 
- 
- **What a "bad" rule looks like**
 
- | Port | Protocol | Source CIDR | Why it's risky |
- |------|----------|-------------|----------------|
- | 22 (SSH) | TCP | `0.0.0.0/0` | Anyone can attempt a brute‑force SSH login. |
- | 3306 (MySQL) | TCP | `0.0.0.0/0` | External attackers can scan for the DB and enumerate data. |
- | 3389 (RDP) | TCP | `0.0.0.0/0` | RDP is a high‑value target; open to the world invites ransomware attacks. |
- | 8080 (Custom API) | TCP | `0.0.0.0/0` | If the API isn't meant to be public, you expose it to DoS and credential‑stuffing. |
+     **What a "bad" rule looks like**
+
+     | Port | Protocol | Source CIDR | Why it's risky |
+     |------|----------|-------------|----------------|
+     | 22 (SSH) | TCP | `0.0.0.0/0` | Anyone can attempt a brute‑force SSH login. |
+     | 3306 (MySQL) | TCP | `0.0.0.0/0` | External attackers can scan for the DB and enumerate data. |
+     | 3389 (RDP) | TCP | `0.0.0.0/0` | RDP is a high‑value target; open to the world invites ransomware attacks. |
+     | 8080 (Custom API) | TCP | `0.0.0.0/0` | If the API isn't meant to be public, you expose it to DoS and credential‑stuffing. |
 
 
 
 
 !!! Assignment "Network Assignment 2"
 
- The following Python program conducts a simple check on a CIDR block to help you understand how many IP addresses are available in different configurations.
+    The following Python program conducts a simple check on a CIDR block to help you understand how many IP addresses are available in different configurations.
 
- ```python
- import ipaddress
- cidr = ipaddress.ip_network('10.0.0.0/16')
- print(f"Network bits: {cidr.prefixlen}")
- print(f"Host bits: {32 - cidr.prefixlen}")
- print(f"Total IPs: {cidr.num_addresses}")
- ```
+     ```python
+     import ipaddress
+     cidr = ipaddress.ip_network('10.0.0.0/16')
+     print(f"Network bits: {cidr.prefixlen}")
+     print(f"Host bits: {32 - cidr.prefixlen}")
+     print(f"Total IPs: {cidr.num_addresses}")
+     ```
 
- **Task**: Execute this code and try different combinations (e.g., `/8`, `/24`, `/28`, `/32`). Observe how the number of available IPs changes drastically with just a small change in the prefix number.
+     **Task**: Execute this code and try different combinations (e.g., `/8`, `/24`, `/28`, `/32`). Observe how the number of available IPs changes drastically with just a small change in the prefix number.
 
- ??? tip "Solution"
+     ??? tip "Solution"
 
- ```
- Network bits: 16
- Host bits: 16
- Total IPs: 65536
- ```
+     ```
+     Network bits: 16
+     Host bits: 16
+     Total IPs: 65536
+     ```
 
- The Python functions show that a `/16` block contains **65,536** IP addresses, with 16 bits dedicated to the network portion and 16 bits available for host addresses. This makes it a common choice for medium-sized private networks (e.g., a VPC, a departmental subnet, or a campus-wide address space).
+     The Python functions show that a `/16` block contains **65,536** IP addresses, with 16 bits dedicated to the network portion and 16 bits available for host addresses. This makes it a common choice for medium-sized private networks (e.g., a VPC, a departmental subnet, or a campus-wide address space).
 
 
 !!! Assignment "Networking Assignment 3"
 
 
- The script below shows how you can **audit** a list of security‑group rules and flag any rule that uses `0.0.0.0/0` on a non‑web port. It also prints the number of IP addresses contained in each allowed CIDR, which helps you understand how "wide" a rule really is.
+     The script below shows how you can **audit** a list of security‑group rules and flag any rule that uses `0.0.0.0/0` on a non‑web port. It also prints the number of IP addresses contained in each allowed CIDR, which helps you understand how "wide" a rule really is.
 
- ```python
- import ipaddress
- from tabulate import tabulate
+     ```python
+     import ipaddress
+     from tabulate import tabulate
 
  # Sample security‑group rules (port, protocol, source CIDR)
  rules = [
@@ -496,64 +497,62 @@ The following guide gives a quick overview how to chose the CIDR.
 
  **Question:**
 
- How can the output from this program be interpreted?
+!!! Assignment "Assignment: How can the output from this program be interpreted?"
 
- ??? tip "Solution"
+    ??? tip "Solution"
 
- * The two rows flagged with **⚠️** are risky because they expose **SSH** (22) and **RDP** (3389) to the entire Internet. 
- * Port 80/443 are allowed from `0.0.0.0/0`—that is fine for some public web services. 
- * The rule `203.0.113.45/32` allows only a single IP, which is the most restrictive (only **1** address). 
- * The internal DB rule `10.0.0.0/16` still contains 65 536 addresses, but it is limited to the private VPC space, which is **not reachable from the public Internet**. 
+        * The two rows flagged with **⚠️** are risky because they expose **SSH** (22) and **RDP** (3389) to the entire Internet. 
+        * Port 80/443 are allowed from `0.0.0.0/0`—that is fine for some public web services. 
+        * The rule `203.0.113.45/32` allows only a single IP, which is the most restrictive (only **1** address). 
+        * The internal DB rule `10.0.0.0/16` still contains 65 536 addresses, but it is limited to the private VPC space, which is **not reachable from the public Internet**. 
 
-!!! Assignment "Networking Assignment 4"
+!!! Assignment "Assignment Networking "
 
- What should I do if I am constantly pinged, probed, and I detect logins from an IP address that has no need to access my "public" service?
+    What should I do if I am constantly pinged, probed, and I detect logins from an IP address that has no need to access my "public" service?
 
- * Why is the 0.0.0.0 IP sometimes a bad idea? 
- * How can this be prevented? 
- * How can you block IP addresses from a specific country? 
- Why would they be able to mask that they are from a specific country or IP address range?
+    * Why is the 0.0.0.0 IP sometimes a bad idea? 
+    * How can this be prevented? 
+    * How can you block IP addresses from a specific country? 
+    Why would they be able to mask that they are from a specific country or IP address range?
 
- !!! tip
- Research how to set up firewalls in Linux and apply the rules to the given IP or IP ranges.
- Show the explicit rule.
+    !!! tip
+        Research how to set up firewalls in Linux and apply the rules to the given IP or IP ranges.
+        Show the explicit rule.
 
-!!! Assignment "Network Assignment 5: Architecture"
+!!! Assignment "Assignment 5: Architecture"
 
+    Given the following diagram, explain what each component is and come up with an example application that needs such an architecture.
 
- Given the following diagram, explain what each component is and come up with an example application that needs such an architecture.
+    ![Network layout for an example cloud Web App](images/cloud_network.png)
 
- ![Network layout for an example cloud Web App](images/cloud_network.png)
+    As you have by now identified 
 
- As you have by now identified 
+    1. **Public subnet** holds the Load Balancer (LB) and optionally a bastion host. 
 
- 1. **Public subnet** holds the Load Balancer (LB) and optionally a bastion host. 
+    2. **Private subnet** holds application servers, databases, and any services that should not be directly reachable. 
 
- 2. **Private subnet** holds application servers, databases, and any services that should not be directly reachable. 
+    3. **NAT Gateway** lives in a public subnet, lets private instances initiate outbound connections (e.g., `apt-get update`). 
 
- 3. **NAT Gateway** lives in a public subnet, lets private instances initiate outbound connections (e.g., `apt-get update`). 
+    4. **Security Groups** lock down ports (e.g., LB allows 80/443 inbound; app SG allows traffic only from LB). 
 
- 4. **Security Groups** lock down ports (e.g., LB allows 80/443 inbound; app SG allows traffic only from LB). 
+    5. **Route Tables** send `0.0.0.0/0` from public subnets to the IGW and from private subnets to the NAT. 
 
- 5. **Route Tables** send `0.0.0.0/0` from public subnets to the IGW and from private subnets to the NAT. 
+    **Question 1:** Explain the "concrete" application and conduct a security audit.
 
- **Question 1:** Explain the "concrete" application and conduct a security audit.
-
- **Question 2:** If the application is run in a university, how do the security requirements need to be changed?
+    **Question 2:** If the application is run in a university, how do the security requirements need to be changed?
 
 ## Self-Assessment
+
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
 
- ??? question "What is the primary difference between the OSI model and the TCP/IP stack in the context of cloud computing?"
- The OSI model is a theoretical 7-layer framework, while the TCP/IP stack is a practical 4-layer model (Application, Transport, Internet, Link) that is the actual standard used by the internet and cloud providers.
+??? question "What is the primary difference between the OSI model and the TCP/IP stack in the context of cloud computing?"
+    The OSI model is a theoretical 7-layer framework, while the TCP/IP stack is a practical 4-layer model (Application, Transport, Internet, Link) that is the actual standard used by the internet and cloud providers.
 
- ??? question "What is CIDR notation and why is it used in cloud networking?"
- CIDR (Classless Inter-Domain Routing) is a method for allocating IP addresses and routing. It uses a slash notation (e.g., `/24`) to define the network prefix and the size of the IP range, allowing for more flexible and efficient address allocation than traditional class-based networking.
+??? question "What is CIDR notation and why is it used in cloud networking?"
+    CIDR (Classless Inter-Domain Routing) is a method for allocating IP addresses and routing. It uses a slash notation (e.g., `/24`) to define the network prefix and the size of the IP range, allowing for more flexible and efficient address allocation than traditional class-based networking.
 
- ??? question "Compare Security Groups and Network Access Control Lists (NACLs)."
- **Security Groups** act as a virtual firewall for individual instances and are stateful (if an inbound request is allowed, the outbound response is automatically allowed). **NACLs** act as a firewall for the entire subnet and are stateless (both inbound and outbound rules must be explicitly defined).
+??? question "Compare Security Groups and Network Access Control Lists (NACLs)."
+    **Security Groups** act as a virtual firewall for individual instances and are stateful (if an inbound request is allowed, the outbound response is automatically allowed). **NACLs** act as a firewall for the entire subnet and are stateless (both inbound and outbound rules must be explicitly defined).
 
- ??? question "What is the difference between a Public Subnet and a Private Subnet?"
- A **Public Subnet** has a direct route to an Internet Gateway (IGW), allowing resources within it to be accessible from the public internet. A **Private Subnet** does not have a direct route to the IGW; resources within it typically use a NAT Gateway to initiate outbound connections while remaining hidden from inbound public traffic.
+??? question "What is the difference between a Public Subnet and a Private Subnet?"
+    A **Public Subnet** has a direct route to an Internet Gateway (IGW), allowing resources within it to be accessible from the public internet. A **Private Subnet** does not have a direct route to the IGW; resources within it typically use a NAT Gateway to initiate outbound connections while remaining hidden from inbound public traffic.

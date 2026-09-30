@@ -1,6 +1,4 @@
----
-title: "Shell"
----
+# Shell
 
 Python provides a sophisticated method for starting background processes. However, in many cases, it is quite complex to interact with it. It also does not provide convenient wrappers that we can use to start them in a pythonic fashion. For this reason, we have written a primitive `Shell` class that provides just enough functionality to be useful in many cases.
 

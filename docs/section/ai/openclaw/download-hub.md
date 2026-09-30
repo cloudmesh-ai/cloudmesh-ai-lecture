@@ -1,6 +1,7 @@
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to:
     - Programmatically fetch static resources from a web page.
     - Use Python to parse HTML and identify downloadable assets.
@@ -202,6 +203,7 @@ print(f"\nAll assets downloaded. Open the offline page at: {main_path}")
 ## Assignments
 
 !!! note "Assignment.1: Extend Asset Types"
+
     Modify the `DOWNLOADABLE_EXTS` set in the script to include additional file formats (e.g., `.zip`, `.tar.gz`) and verify that these files are correctly identified and downloaded.
 
 ??? tip "Solution: Extend Asset Types"
@@ -214,6 +216,7 @@ print(f"\nAll assets downloaded. Open the offline page at: {main_path}")
     ```
 
 !!! note "Assignment.2: Implement Request Delay"
+
     To prevent server overload, add a 1-second delay between each file download using the `time` module.
 
 ??? tip "Solution: Implement Request Delay"

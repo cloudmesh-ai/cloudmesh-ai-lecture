@@ -1,6 +1,7 @@
 # OpenClaw References
 
 !!! info "Learning Objectives"
+
     After completing this section, you will be able to:
     * Identify key academic publications describing the OpenClaw architectural framework.
     * Understand the integration points between OpenClaw and other enterprise AI/ML tools.
@@ -116,6 +117,7 @@ for p in papers:
 ## Assignments
 
 !!! note "Practical Exercises"
+
     1. **Bibliography Expansion**: Use the provided Python script or manual search patterns to find one additional 2026 publication regarding OpenClaw and summarize its main contribution.
     2. **Comparative Analysis**: Compare the findings of Zhang & Singh (2026) regarding OpenClaw vs. MLflow. Identify one specific scenario where OpenClaw's UI-driven workflow is preferable over MLflow's API control.
     3. **Governance Review**: Based on Al-Saadi & Chen (2025), draft a short proposal for implementing a GDPR-compliant audit log for a university-scale deployment.
@@ -138,7 +140,7 @@ for p in papers:
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 ??? question "What is the main advantage of OpenClaw over highly specialized MLOps stacks according to the literature?"
-OpenClaw excels in user productivity and significantly reduces the engineering effort required to move from data ingestion to model serving, although it may have slightly higher latency for very large batch jobs.
+    OpenClaw excels in user productivity and significantly reduces the engineering effort required to move from data ingestion to model serving, although it may have slightly higher latency for very large batch jobs.
 
 ??? question "How does OpenClaw handle extensibility for domain-specific requirements?"
 OpenClaw allows for extensibility via custom actions, typically implemented as Docker-based Python scripts, enabling the use of any external library or specialized preprocessor.

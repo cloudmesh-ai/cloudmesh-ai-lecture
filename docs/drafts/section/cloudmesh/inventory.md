@@ -1,6 +1,4 @@
----
-title: "Inventory"
----
+# Inventory
 
 Sometimes it is necessary to maintain a simple inventory. Naturally, if you know python you can do this with dicts. However to manage a large number of items with repeated values its is of advantage to do this from the command line.
 

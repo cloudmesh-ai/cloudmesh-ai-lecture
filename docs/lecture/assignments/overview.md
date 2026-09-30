@@ -1,6 +1,4 @@
----
-title: "Assignments and Project Guidelines"
----
+# Assignments and Project Guidelines
 
 ## Learning Objectives
 

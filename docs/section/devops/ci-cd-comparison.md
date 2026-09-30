@@ -1,29 +1,39 @@
-# CI/CD Tool Comparison
+# CI/CD Tool Selection Guide
 
-This document provides a comparison of popular Continuous Integration and Continuous Deployment (CI/CD) tools to help in selecting the right tool for a given project or organizational need.
+Choosing the right CI/CD tool depends on your organization's needs for control, scale, and the specific requirements of your workload (e.g., AI/ML training).
+
+!!! info "Why this matters"
+    In AI development, the "CI" part of the pipeline often includes heavy compute tasks like model validation, weights checksumming, and integration tests that require GPUs. Choosing a tool with poor GPU support or rigid resource limits can turn a 10-minute validation step into a 2-hour bottleneck, slowing down the entire research cycle.
 
 ## Comparison Matrix
 
-| Feature | GitHub Actions | Jenkins | CircleCI | Travis CI |
-| :--- | :--- | :--- | :--- | :--- |
-| **Hosting Model** | Hosted (GitHub) / Self-hosted Runners | Primarily Self-hosted | Hosted / Self-hosted | Primarily Hosted |
-| **Configuration** | YAML | Groovy (Jenkinsfile) / GUI | YAML | YAML |
-| **Integration** | Deep GitHub Integration | Plugin-based (Very broad) | Strong GitHub/Bitbucket | Strong GitHub |
-| **Pricing Model** | Free for Public / Minutes-based for Private | Open Source (Free) / Support Costs | Tiered / Usage-based | Tiered / Credit-based |
-| **Ease of Setup** | Very High (Integrated) | Low to Medium (Requires Admin) | High | High |
-| **Extensibility** | Actions Marketplace | Massive Plugin Ecosystem | Orbs | Plugins / Config |
-| **State Management** | Managed by GitHub | Managed by Jenkins Server | Managed by CircleCI | Managed by Travis CI |
 
-## Tool Overviews
+| Dimension | Jenkins | GitHub Actions | CircleCI |
+| :--- | :--- | :--- | :--- |
+| **Hosting Model** | Self-Hosted (Managed by you) | SaaS (Managed) | SaaS (Managed) |
+| **Configuration** | Groovy DSL (`Jenkinsfile`) | YAML | YAML |
+| **Ops Overhead** | High (Server, OS, Plugins) | Very Low | Very Low |
+| **Control** | Absolute | High (via Runners) | High (via Resource Classes) |
+| **Scaling** | Manual/Plugin-based | Automatic / Ephemeral | Automatic / Ephemeral |
+| **AI/ML Suitability** | Excellent (Full GPU control) | Good (via Self-Hosted GPU) | Good (via GPU Resource Classes) |
+| **Cost Model** | Infrastructure + Time | Usage-based (Minutes) | Usage-based (Credits) |
 
-### GitHub Actions
-GitHub Actions allows you to automate your build, test, and deployment pipeline directly within your GitHub repository. It is highly integrated and uses "Actions" (reusable units of code) that can be shared across the community.
+## When to Choose Which Tool?
 
-### Jenkins
-Jenkins is the industry standard for self-hosted automation. Its primary strength is its massive ecosystem of plugins, allowing it to integrate with almost any tool in the DevOps stack. However, it requires significant operational overhead to maintain the Jenkins controller.
+### Choose Jenkins if...
+*   You require **absolute control** over the build environment for security or compliance reasons.
+*   You are operating in an **air-gapped** or highly restricted on-premise environment.
+*   You have extremely complex orchestration needs that require custom Groovy logic.
+*   You want to avoid per-minute usage costs and have the capacity to manage your own infrastructure.
 
-### CircleCI
-CircleCI focuses on speed and efficiency, offering advanced features like caching and parallelism out of the box. It provides a balanced approach between managed hosting and the flexibility of self-hosting.
+### Choose GitHub Actions if...
+*   Your source code is already on **GitHub** and you want the tightest possible integration.
+*   You prefer a **YAML-first** approach and want to leverage the massive community of pre-built "Actions".
+*   You want to minimize operational toil and move toward a "zero-infrastructure" CI model.
+*   You need a simple, integrated way to handle secrets and environment approvals.
 
-### Travis CI
-One of the earliest CI tools for GitHub, Travis CI is known for its simplicity and "config-as-code" approach. While it was once the dominant choice for open-source projects, it has seen increased competition from GitHub Actions.
+### ---
+
+## What's Next?
+
+Now that you understand the trade-offs between different CI/CD tools, it's time to see them in action. Explore our detailed guides on **[GitHub Actions](/section/devops/github-workflows.md)**, **[Jenkins](/section/devops/jenkins.md)**, **[CircleCI](/section/devops/circleci.md)**, and **[Travis CI](/section/devops/travis.md)** to implement your own pipeline.

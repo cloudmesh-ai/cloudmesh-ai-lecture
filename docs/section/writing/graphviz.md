@@ -1,6 +1,7 @@
 # Graphviz
 
 !!! info "Learning Objectives"
+
     - Install Graphviz and optional GUI tools.
     - Create diagrams using the DOT language.
     - Render DOT files into various image formats.
@@ -169,12 +170,15 @@ echo "digraph G {}" | dot -Tpng > hello.png
 ## Assignments
 
 !!! note "Assignment 1"
+
     Develop a REST service that accepts a graph description as input and returns a rendered version of the graph in a format specified by a request parameter.
 
 !!! note "Assignment 2"
+
     Develop a REST service that accepts a graph as input, renders it, and stores the result on a remote data server (another REST service). The service should return the URL of the stored image.
 
 !!! note "Assignment 3"
+
     Develop a REST service that accepts a graph as input and stores the rendered output on a cloud storage provider (e.g., Box or Google Drive). Ensure that authentication credentials and access keys are not exposed in the source code.
 
 ## Self-Assessment

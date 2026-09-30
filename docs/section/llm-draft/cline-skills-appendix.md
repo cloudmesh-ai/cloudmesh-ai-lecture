@@ -1,7 +1,8 @@
 # Appendix: Advanced Cline Skill Examples
 
 !!! info "Learning Objectives"
- By studying these examples, you will be able to:
+
+    By studying these examples, you will be able to:
 
  * **Implement** skills that interact with external REST APIs.
  * **Develop** skills that wrap existing system CLI tools to provide structured data.
@@ -127,20 +128,20 @@ if __name__ == "__main__":
 ## Assignments
 
 !!! note "Assignment 1: API Integration"
- **Task:** 
 
- 1. Create a new skill that calls a public API (e.g., OpenWeatherMap, CoinGecko, or a random joke API).
- 2. Ensure the skill returns a structured JSON object containing only the relevant data.
- 3. Register the skill in `cline.yaml` with proper arguments.
- **Deliverable:** The script file and a screenshot of the successful `cline` invocation.
+    **Task:** 
+    1. Create a new skill that calls a public API (e.g., OpenWeatherMap, CoinGecko, or a random joke API).
+    2. Ensure the skill returns a structured JSON object containing only the relevant data.
+    3. Register the skill in `cline.yaml` with proper arguments.
+    **Deliverable:** The script file and a screenshot of the successful `cline` invocation.
 
 !!! note "Assignment 2: Tool Wrapper"
- **Task:** 
 
- 1. Identify a CLI tool you use frequently (e.g., `git status`, `docker ps`, or `npm list`).
- 2. Write a wrapper skill that parses the output of that tool and returns it as a JSON object.
- 3. Use the skill to let Cline analyze the state of your system/project.
- **Deliverable:** The script and a screenshot showing Cline interpreting the JSON output.
+    **Task:** 
+    1. Identify a CLI tool you use frequently (e.g., `git status`, `docker ps`, or `npm list`).
+    2. Write a wrapper skill that parses the output of that tool and returns it as a JSON object.
+    3. Use the skill to let Cline analyze the state of your system/project.
+    **Deliverable:** The script and a screenshot showing Cline interpreting the JSON output.
 
 !!! note "Assignment 3: Complex Chaining"
  **Task:** 

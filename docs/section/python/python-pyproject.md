@@ -1,6 +1,7 @@
 # Python Project Configuration with pyproject.toml
 
 !!! info "Learning Objectives"
+
     - Understand the purpose and history of `pyproject.toml` (PEP 518 and PEP 621).
     - Configure the build system for a Python project.
     - Define project metadata and dependencies using the standardized `[project]` table.
@@ -44,6 +45,7 @@ build-backend = "setuptools.build_meta"
 ```
 
 !!! tip "Why this matters"
+
     By declaring the build requirements here, `pip` can create an isolated temporary environment, install the listed requirements, and build your package without interfering with the user's global Python environment.
 
 ## Project Metadata
@@ -100,6 +102,7 @@ docs = [
 ```
 
 !!! warning "Common Pitfall: Version Pinning"
+
     Avoid pinning exact versions (e.g., `httpx == 0.24.1`) in the `dependencies` list for libraries. This can cause dependency conflicts for users. Instead, use compatible ranges (e.g., `httpx >= 0.24`). Use a lock file (like `uv.lock` or `poetry.lock`) for exact environment reproduction in applications.
 
 ## Tool Configuration
@@ -176,6 +179,7 @@ profile = "black"
 
 
 !!! tip "Summary Checklist"
+
     - [ ] Created a `pyproject.toml` file in the project root.
     - [ ] Defined the `[build-system]` with a valid backend.
     - [ ] Added project metadata (name, version, authors) in the `[project]` table.
@@ -186,12 +190,15 @@ profile = "black"
 ## Assignments
 
 !!! note "Assignment 1: Basic Setup"
+
     Create a new directory for a project. Initialize a `pyproject.toml` file that defines a project named "my-first-lib", version "0.1.0", and uses `setuptools` as the build backend.
 
 !!! note "Assignment 2: Adding Metadata and Dependencies"
+
     Extend your `pyproject.toml` from Assignment 1. Add a description, specify that it requires Python 3.9 or higher, and add `requests` as a dependency.
 
 !!! note "Assignment 3: Tool Integration"
+
     Add a configuration section for `black` that sets the `line-length` to 100. Add a `dev` optional dependency group that includes `pytest`.
 
 
@@ -392,10 +399,6 @@ Dynamic versioning, whether file‑based (Hatch) or attribute‑based (Setuptool
 
 
 ## Self Assessment
-
-??? question "Self Assessment"
-    Test your knowledge by expanding the questions below.
-
     ??? question "What was the 'chicken-and-egg' problem associated with `setup.py`?"
         `setup.py` is an executable script. To find out what dependencies were needed to install a package, you had to run the script, but you might have needed those dependencies already installed to run the script.
 

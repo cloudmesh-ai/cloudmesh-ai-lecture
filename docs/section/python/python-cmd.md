@@ -1,11 +1,12 @@
 # Interactive Shells with Python cmd
 
 !!! info "Learning Objectives"
- - Implement an interactive command-line interpreter using the `cmd.Cmd` base class.
- - Create custom command handlers using the `do_` method pattern.
- - Manage the shell lifecycle, including handling EOF (Ctrl-D) and graceful exits.
- - Customize the user experience with custom prompts and welcome messages.
- - Implement a built-in help system for custom commands.
+
+    - Implement an interactive command-line interpreter using the `cmd.Cmd` base class.
+    - Create custom command handlers using the `do_` method pattern.
+    - Manage the shell lifecycle, including handling EOF (Ctrl-D) and graceful exits.
+    - Customize the user experience with custom prompts and welcome messages.
+    - Implement a built-in help system for custom commands.
 
 Most command-line tools operate on a "one-shot" basis: the user provides arguments, the program executes a task, and the process terminates. However, many tools—such as database consoles (e.g., `psql` or `mysql`), network switches, and debuggers—operate as persistent interactive shells. This pattern is known as a REPL (Read-Eval-Print Loop).
 
@@ -149,10 +150,6 @@ class DocumentedShell(cmd.Cmd):
 When the user types `help status`, the `help_status` method is executed, providing the user with specific instructions.
 
 ## Self Assessment
-
-??? question "Self Assessment"
- Test your knowledge by expanding the questions below.
-
  ??? question "How does the `cmd` module identify which methods should be treated as shell commands?"
  It uses a naming convention: any method starting with the prefix `do_` (e.g., `do_greet`) is automatically mapped to a command (`greet`).
 
@@ -171,21 +168,24 @@ When the user types `help status`, the `help_status` method is executed, providi
 ## Assignments
 
 !!! note "Assignment 1: Basic Shell Setup"
- Create a shell called `SimpleShell`. Implement two commands: `hello` (which prints a greeting) and `exit` (which closes the shell). Ensure the shell has a custom prompt like `(Simple) > `.
+
+    Create a shell called `SimpleShell`. Implement two commands: `hello` (which prints a greeting) and `exit` (which closes the shell). Ensure the shell has a custom prompt like `(Simple) > `.
 
 !!! note "Assignment 2: Interactive Task Manager"
- Build a task management shell. Implement the following commands:
- 1. `add [task]`: Adds a task to a Python list.
- 2. `list`: Displays all current tasks with their index.
- 3. `done [index]`: Removes a task from the list by its index.
- Include a `help_` method for each command to explain the usage.
+
+    Build a task management shell. Implement the following commands:
+    1. `add [task]`: Adds a task to a Python list.
+    2. `list`: Displays all current tasks with their index.
+    3. `done [index]`: Removes a task from the list by its index.
+    Include a `help_` method for each command to explain the usage.
 
 !!! note "Assignment 3: Virtual Storage Simulator"
- Create a shell that simulates a key-value store. Use a dictionary to store data. Implement:
- 1. `set [key] [value]`: Stores a value associated with a key.
- 2. `get [key]`: Retrieves the value for a given key.
- 3. `delete [key]`: Removes the key from the store.
- Handle cases where the user tries to `get` or `delete` a key that does not exist by printing a clear error message.
+
+    Create a shell that simulates a key-value store. Use a dictionary to store data. Implement:
+    1. `set [key] [value]`: Stores a value associated with a key.
+    2. `get [key]`: Retrieves the value for a given key.
+    3. `delete [key]`: Removes the key from the store.
+    Handle cases where the user tries to `get` or `delete` a key that does not exist by printing a clear error message.
 
 ## Further Reading
 

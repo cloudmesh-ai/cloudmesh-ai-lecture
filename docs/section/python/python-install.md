@@ -1,12 +1,14 @@
 # Python Installation
 
 !!! info "Learning Outcomes"
+
     - Install Python 3.12 using various methods, including official installers, Homebrew, and compiling from source.
     - Set up and manage isolated Python environments using `venv` to prevent system-wide dependency conflicts.
     - Configure environment variables and shell profiles for automatic virtual environment activation.
     - Verify Python and pip installations to ensure version compatibility with AI and cloud frameworks.
 
 !!! tip "Version Compatibility"
+
     Based on the requirements as of 2026, we recommend using **Python 3.12**. This version is fully compatible with the latest stable releases of the core AI frameworks, including **PyTorch**, **TensorFlow**, and **Keras**.
 
     Using Python 3.12 ensures you have access to the latest language features and performance improvements while maintaining stability across the AI ecosystem.
@@ -236,6 +238,7 @@ It is important to distinguish between a **Python Virtual Environment** (`venv`)
 We are not recommending the use of conda or Anaconda for this course. However, if you choose to use them, be aware that Anaconda installs additional tools that may be considered bloat.
 
 !!! warning "Conda Path Warning"
+
     When installing Anaconda, do NOT add it to the path or run `conda init`. This modifies your command prompt to register the `(base)` environment by default, which adversely interacts with other Python installations.
 
 #### Configuring `conda` to be on the path (Safe Method)

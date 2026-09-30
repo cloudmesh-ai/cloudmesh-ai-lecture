@@ -1,6 +1,4 @@
----
-title: "Secchi Disk"
----
+# Secchi Disk
 
 # Secchi Disk {#sec:secchi-disk}
 

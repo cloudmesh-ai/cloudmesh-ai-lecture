@@ -1,6 +1,4 @@
----
-title: "Fingerprint Matching"
----
+# Fingerprint Matching
 
 # Fingerprint Matching {#s-fingerprint}
 

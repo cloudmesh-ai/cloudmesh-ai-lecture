@@ -134,8 +134,8 @@ Beyond macros, Jinja2 provides tools to manage complexity and whitespace.
 #### Includes and Inheritance
 While macros are like functions, `include` and `extends` are about structure:
 
-- **`{% include "snippet.j2" %}`**: Literally inserts the content of another template. Use this for common headers or legal footers.
-- **`{% extends "base.j2" %}`**: Defines a base layout with `{% block %}` sections that child templates can override. This is common in web development but can be used in complex config files to define a "standard" skeleton.
+- **`&#123;% include "snippet.j2" %}`**: Literally inserts the content of another template. Use this for common headers or legal footers.
+- **`&#123;% extends "base.j2" %}`**: Defines a base layout with `{% block %}` sections that child templates can override. This is common in web development but can be used in complex config files to define a "standard" skeleton.
 
 #### Whitespace Control
 Jinja2 often leaves behind blank lines where tags (`{% ... %}`) were located. To prevent this, use the minus sign (`-`) to strip whitespace:

@@ -79,30 +79,30 @@ To master these concepts, we will explore the DevOps lifecycle through the follo
 
 #### Part I: Foundations of DevOps
 - **Introduction to DevOps** (`devops.md`): The philosophy and lifecycle.
-- **DevOps and Organizational Culture** ([`devops-team.md`](devops-team.md)): Conway's Law, Team Topologies, and collaborative engineering.
+- **DevOps and Organizational Culture** ([`devops-team.md`](/section/devops/devops-team.md)): Conway's Law, Team Topologies, and collaborative engineering.
 
 #### Part II: Infrastructure as Code (IaC)
-- **The Core of IaC** ([`devops-iac.md`](devops-iac.md)): Declarative vs. Procedural and Idempotence.
-- **Server Provisioning with Terraform** ([`terraform.md`](terraform.md)): The Terraform lifecycle and state management.
-- **Configuration Management with Ansible** ([`ansible.md`](ansible.md)): Agentless architecture and Playbooks.
-- **Enterprise Scale with Puppet** ([`puppet.md`](puppet.md)): The pull model and state enforcement at scale.
-- **Dynamic Configuration with Jinja2** ([`devops-jinja2.md`](devops-jinja2.md)): Templating for infrastructure.
+- **The Core of IaC** ([`devops-iac.md`](/section/devops/devops-iac.md)): Declarative vs. Procedural and Idempotence.
+- **Server Provisioning with Terraform** ([`terraform.md`](/section/devops/terraform.md)): The Terraform lifecycle and state management.
+- **Configuration Management with Ansible** ([`ansible.md`](/section/devops/ansible.md)): Agentless architecture and Playbooks.
+- **Enterprise Scale with Puppet** ([`puppet.md`](/section/devops/puppet.md)): The pull model and state enforcement at scale.
+- **Dynamic Configuration with Jinja2** ([`devops-jinja2.md`](/section/devops/devops-jinja2.md)): Templating for infrastructure.
 
 #### Part III: Continuous Integration and Delivery (CI/CD)
-- **The CI/CD/CM Framework** ([`devop-ci.md`](devop-ci.md)): Defining the integrated DevOps pipeline.
-- **Task Automation with Make** ([`make.md`](make.md)): Using Makefiles as DevOps glue.
+- **The CI/CD/CM Framework** ([`devop-ci.md`](/section/devops/devop-ci.md)): Defining the integrated DevOps pipeline.
+- **Task Automation with Make** ([`make.md`](/section/devops/make.md)): Using Makefiles as DevOps glue.
 - **CI/CD Tooling Landscape**:
-    - **GitHub Actions** ([`github-workflows.md`](github-workflows.md)): Event-driven automation.
-    - **Jenkins** ([`jenkins.md`](jenkins.md)): The universal orchestrator.
-    - **CircleCI** ([`circleci.md`](circleci.md)): Container-first pipelines.
-    - **Travis CI** ([`travis.md`](travis.md)): Open-source pioneering.
+    - **GitHub Actions** ([`github-workflows.md`](/section/devops/github-workflows.md)): Event-driven automation.
+    - **Jenkins** ([`jenkins.md`](/section/devops/jenkins.md)): The universal orchestrator.
+    - **CircleCI** ([`circleci.md`](/section/devops/circleci.md)): Container-first pipelines.
+    - **Travis CI** ([`travis.md`](/section/devops/travis.md)): Open-source pioneering.
 
 #### Part IV: Cloud-Native Implementation & Observability
-- **DevOps on AWS** ([`devop-aws.md`](devop-aws.md)): AWS CodeSuite and Serverless DevOps.
-- **Observability and Monitoring** ([`devop-azure-monitor.md`](devop-azure-monitor.md)): Monitoring vs. Observability and telemetry.
+- **DevOps on AWS** ([`devop-aws.md`](/section/devops/devop-aws.md)): AWS CodeSuite and Serverless DevOps.
+- **Observability and Monitoring** ([`devop-azure-monitor.md`](/section/devops/devop-azure-monitor.md)): Monitoring vs. Observability and telemetry.
 
 #### Part V: DevSecOps and Hardening
-- **Securing the Pipeline** ([`github-workflow-security.md`](github-workflow-security.md)): Secrets management and supply chain security.
+- **Securing the Pipeline** ([`github-workflow-security.md`](/section/devops/github-workflow-security.md)): Secrets management and supply chain security.
 
 ![DevOps Landscape](images/devops-chatgpt.png)
 

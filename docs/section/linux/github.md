@@ -1,6 +1,7 @@
 # GitHub and Git
 
 !!! info "Learning Objectives"
+
     By the end of this section, you will be able to:
 
     * **Distinguish** between Git (the version control system) and GitHub (the hosting platform).
@@ -61,6 +62,7 @@ git merge feature-login
 ```
 
 !!! warning "The Commit Message Trap"
+
     Avoid vague commit messages like "fixed stuff" or "updates". Use the imperative mood (e.g., "Add user authentication" instead of "Added user authentication") to follow industry standards and make the history searchable.
 
 ## GitHub: The Collaborative Platform
@@ -121,6 +123,7 @@ Use **`git`** when you are doing the actual work: writing code, creating branche
 Use **`gh`** when you are managing the project: opening a PR, checking the status of a CI build, or reporting a bug via an issue.
 
 !!! tip "The Power Combo"
+
     The most efficient developers use both. They use `git` to commit their work and `gh pr create` to submit it for review, all without ever leaving the terminal.
 
 ## GUI Tools and IDE Integration
@@ -154,9 +157,11 @@ Modern IDEs integrate Git directly into their editor, reducing the need to switc
 | **Absolute Beginners** | GitHub Desktop | Lowers the barrier to entry by removing the command line. |
 
 !!! tip "Professional Advice"
+
     Learn the CLI first. GUIs are abstractions; if the GUI crashes or encounters a complex state (like a detached HEAD), only knowing the CLI will allow you to fix the repository without losing data.
 
 !!! tip "Summary Checklist"
+
     Ensure you can perform these core tasks:
 
     * [ ] Initialize a repo (`git init`) and make your first commit.
@@ -168,10 +173,12 @@ Modern IDEs integrate Git directly into their editor, reducing the need to switc
 
 ## Assignments
 !!! note "Assignment 1: Local Foundations"
+
     **Task:** Create a new folder, initialize it as a Git repository, create three different files, and commit them in two separate commits.
     **Deliverable:** Run `git log --oneline` and take a screenshot of the history.
 
 !!! note "Assignment 2: The Collaborative Loop"
+
     **Task:** 
     1. Fork a public repository on GitHub.
     2. Clone your fork locally.
@@ -181,6 +188,7 @@ Modern IDEs integrate Git directly into their editor, reducing the need to switc
     **Deliverable:** The URL of the Pull Request.
 
 !!! note "Assignment 3: Conflict Resolution"
+
     **Task:** 
     1. Create two branches from `main`.
     2. Modify the same line of the same file in both branches and commit.
@@ -191,16 +199,14 @@ Modern IDEs integrate Git directly into their editor, reducing the need to switc
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge of the concepts covered in this section.
 
-    ??? question "What is the fundamental difference between Git and GitHub?"
-        Git is a local version control system (a tool installed on your computer) that tracks changes in your files. GitHub is a cloud-based hosting platform that stores Git repositories, facilitating collaboration, code review (via Pull Requests), and project management.
+??? question "What is the fundamental difference between Git and GitHub?"
+    Git is a local version control system (a tool installed on your computer) that tracks changes in your files. GitHub is a cloud-based hosting platform that stores Git repositories, facilitating collaboration, code review (via Pull Requests), and project management.
 
-    ??? question "Explain the purpose of the 'Staging Area' (Index) in the Git workflow."
-        The staging area acts as a buffer between the working directory and the local repository. It allows developers to selectively choose which specific changes to include in the next commit, enabling the creation of clean, atomic commits even if multiple unrelated changes were made to the files.
+??? question "Explain the purpose of the 'Staging Area' (Index) in the Git workflow."
+    The staging area acts as a buffer between the working directory and the local repository. It allows developers to selectively choose which specific changes to include in the next commit, enabling the creation of clean, atomic commits even if multiple unrelated changes were made to the files.
 
-    ??? question "What is a 'Fork' and how does it differ from a 'Clone'?"
-        - A **Clone** creates a local copy of a repository on your machine.
-        - A **Fork** creates a server-side copy of someone else's repository under your own GitHub account. This allows you to make changes freely and then propose those changes to the original repository via a Pull Request.
+??? question "What is a 'Fork' and how does it differ from a 'Clone'?"
+    - A **Clone** creates a local copy of a repository on your machine.
+    - A **Fork** creates a server-side copy of someone else's repository under your own GitHub account. This allows you to make changes freely and then propose those changes to the original repository via a Pull Request.
 

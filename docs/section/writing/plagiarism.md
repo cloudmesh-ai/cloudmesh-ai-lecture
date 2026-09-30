@@ -1,6 +1,7 @@
 # Plagiarism
 
 !!! info "Learning Objectives"
+
     By the end of this section, you will be able to:
     - Define plagiarism and identify its various forms.
     - Understand institutional policies regarding academic integrity.
@@ -165,15 +166,19 @@ Assignments in this course follow numbered ACM or IEEE proceedings and journal c
 ## Assignments
 
 !!! note "Exercise 1"
+
     Read this document thoroughly to understand the definition of plagiarism and the requirements for proper citation.
 
 !!! note "Exercise 2"
+
     Compare APA and IEEE citation styles. Explain why numbered citation is generally preferred in scientific and technical writing.
 
 !!! note "Exercise 3"
+
     Complete and pass the [plagiarism certification](https://www.indiana.edu/~academy/firstPrinciples/certificationTests/index.html). This certification is mandatory for all students in this class.
 
 !!! note "Exercise 4"
+
     Identify the plagiarism guidelines and policies at Loyola University Chicago.
 
 ## Self-Assessment

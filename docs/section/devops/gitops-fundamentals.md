@@ -118,4 +118,8 @@ Is your organization actually practicing GitOps? Check your process against thes
 - [ ] **Versioned**: Is the complete desired state stored in a Git repository?
 - [ ] **Automated**: Is the deployment triggered by a Git event (merge/commit) rather than a manual command?
 - [ ] **Reconciled**: Does the system automatically detect and correct manual changes (drift) in the environment?
-- [ ] **Secure**: Are secrets handled via encryption or external vaults rather than plain-text in the repository?
+---
+
+## What's Next?
+
+With the fundamentals of GitOps and pull-based synchronization understood, let's look at how to implement these patterns in a real-world cloud environment. Head over to **[DevOps on AWS](/section/devops/devop-aws.md)** to see the AWS CodeSuite in action.

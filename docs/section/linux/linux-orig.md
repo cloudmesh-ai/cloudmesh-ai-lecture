@@ -3,6 +3,7 @@
 ---
 
 !!! info "Learning Outcomes"
+
     - Be able to know the basic commands to work in a [Linux]{.index} terminal.
     - Get familiar with Linux Commands.
 
@@ -456,12 +457,15 @@ $ chmod a-x,o+r file1.txt file2.txt
 ## Assignments
 
 !!! assignment "Assignment E.Linux.1"
+
     Familiarize yourself with the commands
 
 !!! assignment "Assignment E.Linux.2"
+
     Find more commands that you find useful and add them to this page.
 
 !!! assignment "Assignment E.Linux.3"
+
     Use the sort command to sort all lines of a file while removing duplicates.
 
 !!! assignment "Assignment E.Linux.4"

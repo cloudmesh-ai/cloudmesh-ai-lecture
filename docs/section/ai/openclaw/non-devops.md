@@ -3,6 +3,7 @@
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to:
     * Identify and design non-DevOps use-cases for AI-augmented CLI tools.
     * Develop declarative claw templates for scientific, creative, and analytical tasks.
@@ -127,18 +128,21 @@ openclaw invoke pdf-summarizer --input_path papers/transformer.pdf
 ## Assignments
 
 !!! note "Assignment.1: Domain-Specific Claw"
+
     Choose a scientific or creative tool (e.g., `ffmpeg`, `pandoc`, `tesseract`) and design a YAML claw-template for it, including validation rules for three common flags.
 
 ??? tip "Solution: Domain-Specific Claw"
     A successful solution should define a YAML template with a clear `name`, `description`, and `command` that uses placeholders for the selected flags. For example, for `ffmpeg`, a template might include flags for `-i` (input), `-c:v` (codec), and `-b:v` (bitrate), with `inputs` section defining regex constraints for the bitrate to ensure it is a positive integer.
 
 !!! note "Assignment.2: Pipeline Design"
+
     Sketch a multi-modal pipeline that takes a raw video file and produces a translated subtitle file, discussing whether OpenClaw or NemoClay is the better fit.
 
 ??? tip "Solution: Pipeline Design"
     The ideal pipeline involves: 1. Audio extraction (`ffmpeg`), 2. Speech-to-Text (Whisper), 3. Machine Translation (M2M100), and 4. Subtitle formatting. NemoClay is the better fit because this is a multi-modal, multi-step DAG requiring state management between steps and container isolation for the different AI models.
 
 !!! note "Assignment.3: Security Audit"
+
     Review the "Best Practices" table and write a 200-word proposal on how to implement a "human-in-the-loop" verification step for any command that modifies the file system.
 
 ??? tip "Solution: Security Audit"

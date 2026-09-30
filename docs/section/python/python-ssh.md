@@ -1,6 +1,7 @@
 # Remote Server Management in Python
 
 !!! info "Learning Objectives"
+
     - Understand the role of Secure Shell (SSH) in remote cloud resource management.
     - Implement remote execution using various abstraction levels: `subprocess`, `paramiko`, `fabric`, and `RemoteExecutor`.
     - Manage remote files using SFTP.
@@ -134,6 +135,7 @@ client.close()
 ```
 
 !!! warning "Security Note on AutoAddPolicy"
+
     `paramiko.AutoAddPolicy()` accepts any host key, exposing the connection to MITM attacks. In production, use `RejectPolicy` and maintain a known hosts file.
 
 ## High-Level Orchestration with Fabric
@@ -213,6 +215,7 @@ When automating SSH, security must be the priority to prevent unauthorized acces
 - **Principle of Least Privilege**: Use dedicated SSH users with restricted permissions via `sudoers` instead of the root account.
 
 !!! tip "Summary Checklist"
+
     - Selected the appropriate tool based on abstraction needs (`subprocess`, `paramiko`, `fabric`, or `RemoteExecutor`).
     - Implemented secure authentication using private keys.
     - Handled remote output streams (`stdout`, `stderr`) and exit codes.
@@ -225,6 +228,7 @@ When automating SSH, security must be the priority to prevent unauthorized acces
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
+
     Test your knowledge by expanding the questions below.
 
 ??? question "Contrast the use of `subprocess` and `paramiko` for remote execution."
@@ -237,9 +241,11 @@ Test your knowledge by expanding the questions below.
     It provides a unified, high-level API that combines connection management and command execution, integrating with global configurations for host key trust and output monitoring.
 
 !!! note "Assignment 1: Basic Connectivity"
+
     Write a Python script that connects to a remote server and prints the current system kernel version using the `uname -a` command. Handle the connection using a try-except block to catch authentication errors.
 
 !!! note "Assignment 2: Remote Cloud Auditor"
+
     Develop a script that performs the following tasks:
     1. Accepts a list of three remote VM IP addresses.
     2. Connects to each VM using a shared SSH private key.
@@ -248,6 +254,7 @@ Test your knowledge by expanding the questions below.
     5. Prints a warning message if any VM exceeds 80% disk usage.
 
 !!! note "Assignment 3: Automated Deployment Pipeline"
+
     Implement a mini-deployment pipeline that:
     1. Connects to a remote server via SSH.
     2. Uses SFTP to upload a Python script named `app.py` to the `/tmp` directory.

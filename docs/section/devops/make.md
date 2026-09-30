@@ -282,7 +282,7 @@ Override variables on the CLI, e.g. `make SERVER_NAME=web‑01 start`.
 
 Managing Windows Subsystem for Linux (WSL2) can be streamlined by wrapping `wsl.exe` commands in a Makefile. This allows for repeatable, version-controlled management of distribution lifecycles, including starting, stopping, exporting for backup, and executing arbitrary commands within specific distributions.
 
-For a comprehensive guide and the complete management Makefile, see [Make for WSL2](make-wsl2.md).
+For a comprehensive guide and the complete management Makefile, see [Make for WSL2](/section/cloud/platforms/local/wsl2.md).
 
 ---
 

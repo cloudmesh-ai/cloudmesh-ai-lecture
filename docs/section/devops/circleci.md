@@ -45,14 +45,67 @@ workflows:
       - build
 ```
 
-## Building Your First Pipeline
+## Implementing a CI Pipeline
 
-Implementing CircleCI generally follows these steps:
+In a real-world scenario, a CI pipeline doesn't just run a single script; it ensures code quality and model performance through a series of gated stages.
 
-1.  **Connect your Repository**: Grant CircleCI access to your GitHub/Bitbucket account.
-2.  **Define the Config**: Create the `.circleci/config.yml` file in your project root.
-3.  **Trigger the Build**: Push the config file to your main branch. CircleCI will automatically detect the change and start the pipeline.
-4.  **Iterate**: Use the CircleCI dashboard to view logs, identify failures, and optimize your build times using caching.
+### Python Testing Pipeline
+
+This pipeline installs dependencies, runs a linter, and executes tests.
+
+```yaml
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            pip install flake8 pytest
+            pip install -r requirements.txt
+      - run:
+          name: Lint
+          command: flake8 .
+      - run:
+          name: Run Tests
+          command: pytest
+```
+
+### AI/ML Pipeline with GPU Acceleration
+
+For AI/ML workloads, standard containers are often insufficient. CircleCI provides **GPU Resource Classes** that allow you to execute training jobs on machines equipped with NVIDIA GPUs.
+
+```yaml
+version: 2.1
+jobs:
+  train-model:
+    docker:
+      - image: nvidia/cuda:11.8.0-base-ubuntu22.04
+    resource_class: gpu.medium # Request a GPU-enabled runner
+    steps:
+      - checkout
+      - run:
+          name: Train Model
+          command: python train.py --epochs 10
+      - run:
+          name: Model Validation
+          command: |
+            ACCURACY=$(python evaluate.py)
+            echo "Model Accuracy: $ACCURACY"
+            if (( $(echo "$ACCURACY < 0.85" | bc -l) )); then
+              echo "Accuracy too low! Failing build."
+              exit 1
+            fi
+```
+
+!!! info "MLOps Best Practice"
+    Integrating a **Model Validation** stage directly into your CI pipeline prevents "model regression," ensuring that no model with degraded performance ever reaches your production registry.
+
+!!! tip "Try it in the Lab"
+    You can simulate these pipeline patterns using the [Local Lab](/section/devops/local-lab.md) to understand how resource requests and containerized builds function.
 
 ## Self-Assessment
 
@@ -92,4 +145,4 @@ Test your knowledge by expanding the questions below.
 
 CircleCI provides a high-velocity, managed experience for modern teams. To complete your understanding of the CI landscape, explore **Travis CI**, the open-source pioneer that set the stage for the hosted CI movement.
 
-Visit the [Local Lab](local-lab.md) for instructions on how to run CircleCI locally.
+Visit the [Local Lab](/section/devops/local-lab.md) for instructions on how to run CircleCI locally.

@@ -1,6 +1,7 @@
 # PlantUML
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to:
     - Understand the benefits of Diagram-as-Code.
     - Create sequence, component, deployment, and class diagrams using PlantUML syntax.
@@ -64,7 +65,7 @@ Gateway --> User: 200 OK (Resource)
 @enduml
 ```
 
-![Sequence Diagram](images/plantuml/sequencepng)
+![Sequence Diagram](images/plantuml/sequence.png)
 
 ### Component Diagrams
 
@@ -151,6 +152,7 @@ AIAgent <|-- CodingAgent
 ## Assignments
 
 !!! note "Assignment"
+
     1. Create a sequence diagram illustrating the process of a user submitting a prompt to an AI agent, the agent calling a tool, and returning the final answer.
     2. Design a component diagram for a RAG (Retrieval Augmented Generation) system including a Vector Database, Embeddings Model, and LLM.
     3. Model a class diagram for a plugin system where a `BasePlugin` class is extended by `GoogleSearchPlugin` and `FileSystemPlugin`.

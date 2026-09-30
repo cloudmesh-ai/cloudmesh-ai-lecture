@@ -2,12 +2,12 @@
 
 !!! info "Learning Objectives"
 
- By the end of this chapter, you will be able to:
- - Install and manage third-party Python libraries using `pip` and the Python Package Index (PyPI).
- - Implement environment isolation using virtual environments (`venv`) to prevent system-wide dependency conflicts.
- - Utilize automatic formatting and linting tools such as `autopep8` and `pylint` to maintain code quality.
- - Develop simple graphical user interfaces (GUIs) using libraries like `guizero` and `Kivy`.
- - Evaluate various Python distributions and versions to determine the appropriate runtime for production and development.
+    By the end of this chapter, you will be able to:
+    - Install and manage third-party Python libraries using `pip` and the Python Package Index (PyPI).
+    - Implement environment isolation using virtual environments (`venv`) to prevent system-wide dependency conflicts.
+    - Utilize automatic formatting and linting tools such as `autopep8` and `pylint` to maintain code quality.
+    - Develop simple graphical user interfaces (GUIs) using libraries like `guizero` and `Kivy`.
+    - Evaluate various Python distributions and versions to determine the appropriate runtime for production and development.
 
 The Python standard library is extensive, following a "batteries included" philosophy. However, the true strength of Python lies in its vast ecosystem of third-party libraries. Whether you need to perform complex mathematical operations, interface with cloud APIs, or build a graphical user interface, there is likely an existing implementation available on the Python Package Index (PyPI).
 
@@ -155,28 +155,28 @@ Best practice is to use a minimal CPython installation combined with `pyenv` for
 
 !!! tip "Summary Checklist"
 
- - [ ] Updated `pip` to the latest version.
- - [ ] Installed third-party packages using `pip install`.
- - [ ] Created and activated a virtual environment using `venv`.
- - [ ] Formatted code using `autopep8` to meet PEP 8 standards.
- - [ ] Ran `pylint` to identify static analysis issues in the code.
- - [ ] Identified the appropriate GUI library (`guizero` vs `Kivy`) based on project needs.
- - [ ] Selected a lightweight Python distribution for production deployment.
+    - [ ] Updated `pip` to the latest version.
+    - [ ] Installed third-party packages using `pip install`.
+    - [ ] Created and activated a virtual environment using `venv`.
+    - [ ] Formatted code using `autopep8` to meet PEP 8 standards.
+    - [ ] Ran `pylint` to identify static analysis issues in the code.
+    - [ ] Identified the appropriate GUI library (`guizero` vs `Kivy`) based on project needs.
+    - [ ] Selected a lightweight Python distribution for production deployment.
 
 !!! note "Assignment 1: Library Management"
 
- **Task**: Create a new project directory. Initialize a virtual environment, activate it, and install the `requests` and `pylint` libraries. Generate a `requirements.txt` file using `pip freeze`.
- **Goal**: Master the basic lifecycle of environment and dependency management.
+    **Task**: Create a new project directory. Initialize a virtual environment, activate it, and install the `requests` and `pylint` libraries. Generate a `requirements.txt` file using `pip freeze`.
+    **Goal**: Master the basic lifecycle of environment and dependency management.
 
 !!! note "Assignment 2: Code Refactoring"
 
- **Task**: Write a Python script with intentionally poor formatting (excessive whitespace, inconsistent indentation, and long lines). Use `autopep8` to format the file and `pylint` to analyze the remaining logical issues.
- **Goal**: Implement an automated code quality pipeline.
+    **Task**: Write a Python script with intentionally poor formatting (excessive whitespace, inconsistent indentation, and long lines). Use `autopep8` to format the file and `pylint` to analyze the remaining logical issues.
+    **Goal**: Implement an automated code quality pipeline.
 
 !!! note "Assignment 3: Interactive Interface"
 
- **Task**: Use `guizero` to create a simple window with a text input field and a button. When the button is clicked, the application should print the content of the input field to the console.
- **Goal**: Implement a basic event-driven GUI application.
+    **Task**: Use `guizero` to create a simple window with a text input field and a button. When the button is clicked, the application should print the content of the input field to the console.
+    **Goal**: Implement a basic event-driven GUI application.
 
 ## Resources
 
@@ -194,10 +194,6 @@ The following resources are recommended for further study of Python libraries an
 
 
 ## Self Assessment
-
-??? question "Self Assessment"
- Test your knowledge by expanding the questions below.
-
  ??? question "What is the risk of installing Python libraries globally on an operating system?"
  Global installation can lead to \"dependency hell,\" where two different projects require conflicting versions of the same library, or worse, it can break OS-level tools that rely on a specific version of the system Python.
 

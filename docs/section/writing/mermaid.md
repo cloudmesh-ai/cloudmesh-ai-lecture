@@ -1,7 +1,9 @@
 # Mermaid.js
 
 !!! info "Learning Objectives"
+
     After completing this chapter, you will be able to:
+    
     - Define Mermaid.js and its utility in technical documentation.
     - Create flowcharts, sequence diagrams, and Gantt charts using Mermaid syntax.
     - Integrate Mermaid.js into an MkDocs environment.
@@ -161,9 +163,11 @@ mermaid.initialize({ startOnLoad: true });
 ## Assignments
 
 !!! note "Assignment 1: Architecture Mapping"
+
     Create a Mermaid flowchart that represents a three-tier architecture: a Client, an Application Load Balancer, an Auto Scaling Group of EC2 instances, and an RDS Database.
 
 !!! note "Assignment 2: Authentication Flow"
+
     Create a sequence diagram showing the OAuth2 Authorization Code flow between a User, a Client Application, an Authorization Server, and a Resource Server.
 
 ## Self-Assessment

@@ -51,6 +51,60 @@ jobs:
         run: python --version
 ```
 
+### Advanced Pipeline Patterns
+
+In professional environments, pipelines are rarely linear. They use parallelism and dependencies to optimize speed and reliability.
+
+#### 1. Matrix Builds (Cross-Environment Testing)
+A **Matrix** allows you to run the same job across multiple combinations of variables (e.g., multiple Python versions) without duplicating the YAML.
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python --version
+```
+
+#### 2. Job Dependencies (`needs`)
+You can ensure that a deployment only happens if the tests pass by using the `needs` keyword.
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running tests..."
+  
+  deploy:
+    needs: test # Only runs if 'test' job completes successfully
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying to production..."
+```
+
+#### 3. GitHub Environments & Approvals
+For production releases, use **Environments** to add a manual approval gate.
+
+```yaml
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    environment: production # Links to environment protection rules in GitHub Settings
+    steps:
+      - run: echo "Deploying to production environment..."
+```
+In GitHub **Settings $\rightarrow$ Environments**, you can specify required reviewers who must approve the job before it executes.
+
 ## Implementing a CI Pipeline
 
 In a real-world scenario, a CI pipeline doesn't just say "Hello"; it ensures code quality through linting and testing.
@@ -125,13 +179,62 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:latest
 ```
 
-### Managing Secrets
+### AI/ML Workflows with GitHub Actions
 
-Never hardcode API keys or passwords in your YAML files. Use **GitHub Secrets**:
+Integrating AI/ML into your CI/CD pipeline requires handling specialized hardware and model lifecycle management.
 
+#### 1. GPU-Accelerated Training (Self-Hosted Runners)
+Standard GitHub-hosted runners do not provide GPUs. For model training, you must use **Self-Hosted Runners** installed on your own GPU-enabled machines.
+
+```yaml
+jobs:
+  train-model:
+    runs-on: [self-hosted, linux, gpu] # Use labels to target GPU nodes
+    steps:
+      - uses: actions/checkout@v4
+      - name: Train Model
+        run: python train.py --epochs 10
+```
+
+#### 2. Model Registry Integration
+Once trained, models should be versioned in a registry (e.g., Hugging Face) rather than stored in Git.
+
+```yaml
+      - name: Upload to Hugging Face
+        uses: huggingface/push-to-hub@v1
+        with:
+          token: ${{ secrets.HF_TOKEN }}
+          local_dir: ./model_artifacts
+```
+
+#### 3. Automated Accuracy Validation
+Prevent "model regression" by adding a validation gate that fails the pipeline if the new model's accuracy drops below a threshold.
+
+```yaml
+      - name: Validate Model
+        run: |
+          ACCURACY=$(python evaluate.py)
+          if (( $(echo "$ACCURACY < 0.85" | bc -l) )); then
+            echo "Accuracy too low: $ACCURACY"
+            exit 1
+          fi
+```
+
+### Managing Secrets and Cloud Auth
+
+Never hardcode API keys or passwords in your YAML files. 
+
+#### GitHub Secrets
+Use **GitHub Secrets** for simple credentials:
 1. Go to **Settings** -> **Secrets and variables** -> **Actions**.
 2. Add a new repository secret (e.g., `AWS_ACCESS_KEY_ID`).
 3. Access it in your workflow using the `${{ secrets.NAME }}` syntax.
+
+#### Modern Auth: OpenID Connect (OIDC)
+For better security, avoid static keys entirely. Use **OIDC** to allow GitHub Actions to request short-lived tokens directly from your cloud provider (AWS, Azure, GCP). This eliminates the need to store long-lived secrets in GitHub.
+
+!!! warning "Security Deep Dive"
+    For a comprehensive guide on supply chain security, pinning actions to SHAs, and avoiding privilege escalation, see the **[GitHub Workflow Security Guide](/section/devops/github-workflow-security.md)**.
 
 ## Case Study: Publishing the cloudmesh-ai-lecture
 

@@ -7,6 +7,7 @@ draft: false
 ---
 
 !!! info "Learning Outcomes"
+
     - Understand the institutional foundations, collaborative history, and continuous evolution of the course materials.
     - Recognize how modern tooling, including Large Language Models, supports the development of the course ecosystem.
     - Embrace the role of a living-document collaborator by actively contributing improvements, bug fixes, and content updates.

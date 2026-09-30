@@ -2,12 +2,12 @@
 
 !!! info "Learning Objectives"
 
- By the end of this chapter, you will be able to:
- - Understand the core philosophy and design goals of the Python programming language.
- - Identify the advantages of Python for cloud automation, rapid application development, and AI integration.
- - Differentiate between the Python standard library and third-party packages available via the Python Package Index (PyPI).
- - Select appropriate development tools, including interpreters, virtual environments, and Integrated Development Environments (IDEs).
- - Explain the rationale for using lightweight environment management over monolithic distributions like Anaconda in production environments.
+    By the end of this chapter, you will be able to:
+    - Understand the core philosophy and design goals of the Python programming language.
+    - Identify the advantages of Python for cloud automation, rapid application development, and AI integration.
+    - Differentiate between the Python standard library and third-party packages available via the Python Package Index (PyPI).
+    - Select appropriate development tools, including interpreters, virtual environments, and Integrated Development Environments (IDEs).
+    - Explain the rationale for using lightweight environment management over monolithic distributions like Anaconda in production environments.
 
 Python has emerged as the primary language for cloud engineering, data science, and artificial intelligence. Its design prioritizes human readability and developer productivity, making it an ideal "glue language" for integrating disparate systems, automating infrastructure, and developing complex AI workflows.
 
@@ -85,43 +85,44 @@ In production environments, bloated distributions like Anaconda are typically av
 
 !!! tip "Summary Checklist"
 
- - [ ] Understands the core tenets of "The Zen of Python".
- - [ ] Can differentiate between interpreted and compiled languages.
- - [ ] Recognizes the importance of indentation in Python syntax.
- - [ ] Can identify the difference between the standard library and PyPI.
- - [ ] Understands the rationale for using `venv` or `pyenv` over global installations.
- - [ ] Knows how to select an appropriate IDE for development.
+    - [ ] Understands the core tenets of "The Zen of Python".
+    - [ ] Can differentiate between interpreted and compiled languages.
+    - [ ] Recognizes the importance of indentation in Python syntax.
+    - [ ] Can identify the difference between the standard library and PyPI.
+    - [ ] Understands the rationale for using `venv` or `pyenv` over global installations.
+    - [ ] Knows how to select an appropriate IDE for development.
 
 !!! note "Assignment 1: Basic Syntax and Execution"
 
- **Task**: Write a Python script that defines a list of three cloud providers (e.g., "AWS", "Azure", "GCP") and uses a `for` loop to print each provider's name in uppercase.
- **Goal**: Practice basic data structures and loop syntax.
+    **Task**: Write a Python script that defines a list of three cloud providers (e.g., "AWS", "Azure", "GCP") and uses a `for` loop to print each provider's name in uppercase.
+    **Goal**: Practice basic data structures and loop syntax.
 
 !!! note "Assignment 2: Standard Library Exploration"
 
- **Task**: Use the `os` and `sys` modules to write a script that prints the current working directory and the Python version currently being used by the interpreter.
- **Goal**: Implement basic system-level interactions using the standard library.
+    **Task**: Use the `os` and `sys` modules to write a script that prints the current working directory and the Python version currently being used by the interpreter.
+    **Goal**: Implement basic system-level interactions using the standard library.
 
 !!! note "Assignment 3: Environment Setup"
 
- **Task**: Create a new directory, initialize a virtual environment using `python -m venv venv`, activate it, and install the `requests` library from PyPI. Verify the installation using `pip list`.
- **Goal**: Implement a, isolated development workflow.
+    **Task**: Create a new directory, initialize a virtual environment using `python -m venv venv`, activate it, and install the `requests` library from PyPI. Verify the installation using `pip list`.
+    **Goal**: Implement a, isolated development workflow.
 
 ## References
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
+
+    Test your knowledge by expanding the questions below.
 
 ??? question "How does \"The Zen of Python\" influence the way cloud automation scripts are written?"
- Principles like \"Explicit is better than implicit\" and \"Readability counts\" ensure that scripts are maintainable, clear, and less prone to errors when managed by multiple teams over several years.
+    Principles like \"Explicit is better than implicit\" and \"Readability counts\" ensure that scripts are maintainable, clear, and less prone to errors when managed by multiple teams over several years.
 
 ??? question "What is the difference between an interpreted language and a compiled language?"
- Interpreted languages (like Python) are executed line-by-line by an interpreter, facilitating rapid iteration. Compiled languages are converted to machine code before execution, which typically results in higher runtime performance.
+    Interpreted languages (like Python) are executed line-by-line by an interpreter, facilitating rapid iteration. Compiled languages are converted to machine code before execution, which typically results in higher runtime performance.
 
 ??? question "Why are monolithic distributions like Anaconda often avoided in production deployment containers?"
- They include many unnecessary packages, which increases the final image size and the security attack surface. Minimal virtual environments are preferred for production efficiency and security.
+    They include many unnecessary packages, which increases the final image size and the security attack surface. Minimal virtual environments are preferred for production efficiency and security.
 
 
 The following resources provide further depth on the Python language and its ecosystem:

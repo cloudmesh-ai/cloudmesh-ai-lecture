@@ -12,6 +12,7 @@ In this chapter you will discover how the **YAMLDB** package from the Cloudmesh 
 ### 4.1 Learning Outcomes
 
 !!! info "Learning Outcomes"
+
     After finishing this chapter you will be able to:
 
     - **Explain** what a YAML-based document store is and when it is preferable to relational or full-featured NoSQL databases.
@@ -228,6 +229,7 @@ Test your knowledge by expanding the questions below.
 ### 4.10 Assignments
 
 !!! note "Assignment 4.1 – Build a Mini-Catalog"
+
     1. **Data collection** – Create a YAML file named `books.yaml` that holds at least **12** books. Each record must contain:
        - `isbn` (string, unique)
        - `title`
@@ -250,6 +252,7 @@ Test your knowledge by expanding the questions below.
     - The three JSON output files
 
 !!! note "Assignment 4.2 – Concurrent-Write Simulation"
+
     Write a short script that spawns **5** Python threads. Each thread should:
 
     - Open the same `catalog.yaml` file via `YamlDatabase(..., backup=True)`.

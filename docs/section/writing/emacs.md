@@ -1,6 +1,7 @@
 # GNU Emacs: The Extensible Text Editor
 
 !!! info "Learning Objectives"
+
     - Understand the history, philosophy, and extensibility of the GNU Emacs editor.
     - Use essential key-bindings for navigation, file management, and text manipulation.
     - Implement and utilize recording macros to automate repetitive data-cleaning tasks.
@@ -156,6 +157,7 @@ LatexMk automatically compiles a document and updates the PDF when the source is
 This creates a feedback loop with local control.
 
 !!! info "Summary Checklist"
+
     - Configured basic navigation using `C` and `M` modifiers.
     - Utilized `C-g` and `C-/` for error recovery and undoing changes.
     - Applied `C-k` and `C-y` for efficient text manipulation.
@@ -167,12 +169,15 @@ This creates a feedback loop with local control.
 ## Assignments
 
 !!! note "Assignment 1: Basic Navigation"
+
     Create a text file with 20 lines of random text. Practice moving to the beginning of the buffer, jumping to line 10 using `M-g g`, and moving to the end of the buffer.
 
 !!! note "Assignment 2: Macro Automation"
+
     Create a file containing a list of 10 names and emails in the format: `Name <email@example.com>`. Use a macro to remove the `<` and `>` characters and the name, leaving only the email addresses.
 
 !!! note "Assignment 3: LaTeX Environment"
+
     Install `latexmk` on your system. Create a simple LaTeX document in Emacs, launch `latexmk` in a separate terminal, and verify that the PDF updates automatically every time you save the file (`C-x C-s`).
 
 ## Self-Assessment

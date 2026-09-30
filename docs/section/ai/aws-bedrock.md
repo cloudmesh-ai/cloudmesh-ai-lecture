@@ -1,6 +1,7 @@
 # Amazon Bedrock
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to:
     - Describe the core features and serverless architecture of Amazon Bedrock.
     - Interact with foundation models using the Bedrock GUI and AWS CLI.
@@ -147,6 +148,7 @@ Analyzing a codebase like GROMACS (~4.7 million lines) requires strategic token 
 ## Assignments
 
 !!! note "Assignment 1: Bedrock Cost Estimation"
+
     **Goal**: Estimate the cost of analyzing a specific local repository using Amazon Bedrock.
 
     **Tasks**:

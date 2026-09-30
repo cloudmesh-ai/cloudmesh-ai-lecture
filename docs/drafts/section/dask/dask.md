@@ -1,7 +1,4 @@
----
-title: "Dask"
----
-
+# Dask
 
 Dask is a python-based parallel computing library for analytics. Parallel computing is a type of computation in which many calculations or the execution of processes are carried out simultaneously. Large problems can often be divided into smaller ones, which can then be solved concurrently.
 

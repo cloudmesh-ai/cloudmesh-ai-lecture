@@ -73,6 +73,14 @@ Deploying a single YAML file is easy; deploying a production application with 20
 
 Choosing the right tool depends on your priorities: security, speed of deployment, or scale of operation.
 
+### Comparison Matrix
+
+| Tool | Security Profile | AI/GPU Fit | Deployment Target | Primary Strength |
+| :--- | :--- | :--- | :--- | :--- |
+| **Docker** | Moderate (Daemon-based) | Excellent (Industry Standard) | Cloud / Local Dev | Ecosystem & Tooling |
+| **Podman** | High (Rootless/Daemonless) | Good (K8s-native) | Enterprise Linux | Security & K8s Parity |
+| **Apptainer** | Very High (User-mapped) | Superior (HPC-optimized) | Supercomputers / HPC | Portability & Performance |
+
 !!! warning "Quick Selection Guide"
     - **I need to run a container locally without sudo/root:** $\rightarrow$ Use **Podman**.
     - **I need the most widely supported tool for a CI/CD pipeline:** $\rightarrow$ Use **Docker**.
@@ -86,8 +94,6 @@ Choosing the right tool depends on your priorities: security, speed of deploymen
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
 
 ??? question "What is the role of the Open Container Initiative (OCI) in the container ecosystem?"
     The OCI provides industry standards for container image formats and runtimes. This standardization allows different tools (like Docker, Podman, and Apptainer) to interoperate, ensuring that an image built with one tool can be run by another.

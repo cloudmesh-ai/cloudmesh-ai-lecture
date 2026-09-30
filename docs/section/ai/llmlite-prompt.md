@@ -1,6 +1,7 @@
 # LLMlite: Orchestrating Multiple Large Language Models
 
 !!! info "Learning Objectives"
+
     - Understand the need for an abstraction layer (orchestrator) when using multiple LLMs.
     - Analyze the architecture of LLMlite for interfacing with diverse LLM providers.
     - Implement strategies for "Best-of-N" response selection and intelligent routing.
@@ -11,6 +12,7 @@ The landscape of Large Language Models (LLMs) is evolving rapidly. Today, a proj
 **LLMlite** is an orchestration framework designed to provide a unified interface for multiple LLM backends, regardless of where they are hosted.
 
 !!! info "Why this matters"
+
     In a production environment, the "best" model is not always the largest one. A small, local model might be sufficient for simple classification, while a massive cloud model is needed for complex synthesis. An orchestrator allows you to route prompts to the most suitable model dynamically, optimizing both latency and cost.
 
 ## LLMlite Architecture: The Unified Interface
@@ -40,6 +42,7 @@ Rather than querying all models, LLMlite analyzes the prompt first.
 - **Privacy-sensitive prompt** $\rightarrow$ Route to a local, air-gapped resource.
 
 !!! info "Why this matters"
+
     Intelligent routing prevents "over-provisioning." Using a $0.01/1k-token model for a task that a $0.0001/1k-token model can do just as well saves thousands of dollars at scale.
 
 ## Dynamic Scaling and Resource Management
@@ -51,6 +54,7 @@ To handle varying loads, LLMlite can integrate with a monitoring system that dyn
 - **Health Monitoring**: If a specific LLM provider goes down (e.g., an API outage), LLMlite can automatically failover to a backup model to ensure the application remains available.
 
 !!! tip "Summary Checklist"
+
     - [ ] I can explain the risk of "vendor lock-in" when using a single LLM provider.
     - [ ] I understand how LLMlite abstracts different API formats.
     - [ ] I can describe the difference between "Best-of-N" and "Intelligent Routing."
@@ -58,10 +62,13 @@ To handle varying loads, LLMlite can integrate with a monitoring system that dyn
     - [ ] I understand how dynamic scaling ensures high availability in LLM applications.
 
 !!! note "Assignment 1: Routing Logic"
+
     Design a routing table for an AI assistant. Define three categories of prompts (Simple, Complex, Private) and specify which LLM backend (Local Ollama, Cloud GPT-4, or HPC vLLM) should handle each, including the reason for your choice.
 
 !!! note "Assignment 2: Evaluating Response Quality"
+
     You have received three different answers to the same technical question from three different models. Describe a method (or a prompt for a "judge" model) that you would use to determine which of the three is the most accurate.
 
 !!! note "Assignment 3: Failover Strategy"
+
     Create a flow chart for a "High Availability" LLM system. What happens when the primary cloud API returns a 500 error? How does LLMlite detect this, and how does it transition the request to a local fallback model without the user noticing?

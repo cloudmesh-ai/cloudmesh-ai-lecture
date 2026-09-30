@@ -1,7 +1,4 @@
----
-title: GitHub and Git: Version Control & Collaboration
-type: presentation
----
+# GitHub and Git: Version Control & Collaboration
 
 ## GitHub and Git: Version Control & Collaboration
 - Tracking Changes, Experimenting, and Collaborating

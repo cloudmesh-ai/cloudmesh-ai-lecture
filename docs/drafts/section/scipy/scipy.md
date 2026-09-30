@@ -1,6 +1,4 @@
----
-title: "Scipy"
----
+# Scipy
 
 # Scipy {#s-scipy}
 

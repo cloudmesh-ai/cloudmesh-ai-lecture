@@ -529,4 +529,4 @@ To master Ansible, you must understand these core concepts:
 
 With infrastructure and configuration managed, it's time to look at how to scale this to an enterprise level. Explore **Enterprise Configuration Management with Puppet** to see the pull-based model in action.
 
-Visit the [Local Lab](local-lab.md) for instructions on how to run Ansible locally.
+Visit the [Local Lab](/section/devops/local-lab.md) for instructions on how to run Ansible locally.

@@ -1,6 +1,4 @@
----
-title: "Multi-Version Python Installation"
----
+# Multi-Version Python Installation
 
 !!! info "Learning Outcome"
     - Use pyenv to support multiple versions of Python 3

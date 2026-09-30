@@ -1,11 +1,12 @@
 # Subprocess: Orchestrating External Tools
 
 !!! info "Learning Outcomes"
- - Understand the conceptual difference between a parent process and a subprocess.
- - Manage the "Three Standard Streams" (stdin, stdout, stderr) to control process I/O.
- - Execute system commands using the modern `subprocess.run()` for most automation tasks.
- - Implement complex, non-blocking process interactions using the `Popen` class.
- - Apply security best practices to prevent shell injection attacks.
+
+    - Understand the conceptual difference between a parent process and a subprocess.
+    - Manage the "Three Standard Streams" (stdin, stdout, stderr) to control process I/O.
+    - Execute system commands using the modern `subprocess.run()` for most automation tasks.
+    - Implement complex, non-blocking process interactions using the `Popen` class.
+    - Apply security best practices to prevent shell injection attacks.
 
 ## Introduction: Why Subprocesses?
 
@@ -58,7 +59,8 @@ While convenient, `os.system()` has several major drawbacks:
 - **Blocking**: Your Python script completely pauses until the command finishes.
 
 !!! tip "Best Practice"
- Use `os.system()` only for trivial tasks like clearing the screen or running a command where you don't care about the output. For everything else, use `subprocess`.
+
+    Use `os.system()` only for trivial tasks like clearing the screen or running a command where you don't care about the output. For everything else, use `subprocess`.
 
 ---
 
@@ -195,22 +197,23 @@ In this case, Python tells the OS to execute the `ls` program and pass the entir
 ## Assignments
 
 !!! note "Assignment: Subprocess Automation"
- 1. **System Auditor**: Write a script that runs `df -h` (disk usage) and `free -m` (memory usage). Parse the output to identify if any partition is over 80% full or if available memory is below 500MB. If so, print a warning to `stderr`.
- 2. **Log Processor**: Use `Popen` to run a command that generates a continuous stream of output (e.g., `ping google.com` or `tail -f /var/log/syslog`). Read the output line-by-line in real-time and print only the lines that contain the word "ERROR" or "timeout".
- 3. **Secure Wrapper**: Create a function `safe_execute(cmd_list)` that wraps `subprocess.run`. It should implement a timeout of 10 seconds, capture all output, and return a custom dictionary containing the status, stdout, and stderr.
+
+    1. **System Auditor**: Write a script that runs `df -h` (disk usage) and `free -m` (memory usage). Parse the output to identify if any partition is over 80% full or if available memory is below 500MB. If so, print a warning to `stderr`.
+    2. **Log Processor**: Use `Popen` to run a command that generates a continuous stream of output (e.g., `ping google.com` or `tail -f /var/log/syslog`). Read the output line-by-line in real-time and print only the lines that contain the word "ERROR" or "timeout".
+    3. **Secure Wrapper**: Create a function `safe_execute(cmd_list)` that wraps `subprocess.run`. It should implement a timeout of 10 seconds, capture all output, and return a custom dictionary containing the status, stdout, and stderr.
 
 ---
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 ??? question "What happens if a subprocess fills its output pipe buffer and the parent isn't reading?"
- The child process will block (pause) and wait for the OS pipe buffer to be cleared. If the parent is waiting for the child to finish without reading the buffer, the system enters a deadlock.
+    The child process will block (pause) and wait for the OS pipe buffer to be cleared. If the parent is waiting for the child to finish without reading the buffer, the system enters a deadlock.
 
 ??? question "When is `subprocess.run()` a better choice than `Popen`?"
- When the task is short-lived, and you only need the final result after the command has finished. It is simpler, safer, and less prone to deadlocks.
+    When the task is short-lived, and you only need the final result after the command has finished. It is simpler, safer, and less prone to deadlocks.
 
 ??? question "Why is passing a list to `subprocess.run` safer than passing a string with `shell=True`?"
- Passing a list bypasses the system shell entirely. The arguments are passed directly to the OS exec call, meaning special shell characters (like `;`, `&`, `|`) are treated as literal text rather than command separators.
+    Passing a list bypasses the system shell entirely. The arguments are passed directly to the OS exec call, meaning special shell characters (like `;`, `&`, `|`) are treated as literal text rather than command separators.
 
 ??? question "What is the difference between `stdout` and `stderr`?"
- `stdout` is for the successful output of a program, while `stderr` is reserved for error messages and diagnostics. This allows users to redirect errors to a log file while keeping the main output on the screen.
+    `stdout` is for the successful output of a program, while `stderr` is reserved for error messages and diagnostics. This allows users to redirect errors to a log file while keeping the main output on the screen.

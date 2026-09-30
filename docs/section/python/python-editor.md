@@ -1,11 +1,12 @@
 # Python Development Environments and Editors
 
 !!! info "Learning Objectives"
- - Differentiate between Text Editors, Integrated Development Environments (IDEs), and Interactive Notebooks.
- - Evaluate and select an editor based on project requirements, resource constraints, and workflow preferences.
- - Set up a Python development environment on various platforms.
- - Configure interpreters and virtual environments within an IDE.
- - Leverage essential extensions and tools to increase programming productivity.
+
+    - Differentiate between Text Editors, Integrated Development Environments (IDEs), and Interactive Notebooks.
+    - Evaluate and select an editor based on project requirements, resource constraints, and workflow preferences.
+    - Set up a Python development environment on various platforms.
+    - Configure interpreters and virtual environments within an IDE.
+    - Leverage essential extensions and tools to increase programming productivity.
 
 The choice of a development environment significantly impacts a programmer's productivity, the quality of the code produced, and the ease of debugging. A development environment is more than just a place to type text; it is a toolchain that typically includes a text editor, a Python interpreter, a debugger, and version control integration.
 
@@ -161,36 +162,38 @@ Once a virtual environment is created, it must be linked to the editor:
 - **In VS Code**: Press `Ctrl+Shift+P`, type "Python: Select Interpreter", and choose the environment associated with the project folder.
 
 !!! tip "Summary Checklist"
- - Evaluated the differences between text editors, IDEs, and notebooks.
- - Installed a preferred editor (VS Code or PyCharm).
- - Configured essential Python extensions.
- - Created a project-specific virtual environment.
- - Linked the virtual environment as the project interpreter in the IDE.
- - Verified the installation by running a simple Python script.
+
+    - Evaluated the differences between text editors, IDEs, and notebooks.
+    - Installed a preferred editor (VS Code or PyCharm).
+    - Configured essential Python extensions.
+    - Created a project-specific virtual environment.
+    - Linked the virtual environment as the project interpreter in the IDE.
+    - Verified the installation by running a simple Python script.
 
 ## Assignments
 
 !!! note "Assignment 1: Environment Setup"
- Install either VS Code or PyCharm. Create a new project directory and set up a virtual environment using the `venv` module. Verify that the IDE is using the virtual environment interpreter rather than the system Python.
+
+    Install either VS Code or PyCharm. Create a new project directory and set up a virtual environment using the `venv` module. Verify that the IDE is using the virtual environment interpreter rather than the system Python.
 
 !!! note "Assignment 2: Extension Configuration"
- In VS Code, install the Pylance extension. Create a Python file and intentionally introduce a type error (e.g., adding a string to an integer). Observe how the editor highlights the error before the code is even executed.
+
+    In VS Code, install the Pylance extension. Create a Python file and intentionally introduce a type error (e.g., adding a string to an integer). Observe how the editor highlights the error before the code is even executed.
 
 !!! note "Assignment 3: Remote Development"
- Set up a remote development connection. Using the "Remote-SSH" extension in VS Code or the "Remote Interpreter" feature in PyCharm, connect to a remote Linux VM and execute a script stored on the remote filesystem.
+
+    Set up a remote development connection. Using the "Remote-SSH" extension in VS Code or the "Remote Interpreter" feature in PyCharm, connect to a remote Linux VM and execute a script stored on the remote filesystem.
 
 
 ## Self Assessment
+Test your knowledge by expanding the questions below.
 
-??? question "Self Assessment"
- Test your knowledge by expanding the questions below.
+??? question "What are the primary differences between an IDE and a modal text editor like Vim?"
+    An IDE (e.g., PyCharm) provides a "batteries-included" experience with integrated debugging, testing, and deep static analysis. A modal editor (e.g., Vim) focuses on keyboard efficiency through different modes (Insert, Normal), offering a lightweight experience that requires more manual configuration.
 
- ??? question "What are the primary differences between an IDE and a modal text editor like Vim?"
- An IDE (e.g., PyCharm) provides a \"batteries-included\" experience with integrated debugging, testing, and deep static analysis. A modal editor (e.g., Vim) focuses on keyboard efficiency through different modes (Insert, Normal), offering a lightweight experience that requires more manual configuration.
+??? question "Why is using a virtual environment (`venv`) considered best practice in Python development?"
+    Virtual environments isolate project-specific dependencies from the global system Python. This prevents version conflicts between different projects and ensures that the environment is reproducible across different machines.
 
- ??? question "Why is using a virtual environment (`venv`) considered best practice in Python development?"
- Virtual environments isolate project-specific dependencies from the global system Python. This prevents version conflicts between different projects and ensures that the environment is reproducible across different machines.
-
- ??? question "How do you configure a specific virtual environment as the project interpreter in VS Code?"
- By pressing `Ctrl+Shift+P`, selecting \"Python: Select Interpreter\", and browsing to the python binary located inside the project's `.venv/bin` (or `Scripts` on Windows) directory.
+??? question "How do you configure a specific virtual environment as the project interpreter in VS Code?"
+    By pressing `Ctrl+Shift+P`, selecting "Python: Select Interpreter", and browsing to the python binary located inside the project's `.venv/bin` (or `Scripts` on Windows) directory.
 

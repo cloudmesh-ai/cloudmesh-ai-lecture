@@ -1,6 +1,7 @@
 # Task Queues and Message Processing in Python
 
 !!! info "Learning Objectives"
+
     - Differentiate between First-In-First-Out (FIFO), Last-In-First-Out (LIFO), and Priority queues.
     - Implement thread-safe task queues using the `queue` module for concurrent processing.
     - Develop the Producer-Consumer pattern to decouple task submission from execution.
@@ -194,6 +195,7 @@ In-memory queues are limited by the memory of a single machine and are lost if t
 These tools allow multiple independent processes (potentially on different servers) to share the same task queue, providing high availability and massive scalability.
 
 !!! tip "Summary Checklist"
+
     - Selected the correct queue type: `Queue` (FIFO), `LifoQueue` (LIFO), or `PriorityQueue` (Urgency).
     - Used `put()` and `get()` for thread-safe communication.
     - Implemented the `task_done()` and `join()` pattern to synchronize worker completion.
@@ -206,6 +208,7 @@ These tools allow multiple independent processes (potentially on different serve
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
+
     Test your knowledge by expanding the questions below.
 
 ??? question "In what cloud automation scenario would a `PriorityQueue` be more appropriate than a standard FIFO queue?"
@@ -220,13 +223,16 @@ Test your knowledge by expanding the questions below.
 ## Assignments
 
 !!! note "Assignment 1: Basic Task Processor"
+
     Write a Python script that uses a `queue.Queue` to process a list of 10 filenames. A worker thread should "process" each file by printing "Processing [filename]..." and sleeping for 0.1 seconds.
 
 
 !!! note "Assignment 2: Priority Alert System"
+
     Implement a cloud alert processor using `queue.PriorityQueue`. The system should accept alerts with priorities 1 (Critical), 2 (Warning), and 3 (Info). Ensure that regardless of arrival order, all Critical alerts are processed before any Warning or Info alerts.
 
 !!! note "Assignment 3: Cloud Image Deployment Pipeline"
+
     Develop a multi-producer, multi-consumer system. 
     1. Create two producer threads that generate "Image Build" tasks (e.g., "Ubuntu-22.04", "CentOS-9").
     2. Create three consumer threads that "build" these images.

@@ -1,6 +1,4 @@
----
-title: "StopWatch"
----
+# StopWatch
 
 Often you find yourself in a situation where you like to measure the time between two events. We provide a simple `StopWatch` that allows you not only to measure a number of times but also to print them out in a convenient format.
 

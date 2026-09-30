@@ -78,6 +78,41 @@ terraform apply destroy.tfplan
 !!! tip "AI Insight"
     LLMs are exceptional at generating HCL boilerplate and translating architectural requirements into Terraform resources. However, because infrastructure changes are high-risk, always use the `terraform plan` output to verify AI-generated code before applying it. See [[ai-devops]] for best practices on AI-driven provisioning.
 
+## AI-Assisted Infrastructure as Code
+
+The emergence of Large Language Models (LLMs) has fundamentally changed how we write HCL (HashiCorp Configuration Language).
+
+### Using AI for HCL Generation
+Modern DevOps engineers use AI as a "first-draft" engine for infrastructure. Instead of writing every resource from scratch, you can use LLMs to:
+- **Draft Resource Blocks**: "Create a Terraform module for a highly available VPC in AWS with 3 private subnets across 3 AZs."
+- **Translate Requirements**: Turn a natural language architectural description into a valid `.tf` file.
+- **Refactor for Modules**: Provide an existing flat Terraform file and ask the AI to restructure it into a reusable module.
+
+!!! tip "Prompting for IaC"
+    To get the best results, provide the AI with:
+    1. The specific provider version (e.g., `aws ~> 5.0`).
+    2. The desired naming convention.
+    3. A list of required tags for cost tracking.
+    4. Constraints (e.g., "use only t3.micro instances").
+
+### Policy-as-Code (Governance)
+To prevent AI-generated (or human-written) infrastructure from creating security holes or massive costs, we use **Policy-as-Code**.
+
+**Open Policy Agent (OPA)** and **Terraform Sentinel** allow you to define rules that are checked *before* `terraform apply` runs.
+
+**Example Policy: Prevent Oversized GPU Instances**
+If an AI suggests a `p4d.24xlarge` instance for a simple test, a policy can automatically block the merge:
+```rego
+# OPA Policy snippet
+deny[msg] {
+  input.resource_type == "aws_instance"
+  input.instance_type == "p4d.24xlarge"
+  msg = "Instance type p4d.24xlarge is restricted to Production environments only."
+}
+```
+
+By integrating these policies into your CI pipeline (e.g., via a GitHub Action), you ensure that AI-driven speed does not compromise security or budget.
+
 ## Practical Example: AWS EC2 Provisioning
 
 To provision a basic virtual machine on AWS, create a file named `main.tf` with the following configuration:
@@ -361,4 +396,4 @@ Test your knowledge by expanding the questions below.
 
 Now that you can provision infrastructure, the next step is to configure the software inside those machines. Head over to **Automating Infrastructure with Ansible** to learn how to manage the internal state of your servers.
 
-Visit the [Local Lab](local-lab.md) for instructions on how to run Terraform locally with Docker.
+Visit the [Local Lab](/section/devops/local-lab.md) for instructions on how to run Terraform locally with Docker.

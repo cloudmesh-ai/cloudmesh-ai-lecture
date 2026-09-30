@@ -1,6 +1,7 @@
 # Hatch
 
 !!! info "Learning Outcomes"
+
     - Understand the role of a Python project manager and the benefits of a unified toolchain.
     - Use Hatch for project scaffolding and managing `pyproject.toml` as a single source of truth.
     - Create, manage, and run commands within isolated, named virtual environments.
@@ -292,6 +293,7 @@ If you are looking for a single, Python-native solution that reduces the number 
 ## Assignments
 
 !!! note "Assignment: Hatch Project Lifecycle"
+
     1. **Scaffolding**: Create a new Hatch project named `hatch_demo`.
     2. **Environment Configuration**: Add a new environment called `lint` in `pyproject.toml` with `flake8` and `black` as dependencies.
     3. **Dependency Management**: Add `requests` as a project dependency and run a simple script via `hatch run` that fetches a webpage.

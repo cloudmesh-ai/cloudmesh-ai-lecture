@@ -351,6 +351,12 @@ pip install mkdocs-material mkdocs-video mkdocs-slides mkdocs-caption mkdocs-blo
 
 nohup mkdocs serve -a 0.0.0.0:8000 > travis_mkdocs.log 2>&1
 open http://localhost:8000
+
+---
+
+## What's Next?
+
+Now that you have your local environment running, you can experiment with the playbooks and configurations described throughout this chapter. Return to the **[Master Index](/section/devops/devops.md)** to explore more advanced topics.
 ```
 
 ### Why use Travis CI for this?

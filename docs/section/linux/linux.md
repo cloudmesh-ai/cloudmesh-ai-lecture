@@ -2,6 +2,7 @@
 ---  
 
 !!! info "Learning Outcomes"
+
     - Be able to know the basic commands to work in a [Linux]{.index} terminal.  
     - Get familiar with Linux commands.  
 
@@ -474,15 +475,19 @@ This schedules `cleanup.sh` to run once at 02:30 AM today (or tomorrow if the 
 
 ## Assignments
 !!! assignment "Assignment E.Linux.1"
+
     Familiarize yourself with the commands.
 
 !!! assignment "Assignment E.Linux.2"
+
     Find more commands that you find useful and add them to this page.
 
 !!! assignment "Assignment E.Linux.3"
+
     Use the `sort` command to sort all lines of a file while removing duplicates.
 
 !!! assignment "Assignment E.Linux.4"
+
     Should there be other commands listed in the table with the Linux commands? If so which? Create a pull request for them.
 
 !!! assignment "Assignment E.Linux.5"

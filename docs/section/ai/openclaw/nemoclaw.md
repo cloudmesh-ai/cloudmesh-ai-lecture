@@ -1,6 +1,7 @@
 # NemoClay: Multi-Modal AI Orchestration
 
 !!! info "Learning Objectives"
+
     After completing this chapter, you will be able to:
     - Explain the difference between simple command wrapping (OpenClaw) and workflow orchestration (NemoClay).
     - Describe the Directed Acyclic Graph (DAG) model used for AI action chaining.
@@ -128,6 +129,7 @@ A common question is whether to use OpenClaw or NemoClay. The choice depends pri
 ## Assignments
 
 !!! note "Assignment 1: Workflow Analysis"
+
     **Goal**: Analyze a real-world business process and design a NemoClay DAG.
 
     **Tasks**:

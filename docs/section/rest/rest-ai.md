@@ -1,6 +1,7 @@
 # REST AI Services Example {#sec:restai-kmeans}
 
 !!! info "Learning Objectives"
+
     After completing this chapter, you will be able to:
     * Implement an AI routine using scikit-learn and expose it via REST services.
     * Use OpenAPI 3.0 specifications to define AI service endpoints.
@@ -379,6 +380,7 @@ The response returns a CSV file containing predicted cluster labels for the prov
 ## Implementation Notes
 
 !!! warning "Asynchronous Processing & State"
+
 AI jobs are often long-running. While the implementation uses Python threading for local demonstration, production setups should use robust task queues like Celery with Redis/RabbitMQ. Furthermore, global in-memory dictionaries will lose state on server restart; production scaling requires external model storage (such as object storage or a model registry).
 
 ## Summary Checklist
@@ -392,9 +394,11 @@ AI jobs are often long-running. While the implementation uses Python threading f
 ## Assignments
 
 !!! note "Assignment: Model Parameterization"
+
     Modify the fit task handler to accept additional scikit-learn KMeans parameters, such as `init` or `max_iter`, and verify that the model behaves as expected.
 
 !!! note "Assignmet: Result Export"
+
     Create a new endpoint `/jobs/{id}/centers` that returns the cluster centers for a given Job ID in JSON format.
 
 ## Self-Assessment

@@ -158,16 +158,16 @@
     If there are any issues, please use Piazza to ask and we can narrow it down. This is a relatively simple activity and it should not take long. If it takes more than 3 hours, please use Piazza to find out where you may need some more help.
 
     Please review:
-        
+
     1. Setting up  python virtual environment. 
         * You can use the one you usually use such as venv or pyenv.
         * Typically we discourage using conda and miniconda due to the potential that 
             hundreds of unneeded libraries may be downloaded or a low level conflict may arise. For your project you will be asked not to use conda to keep the vms and containers clean. Use of conda has to be justified in a detailed justification and outline why other python virtualization technologies can not be used. 
         * please note that the openstack commandline tool must be installed with pipx 
-    
+
         See: [link](/section/python/python-install.md/#venv)
     2. Using 
-        
+
         * pip install
         * pipx install
 
@@ -229,7 +229,7 @@
     Document your activity with a screenshot of the terminal (800x600).
 
     Tip: 
-    
+
     1. Set your preferred time zone in Chameleon settings.
     2. Make sure you have a key in your .ssh dir on your laptop. Upload the public key to Chameleon.
     3. Before doing anything, explore the portal and browse around so you develop a plan for what you have to do.
@@ -281,7 +281,7 @@
     2. Fill out the checkboxes. Only fill them out when they are done. They have the purpose to self-evaluate and document the progress you make.
 
     3. This is kept up to date by you every week from assignments posted in the Lecture notes. It is part of each week's assignment. It is your responsibility. I will only review assignments that are linked to this document. So make sure the URLs are also included.
-    
+
 !!! note "Assignment W3.6 git from commandline"
 
     We created a project.md. Use the git command lines to sharpen your skills to do all git interactions from commandline. This is important as on cloud services we do not have GUIs and we need to use git from multiple services. Use:
@@ -289,7 +289,7 @@
     * Work with a fork (GUI)
 
     All these from commandline:
-    
+
     * git clone
     * git commit -a
     * git commit -m "msg" file
@@ -337,16 +337,16 @@
 !!! note "Assignment W2.2: GitHub Repository"
 
     1. You will be given a GitHub repository by the instructor. It is located at
-       
+
         - <https://github.com/orgs/cloudmesh-ai-luc/repositories>
-    
+
     2. Verify that you can write into a file in the directory. I suggest to put something useful into the README such as your first and lastname. 
     3. Upload your public key 
 
 !!! note "Assignment W2.3: Backup Your Computer"
 
     Computers store the work, photos, and projects you've spent time creating including that of your classes. If a virus, hardware failure, or accidental delete occurs, those files can disappear forever. A regular backup gives you a safe copy that you can restore instantly, protecting both your effort and your grades. Think of a backup as a "reset button" that saves you from losing everything.
-   
+
     1. Write a one‑paragraph explanation (4‑6 sentences) of why backing up your own computer is important, using the ideas discussed earlier.
 
     2. List three real‑world consequences that apply to you of not having a backup (e.g., lost homework, corrupted projects, costly data recovery).
@@ -357,9 +357,9 @@
 
     5. Research an example from cloud Computing where a missing backup strategy led to issues. (Example: Loss of data by NPR due to Vendor shutting down [[1]](https://www.stlpr.org/news-briefs/2026-08-20/nine-pbs-70-years-programming-history)) 
     Are there other examples? Write a short incident case and how it could have been avoided.
-    
+
     **Submission:**  
-    
+
     * <repo>/assignments/week2/backup.md
 
         1. Why is backing up important?
@@ -415,7 +415,7 @@
 !!! note "Assignment W2.4: Project proposal"
 
     Start working towards a project proposal. Work on it every week. A possible template for a proposal is at 
-    
+
     * <https://github.com/cloudmesh-ai-luc/example/blob/main/project.md>
 
     Note that you can deviate from the format. The proposal, for example, ought to have an architectural diagram. Also, the description is not yet fully developed (it is just a sample template ;-) ). It is not expected that you have it worked out by next week, but that you have created some text and at least thought about the title and filled out the administrative fields.
@@ -474,7 +474,7 @@
     ```
     Albert Zweistein (azweistein@luc.edu)
     ```
-    
+
     ```
     class: 488
     Firstname: Albert

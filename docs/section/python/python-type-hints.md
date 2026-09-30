@@ -1,6 +1,7 @@
 # Type Hinting and Static Analysis for Large-Scale Cloud Projects
 
 !!! info "Learning Objectives"
+
     After completing this tutorial, you will be able to:
     - Implement basic and compound type hints using the `typing` module.
     - Distinguish between `TypedDict` and `pydantic.BaseModel` for data validation.
@@ -86,6 +87,7 @@ def process_order(event: dict) -> bool:
 ```
 
 !!! note "Tip"
+
     The `# type: ignore[assignment]` comment silences mypy for the dynamic cast. In production code replace the cast with a small helper that validates the dict against the `TypedDict` or use a `pydantic.BaseModel`, which provides both runtime validation and static type information.
 
 ### Quick local test
@@ -148,6 +150,7 @@ jobs:
 ```
 
 !!! warning "Strict Mode"
+
     Skipping the `--strict` flag removes many useful checks (e.g., implicit `Any`). Keep the job mandatory for merging to avoid type regressions.
 
 ---
@@ -155,6 +158,7 @@ jobs:
 ## Common Pitfalls and Best Practices
 
 !!! warning "Avoid Overusing type: ignore"
+
     Overusing `# type: ignore` silences the type checker and defeats the purpose of static analysis. Use it only when interacting with genuinely dynamic APIs (e.g., third-party libraries without type stubs).
 
 | Pitfall | Consequence | Recommended fix |
@@ -169,6 +173,7 @@ jobs:
 ## Assignments
 
 !!! note "Assignment: Type-Safe API Layer"
+
     1. **Schema Definition**: Create a set of `TypedDict` or `pydantic.BaseModel` classes for a simple cloud resource manager (e.g., managing VM instances with `id`, `ip`, `status`, and `tags`).
     2. **Logic Implementation**: Write a function that filters a list of these resources based on a specific tag and returns only the `ip` addresses.
     3. **Validation**: Run `mypy --strict` on your code and resolve all type errors until the check passes.

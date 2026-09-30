@@ -480,18 +480,17 @@ You now have three **different ways** to run containers on Jetstream 2:
 
 
 ## Self-Assessment
-Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge of the concepts covered in this section.
 
-    ??? question "Which OpenStack services on Jetstream2 are used for managed Kubernetes clusters and 'Docker-as-a-service'?"
-        - Managed Kubernetes clusters are provided by **OpenStack Magnum**.
-        - "Docker-as-a-service" (standalone containers) is provided by **OpenStack Zun**.
+Test your knowledge of the concepts covered in this section.
 
-    ??? question "How do you verify that an OpenStack cloud (like Jetstream2) has the necessary services for container operations?"
-        By running the command `openstack catalog list`. The output should include services like `compute` (Nova), `network` (Neutron), `magnum`, and `zun`.
+??? question "Which OpenStack services on Jetstream2 are used for managed Kubernetes clusters and 'Docker-as-a-service'?"
+    - Managed Kubernetes clusters are provided by **OpenStack Magnum**.
+    - "Docker-as-a-service" (standalone containers) is provided by **OpenStack Zun**.
 
-    ??? question "What is a common cause for `kubectl get nodes` showing 'NotReady' in a Magnum cluster, and how can it be fixed?"
-        A common cause is that the OpenStack default security group blocks the required kubelet traffic (port 10250). This can be fixed by adding a security group rule: `openstack security group rule create --proto tcp --dst-port 10250:10250 default`.
+??? question "How do you verify that an OpenStack cloud (like Jetstream2) has the necessary services for container operations?"
+    By running the command `openstack catalog list`. The output should include services like `compute` (Nova), `network` (Neutron), `magnum`, and `zun`.
+
+??? question "What is a common cause for `kubectl get nodes` showing 'NotReady' in a Magnum cluster, and how can it be fixed?"
+    A common cause is that the OpenStack default security group blocks the required kubelet traffic (port 10250). This can be fixed by adding a security group rule: `openstack security group rule create --proto tcp --dst-port 10250:10250 default`.
 
 All three respect Jetstream 2's **quota, RBAC, and billing** mechanisms, and they all use the same underlying OpenStack services (Nova, Neutron, Glance, Keystone).  

@@ -1,6 +1,4 @@
----
-title: "Dask - Random Forest Feature Detection"
----
+# Dask - Random Forest Feature Detection
 
 ## Setup
 

@@ -1,6 +1,4 @@
----
-title: "Cloudmesh Command Shell"
----
+# Cloudmesh Command Shell
 
 ## CMD5
 

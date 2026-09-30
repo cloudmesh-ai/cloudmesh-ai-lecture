@@ -1,16 +1,11 @@
----
-marp: true
-theme: cloudmesh-ai
-_class: lead
-paginate: true
-backgroundColor: #f5f5f5
-color: #333
 
-# Cloud Computing
 
----
+<!-- Slide 1 -->
 
-## Overview
+## Topic 1: Cloud Computing Fundamentals
+
+
+### Overview
 
 * Cloud Computing Fundamentals — Tracing the shift from legacy physical data centers, the history of mainframes/grids, virtualization hypervisors, and a deep look at all five NIST characteristics.Slides 16–25: Cloud Service Models (XaaS) — Breaking down IaaS, PaaS, SaaS, FaaS (Serverless), and explaining the nuances of the Shared Responsibility security split.
 
@@ -24,9 +19,6 @@ color: #333
 
 ----
 
-<!-- Slide 1 -->
-
-# Topic 1: Cloud Computing Fundamentals
 
 ## Core Concepts, Architectural Drivers & Virtualization Mechanics
 
@@ -39,7 +31,7 @@ color: #333
 ---
 
 <!-- Slide 2 -->
-# Defining Cloud Computing
+## Defining Cloud Computing
 
 - On-demand delivery of IT resources.
 - Access via the internet.
@@ -50,7 +42,7 @@ color: #333
 ---
 
 <!-- Slide 3 -->
-# The Traditional IT Landscape
+## The Traditional IT Landscape
 
 - High upfront capital expenditure (CapEx).
 - Long procurement cycles for hardware.
@@ -61,7 +53,7 @@ color: #333
 ---
 
 <!-- Slide 4 -->
-# The Paradigms Shift
+## The Paradigms Shift
 
 - Physical servers transition to virtual machines.
 - Static capacity transforms to dynamic elasticity.
@@ -72,7 +64,7 @@ color: #333
 ---
 
 <!-- Slide 5 -->
-# History: Mainframes to Grid
+## History: Mainframes to Grid
 
 - 1960s: Mainframe time-sharing (John McCarthy).
 - 1990s: Telecommunications VPNs extend connectivity networks.
@@ -83,7 +75,7 @@ color: #333
 ---
 
 <!-- Slide 6 -->
-# History: The Modern Cloud Era
+## History: The Modern Cloud Era
 
 - 1999: Salesforce introduces enterprise software over the web.
 - 2002: Amazon launches Web Services (AWS) infrastructure platform.
@@ -94,7 +86,7 @@ color: #333
 ---
 
 <!-- Slide 7 -->
-# NIST Characteristic 1: On-Demand Self-Service
+## NIST Characteristic 1: On-Demand Self-Service
 
 - Users provision computing capabilities unilaterally.
 - No human intervention required from the service provider.
@@ -106,7 +98,7 @@ color: #333
 ---
 
 <!-- Slide 8 -->
-# NIST Characteristic 2: Broad Network Access
+## NIST Characteristic 2: Broad Network Access
 
 - Capabilities are available over the network.
 - Accessed through standard thick or thin client platforms.
@@ -117,7 +109,7 @@ color: #333
 ---
 
 <!-- Slide 9 -->
-# NIST Characteristic 3: Resource Pooling
+## NIST Characteristic 3: Resource Pooling
 
 - Provider resources serve multiple consumers simultaneously.
 - Uses a secure multi-tenant architecture model.
@@ -128,7 +120,7 @@ color: #333
 ---
 
 <!-- Slide 10 -->
-# NIST Characteristic 4: Rapid Elasticity
+## NIST Characteristic 4: Rapid Elasticity
 
 - Capabilities provisioned and released scale rapidly.
 - Automatically adjusts to match real-time demand signals.
@@ -139,7 +131,7 @@ color: #333
 ---
 
 <!-- Slide 11 -->
-# NIST Characteristic 5: Measured Service
+## NIST Characteristic 5: Measured Service
 
 - Resource usage is monitored, controlled, and reported transparently.
 - Implements a utility-style metering infrastructure system.
@@ -150,7 +142,7 @@ color: #333
 ---
 
 <!-- Slide 12 -->
-# Core Tech: Virtualization Explained
+## Core Tech: Virtualization Explained
 
 - The foundational software technology powering cloud computing.
 - Emulates physical hardware via software abstraction layers.
@@ -161,7 +153,7 @@ color: #333
 ---
 
 <!-- Slide 13 -->
-# The Hypervisor Layer
+## The Hypervisor Layer
 
 - Software that creates and runs Virtual Machines (VMs).
 - Type 1 (Bare-Metal): Runs directly on physical hardware (e.g., ESXi).
@@ -172,7 +164,7 @@ color: #333
 ---
 
 <!-- Slide 14 -->
-# Financial Shift: CapEx to OpEx
+## Financial Shift: CapEx to OpEx
 
 - Capital Expenditure (CapEx): Large upfront investments in physical property.
 - Operational Expenditure (OpEx): Ongoing costs to run day-to-day business.
@@ -183,7 +175,7 @@ color: #333
 ---
 
 <!-- Slide 15 -->
-# Scale Economies & Total Cost of Ownership
+## Scale Economies & Total Cost of Ownership
 
 - Hyper-scale vendors buy infrastructure at massive discounts.
 - Savings passed to consumers via competitive price wars.
@@ -195,9 +187,9 @@ color: #333
 
 <!-- Slides 16–25: Cloud Service Models (XaaS) -->
 <!-- Slide 16 -->
-# Topic 2: Service Models
+## Topic 2: Service Models
 
-## Demystifying IaaS, PaaS, SaaS, and Serverless
+### Demystifying IaaS, PaaS, SaaS, and Serverless
 
 - Infrastructure as a Service Core
 - Platform as a Service Efficiencies
@@ -208,7 +200,7 @@ color: #333
 ---
 
 <!-- Slide 17 -->
-# Infrastructure as a Service (IaaS)
+## Infrastructure as a Service (IaaS)
 
 - Provides fundamental computing page components over networks.
 - Delivers raw virtual servers, storage, and networking blocks.
@@ -219,7 +211,7 @@ color: #333
 ---
 
 <!-- Slide 18 -->
-# Platform as a Service (PaaS)
+## Platform as a Service (PaaS)
 
 - Removes the need to manage underlying server hardware.
 - Provides pre-configured runtime environments, databases, and OS layers.
@@ -230,7 +222,7 @@ color: #333
 ---
 
 <!-- Slide 19 -->
-# Software as a Service (SaaS)
+## Software as a Service (SaaS)
 
 - Delivers end-user applications directly through web browsers.
 - Vendor manages all infrastructure, code, runtimes, and upgrades.
@@ -241,7 +233,7 @@ color: #333
 ---
 
 <!-- Slide 20 -->
-# Function as a Service (FaaS / Serverless)
+## Function as a Service (FaaS / Serverless)
 
 - Executes code blocks in response to distinct asynchronous events.
 - Zero server management or idle capacity overhead exists.
@@ -252,7 +244,7 @@ color: #333
 ---
 
 <!-- Slide 21 -->
-# The Pizza as a Service Analogy
+## The Pizza as a Service Analogy
 
 - Traditional IT: Made from scratch at home (You manage everything).
 - IaaS: Take and Bake (Vendor supplies crust/sauce, you bake).
@@ -262,7 +254,7 @@ color: #333
 ---
 
 <!-- Slide 22 -->
-# Shared Responsibility Model: Defined
+## Shared Responsibility Model: Defined
 
 - Architectural blueprint dividing security tasks between provider and client.
 - Prevents assumptions that lead to severe data breaches.
@@ -273,7 +265,7 @@ color: #333
 ---
 
 <!-- Slide 23 -->
-# Responsibility Shift: IaaS Breakdown
+## Responsibility Shift: IaaS Breakdown
 
 - Provider manages physical data centers, cooling, and hypervisors.
 - Customer manages Guest Operating System updates and patches.
@@ -284,7 +276,7 @@ color: #333
 ---
 
 <!-- Slide 24 -->
-# Responsibility Shift: PaaS & SaaS Breakdown
+## Responsibility Shift: PaaS & SaaS Breakdown
 
 - PaaS: Provider handles OS patching, middleware, and runtime engines.
 - Customer only protects application code and data configurations.
@@ -295,7 +287,7 @@ color: #333
 ---
 
 <!-- Slide 25 -->
-# Service Model Selection Matrix
+## Service Model Selection Matrix
 
 - Choose IaaS when migrating legacy applications with custom OS dependencies.
 - Choose PaaS for rapid development of modern, cloud-native web apps.
@@ -307,9 +299,9 @@ color: #333
 
 <!-- Slides 26–35: Deployment Models -->
 <!-- Slide 26 -->
-# Topic 3: Deployment Models
+## Topic 3: Deployment Models
 
-## Topologies of Modern Cloud Infrastructure
+### Topologies of Modern Cloud Infrastructure
 
 - Public Cloud Economics
 - Private Cloud Control
@@ -320,7 +312,7 @@ color: #333
 ---
 
 <!-- Slide 27 -->
-# The Public Cloud Model
+## The Public Cloud Model
 
 - Infrastructure owned and operated by a third-party hyperscaler.
 - Resources shared among millions of global multi-tenant organizations.
@@ -336,42 +328,42 @@ _class: lead
 paginate: true
 backgroundColor: #f5f5f5
 color: #333
-# Cloud Computing## Complete Masterclass Training Deck (75 Slides)---
+## Cloud Computing### Complete Masterclass Training Deck (75 Slides)---
 
 <!-- ========================================================================= --><!-- TOPIC 1: CLOUD COMPUTING FUNDAMENTALS (Slides 1–15)                       --><!-- ========================================================================= -->
-<!-- Slide 1 --># Topic 1: Fundamentals## Cloud Computing Evolution & Core Concepts- Traditional IT vs. Cloud Shift- Historical Drivers & Economics- The 5 Essential NIST Characteristics- Virtualization & Hypervisor Mechanics- Cloud Resource Pooling Realities
----<!-- Slide 2 --># Defining Cloud Computing- On-demand delivery of IT resources.- Access via the internet.- Pay-as-you-go pricing model.- Eliminates physical hardware management.- Shifts focus from procurement to innovation.
----<!-- Slide 3 --># The Traditional IT Landscape- High upfront capital expenditure (CapEx).- Long procurement cycles for hardware.- Over-provisioning to handle peak loads.- Under-utilization during idle periods.- High costs for power, cooling, and space.
----<!-- Slide 4 --># The Paradigms Shift- Physical servers transition to virtual machines.- Static capacity transforms to dynamic elasticity.- Predictable long-term costs turn to variable utility fees.- Centralized enterprise data centers shift to hyper-scale providers.- Infrastructure management moves from hardware engineers to API calls.
----<!-- Slide 5 --># History: Mainframes to Grid- 1960s: Mainframe time-sharing (John McCarthy).- 1990s: Telecommunications VPNs extend connectivity networks.- Late 1990s: Grid Computing clusters processing power.- Application Service Providers (ASPs) pioneer early remote hosting.- Utility computing sets the stage for metered IT access.
----<!-- Slide 6 --># History: The Modern Cloud Era- 1999: Salesforce introduces enterprise software over the web.- 2002: Amazon launches Web Services (AWS) infrastructure platform.- 2006: AWS releases Elastic Compute Cloud (EC2) commercially.- 2008: Google App Engine establishes early PaaS offerings.- 2010: Microsoft launches Azure, cementing hyper-scale competition.
----<!-- Slide 7 --># NIST Characteristic 1: On-Demand Self-Service- Users provision computing capabilities unilaterally.- No human intervention required from the service provider.- Automated control panels manage workloads instantly.- APIs execute resource configuration programmatically.- Deployment speeds drop from months to seconds.
----<!-- Slide 8 --># NIST Characteristic 2: Broad Network Access- Capabilities are available over the network.- Accessed through standard thick or thin client platforms.- Supports smartphones, laptops, workstations, and IoT devices.- Leverages global HTTP/HTTPS and TCP/IP protocols.- Enables remote work and geo-distributed system touchpoints.
----<!-- Slide 9 --># NIST Characteristic 3: Resource Pooling- Provider resources serve multiple consumers simultaneously.- Uses a secure multi-tenant architecture model.- Physical and virtual resources dynamically assigned on demand.- Customer lacks exact knowledge of physical asset locations.- Maximizes hardware utilization rates for provider efficiency.
----<!-- Slide 10 --># NIST Characteristic 4: Rapid Elasticity- Capabilities provisioned and released scale rapidly.- Automatically adjusts to match real-time demand signals.- Appears infinite to the consumer from an availability perspective.- Prevents service degradation during unexpected traffic spikes.- Scales down seamlessly to eliminate idle capacity costs.
----<!-- Slide 11 --># NIST Characteristic 5: Measured Service- Resource usage is monitored, controlled, and reported transparently.- Implements a utility-style metering infrastructure system.- Charges based on storage, compute cycles, or bandwidth.- Provides absolute visibility into actual usage metrics.- Aligns operational costs directly with business consumption.
----<!-- Slide 12 --># Core Tech: Virtualization Explained- The foundational software technology powering cloud computing.- Emulates physical hardware via software abstraction layers.- Allows multiple operating systems to run on one machine.- Maximizes physical CPU, memory, and storage capabilities.- Isolates distinct user environments safely on identical chips.
----<!-- Slide 13 --># The Hypervisor Layer- Software that creates and runs Virtual Machines (VMs).- Type 1 (Bare-Metal): Runs directly on physical hardware (e.g., ESXi).- Type 2 (Hosted): Runs on top of a host OS (e.g., VirtualBox).- Manages hardware allocation to guest operating systems.- Ensures strict resource segregation between concurrent workloads.
----<!-- Slide 14 --># Financial Shift: CapEx to OpEx- Capital Expenditure (CapEx): Large upfront investments in physical property.- Operational Expenditure (OpEx): Ongoing costs to run day-to-day business.- Cloud eliminates massive hardware CapEx entry barriers.- Minimizes risk when testing new application ideas.- Matches monthly financial spending to real-time user growth.
----<!-- Slide 15 --># Scale Economies & Total Cost of Ownership- Hyper-scale vendors buy infrastructure at massive discounts.- Savings passed to consumers via competitive price wars.- TCO includes power, cooling, space, maintenance, and staff.- Cloud reduces indirect TCO components significantly.- Allows engineering teams to focus strictly on product value.
----<!-- Slides 16–25: Cloud Service Models (XaaS) --><!-- Slide 16 --># Topic 2: Service Models## Demystifying IaaS, PaaS, SaaS, and Serverless- Infrastructure as a Service Core- Platform as a Service Efficiencies- Software as a Service Accessibility- Function as a Service (Serverless) Mechanics- The Shared Responsibility Matrix
----<!-- Slide 17 --># Infrastructure as a Service (IaaS)- Provides fundamental computing page components over networks.- Delivers raw virtual servers, storage, and networking blocks.- Offers highest level of flexibility and control over resources.- Examples: AWS EC2, Google Compute Engine, Azure VMs.- Target Audience: Systems administrators and network architects.
----<!-- Slide 18 --># Platform as a Service (PaaS)- Removes the need to manage underlying server hardware.- Provides pre-configured runtime environments, databases, and OS layers.- Accelerates development by focusing purely on code.- Examples: AWS Elastic Beanstalk, Heroku, Google App Engine.- Target Audience: Software developers and DevOps engineers.
----<!-- Slide 19 --># Software as a Service (SaaS)- Delivers end-user applications directly through web browsers.- Vendor manages all infrastructure, code, runtimes, and upgrades.- Utilizes subscription models or free ad-supported tiers.- Examples: Microsoft 365, Salesforce, Google Workspace, Slack.- Target Audience: End-use business consumers and everyday users.
----<!-- Slide 20 --># Function as a Service (FaaS / Serverless)- Executes code blocks in response to distinct asynchronous events.- Zero server management or idle capacity overhead exists.- Scales automatically from zero instances to thousands instantly.- Charges strictly per millisecond of active execution execution.- Examples: AWS Lambda, Google Cloud Functions, Azure Functions.
----<!-- Slide 21 --># The Pizza as a Service Analogy- Traditional IT: Made from scratch at home (You manage everything).- IaaS: Take and Bake (Vendor supplies crust/sauce, you bake).- PaaS: Pizza Delivery (Vendor cooks and delivers to your table).- SaaS: Dining Out at a Restaurant (Everything provided by vendor).
----<!-- Slide 22 --># Shared Responsibility Model: Defined- Architectural blueprint dividing security tasks between provider and client.- Prevents assumptions that lead to severe data breaches.- Provider is consistently responsible for security **of** the cloud.- Customer is consistently responsible for security **in** the cloud.- Shifts dynamically depending on the selected service model.
----<!-- Slide 23 --># Responsibility Shift: IaaS Breakdown- Provider manages physical data centers, cooling, and hypervisors.- Customer manages Guest Operating System updates and patches.- Customer configures network firewalls and access controls.- Customer encrypts application data at rest and in transit.- High configuration effort paired with maximum architectural control.
----<!-- Slide 24 --># Responsibility Shift: PaaS & SaaS Breakdown- PaaS: Provider handles OS patching, middleware, and runtime engines.- Customer only protects application code and data configurations.- SaaS: Provider maintains full responsibility for the total stack.- Customer remains responsible for user identities and access management.- Data governance stays with the customer across all cloud models.
----<!-- Slide 25 --># Service Model Selection Matrix- Choose IaaS when migrating legacy applications with custom OS dependencies.- Choose PaaS for rapid development of modern, cloud-native web apps.- Choose SaaS to replace standard business functions like email or CRM.- Choose FaaS for microservices, data processing pipelines, and API backends.- Align architectural complexity with team engineering velocity goals.
----<!-- Slides 26–35: Deployment Models --><!-- Slide 26 --># Topic 3: Deployment Models## Topologies of Modern Cloud Infrastructure- Public Cloud Economics- Private Cloud Control- Hybrid Integration Strategies- Multi-Cloud Redundancy Challenges- Edge Computing Paradigms
----<!-- Slide 27 --># The Public Cloud Model- Infrastructure owned and operated by a third-party hyperscaler.- Resources shared among millions of global multi-tenant organizations.- Accessible via internet connections using utility payment terms.- Rapid scalability without physical footprint asset liabilities.
+<!-- Slide 1 -->## Topic 1: Fundamentals### Cloud Computing Evolution & Core Concepts- Traditional IT vs. Cloud Shift- Historical Drivers & Economics- The 5 Essential NIST Characteristics- Virtualization & Hypervisor Mechanics- Cloud Resource Pooling Realities
+---<!-- Slide 2 -->## Defining Cloud Computing- On-demand delivery of IT resources.- Access via the internet.- Pay-as-you-go pricing model.- Eliminates physical hardware management.- Shifts focus from procurement to innovation.
+---<!-- Slide 3 -->## The Traditional IT Landscape- High upfront capital expenditure (CapEx).- Long procurement cycles for hardware.- Over-provisioning to handle peak loads.- Under-utilization during idle periods.- High costs for power, cooling, and space.
+---<!-- Slide 4 -->## The Paradigms Shift- Physical servers transition to virtual machines.- Static capacity transforms to dynamic elasticity.- Predictable long-term costs turn to variable utility fees.- Centralized enterprise data centers shift to hyper-scale providers.- Infrastructure management moves from hardware engineers to API calls.
+---<!-- Slide 5 -->## History: Mainframes to Grid- 1960s: Mainframe time-sharing (John McCarthy).- 1990s: Telecommunications VPNs extend connectivity networks.- Late 1990s: Grid Computing clusters processing power.- Application Service Providers (ASPs) pioneer early remote hosting.- Utility computing sets the stage for metered IT access.
+---<!-- Slide 6 -->## History: The Modern Cloud Era- 1999: Salesforce introduces enterprise software over the web.- 2002: Amazon launches Web Services (AWS) infrastructure platform.- 2006: AWS releases Elastic Compute Cloud (EC2) commercially.- 2008: Google App Engine establishes early PaaS offerings.- 2010: Microsoft launches Azure, cementing hyper-scale competition.
+---<!-- Slide 7 -->## NIST Characteristic 1: On-Demand Self-Service- Users provision computing capabilities unilaterally.- No human intervention required from the service provider.- Automated control panels manage workloads instantly.- APIs execute resource configuration programmatically.- Deployment speeds drop from months to seconds.
+---<!-- Slide 8 -->## NIST Characteristic 2: Broad Network Access- Capabilities are available over the network.- Accessed through standard thick or thin client platforms.- Supports smartphones, laptops, workstations, and IoT devices.- Leverages global HTTP/HTTPS and TCP/IP protocols.- Enables remote work and geo-distributed system touchpoints.
+---<!-- Slide 9 -->## NIST Characteristic 3: Resource Pooling- Provider resources serve multiple consumers simultaneously.- Uses a secure multi-tenant architecture model.- Physical and virtual resources dynamically assigned on demand.- Customer lacks exact knowledge of physical asset locations.- Maximizes hardware utilization rates for provider efficiency.
+---<!-- Slide 10 -->## NIST Characteristic 4: Rapid Elasticity- Capabilities provisioned and released scale rapidly.- Automatically adjusts to match real-time demand signals.- Appears infinite to the consumer from an availability perspective.- Prevents service degradation during unexpected traffic spikes.- Scales down seamlessly to eliminate idle capacity costs.
+---<!-- Slide 11 -->## NIST Characteristic 5: Measured Service- Resource usage is monitored, controlled, and reported transparently.- Implements a utility-style metering infrastructure system.- Charges based on storage, compute cycles, or bandwidth.- Provides absolute visibility into actual usage metrics.- Aligns operational costs directly with business consumption.
+---<!-- Slide 12 -->## Core Tech: Virtualization Explained- The foundational software technology powering cloud computing.- Emulates physical hardware via software abstraction layers.- Allows multiple operating systems to run on one machine.- Maximizes physical CPU, memory, and storage capabilities.- Isolates distinct user environments safely on identical chips.
+---<!-- Slide 13 -->## The Hypervisor Layer- Software that creates and runs Virtual Machines (VMs).- Type 1 (Bare-Metal): Runs directly on physical hardware (e.g., ESXi).- Type 2 (Hosted): Runs on top of a host OS (e.g., VirtualBox).- Manages hardware allocation to guest operating systems.- Ensures strict resource segregation between concurrent workloads.
+---<!-- Slide 14 -->## Financial Shift: CapEx to OpEx- Capital Expenditure (CapEx): Large upfront investments in physical property.- Operational Expenditure (OpEx): Ongoing costs to run day-to-day business.- Cloud eliminates massive hardware CapEx entry barriers.- Minimizes risk when testing new application ideas.- Matches monthly financial spending to real-time user growth.
+---<!-- Slide 15 -->## Scale Economies & Total Cost of Ownership- Hyper-scale vendors buy infrastructure at massive discounts.- Savings passed to consumers via competitive price wars.- TCO includes power, cooling, space, maintenance, and staff.- Cloud reduces indirect TCO components significantly.- Allows engineering teams to focus strictly on product value.
+---<!-- Slides 16–25: Cloud Service Models (XaaS) --><!-- Slide 16 -->## Topic 2: Service Models### Demystifying IaaS, PaaS, SaaS, and Serverless- Infrastructure as a Service Core- Platform as a Service Efficiencies- Software as a Service Accessibility- Function as a Service (Serverless) Mechanics- The Shared Responsibility Matrix
+---<!-- Slide 17 -->## Infrastructure as a Service (IaaS)- Provides fundamental computing page components over networks.- Delivers raw virtual servers, storage, and networking blocks.- Offers highest level of flexibility and control over resources.- Examples: AWS EC2, Google Compute Engine, Azure VMs.- Target Audience: Systems administrators and network architects.
+---<!-- Slide 18 -->## Platform as a Service (PaaS)- Removes the need to manage underlying server hardware.- Provides pre-configured runtime environments, databases, and OS layers.- Accelerates development by focusing purely on code.- Examples: AWS Elastic Beanstalk, Heroku, Google App Engine.- Target Audience: Software developers and DevOps engineers.
+---<!-- Slide 19 -->## Software as a Service (SaaS)- Delivers end-user applications directly through web browsers.- Vendor manages all infrastructure, code, runtimes, and upgrades.- Utilizes subscription models or free ad-supported tiers.- Examples: Microsoft 365, Salesforce, Google Workspace, Slack.- Target Audience: End-use business consumers and everyday users.
+---<!-- Slide 20 -->## Function as a Service (FaaS / Serverless)- Executes code blocks in response to distinct asynchronous events.- Zero server management or idle capacity overhead exists.- Scales automatically from zero instances to thousands instantly.- Charges strictly per millisecond of active execution execution.- Examples: AWS Lambda, Google Cloud Functions, Azure Functions.
+---<!-- Slide 21 -->## The Pizza as a Service Analogy- Traditional IT: Made from scratch at home (You manage everything).- IaaS: Take and Bake (Vendor supplies crust/sauce, you bake).- PaaS: Pizza Delivery (Vendor cooks and delivers to your table).- SaaS: Dining Out at a Restaurant (Everything provided by vendor).
+---<!-- Slide 22 -->## Shared Responsibility Model: Defined- Architectural blueprint dividing security tasks between provider and client.- Prevents assumptions that lead to severe data breaches.- Provider is consistently responsible for security **of** the cloud.- Customer is consistently responsible for security **in** the cloud.- Shifts dynamically depending on the selected service model.
+---<!-- Slide 23 -->## Responsibility Shift: IaaS Breakdown- Provider manages physical data centers, cooling, and hypervisors.- Customer manages Guest Operating System updates and patches.- Customer configures network firewalls and access controls.- Customer encrypts application data at rest and in transit.- High configuration effort paired with maximum architectural control.
+---<!-- Slide 24 -->## Responsibility Shift: PaaS & SaaS Breakdown- PaaS: Provider handles OS patching, middleware, and runtime engines.- Customer only protects application code and data configurations.- SaaS: Provider maintains full responsibility for the total stack.- Customer remains responsible for user identities and access management.- Data governance stays with the customer across all cloud models.
+---<!-- Slide 25 -->## Service Model Selection Matrix- Choose IaaS when migrating legacy applications with custom OS dependencies.- Choose PaaS for rapid development of modern, cloud-native web apps.- Choose SaaS to replace standard business functions like email or CRM.- Choose FaaS for microservices, data processing pipelines, and API backends.- Align architectural complexity with team engineering velocity goals.
+---<!-- Slides 26–35: Deployment Models --><!-- Slide 26 -->## Topic 3: Deployment Models### Topologies of Modern Cloud Infrastructure- Public Cloud Economics- Private Cloud Control- Hybrid Integration Strategies- Multi-Cloud Redundancy Challenges- Edge Computing Paradigms
+---<!-- Slide 27 -->## The Public Cloud Model- Infrastructure owned and operated by a third-party hyperscaler.- Resources shared among millions of global multi-tenant organizations.- Accessible via internet connections using utility payment terms.- Rapid scalability without physical footprint asset liabilities.
 
 
 * Examples: Amazon Web Services, Microsoft Azure, Google Cloud.
 
 ------------------------------
-## The Private Cloud Model
+### The Private Cloud Model
 
 * Infrastructure dedicated exclusively to one distinct business organization.
 * Can be hosted on-premise or managed by a third-party vendor.
@@ -380,7 +372,7 @@ color: #333
 * Used heavily by government agencies and highly regulated banks.
 
 ------------------------------
-## The Hybrid Cloud Blueprint
+### The Hybrid Cloud Blueprint
 
 * Combines public and private cloud environments systematically.
 * Connected via secure VPN tunnels or dedicated fiber-optic links.
@@ -389,7 +381,7 @@ color: #333
 * Optimizes existing hardware infrastructure life cycles.
 
 ------------------------------
-## Hybrid Use Case: Cloud Bursting
+### Hybrid Use Case: Cloud Bursting
 
 * Application runs in a private cloud environment normally.
 * Experiences a massive, unexpected spike in processing demand.
@@ -398,7 +390,7 @@ color: #333
 * Prevents service outages without permanent hardware purchases.
 
 ------------------------------
-## The Multi-Cloud Architecture
+### The Multi-Cloud Architecture
 
 * Utilizes two or more distinct public cloud provider services.
 * Mitigates vendor lock-in risks for critical digital business systems.
@@ -407,7 +399,7 @@ color: #333
 * Requires cloud-agnostic technology deployment frameworks.
 
 ------------------------------
-## Edge Computing Integration
+### Edge Computing Integration
 
 * Distributes compute and storage capabilities close to data sources.
 * Lowers network latency for real-time application interactions.
@@ -416,7 +408,7 @@ color: #333
 * Acts as a local extension of centralized hyper-scale clouds.
 
 ------------------------------
-## Deployment Evaluation Factors
+### Deployment Evaluation Factors
 
 * Data Sovereignty: Where must data reside by law? (Private/Hybrid).
 * Scale Velocity: How fast does infrastructure need to double? (Public).
@@ -424,7 +416,7 @@ color: #333
 * Engineering Maturity: Does the team have infrastructure management skills?
 
 ------------------------------
-## Regulatory Impact on Topology
+### Regulatory Impact on Topology
 
 * GDPR forces specific citizen data storage geography compliance boundaries.
 * HIPAA dictates strict isolation for patient electronic healthcare records.
@@ -432,7 +424,7 @@ color: #333
 * Deployment models must align with legal frameworks first, tech second.
 
 ------------------------------
-## Summary Matrix of Cloud Topologies
+### Summary Matrix of Cloud Topologies
 
 * Public: High elasticity, low control, low initial upfront investment.
 * Private: Low elasticity, high control, high initial upfront investment.
@@ -440,7 +432,7 @@ color: #333
 * Multi-Cloud: High operational overhead, vendor independence, complex data paths.
 
 ------------------------------
-## Topic 4: Architecture & Infrastructure## Global Networks, Virtualization, and Elastic Compute
+### Topic 4: Architecture & Infrastructure### Global Networks, Virtualization, and Elastic Compute
 
 * Global Footprint: Regions & Availability Zones
 * Virtual Networking Blocks (VPCs)
@@ -449,7 +441,7 @@ color: #333
 * Elastic Load Balancing & Autoscaling Mechanics
 
 ------------------------------
-## The Global Infrastructure Grid
+### The Global Infrastructure Grid
 
 * Regions: Geographic areas hosting multiple physical data centers.
 * Availability Zones (AZs): Isolated locations within a specific region.
@@ -458,7 +450,7 @@ color: #333
 * Designing across multiple AZs ensures high availability (HA).
 
 ------------------------------
-## Virtual Private Clouds (VPCs)
+### Virtual Private Clouds (VPCs)
 
 * Logically isolated virtual network sections within public clouds.
 * Provides absolute control over IP addressing schemes and subnets.
@@ -467,7 +459,7 @@ color: #333
 * Foundation layer before deploying any virtual compute instances.
 
 ------------------------------
-## Subnets and Network ACLs
+### Subnets and Network ACLs
 
 * Public Subnets: Connected to the internet (hosts web servers).
 * Private Subnets: No direct internet routing (hosts master databases).
@@ -475,7 +467,7 @@ color: #333
 * Security Groups: Stateful instance-level firewalls controlling packets.
 
 ------------------------------
-## Compute Form Factors: Virtual Machines
+### Compute Form Factors: Virtual Machines
 
 * Ephemeral or persistent virtualized server units in the cloud.
 * Provisioned by selecting specific vCPU and RAM configurations.
@@ -484,7 +476,7 @@ color: #333
 * Best suited for traditional monolithic architectures and stateful tools.
 
 ------------------------------
-## Compute Form Factors: Containers
+### Compute Form Factors: Containers
 
 * Lightweight alternative isolating code at the OS process level.
 * Shares the host kernel, minimizing memory footprint requirements.
@@ -493,7 +485,7 @@ color: #333
 * Managed at scale using orchestration systems like Kubernetes.
 
 ------------------------------
-## Storage Types: Block Storage
+### Storage Types: Block Storage
 
 * Acts like a raw, unformatted physical hard drive volume.
 * Attached directly to virtual machines for high-speed read/writes.
@@ -502,7 +494,7 @@ color: #333
 * Performance measured in IOPS (Input/Output Operations Per Second).
 
 ------------------------------
-## Storage Types: Object Storage
+### Storage Types: Object Storage
 
 * Stores unstructured data as flat files with custom metadata tags.
 * Accessed via simple HTTP API endpoints from anywhere on earth.
@@ -511,7 +503,7 @@ color: #333
 * Examples: AWS S3, Google Cloud Storage, Azure Blob Storage.
 
 ------------------------------
-## Elastic Load Balancing (ELB)
+### Elastic Load Balancing (ELB)
 
 * Automatically distributes incoming traffic across multiple healthy target hosts.
 * Prevents single compute instances from becoming performance bottlenecks.
@@ -520,7 +512,7 @@ color: #333
 * Acts as the foundational entry point for highly available architectures.
 
 ------------------------------
-## Autoscaling Engine Mechanics
+### Autoscaling Engine Mechanics
 
 * Dynamically scales compute resource counts based on demand metrics.
 * Horizontal Scaling (Scaling Out): Adding more separate server nodes.
@@ -529,7 +521,7 @@ color: #333
 * Maintains application performance while optimizing runtime costs.
 
 ------------------------------
-## Topic 5: Security & Compliance## Perimeter Defense, Identity, and Governance
+### Topic 5: Security & Compliance### Perimeter Defense, Identity, and Governance
 
 * Identity and Access Management (IAM)
 * Zero Trust Architectural Principles
@@ -538,7 +530,7 @@ color: #333
 * Global Compliance Frameworks
 
 ------------------------------
-## Identity and Access Management (IAM)
+### Identity and Access Management (IAM)
 
 * Central authentication and authorization system for cloud control.
 * Defines who (Principal) can do what (Action) on which resource.
@@ -547,7 +539,7 @@ color: #333
 * The fundamental security perimeter in modern software development.
 
 ------------------------------
-## The Principle of Least Privilege
+### The Principle of Least Privilege
 
 * Users and systems receive only the minimum access needed.
 * Prevents accidental deletion or malicious exfiltration of corporate data.
@@ -556,7 +548,7 @@ color: #333
 * Regularly audited to prune stale developer permissions.
 
 ------------------------------
-## Zero Trust Architecture
+### Zero Trust Architecture
 
 * Traditional Security: Castle-and-Moat (Trust anyone inside the network).
 * Zero Trust: Never Trust, Always Verify every connection attempt.
@@ -565,7 +557,7 @@ color: #333
 * Minimizes lateral movement risks if attackers breach a network subnet.
 
 ------------------------------
-## Encryption at Rest
+### Encryption at Rest
 
 * Protects data stored permanently on physical disks or object systems.
 * Utilizes AES-256 bit mathematical cryptographic algorithms natively.
@@ -574,7 +566,7 @@ color: #333
 * Ensures data remains unreadable if physical enterprise drives are stolen.
 
 ------------------------------
-## Encryption in Transit
+### Encryption in Transit
 
 * Protects data moving across networks from eavesdropping intercepts.
 * Mandates Transport Layer Security (TLS) for all system endpoints.
@@ -583,7 +575,7 @@ color: #333
 * Encrypts inter-service communication inside internal clusters.
 
 ------------------------------
-## Perimeter Security: Firewalls & WAF
+### Perimeter Security: Firewalls & WAF
 
 * Security Groups filter traffic at the individual instance level.
 * Network ACLs filter traffic at the broader subnet boundary.
@@ -592,7 +584,7 @@ color: #333
 * DDoS protection engines absorb multi-gigabit traffic inundation attacks.
 
 ------------------------------
-## Security Monitoring & Logging
+### Security Monitoring & Logging
 
 * Records every single API call made inside the cloud ecosystem.
 * Tracks configuration changes to detect unauthorized architecture drift.
@@ -601,7 +593,7 @@ color: #333
 * Audits historical data logs to support forensic incident response.
 
 ------------------------------
-## Regulatory Compliance Frameworks
+### Regulatory Compliance Frameworks
 
 * SOC 1/2/3: Third-party audits verifying operational security controls.
 * ISO/IEC 27001: International standards for information security management.
@@ -609,7 +601,7 @@ color: #333
 * Providers furnish compliance documentation via self-service portals.
 
 ------------------------------
-## Sovereign Cloud Requirements
+### Sovereign Cloud Requirements
 
 * Strict compliance evolution ensuring nation-state data privacy control.
 * Restricts data center operations personnel to specific citizenships.
@@ -618,7 +610,7 @@ color: #333
 * Crucial for defense, intelligence, and public sector cloud adoptions.
 
 ------------------------------
-## Topic 6: Operations & DevOps## Infrastructure as Code, CI/CD, and Observability
+### Topic 6: Operations & DevOps### Infrastructure as Code, CI/CD, and Observability
 
 * Infrastructure as Code (IaC) Automation
 * Continuous Integration / Continuous Deployment
@@ -627,7 +619,7 @@ color: #333
 * Site Reliability Engineering & Chaos Injection
 
 ------------------------------
-## Infrastructure as Code (IaC)
+### Infrastructure as Code (IaC)
 
 * Defines physical hardware architecture using human-readable configuration files.
 * Replaces manual graphical console pointing-and-clicking practices completely.
@@ -636,7 +628,7 @@ color: #333
 * Core automation engines include Terraform, CloudFormation, and OpenTofu.
 
 ------------------------------
-## Declarative vs. Imperative IaC
+### Declarative vs. Imperative IaC
 
 * Declarative: Define the desired end state; tool builds it (Terraform).
 * Imperative: Define exact sequential steps to build architecture (CLI scripts).
@@ -644,7 +636,7 @@ color: #333
 * Simplifies updating complex interconnected live cloud environments over time.
 
 ------------------------------
-## CI/CD Deployment Pipelines
+### CI/CD Deployment Pipelines
 
 * Continuous Integration: Automates testing and building code on every commit.
 * Continuous Delivery/Deployment: Ships validated code to cloud targets.
@@ -653,7 +645,7 @@ color: #333
 * Tools: GitHub Actions, GitLab CI, Jenkins, AWS CodePipeline.
 
 ------------------------------
-## Blue-Green Deployment Strategy
+### Blue-Green Deployment Strategy
 
 * Environments: Two identical production pipelines exist (Blue and Green).
 * Blue hosts live traffic; Green receives updated version code shifts.
@@ -662,7 +654,7 @@ color: #333
 * Eliminates application downtime during major software version updates.
 
 ------------------------------
-## Canary Deployment Strategy
+### Canary Deployment Strategy
 
 * Rolls out new software versions to a small subset of live users.
 * Monitors error rates and performance metrics for the canary group.
@@ -670,7 +662,7 @@ color: #333
 * Minimizes blast radius of buggy software releases to user bases.
 
 ------------------------------
-## Configuration Management
+### Configuration Management
 
 * Standardizes internal software configurations running inside live VMs.
 * Automates package installations, security patching, and app setups.
@@ -678,7 +670,7 @@ color: #333
 * Tools: Ansible, Chef, Puppet, SaltStack.
 
 ------------------------------
-## The Observability Triad
+### The Observability Triad
 
 * Metrics: Numeric data tracking resource consumption rates over time.
 * Logs: Text records of discrete internal system events and errors.
@@ -686,7 +678,7 @@ color: #333
 * Critical for diagnosing complex distributed microservice failures.
 
 ------------------------------
-## Site Reliability Engineering (SRE)
+### Site Reliability Engineering (SRE)
 
 * Applies software engineering principles to operations problems.
 * Defines Service Level Objectives (SLOs) to manage service quality.
@@ -694,7 +686,7 @@ color: #333
 * Drives aggressive automation to eliminate repetitive manual ops toil.
 
 ------------------------------
-## Chaos Engineering Fundamentals
+### Chaos Engineering Fundamentals
 
 * Intentionally injecting failures into production systems to test resilience.
 * Terminates random virtual machines to verify autoscaling functionality.
@@ -703,7 +695,7 @@ color: #333
 * Pioneered by Netflix with tools like Chaos Monkey.
 
 ------------------------------
-## Topic 7: FinOps & Future Trends## Cost Management, Green Cloud, and Emerging Tech
+### Topic 7: FinOps & Future Trends### Cost Management, Green Cloud, and Emerging Tech
 
 * FinOps Framework & Cost Optimization
 * Hidden Architecture Costs: Data Egress
@@ -712,7 +704,7 @@ color: #333
 * Quantum Cloud Computing Paradigms
 
 ------------------------------
-## What is FinOps?
+### What is FinOps?
 
 * Cultural practice combining finance, engineering, and business operations.
 * Drives financial accountability into cloud consumption teams.
@@ -721,7 +713,7 @@ color: #333
 * Encourages continuous architectural optimization behaviors.
 
 ------------------------------
-## The FinOps Lifecycle Phases
+### The FinOps Lifecycle Phases
 
 * Inform: Visibility into accurate allocations and spend attributions.
 * Optimize: Sizing down oversized servers and buying upfront discounts.
@@ -729,7 +721,7 @@ color: #333
 * Cyclical framework designed for continuous cost improvement loops.
 
 ------------------------------
-## Cost Pitfalls: Right-Sizing Compute
+### Cost Pitfalls: Right-Sizing Compute
 
 * Developers frequently over-provision server sizes out of caution.
 * Running 8-vCPU instances when active utilization never exceeds 5%.
@@ -737,7 +729,7 @@ color: #333
 * Downsizing idle servers immediately cuts monthly cloud expenses.
 
 ------------------------------
-## Cost Pitfalls: The Data Egress Trap
+### Cost Pitfalls: The Data Egress Trap
 
 * Ingress: Moving data into public cloud networks (Typically free).
 * Egress: Moving data out of cloud systems or across regions (Expensive).
@@ -745,7 +737,7 @@ color: #333
 * Architectures must minimize cross-region and public network data transfers.
 
 ------------------------------
-## Pricing Models: Commitments
+### Pricing Models: Commitments
 
 * On-Demand: High cost, absolute flexibility, no commitments.
 * Reserved Instances / Savings Plans: Up to 72% discounts available.
@@ -754,7 +746,7 @@ color: #333
 * Spot instances can be terminated by provider with a 2-minute warning.
 
 ------------------------------
-## Green Cloud & Sustainability
+### Green Cloud & Sustainability
 
 * Hyper-scale data centers consume massive amounts of global electricity.
 * Vendors commit to 100% renewable energy matches for operations.
@@ -762,7 +754,7 @@ color: #333
 * Clean coding architectures directly minimize environmental carbon footprint.
 
 ------------------------------
-## AI & Machine Learning in the Cloud
+### AI & Machine Learning in the Cloud
 
 * Cloud providers host massive clusters of specialized GPU/TPU chips.
 * Enables rapid training of large language and generative model pipelines.
@@ -770,7 +762,7 @@ color: #333
 * Democratizes advanced machine learning capabilities without massive hardware CapEx.
 
 ------------------------------
-## Quantum Cloud Computing Networks
+### Quantum Cloud Computing Networks
 
 * Integrates complex quantum processing units into hyper-scale stacks.
 * Accessible to standard businesses via cloud API execution tunnels.
@@ -778,7 +770,7 @@ color: #333
 * Transforms fields like cryptography, logistics, and molecular discovery.
 
 ------------------------------
-## Summary & The Continuous Journey
+### Summary & The Continuous Journey
 
 * Cloud computing is an evolving architectural discipline, not a destination.
 * Fundamentals, Service Models, and Deployment choices drive strategies.
@@ -792,9 +784,9 @@ If you would like to **export this slide deck into a printable format**, customi
 
 
 <!-- Slide 16 -->
-# Topic 2: Cloud Service Models (XaaS)
+## Topic 2: Cloud Service Models (XaaS)
 
-## Monolithic Runtimes, Managed Platforms, and Serverless Mechanics
+### Monolithic Runtimes, Managed Platforms, and Serverless Mechanics
 
 - **Infrastructure as a Service (IaaS)**: Provisioning raw virtual compute nodes, persistent block volumes, and programmable software-defined network (SDN) boundaries.
 - **Platform as a Service (PaaS)**: Abstracting underlying operating system patches, runtime engines (Node.js, JVM), and middleware to enable pure application-code lifecycle delivery.
@@ -805,9 +797,9 @@ If you would like to **export this slide deck into a printable format**, customi
 ---
 
 <!-- Slide 26 -->
-# Topic 3: Deployment Models & Topologies
+## Topic 3: Deployment Models & Topologies
 
-## Public Hyper-Scale, Private Isolation, Hybrid Fabrics, and the Edge
+### Public Hyper-Scale, Private Isolation, Hybrid Fabrics, and the Edge
 
 - **Public Cloud Multi-Tenancy**: Navigating the hyper-scale shared economic models, shared global physical resource pools, and logical isolation challenges of public utilities.
 - **Private Infrastructure Control**: Managing dedicated on-premise hardware footprints, OpenStack or VMware control planes, and data sovereignty compliance mandates.
@@ -818,9 +810,9 @@ If you would like to **export this slide deck into a printable format**, customi
 ---
 
 <!-- Slide 36 -->
-# Topic 4: Architecture & Infrastructure
+## Topic 4: Architecture & Infrastructure
 
-## Global Mesh Networks, Multi-AZ High Availability, and Storage Tiers
+### Global Mesh Networks, Multi-AZ High Availability, and Storage Tiers
 
 - **Geographic Footprints**: Analyzing the layout of isolated regional zones, fiber-mesh paths, and Availability Zones (AZs) designed with completely independent power grids.
 - **Software-Defined Networking (VPC)**: Crafting isolated network topologies using Classless Inter-Domain Routing (CIDR) blocks, public/private subnets, and routing maps.
@@ -831,9 +823,9 @@ If you would like to **export this slide deck into a printable format**, customi
 ---
 
 <!-- Slide 46 -->
-# Topic 5: Security, Perimeter Defense & Governance
+## Topic 5: Security, Perimeter Defense & Governance
 
-## Cryptographic Key Management, Identity Planes, and Sovereign Cloud
+### Cryptographic Key Management, Identity Planes, and Sovereign Cloud
 
 - **Identity and Access Management (IAM)**: Constructing unified authorization frameworks leveraging cryptographic roles, attributes (ABAC), and mandatory Multi-Factor Authentication.
 - **The Zero Trust Architectural Paradigm**: Abandoning traditional "castle-and-moat" network security models in favor of continuous, request-by-request perimeter verification.
@@ -844,9 +836,9 @@ If you would like to **export this slide deck into a printable format**, customi
 ---
 
 <!-- Slide 56 -->
-# Topic 6: Modern Cloud Operations & DevOps
+## Topic 6: Modern Cloud Operations & DevOps
 
-## Infrastructure as Code, Automated Pipelines, and Chaos Systems
+### Infrastructure as Code, Automated Pipelines, and Chaos Systems
 
 - **Infrastructure as Code (IaC) Architecture**: Declaring complex real-world cloud architectures as version-controlled text assets using tools like Terraform and OpenTofu.
 - **Immutable Infrastructure Engineering**: Eradicating unpredictable server environmental drift by abandoning manual ssh patching in favor of immutable machine image bakes.
@@ -857,9 +849,9 @@ If you would like to **export this slide deck into a printable format**, customi
 ---
 
 <!-- Slide 66 -->
-# Topic 7: FinOps, Economics & Emerging Horizons
+## Topic 7: FinOps, Economics & Emerging Horizons
 
-## Cloud Cost Accounting, GPU Cluster Mechanics, and Quantum Nodes
+### Cloud Cost Accounting, GPU Cluster Mechanics, and Quantum Nodes
 
 - **The FinOps Framework Matrix**: Building cross-functional engineering and finance loops to enforce operational cost accountability across cloud consumption centers.
 - **The Data Egress Financial Pitfall**: Deconstructing the hidden geometric billing charges tied to moving massive data payloads across regions or public internet boundaries.
@@ -868,7 +860,7 @@ If you would like to **export this slide deck into a printable format**, customi
 - **Quantum Cloud Network Integration**: Peeking into the future of computing by executing hybrid classical-quantum algorithms over abstract public cloud API tunnels.
 
 
-## Self-Assessment
+### Self-Assessment
 Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
     Test your knowledge of the concepts covered in this section.

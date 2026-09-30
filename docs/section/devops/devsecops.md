@@ -2,6 +2,9 @@
 
 Integrating security into the DevOps lifecycle is known as **DevSecOps**. The core philosophy is to **"Shift Left"**—meaning security is no longer a final check performed by a separate team at the end of the project, but is integrated into every single step of the development process.
 
+!!! info "Why this matters"
+    In AI and Data Science, a security breach can be catastrophic. A leaked API key for a high-end GPU cluster can lead to thousands of dollars in unauthorized costs in hours. Furthermore, "Prompt Injection" or "Model Inversion" attacks can compromise the privacy of the training data. By integrating security into the pipeline, you ensure that infrastructure is hardened and secrets are managed before the model is ever exposed to the public.
+
 !!! info "The Shift Left Philosophy"
     In traditional DevOps, security happens *after* the build. In DevSecOps, security happens *during* the code write, the build, and the deployment. By finding a vulnerability in the HCL code before it is applied, you prevent a security hole from ever existing in the real world.
 
@@ -58,7 +61,7 @@ To prevent an unauthorized change from hitting production:
 - **Automated Gates**: The CI pipeline runs `Checkov` and `terraform plan`. If the security scan fails or the plan deletes a critical resource, the "Merge" button is disabled.
 - **Peer Review**: At least one other engineer must approve the plan before it can be applied.
 
-Refer to [github-workflow-security.md](github-workflow-security.md) for detailed instructions on implementing these protections in GitHub.
+Refer to [github-workflow-security.md](/section/devops/github-workflow-security.md) for detailed instructions on implementing these protections in GitHub.
 
 ---
 
@@ -77,5 +80,8 @@ Test your knowledge of DevSecOps by expanding the questions below.
 ??? question "Why are Secrets Managers preferred over environment variables for production?"
     Secrets Managers provide **centralized control**, **audit logs** (you know exactly who accessed the password), and **automatic rotation**. Environment variables are static, often stored in plain text on the server, and are difficult to change across a large fleet of machines.
 
-??? question "Describe the sequence of a secure Terraform deployment pipeline."
-    1. Developer pushes HCL to a feature branch $\rightarrow$ 2. CI runs `terraform fmt`, `validate`, and `Checkov` $\rightarrow$ 3. CI runs `terraform plan` and posts the result to a PR $\rightarrow$ 4. A peer reviews the plan and security report $\rightarrow$ 5. The PR is merged to `main` $\rightarrow$ 6. The pipeline executes `terraform apply`.
+---
+
+## What's Next?
+
+Security is a continuous process. Now that you have the theoretical foundation of DevSecOps, learn how to implement these protections in a real-world pipeline. Visit **[Securing the Pipeline](/section/devops/github-workflow-security.md)** for implementation details using GitHub Actions.

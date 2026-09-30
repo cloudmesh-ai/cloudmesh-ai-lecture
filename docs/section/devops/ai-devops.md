@@ -74,6 +74,10 @@ As we move toward autonomous infrastructure, the role of the human changes. The 
 - [ ] **Validation**: Do we have a mandatory human review step for all AI-generated IaC?
 - [ ] **Guardrails**: Are we using OPA (Open Policy Agent) or similar tools to block "illegal" AI-generated configurations?
 - [ ] **Context**: Are we providing the AI with our specific architectural standards to reduce hallucinations?
-- [ ] **Feedback Loop**: Are we capturing the corrections made to AI output to improve future prompts?
+---
 
-For more on the foundations of the tools being augmented here, see [[devops-iac]], [[terraform]], and [[gitops-fundamentals]].
+## What's Next?
+
+You have reached the end of the DevOps chapter! You now have the tools to provision, configure, secure, and augment your infrastructure using AI. 
+
+For a final hands-on experience, visit the **[Local Lab Guide](/section/devops/local-lab.md)** to set up these tools on your own machine, or return to the **[Master Index](/section/devops/devops.md)** to review any section.

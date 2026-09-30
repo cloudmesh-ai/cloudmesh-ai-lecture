@@ -274,6 +274,7 @@ volumes:
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
+
     Test your knowledge by expanding the questions below.
 
 ??? question "What is the role of LiteLLM in the unified gateway architecture?"

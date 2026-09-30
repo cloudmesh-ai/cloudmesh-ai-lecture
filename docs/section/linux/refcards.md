@@ -230,16 +230,14 @@ For those who prefer to stay within the terminal, tools such as `tldr` (simplifi
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge of the concepts covered in this section.
 
-    ??? question "Why is 'indexed knowledge' considered more valuable than rote memorization in professional software engineering?"
-        The technical landscape is too vast to memorize every detail. Indexed knowledge—knowing where to find accurate, condensed information (like refcards)—reduces cognitive load, minimizes errors caused by misremembering syntax, and increases operational efficiency by reducing context-switching.
+??? question "Why is 'indexed knowledge' considered more valuable than rote memorization in professional software engineering?"
+    The technical landscape is too vast to memorize every detail. Indexed knowledge—knowing where to find accurate, condensed information (like refcards)—reduces cognitive load, minimizes errors caused by misremembering syntax, and increases operational efficiency by reducing context-switching.
 
-    ??? question "What are the trade-offs between using a static reference card (PDF) and a 'living' reference system (e.g., Obsidian or Notion)?"
-        - **Static Reference (PDF)**: High visual polish, easy to print/distribute, but difficult to update and lacks searchability across a large collection.
-        - **Living Reference (Obsidian/Notion)**: Easily updated, searchable, and allows for linking related concepts, but requires more effort to organize and doesn't provide the same "single-glance" density as a well-designed PDF.
+??? question "What are the trade-offs between using a static reference card (PDF) and a 'living' reference system (e.g., Obsidian or Notion)?"
+    - **Static Reference (PDF)**: High visual polish, easy to print/distribute, but difficult to update and lacks searchability across a large collection.
+    - **Living Reference (Obsidian/Notion)**: Easily updated, searchable, and allows for linking related concepts, but requires more effort to organize and doesn't provide the same "single-glance" density as a well-designed PDF.
 
-    ??? question "Mention two CLI-based tools that provide simplified reference information without leaving the terminal."
-        Two such tools are `tldr` (simplified man pages) and `cheat.sh`.
+??? question "Mention two CLI-based tools that provide simplified reference information without leaving the terminal."
+    Two such tools are `tldr` (simplified man pages) and `cheat.sh`.
 

@@ -1,6 +1,7 @@
 # Message Queuing Telemetry Transport (MQTT) with Python
 
 !!! info "Learning Objectives"
+
     - Understand the Publish/Subscribe (Pub/Sub) architecture and its advantages over request-response models.
     - Implement MQTT publishers and subscribers using the `paho-mqtt` library.
     - Design and manage MQTT topic hierarchies using wildcards.
@@ -27,6 +28,93 @@ A publisher is a client that sends data to the broker. The publisher specifies a
 ### The Subscriber
 
 A subscriber is a client that tells the broker it is interested in a particular topic. When the broker receives a message on that topic, it pushes the message to the subscriber. A single client can act as both a publisher and a subscriber.
+
+```mermaid
+graph LR
+    %% MQTT Entities
+    Publisher["Publisher (Client)"]
+    Broker["MQTT Broker (Server)"]
+    Subscriber["Subscriber (Client)"]
+
+    %% Note Nodes
+    NotePub["Establishes MQTT connection (TCP)<br/>Sends data (e.g., sensor readings)"]
+    NoteSub["Establishes MQTT connection (TCP)<br/>Sends SUBSCRIBE (topic filter)<br/>Receives matching data"]
+    NoteBroker["Manages connections<br/>Handles topics and subscriptions<br/>Stores messages (if needed)"]
+
+    %% Define Node Styles
+    classDef client fill:#f9f,stroke:#333,stroke-width:2px,rx:5,ry:5;
+    classDef broker fill:#e1f5fe,stroke:#0277bd,stroke-width:2px,color:#01579b,rx:10,ry:10;
+    classDef noteStyle fill:#fffde7,stroke:#fbc02d,stroke-width:1px,stroke-dasharray: 5 5;
+
+    class Publisher,Subscriber client;
+    class Broker broker;
+    class NotePub,NoteSub,NoteBroker noteStyle;
+
+    %% Logical Flow
+    Publisher -->|"1. PUBLISH (topic, payload)"| Broker
+    Broker -->|"2. Route/Filter Messages"| Broker
+    Broker -->|"3. PUBLISH (topic, payload)"| Subscriber
+
+    %% Connect Notes to Nodes
+    Publisher -.- NotePub
+    Subscriber -.- NoteSub
+    Broker -.- NoteBroker
+```
+### Detailed Mermaid Diagram for MQTT Sequence
+
+This diagram shows the sequence of messages and requests for common MQTT operations.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Pub as Publisher (Client)
+    participant Broker as MQTT Broker (Server)
+    participant Sub as Subscriber (Client)
+
+    %% Styling (optional)
+    box rgb(240, 248, 255) Client Applications
+        participant Pub
+        participant Sub
+    end
+    box rgb(224, 247, 250) Infrastructure
+        participant Broker
+    end
+
+    Note over Pub, Broker: Connection Phase
+    Pub->>Broker: CONNECT
+    Broker-->>Pub: CONNACK (Success/Failure)
+
+    Note over Sub, Broker: Connection Phase
+    Sub->>Broker: CONNECT
+    Broker-->>Sub: CONNACK (Success/Failure)
+
+    Note over Sub, Broker: Subscription Phase
+    Sub->>Broker: SUBSCRIBE (TopicFilter, QoS)
+    Broker-->>Sub: SUBACK (Granted QoS)
+
+    Note over Pub, Broker: Publishing Phase
+    Note right of Pub: Generates data
+    Pub->>Broker: PUBLISH (Topic, Payload, QoS, Retain)
+    
+    %% Optional: Acknowledgement based on QoS
+    %% (This example shows simple flow, expand as needed for QoS 1 or 2)
+
+    Note over Broker: Routing Phase
+    Note right of Broker: Matches Topic/Filters<br/>Check Subscriptions
+
+    Note over Broker, Sub: Message Delivery Phase
+    Broker->>Sub: PUBLISH (Topic, Payload, QoS, Retain)
+    
+    %% Unsubscribe (Optional)
+    %% Note over Sub, Broker: Optional Unsubscribe
+    %% Sub->>Broker: UNSUBSCRIBE (TopicFilter)
+    %% Broker-->>Sub: UNSUBACK
+
+    %% Disconnect (Optional)
+    %% Note over Pub, Broker: Optional Disconnect
+    %% Pub->>Broker: DISCONNECT
+
+```
 
 ## MQTT Topic Hierarchies and Wildcards
 
@@ -192,6 +280,7 @@ client.connect("secure-broker.example.com", 8883)
 ```
 
 !!! tip "Summary Checklist"
+
     - Selected the correct architecture: Pub/Sub via a Broker.
     - Designed a hierarchical topic structure using `/` and wildcards (`+`, `#`).
     - Implemented `on_connect` and `on_message` callbacks for subscribers.
@@ -202,7 +291,6 @@ client.connect("secure-broker.example.com", 8883)
 
 
 ## Self Assessment
-
 Test your knowledge by expanding the questions below.
 
 ??? question "Contrast the Request-Response model with the Pub/Sub model used by MQTT."
@@ -218,12 +306,15 @@ Test your knowledge by expanding the questions below.
 
 
 !!! note "Assignment 1: Basic Telemetry System"
+
     Create a publisher that sends a random "CPU Load" percentage every 2 seconds to the topic `cloudmesh/metrics/cpu`. Create a subscriber that prints these values in real-time.
 
 !!! note "Assignment 2: Multi-Sensor Monitor"
+
     Implement a subscriber that uses a wildcard to monitor all sensors in a building. Use the topic `cloudmesh/building_1/+/value`. The subscriber should print the sensor name (extracted from the topic) and the value.
 
 !!! note "Assignment 3: Robust IoT Gateway"
+
     Develop a system that implements the following:
 
     1. A publisher that sets an LWT message to "DISCONNECTED" on the topic `gateway/status`.

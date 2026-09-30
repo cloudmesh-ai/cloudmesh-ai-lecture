@@ -1,6 +1,7 @@
 # A Practical, End-to-End Tour of scikit-learn
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to:
     * Implement a complete machine learning workflow using scikit-learn.
     * Utilize Pipelines to combine preprocessing and model training.
@@ -36,6 +37,7 @@ pip install numpy pandas matplotlib seaborn scikit-learn
 ```
 
 !!! info "Reproducibility Tip"
+
     Set a global random seed at the start of every notebook or script to ensure consistent results across runs.
 
 ```python
@@ -148,6 +150,7 @@ preprocess = ColumnTransformer(
 ```
 
 !!! info "Why Scaling?"
+
     Many algorithms (SVM, Logistic Regression, k-NN) are sensitive to feature magnitude. Scaling ensures that no single feature dominates the model due to its scale.
 
 **Explanation:**
@@ -852,6 +855,7 @@ The API expects a JSON object representing a single wine sample. It converts thi
 ## Assignments
 
 !!! note "Practical Exercises"
+
     **Project: Predicting Wine Quality**
     Build a robust regression model that predicts the quality score of a red wine based on its physicochemical properties.
     

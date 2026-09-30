@@ -1,6 +1,7 @@
 # Markdown
 
 !!! info "Learning Objectives"
+
     After completing this chapter, you will be able to:
     * Use basic Markdown syntax for structured technical documentation.
     * Apply consistent formatting rules for headings, lists, and code blocks.
@@ -145,6 +146,7 @@ To convert Markdown to other formats, use `pandoc`.
 Converted documents may require manual cleanup of text, character encoding, and spacing to meet project requirements. Pandoc supports conversion between Markdown and various formats, including ePub, PDF, and HTML.
 
 !!! warning "Pandoc and MS Word"
+
     While Pandoc can convert from MS Word (`.docx`), Word character sets often introduce noise that requires manual cleanup. Writing directly in Markdown is generally more efficient.
 
 ### Conversion with Pandoc
@@ -257,6 +259,7 @@ For automated linting, use:
 * [remark-lint](https://github.com/remarkjs/remark-lint)
 
 !!! note "remark-lint Warning"
+
     Copy files to a separate directory before running `remark-lint` to avoid installing dependencies in the project root.
 
 ## Writing Papers and Reports with Markdown
@@ -330,6 +333,7 @@ print("This will be shown as raw text")
 
 
 !!! note "Spacing Reminder"
+
     Ensure there is an empty line both before and after every code block.
 
 ### Citations in Markdown
@@ -412,6 +416,7 @@ To manually place the reference list:
 ```
 
 !!! note "Formatting Reminder"
+
     Include an empty line before and after headings, quotes, lists, and paragraphs. Do not indent paragraphs with tabs or spaces.
 
 ### BibTeX Validation
@@ -451,15 +456,19 @@ Before submitting work, verify the following:
 ## Assignments
 
 !!! note "Assignment 1: Technical Report"
+
     Create a technical report using `report.md` and `report.bib`.
 
 !!! note "Assignment 2: Citations"
+
     Include at least three citations using the `[@label]` syntax.
 
 !!! note "Assignment 3: Visuals"
+
     Embed at least one image from the `images/` directory and one Mermaid diagram.
 
 !!! note "Assignment 4: Validation"
+
     Validate the output by converting the report to ePub using Pandoc.
 
 ## Self-Assessment

@@ -1,6 +1,7 @@
 # Blockdiag
 
 !!! info "Learning Objectives"
+
     - Understand the blockdiag family of tools.
     - Create block diagrams, sequence diagrams, and state machines.
     - Apply structural visualization to Cloud, DevOps, and AI architectures.
@@ -146,6 +147,7 @@ rackdiag {
 ## Assignments
 
 !!! note "Assignment"
+
     Choose one of the following and implement it using the blockdiag suite:
     1. Create a `seqdiag` diagram illustrating the OAuth2 authentication flow for a Cloud AI service.
     2. Create a `nwdiag` diagram of a multi-region deployment with a load balancer and database replicas.

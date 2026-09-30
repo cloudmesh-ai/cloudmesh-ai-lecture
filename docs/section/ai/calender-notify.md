@@ -32,6 +32,7 @@
 # cloudmesh-ai Calendar Notify Project
 
 !!! note "Goal"
+
     Calendar‑driven CALL / SMS / EMAIL automation
 
 cloudmesh-ai reads Google Calendar events, parses custom tags in the **notes**

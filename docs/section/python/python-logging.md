@@ -1,6 +1,7 @@
 # Logging and Monitoring for Distributed Cloud Systems
 
 !!! info "Learning Objectives"
+
     After completing this tutorial, you will be able to:
     - Configure a production-ready logging system using the Python `logging` module.
     - Implement structured logging (JSON) to facilitate log aggregation in cloud environments.

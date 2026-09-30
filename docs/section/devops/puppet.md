@@ -15,6 +15,34 @@ Managing a handful of servers is easy; managing ten thousand is a different chal
 !!! tip "AI Insight"
     Puppet's declarative DSL is well-suited for AI generation because it describes the *state* rather than the *steps*. AI can help translate complex compliance requirements into Puppet manifests. See [[ai-devops]] for guidance on using AI for state-based configuration.
 
+## AI-Driven Configuration Management
+
+In modern AI-intensive environments, configuring clusters at scale requires more than just static manifests.
+
+### AI-Generated DSL
+LLMs are highly effective at drafting Puppet code from natural language specifications. For example, a prompt like *"Create a Puppet manifest to ensure NVIDIA drivers are installed, CUDA 12.1 is present, and the NVIDIA-SMI monitoring agent is running"* can generate a complex set of resource declarations in seconds.
+
+### Managing AI Clusters
+Configuring a GPU cluster requires specialized state enforcement. A production AI cluster typically requires:
+- **Driver Consistency**: Ensuring the exact same version of the NVIDIA driver is present across 100+ nodes to avoid kernel panics during distributed training.
+- **Library Synchronization**: Managing complex dependencies like cuDNN and NCCL across all agents.
+- **Resource Monitoring**: Automatically deploying and configuring GPU exporters (e.g., `dcgm-exporter`) to feed metrics into Prometheus.
+
+Example AI Cluster Resource:
+```puppet
+# Ensure NVIDIA Driver is installed
+package { 'nvidia-driver-535':
+  ensure => installed,
+}
+
+# Ensure GPU Monitoring agent is running
+service { 'nvidia-dcgm':
+  ensure  => running,
+  enable  => true,
+  require => Package['nvidia-driver-535'],
+}
+```
+
 ## Puppet's Architecture: The Pull Model
 
 One of the most significant differences between Puppet and tools like Ansible is how they communicate with target nodes.
@@ -180,4 +208,4 @@ Test your knowledge by expanding the questions below.
 
 Infrastructure is now consistent, but we need to make our configurations dynamic and reusable. Learn about **Jinja 2 Templates** to bring programming logic to your infrastructure files.
 
-Visit the [Local Lab](local-lab.md) for instructions on how to run Puppet locally.
+Visit the [Local Lab](/section/devops/local-lab.md) for instructions on how to run Puppet locally.

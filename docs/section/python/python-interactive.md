@@ -2,11 +2,11 @@
 
 !!! info "Learning Objectives"
 
- By the end of this chapter, you will be able to:
- - Launch and navigate the Python Read-Eval-Print Loop (REPL) environment.
- - Utilize built-in introspection tools such as `type()`, `dir()`, and `help()` to examine objects and documentation.
- - Differentiate between interactive mode and script mode.
- - Transition from interactive experimentation to executing structured Python scripts from the command line.
+    By the end of this chapter, you will be able to:
+    - Launch and navigate the Python Read-Eval-Print Loop (REPL) environment.
+    - Utilize built-in introspection tools such as `type()`, `dir()`, and `help()` to examine objects and documentation.
+    - Differentiate between interactive mode and script mode.
+    - Transition from interactive experimentation to executing structured Python scripts from the command line.
 
 For many developers, the most efficient way to learn a new library or test a small snippet of logic is through interactive experimentation. Rather than writing a full program, saving it to a file, and executing it, Python provides a built-in interactive shell that allows for immediate feedback.
 
@@ -109,40 +109,41 @@ In development, scripts should be named using meaningful, descriptive identifier
 
 !!! tip "Summary Checklist"
 
- - [ ] Successfully launched the Python REPL from the terminal.
- - [ ] Understands the Read-Eval-Print-Loop (REPL) cycle.
- - [ ] Used `type()` to identify the class of various data types.
- - [ ] Used `dir()` to list the available methods and attributes of an object.
- - [ ] Navigated the `help()` documentation using the pager controls.
- - [ ] Created a `.py` file and executed it via the command line.
+    - [ ] Successfully launched the Python REPL from the terminal.
+    - [ ] Understands the Read-Eval-Print-Loop (REPL) cycle.
+    - [ ] Used `type()` to identify the class of various data types.
+    - [ ] Used `dir()` to list the available methods and attributes of an object.
+    - [ ] Navigated the `help()` documentation using the pager controls.
+    - [ ] Created a `.py` file and executed it via the command line.
 
 !!! note "Assignment 1: Basic REPL Operations"
 
- **Task**: Start the Python interactive shell. Perform three different arithmetic operations (addition, multiplication, and exponentiation) and verify the results.
- **Goal**: Familiarize yourself with the basic REPL input/output flow.
+    **Task**: Start the Python interactive shell. Perform three different arithmetic operations (addition, multiplication, and exponentiation) and verify the results.
+    **Goal**: Familiarize yourself with the basic REPL input/output flow.
 
 !!! note "Assignment 2: Object Exploration"
 
- **Task**: Create a dictionary in the REPL (e.g., `user = {"name": "Alice", "id": 1}`). Use `type()` to verify it is a dictionary, then use `dir()` to find the method used to remove an item from a dictionary. Finally, use `help()` on that specific method to understand its arguments.
- **Goal**: Practice the introspection workflow (`type` $\rightarrow$ `dir` $\rightarrow$ `help`).
+    **Task**: Create a dictionary in the REPL (e.g., `user = {"name": "Alice", "id": 1}`). Use `type()` to verify it is a dictionary, then use `dir()` to find the method used to remove an item from a dictionary. Finally, use `help()` on that specific method to understand its arguments.
+    **Goal**: Practice the introspection workflow (`type` $\rightarrow$ `dir` $\rightarrow$ `help`).
 
 !!! note "Assignment 3: Script Execution"
 
- **Task**: Write a Python script named `system_info.py` that prints the current date and time (using the `datetime` module). Execute the script from the terminal and verify the output.
- **Goal**: Transition from interactive experimentation to a persistent script file.
+    **Task**: Write a Python script named `system_info.py` that prints the current date and time (using the `datetime` module). Execute the script from the terminal and verify the output.
+    **Goal**: Transition from interactive experimentation to a persistent script file.
 
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
+
+    Test your knowledge by expanding the questions below.
 
 ??? question "What is the REPL cycle and how does it facilitate rapid prototyping?"
- Read-Eval-Print-Loop. It allows developers to execute small snippets of code and see results immediately, enabling them to test assumptions and refine logic without the need to write and run full scripts.
+    Read-Eval-Print-Loop. It allows developers to execute small snippets of code and see results immediately, enabling them to test assumptions and refine logic without the need to write and run full scripts.
 
 ??? question "How can you use `dir()` and `help()` together to discover how to use a new library?"
- Use `dir(object)` to see a list of all available methods and attributes for that object, then use `help(object.method)` to read the detailed documentation for a specific method of interest.
+    Use `dir(object)` to see a list of all available methods and attributes for that object, then use `help(object.method)` to read the detailed documentation for a specific method of interest.
 
 ??? question "Why is transitioning from the interactive shell to script mode necessary for development?"
- Code in the REPL is not persisted. Scripts allow for version control, reusability, and the ability to execute complex, structured logic consistently across different environments.
+    Code in the REPL is not persisted. Scripts allow for version control, reusability, and the ability to execute complex, structured logic consistently across different environments.
 

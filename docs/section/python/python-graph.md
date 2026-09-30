@@ -1,6 +1,7 @@
 # Infrastructure Diagram
 
 !!! info "Learning Outcomes"
+
     - Programmatically generate system architecture and infrastructure diagrams using Python libraries like `diagrams`, `blockdiag`, and `matplotlib`.
     - Analyze the Flask request-response lifecycle and AWS web service topologies through visual blueprints.
     - Implement custom layout plotting scripts to visualize server inventory and rack configurations dynamically.
@@ -116,7 +117,7 @@ generrate_diagram(graph_diagram, 'blockdiag.png')
 
 ```
 
-![System Architecture Diagram](blockdiag.png)
+![System Architecture Diagram](/section/python/blockdiag.png)
 
 ```{python}
 import matplotlib.pyplot as plt
@@ -199,10 +200,6 @@ print(b)
 ```
 
 ## Self Assessment
-
-??? question "Self Assessment"
-    Test your knowledge by expanding the questions below.
-
     ??? question "Which Python library is best suited for creating cloud infrastructure blueprints programmatically?"
         The `diagrams` library is specifically designed for this purpose, providing pre-defined icons for major cloud providers (AWS, GCP, Azure) and on-premises components.
 

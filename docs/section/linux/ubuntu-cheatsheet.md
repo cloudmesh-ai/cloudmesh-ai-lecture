@@ -1,6 +1,4 @@
----
-title: "Ubuntu Server CLI Cheat Sheet"
----
+# Ubuntu Server CLI Cheat Sheet
 
 This cheat sheet provides a quick reference for the most commonly used Command Line Interface (CLI) commands for Ubuntu Server. It is designed to help students and administrators navigate the system, manage services, and configure networking efficiently. The content is taken from <https://assets.ubuntu.com/v1/3bd0daaf-Ubuntu%20Server%20CLI%20cheat%20sheet%202024%20v6.pdf>
 
@@ -183,15 +181,13 @@ LXD is a tool for running and managing containers or virtual machines. Visit [ca
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge of the concepts covered in this section.
 
-    ??? question "Which command is used to check the status of a systemd service in Ubuntu, and how do you follow its logs in real time?"
-        To check the status, use `sudo systemctl status <service>`. To follow the logs in real time, use `journalctl -f`.
+??? question "Which command is used to check the status of a systemd service in Ubuntu, and how do you follow its logs in real time?"
+    To check the status, use `sudo systemctl status <service>`. To follow the logs in real time, use `journalctl -f`.
 
-    ??? question "What is the difference between `sudo apt remove <pkg>` and `sudo apt purge <pkg>`?"
-        `sudo apt remove` deletes the package binaries but leaves the configuration files on the system. `sudo apt purge` removes both the package binaries and all associated configuration files.
+??? question "What is the difference between `sudo apt remove <pkg>` and `sudo apt purge <pkg>`?"
+    `sudo apt remove` deletes the package binaries but leaves the configuration files on the system. `sudo apt purge` removes both the package binaries and all associated configuration files.
 
-    ??? question "How do you create and start a system container using LXD?"
-        To create a container without starting it, use `lxc init <image> <name>`. To create and start it immediately, use `lxc launch <image> <name>`.
+??? question "How do you create and start a system container using LXD?"
+    To create a container without starting it, use `lxc init <image> <name>`. To create and start it immediately, use `lxc launch <image> <name>`.
 

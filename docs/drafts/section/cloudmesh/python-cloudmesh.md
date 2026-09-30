@@ -1,6 +1,4 @@
----
-title: "Enhanced Cloudmesh"
----
+# Enhanced Cloudmesh
 
 In this chapter, we will be using some advanced Python features to enhance Cloudmesh. Cloudmesh is supposed to easily manage multiple clouds. We will be explicitly using python 3 and do not worry about backward compatibility. It is a reimplementation of earlier versions of cloudmesh.
 

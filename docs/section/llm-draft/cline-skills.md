@@ -1,6 +1,7 @@
 # Extending Cline with Custom Skills
 
 !!! info "Learning Objectives"
+
     By the end of this section, you will be able to:
 
     * **Understand** the architecture of Cline skills and how they extend the AI's capabilities.
@@ -193,8 +194,6 @@ $ cline hello Alice
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
 
 ??? question "What is the basic requirement for a script to be discoverable as a Cline skill?"
     Place the script in the `skills/` directory (or a path defined by `CLINE_SKILLS_PATH`) and ensure it has execution permissions (`chmod +x`).

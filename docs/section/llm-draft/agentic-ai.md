@@ -1,12 +1,13 @@
 # Agentic AI: Autonomous Systems and Tool Integration
 
 !!! info "Learning Objectives"
- - Differentiate between standard LLM chat interfaces and Agentic AI systems.
- - Implement the Reason-Act (ReAct) loop for autonomous problem solving.
- - Develop tool-use capabilities using function calling and API integration.
- - Design memory systems for agents to maintain state across complex tasks.
- - Architect multi-agent systems where specialized agents collaborate to achieve a goal.
- - Evaluate agentic reliability, loop termination, and safety guardrails.
+
+    - Differentiate between standard LLM chat interfaces and Agentic AI systems.
+    - Implement the Reason-Act (ReAct) loop for autonomous problem solving.
+    - Develop tool-use capabilities using function calling and API integration.
+    - Design memory systems for agents to maintain state across complex tasks.
+    - Architect multi-agent systems where specialized agents collaborate to achieve a goal.
+    - Evaluate agentic reliability, loop termination, and safety guardrails.
 
 The evolution of Large Language Models (LLMs) has moved from "Passive Generation" to "Agentic Action." A standard LLM is a predictor of the next token; it receives an input and generates a response. In contrast, Agentic AI is a system that uses the LLM as a reasoning engine to drive a loop of planning, tool execution, and self-correction.
 
@@ -168,26 +169,30 @@ Agentic AI introduces "Non-Deterministic Execution." Because the agent decides t
 - **Output Validation**: Using Pydantic or JSON Schema to ensure the LLM's requested tool arguments are typed correctly before execution.
 
 !!! tip "Summary Checklist"
- - Implemented a Reason-Act (ReAct) loop for autonomous decision making.
- - Defined tools using clear, descriptive JSON schemas for Function Calling.
- - Integrated short-term (context) and long-term (vector) memory.
- - Architected a multi-agent hierarchy with Manager, Worker, and Critic roles.
- - Implemented Human-in-the-Loop (HITL) for destructive actions.
- - Set strict iteration limits to prevent infinite loops.
+
+    - Implemented a Reason-Act (ReAct) loop for autonomous decision making.
+    - Defined tools using clear, descriptive JSON schemas for Function Calling.
+    - Integrated short-term (context) and long-term (vector) memory.
+    - Architected a multi-agent hierarchy with Manager, Worker, and Critic roles.
+    - Implemented Human-in-the-Loop (HITL) for destructive actions.
+    - Set strict iteration limits to prevent infinite loops.
 
 !!! note "Assignment 1: Basic Tool-Use Agent"
- Implement a Python agent that can perform basic math (add, multiply) using tools. The agent should be able to solve a word problem like \"If I have 5 apples and buy 3 more, then double them, how many do I have?\" using a ReAct loop.
+
+    Implement a Python agent that can perform basic math (add, multiply) using tools. The agent should be able to solve a word problem like \"If I have 5 apples and buy 3 more, then double them, how many do I have?\" using a ReAct loop.
 
 !!! note "Assignment 2: Cloud Resource Auditor"
- Design an agent that takes a list of server IDs, checks their status using a mock API, and generates a summary report. If any server is in an \"Error\" state, the agent must automatically call a `get_logs` tool for that server and include the logs in the report.
+
+    Design an agent that takes a list of server IDs, checks their status using a mock API, and generates a summary report. If any server is in an \"Error\" state, the agent must automatically call a `get_logs` tool for that server and include the logs in the report.
 
 !!! note "Assignment 3: Multi-Agent Coding Team"
- Architect a system with two agents: a **Coder** and a **Reviewer**.
 
- 1. The Coder writes a Python function based on a user requirement.
+    Architect a system with two agents: a **Coder** and a **Reviewer**.
 
- 2. The Reviewer tests the code and provides feedback.
+    1. The Coder writes a Python function based on a user requirement.
 
- 3. The Coder must iterate on the code based on feedback until the Reviewer gives a \"LGTM\" (Looks Good To Me) signal.
+    2. The Reviewer tests the code and provides feedback.
 
- 4. Implement a mechanism to prevent the agents from looping more than 3 times.
+    3. The Coder must iterate on the code based on feedback until the Reviewer gives a \"LGTM\" (Looks Good To Me) signal.
+
+    4. Implement a mechanism to prevent the agents from looping more than 3 times.

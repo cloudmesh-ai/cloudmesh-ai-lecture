@@ -1,60 +1,56 @@
 # RPS Autoscaling with KEDA
 
+## Learning Objectives
+
 !!! info "Learning Objectives"
-    After completing this chapter, you will be able to:
-    * Define KEDA and its role in Kubernetes autoscaling.
-    * Explain the difference between standard HPA and event-driven scaling.
-    * Implement a `ScaledObject` to scale deployments based on Requests Per Second (RPS).
-    * Identify suitable KEDA scalers for various event sources.
+    By the end of this chapter, participants will be able to:
+    - Define KEDA and its role in the Kubernetes autoscaling ecosystem.
+    - Contrast standard HPA (resource-based) with event-driven scaling.
+    - Implement a `ScaledObject` to scale deployments based on Requests Per Second (RPS).
+    - Identify and select appropriate KEDA scalers for various external event sources.
+    - Tune scaling parameters (`pollingInterval`, `cooldownPeriod`) for production stability.
+    - Manage the "Cold Start" problem when scaling from zero replicas.
 
 ## Overview
 
 KEDA (Kubernetes Event-driven Autoscaling) is a lightweight component that enables Kubernetes applications to scale based on the volume of events or requests from external systems. It extends the native Horizontal Pod Autoscaler (HPA) by allowing scaling based on metrics other than CPU or memory.
 
 !!! info "Why this matters"
-    CPU and memory are "lagging" indicators. By the time a GPU-heavy AI model causes CPU stress, the request queue may already be backed up, leading to high latency. Scaling based on Requests Per Second (RPS) allows the cluster to be "proactive"—adding capacity the moment traffic spikes, *before* the existing pods become overwhelmed.
+    CPU and memory are "lagging" indicators. In AI inference, a model may be computationally expensive but the CPU usage might not spike until the request queue is already saturated. By the time a standard HPA triggers, the user has already experienced several seconds of latency. Scaling based on Requests Per Second (RPS) allows the cluster to be "proactive"—adding capacity the moment traffic spikes, *before* the existing pods become overwhelmed.
 
-## KEDA Core Concepts
+## Core Sections
 
-## KEDA Core Concepts
+### KEDA Architecture and Concepts
 
-KEDA allows applications to scale based on the exact volume of events coming from external systems.
+KEDA allows applications to scale based on the exact volume of events coming from external systems. It acts as a bridge between an external event source and the native Kubernetes HPA.
 
-### Architecture
-
-KEDA operates as a bridge between Kubernetes and external event sources using two main components:
-
-```mermaid
-graph TD
-    EventSource[External Event Source] -->|Events/Metrics| KEDA[KEDA Operator]
-    KEDA -->|Monitors| ScaledObject[ScaledObject Resource]
-    KEDA -->|Exposes Metrics| HPA[Kubernetes HPA]
-    HPA -->|Scales| Pods[Application Pods]
-    Pods -->|Produces Metrics| EventSource
-```
+#### How KEDA Works
 
 1. **KEDA Operator**: A controller that manages `ScaledObject` custom resources. The `ScaledObject` defines the trigger (e.g., a Prometheus metric) and the scaling parameters.
 2. **Metrics Server**: KEDA exposes external metrics to the native Kubernetes HPA, which then handles the actual pod creation and deletion.
 
-### Use Cases for KEDA
+![KEDA RPS Architecture](images/keda-rps-flow.png)
 
-* **E-commerce Sales**: Scaling a checkout service during a flash sale based on the spike in requests per second.
-* **Payment Processing**: Scaling workers based on the depth of a RabbitMQ queue to ensure timely transaction processing.
-* **Batch Processing**: Scaling to zero during off-hours and scaling up automatically when a scheduled Cron trigger activates.
-* **API Gateways**: Adjusting capacity based on the number of active TCP connections or HTTP request rates monitored by Prometheus.
+Figure 1: KEDA RPS Architecture. KEDA queries Prometheus for request rates and adjusts the HPA replica count accordingly.
 
-## Implementing RPS Scaling
+#### Common Use Cases for KEDA
+
+- **E-commerce Sales**: Scaling a checkout service during a flash sale based on the spike in requests per second.
+- **Payment Processing**: Scaling workers based on the depth of a RabbitMQ queue to ensure timely transaction processing.
+- **Batch Processing**: Scaling to zero during off-hours and scaling up automatically when a scheduled Cron trigger activates.
+- **AI Inference APIs**: Scaling based on the number of active inference requests to maintain a strict SLI (Service Level Indicator) for latency.
+
+### Implementing RPS Scaling
 
 To scale a web service based on Requests Per Second (RPS), KEDA is paired with Prometheus to monitor request rates.
 
-### Prerequisites
+#### Prerequisites
 
 The following components must be available in the cluster:
+- **KEDA**: Installed via Helm or YAML manifests.
+- **Prometheus**: Configured to scrape web service metrics (e.g., an `http_requests_total` counter).
 
-1. KEDA installed.
-2. Prometheus configured to scrape web service metrics (e.g., an `http_requests_total` counter).
-
-### Configuring the ScaledObject
+#### Configuring the ScaledObject
 
 The `ScaledObject` resource tells KEDA to query Prometheus and scale the deployment based on the returned value.
 
@@ -76,33 +72,41 @@ spec:
   triggers:
   - type: prometheus
     metadata:
-      serverAddress: http://prometheus-k8s.monitoring.svc.cluster.local:9090
+      serverAddress: http://prometheus-server.monitoring.svc.cluster.local:9090
       query: sum(rate(http_requests_total{app="web-service"}[1m]))
       threshold: '50'
 ```
 
-### Scaling Workflow
+::: tip "Tuning the Threshold"
+    To determine the correct `threshold`, perform a load test on a single pod. Find the RPS at which the p99 latency exceeds your target (e.g., > 200ms). Set your threshold slightly *below* this value to ensure the cluster scales out before performance degrades.
+:::
+
+#### The Scaling Workflow
 
 1. **Metric Collection**: The web application exposes a `/metrics` endpoint. Prometheus scrapes this endpoint to track `http_requests_total`.
 2. **Evaluation**: KEDA queries Prometheus every 15 seconds (`pollingInterval`) using the specified PromQL expression.
 3. **Scaling Action**:
-    * If the current request rate per pod exceeds the `threshold` (e.g., 50 requests/sec), KEDA increases the replica count.
-    * After traffic remains low for the duration of the `cooldownPeriod`, KEDA reduces the replica count to `minReplicaCount`.
+    - If the current request rate per pod exceeds the `threshold` (e.g., 50 requests/sec), KEDA increases the replica count.
+    - After traffic remains low for the duration of the `cooldownPeriod`, KEDA reduces the replica count to `minReplicaCount`.
 
-### Concrete Example: Hands-on Scaling a Python Flask API
+::: warning "The Metrics Latency Gap"
+    There is a cumulative delay in the scaling loop: `Prometheus Scrape Interval` $\rightarrow$ `KEDA Polling Interval` $\rightarrow$ `Pod Startup Time`. If your scrape interval is 30s and polling is 15s, you may have a 45-60s lag before a new pod is ready. For high-traffic AI APIs, reduce these intervals or increase your `minReplicaCount` to handle the initial burst.
+:::
+
+### Hands-on: Scaling a Python Flask API
 
 Follow these steps to implement RPS autoscaling in your cluster.
 
-**1. Install KEDA**
-Install KEDA using Helm:
+#### 1. Install KEDA
 ```bash
 helm repo add kedacore https://kedacore.github.io/charts
 helm repo update
 helm install keda kedacore/keda
 ```
 
-**2. Deploy the Sample Application**
-Create a Flask application that exposes Prometheus metrics. Use the following deployment manifest:
+#### 2. Deploy the Sample Application
+Deploy a Flask application that exposes Prometheus metrics:
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -125,7 +129,7 @@ spec:
     spec:
       containers:
       - name: flask-api
-        image: cloudmesh/flask-prometheus-demo:latest # Replace with your actual image
+        image: cloudmesh/flask-prometheus-demo:latest
         ports:
         - containerPort: 8080
 ---
@@ -141,8 +145,9 @@ spec:
     targetPort: 8080
 ```
 
-**3. Configure the ScaledObject**
+#### 3. Configure the ScaledObject
 Apply the `ScaledObject` to link KEDA with your Prometheus server:
+
 ```yaml
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
@@ -162,8 +167,9 @@ spec:
       query: sum(rate(http_requests_total{app="flask-api"}[1m]))
 ```
 
-**4. Test and Verify**
+#### 4. Test and Verify
 Generate load using a tool like `hey` or `fortio`:
+
 ```bash
 # Send 1000 requests at 200 RPS
 hey -z 5m -q 200 http://<flask-api-service-ip>
@@ -175,76 +181,70 @@ kubectl get pods -w
 kubectl get hpa
 ```
 
-**Expected Result**:
-- **Baseline**: 1 pod active.
-- **Under Load**: Once the RPS exceeds 100, you will see KEDA trigger the HPA, and new pods will be created to handle the traffic.
-- **Recovery**: Once the load stops, pods will scale back down to 1 after the `cooldownPeriod`.
+### KEDA Scalers Reference
 
-## KEDA Scalers Reference
+KEDA provides support for a wide array of event triggers:
 
-KEDA provides support for various event triggers.
+- **Messaging and Streaming**: Apache Kafka, RabbitMQ, AWS SQS, Azure Service Bus, GCP Pub/Sub.
+- **Databases and Caching**: PostgreSQL, Redis, MongoDB, AWS DynamoDB, Azure Cosmos DB.
+- **Observability**: Prometheus, Datadog, Dynatrace, Grafana Loki.
+- **Other Triggers**: HTTP traffic (via KEDA HTTP Add-on), Cloud Storage (S3/Blob), and Cron/Schedule-based scaling.
 
-### Messaging and Streaming
-
-* Apache Kafka
-* Apache Pulsar
-* RabbitMQ
-* ActiveMQ / ActiveMQ Artemis
-* NATS JetStream / NATS Streaming
-* AWS SQS / AWS Kinesis
-* Azure Service Bus / Azure Storage Queues / Azure Event Hubs
-* GCP Pub/Sub / GCP Cloud Tasks
-
-### Databases and Caching
-
-* PostgreSQL
-* Redis
-* Apache Cassandra
-* Elasticsearch / OpenSearch
-* ClickHouse
-* Google Cloud Spanner
-* CouchDB / ArangoDB
-* AWS DynamoDB
-* Azure Cosmos DB / Azure Data Explorer
-
-### Observability and Telemetry
-
-* Prometheus
-* Datadog
-* Dynatrace
-* Grafana Loki
-* Graphite
-* AWS CloudWatch / Azure Monitor / GCP Stackdriver
-* New Relic / Splunk / Sumo Logic
-
-### Other Triggers
-
-* **HTTP**: Standard HTTP/HTTPS traffic via KEDA HTTP Add-on.
-* **Cloud Storage**: Azure Blob Storage, GCP Cloud Storage.
-* **Automation**: GitHub Runners, Azure Pipelines.
-* **General**: Cron/Schedule-based scaling, CPU/Memory consumption, and Generic API polling.
+::: tip "Managing Cold Starts"
+    When `minReplicaCount` is set to 0, the first request after a period of inactivity will experience a "Cold Start" (delay while the pod starts). For latency-sensitive AI models, it is better to keep `minReplicaCount: 1` or use a `Cron` trigger to pre-warm the cluster before peak hours.
+:::
 
 ## Summary Checklist
 
-- [ ] KEDA installed in the cluster.
-- [ ] Prometheus scraping application metrics.
-- [ ] `ScaledObject` defined with correct `scaleTargetRef`.
-- [ ] `pollingInterval` and `cooldownPeriod` configured for stability.
-- [ ] PromQL query correctly calculates the rate per pod.
+- [ ] KEDA installed and operational in the cluster.
+- [ ] Prometheus configured to scrape application metrics.
+- [ ] `ScaledObject` defined with a correct `scaleTargetRef`.
+- [ ] `pollingInterval` and `cooldownPeriod` tuned for stability.
+- [ ] PromQL query correctly calculates the target metric.
+- [ ] "Cold Start" strategy defined for scale-to-zero workloads.
 
 ## Assignments
 
-1. **Deploy a ScaledObject**: Install KEDA in a development cluster and create a `ScaledObject` that scales a sample deployment based on a Prometheus query.
-2. **Test Scale-to-Zero**: Configure a `ScaledObject` with `minReplicaCount: 0` and verify that pods are terminated when the event source is empty.
-3. **Analyze Cooldown**: Modify the `cooldownPeriod` and observe how it affects the timing of scale-down events during fluctuating traffic.
+!!! note "Assignment.1: Deploy a ScaledObject"
+    Install KEDA in a development cluster and create a `ScaledObject` that scales a sample deployment based on a Prometheus query.
+    
+    ??? tip "Solution: ScaledObject Deployment"
+        Deploy the `flask-api` and apply the `ScaledObject` manifest. Verify that `kubectl get hpa` shows a new HPA created by KEDA.
 
-## Self-Assessment
-Test your knowledge by expanding the questions below.
+!!! note "Assignment.2: Test Scale-to-Zero"
+    Configure a `ScaledObject` with `minReplicaCount: 0` and verify that pods are terminated when the event source is empty.
+    
+    ??? tip "Solution: Scale-to-Zero"
+        Set `minReplicaCount: 0` in the `ScaledObject`. Stop all traffic to the service and observe the pods being deleted via `kubectl get pods`.
+
+!!! note "Assignment.3: Analyze Cooldown"
+    Modify the `cooldownPeriod` and observe how it affects the timing of scale-down events during fluctuating traffic.
+    
+    ??? tip "Solution: Cooldown Analysis"
+        Change `cooldownPeriod` from 300 to 60 seconds. Generate a burst of traffic and observe that the cluster scales down much more aggressively.
+
+## Self-Evaluation
+
+!!! tip "Self-Assessment"
+    Test your knowledge by expanding the questions below.
+
 ??? question "What is the primary difference between KEDA and the standard Kubernetes HPA?"
-    Standard HPA typically scales based on resource metrics like CPU and memory, while KEDA allows scaling based on external event sources such as message queues or Prometheus queries.
+    Standard HPA typically scales based on internal resource metrics like CPU and memory. KEDA extends this by allowing scaling based on external event sources (e.g., queue depth, request rates), and it can scale deployments down to zero replicas.
 
 ??? question "What is the purpose of the `cooldownPeriod` in a `ScaledObject`?"
-    The `cooldownPeriod` defines the number of seconds KEDA waits after the last scale-up event before it begins scaling down, preventing "flapping" (rapidly scaling up and down).
+    The `cooldownPeriod` defines the window of time KEDA waits after the last scale-up event before it begins scaling down. This prevents "flapping," where a deployment rapidly scales up and down due to minor fluctuations in traffic.
 
 ??? question "How does KEDA achieve 'Scale to Zero'?"
-    KEDA monitors the event source directly; when no events are detected, it scales the deployment to 0. When a new event arrives, KEDA triggers the creation of the first pod, which is then managed by the HPA.
+    KEDA monitors the event source directly. When no events are detected, it scales the deployment to 0. When a new event arrives, KEDA triggers the creation of the first pod, which then hands over the scaling management to the native HPA.
+
+??? question "Why is RPS scaling considered 'proactive' compared to CPU scaling?"
+    RPS scaling responds to the *cause* of the load (incoming requests) rather than the *effect* of the load (CPU stress). This allows the system to start scaling pods before the existing pods are actually overwhelmed, reducing the likelihood of request timeouts.
+
+??? question "What is a 'Cold Start' in the context of KEDA, and how can it be mitigated?"
+    A cold start occurs when a deployment is scaled to zero and the first incoming request must wait for a new pod to be pulled and started. Mitigation strategies include keeping a `minReplicaCount: 1` or using `Cron` triggers to pre-warm pods before expected traffic spikes.
+
+??? question "How does the `pollingInterval` affect the responsiveness of a KEDA-scaled application?"
+    The `pollingInterval` determines how often KEDA checks the event source (e.g., Prometheus). A shorter interval makes the system more responsive to spikes but increases the load on the metrics server. A longer interval reduces overhead but introduces lag into the scaling decision.
+
+??? question "If a deployment is scaled to zero by KEDA, how does the first request actually trigger a scale-up?"
+    KEDA's operator continuously polls the external metric source. When the metric crosses the threshold, KEDA communicates with the Kubernetes API to scale the deployment to 1. Depending on the trigger (e.g., HTTP Add-on), KEDA may also hold the request in a queue until the first pod is ready to process it.

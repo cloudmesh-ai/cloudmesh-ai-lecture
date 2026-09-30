@@ -1,6 +1,7 @@
 # Mocking LLMs with OpenAI-Compatible REST Services
 
 !!! info Learning Objectives
+
     - Understand the importance of mocking LLM APIs for development and testing.
     - Implement an OpenAI-compatible REST server using FastAPI.
     - Create streaming responses using Server-Sent Events (SSE).
@@ -238,6 +239,7 @@ Here is a core table of the primary **OpenAI API** routes, methods, and descript
 | `/v1/batches` | `POST` | Creates and executes a batch request for asynchronous processing. |
 
 !!! note
+
     If we missed routes, please add them
     
 ## Summary Checklist
@@ -249,6 +251,7 @@ Here is a core table of the primary **OpenAI API** routes, methods, and descript
 - [ ] Pydantic models enforce OpenAI API schema.
 
 !!! note Assignments
+
     - Modify the `get_mock_text` function to return specific responses based on a JSON configuration file.
     - Implement a simulated "latency" middleware that adds a random delay to responses to test client timeouts.
     - Add a `/v1/chat/completions` error handler that randomly returns a 429 (Too Many Requests) to test retry logic in your application.

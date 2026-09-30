@@ -1,6 +1,4 @@
----
-title: "NIST Pedestrian and Face Detection"
----
+# NIST Pedestrian and Face Detection
 
 ![No](images/no.png)
 

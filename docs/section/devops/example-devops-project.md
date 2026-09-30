@@ -12,12 +12,12 @@ By completing this project, you will tie together the concepts of **Infrastructu
 ### The DevOps Toolchain
 | Phase | Tool | Purpose | Reference |
 | :--- | :--- | :--- | :--- |
-| **Provisioning** | Terraform | AWS Infrastructure | [Terraform Guide](terraform.md) |
-| **Configuration** | Ansible | OS Hardening & Tooling | [Ansible Guide](ansible.md) |
-| **CI / Build** | GitHub Actions | Dockerization & Push | [GitHub Workflows](github-workflows.md) |
-| **Orchestration** | Kubernetes | Deployment & Scaling | [CI/CD Framework](devop-ci.md) |
-| **Observability** | CloudWatch / Azure Monitor | Health & Metrics | [Monitoring Guide](devop-azure-monitor.md) |
-| **Security** | GitHub Secrets / OIDC | Pipeline Hardening | [Pipeline Security](github-workflow-security.md) |
+| **Provisioning** | Terraform | AWS Infrastructure | [Terraform Guide](/section/devops/terraform.md) |
+| **Configuration** | Ansible | OS Hardening & Tooling | [Ansible Guide](/section/devops/ansible.md) |
+| **CI / Build** | GitHub Actions | Dockerization & Push | [GitHub Workflows](/section/devops/github-workflows.md) |
+| **Orchestration** | Kubernetes | Deployment & Scaling | [CI/CD Framework](/section/devops/devop-ci.md) |
+| **Observability** | CloudWatch / Azure Monitor | Health & Metrics | [Monitoring Guide](/section/devops/devop-azure-monitor.md) |
+| **Security** | GitHub Secrets / OIDC | Pipeline Hardening | [Pipeline Security](/section/devops/github-workflow-security.md) |
 
 ---
 
@@ -39,7 +39,7 @@ Before we can deploy code, we need a place for it to live. We use Terraform to e
    ```
 
 !!! tip "Concept Link"
-    This process implements the **Declarative** approach discussed in [The Core of IaC](devops-iac.md).
+    This process implements the **Declarative** approach discussed in [The Core of IaC](/section/devops/devops-iac.md).
 
 ---
 
@@ -60,7 +60,7 @@ Terraform gives us a "blank slate" VM. We use Ansible to transform that VM into 
    ```
 
 !!! info "Why not Terraform?"
-    While Terraform can run scripts via `remote-exec`, [Ansible](ansible.md) is used here because it is **idempotent**, ensuring the server stays in the desired state even if the playbook is run multiple times.
+    While Terraform can run scripts via `remote-exec`, [Ansible](/section/devops/ansible.md) is used here because it is **idempotent**, ensuring the server stays in the desired state even if the playbook is run multiple times.
 
 ---
 
@@ -74,7 +74,7 @@ Now that the infrastructure is ready, we automate the "Build" phase. We want our
    - **Trigger**: `on: push: branches: [main]`
    - **Build**: Use a `docker/build-push-action` to build the image from the `Dockerfile`.
    - **Push**: Authenticate with AWS ECR (Elastic Container Registry) and push the tagged image.
-3. **Secure the Pipeline**: Use [GitHub Secrets](github-workflow-security.md) to store `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+3. **Secure the Pipeline**: Use [GitHub Secrets](/section/devops/github-workflow-security.md) to store `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 
 ```yaml
 # Example snippet
@@ -108,7 +108,7 @@ With the image safely stored in the registry, we deploy it to our cluster using 
    ```
 
 !!! tip "DevOps Flow"
-    This step represents the **Orchestration** phase, moving from a single VM to a scalable, self-healing cluster as described in the [CI/CD/CM Framework](devop-ci.md).
+    This step represents the **Orchestration** phase, moving from a single VM to a scalable, self-healing cluster as described in the [CI/CD/CM Framework](/section/devops/devop-ci.md).
 
 ---
 
@@ -119,7 +119,7 @@ A deployment is not complete until you can prove it is working and healthy.
 ### Task: Establish Telemetry
 1. **Infrastructure Monitoring**: Enable AWS CloudWatch to monitor CPU and Disk usage of the nodes.
 2. **Application Monitoring**: 
-   - Integrate [Azure Monitor / Application Insights](devop-azure-monitor.md) (or CloudWatch Logs) to capture application exceptions and request latency.
+   - Integrate [Azure Monitor / Application Insights](/section/devops/devop-azure-monitor.md) (or CloudWatch Logs) to capture application exceptions and request latency.
 3. **Configure Alerting**: Set up a threshold (e.g., "CPU > 80% for 5 minutes") to trigger a notification via Email or Slack.
 
 ---
@@ -133,7 +133,7 @@ Finally, we review the entire pipeline to eliminate security vulnerabilities.
 2. **Principle of Least Privilege**: Replace long-lived AWS IAM keys in GitHub Secrets with **OIDC (OpenID Connect)** to allow GitHub to assume a temporary AWS role.
 3. **Network Hardening**: Update the Terraform Security Groups to restrict SSH access to only your corporate IP range.
 
-Refer to [Securing the Pipeline](github-workflow-security.md) for detailed implementation patterns.
+Refer to [Securing the Pipeline](/section/devops/github-workflow-security.md) for detailed implementation patterns.
 
 ---
 
@@ -142,4 +142,8 @@ Refer to [Securing the Pipeline](github-workflow-security.md) for detailed imple
 By following these steps, you have implemented a professional-grade DevOps lifecycle:
 **Code** $\rightarrow$ **Git Push** $\rightarrow$ **GitHub Action (Build & Scan)** $\rightarrow$ **ECR (Registry)** $\rightarrow$ **K8s (Deploy)** $\rightarrow$ **CloudWatch (Monitor)**.
 
-This integration demonstrates that DevOps is not about a single tool, but about the **automated flow of value** from the developer's keyboard to the end user.
+---
+
+## What's Next?
+
+This project demonstrates the integration of the entire DevOps toolchain. To dive deeper into any of the specific tools used here, return to the **[Master Index](/section/devops/devops.md)**.

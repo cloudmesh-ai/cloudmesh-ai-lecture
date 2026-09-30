@@ -1,11 +1,12 @@
 # Data Analysis and Big Data with Python
 
 !!! info "Learning Objectives"
- - Utilize the SciPy ecosystem (NumPy, Pandas, Matplotlib) for data manipulation and visualization.
- - Load, clean, and explore large datasets using Pandas DataFrames.
- - Perform statistical analysis and generate data visualizations.
- - Implement data parsing techniques for semi-structured files.
- - Understand and apply parallel computing concepts using Dask for larger-than-memory datasets.
+
+    - Utilize the SciPy ecosystem (NumPy, Pandas, Matplotlib) for data manipulation and visualization.
+    - Load, clean, and explore large datasets using Pandas DataFrames.
+    - Perform statistical analysis and generate data visualizations.
+    - Implement data parsing techniques for semi-structured files.
+    - Understand and apply parallel computing concepts using Dask for larger-than-memory datasets.
 
 Working with large datasets in Python requires a move away from standard lists and loops toward vectorized operations and specialized data structures. The "Big Data" challenge in Python primarily revolves around memory management; since Python objects have significant overhead, loading a multi-gigabyte CSV into a standard list can quickly exhaust system RAM.
 
@@ -225,34 +226,35 @@ print(f"Pandas Sum: {pandas_sum}, Dask Sum: {dask_sum}")
 ```
 
 !!! tip "Summary Checklist"
- - Used NumPy for efficient array operations and vectorization.
- - Loaded and explored datasets using Pandas DataFrames.
- - Performed data cleaning by handling missing values and type conversion.
- - Generated statistical visualizations using Matplotlib.
- - Implemented custom text parsers using regex for semi-structured files.
- - Transitioned from Pandas to Dask for larger-than-memory datasets.
+
+    - Used NumPy for efficient array operations and vectorization.
+    - Loaded and explored datasets using Pandas DataFrames.
+    - Performed data cleaning by handling missing values and type conversion.
+    - Generated statistical visualizations using Matplotlib.
+    - Implemented custom text parsers using regex for semi-structured files.
+    - Transitioned from Pandas to Dask for larger-than-memory datasets.
 
 !!! note "Assignment 1: Data Exploration"
 
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
 
 ??? question "What is the main advantage of NumPy's `ndarray` over standard Python lists for big data?"
- `ndarray` is significantly more memory-efficient and supports vectorization, allowing mathematical operations to be performed on entire arrays without explicit `for` loops, which is orders of magnitude faster.
+    `ndarray` is significantly more memory-efficient and supports vectorization, allowing mathematical operations to be performed on entire arrays without explicit `for` loops, which is orders of magnitude faster.
 
 ??? question "How does Dask's approach to data processing differ from Pandas' approach?"
- Pandas uses eager evaluation, loading the entire dataset into RAM. Dask uses lazy evaluation, partitioning the data and building a task graph that is executed in parallel only when `compute()` is called.
+    Pandas uses eager evaluation, loading the entire dataset into RAM. Dask uses lazy evaluation, partitioning the data and building a task graph that is executed in parallel only when `compute()` is called.
 
 ??? question "Why is regular expression (regex) parsing useful for semi-structured files like LaTeX or system logs?"
- Regex allows for the definition of flexible patterns to extract specific data (e.g., timestamps, IDs, or macro arguments) from text that does not follow a strict tabular format like CSV or JSON.
+    Regex allows for the definition of flexible patterns to extract specific data (e.g., timestamps, IDs, or macro arguments) from text that does not follow a strict tabular format like CSV or JSON.
 
- Download a public dataset from data.gov. Use Pandas to load the data, identify columns with the most missing values, and generate a histogram for one of the numerical columns.
+    Download a public dataset from data.gov. Use Pandas to load the data, identify columns with the most missing values, and generate a histogram for one of the numerical columns.
 
 !!! note "Assignment 2: Custom Log Parser"
- Write a tool that parses a system log file. The tool should identify all lines containing "ERROR" or "CRITICAL", extract the timestamp, and output the results to a CSV file.
+
+    Write a tool that parses a system log file. The tool should identify all lines containing "ERROR" or "CRITICAL", extract the timestamp, and output the results to a CSV file.
 
 !!! note "Assignment 3: Dask Performance Study"
- Create a large CSV file (e.g., 1 million rows). Implement the same aggregation logic (e.g., mean of a column) using both Pandas and Dask. Measure the execution time and memory usage for both and report the findings.
+
+    Create a large CSV file (e.g., 1 million rows). Implement the same aggregation logic (e.g., mean of a column) using both Pandas and Dask. Measure the execution time and memory usage for both and report the findings.

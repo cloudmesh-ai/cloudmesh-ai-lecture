@@ -1,6 +1,7 @@
 # Advanced Python for Cloud Automation
 
 !!! info "Learning Objectives"
+
     - Implement asynchronous programming using `asyncio` for high-concurrency network I/O.
     - Differentiate between threading and multiprocessing to optimize I/O-bound and CPU-bound tasks.
     - Develop secure network communications using SSL/TLS wrappers.
@@ -223,6 +224,7 @@ for i in range(10):
 ```
 
 !!! tip "Summary Checklist"
+
     - Selected the correct concurrency model: `threading` for I/O, `multiprocessing` for CPU, and `asyncio` for high-scale network I/O.
     - Implemented `async/await` patterns to prevent blocking the event loop.
     - Wrapped sockets with `ssl.create_default_context()` for secure communication.
@@ -235,8 +237,6 @@ for i in range(10):
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
 
 ??? question "When should you choose `asyncio` over `ThreadPoolExecutor` for high-concurrency network I/O?"
     `asyncio` is more efficient for handling thousands of concurrent connections because it uses a single-threaded event loop, avoiding the high memory and context-switching overhead associated with maintaining thousands of OS threads.
@@ -250,7 +250,9 @@ Test your knowledge by expanding the questions below.
     Write a script that takes a list of 10 server IP addresses and checks if port 80 is open on each. Use `concurrent.futures.ThreadPoolExecutor` to perform these checks concurrently and print the results.
 
 !!! note "Assignment 2: Async API Aggregator"
+
     Use `asyncio` and `aiohttp` to fetch data from three different public APIs simultaneously. Implement a timeout of 2 seconds for each request and ensure the script continues even if one of the APIs fails.
 
 !!! note "Assignment 3: Cloud Task Orchestrator"
+
     Develop a system that accepts tasks with different priority levels (High, Medium, Low). Use a `PriorityQueue` to manage the tasks and a `ThreadPoolExecutor` to process them. Ensure that all "High" priority tasks are completed before any "Low" priority tasks begin.

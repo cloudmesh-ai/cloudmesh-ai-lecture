@@ -3,12 +3,13 @@
 The `cloudmesh-ai-common` library is the foundational layer for the Cloudmesh AI ecosystem. It provides a standardized set of shared utilities for system introspection, structured telemetry, configuration management, and remote execution, ensuring consistency across all AI components.
 
 !!! info "Learning Objectives"
- - Manage complex, nested configurations using `DotDict` and `FlatDict`.
- - Execute shell commands and transfer files on remote hosts using `RemoteExecutor`.
- - Perform system introspection to detect hardware capabilities and OS environment.
- - Implement structured telemetry to record and aggregate performance metrics.
- - Manage local shell operations and administrative privileges using `Shell` and `Sudo`.
- - Utilize general helpers for I/O, GitHub integration, and performance benchmarking.
+
+    - Manage complex, nested configurations using `DotDict` and `FlatDict`.
+    - Execute shell commands and transfer files on remote hosts using `RemoteExecutor`.
+    - Perform system introspection to detect hardware capabilities and OS environment.
+    - Implement structured telemetry to record and aggregate performance metrics.
+    - Manage local shell operations and administrative privileges using `Shell` and `Sudo`.
+    - Utilize general helpers for I/O, GitHub integration, and performance benchmarking.
 
 ---
 
@@ -350,32 +351,33 @@ StopWatch.benchmark(sysinfo=True)
 ## Assignments
 
 !!! note "Assignment: Cloudmesh Common Utilities"
- 1. **Configuration Mastery**: Create a `FlatDict` that uses OS environment variables to define a project path and expand it. Use a `DotDict` to store the result and access it using attribute notation.
- 2. **Remote System Audit**: Write a script using `RemoteExecutor` to connect to a remote host, run `df -h` and `free -m`, and save the output to a local file using `Sudo.writefile` for restricted paths.
- 3. **Performance Profiling**: Implement a function that processes a list of strings and use the `@benchmark` decorator to measure its performance. Use `StopWatch.benchmark(sysinfo=True)` to generate a final report.
- 4. **Telemetry Integration**: Create a loop that emits "api_response_time" metrics using `Telemetry` and then use `TelemetryAggregator` to calculate the average response time.
+
+    1. **Configuration Mastery**: Create a `FlatDict` that uses OS environment variables to define a project path and expand it. Use a `DotDict` to store the result and access it using attribute notation.
+    2. **Remote System Audit**: Write a script using `RemoteExecutor` to connect to a remote host, run `df -h` and `free -m`, and save the output to a local file using `Sudo.writefile` for restricted paths.
+    3. **Performance Profiling**: Implement a function that processes a list of strings and use the `@benchmark` decorator to measure its performance. Use `StopWatch.benchmark(sysinfo=True)` to generate a final report.
+    4. **Telemetry Integration**: Create a loop that emits "api_response_time" metrics using `Telemetry` and then use `TelemetryAggregator` to calculate the average response time.
 
 ---
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 ??? question "How does `DotDict` simplify access to nested dictionary values?"
- `DotDict` allows you to access nested values using attribute notation (e.g., `config.cloudmesh.ai.server`) instead of traditional bracket notation (e.g., `config['cloudmesh']['ai']['server']`), making the code cleaner and more readable.
+    `DotDict` allows you to access nested values using attribute notation (e.g., `config.cloudmesh.ai.server`) instead of traditional bracket notation (e.g., `config['cloudmesh']['ai']['server']`), making the code cleaner and more readable.
 
 ??? question "How does `FlatDict` handle environment variable expansion?"
- `FlatDict` uses a special syntax within strings (e.g., `{os.VARIABLE}`) to automatically replace placeholders with the corresponding value from the system's environment variables during the expansion process.
+    `FlatDict` uses a special syntax within strings (e.g., `{os.VARIABLE}`) to automatically replace placeholders with the corresponding value from the system's environment variables during the expansion process.
 
 ??? question "What is the primary purpose of `RemoteExecutor`, and how does it handle command output?"
- `RemoteExecutor` allows for programmatic SSH-based management of remote hosts. It can execute commands and return their output as a string or stream the output in real-time using `execute_stream`, allowing the caller to process logs as they are generated.
+    `RemoteExecutor` allows for programmatic SSH-based management of remote hosts. It can execute commands and return their output as a string or stream the output in real-time using `execute_stream`, allowing the caller to process logs as they are generated.
 
 ??? question "Which function in `cloudmesh-ai-common` provides hardware and OS introspection (e.g., CPU and RAM)?"
- The `systeminfo()` function provides a comprehensive dictionary containing details about the host's operating system, CPU and RAM.
+    The `systeminfo()` function provides a comprehensive dictionary containing details about the host's operating system, CPU and RAM.
 
 ??? question "Contrast the roles of `Telemetry` and `TelemetryAggregator` in monitoring AI system performance."
- `Telemetry` is used to **record** individual data points (metrics) as they occur during runtime. `TelemetryAggregator` is used to **analyze** those records, calculating summary statistics such as the average, maximum, and minimum values over a set of recorded metrics.
+    `Telemetry` is used to **record** individual data points (metrics) as they occur during runtime. `TelemetryAggregator` is used to **analyze** those records, calculating summary statistics such as the average, maximum, and minimum values over a set of recorded metrics.
 
 ??? question "How does the `Sudo` class enable administrative operations on a system?"
- The `Sudo` class provides a wrapper around shell commands that requests root privileges, allowing the execution of administrative tasks (like `apt-get update`) that would otherwise be denied to a standard user.
+    The `Sudo` class provides a wrapper around shell commands that requests root privileges, allowing the execution of administrative tasks (like `apt-get update`) that would otherwise be denied to a standard user.
 
 ??? question "How does the `@benchmark` decorator help in profiling AI utility functions?"
- The `@benchmark` decorator automatically wraps a function to track its execution time every time it is called, accumulating the results in the `StopWatch` registry without requiring manual timer placement inside the function body.
+    The `@benchmark` decorator automatically wraps a function to track its execution time every time it is called, accumulating the results in the `StopWatch` registry without requiring manual timer placement inside the function body.

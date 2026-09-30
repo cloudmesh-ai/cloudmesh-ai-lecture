@@ -2,12 +2,12 @@
 
 !!! info "Learning Objectives"
 
- By the end of this chapter, you will be able to:
- - Install and configure the `matplotlib` library for data visualization.
- - Generate line plots by integrating `NumPy` for data sampling and `matplotlib.pyplot` for rendering.
- - Enhance plot readability using axis labels, titles, legends, and predefined visual styles.
- - Implement bar charts to represent and compare categorical data.
- - Evaluate the differences between static plotting and interactive, browser-based visualization tools like `Bokeh`.
+    By the end of this chapter, you will be able to:
+    - Install and configure the `matplotlib` library for data visualization.
+    - Generate line plots by integrating `NumPy` for data sampling and `matplotlib.pyplot` for rendering.
+    - Enhance plot readability using axis labels, titles, legends, and predefined visual styles.
+    - Implement bar charts to represent and compare categorical data.
+    - Evaluate the differences between static plotting and interactive, browser-based visualization tools like `Bokeh`.
 
 In the fields of AI and Cloud Engineering, the ability to visualize data is as critical as the ability to process it. Whether monitoring the loss curve of a training neural network, analyzing the latency of a microservice, or visualizing resource distribution across a cluster, graphical representations allow engineers to identify patterns and anomalies that remain hidden in raw logs or tables.
 
@@ -201,36 +201,32 @@ show(p)
 
 !!! tip "Summary Checklist"
 
- - [ ] Installed `matplotlib` via `pip`.
- - [ ] Used `np.linspace` to generate coordinate samples for functional plots.
- - [ ] Implemented `plt.plot()` to render line graphs.
- - [ ] Added `xlabel`, `ylabel`, and `title` to provide plot context.
- - [ ] Used `label` and `plt.legend()` to distinguish multiple datasets.
- - [ ] Created bar charts using `plt.bar()` and `plt.xticks()`.
- - [ ] Applied visual themes using `plt.style.use()`.
- - [ ] Identified the use case for interactive plotting via `Bokeh`.
+    - [ ] Installed `matplotlib` via `pip`.
+    - [ ] Used `np.linspace` to generate coordinate samples for functional plots.
+    - [ ] Implemented `plt.plot()` to render line graphs.
+    - [ ] Added `xlabel`, `ylabel`, and `title` to provide plot context.
+    - [ ] Used `label` and `plt.legend()` to distinguish multiple datasets.
+    - [ ] Created bar charts using `plt.bar()` and `plt.xticks()`.
+    - [ ] Applied visual themes using `plt.style.use()`.
+    - [ ] Identified the use case for interactive plotting via `Bokeh`.
 
 !!! note "Assignment 1: Sampling and Resolution"
 
- **Task**: Recreate the sine and cosine plot, but vary the third parameter of `np.linspace`. Compare the results using 5, 50, and 500 samples.
- **Goal**: Understand how sampling resolution affects the visual smoothness of a curve.
+    **Task**: Recreate the sine and cosine plot, but vary the third parameter of `np.linspace`. Compare the results using 5, 50, and 500 samples.
+    **Goal**: Understand how sampling resolution affects the visual smoothness of a curve.
 
 !!! note "Assignment 2: Performance Comparison"
 
- **Task**: Create a bar chart that compares the response times (in milliseconds) of three different API endpoints (e.g., `/login`, `/search`, `/upload`). Use different colors for each bar.
- **Goal**: Practice representing categorical performance metrics.
+    **Task**: Create a bar chart that compares the response times (in milliseconds) of three different API endpoints (e.g., `/login`, `/search`, `/upload`). Use different colors for each bar.
+    **Goal**: Practice representing categorical performance metrics.
 
 !!! note "Assignment 3: Multi-Plot Dashboard"
 
- **Task**: Use `plt.subplot()` to create a single figure containing two plots: one showing a line graph of a function and another showing a bar chart of related categorical data.
- **Goal**: Master the layout of complex figures for comprehensive data reporting.
+    **Task**: Use `plt.subplot()` to create a single figure containing two plots: one showing a line graph of a function and another showing a bar chart of related categorical data.
+    **Goal**: Master the layout of complex figures for comprehensive data reporting.
 
 
 ## Self Assessment
-
-??? question "Self Assessment"
- Test your knowledge by expanding the questions below.
-
  ??? question "How do you generate the x-axis coordinates for a smooth functional plot in Matplotlib?"
  By using `np.linspace(start, stop, num)`, which creates an array of `num` evenly spaced samples over the specified interval.
 

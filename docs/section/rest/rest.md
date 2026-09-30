@@ -1,6 +1,7 @@
 # REST: The Comprehensive Guide
 
 !!! info "Learning Objectives"
+
     - Understand the core definition of REST and its architectural style.
     - Differentiate between REST and traditional SOAP-based web services.
     - Identify and define REST Resources and their identification via URIs.
@@ -604,29 +605,34 @@ You cannot secure what you cannot see. A production API must implement comprehen
 ## 8. Assignments
  
 !!! note "Assignment 1: Design Assignment"
+
      **Task**: Create a resource model for an e-commerce system (Products, Orders, Customers).
      - Sketch the URI hierarchy.
      - List HTTP methods for each resource.
      - Define expected status codes.
  
 !!! note "Assignment 2: Hands-On Coding (Advanced Implementation)"
+
      **Task**: Implement a book inventory service using Flask or FastAPI.
      - **Pagination**: Implement **Cursor-based pagination** (using a `after` parameter) to handle large datasets efficiently.
      - **Search**: Create a search endpoint that supports filtering by genre and sorting by publication date via query parameters.
      - **Authentication**: Add **JWT authentication** for write operations (`POST`, `PATCH`, `DELETE`).
  
 !!! note "Assignment 3: Testing Challenge"
+
      **Task**: Create a robust test suite.
      - Use `pytest` and `requests` for all CRUD operations.
      - Include edge cases (e.g., 404 for missing resources).
      - Verify the idempotency of `PUT` and `DELETE` requests.
  
 !!! note "Assignment 4: Tool Comparison"
+
      **Task**: Evaluate `Postman` vs `HTTPie`.
      - Perform CRUD operations with both.
      - Document pros/cons for front-end vs DevOps roles.
  
 !!! note "Assignment 5: OpenAPI Spec & Versioning"
+
      **Task**: Document the book service and plan its evolution.
      - Write a full OpenAPI 3.0 spec.
      - **Migration Plan**: Describe how you would migrate the API from `v1` to `v2` without breaking existing clients (e.g., using the `deprecated` flag in OAS and a Sunset policy).
@@ -815,6 +821,7 @@ services:
 
 
 !!! tip "Self-Assessment"
+
     Test your knowledge by expanding the questions below.
 
 ??? question "What does REST stand for, and is it a protocol or an architectural style?"

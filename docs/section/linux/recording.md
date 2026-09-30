@@ -193,6 +193,7 @@ Since you are working with AI tools, you can leverage LLMs to transform raw reco
 ## Assignments
 
 !!! note "Assignment 1: Basic Capture & Playback"
+
     **Task:** Use `script` or `asciinema` to record a session where you:
     1. Create a new directory called `lecture-test`.
     2. Create a file inside it using `echo "Hello World" > test.txt`.
@@ -200,6 +201,7 @@ Since you are working with AI tools, you can leverage LLMs to transform raw reco
     **Deliverable:** Submit the recording file and a screenshot of the playback.
 
 !!! note "Assignment 2: The Documentation Workflow"
+
     **Task:** Record a short tutorial (3-5 commands) using `asciinema`. Embed the link (via asciinema.org) or the local file into a small Markdown file that explains what the recording demonstrates.
     **Deliverable:** A Markdown file containing the recording link/file and a brief description.
 

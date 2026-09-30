@@ -3,6 +3,7 @@
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to:
     * Design and implement a custom OpenClaw action for automated content generation.
     * Structure datasets for raw lecture material and generated output.
@@ -262,18 +263,21 @@ LATENCY = Histogram(
 ## Assignments
 
 !!! note "Assignment.1: Custom Action Implementation"
+
     Build the `chapter_generator` custom action as described in Section 4, ensuring the Docker image builds and the `/generate-chapter` endpoint returns valid JSON.
 
 ??? tip "Solution: Custom Action Implementation"
     The key is ensuring the `Dockerfile` uses a slim Python image and the `main.py` includes robust JSON extraction (finding the first `{` and last `}`) to handle LLM verbosity.
 
 !!! note "Assignment.2: Pipeline Orchestration"
+
     Create an OpenClaw pipeline that automatically processes all `pending` lectures in the `lecture_material` dataset and updates their status.
 
 ??? tip "Solution: Pipeline Orchestration"
     Use the OpenClaw visual pipeline editor to create a loop: Dataset $\rightarrow$ Action $\rightarrow$ Dataset Update. Ensure the update step uses the `lecture_id` as the key to avoid duplicating rows.
 
 !!! note "Assignment.3: Prompt Optimization"
+
     Modify `prompt.txt` to include a "Few-Shot" example of a high-quality chapter outline and compare the readability scores of the output against the zero-shot version.
 
 ??? tip "Solution: Prompt Optimization"

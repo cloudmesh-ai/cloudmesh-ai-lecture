@@ -1,10 +1,9 @@
----
-title: "K-Means Clustering with Scikit-Learn"
----
+# K-Means Clustering with Scikit-Learn
 
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     - Understand the mathematical objective of K-Means (Inertia/WCSS).
     - Implement the K-Means iterative process (Assignment and Update steps).
     - Compare Random initialization vs. K-means++ initialization.
@@ -26,7 +25,7 @@ The objective of K-Means is to minimize the **Within-Cluster Sum of Squares (WCS
 
 $$\text{Inertia} = \sum_{i=1}^{K} \sum_{x \in C_i} \| x - \mu_i \|^2$$
 
-Where $C_i$ is the set of points assigned to cluster $i$, and $\| x - \mu_i \|^2$ is the squared Euclidean distance between a data point $x$ and its assigned centroid $\mu_i$.
+Where  \( C_i \) is the set of points assigned to cluster $i$, and $\| x - \mu_i \|^2$ is the squared Euclidean distance between a data point $x$ and its assigned centroid $\mu_i$.
 
 **The Iterative Process (Lloyd's Algorithm):**
 
@@ -141,6 +140,7 @@ Figure 10: K-means clustering results on digits dataset.
 ## Assignments
 
 !!! note "Practical Exercises"
+
     1. Implement K-Means clustering on the digits dataset.
     2. Compare the results of random vs. k-means++ initialization.
     3. Visualize the decision boundaries using PCA.

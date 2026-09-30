@@ -1,12 +1,13 @@
 # Command Line Interfaces with Python Click
 
 !!! info "Learning Objectives"
- - Install and configure the `click` library.
- - Create basic CLI commands using decorators.
- - Implement command-line options and arguments with type validation.
- - Build complex, nested CLI structures using `click.group`.
- - Implement an interactive shell for CLI commands using `click-shell`.
- - Generate automatic help pages for end users.
+
+    - Install and configure the `click` library.
+    - Create basic CLI commands using decorators.
+    - Implement command-line options and arguments with type validation.
+    - Build complex, nested CLI structures using `click.group`.
+    - Implement an interactive shell for CLI commands using `click-shell`.
+    - Generate automatic help pages for end users.
 
 The Command Line Interface (CLI) remains a fundamental tool for system administrators, DevOps engineers, and developers. While graphical interfaces are useful for discovery, the CLI is superior for automation, scripting, and remote management. In Python, the standard way to handle command-line arguments is the `argparse` module. While functional, `argparse` requires a significant amount of boilerplate code to define arguments, handle types, and generate help text.
 
@@ -175,39 +176,43 @@ Once launched, the user remains inside `my-shell >` and can execute `hello` or `
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
+
+    Test your knowledge by expanding the questions below.
 
 ??? question "How does Click's declarative approach differ from `argparse`?"
- Instead of manually defining a parser object, Click uses decorators (like `@click.command()`) to wrap functions and automatically handle argument parsing and help generation.
+    Instead of manually defining a parser object, Click uses decorators (like `@click.command()`) to wrap functions and automatically handle argument parsing and help generation.
 
 ??? question "What is the fundamental difference between a Click 'Argument' and an 'Option'?"
- Arguments are typically mandatory and represent the object being operated on; Options are optional modifiers prefixed with dashes (e.g., `--count`).
+    Arguments are typically mandatory and represent the object being operated on; Options are optional modifiers prefixed with dashes (e.g., `--count`).
 
 ??? question "How do you create a CLI that supports multiple subcommands (e.g., `tool status` and `tool restart`)?"
- Use the `@click.group()` decorator to create a base command and then attach subcommands to it using `@group_name.command()`.
+    Use the `@click.group()` decorator to create a base command and then attach subcommands to it using `@group_name.command()`.
 
 ??? question "How can you make a Click CLI interactive if a required option is missing?"
- Use the `prompt` parameter in the `@click.option` decorator; Click will then pause and ask the user for the value.
+    Use the `prompt` parameter in the `@click.option` decorator; Click will then pause and ask the user for the value.
 
 ??? question "How do you implement a persistent interactive shell for a set of Click commands?"
- Install the `click-shell` extension and replace `@click.group()` with the `@shell` decorator.
+    Install the `click-shell` extension and replace `@click.group()` with the `@shell` decorator.
 
 ## Assignments
 
 !!! note "Assignment 1: Basic Greeting Tool"
- Create a CLI tool called `greeter.py`. It should have one argument (`name`) and one option (`--formal`, a boolean flag). If `--formal` is present, the tool should output "Good day, [name]". Otherwise, it should output "Hi, [name]!".
+
+    Create a CLI tool called `greeter.py`. It should have one argument (`name`) and one option (`--formal`, a boolean flag). If `--formal` is present, the tool should output "Good day, [name]". Otherwise, it should output "Hi, [name]!".
 
 !!! note "Assignment 2: Simple File Utility"
- Build a CLI with a group called `filetool`. Implement two subcommands:
- 1. `write`: Takes a filename (argument) and text (argument) and writes the text to the file.
- 2. `read`: Takes a filename (argument) and prints the content to the console.
- Ensure that the `read` command handles the case where the file does not exist.
+
+    Build a CLI with a group called `filetool`. Implement two subcommands:
+    1. `write`: Takes a filename (argument) and text (argument) and writes the text to the file.
+    2. `read`: Takes a filename (argument) and prints the content to the console.
+    Ensure that the `read` command handles the case where the file does not exist.
 
 !!! note "Assignment 3: System Monitor Shell"
- Using `click-shell`, create an interactive shell called `sysmon`. Implement two commands:
- 1. `cpu`: Displays the current CPU usage (use the `psutil` library if available, or a mock value).
- 2. `mem`: Displays the current memory usage.
- The shell should start with a custom intro message and a prompt like `sysmon >> `.
+
+    Using `click-shell`, create an interactive shell called `sysmon`. Implement two commands:
+    1. `cpu`: Displays the current CPU usage (use the `psutil` library if available, or a mock value).
+    2. `mem`: Displays the current memory usage.
+    The shell should start with a custom intro message and a prompt like `sysmon >> `.
 
 ## Further Reading
 

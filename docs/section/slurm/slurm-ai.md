@@ -77,6 +77,7 @@ While Slurm dominates academic and dedicated government/enterprise supercomputin
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
+
     Test your knowledge by expanding the questions below.
 
     ??? question "What are the roles of `slurmctld` and `slurmd`?"

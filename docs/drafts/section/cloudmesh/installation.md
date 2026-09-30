@@ -1,6 +1,4 @@
----
-title: "Installation"
----
+# Installation
 
 The installation of cloudmesh is simple and can technically be done via pip by a user. However you are not a user, you are a developer. Cloudmesh is distributed in different topical repositories and in order for developers to easily interact with them we have written a convenient `cloudmesh-installer` program.
 

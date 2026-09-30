@@ -38,7 +38,7 @@ You must execute these steps sequentially:
     **Packaging** (Docker) focuses on bundling an application and its dependencies into a portable container. **Orchestration** (Kubernetes) manages the deployment, scaling, and networking of those containers across a cluster. **Provisioning** (Ansible) handles the setup of the underlying servers, operating systems, and network settings that allow the orchestration layer to run.
 
 
-   section/rest
+   /section/rest
 
 4. **Verification Phase**:
    - Review the rewritten file against the `TEMPLATE_FILE`. 

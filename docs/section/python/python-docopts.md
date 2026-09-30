@@ -1,11 +1,12 @@
 # Command-Line Interfaces with Docopt
 
 !!! info "Learning Objectives"
- - Install and configure the `docopt` library.
- - Design command-line interfaces using standard POSIX-style usage patterns.
- - Translate usage documentation into functional Python argument dictionaries.
- - Handle optional and required arguments based on usage strings.
- - Implement a multi-command CLI using a single docstring.
+
+    - Install and configure the `docopt` library.
+    - Design command-line interfaces using standard POSIX-style usage patterns.
+    - Translate usage documentation into functional Python argument dictionaries.
+    - Handle optional and required arguments based on usage strings.
+    - Implement a multi-command CLI using a single docstring.
 
 When designing command-line interfaces (CLIs), developers typically spend significant time writing code to parse arguments and an equal amount of time writing the help message that explains how to use those arguments. This redundancy often leads to "documentation drift," where the help text and the actual implementation of the argument parser diverge over time.
 
@@ -122,10 +123,6 @@ if __name__ == "__main__":
 Default values can be specified directly in the Options section of the docstring using the `[default: value]` syntax. Docopt will automatically populate the dictionary with these values if the user does not provide the option.
 
 ## Self Assessment
-
-??? question "Self Assessment"
- Test your knowledge by expanding the questions below.
-
  ??? question "What is 'documentation-driven development' in the context of Docopt?"
  It is the practice of writing the help message (usage string) first and having the library automatically generate the argument parser from that documentation.
 
@@ -144,17 +141,20 @@ Default values can be specified directly in the Options section of the docstring
 ## Assignments
 
 !!! note "Assignment 1: Basic Input Parser"
- Create a CLI tool called `greet.py`. Design a usage string that requires a `<name>` argument and provides an optional `--formal` flag. If the flag is present, the output should be "Good day, [name]"; otherwise, "Hi, [name]!".
+
+    Create a CLI tool called `greet.py`. Design a usage string that requires a `<name>` argument and provides an optional `--formal` flag. If the flag is present, the output should be "Good day, [name]"; otherwise, "Hi, [name]!".
 
 !!! note "Assignment 2: Resource Management Tool"
- Build a tool for managing a hypothetical "Cloud Storage" service. The usage string should support three patterns:
- 1. `storage.py upload <file> <bucket>`
- 2. `storage.py download <bucket> <file>`
- 3. `storage.py list <bucket>`
- Implement the logic to print which action is being performed and which files/buckets are involved.
+
+    Build a tool for managing a hypothetical "Cloud Storage" service. The usage string should support three patterns:
+    1. `storage.py upload <file> <bucket>`
+    2. `storage.py download <bucket> <file>`
+    3. `storage.py list <bucket>`
+    Implement the logic to print which action is being performed and which files/buckets are involved.
 
 !!! note "Assignment 3: Advanced Option Handling"
- Implement a CLI that takes a mandatory `<filename>` and supports mutually exclusive options: `--encrypt` and `--decrypt`. Use the usage pattern `tool.py (--encrypt | --decrypt) <filename>`. Ensure the program prints an error if both or neither are provided (Docopt should handle this automatically).
+
+    Implement a CLI that takes a mandatory `<filename>` and supports mutually exclusive options: `--encrypt` and `--decrypt`. Use the usage pattern `tool.py (--encrypt | --decrypt) <filename>`. Ensure the program prints an error if both or neither are provided (Docopt should handle this automatically).
 
 ## Further Reading
 

@@ -3,6 +3,7 @@
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to:
     * Provision a virtual machine on an OpenStack cloud using the CLI.
     * Configure OpenStack networking and security groups for AI service access.
@@ -432,18 +433,21 @@ You should see the OpenClaw landing page HTML.
 ## Assignments
 
 !!! note "Assignment.1: Deployment of OpenClaw" 
+
     Deploy a basic OpenClaw instance on your assigned OpenStack project.
 
 ??? tip "Solution: Deployment of OpenClaw"
     The deployment is successful when you can SSH into the VM and access the OpenClaw UI via the floating IP. Follow the steps in Section 5 (Provisioning) and Section 7 (Deploying the OpenClaw Stack).
 
 !!! note "Assignment.2: Set Security Groups"
+
     Configure a custom security group that restricts HTTPS access to only your workstation's IP address.
 
 ??? tip "Solution: Set Security Groups"
     Use the command: `openstack security group rule create --proto tcp --dst-port 443 --remote-ip <YOUR_WORKSTATION_IP>/32 openclaw-secgroup`. This restricts access to a specific IP rather than allowing all traffic (0.0.0.0/0).
 
 !!! note "Assignment.3: Volumes"
+
     Install a persistent SSD volume and migrate the PostgreSQL data directory to that volume.
 
 ??? tip "Solution: Volumes"

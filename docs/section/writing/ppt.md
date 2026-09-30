@@ -1,6 +1,7 @@
 # Recording Audio with Autoplay
 
 !!! info "Learning Objectives"
+
     - Understand how to record audio for PowerPoint presentations.
     - Learn to configure presentations for autoplay with synchronized sound.
     - Create a consecutive audio recording across multiple slides.
@@ -20,6 +21,7 @@ To record audio and configure autoplay, follow these steps:
 5. Save the file in a format that preserves timings and audio (e.g., .pptx).
 
 !!! note "Demonstration"
+
     A demonstration of PowerPoint with Autoplay and Sound is available here:
     - [Powerpoint with Autoplay and Sound](https://www.youtube.com/watch?v=T53rfTRuWkc)
 

@@ -1,6 +1,4 @@
----
-title: "NumPy"
----
+# NumPy
 
 # NumPy {#s-numpy}
 

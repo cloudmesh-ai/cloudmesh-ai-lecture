@@ -402,10 +402,8 @@ Goal is to conduct the follwoing assignments:
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge of the concepts covered in this section.
 
-    ??? question "What are the three main ways to run containers on Chameleon Cloud?"
+??? question "What are the three main ways to run containers on Chameleon Cloud?"
         The three ways are:
         1. **Docker-on-VM**: Provisioning a standard VM and installing Docker manually or via `cloud-init`.
         2. **Magnum-managed Kubernetes**: Deploying a full K8s cluster managed by OpenStack Magnum.

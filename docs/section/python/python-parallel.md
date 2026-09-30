@@ -1,6 +1,7 @@
 # Parallel Computing in Python
 
 !!! info "Learning Objectives"
+
     After completing this tutorial, you will be able to:
     - Compare multi-threading and multi-processing approaches to determine the optimal concurrency strategy for I/O-bound versus CPU-bound tasks.
     - Implement thread and process synchronization using locks to prevent race conditions and ensure safe data access in shared memory environments.
@@ -271,6 +272,7 @@ if __name__ == '__main__':
 ## Assignments
 
 !!! note "Assignment: Parallel Data Processor"
+
     1. **I/O Bound Task**: Create a script that downloads content from five different URLs using `threading` and `Lock` to synchronize the writing of results to a shared file.
     2. **CPU Bound Task**: Create a script that calculates the sum of squares for a large range of numbers (e.g., 1 to 10,000,000) using `multiprocessing.Pool`. Compare the execution time with a single-threaded implementation.
     3. **Shared State**: Implement a producer-consumer pattern where a producer process adds items to a `multiprocessing.Queue` and a consumer process processes them.

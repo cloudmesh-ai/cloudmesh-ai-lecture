@@ -1,6 +1,7 @@
 # Interactive Shells with Zsh
 
 !!! info "Learning Objectives"
+
     - Install and configure Zsh on various operating systems.
     - Understand the startup sequence and configuration files (`.zshrc`, `.zprofile`).
     - Extend shell functionality using plugins and themes via "Oh My Zsh".
@@ -160,8 +161,6 @@ Zsh handles multiline commands more gracefully than bash. If a command is incomp
 
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
 
 ??? question "How do you make Zsh your primary shell on a Linux system?"
     Install Zsh and use the `chsh -s $(which zsh)` command to set it as the default shell.

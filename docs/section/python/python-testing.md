@@ -1,18 +1,20 @@
 # Automated Testing with pytest in a DevOps Workflow
 
 !!! info "Learning Objectives"
- - Implement unit tests using `pytest` fixtures and parametrization.
- - Design an automated testing strategy covering unit, integration, and E2E levels.
- - Integrate `pytest` into CI/CD pipelines for GitHub Actions, GitLab CI, and Azure Pipelines.
- - Apply advanced `pytest` patterns like parallel execution and markers to optimize pipeline speed.
- - Identify and mitigate common testing pitfalls in DevOps environments.
+
+    - Implement unit tests using `pytest` fixtures and parametrization.
+    - Design an automated testing strategy covering unit, integration, and E2E levels.
+    - Integrate `pytest` into CI/CD pipelines for GitHub Actions, GitLab CI, and Azure Pipelines.
+    - Apply advanced `pytest` patterns like parallel execution and markers to optimize pipeline speed.
+    - Identify and mitigate common testing pitfalls in DevOps environments.
 
 In a DevOps organization, the delivery pipeline is expected to move code from a developer's workstation to production many times per day. Each change must be verified automatically before it is allowed to proceed to the next stage (build, integration, deployment). While infrastructure-as-code, containerization, and continuous delivery tools receive a lot of attention, automated testing is the non-negotiable foundation that guarantees the quality of every commit.
 
 `pytest` is the de-facto standard testing framework for Python. Its rich feature set, extensibility, and native support for fixtures make it suitable for unit, integration, and end-to-end (E2E) tests, all of which can be expressed in a single, consistent syntax.
 
 !!! info "Why this matters"
- Without an automated test suite, a single regression can silently propagate through the pipeline, causing outages, data corruption, or security breaches once the code reaches production. The cost of fixing a defect discovered in production is an order of magnitude higher than fixing it during the test phase.
+
+    Without an automated test suite, a single regression can silently propagate through the pipeline, causing outages, data corruption, or security breaches once the code reaches production. The cost of fixing a defect discovered in production is an order of magnitude higher than fixing it during the test phase.
 
 ## Levels of Automated Testing
 
@@ -27,7 +29,8 @@ A robust DevOps strategy employs multiple levels of testing to balance speed and
 Each layer provides a safety net: unit tests catch logic errors early, integration tests expose contract mismatches, and E2E tests ensure the user-facing behavior remains correct.
 
 !!! info "Why this matters"
- Following the "Testing Pyramid" (many unit tests, fewer integration tests, and even fewer E2E tests) ensures that the test suite remains fast enough for developers to run locally while still providing high confidence in the overall system stability.
+
+    Following the "Testing Pyramid" (many unit tests, fewer integration tests, and even fewer E2E tests) ensures that the test suite remains fast enough for developers to run locally while still providing high confidence in the overall system stability.
 
 ## Getting Started with pytest
 
@@ -71,7 +74,8 @@ my_service/
 - `tests/` stores all test modules; any file that matches `test_*.py` or `*_test.py` is automatically discovered.
 
 !!! info "Why this matters"
- A standardized project layout prevents "import hell" in CI pipelines and allows the testing framework to find tests without requiring complex configuration files.
+
+    A standardized project layout prevents "import hell" in CI pipelines and allows the testing framework to find tests without requiring complex configuration files.
 
 ## Creating Effective Tests
 
@@ -113,7 +117,8 @@ def test_add_basic(sample_numbers):
 ```
 
 !!! info "Why this matters"
- Fixtures decouple the test logic from the test data. If the data source changes (e.g., switching from a hard-coded tuple to a database record), you only need to update the fixture, not every individual test.
+
+    Fixtures decouple the test logic from the test data. If the data source changes (e.g., switching from a hard-coded tuple to a database record), you only need to update the fixture, not every individual test.
 
 ### Data-Driven Testing with Parametrization
 
@@ -133,7 +138,8 @@ def test_divide_various(num, den, expected):
 ```
 
 !!! info "Why this matters"
- Parametrization increases test coverage significantly while reducing code duplication. Each tuple in the list is treated as a separate test case, making it easy to identify exactly which input caused a failure.
+
+    Parametrization increases test coverage significantly while reducing code duplication. Each tuple in the list is treated as a separate test case, making it easy to identify exactly which input caused a failure.
 
 ### Handling Exceptions
 
@@ -241,7 +247,8 @@ steps:
 ```
 
 !!! info "Why this matters"
- Integrating tests into the CI/CD pipeline ensures that no code reaches production without passing the quality gate. Generating JUnit XML and coverage reports allows teams to track quality trends over time via dashboards.
+
+    Integrating tests into the CI/CD pipeline ensures that no code reaches production without passing the quality gate. Generating JUnit XML and coverage reports allows teams to track quality trends over time via dashboards.
 
 ## Advanced DevOps Testing Patterns
 
@@ -261,19 +268,22 @@ As a test suite grows, execution time can become a bottleneck. Advanced patterns
 Avoiding these common mistakes prevents "flaky" tests and pipeline bottlenecks.
 
 !!! warning "Pipeline Bottlenecks"
- Running the full integration/E2E suite on every push can dramatically increase CI duration.
+
+    Running the full integration/E2E suite on every push can dramatically increase CI duration.
  
- *Solution*: Tag slower tests with `@pytest.mark.slow` and configure CI to execute them only on a scheduled nightly run or on `main` merges.
+    *Solution*: Tag slower tests with `@pytest.mark.slow` and configure CI to execute them only on a scheduled nightly run or on `main` merges.
 
 !!! warning "Secret Leakage"
- Hard-coding credentials or endpoints inside tests exposes sensitive data in the version control system.
+
+    Hard-coding credentials or endpoints inside tests exposes sensitive data in the version control system.
  
- *Solution*: Use `pytest` fixtures that read from environment variables or a secret manager.
+    *Solution*: Use `pytest` fixtures that read from environment variables or a secret manager.
 
 !!! warning "Order Dependence"
- Tests that depend on the execution order of other tests are non-deterministic and hard to debug.
+
+    Tests that depend on the execution order of other tests are non-deterministic and hard to debug.
  
- *Solution*: Ensure each test is idempotent. Avoid shared mutable state between tests. If shared state is unavoidable, reset it in a fixture with `scope="function"` or `autouse=True`.
+    *Solution*: Ensure each test is idempotent. Avoid shared mutable state between tests. If shared state is unavoidable, reset it in a fixture with `scope="function"` or `autouse=True`.
 
 ## End-to-End Testing in Containers
 
@@ -315,12 +325,13 @@ def test_api_add(docker_service):
 The `scope="session"` setting on the `docker_service` fixture is critical; it ensures the Docker stack is started once for the entire test run rather than for every single test, which would be prohibitively slow.
 
 !!! tip "Summary Checklist"
- - [ ] I can write a basic `pytest` test file with assertions and fixtures.
- - [ ] I understand how to parametrize tests to cover multiple input combinations.
- - [ ] I know how to integrate `pytest` into GitHub Actions, GitLab CI, and Azure Pipelines.
- - [ ] I can configure parallel execution and selective test runs using markers.
- - [ ] I am aware of common pitfalls (test order dependence, hard-coded secrets) and how to mitigate them.
- - [ ] I can extend the suite to include integration and end-to-end tests that run inside Docker containers.
+
+    - [ ] I can write a basic `pytest` test file with assertions and fixtures.
+    - [ ] I understand how to parametrize tests to cover multiple input combinations.
+    - [ ] I know how to integrate `pytest` into GitHub Actions, GitLab CI, and Azure Pipelines.
+    - [ ] I can configure parallel execution and selective test runs using markers.
+    - [ ] I am aware of common pitfalls (test order dependence, hard-coded secrets) and how to mitigate them.
+    - [ ] I can extend the suite to include integration and end-to-end tests that run inside Docker containers.
 
 !!! note "Assignment 1: Basic Unit Tests"
 
@@ -328,21 +339,24 @@ The `scope="session"` setting on the `docker_service` fixture is critical; it en
 ## Self-Assessment
 Test your knowledge by expanding the questions below.
 !!! tip "Self-Assessment"
- Test your knowledge by expanding the questions below.
+
+    Test your knowledge by expanding the questions below.
 
 ??? question "What is the \"Testing Pyramid\" and why is it important for a DevOps pipeline?"
- It is a strategy that recommends having many fast unit tests, fewer integration tests, and very few slow E2E tests. This balances comprehensive coverage with a fast feedback loop for developers.
+    It is a strategy that recommends having many fast unit tests, fewer integration tests, and very few slow E2E tests. This balances comprehensive coverage with a fast feedback loop for developers.
 
 ??? question "How do `pytest` fixtures improve test maintainability?"
- Fixtures allow for the definition of reusable setup and teardown logic (e.g., initializing a database) that can be shared across multiple tests and scoped to the function, class, module, or session.
+    Fixtures allow for the definition of reusable setup and teardown logic (e.g., initializing a database) that can be shared across multiple tests and scoped to the function, class, module, or session.
 
 ??? question "Why is it dangerous to hard-code credentials in tests, and what is the recommended alternative?"
- Hard-coding secrets exposes them in version control. The alternative is to use fixtures that retrieve credentials from environment variables or a secure secret manager at runtime.
+    Hard-coding secrets exposes them in version control. The alternative is to use fixtures that retrieve credentials from environment variables or a secure secret manager at runtime.
 
- Create a simple Python module `math_utils.py` with functions for `multiply` and `power`. Write a corresponding `test_math_utils.py` using `pytest` to verify the correct output for basic positive and negative integers.
+    Create a simple Python module `math_utils.py` with functions for `multiply` and `power`. Write a corresponding `test_math_utils.py` using `pytest` to verify the correct output for basic positive and negative integers.
 
 !!! note "Assignment 2: Parametrized Testing"
- Expand your `math_utils.py` to include a function that checks if a number is prime. Use `@pytest.mark.parametrize` to test this function with at least 10 different inputs, including prime numbers, composite numbers, and edge cases (e.g., 0, 1, and negative numbers).
+
+    Expand your `math_utils.py` to include a function that checks if a number is prime. Use `@pytest.mark.parametrize` to test this function with at least 10 different inputs, including prime numbers, composite numbers, and edge cases (e.g., 0, 1, and negative numbers).
 
 !!! note "Assignment 3: Mocking and Integration"
- Create a function that fetches data from a public API (e.g., JSONPlaceholder). Write a test using `pytest-mock` to mock the `requests.get` call, simulating both a successful 200 OK response and a 404 Not Found error to verify your function's error handling.
+
+    Create a function that fetches data from a public API (e.g., JSONPlaceholder). Write a test using `pytest-mock` to mock the `requests.get` call, simulating both a successful 200 OK response and a 404 Not Found error to verify your function's error handling.

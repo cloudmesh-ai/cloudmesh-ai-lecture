@@ -43,7 +43,6 @@ Jenkins focuses on automating the repetitive parts of software delivery. Its ext
 
 To avoid performance bottlenecks and ensure environment isolation, Jenkins uses a distributed architecture:
 
-![Jenkins Master-Agent Architecture](images/jenkins-architecture.png)
 Figure 2: Jenkins Master-Agent Architecture.
 
 - **Jenkins Master**: The "brain" of the operation. It handles the UI, manages plugin configurations, schedules jobs, and monitors the agents.
@@ -115,7 +114,7 @@ A typical Jenkins pipeline follows a rigorous path from code commit to productio
 Depending on your environment, you can deploy Jenkins using a containerized approach for rapid development or a native installation for dedicated servers.
 
 #### Option 1: Containerized Setup (Docker Compose)
-For a rapid local laboratory setup, use Docker Compose. This configuration mounts the host's Docker socket, allowing Jenkins to build and push Docker images directly from the container. For more detailed setup and exercises, see the [Local Lab](local-lab.md).
+For a rapid local laboratory setup, use Docker Compose. This configuration mounts the host's Docker socket, allowing Jenkins to build and push Docker images directly from the container. For more detailed setup and exercises, see the [Local Lab](/section/devops/local-lab.md).
 
 ```yaml
 version: '3.8'
@@ -395,7 +394,6 @@ stage('Deploy to GKE') {
 
 Assume you have a **Python model** that you want to (re)train on every successful build and then ship as a **REST micro-service**.
 
-![AI/ML Lifecycle Sequence](images/jenkins-ml-lifecycle.png)
 Figure 3: AI/ML Lifecycle (Data $\rightarrow$ Train $\rightarrow$ Validate $\rightarrow$ Registry $\rightarrow$ Deploy).
 
 !!! info "The MLOps Ecosystem"
@@ -563,9 +561,9 @@ While Jenkins is a powerful orchestrator, it represents a different philosophy t
 
 While Jenkins offers unmatched flexibility for complex, self-hosted orchestration, modern teams often shift toward managed, container-first platforms to reduce operational overhead and "plugin fatigue."
 
-Explore **[CircleCI](circleci.md)** to see how a cloud-native, managed CI/CD service simplifies the pipeline, removes the need for master-agent management, and provides a more streamlined experience for rapid scaling.
+Explore **[CircleCI](/section/devops/circleci.md)** to see how a cloud-native, managed CI/CD service simplifies the pipeline, removes the need for master-agent management, and provides a more streamlined experience for rapid scaling.
 
-Visit the [Local Lab](local-lab.md) for instructions on how to run Jenkins locally.
+Visit the [Local Lab](/section/devops/local-lab.md) for instructions on how to run Jenkins locally.
 
 ## Summary Checklist
 

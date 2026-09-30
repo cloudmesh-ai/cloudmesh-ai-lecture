@@ -104,12 +104,12 @@ By using `-e.`, the `cloudmesh-ai-llm` package is linked to the current director
 
 !!! tip "Summary Checklist"
 
- - [ ] Installed `pipx` and configured the system PATH.
- - [ ] Installed `python-openstackclient` using `pipx` to isolate dependencies.
- - [ ] Verified that the `openstack` command works globally.
- - [ ] Cleaned the `pyenv` site-packages directory to remove conflicts.
- - [ ] Performed an editable install (`pip install -e.`) for the development project.
- - [ ] Confirmed that code changes are reflected without re-installation.
+    - [ ] Installed `pipx` and configured the system PATH.
+    - [ ] Installed `python-openstackclient` using `pipx` to isolate dependencies.
+    - [ ] Verified that the `openstack` command works globally.
+    - [ ] Cleaned the `pyenv` site-packages directory to remove conflicts.
+    - [ ] Performed an editable install (`pip install -e.`) for the development project.
+    - [ ] Confirmed that code changes are reflected without re-installation.
 
 
 

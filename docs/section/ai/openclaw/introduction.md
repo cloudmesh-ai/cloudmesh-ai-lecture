@@ -3,6 +3,7 @@
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to:
     * Distinguish between the architectural philosophies of OpenClaw and NemoClay.
     * Identify the core components of the OpenClaw architecture.
@@ -173,6 +174,7 @@ When the primary requirement is *single-step, low-latency command generation* wi
 ## Assignments
 
 !!! note "Practical Exercises"
+
     1. **Claw Implementation**: Choose a common CLI tool (e.g., `git` or `kubectl`) and design a YAML claw-template for it, including validation rules for three common flags.
     2. **Pipeline Design**: Sketch a NemoClay DAG for a multi-modal pipeline that takes a raw video file and produces a translated subtitle file.
     3. **Security Audit**: Review the "Risks of AI-Based Automation" table and write a 200-word proposal on how to implement a "human-in-the-loop" verification step for destructive commands.

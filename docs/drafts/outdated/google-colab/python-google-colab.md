@@ -1,6 +1,4 @@
----
-title: "Google Colab"
----
+# Google Colab
 
 In this section, we are going to introduce you, how to use Google Colab to run deep learning models.
 

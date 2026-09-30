@@ -3,6 +3,7 @@
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to:
     * Design an OpenClaw project to manage infrastructure across multiple cloud providers (AWS, Azure, GCP).
     * Configure a multi-cloud dataset for VM specifications and state tracking.
@@ -194,18 +195,21 @@ The `vm_engine` exposes a `/metrics` endpoint for Prometheus scraping.
 ## Assignments
 
 !!! note "Assignment.1: Project Setup"
+
     Create an OpenClaw project and a VM-Spec dataset configured for at least two different cloud providers.
 
 ??? tip "Solution: Project Setup"
     In the UI, create a project named "Cloud-Manager" and define a dataset with columns: `cloud_provider` (aws, azure, gcp), `region`, `instance_type`, `image_id`, `vm_name`, `action`, and `status`.
 
 !!! note "Assignment.2: Custom Action Implementation"
+
     Develop a Python custom action that implements the `create` and `list` actions for AWS EC2 using `boto3`.
 
 ??? tip "Solution: Custom Action Implementation"
     Implement a FastAPI app that uses `boto3.client('ec2')`. For `create`, use `run_instances()`; for `list`, use `describe_instances()`. Ensure the action reads `AWS_ACCESS_KEY_ID` from the environment.
 
 !!! note "Assignment.3: Security Hardening"
+
     Implement a validation check in the `vm_engine` that rejects any `instance_type` larger than `t3.medium` for users with the "Developer" role.
 
 ??? tip "Solution: Security Hardening"

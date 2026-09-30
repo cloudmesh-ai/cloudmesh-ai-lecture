@@ -9,66 +9,66 @@
     - L.1.4 🟢 [Piazza:](/lecture/01.5-piazza.md) **August 27, 2026**
     - L.1.5 🟢 [Videos:](/lecture/videos.md) **August 27, 2026**
     - L.1.5 🟢⚪ ACCOUNTS:
-      - L.1.5.1 🟢 [Local:](/lecture/accounts/local.md) **September 10, 2026** 
-      - L.1.5.2 🟢 [Access:](/lecture/accounts/access-ci.md) **August 27, 2026**
-      - L.1.5.3 🟢 [Chameleon:](/lecture/accounts/chameleon.md) **August 27, 2026**
-      - L.1.5.4 ⚪ [AWS:](/lecture/accounts/aws.md)
-      - L.1.5.5 ⚪ [Azure:](/lecture/accounts/azure.md)
-      - L.1.5.6 ⚪ [Google:](/lecture/accounts/google.md)
+      - L.1.5.1 🟢 [Local:](/section/accounts/local.md) **September 10, 2026** 
+      - L.1.5.2 🟢 [Access:](/section/accounts/access-ci.md) **August 27, 2026**
+      - L.1.5.3 🟢 [Chameleon:](/section/accounts/chameleon.md) **August 27, 2026**
+      - L.1.5.4 ⚪ [AWS:](/section/accounts/aws.md)
+      - L.1.5.5 ⚪ [Azure:](/section/accounts/azure.md)
+      - L.1.5.6 ⚪ [Google:](/section/accounts/google.md)
   - 🟢 CLOUD:
-    - L2.1.1 🟢 [Introduction:](/lecture/cloud/introduction.md) **August 27, 2026**, **September 03, 2026**
-    - L2.1.2 🟢 [Privacy:](/section/cloud/privacy.md) **September 24, 2026**
+    - L2.1.1 🟢 [Introduction:](/section/cloud/fundamentals/introduction.md) **August 27, 2026**, **September 03, 2026**
+    - L2.1.2 🟢 [Privacy:](/section/cloud/topics/privacy.md) **September 24, 2026**
     - L2.1.3 🟢 [Network:](/section/network/network.md) **September 24, 2026**
   - 🟢🔴 VIRTUALIZATION:
     - 🟢🔴 Vm:
-      - L3.1.3 🟢 [Virtualization:](/lecture/cloud/virtualization.md) **September 10, 2026** 
-      - L3.1.4 🟢 [VM Technologies:](/lecture/cloud/virtual-machine-technologies.md) **September 17, 2026**
-      - L3.1.5 🟢 [VM Summary:](/lecture/cloud/virtualization-landscape.md) **September 17, 2026**
+      - L3.1.3 🟢 [Virtualization:](/section/cloud/fundamentals/virtualization.md) **September 10, 2026** 
+      - L3.1.4 🟢 [VM Technologies:](/section/cloud/fundamentals/virtual-machine-technologies.md) **September 17, 2026**
+      - L3.1.5 🟢 [VM Summary:](/section/cloud/fundamentals/virtualization-landscape.md) **September 17, 2026**
       - L3.2 Local: 
-        - L3.2.1 🟢 [Overview:](/section/cloud/local/vm-status.md) **September 17, 2026**        
-        - L3.2.2 🟢 [Multipass:](/section/cloud/local/multipass.md) **September 17, 2026**
-        - L3.2.3 🟢 [Qemu:](/section/cloud/local/qemu.md) **September 17, 2026**
-        - L3.2.4 🟢 [Vagrant:](/section/cloud/local/vagrant.md) **September 17, 2026**
-        - L3.2.5 ⚪ [Virsh:](/section/cloud/local/virsh.md) 
-        - L3.2.6 ⚪ [Virtualbox:](/section/cloud/local/virtualbox.md)
-        - L3.2.7 🟢 [WSL2:](/section/cloud/local/wsl2.md) **September 17, 2026**
-        - L3.2.7.1 🟢 [WSL2 SSH:](/section/cloud/local/wsl2-ssh.md) **September 17, 2026**
-        - L3.2.8 ⚪ [Lima:](/section/cloud/local/lima.md)
-        - L3.2.9 ⚪ [UTM:](/section/cloud/local/utm.md)
+        - L3.2.1 🟢 [Overview:](/section/cloud/platforms/local/vm-status.md) **September 17, 2026**        
+        - L3.2.2 🟢 [Multipass:](/section/cloud/platforms/local/multipass.md) **September 17, 2026**
+        - L3.2.3 🟢 [Qemu:](/section/cloud/platforms/local/qemu.md) **September 17, 2026**
+        - L3.2.4 🟢 [Vagrant:](/section/cloud/platforms/local/vagrant.md) **September 17, 2026**
+        - L3.2.5 ⚪ [Virsh:](/section/cloud/platforms/local/virsh.md) 
+        - L3.2.6 ⚪ [Virtualbox:](/section/cloud/platforms/local/virtualbox.md)
+        - L3.2.7 🟢 [WSL2:](/section/cloud/platforms/local/wsl2.md) **September 17, 2026**
+        - L3.2.7.1 🟢 [WSL2 SSH:](/section/cloud/platforms/local/wsl2-ssh.md) **September 17, 2026**
+        - L3.2.8 ⚪ [Lima:](/section/cloud/platforms/local/lima.md)
+        - L3.2.9 ⚪ [UTM:](/section/cloud/platforms/local/utm.md)
         - L3.2.10 Different Host Architecture:
-          - 🟢 [macOS:](/section/cloud/other-architecture-with-vmon-mac.md) **September 24, 2026**
-          - 🟢 [Windows:](/section/cloud/other-architecture-with-vmon-windows.md) **September 24, 2026**
+          - 🟢 [macOS:](/section/cloud/architecture/other-architecture-with-vmon-mac.md) **September 24, 2026**
+          - 🟢 [Windows:](/section/cloud/architecture/other-architecture-with-vmon-windows.md) **September 24, 2026**
       - L3.3 Academia:
         - L3.3.1 Jetstream:
-          - 🟢 [Quickstart:](/section/cloud/jetstream/jetstream-vm.md) **September 10, 2026**, **September 17, 2026**
-          - 🟢🔴 [Hosting a Website:](/section/cloud/jetstream/jetstream-mkdocs.md) **October 1, 2026**  (3)
-          - 🟢🔴 [Multiple VMs:](/section/cloud/jetstream/jetstream-multi.md) **October 1, 2026** (4)
-          - 🔴 [VMs via Heat:](/section/cloud/jetstream/jetstream-multi-heat.md)
-          - 🟢 [Cost:](/section/cloud/jetstream/jetstream-cost.md) **September 24, 2026**
+          - 🟢 [Quickstart:](/section/cloud/platforms/jetstream/jetstream-vm.md) **September 10, 2026**, **September 17, 2026**
+          - 🟢🔴 [Hosting a Website:](/section/cloud/platforms/jetstream/jetstream-mkdocs.md) **October 1, 2026**  (3)
+          - 🟢🔴 [Multiple VMs:](/section/cloud/platforms/jetstream/jetstream-multi.md) **October 1, 2026** (4)
+          - 🔴 [VMs via Heat:](/section/cloud/platforms/jetstream/jetstream-multi-heat.md)
+          - 🟢 [Cost:](/section/cloud/platforms/jetstream/jetstream-cost.md) **September 24, 2026**
         - L3.3.2 Chameleon:
-          - 🟢 [Horizon:](/section/cloud/chameleon/horizon.md) **September 17, 2026**
-          - 🔴 [os-chi:](/section/cloud/chameleon/python-chi.md) **October 1, 2026** (1)
-          - 🔴 [os-command:](/section/cloud/chameleon/os-commandline.md) **October 1, 2026** (2)
-          - 🟢 [Libcloud:](/section/cloud/libcloud.md) **September 24, 2026**
-          - 🟢 [os-python:](/section/cloud/chameleon/os-python.md)
-          - 🟢 [Cost:](/section/cloud/chameleon/cost.md) **September 24, 2026**
+          - 🟢 [Horizon:](/section/cloud/platforms/chameleon/horizon.md) **September 17, 2026**
+          - 🔴 [os-chi:](/section/cloud/platforms/chameleon/python-chi.md) **October 1, 2026** (1)
+          - 🔴 [os-command:](/section/cloud/platforms/chameleon/os-commandline.md) **October 1, 2026** (2)
+          - 🟢 [Libcloud:](/section/cloud/topics/libcloud.md) **September 24, 2026**
+          - 🟢 [os-python:](/section/cloud/platforms/chameleon/os-python.md)
+          - 🟢 [Cost:](/section/cloud/platforms/chameleon/cost.md) **September 24, 2026**
         - 🔴 L3.3.3 OpenStack:
-          - 🔴 [Reduce Cost:](/section/cloud/openstack-reduce-cost.md) **October 1, 2026** (5)
+          - 🔴 [Reduce Cost:](/section/cloud/openstack/openstack-reduce-cost.md) **October 1, 2026** (5)
         - L3.4 🔴 Openstack Heat:
-          - 🔴 [Introduction:](/section/cloud/openstack-heat.md) (6)
-          - 🔴 [Shared Web Service:](/section/cloud/openstack-heat-fast-api-project-wide-access.md) **October 1, 2026**  (7)
-          - 🔴 [Bastian Web Service:](/section/cloud/openstack-heat-fastapi.md) (8)
+          - 🔴 [Introduction:](/section/cloud/openstack/openstack-heat.md) (6)
+          - 🔴 [Shared Web Service:](/section/cloud/openstack/openstack-heat-fast-api-project-wide-access.md) **October 1, 2026**  (7)
+          - 🔴 [Bastian Web Service:](/section/cloud/openstack/openstack-heat-fastapi.md) (8)
     - 🔵 Container:
-      - 🔵 [Docker:](/section/container/docker.md)
+      - 🔵 [Docker:](/section/container/foundations/docker.md)
       - 🔵 Kubernetes: 
-        - 🔵 [Introduction:](/section/container/kubernetes.md)
-        - 🔵 [Local Deployment:](/section/container/kubernetes-local.md)
-      - 🔵 [Apptainer:](/section/container/apptainer.md)
-      - 🔵 [Podman:](/section/container/podman.md)    
-      - 🔵 [Podman vs Docker:](/section/container/podman-and-co.md)
+        - 🔵 [Introduction:](/section/container/orchestration/kubernetes.md)
+        - 🔵 [Local Deployment:](/section/container/orchestration/kubernetes-local.md)
+      - 🔵 [Apptainer:](/section/container/foundations/apptainer.md)
+      - 🔵 [Podman:](/section/container/foundations/podman.md)    
+      - 🔵 [Podman vs Docker:](/section/container/foundations/podman-and-co.md)
       - 🔵 [Comparison:](/section/container/container-tool-comparison.md)
       - 🔵 Openstack and Containers:
-        - 🔵 [Opensatck:](/section/container/openstack/openstack.md)
+        - 🔵 [Openstack:](/section/cloud/openstack/openstack.md)
         - 🔵 [Containers:](/section/container/openstack/openstack-containers.md) 
         - 🔵 [Chameleon:](/section/container/openstack/openstack-chameleon-containers.md)
         - 🔵 [Jetstream:](/section/container/openstack/openstack-jetstream-container.md)    
@@ -78,7 +78,7 @@
         - D.2.1 🔴 [Fundamentals:](/section/devops/devop-ci.md) **October 1, 2026** (d.3)
         - D.2.2 🔴 [Teams:](/section/devops/devops-team.md) **October 1, 2026** (d.4)
         - D.2.3 🟢 [Make:](/section/devops/make.md) **September 17, 2026**
-        - D.2.4.1 🔴 [Make for WSL2:](/section/devops/make-wsl2.md) (d.5)
+        - D.2.4.1 🔴 [Make for WSL2:](/section/devops/make.md) (d.5)
         - D.2.5 🔴 [GitHub Workflows:](/section/devops/github-workflows.md) (d.6)
         - D.2.6 🔴 [Workflow Security:](/section/devops/github-workflow-security.md) (d.7)
         - D.2.7 🔴 [Travis CI:](/section/devops/travis.md) (d.8)
@@ -88,7 +88,7 @@
         - D.3.1 🔴 [Overview:](/section/devops/devops-iac.md) (d.11)
         - D.3.2 🔴 [Provisioning with Terraform:](/section/devops/terraform.md) (d.12)
         - D.3.3 🔴 [Configuration with Ansible:](/section/devops/ansible.md) (c.13)
-        - D.3.4 🔴 [Need:](/section/devops/ansible-need.md) (d.14)
+        - D.3.4 🔴 [Need:](/section/devops/ansible.md) (d.14)
         - D.3.5 🔴 [Puppet:](/section/devops/puppet.md) (d.15)
     - D.4 🔵 Cloud DevOps:
         - D.4.1 🔵 [AWS:](/section/devops/devop-aws.md)
@@ -99,10 +99,10 @@
       - 🔴 [REST Services:](/section/rest/rest-ai.md)      
       - 🟡 [REST Services:](/section/rest/rest-llm-mock-openai.md)
     - 🔵 LLM:
-      - 🔵🟡 [LLM on CPUs:](/section/llm/llm-cpu-all.md)
-      - 🔵🟡 [LLM on Jetstream:](/section/llm/llm-jetstream.md)
-      - 🔵⚪ [LLM on AmSC:](/section/llm/llm-spark.md)
-      - 🔵⚪ [LLM on AmSC:](/section/llm/llm-amsc.md)
+      - 🔵🟡 [LLM on CPUs:](/section/llm/hardware/llm-cpu-all.md)
+      - 🔵🟡 [LLM on Jetstream:](/section/llm/hardware/llm-jetstream.md)
+      - 🔵⚪ [LLM on AmSC:](/section/llm/hardware/llm-spark.md)
+      - 🔵⚪ [LLM on AmSC:](/section/llm/hardware/llm-amsc.md)
 - ASSIGNMENTS:
   - 🟢 [Overview:](/lecture/assignments/overview.md) **August 27, 2026** 
   - 🟢 [Weekly (/LUC 388,488):](/lecture/assignments/assignments.md) **August 27, 2026** 

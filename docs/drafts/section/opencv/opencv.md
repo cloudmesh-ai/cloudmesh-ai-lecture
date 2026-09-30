@@ -1,6 +1,4 @@
----
-title: "OpenCV"
----
+# OpenCV
 
 # OpenCV {#sec:opencv}
 

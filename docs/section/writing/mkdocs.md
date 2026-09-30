@@ -1,6 +1,7 @@
 # MkDocs Documentation
 
 !!! info "Learning Objectives"
+
     By the end of this chapter, you will be able to install MkDocs, configure a basic site using `mkdocs.yml`, and generate a static documentation website.
 
 ## Overview
@@ -43,6 +44,7 @@ nav:
 ```
 
 !!! note "Navigation Structure"
+
     The `nav` section allows you to define the hierarchy of your documentation. Indented items under a parent key create dropdown menus in the navigation bar.
 
 ## Common Commands

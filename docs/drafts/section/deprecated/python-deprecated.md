@@ -1,6 +1,4 @@
----
-title: "Pyenv in a docker container :o2:"
----
+# Pyenv in a docker container :o2:
 
 :o2: this section has become outdated in January 2020. Please help us working an an updated section
 

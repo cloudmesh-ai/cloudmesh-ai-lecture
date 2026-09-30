@@ -1,6 +1,7 @@
 # Python Hostlist
 
 !!! info "Learning Objectives"
+
     After completing this tutorial, you will be able to:
     - Parse and manipulate Slurm-style hostlists using the `hostlist` library.
     - Expand compressed hostlists into individual hostnames, handling padding and suffixes.
@@ -233,6 +234,7 @@ echo "node[1-3]" | hostlist expand
 ## Assignments
 
 !!! note "Assignment: HPC Inventory Manager"
+
     1. **Parsing**: Expand a complex hostlist containing multiple ranges, zero-padding, and a domain suffix (e.g., `compute[001-005,010].cluster.local`).
     2. **Filtering**: Use the `exclude()` method to remove a specific set of "maintenance" nodes from your expanded list.
     3. **Command Generation**: Use `.format()` to create a list of `ping` commands for the remaining healthy nodes.

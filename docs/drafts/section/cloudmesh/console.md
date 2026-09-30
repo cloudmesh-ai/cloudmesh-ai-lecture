@@ -1,6 +1,4 @@
----
-title: "Cloudmesh Console"
----
+# Cloudmesh Console
 
 Cloudmesh provides a number of convenient API's to make the output easier or more fanciful.
 

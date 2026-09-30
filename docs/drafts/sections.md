@@ -1,8 +1,4 @@
----
-title: "About this Book"
-bibliography: references.bib
-csl: ieee.csl
----
+# About this Book
 
 One of the most important and popular programming languages these days is Python. Thisis evident by analysis such as conducted and published in [IEEE Spectrum](https://spectrum.ieee.org/top-programming-languages-2025) [@top-languages-2025]. It has overtaken Java in its popularity.
 

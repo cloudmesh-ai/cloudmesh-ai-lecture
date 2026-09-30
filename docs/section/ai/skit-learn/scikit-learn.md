@@ -1,10 +1,9 @@
----
-title: "Scikit-learn"
----
+# Scikit-learn
 
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     - Perform exploratory data analysis (EDA) using scikit-learn, pandas, and seaborn.
     - Construct production-ready data preparation pipelines using `Pipeline` and `FeatureUnion`.
     - Implement a full machine learning lifecycle from data cleansing to model evaluation.
@@ -529,6 +528,7 @@ Figure 9: ROC AUC score.
 ## Assignments
 
 !!! note "Practical Exercises"
+
     1. Implement a fraud detection pipeline using the provided dataset.
     2. Compare the performance of Logistic Regression, Random Forest, and XGBoost.
     3. Perform K-means clustering on the digits dataset and visualize the results.
