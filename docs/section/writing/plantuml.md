@@ -3,6 +3,7 @@
 !!! info "Learning Objectives"
 
     By the end of this chapter, you will be able to:
+    
     - Understand the benefits of Diagram-as-Code.
     - Create sequence, component, deployment, and class diagrams using PlantUML syntax.
     - Integrate diagrams into technical documentation and version control systems.

@@ -1,13 +1,10 @@
----
-title: "Technical Report Writing"
----
-
 # Technical Report Writing
 
 ## Learning Objectives
 
 !!! info "Learning Objectives"
-    By the end of this section, you will be able to:
+    By the end of this chapter, participants will be able to:
+    
     - Differentiate between an experience report and a scientific technical report.
     - Implement a standardized structural framework for technical documents.
     - Apply scientific writing standards to maintain an objective and formal tone.
@@ -38,7 +35,6 @@ The target audience is a peer in the field who has the necessary background know
 A technical report follows a standardized structure to ensure clarity and credibility.
 
 #### Title and Abstract
-
 - **Title**: Use descriptive and technical phrasing. Avoid "Project 1" or "Final Report." For example, use "An Analysis of X using Y for Z."
 - **Abstract**: A single paragraph (typically 150-250 words) summarizing the entire work.
     - **Correct**: Focus on results. ("We show that X improves efficiency by 20%.")
@@ -46,7 +42,6 @@ A technical report follows a standardized structure to ensure clarity and credib
 - **Keywords**: 3-5 terms describing the core technology or method. Avoid generic terms like "Computer Science."
 
 #### Introduction
-
 The introduction follows an "inverted pyramid" approach:
 1. **Broad Context**: The importance of the general area.
 2. **Specific Problem**: The exact gap or challenge being addressed.
@@ -54,35 +49,29 @@ The introduction follows an "inverted pyramid" approach:
 4. **Organization**: A description of the report structure.
 
 #### Background and Related Work
-
 This section provides the theoretical foundation, explaining concepts, algorithms, or existing tools. It demonstrates an understanding of the current state of the field.
 
 #### Methodology and Implementation
-
 This section describes the technical contribution:
 - **Architecture**: System design and data flows.
 - **Implementation Details**: Specific libraries, versions, and configurations.
 - **Justification**: The reasoning behind chosen approaches compared to alternatives.
 
 #### Results and Analysis
-
 Findings must be presented objectively:
 - **Data Presentation**: Tables for precise values and charts for trends.
 - **Analysis**: Interpretation of data within a real-world context.
 - **Transparency**: Inclusion of failed attempts or unexpected results.
 
 #### Discussion and Conclusion
-
 - **Discussion**: Connection of results back to the initial problem statement.
 - **Conclusion**: Summary of key findings and suggestions for future work.
 
 #### Acknowledgements and References
-
 - **Acknowledgements**: Formal recognition of contributors or mentors. Use phrasing such as "Provided critical insights into X."
 - **References**: A complete list of every source cited in the text.
 
 #### Report Template
-
 The following template provides the basic structural skeleton for a technical report.
 
 ```markdown
@@ -103,13 +92,13 @@ authors:
 **Keywords**: keyword1, keyword2, keyword3
 
 ## Introduction
-[Broad Context $\rightarrow$ Specific Problem $\rightarrow$ Contribution $\rightarrow$ Organization]
+[Broad Context -> Specific Problem -> Contribution -> Organization]
 
 ## Background and Related Work
 [Theoretical foundations and state of the art]
 
 ## Methodology and Implementation
-[Architecture $\rightarrow$ Implementation Details $\rightarrow$ Justification]
+[Architecture -> Implementation Details -> Justification]
 
 ## Results and Analysis
 [Objective data presentation and interpretation]
@@ -125,24 +114,20 @@ authors:
 [^2]: Citation 2
 ```
 
-
 ### Scientific Writing Standards
 
 Scientific writing requires precision, objectivity, and a formal tone.
 
 #### Tone and Formality
-
 - **No Contractions**: Use `do not` instead of `don't`, `cannot` instead of `can't`.
 - **No Temporal Phrasing**: Avoid phrases such as "Initially," "In the first week," or "After a few days." The logic of the work is the priority, not the timeline.
 - **Objectivity**: Avoid emotional language such as "surprisingly," "amazingly," or "unfortunately."
 
 #### Use of Pronouns
-
 - **The Scientific We**: Use "we" (even for single-author papers) to describe actions. Example: "We implemented a custom parser..."
 - **Sentence Variety**: Avoid starting every sentence with "We."
 
 #### Precision and Grammar
-
 - **Avoid Vague Terms**: Use "a 40% increase" or "2ms latency" instead of "a lot" or "very fast."
 - **Punctuation**: A single space must follow every period, comma, and colon.
 
@@ -151,13 +136,11 @@ Scientific writing requires precision, objectivity, and a formal tone.
 Using Git for documentation applies the same rigor to writing as is applied to code.
 
 #### Collaborative Workflow
-
 - **Version Control**: Every change is tracked, allowing for recovery of deleted content.
 - **Attribution**: Author identification through Git history.
 - **Integration**: Storing `project.md` in the same repository as the code ensures synchronization.
 
 #### Directory Structure
-
 To maintain compatibility with automated build scripts, use the following structure:
 
 ```text
@@ -169,7 +152,6 @@ project/
 ```
 
 #### Figures and Tables
-
 Figures serve as evidence and must be handled with precision.
 
 - **Quality**: Use SVGs for diagrams and high-resolution (300dpi+) PNGs for plots.
@@ -183,7 +165,6 @@ Figures serve as evidence and must be handled with precision.
 Proper citation prevents plagiarism and allows for verification of claims.
 
 #### Footnote-Style References
-
 Use footnote-style references for simplicity:
 - **In-text**: Use a marker like `[^1]`.
 - **Reference List**: Provide the full citation at the end of the document.
@@ -235,6 +216,10 @@ Use footnote-style references for simplicity:
     ??? tip "Solution: Figure Referencing"
         "The results are shown in Figure 1. The data indicates a significant increase in execution speed."
 
+## References
+
+- IEEE Editorial Style Manual: [ieee.org/publications/ieee-style-manual](https://ieee.org/publications/ieee-style-manual)
+- Purdue OWL Technical Writing: [owl.purdue.edu](https://owl.purdue.edu)
 
 ## Self-Evaluation
 

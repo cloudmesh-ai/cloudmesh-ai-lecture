@@ -3,6 +3,7 @@
 !!! info "Learning Objectives"
 
     By the end of this section, you will be able to:
+    
     - Define plagiarism and identify its various forms.
     - Understand institutional policies regarding academic integrity.
     - Recognize patterns of plagiarism and non-plagiarism.

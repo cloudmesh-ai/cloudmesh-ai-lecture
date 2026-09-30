@@ -3,6 +3,7 @@
 !!! info "Learning Objectives"
 
     After completing this chapter, you will be able to:
+    
     * Use basic Markdown syntax for structured technical documentation.
     * Apply consistent formatting rules for headings, lists, and code blocks.
     * Convert Markdown documents using Pandoc.
