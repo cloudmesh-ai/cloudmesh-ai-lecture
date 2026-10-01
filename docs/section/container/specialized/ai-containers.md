@@ -19,7 +19,7 @@ To bridge this gap, we need a mechanism that allows the container to communicate
 !!! info "Why this matters"
     In AI development, the "CUDA mismatch" is a primary source of frustration. A researcher might develop a model using CUDA 12.1 on their workstation, but the production cluster only has drivers supporting CUDA 11.8. Without proper containerization and the correct runtime, the model will simply fail to initialize the GPU, leading to "CUDA error: no kernel image is available for execution" or similar cryptic failures.
 
-## Core Sections
+## Implementation
 
 ### The AI Container Stack
 
@@ -113,28 +113,28 @@ The general rule is: **The Host Driver version must be equal to or newer than th
 
 If you use a container built for CUDA 12.2 on a host that only has drivers for CUDA 11.0, the container will fail. However, the NVIDIA "Forward Compatibility" feature allows some newer CUDA versions to run on older drivers, provided the drivers meet a minimum baseline.
 
-### GPU VRAM vs. System RAM: The Memory Hierarchy
+### GPU [VRAM](../security/container-security.md) vs. System RAM: The Memory Hierarchy
 
-One of the most common sources of confusion in AI containerization is the distinction between **System RAM** (host memory) and **GPU VRAM** (Video RAM).
+One of the most common sources of confusion in AI containerization is the distinction between **System RAM** (host memory) and **GPU [VRAM](../security/container-security.md)** (Video RAM).
 
 #### The Memory Wall
-When you define resources in a Kubernetes manifest (e.g., `memory: "32Gi"`), you are limiting the **System RAM**. However, the actual AI model resides in the **GPU VRAM**.
+When you define resources in a [Kubernetes](../orchestration/kubernetes.md) manifest (e.g., `memory: "32Gi"`), you are limiting the **System RAM**. However, the actual AI model resides in the **GPU [VRAM](../security/container-security.md)**.
 
 - **System RAM (Host)**: Used by the OS, the Python runtime, and the data loading pipeline. If this is exceeded, the pod is `OOMKilled` by the Linux kernel.
-- **GPU VRAM (Device)**: Used by the CUDA kernels and the model weights. If this is exceeded, you get a `torch.cuda.OutOfMemoryError`. 
+- **GPU [VRAM](../security/container-security.md) (Device)**: Used by the CUDA kernels and the model weights. If this is exceeded, you get a `torch.cuda.OutOfMemoryError`. 
 
 !!! warning "The Invisible Limit"
-    Kubernetes cannot natively "see" or limit GPU VRAM in the same way it limits system memory. A pod might have plenty of system RAM left, but the GPU is completely full. This is why monitoring tools like `nvidia-smi` or the NVIDIA Device Plugin are critical—they provide the only visibility into the actual hardware usage.
+    [Kubernetes](../orchestration/kubernetes.md) cannot natively "see" or limit GPU [VRAM](../security/container-security.md) in the same way it limits system memory. A pod might have plenty of system RAM left, but the GPU is completely full. This is why monitoring tools like `nvidia-smi` or the NVIDIA Device Plugin are critical—they provide the only visibility into the actual hardware usage.
 
-#### VRAM Optimization Case Study: Scaling LLMs
-As model sizes grow (e.g., Llama-3 70B), they often exceed the VRAM of a single A100 (80GB). To fit these models into containers, engineers use two primary techniques:
+#### [VRAM](../security/container-security.md) Optimization Case Study: Scaling LLMs
+As model sizes grow (e.g., Llama-3 70B), they often exceed the [VRAM](../security/container-security.md) of a single A100 (80GB). To fit these models into containers, engineers use two primary techniques:
 
 1. **Quantization (Precision Reduction)**:
     - **FP16 (Half Precision)**: Standard for training.
-    - **INT8 / INT4 (Quantized)**: Reduces weight precision. An INT4 quantized model takes $\sim 1/4$ the VRAM of the original, allowing a 70B model to fit on fewer GPUs without significant accuracy loss.
+    - **INT8 / INT4 (Quantized)**: Reduces weight precision. An INT4 quantized model takes $\sim 1/4$ the [VRAM](../security/container-security.md) of the original, allowing a 70B model to fit on fewer GPUs without significant accuracy loss.
 2. **PagedAttention (vLLM)**:
-    - Standard attention mechanisms allocate a contiguous block of VRAM for the KV (Key-Value) cache, leading to "Internal Fragmentation" (wasted space).
-    - **PagedAttention** manages VRAM like a virtual OS memory manager, allocating memory in small "pages." This allows nearly 100% VRAM utilization and increases the number of concurrent requests (throughput) by $2\text{-}4\times$.
+    - Standard attention mechanisms allocate a contiguous block of [VRAM](../security/container-security.md) for the KV (Key-Value) cache, leading to "Internal Fragmentation" (wasted space).
+    - **PagedAttention** manages [VRAM](../security/container-security.md) like a virtual OS memory manager, allocating memory in small "pages." This allows nearly 100% [VRAM](../security/container-security.md) utilization and increases the number of concurrent requests (throughput) by $2\text{-}4\times$.
 
 ---
 
@@ -188,7 +188,7 @@ When working with GPU containers, most errors occur at the boundary between the 
 | `nvidia-smi` returns `"Failed to initialize NVML"` | NVIDIA Container Toolkit not installed or configured. | Install the toolkit and restart the Docker daemon. |
 | `"CUDA error: no kernel image is available for execution"` | Host Driver is too old for the CUDA version in the image. | Update the host NVIDIA driver to a newer version. |
 | `torch.cuda.is_available()` is `False` but `nvidia-smi` works | Version mismatch between PyTorch and the CUDA Toolkit in the image. | Rebuild the image using a PyTorch version that matches your CUDA Toolkit. |
-| Container crashes with `Out of Memory (OOM)` | VRAM limit exceeded on the GPU. | Use a smaller batch size or implement MIG to isolate memory. |
+| Container crashes with `Out of Memory (OOM)` | [VRAM](../security/container-security.md) limit exceeded on the GPU. | Use a smaller batch size or implement MIG to isolate memory. |
 | `docker run` fails with `unknown flag: --gpus` | Using an outdated Docker version or a runtime that doesn't support NVIDIA. | Update Docker to v19.03+ and ensure `nvidia-container-runtime` is installed. |
 
 ## Summary Checklist
@@ -199,6 +199,17 @@ When working with GPU containers, most errors occur at the boundary between the 
 - [ ] Apply the compatibility rule: Host Driver $\ge$ Container CUDA Toolkit.
 - [ ] Use multi-stage builds to reduce AI image size.
 - [ ] Implement a strategy for loading model weights via volume mounts instead of image baking.
+
+## Self-Evaluation
+
+??? question "What happens if I run a GPU container on a machine without the NVIDIA Container Toolkit installed?"
+    The container will likely start, but it will not have access to the GPU. Commands like `nvidia-smi` inside the container will return an error, and the AI framework will fall back to the CPU, resulting in extremely slow performance.
+
+??? question "Can I run a container with CUDA 11.8 on a host with drivers for CUDA 12.0?"
+    Yes. Newer host drivers are generally backward compatible with older CUDA toolkit versions.
+
+??? question "Why is it recommended to use the 'runtime' image instead of the 'devel' image for production?"
+    The 'devel' image contains the full CUDA compiler and header files, which are large and unnecessary for running a model. The 'runtime' image contains only the libraries needed for execution, significantly reducing the image size and attack surface.
 
 ## Assignments
 
@@ -219,17 +230,6 @@ When working with GPU containers, most errors occur at the boundary between the 
 - NVIDIA Container Toolkit Documentation: [docs.nvidia.com/datacenter/cloud-native/container-toolkit/](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/)
 - PyTorch Docker Hub: [hub.docker.com/r/pytorch/pytorch](https://hub.docker.com/r/pytorch/pytorch)
 - CUDA Installation Guide: [docs.nvidia.com/cuda/cuda-installation-guide/](https://docs.nvidia.com/cuda/cuda-installation-guide/)
-
-## Self-Evaluation
-
-??? note "What happens if I run a GPU container on a machine without the NVIDIA Container Toolkit installed?"
-    The container will likely start, but it will not have access to the GPU. Commands like `nvidia-smi` inside the container will return an error, and the AI framework will fall back to the CPU, resulting in extremely slow performance.
-
-??? note "Can I run a container with CUDA 11.8 on a host with drivers for CUDA 12.0?"
-    Yes. Newer host drivers are generally backward compatible with older CUDA toolkit versions.
-
-??? note "Why is it recommended to use the 'runtime' image instead of the 'devel' image for production?"
-    The 'devel' image contains the full CUDA compiler and header files, which are large and unnecessary for running a model. The 'runtime' image contains only the libraries needed for execution, significantly reducing the image size and attack surface.
 
 ## What's Next?
 

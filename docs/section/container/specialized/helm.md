@@ -1,29 +1,25 @@
-# Helm: Package Management for Kubernetes
+# Helm: Package Management for [Kubernetes](../orchestration/kubernetes.md)
 
 ## Learning Objectives
 
 !!! info "Learning Objectives"
     By the end of this chapter, participants will be able to:
-    - Understand the purpose of a package manager in the Kubernetes ecosystem.
+    - Understand the purpose of a package manager in the [Kubernetes](../orchestration/kubernetes.md) ecosystem.
     - Differentiate between Helm Charts, Values, and Releases.
-    - Install, upgrade, and rollback applications using Helm.
-    - Create and customize a basic Helm Chart for AI workloads.
-    - Evaluate the trade-offs between Helm's templating and other configuration management methods.
-    - Implement Helm hooks for custom deployment lifecycle management (e.g., DB migrations).
-    - Manage sensitive data in Helm charts using secrets management tools.
-    - Orchestrate complex applications using Helm dependencies (Umbrella Charts).
+    - Implement advanced Go-templates to dynamically configure AI workloads.
+    - Synchronize deployment configurations across environments (Dev, Staging, Prod) using a "Templated Overlay" approach.
+    - Create and customize a Helm Chart that handles GPU resource limits and production-grade hardening (PriorityClasses, PDBs).
+    - Evaluate the trade-offs between Helm's templating and template-less overlay tools like Kustomize.
 
 ## Overview
 
-As Kubernetes applications grow in complexity, managing dozens of YAML manifests becomes error-prone and tedious. Helm solves this by introducing a package management layer. 
+### Overview
+As [Kubernetes](../orchestration/kubernetes.md) applications grow in complexity, managing dozens of YAML manifests becomes error-prone and tedious. Helm solves this by introducing a package management layer. 
 
-Helm is to Kubernetes what `apt` or `yum` is to Linux: a single source of truth for "how to run" a specific application. Instead of applying individual files, Helm allows you to bundle a set of Kubernetes resources into a versioned package called a **Chart**, which can then be parameterized and deployed as a **Release**.
-
-## Core Sections
+Helm is to [Kubernetes](../orchestration/kubernetes.md) what `apt` or `yum` is to Linux: a single source of truth for "how to run" a specific application. Instead of applying individual files, Helm allows you to bundle a set of [Kubernetes](../orchestration/kubernetes.md) resources into a versioned package called a **Chart**, which can then be parameterized and deployed as a **Release**.
 
 ### Helm Architecture and Terminology
-
-Helm v3 operates as a client-side tool that communicates directly with the Kubernetes API server, eliminating the need for a server-side component (Tiller) found in earlier versions.
+Helm v3 operates as a client-side tool that communicates directly with the [Kubernetes](../orchestration/kubernetes.md) API server.
 
 | Term | Meaning |
 |------|---------|
@@ -32,166 +28,85 @@ Helm v3 operates as a client-side tool that communicates directly with the Kuber
 | **Repository** | An HTTP(S) server that stores packaged charts (`index.yaml`). |
 | **Values** | Configurable parameters in `values.yaml` that are rendered into templates. |
 | **Hook** | A manifest executed at specific lifecycle events (`pre-install`, `post-upgrade`). |
-| **CRD** | Custom Resource Definitions that Helm can install but does not upgrade automatically. |
 
-![Helm Landscape](images/helm-chatgpt.png)
+### Why AI Infrastructure Needs Helm
+AI workloads have unique requirements that make static YAML manifests impractical:
 
-Figure 1: The Helm landscape and its integration with the Kubernetes ecosystem.
+- **Hardware Heterogeneity**: A researcher might develop on a CPU-only laptop (Dev), test on a single-GPU workstation (Staging), and deploy to an 8-GPU A100 cluster (Prod).
+- **Model Versioning**: Switching from Llama-3-8B to Llama-3-70B requires changing not just the image, but also the memory limits and tensor parallel size.
+- **Repeatability**: A single `helm install` can provision an entire AI stack (vLLM engine, Vector DB, and FastAPI frontend) with a single command.
 
-### Why Use Helm for AI Infrastructure?
+!!! info "Why this matters"
+    In AI production, "environment drift" (where Dev and Prod differ in subtle ways) is a leading cause of CUDA Out-of-Memory (OOM) errors. Helm eliminates this by ensuring the same template is used across all environments, with only the specific resource values changing.
 
-AI workloads often require complex setups involving GPUs, persistent volumes for model weights, and specific environment variables.
+### Templating vs. Overlays: The "AI Overlay" Logic
+In the broader [Kubernetes](../orchestration/kubernetes.md) ecosystem, there are two primary ways to handle environment-specific changes: **Templating** (Helm) and **Overlays** (Kustomize).
 
-- **Repeatable Deployments**: A single `helm install` can provision an entire stack (vLLM engine, Redis cache, and FastAPI frontend).
-- **Version Control**: Charts are versioned, allowing for instant rollbacks (`helm rollback`) if a new model version causes a performance regression.
-- **Parameterization**: Researchers can use a single chart but pass different `values.yaml` files for `dev` (CPU-only) and `prod` (Multi-GPU).
-- **CI/CD Integration**: Helm integrates seamlessly with GitOps tools like ArgoCD and Flux to automate "Code to Cluster" workflows.
+- **The Overlay Pattern**: Used by Kustomize, this involves a "Base" manifest and "Patches" that overwrite specific fields for Production.
+- **The Templated Approach**: Used by Helm, this involves placeholders (e.g., `{{ .Values.gpuCount }}`) that are filled during deployment.
 
-### Installation and Basic Operations
+For AI workloads, the "AI Overlay" pattern typically means adding production-grade hardening—such as `PriorityClasses` to prevent LLM eviction and `PodDisruptionBudgets` to ensure availability—only when deploying to a production cluster. While Kustomize does this via patches, Helm does this via conditional logic in the templates.
 
-#### Setup
+## Implementation
 
-Helm is a client-side binary. Install it using the appropriate method:
-
-| OS | Command |
-|----|---------|
-| **Linux** | `curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash` |
-| **macOS** | `brew install helm` |
-| **Windows** | `choco install kubernetes-helm` |
-
-!!! tip "Verification"
-
-    Verify the installation by running:
-
-    ```bash
-    helm version
-    ```
-
-#### Common Commands Cheat-Sheet
+### Basic Operations
+Helm is a client-side binary. Once installed, use these common commands:
 
 | Action | Command | Example |
 |--------|---------|----------------|
 | **Add Repo** | `helm repo add <name> <url>` | `helm repo add bitnami https://charts.bitnami.com/bitnami` |
-| **Update Cache** | `helm repo update` | `helm repo update` |
-| **Install** | `helm install <release> <chart>` | `helm install my-redis bitnami/redis --set auth.password=Secret123` |
-| **Upgrade** | `helm upgrade <release> <chart>` | `helm upgrade my-redis bitnami/redis --set replicaCount=3` |
-| **Rollback** | `helm rollback <release> <rev>` | `helm rollback my-redis 1` |
-| **Uninstall** | `helm uninstall <release>` | `helm uninstall my-redis` |
-| **Render Locally** | `helm template <chart>` | `helm template my-chart ./my-chart` |
-| **Validate** | `helm lint <chart>` | `helm lint ./my-chart` |
+| **Install** | `helm install <release> <chart>` | `helm install my-llm ./my-chart -f values-prod.yaml` |
+| **Upgrade** | `helm upgrade <release> <chart>` | `helm upgrade my-llm ./my-chart --set replicaCount=3` |
+| **Rollback** | `helm rollback <release> <rev>` | `helm rollback my-llm 1` |
 
-### Creating Your First Chart
+### Creating an AI-First Chart
+To create a chart, run `helm create ai-model`. The most critical files are `values.yaml` (the API) and the `templates/` directory (the logic).
 
-A Helm chart is essentially a directory of templates that use Go-template syntax (e.g., `{{ .Values.replicaCount }}`) to inject dynamic values into YAML manifests.
-
-#### 1. Scaffold a New Chart
-
-```bash
-helm create hello-world
-cd hello-world
-```
-
-#### 2. Define Runtime Values (`values.yaml`)
-
-The `values.yaml` file acts as the primary configuration interface for the user.
+#### 1. Defining the Environment API (`values.yaml`)
+Instead of just defining resources, define the *intent* of the environment.
 
 ```yaml
-replicaCount: 2
-image:
-  repository: nginx
-  tag: "1.25-alpine"
-  pullPolicy: IfNotPresent
-service:
-  type: ClusterIP
-  port: 80
-```
+# values.yaml
+env: dev # options: dev, staging, prod
 
-#### 3. Templating the Deployment
-
-In `templates/deployment.yaml`, we replace static values with template calls:
-
-```yaml
-spec:
-  replicas: {{ .Values.replicaCount }}
-  template:
-    spec:
-      containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-```
-
-#### 4. Deploy and Manage
-
-```bash
-# Install the chart
-helm install hello ./hello-world --namespace demo --create-namespace
-
-# Upgrade to increase replicas
-helm upgrade hello ./hello-world --set replicaCount=5
-```
-
-### Advanced Deployment Patterns
-
-#### AI Model Deployment: Example `values.yaml`
-
-When deploying an AI model (e.g., vLLM), the `values.yaml` must handle GPU resources and large model weights.
-
-```yaml
-# values-ai-model.yaml
-replicaCount: 1
 image:
   repository: vllm/vllm-openai
   tag: "v0.4.0"
 
+# Default resources for dev
 resources:
-  limits:
-    nvidia.com/gpu: 1
-    memory: "40Gi"
-    cpu: "8"
-
-model:
-  name: "meta-llama/Meta-Llama-3-8B"
-  tensorParallelSize: 1
-
-persistence:
-  enabled: true
-  storageClass: "premium-rwo"
-  size: 100Gi
-  mountPath: /models
+  cpu: "4"
+  memory: "16Gi"
 ```
 
-#### Advanced Templating for AI Workloads
+#### 2. Advanced Go-Templates for AI Resource Logic
+Use conditionals and loops to implement the "AI Overlay" pattern directly in your templates.
 
-Basic value replacement is often insufficient for AI infrastructure, where you may need to switch between entirely different hardware profiles (e.g., CPU vs GPU) or support multiple types of accelerators. Using advanced Go-templates allows you to avoid "YAML sprawl" by maintaining a single chart that adapts to the target environment. For a broader overview of how Helm fits into the Kubernetes orchestration landscape alongside tools like Kustomize, see **[Kubernetes (K8s) for AI](/section/container/orchestration/kubernetes.md)**.
+**Example A: Environment-Based GPU Allocation**
+Rather than manually setting the GPU count in every file, use a conditional to switch based on the `env` value.
 
-**1. Conditional Resource Allocation**
-
-Use `{{ if ... }} {{ else }} {{ end }}` to toggle between CPU-only and GPU-enabled configurations. This is critical for teams that develop on CPU-based environments but deploy to GPU clusters.
-
-*Updated `values.yaml`:*
 ```yaml
-gpuEnabled: true
+# templates/deployment.yaml
+spec:
+  template:
+    spec:
+      containers:
+        - name: llm-engine
+          resources:
+            limits:
+              # Logic: 8 GPUs for prod, 1 for others
+              nvidia.com/gpu: {{ if eq .Values.env "prod" }}8{{ else }}1{{ end }}
+              memory: {{ if eq .Values.env "prod" }}"128Gi"}}{{ else }}"32Gi"}}{{ end }}
 ```
 
-*`templates/deployment.yaml` snippet:*
+!!! info "Why this matters"
+    Hard-coding GPU counts leads to "Pending" pods in Dev (because the dev cluster doesn't have 8 GPUs) or under-utilized hardware in Prod. This logic ensures the workload fits the cluster it is landing on.
+
+**Example B: Dynamic Accelerator Lists (Loops)**
+If your AI stack needs to support multiple types of accelerators (e.g., NVIDIA GPUs and TPU slices), use the `range` function.
+
 ```yaml
-        resources:
-          limits:
-            {{- if .Values.gpuEnabled }}
-            nvidia.com/gpu: 1
-            memory: "40Gi"
-            {{- else }}
-            cpu: "4"
-            memory: "16Gi"
-            {{- end }}
-```
-
-**2. Dynamic Accelerator Configuration**
-
-Use `{{ range }}` to iterate over a list of required accelerators. This is useful when deploying to clusters with mixed hardware or using NVIDIA Multi-Instance GPU (MIG) profiles.
-
-*Updated `values.yaml`:*
-```yaml
+# values.yaml
 accelerators:
   - name: "nvidia.com/gpu"
     count: 1
@@ -199,49 +114,87 @@ accelerators:
     count: 2
 ```
 
-*`templates/deployment.yaml` snippet:*
 ```yaml
-        resources:
-          limits:
-            {{- range .Values.accelerators }}
-            {{ .name }}: {{ .count }}
-            {{- end }}
+# templates/deployment.yaml
+resources:
+  limits:
+    {{- range .Values.accelerators }}
+    {{ .name }}: {{ .count }}
+    {{- end }}
 ```
 
-#### Advanced Concepts
+**Example C: Production Hardening (The "AI Overlay" in Helm)**
+Incorporate concepts from the [Kubernetes](../orchestration/kubernetes.md) orchestration layer—such as `PriorityClass` and `Tolerations`—only for production environments.
 
-- **Umbrella Charts**: A master chart that declares other charts as dependencies. Used to deploy an entire AI platform as a single unit.
-- **Helm Hooks**: Special annotations (e.g., `pre-install`) that trigger a Kubernetes Job to run database migrations before the application pods start.
-- **OCI Registries**: Modern Helm versions allow you to store charts in the same OCI registry as your Docker images (`helm push`).
+```yaml
+# templates/deployment.yaml
+spec:
+  template:
+    spec:
+      {{- if eq .Values.env "prod" }}
+      priorityClassName: system-cluster-critical
+      tolerations:
+      - key: "ai-gpu"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+      {{- end }}
+      containers:
+        - name: llm-engine
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+```
 
-## Summary Checklist
+Additionally, create a `templates/pdb.yaml` that only renders in production:
 
-- [ ] Distinguish between a Helm Chart, a Release, and a Repository.
-- [ ] Install the Helm CLI and add a public chart repository.
-- [ ] Deploy an application using `helm install` and override values via the CLI.
-- [ ] Create a custom chart using `helm create` and implement basic templating.
-- [ ] Perform a `helm upgrade` and a `helm rollback` to manage a release lifecycle.
-- [ ] Design a `values.yaml` file that handles GPU resource limits and model weight paths.
+```yaml
+{{- if eq .Values.env "prod" }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "ai-model.fullname" . }}-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "ai-model.selectorLabels" . | nindent 4 }}
+{{- end }}
+```
+
+## Self-Evaluation
+
+??? question "What is the 'AI Overlay' pattern and how is it implemented in Helm?"
+    The "AI Overlay" pattern is the practice of adding production-specific hardening (like PriorityClasses, PDBs, and higher resource limits) to a base deployment. In Helm, this is implemented using Go-template conditionals (`{{ if eq .Values.env "prod" }}`) that inject these resources only when the environment is set to production.
+
+??? question "When would you use a `range` loop instead of a simple value replacement in a Helm chart?"
+    You use `range` when the number of resources is dynamic. For example, if a model needs a variable list of hardware accelerators (MIG profiles, different GPU types) that varies by cluster, a loop allows the `values.yaml` to define a list of accelerators without changing the template.
+
+??? question "How does Helm prevent 'environment drift' in AI infrastructure?"
+    By using a single template for all environments and separating the configuration into `values.yaml` files, Helm ensures that the structural logic of the deployment (e.g., how volumes are mounted, how probes are configured) is identical in Dev and Prod, reducing the risk of "it works in Dev but fails in Prod."
+
+??? question "What is the benefit of using a `PriorityClass` for an LLM engine in a shared cluster?"
+    LLMs are resource-heavy and critical. A `PriorityClass` ensures that if the cluster runs out of resources, the [Kubernetes](../orchestration/kubernetes.md) scheduler evicts less important pods (like a frontend or a monitoring agent) before evicting the LLM engine, maintaining API availability.
 
 ## Assignments
 
-!!! note "Assignment.1: Chart Exploration"
-    Find a popular public chart on Artifact Hub (e.g., Redis or PostgreSQL). Install it in your local cluster, then use `helm get values <release>` to see the default configuration.
+!!! note "Assignment.1: Environment-Aware Resource Chart"
+    Create a Helm chart for a vLLM deployment. Implement a `values.yaml` with an `env` key. In the deployment template, ensure that:
+    - If `env == 'prod'`, the pod requests 4 GPUs and has a `PriorityClass` of `high-priority`.
+    - If `env == 'dev'`, the pod requests 1 GPU and has no `PriorityClass`.
     
-    ??? tip "Solution: Exploration"
-        Search Artifact Hub, run `helm repo add`, then `helm install`. Use the `get values` command to identify how the maintainers structured the configuration.
+    ??? tip "Solution: Environment Awareness"
+        Use `{{ if eq .Values.env "prod" }}` blocks around the `nvidia.com/gpu` limit and the `priorityClassName` field in the pod spec.
 
-!!! note "Assignment.2: Value Overrides"
-    Deploy a sample application using a Helm chart, but override at least three default values (e.g., replica count, image tag, and service port) using a custom `my-values.yaml` file.
+!!! note "Assignment.2: Dynamic Accelerator Mapping"
+    Modify your chart to support a list of accelerators in `values.yaml`. Use a `range` loop in the template so that any number of accelerators defined in the values file are automatically added to the `resources.limits` section.
     
-    ??? tip "Solution: Value Overrides"
-        Create a file `my-values.yaml` with the specific keys you want to change. Run `helm install my-app <chart> -f my-values.yaml`.
+    ??? tip "Solution: Dynamic Mapping"
+        Define `accelerators` as a list of objects in `values.yaml`. In the template, use `{{- range .Values.accelerators }}` to iterate and print `{{ .name }}: {{ .count }}`.
 
-!!! note "Assignment.3: Lifecycle Management"
-    Perform a successful deployment, then update a value in your chart. Upgrade the release, verify the change, and finally roll back to the previous version using `helm rollback`.
+!!! note "Assignment.3: The Production Hardening Toggle"
+    Create a `pdb.yaml` template in your chart. Use a conditional so that the `PodDisruptionBudget` is only deployed if `.Values.env` is set to `prod` or `staging`. Verify this by running `helm template` with different value files.
     
-    ??? tip "Solution: Lifecycle"
-        Use `helm install`, then `helm upgrade` with a changed value. Check the pod status with `kubectl get pods`. Finally, run `helm rollback <release> 1` to return to the initial state.
+    ??? tip "Solution: Hardening Toggle"
+        Wrap the entire PDB manifest in `{{- if or (eq .Values.env "prod") (eq .Values.env "staging") }}` and `{{- end }}`.
 
 ## References
 
@@ -249,25 +202,6 @@ accelerators:
 - Chart Best Practices: [helm.sh/docs/topics/charts/](https://helm.sh/docs/topics/charts/)
 - Artifact Hub: [artifacthub.io](https://artifacthub.io/)
 
-## Self-Evaluation
-
-??? note "What is a Helm 'Chart' and how does it differ from a 'Release'?"
-    A **Chart** is a package containing a collection of Kubernetes resource templates and a `values.yaml` file. A **Release** is a specific instance of a Chart deployed to a cluster with a unique name and set of configuration values.
-
-??? note "How does Helm use Go templates to allow for parameterization of Kubernetes manifests?"
-    Helm uses Go-template syntax (e.g., `{{ .Values.replicaCount }}`) within its YAML files. When `helm install` is run, Helm replaces these placeholders with actual values from the `values.yaml` file or command-line overrides.
-
-??? note "What is the benefit of using `helm rollback` in a production environment?"
-    `helm rollback` allows an administrator to instantly revert a deployment to a previous stable version by updating the release state in Kubernetes, minimizing downtime after a failed upgrade.
-
-??? note "What is an 'Umbrella Chart' and when should it be used?"
-    An Umbrella Chart is a chart that does not contain its own templates but instead declares other charts as dependencies. It is used to manage and deploy a complex application composed of multiple independent services as a single unit.
-
-??? note "How do Helm hooks allow for custom deployment lifecycle management?"
-    Helm hooks are special annotations (e.g., `pre-install`) that tell Helm to run a specific resource (like a Job) at a certain point in the release lifecycle, ensuring tasks like database migrations are completed before the app starts.
-
 ## What's Next?
 
-You have now mastered the art of packaging and deploying containers, from the local Docker/Podman level up to enterprise-scale Kubernetes and OpenShift clusters. 
-
-To tie everything together, head over to **[Bridging Containers and CI/CD](/section/container/security/containers-in-pipeline.md)** to learn how to automate this entire flow into a production-ready pipeline.
+Now that you know how to package and deploy AI workloads with Helm, the final step is to automate this entire process. Head over to **[Bridging Containers and CI/CD](/section/container/security/containers-in-pipeline.md)** to see how to turn your Dockerfile and Helm charts into a production-ready pipeline.

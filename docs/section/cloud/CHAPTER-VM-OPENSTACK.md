@@ -1,5 +1,7 @@
 ## Chapter: OpenStack and Research Cloud Platforms
 
+<!--start-->
+
 Welcome to the OpenStack and Research Cloud Platforms section of the course. This chapter focuses on the implementation and management of private clouds using OpenStack, exploring how this powerful IaaS platform is utilized by research clouds like Chameleon and Jetstream to provide scalable compute, networking, and storage resources.
 
 - **Part I: Introduction to OpenStack**
@@ -48,3 +50,4 @@ Welcome to the OpenStack and Research Cloud Platforms section of the course. Thi
     * **API Integration**: [🔴 Building FastAPI wrappers for Heat](/section/cloud/openstack/openstack-heat-fastapi.md) and [🔴 managing project-wide access](/section/cloud/openstack/openstack-heat-fast-api-project-wide-access.md).
 
 <!--end-->
+

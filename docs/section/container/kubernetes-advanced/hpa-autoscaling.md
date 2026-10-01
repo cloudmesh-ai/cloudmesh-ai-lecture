@@ -19,7 +19,7 @@ In AI workloads, GPU resources are extremely expensive. Over-provisioning (keepi
 
 While Kubernetes can scale based on custom metrics using tools like Prometheus or KEDA, the standard approach is scaling based on CPU utilization. As request volume increases, CPU usage rises, triggering the HPA to instantiate additional pods.
 
-## Core Sections
+## Implementation
 
 ### Implementing CPU-Based Autoscaling
 
@@ -99,11 +99,14 @@ spec:
         averageUtilization: 50
 ```
 
-::: tip "The Utilization Buffer"
+!!! tip "The Utilization Buffer"
     Avoid setting `averageUtilization` to 80% or 90%. By the time the HPA detects the breach and the new pod finishes its "pull image" and "startup" phase, the existing pods may already be overwhelmed. A target of 50-60% provides a necessary buffer to handle the lag between the scaling trigger and the pod becoming ready.
-:::
 
 ### The Scaling Lifecycle
+
+![Standard HPA Scaling Loop](images/grock-hpa.jpg)
+
+Figure 1: Standard HPA Scaling Loop. The HPA controller queries the Metrics Server to compare actual CPU utilization against the target and adjusts replicas.
 
 The HPA operates in a continuous loop of observation and adjustment:
 
@@ -120,7 +123,7 @@ The HPA operates in a continuous loop of observation and adjustment:
 
 ### Proactive Scaling with KEDA and RPS
 
-CPU-based scaling is reactive, as it waits for resource stress to occur. To scale proactively based on traffic volume, **KEDA (Kubernetes Event-driven Autoscaling)** is used.
+CPU-based scaling is reactive, as it waits for resource stress to occur. To scale proactively based on traffic volume, **[KEDA (Kubernetes Event-driven Autoscaling)](/section/container/kubernetes-advanced/rps-autoscaling.md)** is used.
 
 #### KEDA Architecture
 
@@ -128,7 +131,7 @@ KEDA is an operator that extends HPA to allow scaling based on external events. 
 
 ![KEDA RPS Architecture](images/keda-rps-flow.png)
 
-Figure 1: KEDA RPS Architecture. KEDA queries Prometheus for request rates and adjusts the HPA replica count accordingly.
+Figure 2: KEDA RPS Architecture. KEDA queries Prometheus for request rates and adjusts the HPA replica count accordingly.
 
 #### Implementation Example (KEDA ScaledObject)
 
@@ -174,13 +177,11 @@ To solve this, you must use **Custom Metrics**. By installing the **NVIDIA Data 
 
 ## Summary Checklist
 
-- [ ] Resource requests and limits are defined in the Deployment.
-- [ ] Metrics Server is installed in the cluster.
-- [ ] HPA target utilization is aligned with application performance profiles (includes a buffer).
-- [ ] Max and min replica counts are set to prevent resource exhaustion.
-- [ ] `stabilizationWindowSeconds` is configured to prevent flapping.
-- [ ] Distinguish between reactive (CPU) and proactive (RPS/KEDA) scaling.
-- [ ] Identify the correct metric (CPU vs GPU) for the specific AI workload.
+- [ ] Define explicit CPU/Memory `requests` for the target Deployment.
+- [ ] Configure `HorizontalPodAutoscaler` with a target utilization (typically 50-60%).
+- [ ] Implement `stabilizationWindowSeconds` in the HPA `behavior` field to prevent flapping.
+- [ ] Integrate KEDA if proactive RPS-based scaling is required.
+- [ ] Expose GPU metrics via DCGM Exporter for AI-specific workloads.
 
 ## Assignments
 
@@ -210,23 +211,24 @@ To solve this, you must use **Custom Metrics**. By installing the **NVIDIA Data 
 
 ## Self-Evaluation
 
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
-
-??? question "Why are resource requests mandatory for CPU-based HPA?"
+??? note "Why are resource requests mandatory for CPU-based HPA?"
     HPA calculates utilization as a percentage of the requested resources. Without a defined request, the HPA cannot determine the current utilization percentage, as it has no baseline to compare the actual usage against.
 
-??? question "What is the primary difference between Standard HPA and KEDA scaling?"
+??? note "What is the primary difference between Standard HPA and KEDA scaling?"
     Standard HPA is primarily reactive and relies on internal resource metrics (CPU/Memory), while KEDA is proactive and can scale based on external event sources and custom metrics, including the ability to scale to zero replicas.
 
-??? question "In what scenario is RPS scaling preferred over CPU scaling?"
+??? note "In what scenario is RPS scaling preferred over CPU scaling?"
     RPS scaling is preferred for I/O-bound services where traffic spikes may cause latency increases or request queues to build up before the CPU usage significantly rises.
 
-??? question "What is 'HPA Flapping' and how can it be mitigated?"
+??? note "What is 'HPA Flapping' and how can it be mitigated?"
     Flapping is the rapid, repeated scaling up and down of pods due to small fluctuations in metrics. It is mitigated by configuring the `behavior` field in the HPA spec, specifically the `stabilizationWindowSeconds`, which forces the controller to wait before scaling in.
 
-??? question "Why is a target utilization of 50-60% generally preferred over 90%?"
+??? note "Why is a target utilization of 50-60% generally preferred over 90%?"
     Because pod startup is not instantaneous (image pulling, app initialization). A lower target provides a "headroom" buffer, allowing the existing pods to handle the load while new replicas are being provisioned.
 
-??? question "Why is CPU-based HPA often insufficient for Large Language Model (LLM) inference services?"
+??? note "Why is CPU-based HPA often insufficient for Large Language Model (LLM) inference services?"
     LLM inference is almost entirely GPU-bound. The CPU may remain largely idle while the GPU is fully saturated. An HPA based on CPU would fail to scale out during high load, leading to severe latency and timeouts.
+
+## What's Next?
+
+Now that you understand how to scale based on resource utilization, let's look at event-driven scaling for even more responsive AI services. Head over to **[RPS Autoscaling with KEDA](/section/container/kubernetes-advanced/rps-autoscaling.md)**.

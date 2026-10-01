@@ -15,6 +15,8 @@
 
 Writing a technical report is a fundamental skill in scientific research and engineering. A well-structured report documents work and communicates the value, validity, and reproducibility of results to the broader community. This section provides a framework for producing high-quality, scientific-grade reports.
 
+![alt text](images/gemini-writing.jpeg)
+
 ## Core Sections
 
 ### The Philosophy of Technical Reporting
@@ -35,24 +37,30 @@ The target audience is a peer in the field who has the necessary background know
 A technical report follows a standardized structure to ensure clarity and credibility.
 
 #### Title and Abstract
+
 - **Title**: Use descriptive and technical phrasing. Avoid "Project 1" or "Final Report." For example, use "An Analysis of X using Y for Z."
 - **Abstract**: A single paragraph (typically 150-250 words) summarizing the entire work.
     - **Correct**: Focus on results. ("We show that X improves efficiency by 20%.")
-    - **Incorrect**: Focus on intent. ("We propose to investigate X.")
-- **Keywords**: 3-5 terms describing the core technology or method. Avoid generic terms like "Computer Science."
+    - **Incorrect**: Focus on intent. ("We propose to investigate X." This is even tru for writing a proposal for this class. Do not use the word *propose*.)
+- **Keywords**: 3-5 terms describing the core technology or method. Avoid generic terms like "In Computer Science."
 
 #### Introduction
+
 The introduction follows an "inverted pyramid" approach:
+
 1. **Broad Context**: The importance of the general area.
 2. **Specific Problem**: The exact gap or challenge being addressed.
 3. **Contribution**: A brief statement of the work performed to address the gap.
 4. **Organization**: A description of the report structure.
 
 #### Background and Related Work
+
 This section provides the theoretical foundation, explaining concepts, algorithms, or existing tools. It demonstrates an understanding of the current state of the field.
 
 #### Methodology and Implementation
+
 This section describes the technical contribution:
+
 - **Architecture**: System design and data flows.
 - **Implementation Details**: Specific libraries, versions, and configurations.
 - **Justification**: The reasoning behind chosen approaches compared to alternatives.
@@ -195,6 +203,8 @@ Use footnote-style references for simplicity:
 - [ ] The file is located at `project/project.md` (within the project repository).
 - [ ] The document compiles without errors.
 - [ ] Spell-checker and grammar-checker have been applied.
+
+
 
 ## Assignments
 

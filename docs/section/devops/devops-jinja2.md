@@ -26,7 +26,7 @@ Ansible is built on Jinja2. Every time you write `{{ ... }}` you are invoking th
 
 A typical Ansible role that utilizes Jinja2 templates follows a specific directory structure to separate static files from dynamic templates and default variables.
 
-```
+```text
 myapp/
 ├─ defaults/
 │   └─ main.yml          # lowest-precedence defaults
@@ -100,7 +100,7 @@ http {
 The following table summarizes the key Jinja2 constructs used in the example:
 
 | Feature | Syntax | Benefit |
-|---------|--------|---------|
+| :--- | :--- | :--- |
 | Macro import | `{% from "_helpers.j2" import render_upstream %}` | Centralizes upstream generation, reusable by many services. |
 | Filters with defaults | `{{ ansible_processor_vcpus \| default(2) }}` | Guarantees a sensible value even when the fact is missing. |
 | Conditional block | `{% if ssl_enabled %}` ... `{% endif %}` | Enables the same template for HTTP-only or HTTPS services. |
@@ -134,8 +134,8 @@ Beyond macros, Jinja2 provides tools to manage complexity and whitespace.
 #### Includes and Inheritance
 While macros are like functions, `include` and `extends` are about structure:
 
-- **`&#123;% include "snippet.j2" %}`**: Literally inserts the content of another template. Use this for common headers or legal footers.
-- **`&#123;% extends "base.j2" %}`**: Defines a base layout with `{% block %}` sections that child templates can override. This is common in web development but can be used in complex config files to define a "standard" skeleton.
+- **`&#123;% include "snippet.j2" %&#125;`**: Literally inserts the content of another template. Use this for common headers or legal footers.
+- **`&#123;% extends "base.j2" %&#125;`**: Defines a base layout with `&#123;% block %&#125;` sections that child templates can override. This is common in web development but can be used in complex config files to define a "standard" skeleton.
 
 #### Whitespace Control
 Jinja2 often leaves behind blank lines where tags (`{% ... %}`) were located. To prevent this, use the minus sign (`-`) to strip whitespace:
@@ -150,7 +150,6 @@ In the `render_upstream` macro above, `{%- endmacro %}` ensures that the calling
 Ansible provides multiple layers of variable precedence to supply data to Jinja2 templates.
 
 #### Role Defaults
-
 Located in `defaults/main.yml`, these provide the lowest precedence values.
 
 ```yaml
@@ -163,7 +162,6 @@ ssl_enabled: false
 ```
 
 #### Host-Specific Overrides
-
 Located in `host_vars/web01.yml`, these override defaults for specific targets.
 
 ```yaml
@@ -185,7 +183,6 @@ vhosts:
 ```
 
 #### External Data Loading
-
 You can load JSON or YAML files at runtime using the `include_vars` module.
 
 ```yaml
@@ -263,7 +260,7 @@ Use the custom filter in a template as follows:
 While custom filters are powerful, Ansible provides several built-in filters that are essential for DevOps workflows:
 
 | Filter | Use Case | Example |
-|--------|----------|---------|
+| :--- | :--- | :--- |
 | `combine` | Merging two dictionaries into one. | `{{ var_a | combine(var_b) }}` |
 | `json_query` | Extracting specific data from complex JSON using JMESPath. | `{{ users | json_query('[?status==`active`].name') }}` |
 | `unique` | Removing duplicates from a list. | `{{ all_ports | unique }}` |
@@ -277,22 +274,23 @@ When variables are encrypted using `ansible-vault`, they are decrypted automatic
 ```jinja
 db_password {{ vault_db_password }}
 ```
+
 **Security Tip:** Avoid using the `debug` module to print vaulted variables to the console in production logs.
 
 #### Debugging Templates
-If a template is not rendering as expected, the best practice is to inspect the variables *before* they reach the template using the `debug` module in your playbook:
+If a template is not rendering as expected, the best practice is to inspect the variables before they reach the template using the `debug` module in your playbook:
 
 ```yaml
 - name: Debug vhosts data
   debug:
     var: vhosts
 ```
-This allows you to verify if the issue is in the **data** (variable precedence) or the **logic** (Jinja2 syntax).
+
+This allows you to verify if the issue is in the data (variable precedence) or the logic (Jinja2 syntax).
 
 ### Testing and Linting Templates
 
 #### Unit Testing with Playbooks
-
 You can verify template rendering by running a local playbook that checks for expected strings in the output.
 
 ```yaml
@@ -322,7 +320,6 @@ ansible-playbook -i tests/inventory tests/test_nginx_template.yml --check
 ```
 
 #### Post-Rendering Linting
-
 Rendered files should be validated with tools like `yamllint` to ensure the resulting configuration is syntactically correct.
 
 ```yaml
@@ -420,49 +417,48 @@ print(rendered.strip())
 !!! note "Assignment.1: Role Structure"
     Create a new role named `mywebapp` that follows the directory layout described in this chapter. Include a `templates/nginx.conf.j2` that uses at least two custom macros from `_helpers.j2`.
 
-??? tip "Solution: Role Structure"
-    The role should have `defaults/main.yml`, `vars/main.yml`, `templates/`, and `tasks/main.yml`. The `_helpers.j2` file should define macros (e.g., for SSL blocks or upstream definitions) which are then imported into `nginx.conf.j2` using `{% from "_helpers.j2" import ... %}`.
+    ??? tip "Solution: Role Structure"
+        The role should have `defaults/main.yml`, `vars/main.yml`, `templates/`, and `tasks/main.yml`. The `_helpers.j2` file should define macros (e.g., for SSL blocks or upstream definitions) which are then imported into `nginx.conf.j2` using `{% from "_helpers.j2" import ... %}`.
 
 !!! note "Assignment.2: Host Variable Implementation"
     Write host-specific variables for three hosts (`app01`, `app02`, `app03`) that differ in `listen_port`, `ssl_enabled`, and the list of upstream servers. Run the role locally and verify that three distinct `nginx.conf` files are produced.
 
-??? tip "Solution: Host Variable Implementation"
-    Define variables in `host_vars/app01.yml`, `host_vars/app02.yml`, and `host_vars/app03.yml`. Use a playbook with the `template` module to render the configuration on each host.
+    ??? tip "Solution: Host Variable Implementation"
+        Define variables in `host_vars/app01.yml`, `host_vars/app02.yml`, and `host_vars/app03.yml`. Use a playbook with the `template` module to render the configuration on each host.
 
 !!! note "Assignment.3: Custom Filter Development"
     Add a custom filter `to_hostname` that converts any string to a legal DNS hostname (lower-case, alphanumerics + hyphens). Use it in a `systemd.service.j2` template to generate a `Description=` line based on `inventory_hostname`.
 
-??? tip "Solution: Custom Filter Development"
-    Implement the filter in `filter_plugins/custom_filters.py` using `re.sub` to replace non-alphanumeric characters with hyphens and calling `.lower()`.
+    ??? tip "Solution: Custom Filter Development"
+        Implement the filter in `filter_plugins/custom_filters.py` using `re.sub` to replace non-alphanumeric characters with hyphens and calling `.lower()`.
 
 !!! note "Assignment.4: CI Pipeline Integration"
     Implement a CI job that runs `ansible-playbook --check` on the test playbook, `yamllint` on the rendered files, and `ansible-lint` on the role. Ensure the job fails if any step reports an error.
 
-??? tip "Solution: CI Pipeline Integration"
-    In a GitHub Actions workflow, create steps that execute the three commands. Use the exit codes of the commands to determine the job's success or failure.
+    ??? tip "Solution: CI Pipeline Integration"
+        In a GitHub Actions workflow, create steps that execute the three commands. Use the exit codes of the commands to determine the job's success or failure.
 
 ## References
 
 - Ansible Documentation: [Template Module](https://docs.ansible.com/ansible/latest/collections/ansible.builtin/template_module.html)
 - Jinja2 Documentation: [Template Designer Documentation](https://jinja.palletsprojects.com/)
 
-## Self-Assessment
+## Self-Evaluation
 
-## Self-Assessment
-
-Test your knowledge by expanding the questions below.
-
-??? question "What is the purpose of the `_helpers.j2` file in an Ansible role?"
+??? note "What is the purpose of the `_helpers.j2` file in an Ansible role?"
     It serves as a partial template used to store reusable macros and shared logic, preventing duplication across multiple templates in the same role.
 
-??? question "How does `jinja2_native = True` in `ansible.cfg` affect the output of a template?"
+??? note "How does `jinja2_native = True` in `ansible.cfg` affect the output of a template?"
     It ensures that Python data types (like integers, booleans, and lists) are preserved in the rendered output rather than being converted to strings, which is critical when generating JSON or other structured data.
 
-??? question "Where should custom Jinja2 filter plugins be placed for automatic discovery by Ansible?"
+??? note "Where should custom Jinja2 filter plugins be placed for automatic discovery by Ansible?"
     They should be placed in a directory named `filter_plugins/` within the role's directory structure or in a path specified by the `ANSIBLE_FILTER_PLUGINS` environment variable.
 
----
+??? note "How do I write a basic YAML playbook to install software?"
+    A basic playbook is a YAML file that defines one or more "plays". Each play targets a specific host group and contains a list of tasks. To install software, you use a module like `apt` (for Ubuntu/Debian) or `yum` (for CentOS/RHEL), specifying the package name and ensuring the state is set to `present`.
 
-## What's Next?
+??? note "What is the concept of idempotence and how can I verify it in Ansible?"
+    Idempotence is the property where an operation can be applied multiple times without changing the result beyond the initial application. In Ansible, if a system is already in the desired state, Ansible will not make any changes. You can verify this by running the same playbook twice; the second run should report `changed=0` for all tasks.
 
-Infrastructure is now consistent, and your configurations are dynamic. The final step is to orchestrate these tools into a seamless delivery pipeline. Dive into **Continuous Integration, Deployment, and Monitoring** to see the whole lifecycle in action.
+??? note "How do handlers manage service restarts based on configuration changes?"
+    Handlers are special tasks that are only executed if they are "notified" by another task using the `notify` keyword. This is typically used when a configuration file is updated (e.g., via the `template` module); the task notifies the handler to restart the service, ensuring the service is only restarted when a change actually occurs, rather than on every playbook run.

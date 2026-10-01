@@ -20,7 +20,7 @@ Container orchestration solves four primary challenges:
 - **Service Discovery & Load Balancing**: Ensuring that traffic reaches the correct container, even as containers are moved or scaled.
 - **Declarative State**: Allowing developers to describe the *desired* state (e.g., "I want 5 replicas of the API") and letting the system work to maintain that state.
 
-## Core Sections
+## Implementation
 
 ### Docker Swarm: The Path of Least Resistance
 
@@ -37,7 +37,7 @@ Swarm is designed for teams that want the benefits of orchestration without the 
 
 ### Kubernetes (K8s): The Industry Standard
 
-Kubernetes is a highly extensible, open-source system designed for massive scale and extreme flexibility. It acts as a framework for building platforms rather than a finished product.
+**[Kubernetes](/section/container/orchestration/kubernetes.md)** is a highly extensible, open-source system designed for massive scale and extreme flexibility. It acts as a framework for building platforms rather than a finished product.
 
 #### Philosophy: Power and Extensibility
 
@@ -50,7 +50,7 @@ Kubernetes provides the core primitives (Pods, Services, ConfigMaps, Secrets), a
 
 ### Red Hat OpenShift: The Enterprise Platform
 
-OpenShift is a distribution of Kubernetes. It is "Kubernetes with a battery-included enterprise wrapper," providing a complete vehicle rather than just the engine.
+**[OpenShift](/section/container/orchestration/openshift.md)** is a distribution of Kubernetes. It is "Kubernetes with a battery-included enterprise wrapper," providing a complete vehicle rather than just the engine.
 
 #### Philosophy: Developer Experience and Security
 
@@ -130,13 +130,25 @@ Deploying LLMs on the edge (e.g., in a factory or on a mobile gateway) requires 
 | **Lowest Overhead** | **Docker Swarm** | Minimum CPU/RAM wasted on the orchestrator. |
 | **Developer Velocity** | **OpenShift** | Integrated tools from code to cluster. |
 
-## Summary Checklist
+### References
 
-- [ ] Contrast the "Simplicity First" philosophy of Swarm with the "Power and Extensibility" of Kubernetes.
-- [ ] Identify the three primary architectural additions OpenShift provides over vanilla Kubernetes.
-- [ ] Explain the "Complexity Tax" associated with maintaining a vanilla K8s cluster.
-- [ ] Use the decision workflow to match a business requirement to the correct orchestrator.
-- [ ] Understand the typical migration path from Compose $\rightarrow$ Swarm $\rightarrow$ K8s $\rightarrow$ OpenShift.
+- Kubernetes Documentation: [kubernetes.io/docs](https://kubernetes.io/docs/)
+- Docker Swarm Documentation: [docs.docker.com/engine/swarm/](https://docs.docker.com/engine/swarm/)
+- Red Hat OpenShift Documentation: [docs.openshift.com](https://docs.openshift.com/)
+
+## Self-Evaluation
+
+??? question "Why is OpenShift described as a 'distribution' of Kubernetes rather than an alternative?"
+    Because OpenShift uses the Kubernetes API and core components as its engine. Everything you can do in Kubernetes, you can do in OpenShift. OpenShift simply adds additional layers—such as a web console, an integrated registry, and security policies—on top of that core.
+
+??? question "What is the 'Complexity Tax' associated with Kubernetes?"
+    The complexity tax refers to the significant amount of time and expertise required to set up and maintain a Kubernetes cluster. This includes managing the control plane, configuring the CNI, and handling storage via CSI. For small projects, this effort can exceed the value provided by the orchestrator.
+
+??? question "In what specific scenario would Docker Swarm be a better choice than Kubernetes?"
+    For a small team deploying a few microservices to a small number of nodes where the primary goal is simplicity and rapid iteration. If the team does not need advanced autoscaling or a massive ecosystem of plugins, Swarm is more efficient.
+
+??? question "How does OpenShift's approach to security differ from vanilla Kubernetes?"
+    Vanilla Kubernetes allows containers to run as root by default. OpenShift implements **Security Context Constraints (SCCs)**, which forbid containers from running as root by default and enforce strict rules on host system access.
 
 ## Assignments
 
@@ -161,22 +173,6 @@ Deploying LLMs on the edge (e.g., in a factory or on a mobile gateway) requires 
     ??? tip "Solution: Security Analysis"
         Vanilla K8s allows containers to run as root by default. OpenShift implements **Security Context Constraints (SCCs)**, which forbid containers from running as root by default and enforce strict rules on host system access. A bank would prefer this "secure by default" approach to meet regulatory compliance and reduce the risk of container-escape attacks.
 
-## References
+## What's Next?
 
-- Kubernetes Documentation: [kubernetes.io/docs](https://kubernetes.io/docs/)
-- Docker Swarm Documentation: [docs.docker.com/engine/swarm/](https://docs.docker.com/engine/swarm/)
-- Red Hat OpenShift Documentation: [docs.openshift.com](https://docs.openshift.com/)
-
-## Self-Evaluation
-
-??? note "Why is OpenShift described as a 'distribution' of Kubernetes rather than an alternative?"
-    Because OpenShift uses the Kubernetes API and core components as its engine. Everything you can do in Kubernetes, you can do in OpenShift. OpenShift simply adds additional layers—such as a web console, an integrated registry, and security policies—on top of that core.
-
-??? note "What is the 'Complexity Tax' associated with Kubernetes?"
-    The complexity tax refers to the significant amount of time and expertise required to set up and maintain a Kubernetes cluster. This includes managing the control plane, configuring the CNI, and handling storage via CSI. For small projects, this effort can exceed the value provided by the orchestrator.
-
-??? note "In what specific scenario would Docker Swarm be a better choice than Kubernetes?"
-    For a small team deploying a few microservices to a small number of nodes where the primary goal is simplicity and rapid iteration. If the team does not need advanced autoscaling or a massive ecosystem of plugins, Swarm is more efficient.
-
-??? note "How does OpenShift's approach to security differ from vanilla Kubernetes?"
-    Vanilla Kubernetes allows containers to run as root by default. OpenShift implements **Security Context Constraints (SCCs)**, which forbid containers from running as root by default and enforce strict rules on host system access.
+Now that you can choose the right tool for the job, let's dive deep into the enterprise-grade option. Head over to **[OpenShift for AI: Enterprise Kubernetes & Managed AI Workloads](/section/container/orchestration/openshift.md)**.

@@ -200,6 +200,12 @@ The primary configuration for Puppet is handled in the `puppet.conf` file. Key s
 ??? note "What is the purpose of SSL certificates in a Puppet architecture?"
     **SSL certificates** ensure that all communication between the Master and Agents is encrypted and authenticated. A new Agent must have its certificate signed by the Master's Certificate Authority (CA) before it can securely retrieve its configuration catalog, preventing unauthorized nodes from accessing the infrastructure.
 
+## What's Next?
+
+Infrastructure is now consistent, but we need to make our configurations dynamic and reusable. Learn about **Jinja 2 Templates** to bring programming logic to your infrastructure files.
+
+Visit the [Local Lab](/section/devops/local-lab.md) for instructions on how to run Puppet locally.
+
 ## Appendix: AI and Puppet
 
 

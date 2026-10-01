@@ -16,8 +16,6 @@
 
 OpenStack provides a unified control plane that allows operators to manage both virtual machines (VMs) and containers. While VMs offer strong isolation and full OS control, containers provide speed, density, and portability. By integrating container services like Magnum and Zun with the existing OpenStack networking (Neutron) and identity (Keystone) fabrics, organizations can achieve enterprise-grade governance for cloud-native workloads.
 
-## Core Sections
-
 ### OpenStack Architecture Foundations
 
 OpenStack is an open-source Infrastructure-as-a-Service (IaaS) that transforms physical hardware into programmable virtual resources. Its architecture is split into two primary components:
@@ -46,11 +44,16 @@ Deploying containers on OpenStack offers several technical and business advantag
 - **Unified Fabric**: Kuryr allows containers to have first-class IP addresses, simplifying networking and auditing.
 - **Infrastructure-as-Code**: Tools like Heat and Terraform can automate the provisioning of both the cluster and the application.
 
+!!! info "Why this matters"
+    For AI and Data Science, the ability to rapidly scale containers on a private cloud (like OpenStack) ensures that large-scale training jobs can be distributed across multiple GPU nodes without the overhead of booting full VMs for every worker.
+
+## Implementation
+
 ### Container Strategy Decision
 
 When choosing a container strategy on OpenStack, there are three primary paths:
 
-1. **The DIY Path**: Deploying a VM, installing an operating system, and manually installing Kubernetes or Docker. This offers total control but introduces high operational overhead.
+1. **The DIY Path**: Deploying a VM, installing an operating system, and manually installing [Kubernetes](/section/container/orchestration/kubernetes.md) or [Docker](/section/container/foundations/docker.md). This offers total control but introduces high operational overhead.
 2. **The Managed Path (OpenStack Magnum)**: Using Magnum for one-click clusters and integrated lifecycle management. This reduces overhead but offers less control over master node configuration.
 3. **The Serverless Path (OpenStack Zun)**: Using Zun for "just run my image" functionality without managing VMs. This is ideal for simple apps but does not support complex orchestration.
 
@@ -84,7 +87,7 @@ Zun treats containers as first-class resources. The architecture follows this fl
 1. The user interacts with the Zun API (which is Docker-compatible).
 2. Zun API authenticates via Keystone.
 3. Zun Conductor schedules containers onto Nova compute nodes.
-4. The container runtime (Docker, containerd, or CRI-O) runs the image, using Glance as the registry.
+4. The container runtime ([Docker](/section/container/foundations/docker.md), containerd, or CRI-O) runs the image, using Glance as the registry.
 5. Neutron provides networking, including ports, security groups, and floating IPs.
 
 #### Use Cases for Zun
@@ -167,14 +170,16 @@ Recent and upcoming developments (2024-2026) focus on:
 - **Kuryr**: Full support for Kubernetes NetworkPolicy and tighter Octavia integration.
 - **OpenStack-CNCF Bridge**: Aodh-based autoscaling for Magnum and Barbican-backed secrets for pods.
 
-## Summary Checklist
+## Self-Evaluation
 
-- [ ] Understand the difference between the OpenStack Control Plane and Data Plane.
-- [ ] Compare the resource overhead of VMs versus containers.
-- [ ] Identify when to use Magnum (orchestration) versus Zun (individual containers).
-- [ ] Explain how Kuryr eliminates network overlays using Neutron ports.
-- [ ] Describe the Magnum provisioning workflow: Template $\rightarrow$ Cluster $\rightarrow$ Kubeconfig.
-- [ ] Identify the isolation mechanisms provided by Keystone, Neutron, and Nova.
+??? question "Distinguish between the OpenStack Control Plane and the Data Plane."
+    The Control Plane consists of APIs and management services (e.g., Keystone, Nova-API) that orchestrate resource allocation. The Data Plane consists of the actual physical and virtual resources (e.g., KVM hypervisors, OVS switches) where workloads execute.
+
+??? question "What is the main difference between OpenStack Zun and OpenStack Magnum?"
+    Zun is a Container-as-a-Service (CaaS) that allows users to launch individual containers without managing a cluster. Magnum is a Container-Orchestration-as-a-Service (COaaS) that deploys and manages full orchestration clusters, such as Kubernetes.
+
+??? question "How does Kuryr optimize container networking in an OpenStack environment?"
+    Kuryr bridges the gap between the container CNI and OpenStack Neutron. It allows containers to connect directly to Neutron ports, bypassing the traditional overlay networks (like Flannel) to reduce latency and improve visibility.
 
 ## Assignments
 
@@ -205,24 +210,5 @@ Recent and upcoming developments (2024-2026) focus on:
     ??? tip "Solution: Heat Orchestration"
         Define an `OS::Magnum::Cluster` resource and an `OS::Octavia::LoadBalancer` resource within the same Heat YAML file, ensuring the load balancer references the cluster's network.
 
-## References
-
-| Resource | Link |
-|----------|------|
-| OpenStack Magnum Docs | https://docs.openstack.org/magnum/latest/ |
-| OpenStack Zun Docs | https://docs.openstack.org/zun/latest/ |
-| Kuryr-Kubernetes GitHub | https://github.com/openstack/kuryr-kubernetes |
-| Magnum Quick-Start Tutorial | https://docs.openstack.org/magnum/latest/user/quickstart.html |
-| Zun CLI Reference | https://docs.openstack.org/python-zunclient/latest/ |
-| OpenStack Containers Lab | https://github.com/openstack/openstack-helm/tree/master/containers |
-
-## Self-Evaluation
-
-??? note "Distinguish between the OpenStack Control Plane and the Data Plane."
-    The Control Plane consists of APIs and management services (e.g., Keystone, Nova-API) that orchestrate resource allocation. The Data Plane consists of the actual physical and virtual resources (e.g., KVM hypervisors, OVS switches) where workloads execute.
-
-??? note "What is the main difference between OpenStack Zun and OpenStack Magnum?"
-    Zun is a Container-as-a-Service (CaaS) that allows users to launch individual containers without managing a cluster. Magnum is a Container-Orchestration-as-a-Service (COaaS) that deploys and manages full orchestration clusters, such as Kubernetes.
-
-??? note "How does Kuryr optimize container networking in an OpenStack environment?"
-    Kuryr bridges the gap between the container CNI and OpenStack Neutron. It allows containers to connect directly to Neutron ports, bypassing the traditional overlay networks (like Flannel) to reduce latency and improve visibility.
+## What's Next?
+Now that you understand the general principles of containers on OpenStack, explore the hands-on tutorials for specific research clouds: **[Containers on Jetstream2](/section/container/openstack/openstack-jetstream-container.md)** and **[Containers on Chameleon Cloud](/section/container/openstack/openstack-chameleon-containers.md)**.

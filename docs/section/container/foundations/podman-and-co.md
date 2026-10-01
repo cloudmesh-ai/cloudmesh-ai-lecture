@@ -2,7 +2,7 @@
 
 ## Learning Objectives
 
-!!! info "Learning Objectives"
+!!! info "Why this matters"
     By the end of this chapter, participants will be able to:
     - Understand the architectural difference between daemon-based and daemonless container engines.
     - Compare Docker and Podman across security, architecture, and ecosystem.
@@ -11,13 +11,15 @@
     - Understand the role of OCI (Open Container Initiative) in ensuring tool interoperability.
     - Distinguish between high-level engines (Docker/Podman) and low-level runtimes (containerd/CRI-O).
 
+## Implementation
+
 The "Container War" is often framed as Docker vs. Podman, but in reality, it is a transition from a centralized, monolithic management style to a decentralized, security-first architecture. While both tools allow you to run the same images and use the same `Dockerfile` syntax, they operate fundamentally differently under the hood.
 
-## 1. Docker: The Industry Titan
+### 1. Docker: The Industry Titan
 
 Docker revolutionized software delivery by packaging the application and its dependencies into a single image. 
 
-### The Daemon Architecture
+#### The Daemon Architecture
 
 Docker relies on a **Client-Server architecture**. When you run `docker run`, the Docker CLI (the client) sends an API request to the **Docker Daemon** (`dockerd`), a persistent background process that actually manages the containers, images, and networks.
 
@@ -102,7 +104,9 @@ It is helpful to think of container tools in layers, from the high-level user in
 
 ---
 
-## Learning Wrap-up
+## What's Next?
+
+Now that we have compared the various runtimes, it's time to look at how to secure these containers for production use. Next, we will explore [Container Security & Hardening](/section/container/security/container-security.md).
 
 ## Self-Assessment
 

@@ -17,7 +17,7 @@ Before deploying to a production GPU cluster or a cloud environment, developers 
 
 Most local tools use a concept called **Containers-as-Nodes**. Instead of running four separate Virtual Machines to simulate a multi-node cluster, tools like `kind` start Docker containers and run the Kubernetes components (Kubelet, Kube-proxy, etc.) *inside* those containers. This significantly reduces memory overhead while providing a high-fidelity simulation of a real cluster.
 
-## Core Sections
+## Implementation
 
 ### Choosing a Local Cluster Tool
 
@@ -204,15 +204,29 @@ systemctl --user enable --now podman.socket
 
 Using Podman removes the need for a privileged root daemon, reducing the attack surface of your local machine while maintaining OCI compatibility.
 
-## Summary Checklist
+### References
 
-- [ ] Select a local cluster tool based on OS and available RAM.
-- [ ] Install the container runtime (Docker or Podman) and `kubectl`.
-- [ ] Provision a cluster using `kind`, `minikube`, `k3d`, or `MicroK8s`.
-- [ ] Verify node status using `kubectl get nodes`.
-- [ ] Deploy a sample application using a YAML manifest.
-- [ ] Access the application via a `NodePort` service on `localhost`.
-- [ ] Practice cluster lifecycle management (start/stop/delete).
+- Kind Documentation: [kind.sigs.k8s.io](https://kind.sigs.k8s.io/)
+- Minikube Documentation: [minikube.sigs.k8s.io](https://minikube.sigs.k8s.io/)
+- k3d Documentation: [k3d.io](https://k3d.io/)
+- MicroK8s Documentation: [microk8s.io](https://microk8s.io/)
+
+## Self-Evaluation
+
+??? question "Compare `kind` and `minikube` in terms of how they host the Kubernetes nodes."
+    `kind` runs Kubernetes nodes as Docker containers on the host, making it very fast and portable. `minikube` typically runs a single node inside a virtual machine (though it supports a Docker driver), providing a more isolated environment that closely mimics a real VM node.
+
+??? question "Which local Kubernetes tool is best suited for low-resource environments or ARM machines?"
+    `k3d` (k3s in Docker) is the best choice for low-resource environments because it runs k3s, a lightweight, certified Kubernetes distribution, inside Docker containers.
+
+??? question "What is the role of `kubectl` in managing a local Kubernetes cluster?"
+    `kubectl` is the standard CLI tool used to communicate with the Kubernetes API server. Regardless of the local provider (`kind`, `minikube`, etc.), `kubectl` is the primary interface for deploying pods, managing services, and inspecting cluster health.
+
+??? question "Why is a container runtime a prerequisite for tools like `kind` or `k3d`?"
+    Because `kind` and `k3d` use containers to simulate the nodes of a Kubernetes cluster, they require a running runtime (like Docker or Podman) on the host to provision and manage those node-containers.
+
+??? question "What are the advantages of using Podman as the runtime for a local Kubernetes cluster?"
+    Using Podman allows for a daemonless and rootless experience, improving security by removing the need for a privileged root daemon and reducing system overhead.
 
 ## Assignments
 
@@ -251,30 +265,6 @@ Using Podman removes the need for a privileged root daemon, reducing the attack 
     
     ??? tip "Solution: Validation Script"
         Use `kind create cluster`, `kubectl apply -f manifests/`, and a `while` loop with `kubectl get pods` to check status before running the `curl` test.
-
-## References
-
-- Kind Documentation: [kind.sigs.k8s.io](https://kind.sigs.k8s.io/)
-- Minikube Documentation: [minikube.sigs.k8s.io](https://minikube.sigs.k8s.io/)
-- k3d Documentation: [k3d.io](https://k3d.io/)
-- MicroK8s Documentation: [microk8s.io](https://microk8s.io/)
-
-## Self-Evaluation
-
-??? note "Compare `kind` and `minikube` in terms of how they host the Kubernetes nodes."
-    `kind` runs Kubernetes nodes as Docker containers on the host, making it very fast and portable. `minikube` typically runs a single node inside a virtual machine (though it supports a Docker driver), providing a more isolated environment that closely mimics a real VM node.
-
-??? note "Which local Kubernetes tool is best suited for low-resource environments or ARM machines?"
-    `k3d` (k3s in Docker) is the best choice for low-resource environments because it runs k3s, a lightweight, certified Kubernetes distribution, inside Docker containers.
-
-??? note "What is the role of `kubectl` in managing a local Kubernetes cluster?"
-    `kubectl` is the standard CLI tool used to communicate with the Kubernetes API server. Regardless of the local provider (`kind`, `minikube`, etc.), `kubectl` is the primary interface for deploying pods, managing services, and inspecting cluster health.
-
-??? note "Why is a container runtime a prerequisite for tools like `kind` or `k3d`?"
-    Because `kind` and `k3d` use containers to simulate the nodes of a Kubernetes cluster, they require a running runtime (like Docker or Podman) on the host to provision and manage those node-containers.
-
-??? note "What are the advantages of using Podman as the runtime for a local Kubernetes cluster?"
-    Using Podman allows for a daemonless and rootless experience, improving security by removing the need for a privileged root daemon and reducing system overhead.
 
 ## What's Next?
 

@@ -7,7 +7,7 @@
     - Understand the ephemeral nature of container filesystems and the necessity of persistent storage.
     - Differentiate between Bind Mounts and Volumes for data persistence.
     - Explain the Container Network Interface (CNI) and how pods communicate across a cluster.
-    - Understand the Container Storage Interface (CSI) and the lifecycle of Persistent Volumes (PV) and Claims (PVC) in Kubernetes.
+    - Understand the Container Storage Interface (CSI) and the lifecycle of Persistent Volumes (PV) and Claims (PVC) in [Kubernetes](../orchestration/kubernetes.md).
 
 ## Overview
 
@@ -18,7 +18,7 @@ To handle data and communication at scale, the industry relies on abstraction la
 !!! info "Why this matters"
     In a distributed AI training setup, multiple containers across different physical nodes must access the same dataset. Storing data inside a container would require duplicating it on every node, wasting massive amounts of storage. By using shared storage and a standardized networking layer, you can mount a single high-performance network drive (like NFS or Lustre) into thousands of containers simultaneously, ensuring data consistency across the entire cluster.
 
-## Core Sections
+## Implementation
 
 ### Container Storage: Beyond Ephemeral Layers
 
@@ -29,9 +29,9 @@ To persist data, it must be stored *outside* the container's writable layer.
 - **Bind Mounts**: Map a specific path on the host machine (e.g., `/home/user/data`) directly into the container. While fast and simple, bind mounts tie the container to a specific host's directory structure, reducing portability.
 - **Volumes**: Managed by the container engine (Docker/Podman). The engine creates a directory on the host and manages its lifecycle. Volumes are more portable and are the preferred method for persisting data in production environments.
 
-#### The Kubernetes Storage Stack (CSI)
+#### The [Kubernetes](../orchestration/kubernetes.md) Storage Stack (CSI)
 
-In Kubernetes, the **Container Storage Interface (CSI)** provides a universal API that allows K8s to interact with any storage provider (e.g., AWS EBS, Azure Disk, or local NFS) without needing to build a specific integration for every vendor.
+In [Kubernetes](../orchestration/kubernetes.md), the **Container Storage Interface (CSI)** provides a universal API that allows K8s to interact with any storage provider (e.g., AWS EBS, Azure Disk, or local NFS) without needing to build a specific integration for every vendor.
 
 ![CSI Abstraction](images/csi-abstraction.png)
 
@@ -41,7 +41,7 @@ Figure 1: The CSI Abstraction. The CSI Driver ensures that the K8s API can reque
 
 1. **Persistent Volume (PV)**: A piece of storage in the cluster provisioned by an administrator or a storage class. It represents the "physical" disk.
 2. **Persistent Volume Claim (PVC)**: A request for storage by a user (e.g., "I need 50Gi of storage with ReadWriteOnce access"). It acts as a "ticket" to claim a PV.
-3. **Binding**: Kubernetes matches the PVC to an available PV and mounts it into the Pod.
+3. **Binding**: [Kubernetes](../orchestration/kubernetes.md) matches the PVC to an available PV and mounts it into the Pod.
 
 #### Enterprise Storage for AI: Scaling to Petabytes
 
@@ -81,9 +81,7 @@ Figure 2: The AI Traffic Flow.
 
 **Core Networking Concepts:**
 
-**Core Networking Concepts:**
-
-- **Pod Networking**: Every Pod in Kubernetes receives its own unique IP address. All containers within a single Pod share that IP and can communicate via `localhost`.
+- **Pod Networking**: Every Pod in [Kubernetes](../orchestration/kubernetes.md) receives its own unique IP address. All containers within a single Pod share that IP and can communicate via `localhost`.
 - **Service (ClusterIP)**: Because Pod IPs are volatile, a **Service** provides a stable IP address and DNS name that load-balances traffic across a set of identical Pods.
 - **Ingress**: The entry point for external traffic, routing requests from the outside world (e.g., `api.my-ai-model.com`) to the correct internal Service.
 
@@ -102,6 +100,17 @@ Standard container networking introduces a small amount of latency due to virtua
 - [ ] Explain the role of the CSI in abstracting storage providers.
 - [ ] Identify the purpose of the CNI in standardized pod networking.
 - [ ] Contrast standard bridge networking with Host Networking for high-performance AI workloads.
+
+## Self-Evaluation
+
+??? question "What happens to data in a container if you don't use a Volume or Bind Mount?"
+    The data is stored in the container's writable layer. Because this layer is tied to the specific container instance, it is destroyed the moment the container is deleted, resulting in total data loss.
+
+??? question "What is the difference between a PV and a PVC in [Kubernetes](../orchestration/kubernetes.md)?"
+    A PV (Persistent Volume) is the actual storage resource (the physical disk) provisioned by an admin. A PVC (Persistent Volume Claim) is a request for storage by a user. The PVC abstracts the hardware, allowing a developer to request "50Gi of storage" without knowing whether it is backed by AWS EBS or a local NFS.
+
+??? question "Why is CNI important for [Kubernetes](../orchestration/kubernetes.md)?"
+    CNI provides a standardized way for [Kubernetes](../orchestration/kubernetes.md) to configure networking. It allows the cluster to remain agnostic of the underlying network provider, meaning an organization can migrate a cluster from one cloud provider to another by simply changing the CNI plugin.
 
 ## Assignments
 
@@ -131,20 +140,9 @@ Standard container networking introduces a small amount of latency due to virtua
 
 ## References
 
-- Kubernetes Storage Documentation: [kubernetes.io/docs/concepts/storage/](https://kubernetes.io/docs/concepts/storage/)
+- [Kubernetes](../orchestration/kubernetes.md) Storage Documentation: [kubernetes.io/docs/concepts/storage/](https://kubernetes.io/docs/concepts/storage/)
 - CNI Specification: [cncf.io/projects/cni/](https://cncf.io/projects/cni/)
 - Docker Volumes Guide: [docs.docker.com/storage/volumes/](https://docs.docker.com/storage/volumes/)
-
-## Self-Evaluation
-
-??? note "What happens to data in a container if you don't use a Volume or Bind Mount?"
-    The data is stored in the container's writable layer. Because this layer is tied to the specific container instance, it is destroyed the moment the container is deleted, resulting in total data loss.
-
-??? note "What is the difference between a PV and a PVC in Kubernetes?"
-    A PV (Persistent Volume) is the actual storage resource (the physical disk) provisioned by an admin. A PVC (Persistent Volume Claim) is a request for storage by a user. The PVC abstracts the hardware, allowing a developer to request "50Gi of storage" without knowing whether it is backed by AWS EBS or a local NFS.
-
-??? note "Why is CNI important for Kubernetes?"
-    CNI provides a standardized way for Kubernetes to configure networking. It allows the cluster to remain agnostic of the underlying network provider, meaning an organization can migrate a cluster from one cloud provider to another by simply changing the CNI plugin.
 
 ## What's Next?
 

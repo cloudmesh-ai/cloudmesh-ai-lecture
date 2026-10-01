@@ -2,7 +2,7 @@
 
 ## Learning Objectives
 
-!!! info "Learning Objectives"
+!!! info "Why this matters"
     By the end of this chapter, participants will be able to:
     - Distinguish between Apptainer and Docker, specifically comparing the SIF format to layered images.
     - Execute containers using the `exec`, `shell`, and `run` commands.
@@ -11,14 +11,28 @@
     - Understand why Apptainer's "no-root" architecture is critical for shared HPC clusters.
     - Optimize container execution for parallel file systems used in supercomputing.
 
-## Overview
+## Implementation
 
-In a standard Docker environment, a background daemon runs with root privileges. On a shared supercomputer with thousands of users, giving users access to a root daemon is a massive security risk. Apptainer solves this by eliminating the daemon entirely.
+In a standard [Docker](/section/container/foundations/docker.md) environment, a background daemon runs with root privileges. On a shared supercomputer with thousands of users, giving users access to a root daemon is a massive security risk. Apptainer solves this by eliminating the daemon entirely.
 
 !!! info "Why this matters"
     In High-Performance Computing (HPC), security and performance are the primary drivers. HPC administrators cannot allow users to run processes as root on a shared login or compute node. Apptainer allows researchers to bring their entire software stack (OS, libraries, CUDA, Python) into the cluster as a single file, which then runs with the *exact same privileges* as the user who launched it. This provides the reproducibility of containers with the security required by supercomputing centers.
 
+### HPC Container Comparison Matrix
+
+To understand where Apptainer fits, it is helpful to compare it with other popular container runtimes from an HPC and AI perspective.
+
+| Dimension | Docker | Podman | Apptainer |
+| :--- | :--- | :--- | :--- |
+| **Daemon** | Required (Root-privileged) | Daemonless | Daemonless |
+| **Root Privileges** | Required for daemon | Rootless by default | Rootless by design |
+| **Image Format** | OCI (Layered) | OCI (Layered) | SIF (Single File) / OCI |
+| **Host Integration** | Isolated (Virtual Net/FS) | Isolated (Virtual Net/FS) | Integrated (Host Net/FS) |
+| **Cluster Suitability** | Poor (Root risks, daemon) | Moderate (Rootless) | Excellent (Native HPC) |
+| **SLURM/PBS Integration**| Complex/Limited | Possible | Native/Standard |
+
 ## Core Sections
+
 
 ### The SIF: Single-File Image Format
 
@@ -26,9 +40,15 @@ Unlike Docker images, which are composed of many layers stored in a hidden direc
 
 #### Advantages of the SIF Format
 
-- **Portability**: Moving a container is as simple as copying a single file (`my_env.sif`). You can store it in your home directory or a project folder.
+- **Portability**: Moving a container is as simple as copying a single file (`my_env.sif`). You can store it in your home directory or a project folder without needing a registry.
 - **Performance**: SIF images are highly optimized for parallel file systems (like Lustre or GPFS) used in HPC. Because the image is a single file, the filesystem handles metadata more efficiently than if it had to manage thousands of small layer files.
 - **Security**: Because the image is immutable and runs as the user who launched it, there is no risk of a "container breakout" to gain root access to the host.
+
+!!! info "Why this matters for AI"
+    AI environments are often massive (gigabytes of CUDA libraries, PyTorch, and dependencies). In a shared cluster, if 100 users all launch a Docker-style layered container, the storage system must manage millions of small file lookups across different layers for every single user. This creates a "metadata storm" that can crash a parallel filesystem. 
+    
+    Apptainer's SIF format collapses everything into a single file. For the filesystem, launching a container becomes a single large sequential read rather than thousands of random small reads. This ensures that scaling an AI workload from one GPU to one thousand GPUs doesn't bottleneck the entire cluster's storage.
+
 
 ### Running Containers
 
@@ -174,6 +194,10 @@ srun apptainer exec --nv \
     ??? tip "Solution: Data Workflow"
         Create a file `test.txt` in `~/data`. Run `apptainer exec --bind ~/data:/mnt alpine grep "keyword" /mnt/test.txt`.
 
+## What's Next?
+
+With the foundations of container runtimes complete, we will now shift our focus to how we secure these environments and manage them at scale. Next, we will cover [Container Security & Hardening](/section/container/security/container-security.md).
+
 ## References
 
 - Apptainer Documentation: [apptainer.org/docs/](https://apptainer.org/docs/)
@@ -182,25 +206,25 @@ srun apptainer exec --nv \
 
 ## Self-Evaluation
 
-??? note "What is the primary difference between Apptainer and Docker regarding image formats?"
+??? question "What is the primary difference between Apptainer and Docker regarding image formats?"
     Unlike Docker, which uses layers managed by a daemon, Apptainer primarily uses the **SIF (Singularity Image Format)**, which packages the entire container as a single, immutable file. This makes Apptainer images easier to move and execute on shared systems.
 
-??? note "Why is Apptainer particularly well-suited for High-Performance Computing (HPC) clusters?"
+??? question "Why is Apptainer particularly well-suited for High-Performance Computing (HPC) clusters?"
     Apptainer is designed for HPC because it executes containers with the privileges of the invoking user rather than requiring a root-privileged daemon. This prevents security risks on shared supercomputers where users are not allowed to have root access.
 
-??? note "What is the purpose of a `.def` (definition) file in Apptainer?"
+??? question "What is the purpose of a `.def` (definition) file in Apptainer?"
     A `.def` file is a recipe used to build an Apptainer image. It defines the base image, the packages to install (`%post` section), environment variables (`%environment`), and the default command to run (`%runscript`).
 
-??? note "What does the `--bind` flag do and why is it essential in Apptainer?"
+??? question "What does the `--bind` flag do and why is it essential in Apptainer?"
     The `--bind` flag maps a directory or file from the host system into the container's filesystem. It is essential because SIF images are read-only; any data the container needs to read (like AI datasets) or write (like logs) must be provided via a bind mount.
 
-??? note "Explain the significance of the `--nv` flag when running AI workloads in Apptainer."
+??? question "Explain the significance of the `--nv` flag when running AI workloads in Apptainer."
     The `--nv` flag tells Apptainer to mount the NVIDIA GPU drivers and libraries from the host system into the container. Since the container cannot package the kernel-level driver, this flag is required for the container's CUDA libraries to communicate with the physical GPU hardware.
 
-??? note "Why is the SIF format preferred over Docker's layered format for parallel filesystems like Lustre?"
+??? question "Why is the SIF format preferred over Docker's layered format for parallel filesystems like Lustre?"
     Parallel filesystems are optimized for large sequential reads of a few files rather than many small random reads of thousands of files. Because a SIF image is a single file, it minimizes metadata overhead on the filesystem, leading to significantly faster image loading across thousands of compute nodes.
 
-??? note "How does Apptainer handle the 'root' user inside a container differently than Docker?"
+??? question "How does Apptainer handle the 'root' user inside a container differently than Docker?"
     In Docker, the root user inside the container is often mapped to the root user on the host (unless rootless mode is used). In Apptainer, the user inside the container is the *same* as the user outside. If you are `user123` on the host, you are `user123` inside the Apptainer container.
 
 ## Appendix: Local Installation Guide

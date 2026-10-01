@@ -19,7 +19,7 @@ AI development is iterative and resource-intensive. Without an orchestrator, mov
 !!! info "Why this matters"
     Kubernetes is the industry standard for AI because it handles the unique requirements of deep learning workloads: GPU orchestration to prevent resource contention, elasticity to handle spiky inference demand, and self-healing to automatically restart LLM processes that crash due to Out-of-Memory (OOM) errors.
 
-## Core Sections
+## Implementation
 
 ### The AI Lifecycle and Kubernetes
 
@@ -67,7 +67,7 @@ Worker nodes are the physical or virtual machines where workloads run. Each node
 In a production environment, managing raw YAML manifests for every environment (Dev, Staging, Prod) leads to "YAML sprawl"—a state where small differences in resource limits or environment variables result in dozens of nearly identical files. To solve this, AI engineers use templating and overlay tools.
 
 #### Helm: The Package Manager for Kubernetes
-**Helm** introduces the concept of a **Chart**. Instead of hard-coding values, you use placeholders (e.g., `{{ .Values.gpuLimit }}`). This allows you to maintain one chart and multiple `values.yaml` files for different environments.
+**[Helm](/section/container/specialized/helm.md)** introduces the concept of a **Chart**. Instead of hard-coding values, you use placeholders (e.g., `{{ .Values.gpuLimit }}`). This allows you to maintain one chart and multiple `values.yaml` files for different environments.
 
 - **Why AI needs Helm**: Model weights and GPU requirements vary wildly between a researcher's "sandbox" and a production "serving" cluster. Helm allows you to switch from 1 GPU in Dev to 8 GPUs in Prod by changing a single value in a YAML file.
 
@@ -224,7 +224,7 @@ In shared research environments, governance prevents resource starvation:
 
 #### Scaling and Observability
 
-- **Horizontal Pod Autoscaling (HPA)**: Automatically adjusts pod counts based on CPU or custom metrics (e.g., GPU VRAM usage via KEDA).
+- **Horizontal Pod Autoscaling (HPA)**: Automatically adjusts pod counts based on CPU or custom metrics (e.g., GPU VRAM usage via **[KEDA](/section/container/kubernetes-advanced/rps-autoscaling.md)**). Refer to **[HPA Autoscaling](/section/container/kubernetes-advanced/hpa-autoscaling.md)** for detailed implementation.
 - **Monitoring**: Using **Prometheus** and **Grafana** with the **NVIDIA Device Plugin** to track GPU utilization, VRAM usage, and thermal throttling.
 - **Log Aggregation**: Using the **EFK/Loki stack** to capture CUDA errors and Python tracebacks across multiple pods.
 
@@ -237,14 +237,37 @@ In research centers, a fundamental divide exists between **Batch HPC (SLURM)** a
 
 Many modern labs adopt a **hybrid approach**: using SLURM for heavy training and Kubernetes for model serving and interactive AI development.
 
-## Summary Checklist
+### References
 
-- [ ] Distinguish between the Control Plane and Worker Nodes.
-- [ ] Explain the la-layer architecture of a Pod, Deployment, and Service.
-- [ ] Describe how `nvidia.com/gpu` resource limits trigger GPU-aware scheduling.
-- [ ] Implement a PVC to mount model weights from shared storage.
-- [ ] Apply a Taint to a node and a corresponding Toleration to an AI pod.
-- [ ] Contrast the batch-oriented model of SLURM with the service-oriented model of Kubernetes.
+- Kubernetes Documentation: [kubernetes.io/docs](https://kubernetes.io/docs/)
+- NVIDIA Device Plugin for K8s: [github.com/NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)
+- Kubeflow Documentation: [kubeflow.org/docs](https://kubeflow.org/docs/)
+
+## Self-Evaluation
+
+??? question "What is the primary difference between a Pod and a Deployment?"
+    A Pod is a single instance of a running container (or small group of containers), whereas a Deployment is a controller that manages a set of identical pods, ensuring a desired number of replicas are always running and handling rolling updates.
+
+??? question "How does Kubernetes handle GPU requests for AI models?"
+    Kubernetes uses resource limits (`resources.limits`) for `nvidia.com/gpu`. The scheduler identifies nodes with available GPUs and places the pod there, ensuring that hardware is not over-subscribed.
+
+??? question "What is the purpose of a Kubernetes Service in an AI pipeline?"
+    A Service provides a stable DNS name (e.g., `http://llm-service`) that allows different components (like an API and an LLM engine) to find and communicate with each other, regardless of pod restarts or IP changes.
+
+??? question "Why are Taints and Tolerations critical in mixed-resource clusters?"
+    They reserve expensive GPU nodes exclusively for AI workloads by preventing standard, non-GPU pods from being scheduled on them, which would otherwise waste specialized hardware.
+
+??? question "How would you handle a secret HuggingFace token in a production cluster?"
+    Create a Kubernetes Secret using `kubectl create secret generic hf-token --from-literal=token=xxx` and inject it into the container as an environment variable using the `secretKeyRef` field in the pod specification.
+
+??? question "When should you use Helm instead of raw YAML manifests for AI deployments?"
+    When you need to manage multiple environments (Dev, Staging, Prod) with different resource constraints (e.g., 1 GPU vs 8 GPUs) without duplicating manifests. Helm allows you to template these values in a `values.yaml` file.
+
+??? question "What is the 'Reconciliation Loop' in the context of a Kubernetes Operator?"
+    It is the continuous process where the Operator observes the current state of the cluster, compares it to the desired state defined in a Custom Resource (CR), and performs actions to align the two (Observe $\rightarrow$ Diff $\rightarrow$ Act).
+
+??? question "What is the most likely cause of an `OOMKilled` status for an LLM pod, and how is it fixed?"
+    It usually means the model weights or the KV cache exceeded the pod's memory limit. This is fixed by increasing the `resources.limits.memory` in the manifest or using a more heavily quantized version of the model.
 
 ## Assignments
 
@@ -278,34 +301,6 @@ Many modern labs adopt a **hybrid approach**: using SLURM for heavy training and
     ??? tip "Solution: Hardening"
         Create a `PodDisruptionBudget` with `minAvailable: 1` and a `PriorityClass` object. Add `priorityClassName: high-priority` to the `llm-engine` pod spec.
 
-## References
+## What's Next?
 
-- Kubernetes Documentation: [kubernetes.io/docs](https://kubernetes.io/docs/)
-- NVIDIA Device Plugin for K8s: [github.com/NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)
-- Kubeflow Documentation: [kubeflow.org/docs](https://kubeflow.org/docs/)
-
-## Self-Evaluation
-
-??? note "What is the primary difference between a Pod and a Deployment?"
-    A Pod is a single instance of a running container (or small group of containers), whereas a Deployment is a controller that manages a set of identical pods, ensuring a desired number of replicas are always running and handling rolling updates.
-
-??? note "How does Kubernetes handle GPU requests for AI models?"
-    Kubernetes uses resource limits (`resources.limits`) for `nvidia.com/gpu`. The scheduler identifies nodes with available GPUs and places the pod there, ensuring that hardware is not over-subscribed.
-
-??? note "What is the purpose of a Kubernetes Service in an AI pipeline?"
-    A Service provides a stable DNS name (e.g., `http://llm-service`) that allows different components (like an API and an LLM engine) to find and communicate with each other, regardless of pod restarts or IP changes.
-
-??? note "Why are Taints and Tolerations critical in mixed-resource clusters?"
-    They reserve expensive GPU nodes exclusively for AI workloads by preventing standard, non-GPU pods from being scheduled on them, which would otherwise waste specialized hardware.
-
-??? note "How would you handle a secret HuggingFace token in a production cluster?"
-    Create a Kubernetes Secret using `kubectl create secret generic hf-token --from-literal=token=xxx` and inject it into the container as an environment variable using the `secretKeyRef` field in the pod specification.
-
-??? note "When should you use Helm instead of raw YAML manifests for AI deployments?"
-    When you need to manage multiple environments (Dev, Staging, Prod) with different resource constraints (e.g., 1 GPU vs 8 GPUs) without duplicating manifests. Helm allows you to template these values in a `values.yaml` file.
-
-??? note "What is the 'Reconciliation Loop' in the context of a Kubernetes Operator?"
-    It is the continuous process where the Operator observes the current state of the cluster, compares it to the desired state defined in a Custom Resource (CR), and performs actions to align the two (Observe $\rightarrow$ Diff $\rightarrow$ Act).
-
-??? note "What is the most likely cause of an `OOMKilled` status for an LLM pod, and how is it fixed?"
-    It usually means the model weights or the KV cache exceeded the pod's memory limit. This is fixed by increasing the `resources.limits.memory` in the manifest or using a more heavily quantized version of the model.
+Now that you understand production-grade orchestration, you can set up your own sandbox. Head over to **[Local Kubernetes Development](/section/container/orchestration/kubernetes-local.md)** to get started.

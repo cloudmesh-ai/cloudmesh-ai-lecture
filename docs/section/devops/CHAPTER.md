@@ -19,8 +19,10 @@ This chapter explores how to bridge the gap between software development and IT 
 ### Part III: Continuous Integration and Delivery (CI/CD)
 
 * **[🔴 The CI/CD/CM Framework](/section/devops/devop-ci.md)**: Understanding the integrated pipeline from Continuous Development to Continuous Improvement.
-* **[🟢 Task Automation with Make](/section/devops/make.md)**: Using Makefiles as the "glue" for local and remote automation.
-* **[🔴 CI/CD Tooling Landscape](/section/devops/ci-cd-comparison.md)**: A comparative look at modern orchestration tools.
+
+#### From Local Automation to Global Orchestration
+* **[🟢 Task Automation with Make](/section/devops/make.md)**: Using Makefiles as the "glue" for local automation, providing a consistent interface before moving to the cloud.
+* **[🔴 CI/CD Tooling Landscape](/section/devops/ci-cd-comparison.md)**: A comparative look at modern orchestrators that scale local automation to the entire organization.
     * **[🔴 GitHub Actions](/section/devops/github-workflows.md)**: Event-driven automation integrated into source control.
     * **[🔴 Jenkins](/section/devops/jenkins.md)**: The universal, extensible automation orchestrator.
     * **[🔴 CircleCI](/section/devops/circleci.md)**: Managed, container-first CI/CD.
@@ -29,6 +31,7 @@ This chapter explores how to bridge the gap between software development and IT 
 ### Part IV: Cloud-Native Implementation & Observability
 
 * **[🔵 GitOps Fundamentals](/section/devops/gitops-fundamentals.md)**: The "single source of truth" model and pull-based synchronization.
+* **[🔵 ArgoCD](/section/devops/argocd.md)**: Implementing declarative continuous delivery for Kubernetes clusters.
 * **[🔵 DevOps on AWS](/section/devops/devop-aws.md)**: Leveraging the AWS CodeSuite for a unified toolchain.
 * **[🔵 Observability with Azure Monitor](/section/devops/devop-azure-monitor.md)**: Moving from reactive monitoring to proactive observability.
 
@@ -43,16 +46,9 @@ This chapter explores how to bridge the gap between software development and IT 
 
 ---
 
-### Part V: 🔵 Practical Lab
+### Practical Application
 
-* For students wanting to try these tools locally, please refer to the **[🟢 Local Lab Guide](/section/devops/local-lab.md)**.
-
-
-## Part VI Appendix: Additional DevOps Resources
-
-The following documents provide supplementary information and examples:
-
-* **[🔵 Example DevOps Project](/section/devops/example-devops-project.md)**: A practical example showing the integration of various DevOps tools.
-* **[🔵 CI/CD Index](/section/devops/devop-ci/_index.md)**: Index for the CI/CD section.
+* **[🔵 Example DevOps Project](/section/devops/example-devops-project.md)**: A comprehensive capstone project showing the integration of various DevOps tools from provisioning to monitoring.
+* **[🔵 Local Lab Guide](/section/devops/local-lab.md)**: Instructions for students wanting to try these tools locally.
 
 <!--end-->

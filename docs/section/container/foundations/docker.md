@@ -2,7 +2,7 @@
 
 ## Learning Objectives
 
-!!! info "Learning Objectives"
+!!! info "Why this matters"
     By the end of this chapter, participants will be able to:
     - Install and configure the Docker Engine across various operating systems.
     - Build optimized Docker images using a Dockerfile and industry best-practice patterns.
@@ -13,7 +13,7 @@
     - Troubleshoot common Docker runtime and build errors.
     - Implement multi-stage builds to reduce attack surface and image size.
 
-## Overview
+## Implementation
 
 Docker is a platform that allows developers to package applications and all their dependencies into a portable, reproducible unit called a container. Unlike Virtual Machines (VMs), which require a full guest operating system for every instance, containers share the host's Linux kernel. This makes them significantly lighter, allowing containers to start in milliseconds and enabling higher density on the same hardware.
 
@@ -22,8 +22,6 @@ Docker follows a client-server architecture. The Docker client (`docker` CLI) se
 1. **Build**: Use a `Dockerfile` to create an immutable **Image**.
 2. **Ship**: Push that image to a **Registry** (e.g., Docker Hub).
 3. **Run**: Pull the image and instantiate it as a **Container**.
-
-## Core Sections
 
 ### Docker Architecture and Terminology
 
@@ -121,9 +119,8 @@ A Docker image is created from a `Dockerfile`. The build process creates a serie
 
 In AI, we often need to compile C++ or CUDA extensions (e.g., for custom PyTorch kernels), but we don't want the bulky compilers (GCC, NVCC) in our final production image.
 
-::: tip "The Multi-Stage Pattern"
+!!! tip "The Multi-Stage Pattern"
     Use a `builder` stage to compile and a `runtime` stage to execute.
-:::
 
 ```Dockerfile
 # Stage 1: Builder
@@ -207,7 +204,7 @@ volumes:
 
 ### Security and Productionization
 
-Running containers as `root` is a significant security risk. If a process escapes a container, it may gain root access to the host.
+Running containers as `root` is a significant security risk. If a process escapes a container, it may gain root access to the host. For a more secure, rootless alternative, see [Podman](/section/container/foundations/podman.md).
 
 #### Production Best Practices
 
@@ -251,6 +248,10 @@ For comprehensive security strategies, including rootless mode and image hardeni
     
     ??? tip "Solution: Orchestration"
         Define two services (`web` and `redis`) in the YAML. In the web application code, connect to the database using the hostname `redis` rather than an IP address.
+
+## What's Next?
+
+Now that you have mastered Docker, we will explore a daemonless and rootless alternative that is increasingly popular in security-conscious environments: [Podman](/section/container/foundations/podman.md).
 
 ## References
 

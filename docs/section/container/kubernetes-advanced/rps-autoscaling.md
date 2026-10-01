@@ -18,7 +18,7 @@ KEDA (Kubernetes Event-driven Autoscaling) is a lightweight component that enabl
 !!! info "Why this matters"
     CPU and memory are "lagging" indicators. In AI inference, a model may be computationally expensive but the CPU usage might not spike until the request queue is already saturated. By the time a standard HPA triggers, the user has already experienced several seconds of latency. Scaling based on Requests Per Second (RPS) allows the cluster to be "proactive"—adding capacity the moment traffic spikes, *before* the existing pods become overwhelmed.
 
-## Core Sections
+## Implementation
 
 ### KEDA Architecture and Concepts
 
@@ -29,7 +29,8 @@ KEDA allows applications to scale based on the exact volume of events coming fro
 1. **KEDA Operator**: A controller that manages `ScaledObject` custom resources. The `ScaledObject` defines the trigger (e.g., a Prometheus metric) and the scaling parameters.
 2. **Metrics Server**: KEDA exposes external metrics to the native Kubernetes HPA, which then handles the actual pod creation and deletion.
 
-![KEDA RPS Architecture](images/keda-rps-flow.png)
+
+![KEDA RPS Architecture](images/grock-keda-rps.jpg)
 
 Figure 1: KEDA RPS Architecture. KEDA queries Prometheus for request rates and adjusts the HPA replica count accordingly.
 
@@ -77,9 +78,8 @@ spec:
       threshold: '50'
 ```
 
-::: tip "Tuning the Threshold"
+!!! tip "Tuning the Threshold"
     To determine the correct `threshold`, perform a load test on a single pod. Find the RPS at which the p99 latency exceeds your target (e.g., > 200ms). Set your threshold slightly *below* this value to ensure the cluster scales out before performance degrades.
-:::
 
 #### The Scaling Workflow
 
@@ -190,43 +190,15 @@ KEDA provides support for a wide array of event triggers:
 - **Observability**: Prometheus, Datadog, Dynatrace, Grafana Loki.
 - **Other Triggers**: HTTP traffic (via KEDA HTTP Add-on), Cloud Storage (S3/Blob), and Cron/Schedule-based scaling.
 
-::: tip "Managing Cold Starts"
+!!! tip "Managing Cold Starts"
     When `minReplicaCount` is set to 0, the first request after a period of inactivity will experience a "Cold Start" (delay while the pod starts). For latency-sensitive AI models, it is better to keep `minReplicaCount: 1` or use a `Cron` trigger to pre-warm the cluster before peak hours.
-:::
 
-## Summary Checklist
+### References
 
-- [ ] KEDA installed and operational in the cluster.
-- [ ] Prometheus configured to scrape application metrics.
-- [ ] `ScaledObject` defined with a correct `scaleTargetRef`.
-- [ ] `pollingInterval` and `cooldownPeriod` tuned for stability.
-- [ ] PromQL query correctly calculates the target metric.
-- [ ] "Cold Start" strategy defined for scale-to-zero workloads.
-
-## Assignments
-
-!!! note "Assignment.1: Deploy a ScaledObject"
-    Install KEDA in a development cluster and create a `ScaledObject` that scales a sample deployment based on a Prometheus query.
-    
-    ??? tip "Solution: ScaledObject Deployment"
-        Deploy the `flask-api` and apply the `ScaledObject` manifest. Verify that `kubectl get hpa` shows a new HPA created by KEDA.
-
-!!! note "Assignment.2: Test Scale-to-Zero"
-    Configure a `ScaledObject` with `minReplicaCount: 0` and verify that pods are terminated when the event source is empty.
-    
-    ??? tip "Solution: Scale-to-Zero"
-        Set `minReplicaCount: 0` in the `ScaledObject`. Stop all traffic to the service and observe the pods being deleted via `kubectl get pods`.
-
-!!! note "Assignment.3: Analyze Cooldown"
-    Modify the `cooldownPeriod` and observe how it affects the timing of scale-down events during fluctuating traffic.
-    
-    ??? tip "Solution: Cooldown Analysis"
-        Change `cooldownPeriod` from 300 to 60 seconds. Generate a burst of traffic and observe that the cluster scales down much more aggressively.
+- KEDA Documentation: [keda.sh/docs/](https://keda.sh/docs/)
+- Prometheus Documentation: [prometheus.io/docs/](https://prometheus.io/docs/)
 
 ## Self-Evaluation
-
-!!! tip "Self-Assessment"
-    Test your knowledge by expanding the questions below.
 
 ??? question "What is the primary difference between KEDA and the standard Kubernetes HPA?"
     Standard HPA typically scales based on internal resource metrics like CPU and memory. KEDA extends this by allowing scaling based on external event sources (e.g., queue depth, request rates), and it can scale deployments down to zero replicas.
@@ -248,3 +220,27 @@ KEDA provides support for a wide array of event triggers:
 
 ??? question "If a deployment is scaled to zero by KEDA, how does the first request actually trigger a scale-up?"
     KEDA's operator continuously polls the external metric source. When the metric crosses the threshold, KEDA communicates with the Kubernetes API to scale the deployment to 1. Depending on the trigger (e.g., HTTP Add-on), KEDA may also hold the request in a queue until the first pod is ready to process it.
+
+## Assignments
+
+!!! note "Assignment.1: Deploy a ScaledObject"
+    Install KEDA in a development cluster and create a `ScaledObject` that scales a sample deployment based on a Prometheus query.
+    
+    ??? tip "Solution: ScaledObject Deployment"
+        Deploy the `flask-api` and apply the `ScaledObject` manifest. Verify that `kubectl get hpa` shows a new HPA created by KEDA.
+
+!!! note "Assignment.2: Test Scale-to-Zero"
+    Configure a `ScaledObject` with `minReplicaCount: 0` and verify that pods are terminated when the event source is empty.
+    
+    ??? tip "Solution: Scale-to-Zero"
+        Set `minReplicaCount: 0` in the `ScaledObject`. Stop all traffic to the service and observe the pods being deleted via `kubectl get pods`.
+
+!!! note "Assignment.3: Analyze Cooldown"
+    Modify the `cooldownPeriod` and observe how it affects the timing of scale-down events during fluctuating traffic.
+    
+    ??? tip "Solution: Cooldown Analysis"
+        Change `cooldownPeriod` from 300 to 60 seconds. Generate a burst of traffic and observe that the cluster scales down much more aggressively.
+
+## What's Next?
+
+Now that you've mastered advanced autoscaling, you have the tools to run high-performance AI workloads at scale. To wrap up your orchestration journey, review the **[Orchestration Comparison](/section/container/orchestration/orchestration-comparison.md)** to ensure you're using the right tool for your specific production environment.

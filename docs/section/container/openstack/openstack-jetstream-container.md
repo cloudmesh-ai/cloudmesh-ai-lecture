@@ -1,9 +1,8 @@
-
 # Containers on Jetstream2
 
-This document is a hands on tutorial on how to use Docker or Kubernetes on Jetstream 2   
+This document is a hands-on tutorial on how to use [Docker](/section/container/foundations/docker.md) or [Kubernetes](/section/container/orchestration/kubernetes.md) on Jetstream 2.
 
-Jetstream 2 is an NSF‑funded research cloud that runs **OpenStack** (Newton → Ussuri).  It gives you the same IaaS primitives you'd find on any OpenStack cloud, plus the **Magnum** service for managed Kubernetes clusters and the **Zun** service for "Docker‑as‑a‑service".  
+Jetstream 2 is an NSF-funded research cloud that runs **OpenStack** (Newton $\rightarrow$ Ussuri). It provides the same IaaS primitives found on any OpenStack cloud, plus the **Magnum** service for managed Kubernetes clusters and the **Zun** service for "Docker-as-a-service". For a general overview of these services, see **[OpenStack and Containers](/section/container/openstack/openstack-containers.md)**.
 
 ## Learning Objectives
 
@@ -18,37 +17,35 @@ Jetstream 2 is an NSF‑funded research cloud that runs **OpenStack** (Newton 
 !!! info "Target audience"
     Researchers, students, or DevOps engineers who already have a Jetstream 2 account (or are about to get one) and want to work with containers. No deep OpenStack expertise is required – the tutorial walks you through the CLI commands and the minimal cloud-init needed.
 
+## Overview
 
-Below is a **step‑by‑step, end‑to‑end tutorial** that shows you how to:
+Below is a **step-by-step, end-to-end tutorial** that shows you how to navigate the different container options available on Jetstream 2.
 
 | Section | What you'll accomplish |
 |---------|------------------------|
-| **0 Prereqs** | Get your Jetstream 2 credentials, install the OpenStack client, and set up a local SSH key. |
-| **1 Spin a plain VM and run Docker** | Launch a VM, install Docker via cloud‑init, and run a simple container (nginx). |
-| **2 Deploy a managed Kubernetes cluster with Magnum** | Create a K8s cluster, get the kube‑config, and launch a sample web app. |
-| **3 Run a container directly with Zun** | Use the Zun API (Docker‑compatible) to launch a container without a full cluster. |
-| **4 Clean‑up** | Tear everything down safely. |
-| **5 Extras** | Quick scripts, troubleshooting tips, and a small Python helper that prints Jetstream 2 flavor information in a nice table. |
-
+| **0 Prereqs** | Get your Jetstream 2 credentials, install the OpenStack client, and set up a local SSH key. |
+| **1 Spin a plain VM and run Docker** | Launch a VM, install Docker via cloud-init, and run a simple container (nginx). |
+| **2 Deploy a managed Kubernetes cluster with Magnum** | Create a K8s cluster, get the kube-config, and launch a sample web app. |
+| **3 Run a container directly with Zun** | Use the Zun API (Docker-compatible) to launch a container without a full cluster. |
+| **4 Clean-up** | Tear everything down safely. |
+| **5 Extras** | Quick scripts, troubleshooting tips, and a small Python helper that prints Jetstream 2 flavor information in a nice table. |
 
 ---
 
-## 0 Prerequisites  
+## Implementation
 
-!!! Assignment clouds.yaml
-    instead of the rc file document  how to get the clouds.yaml file. Also locate the bug to get the rc file in the outline and replace it with where you realy find it.
-
+### 0 Prerequisites
 
 | Item | Where to get it / how to install |
 |------|-----------------------------------|
-| **Jetstream 2 OpenStack RC file** (`jetstream-2-openrc.sh`) | Log in to the Jetstream portal → *Project* → *Access & Security* → **Download OpenStack RC File** (choose the project you'll work in). |
+| **Jetstream 2 OpenStack RC file** (`jetstream-2-openrc.sh`) | Log in to the Jetstream portal $\rightarrow$ *Project* $\rightarrow$ *Access & Security* $\rightarrow$ **Download OpenStack RC File** (choose the project you'll work in). |
 | **OpenStack CLI (`python-openstackclient`)** |  ```pip install --user python-openstackclient``` (or install via your distro's package manager). |
 | **SSH key pair** | ```ssh-keygen -t rsa -b 4096 -f ~/.ssh/jetstream2_rsa``` (no passphrase is fine for demo). |
-| **`jq`** (optional, for parsing JSON) |  ```sudo apt-get install -y jq``` # Debian/Ubuntu<br> ```sudo yum install -y jq```  # CentOS/RHEL\n |
+| **`jq`** (optional, for parsing JSON) |  ```sudo apt-get install -y jq``` # Debian/Ubuntu<br> ```sudo yum install -y jq```  # CentOS/RHEL |
 | **`kubectl`** (for the Magnum part) | ```curl -LO \"https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl\"```</br>```chmod +x kubectl && sudo mv kubectl /usr/local/bin/``` |
-| **`docker` CLI** (only needed for the Zun part) | If you want to invoke Zun's Docker‑compatible API locally you can `pip install docker`.  You can also just use `openstack container …` commands. |
+| **`docker` CLI** (only needed for the Zun part) | If you want to invoke Zun's Docker-compatible API locally you can `pip install docker`. You can also just use `openstack container ...` commands. |
 
-### Load the RC file  
+#### Load the RC file
 ```bash
 source ~/Downloads/jetstream-2-openrc.sh   # path where you saved the file
 # Verify you can talk to the cloud
@@ -59,14 +56,13 @@ You should see a list of services (e.g., `compute`, `network`, `image`, `magnum`
 
 ---
 
-## 1 Spin a plain VM and run Docker via **cloud‑init**  
+### 1 Spin a plain VM and run Docker via **cloud-init**
 
-**Why?**  
-A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun.  You'll see how a *single* VM can become a container host.
+**Why?**
+A quick way to test Docker on Jetstream 2 without dealing with Magnum or Zun. You'll see how a *single* VM can become a container host.
 
-### 1.1 Choose an image and flavor  
-
-Jetstream 2 ships with a few ready‑to‑use images.  The easiest for Docker is **Rocky 8** (or **CentOS 8**).  Use the flavor **`m1.medium`** (2 vCPU, 4 GB RAM) – enough for a tiny web server.
+#### 1.1 Choose an image and flavor
+Jetstream 2 ships with a few ready-to-use images. The easiest for Docker is **Rocky 8** (or **CentOS 8**). Use the flavor **`m1.medium`** (2 vCPU, 4 GB RAM) – enough for a tiny web server.
 ```bash
 # List images (look for "Rocky")
 openstack image list --public | grep -i rocky
@@ -75,8 +71,7 @@ openstack image list --public | grep -i rocky
 openstack flavor list | grep m1.medium
 ```
 
-### 1.2 Write a cloud‑init script  
-
+#### 1.2 Write a cloud-init script
 Save the following into a file called `docker-cloudinit.yaml`:
 ```yaml
 #cloud-config
@@ -92,7 +87,7 @@ runcmd:
   - [ docker, run, -d, -p, "80:80", --name, nginx, nginx ]   # pull & run nginx
 ```
 
-### 1.3 Create the instance  
+#### 1.3 Create the instance
 ```bash
 openstack server create \
   --flavor m1.medium \
@@ -107,7 +102,7 @@ Replace `<ROCKY_IMAGE_ID>` and `<YOUR_KEY_NAME>` with the IDs you obtained earli
 
 **Wait** until the server goes to `ACTIVE` (you can monitor with `openstack server list -c Name -c Status`).
 
-### 1.4 Verify the service on the VM  
+#### 1.4 Verify the service on the VM
 ```bash
 # Get the floating IP (or assign one if you don't have)
 openstack floating ip create public   # creates a new floating IP
@@ -117,7 +112,7 @@ openstack server add floating ip demo-docker-host <FLOATING_IP>
 curl http://<FLOATING_IP>
 ```
 
-You should see the default **nginx** welcome page – the container is running!  
+You should see the default **nginx** welcome page – the container is running!
 
 To ssh in and see Docker directly:
 ```bash
@@ -131,11 +126,14 @@ docker ps          # shows the nginx container
 
 ---
 
-## 2 Deploy a Managed Kubernetes Cluster with **Magnum**  
+### 2 Deploy a Managed Kubernetes Cluster with **Magnum**
 
-Magnum lets you spin up a full‑featured K8s cluster (control‑plane + workers) in a single command.  
+Magnum lets you spin up a full-featured K8s cluster (control-plane + workers) in a single command.
 
-### 2.1 Verify Magnum is available  
+!!! info "Why this matters"
+    Managed Kubernetes is essential for AI workloads that require multi-node distribution. Using Magnum avoids the manual toil of configuring the K8s control plane, allowing researchers to focus on deploying their models and data pipelines.
+
+#### 2.1 Verify Magnum is available
 ```bash
 openstack coe cluster template list   # should show at least one template
 openstack coe cluster list            # empty for now
@@ -143,7 +141,7 @@ openstack coe cluster list            # empty for now
 
 If there are *no* templates, you can create a simple one (the commands below do that).
 
-### 2.2 Create a **Cluster Template**  
+#### 2.2 Create a **Cluster Template**
 ```bash
 openstack coe cluster template create k8s-jetstream \
   --image <ROCKY_IMAGE_ID> \
@@ -157,25 +155,24 @@ openstack coe cluster template create k8s-jetstream \
   --network-driver flannel  # you can also use calico/kuryr if enabled
 ```
 
-- **Control‑plane size**: `m1.large` (4 vCPU, 8 GB RAM) – gives a robust API server.  
+- **Control-plane size**: `m1.large` (4 vCPU, 8 GB RAM) – gives a robust API server.
+- **Worker flavor**: `m1.medium` (2 vCPU, 4 GB RAM).
 
-- **Worker flavor**: `m1.medium` (2 vCPU, 4 GB RAM).  
-
-### 2.3 Create the **Kubernetes Cluster**  
+#### 2.3 Create the **Kubernetes Cluster**
 ```bash
 openstack coe cluster create jetstream-k8s \
   --cluster-template k8s-jetstream \
   --node-count 2   # two workers + one master
 ```
 
-Magnum creates a **Heat stack** under the hood.  You can watch progress:
+Magnum creates a **Heat stack** under the hood. You can watch progress:
 ```bash
 watch -n 5 "openstack coe cluster show jetstream-k8s -c status -c stack_id"
 ```
 
 When `status` becomes **`CREATE_COMPLETE`**, the cluster is ready.
 
-### 2.4 Retrieve the **kubeconfig**  
+#### 2.4 Retrieve the **kubeconfig**
 ```bash
 openstack coe cluster config jetstream-k8s > jetstream-k8s.kubeconfig
 export KUBECONFIG=$(pwd)/jetstream-k8s.kubeconfig
@@ -184,8 +181,7 @@ kubectl get nodes
 
 You should see three nodes (1 master, 2 workers) in `Ready` state.
 
-### 2.5 Deploy a Sample App  
-
+#### 2.5 Deploy a Sample App
 Create a file `hello.yaml`:
 ```yaml
 apiVersion: apps/v1
@@ -237,26 +233,24 @@ kubectl get svc hello-svc
 
 When the `EXTERNAL-IP` field shows an IP (usually allocated from the `public` neutron network), open it in a browser – you'll see the nginx welcome page served by the two pods.
 
-### 2.6 (Optional) Enable **Kuryr** for Neutron‑native networking  
-
-If your Jetstream 2 deployment has the **Kuryr** service enabled, you can replace `--network-driver flannel` with `--network-driver kuryr`.  This will give each pod a **real Neutron port**, allowing you to apply security‑group rules directly to pods.
+#### 2.6 (Optional) Enable **Kuryr** for Neutron-native networking
+If your Jetstream 2 deployment has the **Kuryr** service enabled, you can replace `--network-driver flannel` with `--network-driver kuryr`. This will give each pod a **real Neutron port**, allowing you to apply security-group rules directly to pods.
 
 ---
 
-## 3 Run a Container Directly with **Zun**  
+### 3 Run a Container Directly with **Zun**
 
-Zun implements a **Docker‑compatible REST API** on top of OpenStack services.  It's handy for short‑lived jobs or when you don't need a full K8s stack.
+Zun implements a **Docker-compatible REST API** on top of OpenStack services. It's handy for short-lived jobs or when you don't need a full K8s stack.
 
-### 3.1 Verify Zun service  
+#### 3.1 Verify Zun service
 ```bash
 openstack container service list
 # You should see something like:
 #  ID | Name | Enabled |
 ```
 
-### 3.2 Upload a container image (if not already in Glance)  
-
-Zun pulls images from the OpenStack Image service (Glance).  Let's upload a tiny `alpine` image:
+#### 3.2 Upload a container image (if not already in Glance)
+Zun pulls images from the OpenStack Image service (Glance). Let's upload a tiny `alpine` image:
 ```bash
 # Pull the image locally first (if you have Docker)
 docker pull alpine:latest
@@ -272,7 +266,7 @@ openstack image create alpine \
 
 *(If your cloud already provides a public `alpine` image you can skip the upload.)*
 
-### 3.3 Create & start a container  
+#### 3.3 Create & start a container
 ```bash
 # Create (but do not start) the container
 openstack container create my-alpine \
@@ -287,26 +281,26 @@ openstack container start my-alpine
 openstack container exec my-alpine echo "Hello from Zun!"
 ```
 
-### 3.4 Inspect logs  
+#### 3.4 Inspect logs
 ```bash
 openstack container logs my-alpine
 ```
 
 You'll see the "Hello from Zun!" line.
 
-### 3.5 Delete the container  
+#### 3.5 Delete the container
 ```bash
 openstack container delete my-alpine
 ```
 
 !!! note "Note"
-    Zun containers are **first‑class OpenStack resources** – they obey the same quotas, RBAC, and billing as VMs. You can also attach floating IPs, security groups, etc., just like a regular instance.
+    Zun containers are **first-class OpenStack resources** – they obey the same quotas, RBAC, and billing as VMs. You can also attach floating IPs, security groups, etc., just like a regular instance.
 
 ---
 
-## 4 Clean‑up  
+### 4 Clean-up
 
-Never leave resources running when you're done; Jetstream 2 quota is limited.
+Never leave resources running when you're done; Jetstream 2 quota is limited.
 ```bash
 # 1 Delete the Docker VM
 openstack server delete demo-docker-host
@@ -329,9 +323,9 @@ openstack floating ip list   # should be empty or only those you intentionally k
 
 ---
 
-## 5 Extras  
+### 5 Extras
 
-### 5.1 Quick reference cheat‑sheet  
+#### 5.1 Quick reference cheat-sheet
 ```bash
 #  Common OpenStack CLI shortcuts -----
 # Load credentials
@@ -350,8 +344,7 @@ openstack keypair create jetstream2_rsa > jetstream2_rsa.pub
 openstack security group rule create --proto tcp --dst-port 80:80 default
 ```
 
-### 5.2 Python helper – print Jetstream 2 flavor table  
-
+#### 5.2 Python helper – print Jetstream 2 flavor table
 The snippet below pulls the flavor list from the API and prints a tidy markdown table so you can decide which flavor to use for containers.
 ```python
 import subprocess, json, textwrap, sys, os, shlex, re, pprint, math, datetime, time, itertools, collections, typing, random, string, hashlib, base64, urllib.parse, pathlib, ssl, socket, gzip, csv, io, statistics, fractions, decimal, inspect, uuid, json, itertools, sys, os, subprocess, datetime, typing, textwrap, collections, random, string, hashlib, base64, urllib.parse, pathlib, ssl, socket, gzip, csv, io, statistics, fractions, decimal, inspect, uuid
@@ -385,14 +378,13 @@ def print_table(flavors):
 
 if __name__ == "__main__":
     flavors = get_flavors()
-    print("\n## Jetstream 2 Flavor Summary (RAM shown in GB)\n")
+    print("\n## Jetstream 2 Flavor Summary (RAM shown in GB)\n")
     print_table(flavors)
 ```
 
 **What it does**
 
-1. Calls `openstack flavor list -f json` (the OpenStack client already knows your Jetstream endpoint).  
-
+1. Calls `openstack flavor list -f json` (the OpenStack client already knows your Jetstream endpoint).
 2. Parses the JSON and prints a markdown table with *Name*, *RAM (GB)*, *VCPU*, and *Disk (GB)*.
 
 Run it locally after you have sourced your RC file:
@@ -402,7 +394,7 @@ python3 flavor_table.py
 
 You'll get an output like:
 ```
-## Jetstream 2 Flavor Summary (RAM shown in GB)
+## Jetstream 2 Flavor Summary (RAM shown in GB)
 
 Name       | RAM (GB) | VCPU | Disk (GB)
 ---------- | -------- | ---- | ----------
@@ -413,11 +405,10 @@ m1.large   | 8        | 4    | 80
 ...
 ```
 
-Feel free to copy‑paste the table into your README or a Jupyter notebook.
+Feel free to copy-paste the table into your README or a Jupyter notebook.
 
-### 5.3 Using **cloud‑init** to install *any* container runtime  
-
-If you prefer **containerd** or **CRI‑O** instead of Docker, replace the `packages` and `runcmd` sections:
+#### 5.3 Using **cloud-init** to install *any* container runtime
+If you prefer **containerd** or **CRI-O** instead of Docker, replace the `packages` and `runcmd` sections:
 ```yaml
 #cloud-config
 packages:
@@ -434,21 +425,32 @@ runcmd:
 
 Just point `--user-data` to that file when you create the VM.
 
-### 5.4 Debugging tips  
-
+#### 5.4 Debugging tips
 | Symptom | Likely cause | Quick fix |
 |---------|--------------|-----------|
-| `openstack coe cluster create` hangs forever | Heat service disabled or mis‑configured security groups. | Verify `openstack service list` includes *orchestration* (Heat). Check `openstack stack list` for errors. |
-| `kubectl get nodes` shows "NotReady" | Worker nodes missing the required security‑group rules (port 10250). | OpenStack default SG may block kubelet traffic. Add rule: `openstack security group rule create --proto tcp --dst-port 10250:10250 default`. |
+| `openstack coe cluster create` hangs forever | Heat service disabled or mis-configured security groups. | Verify `openstack service list` includes *orchestration* (Heat). Check `openstack stack list` for errors. |
+| `kubectl get nodes` shows "NotReady" | Worker nodes missing the required security-group rules (port 10250). | OpenStack default SG may block kubelet traffic. Add rule: `openstack security group rule create --proto tcp --dst-port 10250:10250 default`. |
 | Zun container can't pull image | Image not public or not in Glance. | Ensure the image is `--public` or give the tenant's project access via `openstack image share`. |
-| Floating IP not reachable after assigning | Security group blocks SSH/HTTP. | Add inbound rules for ports 22, 80 (or whatever you need). |
-| `docker ps` shows nothing after cloud‑init | Docker service didn't start. | Check `/var/log/cloud-init-output.log` on the VM, look for errors installing `docker.io`. |
+| Floating IP not reachable after assigning | Security group blocks SSH/HTTP. | Add inbound rules for ports 22, 80 (or whatever you need). |
+| `docker ps` shows nothing after cloud-init | Docker service didn't start. | Check `/var/log/cloud-init-output.log` on the VM, look for errors installing `docker.io`. |
 
 ---
 
-## Assignments
+## Self-Assessment
 
-Goal is to conduct the following assignments:
+Test your knowledge of the concepts covered in this section.
+
+??? question "Which OpenStack services on Jetstream2 are used for managed Kubernetes clusters and 'Docker-as-a-service'?"
+    - Managed Kubernetes clusters are provided by **OpenStack Magnum**.
+    - "Docker-as-a-service" (standalone containers) is provided by **OpenStack Zun**.
+
+??? question "How do you verify that an OpenStack cloud (like Jetstream2) has the necessary services for container operations?"
+    By running the command `openstack catalog list`. The output should include services like `compute` (Nova), `network` (Neutron), `magnum`, and `zun`.
+
+??? question "What is a common cause for `kubectl get nodes` showing 'NotReady' in a Magnum cluster, and how can it be fixed?"
+    A common cause is that the OpenStack default security group blocks the required kubelet traffic (port 10250). This can be fixed by adding a security group rule: `openstack security group rule create --proto tcp --dst-port 10250:10250 default`.
+
+## Assignments
 
 !!! assignment "Assignment 1. **clouds.yaml**"
     Instead of using the rc file, document how to use the `clouds.yaml` file for authentication.
@@ -465,32 +467,5 @@ Goal is to conduct the following assignments:
 !!! assignment "Assignment 5. **Analysis**"
     Create a table comparing the startup time and resource overhead of a Zun container vs. a Magnum node on Jetstream 2. This includes not only features, but also billing.
 
----
-
-##  You're done!  
-
-You now have three **different ways** to run containers on Jetstream 2:
-
-| Approach | When to use it |
-|----------|----------------|
-| **Docker on a simple VM** (cloud‑init) | Quick prototyping, one‑off tests, learning Docker basics. |
-| **Magnum‑managed Kubernetes** | Production‑grade micro‑services, auto‑scaling, complex networking, CI/CD pipelines. |
-| **Zun (Docker‑as‑a‑service)** | Short‑lived batch jobs, "run‑a‑container" from the OpenStack API, or when you want containers to obey OpenStack quotas without the overhead of a K8s control plane. |
-
-
-
-## Self-Assessment
-
-Test your knowledge of the concepts covered in this section.
-
-??? question "Which OpenStack services on Jetstream2 are used for managed Kubernetes clusters and 'Docker-as-a-service'?"
-    - Managed Kubernetes clusters are provided by **OpenStack Magnum**.
-    - "Docker-as-a-service" (standalone containers) is provided by **OpenStack Zun**.
-
-??? question "How do you verify that an OpenStack cloud (like Jetstream2) has the necessary services for container operations?"
-    By running the command `openstack catalog list`. The output should include services like `compute` (Nova), `network` (Neutron), `magnum`, and `zun`.
-
-??? question "What is a common cause for `kubectl get nodes` showing 'NotReady' in a Magnum cluster, and how can it be fixed?"
-    A common cause is that the OpenStack default security group blocks the required kubelet traffic (port 10250). This can be fixed by adding a security group rule: `openstack security group rule create --proto tcp --dst-port 10250:10250 default`.
-
-All three respect Jetstream 2's **quota, RBAC, and billing** mechanisms, and they all use the same underlying OpenStack services (Nova, Neutron, Glance, Keystone).  
+## What's Next?
+Now that you've mastered containers on Jetstream 2, apply these skills to another research environment in the **[Containers on Chameleon Cloud](/section/container/openstack/openstack-chameleon-containers.md)** tutorial.

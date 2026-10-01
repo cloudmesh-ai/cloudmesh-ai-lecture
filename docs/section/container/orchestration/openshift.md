@@ -18,7 +18,7 @@ Think of Kubernetes as the **engine** of a car—flexible and versatile, but req
 
 Enterprises prefer OpenShift because it reduces the "day two" operational burden. Instead of spending months integrating different tools for logging, monitoring, and security, OpenShift provides a curated stack that is tested and supported by Red Hat, ensuring that security patches and updates are applied consistently across the cluster.
 
-## Core Sections
+## Implementation
 
 ### Architecture & Tooling
 
@@ -50,7 +50,6 @@ To transition from vanilla Kubernetes to OpenShift, you must understand a few ke
 | **Deployment** | YAML Manifests | S2I (Source-to-Image) | Deploy AI code from Git without writing Dockerfiles |
 
 ![Kubernetes vs OpenShift](images/openshift-comparison.png)
-
 Figure 1: Comparison of the Kubernetes core and the OpenShift Enterprise wrap.
 
 ### Operational Workflows for AI
@@ -122,12 +121,11 @@ When this command is executed, OpenShift performs the following steps:
 OpenShift detects the language, pulls the appropriate builder image, injects your code, and deploys the pod—all in one step.
 
 ![S2I Process](images/s2i-process.png)
-
 Figure 2: The Source-to-Image (S2I) process.
 
 #### Managing External Access with Routes
 
-In Kubernetes, you define an Ingress object. In OpenShift, you use **Routes**. A Route is essentially a managed Ingress that automatically integrates with the OpenShift built-in HAProxy router to provide a DNS-addressable URL.
+In **[Kubernetes](/section/container/orchestration/kubernetes.md)**, you define an Ingress object. In OpenShift, you use **Routes**. A Route is essentially a managed Ingress that automatically integrates with the OpenShift built-in HAProxy router to provide a DNS-addressable URL.
 
 ```bash
 # Expose a service as a route
@@ -182,14 +180,21 @@ While a **Project** is technically a Kubernetes Namespace, it adds critical ente
 - **Auditability**: Every action within a Project is logged with the user's identity, which is essential for compliance in regulated industries (e.g., healthcare AI).
 - **Integrated Quotas**: Quotas are tied to the Project, not the user, allowing a team to share a pool of GPUs.
 
----
+### References
 
-- [ ] Define the difference between Kubernetes and OpenShift.
-- [ ] Use the `oc` CLI to manage resources.
-- [ ] Deploy an application using the S2I workflow.
-- [ ] Create an OpenShift Route for external access.
-- [ ] Configure an SCC to allow GPU access for a pod.
-- [ ] Understand the role of RHOAI and the GPU Operator in AI workflows.
+- Red Hat OpenShift Documentation: [docs.openshift.com](https://docs.openshift.com/)
+- OpenShift AI (RHOAI) Documentation: [docs.openshift.com/container-platform/latest/openai/index.html](https://docs.openshift.com/container-platform/latest/openai/index.html)
+
+## Self-Evaluation
+
+??? question "If I am already familiar with `kubectl`, do I need to learn a new tool for OpenShift?"
+    No. The `oc` CLI is a superset of `kubectl`. Almost every `kubectl` command works exactly the same way when typed as `oc`.
+
+??? question "What is the primary advantage of an ImageStream over a standard Docker image reference?"
+    ImageStreams allow for "triggers." When a new image is pushed to a stream, OpenShift can automatically trigger a new build or a redeployment of the application, enabling a true GitOps workflow.
+
+??? question "Why would an AI researcher prefer 'Projects' over standard Kubernetes 'Namespaces'?"
+    While a Project is technically a Namespace, it adds a layer of administrative metadata, including integrated quotas, user access control, and a simplified view in the Web Console, making it easier to manage multi-tenant research environments.
 
 ## Assignments
 
@@ -217,18 +222,6 @@ While a **Project** is technically a Kubernetes Namespace, it adds critical ente
     ??? tip "Solution: Governance"
         Use `oc create quota gpu-quota --limits.nvidia.com/gpu=2`. Use `oc create limitrange gpu-limit --limits.nvidia.com/gpu=1`.
 
-## References
+## What's Next?
 
-- Red Hat OpenShift Documentation: [docs.openshift.com](https://docs.openshift.com/)
-- OpenShift AI (RHOAI) Documentation: [docs.openshift.com/container-platform/latest/openai/index.html](https://docs.openshift.com/container-platform/latest/openai/index.html)
-
-## Self-Evaluation
-
-??? note "If I am already familiar with `kubectl`, do I need to learn a new tool for OpenShift?"
-    No. The `oc` CLI is a superset of `kubectl`. Almost every `kubectl` command works exactly the same way when typed as `oc`.
-
-??? note "What is the primary advantage of an ImageStream over a standard Docker image reference?"
-    ImageStreams allow for "triggers." When a new image is pushed to a stream, OpenShift can automatically trigger a new build or a redeployment of the application, enabling a true GitOps workflow.
-
-??? note "Why would an AI researcher prefer 'Projects' over standard Kubernetes 'Namespaces'?"
-    While a Project is technically a Namespace, it adds a layer of administrative metadata, including integrated quotas, user access control, and a simplified view in the Web Console, making it easier to manage multi-tenant research environments.
+Now that you've mastered the enterprise platform, let's look at how to make your AI services elastic. Head over to **[Kubernetes Horizontal Pod Autoscaling (HPA)](/section/container/kubernetes-advanced/hpa-autoscaling.md)**.

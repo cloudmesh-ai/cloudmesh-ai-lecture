@@ -2,7 +2,7 @@
 
 ## Learning Objectives
 
-!!! info "Learning Objectives"
+!!! info "Why this matters"
     By the end of this chapter, participants will be able to:
     - Install and configure Podman across various operating systems.
     - Execute container operations using the Docker-compatible CLI.
@@ -22,7 +22,7 @@ The primary value proposition of Podman is its "rootless" nature. By allowing us
 
 ### Understanding Podman's Architecture
 
-Podman is designed to be a drop-in replacement for the Docker CLI, meaning most commands work identically. However, its internal architecture differs in several critical ways:
+Podman is designed to be a drop-in replacement for the [Docker](/section/container/foundations/docker.md) CLI, meaning most commands work identically. However, its internal architecture differs in several critical ways:
 
 - **Daemonless**: There is no background service (`dockerd`) running as root. The `podman` command interacts directly with the container runtime (like `runc` or `crun`).
 - **Rootless Execution**: Containers run under the user's own UID. User namespaces are used to map the internal container root user to a non-privileged user on the host.
@@ -179,9 +179,8 @@ Before implementing a containerized system, it is best practice to map the archi
 - **Layering**: Use color coding to distinguish between Frontend, Backend, and Data layers.
 - **Iteration**: Start with a brainstorm, then group related services into Pods or clusters.
 
-::: tip "From Map to Manifest"
+!!! tip "From Map to Manifest"
     Once your mind-map is complete, each "leaf" node becomes a service in your `podman-compose.yml` or a container in a Pod. The links between nodes define your `depends_on` relationships and network requirements.
-:::
 
 ## Summary Checklist
 
@@ -226,6 +225,10 @@ Before implementing a containerized system, it is best practice to map the archi
     
     ??? tip "Solution: Sidecar Pattern"
         Use `podman pod create --name ai-monitoring-pod -p 8000:8000`. Then use `podman run --pod ai-monitoring-pod ...` for both containers. The shared network namespace allows communication via `localhost`.
+
+## What's Next?
+
+While Podman is excellent for general-purpose and security-focused containerization, certain environments like High-Performance Computing (HPC) require even more specialized tools. In the next chapter, we will explore [Apptainer](/section/container/foundations/apptainer.md).
 
 ## References
 

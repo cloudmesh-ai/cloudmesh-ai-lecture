@@ -13,7 +13,9 @@
     - Understand the relationship between Infrastructure as Code (IaC) and container pipelines.
     - Distinguish between traditional CI/CD and Continuous Training (CT).
 
-## Overview
+## Concepts
+
+### Overview
 
 Throughout this course, we have studied DevOps pipelines and container orchestration as separate topics. In reality, they are two halves of the same system. A container is simply the "artifact" that the DevOps pipeline produces and the "unit of deployment" that the orchestrator manages.
 
@@ -21,8 +23,6 @@ The goal of a modern AI platform is to achieve **Continuous Deployment**: a deve
 
 !!! info "Why this matters"
     Manual deployments are the enemy of reproducibility. If you manually build an image on your laptop and push it to a server, you have introduced "human-in-the-loop" variance. By automating the bridge between the container and the pipeline, you ensure that every single version of your AI model can be traced back to a specific Git commit and a specific build log.
-
-## Core Sections
 
 ### The Automation Flow: Build $\rightarrow$ Ship $\rightarrow$ Run
 
@@ -34,7 +34,7 @@ The CI server (e.g., GitHub Actions, Jenkins, GitLab CI) monitors the repository
 
 1. **Linting/Testing**: The code is checked for syntax errors and unit tests are executed.
 2. **Build**: The CI server runs `docker build` to create a container image.
-3. **Security Scan**: The image is scanned for vulnerabilities (using tools like Trivy).
+3. **Security Scan**: The image is scanned for vulnerabilities (using tools like [Trivy](/section/container/security/container-security.md#vulnerability-scanning-and-sbom)).
 4. **Tagging**: The image is tagged with the Git commit hash (e.g., `my-ai-model:a1b2c3d`) rather than just `latest` to ensure immutability.
 
 #### Phase 2: The Hand-off (The Ship)
@@ -47,76 +47,6 @@ The CD system (e.g., ArgoCD, Flux, or a custom script) notices a new image is av
 
 1. **Update Manifest**: The image reference is updated from the old hash to the new hash.
 2. **Rolling Update**: Kubernetes performs a rolling update—starting new pods with the new image and slowly terminating the old ones to ensure zero downtime.
-
-### Complete Pipeline Example: GitHub Actions
-To automate this entire flow, we use a CI/CD pipeline. Below is a professional implementation for an AI application that implements a "Security First" mindset.
-
-```yaml
-name: AI Model Deployment Pipeline
-
-on:
-  push:
-    branches: [ main ]
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to GitHub Container Registry (GHCR)
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build Image
-        id: build
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false # Build only, don't push yet (wait for scan)
-          tags: ghcr.io/${{ github.repository }}:latest,ghcr.io/${{ github.repository }}:${{ github.sha }}
-          load: true # Load into local Docker daemon for scanning
-
-      - name: Scan Image for Vulnerabilities (Trivy)
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'ghcr.io/${{ github.repository }}:${{ github.sha }}'
-          format: 'table'
-          exit-code: '1' # Fail the build if CRITICAL vulnerabilities are found
-          ignore-unfixed: true
-          severity: 'CRITICAL'
-
-      - name: Push Image to GHCR
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/${{ github.repository }}:latest,ghcr.io/${{ github.repository }}:${{ github.sha }}
-
-      - name: Update Manifest for GitOps (ArgoCD)
-        run: |
-          # This simulates updating the image tag in a separate environment repo
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git clone https://x-access-token:${{ secrets.GITOPS_TOKEN }}@github.com/org/env-repo.git
-          cd env-repo
-          sed -i "s|image:.*|image: ghcr.io/${{ github.repository }}:${{ github.sha }}|g" deployment.yaml
-          git add deployment.yaml
-          git commit -m "Deploy model version ${{ github.sha }}"
-          git push
-```
-
-**Pipeline Logic Breakdown:**
-1. **Immutable Build**: We build using a unique Git SHA. We never overwrite `latest` during the build process.
-2. **The Quality Gate**: The Trivy scan acts as a "circuit breaker." If a critical vulnerability is found, `exit-code: '1'` stops the pipeline, and the image is never promoted to `stable`.
-3. **Decoupled Deployment**: Instead of calling `kubectl` directly (Push-based), the pipeline updates a YAML file in a separate GitOps repository. This allows **ArgoCD** to detect the change and pull the new image into the cluster (Pull-based/GitOps).
 
 ### Push-based vs. Pull-based (GitOps)
 
@@ -180,18 +110,139 @@ While standard CI/CD handles *code* changes, AI requires **Continuous Training (
 - **The Loop**: This triggers an automated retraining pipeline $\rightarrow$ a new model is saved $\rightarrow$ a new container image is built $\rightarrow$ the GitOps repo is updated.
 - **Result**: The model evolves automatically as the world changes, without a developer needing to push a manual Git commit.
 
+## Implementation
+
+In this section, we move from theory to practice. We will implement a production-grade GitHub Actions pipeline tailored for an AI workload. 
+
+### Production-Grade AI Pipeline
+
+AI containers are uniquely challenging because they often rely on massive base images (e.g., NVIDIA CUDA) and require specialized hardware (GPUs). A naive pipeline will be slow and insecure.
+
+!!! info "Why this matters"
+    AI base images can easily exceed 5GB. Without advanced caching and security gates, your pipeline will become a bottleneck, and you risk deploying bloated images with hundreds of critical vulnerabilities inherent in complex ML libraries.
+
+Below is a complete `.github/workflows/main.yml` implementation.
+
+```yaml
+name: Production AI Model Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  # Use a specific CUDA version to ensure consistency across GPU nodes
+  BASE_IMAGE: nvidia/cuda:12.2.0-base-ubuntu22.04
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Export for Scan
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          # Use GHA cache to avoid re-downloading 5GB+ AI base images
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: false
+          load: true 
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Security Scan (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          format: 'table'
+          exit-code: '1' # Block the pipeline on CRITICAL vulnerabilities
+          ignore-unfixed: true
+          severity: 'CRITICAL'
+
+      - name: Push Verified Image
+        if: success()
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cuda-12.2
+
+  deploy:
+    needs: build-and-scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Kubernetes Context
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Deploy to K8s Cluster
+        run: |
+          # Update the deployment to use the newly scanned and pushed image
+          kubectl set image deployment/ai-model-api \
+            ai-container=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --record
+          
+          # Verify the rollout
+          kubectl rollout status deployment/ai-model-api --timeout=300s
+
+      - name: Post-Deployment Smoke Test
+        run: |
+          # Simple curl to verify the AI model endpoint is responding
+          curl -f http://ai-model-api.svc.cluster.local/health
+```
+
+### Pipeline Logic Breakdown
+
+1. **Optimized Caching**: We use `cache-from: type=gha` and `cache-to: type=gha`. For AI workloads, this is the difference between a 2-minute build and a 20-minute build, as it avoids re-pulling heavy CUDA layers.
+2. **The Security Gate**: The `trivy-action` is configured with `exit-code: '1'`. This transforms the scan from a "report" into a "gate." If a CRITICAL vulnerability is found, the pipeline fails immediately, and the `Push Verified Image` step is skipped.
+3. **GPU-Aware Tagging**: We tag the image with both the Git SHA (for immutability) and a CUDA version (e.g., `cuda-12.2`). This allows the K8s scheduler to ensure the image is compatible with the physical GPU drivers on the worker nodes.
+4. **Atomic Deployment**: By using `kubectl rollout status`, we ensure the pipeline doesn't report success until the pods are actually healthy and running.
+
 ### Production Readiness Checklist
 
 Before promoting a container image from `staging` to `production`, verify the following:
 
 - [ ] **Immutable Tagging**: Is the image tagged with a specific Git commit hash or semantic version instead of `latest`?
 - [ ] **Vulnerability Scan**: Has the image passed a CVE scan with zero "CRITICAL" vulnerabilities?
-- [ ] **Rootless Execution**: Is the container configured to run as a non-root user?
+- [ ] **[Rootless Execution](/section/container/foundations/podman.md)**: Is the container configured to run as a non-root user?
 - [ ] **Resource Limits**: Are CPU and Memory limits explicitly defined in the Kubernetes manifest to prevent OOM crashes?
 - [ ] **Health Probes**: Are `livenessProbe` and `readinessProbe` configured to ensure traffic only hits healthy pods?
 - [ ] **Secret Externalization**: Are all API keys and passwords stored in a Secret manager (Vault/K8s Secrets) rather than baked into the image?
 
-## Summary Checklist
+## Self-Evaluation
+
+### Summary Checklist
 
 - [ ] Map the lifecycle of a container from Git commit to a running Pod.
 - [ ] Explain why using a Git commit hash for tagging is better than using `latest`.
@@ -201,6 +252,21 @@ Before promoting a container image from `staging` to `production`, verify the fo
 - [ ] Describe how automated rollbacks are triggered via observability.
 - [ ] Contrast standard CI/CD with Continuous Training (CT).
 - [ ] Apply the production readiness checklist to an AI model deployment.
+
+??? question "Why is tagging images with a Git commit hash better than using the 'latest' tag?"
+    The `latest` tag is ambiguous; it changes every time a new image is pushed. Using a commit hash provides an immutable link between the running container and the exact version of the code that created it, which is essential for auditing and rolling back failures.
+
+??? question "What is the role of the Container Registry in a CI/CD pipeline?"
+    The registry serves as the decoupled hand-off point. The CI system only needs permission to *write* to the registry, and the CD system (or Kubernetes) only needs permission to *read* from it. This limits the blast radius of security credentials.
+
+??? question "How does GitOps improve the reliability of AI deployments?"
+    GitOps ensures that the actual state of the cluster always matches the desired state defined in Git. If a pod is accidentally deleted or a configuration is changed manually, the GitOps controller will automatically detect the drift and "heal" the cluster by redeploying the correct version.
+
+??? question "What is the difference between a Canary and a Blue-Green deployment?"
+    A Blue-Green deployment is an "all-or-nothing" flip between two identical environments. A Canary release is a gradual shift, routing a small percentage of traffic to the new version to test it in production before a full rollout.
+
+??? question "How does Continuous Training (CT) differ from standard CI/CD?"
+    Standard CI/CD is triggered by changes to *code* or *configuration*. Continuous Training is triggered by changes in *data* (e.g., data drift), automating the retraining, packaging, and deployment of a model without requiring a manual code push.
 
 ## Assignments
 
@@ -228,30 +294,11 @@ Before promoting a container image from `staging` to `production`, verify the fo
     ??? tip "Solution: Canary Design"
         Start with 1-5% of traffic. Monitor P99 latency and prediction confidence scores. If latency exceeds SLA, the model should be rolled back, even if accuracy is higher, unless the latency can be optimized.
 
-
 ## References
 
 - ArgoCD Documentation: [argoproj.github.io/cd/](https://argoproj.github.io/cd/)
 - Flux CD Documentation: [fluxcd.io/](https://fluxcd.io/)
 - Google Cloud: Continuous Delivery for Containerized Apps: [cloud.google.com/architecture/](https://cloud.google.com/architecture/)
-
-## Self-Evaluation
-
-??? note "Why is tagging images with a Git commit hash better than using the 'latest' tag?"
-    The `latest` tag is ambiguous; it changes every time a new image is pushed. Using a commit hash provides an immutable link between the running container and the exact version of the code that created it, which is essential for auditing and rolling back failures.
-
-??? note "What is the role of the Container Registry in a CI/CD pipeline?"
-    The registry serves as the decoupled hand-off point. The CI system only needs permission to *write* to the registry, and the CD system (or Kubernetes) only needs permission to *read* from it. This limits the blast radius of security credentials.
-
-??? note "How does GitOps improve the reliability of AI deployments?"
-    GitOps ensures that the actual state of the cluster always matches the desired state defined in Git. If a pod is accidentally deleted or a configuration is changed manually, the GitOps controller will automatically detect the drift and "heal" the cluster by redeploying the correct version.
-
-??? note "What is the difference between a Canary and a Blue-Green deployment?"
-    A Blue-Green deployment is an "all-or-nothing" flip between two identical environments. A Canary release is a gradual shift, routing a small percentage of traffic to the new version to test it in production before a full rollout.
-
-??? note "How does Continuous Training (CT) differ from standard CI/CD?"
-    Standard CI/CD is triggered by changes to *code* or *configuration*. Continuous Training is triggered by changes in *data* (e.g., data drift), automating the retraining, packaging, and deployment of a model without requiring a manual code push.
-
 
 ## What's Next?
 

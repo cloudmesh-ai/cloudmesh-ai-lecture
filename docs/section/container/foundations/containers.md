@@ -2,7 +2,7 @@
 
 ## Learning Objectives
 
-!!! info "Learning, Objectives"
+!!! info "Why this matters"
     By the end of this chapter, participants will be able to:
     - Define containerization and explain how it differs from traditional virtualization.
     - Understand the core components of the container ecosystem: Image, Registry, and Runtime.
@@ -29,22 +29,43 @@ Containerization represents a fundamental shift in how we package and deploy sof
 !!! info "Why this matters"
     For AI researchers and Data Scientists, "it works on my machine" is a frequent and costly failure. A model that trains perfectly on a local workstation with a same version of CUDA, PyTorch, and a set of system libraries often fails when moved to a GPU cluster or a production cloud environment. Containers solve this by packaging the entire environment—not just the code—ensuring that the environment in production is an exact replica of the environment used during development.
 
-### The Evolution of Isolation: From Chroot to Docker
+### Case Study: The History of Containerization
 
-Containerization didn't appear overnight; it was the result of decades of evolution in the Linux kernel. Understanding this history explains why containers are so efficient today.
+Containerization didn't appear overnight; it was the result of decades of evolution in the Linux kernel. Each stage represented a technical "leap" that solved a specific problem of isolation and portability.
 
-#### 1. Chroot (The Ancestor)
-Introduced in 1979, `chroot` (change root) was the first attempt at filesystem isolation. It allowed a process to see a specific directory as the root (`/`), preventing it from accessing files outside that path. However, `chroot` only isolated the filesystem; the process could still see all other processes on the host and use the same network stack.
+#### 1. The Filesystem Leap: `chroot` (1979)
+Introduced in 1979, `chroot` (change root) provided the first primitive for filesystem isolation. It allowed a process to see a specific directory as its root (`/`), preventing it from accessing files outside that path.
 
-#### 2. LXC (The Foundation)
-Linux Containers (LXC) emerged in the late 2000s by combining two powerful kernel features: **Namespaces** and **Cgroups**. Unlike `chroot`, LXC provided a "full system" container that isolated the PID tree, network, and mount points. While technically complete, LXC was difficult to configure and lacked a standard way to share containers between different machines.
+- **The Technical Leap**: Moving from a global filesystem to a restricted view.
+- **The Limitation**: `chroot` only isolated the filesystem. The process could still see all other processes on the host, use the same network stack, and potentially "break out" of the jail if it had root privileges.
 
-#### 3. Docker (The Revolution)
-Launched in 2013, Docker didn't invent containers—it made them *usable*. Docker's breakthrough was the introduction of the **Container Image**. By defining a layered, immutable blueprint for the environment, Docker transformed containers from a system administration tool into a developer tool. This enabled the "Build $\rightarrow$ Ship $\rightarrow$ Run" workflow that now dominates the AI and Cloud-Native industry.
+!!! info "Why this matters"
+    In the context of AI, `chroot` is analogous to creating a dedicated project folder. It keeps your files organized, but it does nothing to prevent a library version conflict at the system level.
+
+#### 2. The Kernel Leap: `LXC` (2008)
+Linux Containers (LXC) emerged by combining two powerful kernel features: **Namespaces** and **Cgroups**. This shifted isolation from just the filesystem to the entire operating system environment.
+
+- **The Technical Leap**: 
+    - **Namespaces**: Isolated the "view" of the system (PIDs, Network, Mounts).
+    - **Cgroups**: Isolated the "usage" of the system (CPU, Memory).
+- **The Limitation**: While LXC provided a "full system" container, it lacked a standard way to package and distribute those containers. Moving an LXC container from one server to another was a manual, error-prone process.
+
+!!! info "Why this matters"
+    LXC solved the isolation problem but not the distribution problem. For a data scientist, this was like having a perfectly configured virtual environment on a local machine, but having to manually recreate it—line by line—on a remote GPU cluster.
+
+#### 3. The Portability Leap: `Docker` (2013)
+Launched in 2013, Docker didn't invent containers—it made them *usable* for developers. Docker's breakthrough was the introduction of the **Container Image** and the layered filesystem (UnionFS).
+
+- **The Technical Leap**: The shift from "configuring a container" to "shipping an image." By defining an immutable, layered blueprint, Docker ensured that the exact same bytes were executed regardless of where the image was run.
+- **The Impact**: Docker transformed containers from a system administration tool into a developer tool, enabling the "Build $\rightarrow$ Ship $\rightarrow$ Run" workflow.
+
+!!! info "Why this matters"
+    This is the "killer app" for AI reproducibility. GPU clusters are notoriously fragile; a mismatch between the NVIDIA driver, the CUDA toolkit, and the PyTorch binaries can lead to cryptic crashes. Immutable images eliminate the "it works on my machine" problem by packaging the entire software stack into a single, versioned artifact.
+
 
 ---
 
-## Core Sections
+## Implementation
 
 ### Containers vs. Virtual Machines
 
@@ -99,9 +120,8 @@ The process begins with a **Dockerfile** (or similar recipe). This text file def
 
 - **Image**: A read-only template containing the application and everything it needs to run. It is composed of stacked layers to maximize reuse.
 
-::: tip "Layer Caching"
+!!! tip "Layer Caching"
     Docker and Podman cache each line of the Dockerfile. To speed up builds, always place instructions that change frequently (like `COPY . .`) *after* instructions that change rarely (like `apt-get install`).
-:::
 
 #### 2. Ship (The Registry)
 
@@ -124,7 +144,7 @@ Figure 1: The Build $\rightarrow$ Ship $\rightarrow$ Run workflow.
 Containers are especially effective when dealing with the complex dependencies of AI workloads. A typical AI container manages:
 
 - **System Libraries**: Specific versions of glibc or BLAS.
-- **GPU Runtimes**: CUDA and cuDNN versions that must match the physical GPU driver.
+- **GPU Runtimes**: CUDA and cuDNN versions that must match the physical GPU driver (see [AI Containers](/section/container/specialized/ai-containers.md)).
 - **Language Environments**: Python versions and virtual environments.
 - **Model Weights**: Large binary files that can be baked into the image or mounted as volumes.
 
@@ -197,12 +217,6 @@ To master this ecosystem, we will progress through the following sequence:
         Run: Where the application executes (e.g., Production server, Kubernetes Pod).
         Prevention: A container would prevent mismatches by including the specific library versions in the image, ensuring the "Run" environment is identical to the "Build" environment.
 
-## References
-
-- Docker Documentation: [docs.docker.com](https://docs.docker.com/)
-- Kubernetes Documentation: [kubernetes.io/docs](https://kubernetes.io/docs/)
-- Podman Documentation: [podman.io](https://podman.io/)
-
 ## Self-Evaluation
 
 !!! tip "Self-Assessment"
@@ -224,10 +238,14 @@ To master this ecosystem, we will progress through the following sequence:
     The `:latest` tag is a pointer that can change over time. If a new image is pushed as `:latest`, a restarted container will pull the new version, potentially introducing breaking changes or bugs into a stable production environment without warning.
 
 ??? question "Can a container package the host's GPU driver?"
-    No. While a container can package the CUDA Toolkit and libraries, it cannot package the kernel-level NVIDIA driver. The host machine must still have a compatible NVIDIA driver installed to allow the containerized CUDA libraries to communicate with the hardware.
+    No. While a container can package the CUDA Toolkit and libraries, it cannot package the kernel-level NVIDIA driver. The host machine must still have a compatible NVIDIA driver installed for the containerized CUDA libraries to communicate with the hardware.
 
 ??? question "What is the primary advantage of the 'layered' filesystem in container images?"
     Layering allows Docker/Podman to reuse common base layers across multiple images. For example, if ten different AI images all use `ubuntu:22.04` as their base, that layer is stored only once on disk, saving significant space and speeding up pulls.
 
 ??? question "How do Linux Namespaces and Cgroups work together to create a container?"
     Namespaces provide the **isolation** (making a process believe it has its own network, PID tree, and mount points), while Cgroups provide the **resource control** (limiting how much CPU and RAM that process can consume). Together, they create the boundaries of a container.
+
+## What's Next?
+
+In the next chapter, we will dive into the industry standard for building and managing containers: [Docker](/section/container/foundations/docker.md).
