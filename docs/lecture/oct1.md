@@ -7,37 +7,37 @@ We start with **Technical Writing** because clear, reproducible documentation is
 
 ---
 
-## Technical Writing & Reporting
+## ✍️ Technical Writing & Reporting
 *Focus: Transitioning from simple notes to scientific-grade technical documentation.*
 
-*   **[Markdown Basics](/section/writing/markdown/)**: Learning structured syntax for technical docs, including headings, lists, and BibTeX citations for academic rigor.
-*   **[Technical Report Writing](/section/writing/report/)**: Differentiating between experience reports and scientific reports, focusing on objective tone and formal structural frameworks.
-*   **[MkDocs](/section/writing/mkdocs/)**: Using a static site generator to transform Markdown files into a professional, searchable documentation website.
-*   **[Mermaid.js](/section/writing/mermaid/)**: Creating dynamic flowcharts and sequence diagrams directly from text to visualize infrastructure workflows.
-*   **[Graphviz](/section/writing/graphviz/)**: Using the DOT language for complex structural visualization and network dependency mapping.
+*   **[Markdown Basics](/section/writing/markdown.md)**: Learning structured syntax for technical docs, including headings, lists, and BibTeX citations for academic rigor.
+*   **[Technical Report Writing](/section/writing/report.md)**: Differentiating between experience reports and scientific reports, focusing on objective tone and formal structural frameworks.
+*   **[MkDocs](/section/writing/mkdocs.md)**: Using a static site generator to transform Markdown files into a professional, searchable documentation website.
+*   **[Mermaid.js](/section/writing/mermaid.md)**: Creating dynamic flowcharts and sequence diagrams directly from text to visualize infrastructure workflows.
+*   **[Graphviz](/section/writing/graphviz.md)**: Using the DOT language for complex structural visualization and network dependency mapping.
 
-## Python Ecosystem & Tooling
+## 🐍 Python Ecosystem & Tooling
 *Focus: Establishing a robust development environment to avoid "dependency hell."*
 
-*   **[Environment Management](/section/python/python-pipx/) (`pipx` & `pyenv`)**: Separating application-level tools from library-level dependencies to prevent version collisions.
-*   **[cloudmesh-ai-common](/section/python/cloudmesh-ai-common/)**: Utilizing a shared utility layer for system introspection, remote execution (`RemoteExecutor`), and configuration management.
-*   **[YAMLDB](/section/python/python-yamldb/)**: Implementing a lightweight, searchable key-value store using plain YAML files for schema-less data management.
-*   **[hostlist](/section/python/python-hostlist/)**: Parsing and manipulating Slurm-style hostlists, essential for managing large-scale HPC and AI clusters.
+*   **[Environment Management](/section/python/python-pipx.md) (`pipx` & `pyenv`)**: Separating application-level tools from library-level dependencies to prevent version collisions.
+*   **[cloudmesh-ai-common](/section/python/cloudmesh-ai-common.md)**: Utilizing a shared utility layer for system introspection, remote execution (`RemoteExecutor`), and configuration management.
+*   **[YAMLDB](/section/python/python-yamldb.md)**: Implementing a lightweight, searchable key-value store using plain YAML files for schema-less data management.
+*   **[hostlist](/section/python/python-hostlist.md)**: Parsing and manipulating Slurm-style hostlists, essential for managing large-scale HPC and AI clusters.
 
-## OpenStack & Cloud Orchestration
+## ☁️ OpenStack & Cloud Orchestration
 *Focus: Moving from manual VM provisioning to automated, scalable infrastructure.*
 
 ### Fundamentals & Cost Optimization
-*   **[OpenStack IaaS](/section/cloud/openstack/openstack/)**: Understanding the core services (Nova, Neutron, Keystone) and the trade-offs between private and public clouds for AI.
-*   **[Cost Reduction](/section/cloud/openstack/openstack-reduce-cost/)**: Mastering the `Shelve`, `Stop`, and `Suspend` states to maximize resource utilization and minimize billing.
+*   **[OpenStack IaaS](/section/cloud/openstack/openstack.md)**: Understanding the core services (Nova, Neutron, Keystone) and the trade-offs between private and public clouds for AI.
+*   **[Cost Reduction](/section/cloud/openstack/openstack-reduce-cost.md)**: Mastering the `Shelve`, `Stop`, and `Suspend` states to maximize resource utilization and minimize billing.
 *   **[Local Development](/section/cloud/openstack/devstack.md) (`DevStack`)**: Deploying a full OpenStack reference environment locally for testing and learning.
 
 ### Advanced Networking & Orchestration
-*   **[Multi-VM Architectures](/section/cloud/platforms/jetstream/jetstream-multi/)**: Building distributed AI/Data clusters (Scheduler $\leftrightarrow$ Workers) with complex security group rules and private/public IP routing.
-*   **[OpenStack Heat](/section/cloud/openstack/openstack-heat/) (IaC)**: Moving from imperative CLI commands to declarative YAML templates (HOT) for repeatable infrastructure.
-*   **[Secure API Deployment](/section/cloud/openstack/openstack-heat-fastapi/)**: Implementing two-tier architectures using **Bastion Hosts** and **FastAPI** to balance project-wide accessibility with strict security.
-*   **[Project-Wide Access](/section/cloud/openstack/openstack-heat-fast-api-project-wide-access/)**: Analyzing the security trade-offs between "Bastion" and "Project-Wide" access models for internal team connectivity.
-*   **[Multi-VM Heat Orchestration](/section/cloud/platforms/jetstream/jetstream-multi-heat/)**: Applying Infrastructure as Code specifically to the multi-worker cluster example.
+*   **[Multi-VM Architectures](/section/cloud/platforms/jetstream/jetstream-multi.md)**: Building distributed AI/Data clusters (Scheduler $\leftrightarrow$ Workers) with complex security group rules and private/public IP routing.
+*   **[OpenStack Heat](/section/cloud/openstack/openstack-heat.md) (IaC)**: Moving from imperative CLI commands to declarative YAML templates (HOT) for repeatable infrastructure.
+*   **[Secure API Deployment](/section/cloud/openstack/openstack-heat-fastapi.md)**: Implementing two-tier architectures using **Bastion Hosts** and **FastAPI** to balance project-wide accessibility with strict security.
+*   **[Project-Wide Access](/section/cloud/openstack/openstack-heat-fast-api-project-wide-access.md)**: Analyzing the security trade-offs between "Bastion" and "Project-Wide" access models for internal team connectivity.
+*   **[Multi-VM Heat Orchestration](/section/cloud/platforms/jetstream/jetstream-multi-heat.md)**: Applying Infrastructure as Code specifically to the multi-worker cluster example.
 
 ### Storage Services
 *   **[Overview](/section/cloud/openstack/storage/cinder.md)**: Overview of the Openstack storage services.
@@ -45,7 +45,7 @@ We start with **Technical Writing** because clear, reproducible documentation is
 *   **[Swift](/section/cloud/openstack/storage/swift.md) (Object Storage)**: Using S3-compatible storage for massive, unstructured datasets (images, backups).
 *   **[Glance](/section/cloud/openstack/storage/glance.md) (Image Registry)**: Managing "Golden Images" to ensure consistency across thousands of VM boots.
 
-## Public Clouds
+## 🌍 Public Clouds
 *Focus: Comparing private cloud capabilities with public cloud implementations.*
 
-*   **[OpenStack VM Implementation and Platforms](/lecture/luc/#chapter-6-openstack-virtual-machine-implementation-and-platforms)**: Comparing the architectural patterns of OpenStack with public cloud platforms.
+*   **[OpenStack VM Implementation and Platforms](/lecture/luc.md#chapter-6-openstack-virtual-machine-implementation-and-platforms)**: Comparing the architectural patterns of OpenStack with public cloud platforms.
