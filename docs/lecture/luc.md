@@ -10,12 +10,16 @@ This document provides the comprehensive syllabus for the Cloud Computing, DevOp
 
 **Content**
 
+---
+
 # Chapter 1: Class Organization
 
 {% include-markdown "./CHAPTER.md" 
 start="<!--start-->"
 end="<!--end-->"
 %}
+
+---
 
 # Chapter 2: Accounts
 
@@ -25,6 +29,8 @@ start="<!--start-->"
 end="<!--end-->"
 %}
 
+---
+
 # Chapter 3: Cloud Computing Fundamentals
 
 
@@ -33,12 +39,16 @@ start="<!--start-->"
 end="<!--end-->"
 %}
 
+---
+
 # Chapter 4: Local Virtual Machine Implementation and Platforms
 
 {% include-markdown "section/cloud/CHAPTER-VM-LOCAL.md" 
 start="<!--start-->"
 end="<!--end-->"
 %}
+
+---
 
 # Chapter 5: Openstack Virtual Machine Implementation and Platforms
 
@@ -47,6 +57,8 @@ start="<!--start-->"
 end="<!--end-->"
 %}
 
+---
+
 # Chapter 6: Openstack Virtual Machine Implementation and Platforms
 
 {% include-markdown "section/cloud/vm-cloud/CHAPTER.md" 
@@ -54,8 +66,7 @@ start="<!--start-->"
 end="<!--end-->"
 %}
 
-# Cloud Virtual Machines
-
+---
 
 # Chapter 6: DevOps
 

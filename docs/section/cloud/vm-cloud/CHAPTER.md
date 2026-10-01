@@ -33,6 +33,6 @@ This chapter provides a comprehensive guide to provisioning and managing virtual
 ### Part III: Multi-Cloud Automation
 
 * **[🔵 Managing VMs with Apache Libcloud](/section/cloud/vm-cloud/libcloud-chapter.md)**: Using a single Python API to manage VMs across multiple providers and avoid vendor lock-in.
-* **[🔵 Summary and Provider Comparison](/section/cloud/vm-cloud/comparison-chapter.md) [MISSING]**: A final synthesis comparing the ease of use, reliability, and performance of the providers.
+* **[🔵 Summary and Provider Comparison](/section/cloud/vm-cloud/comparison-chapter.md)**: A final synthesis comparing the ease of use, reliability, and performance of the providers.
 
 <!--end-->
