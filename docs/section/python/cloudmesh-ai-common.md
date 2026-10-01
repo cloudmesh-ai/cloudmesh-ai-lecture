@@ -257,12 +257,39 @@ dump_yaml(config_path, data)
 
 The `StopWatch` utility is a thread-aware benchmarking suite. Each thread maintains its own set of timers using `threading.local()`, allowing for precise measurement of concurrent operations.
 
-#### Core Timing Methods
+#### Context-Manager Timing (`with` statement)
+
+The recommended way to measure a block of code is using `StopWatch.timer()` as a context manager. This ensures the timer is stopped automatically, even if an exception occurs within the block.
+
+- **Named Timer**: `with StopWatch.timer("my_timer"):` tracks a specific operation.
+- **Automatic Naming**: `with StopWatch.timer():` automatically names the timer after the calling function.
+
+```python
+from cloudmesh.ai.common.stopwatch import StopWatch
+import time
+
+def process_data():
+    # This timer is automatically named 'process_data'
+    with StopWatch.timer():
+        time.sleep(0.2)
+
+    # This timer is explicitly named 'cleaning'
+    with StopWatch.timer("cleaning"):
+        time.sleep(0.1)
+
+process_data()
+print(f"Cleaning took: {StopWatch.get('cleaning')}s")
+```
+
+#### Manual Timing Methods
+
+For cases where a timer must span across different functions or asynchronous events, manual methods are available:
 
 - `StopWatch.start(name)`: Starts a timer.
 - `StopWatch.stop(name)`: Stops a timer and records elapsed time.
-- `StopWatch.get(name, precision=3)`: Returns the last recorded elapsed time for the timer.
-- `StopWatch.sum(name, precision=3)`: Returns the total accumulated time spent in this timer across all calls.
+- `StopWatch.get(name, precision=3)`: Returns the last recorded elapsed time.
+- `StopWatch.sum(name, precision=3)`: Returns the total accumulated time spent in this timer.
+
 
 ```python
 from cloudmesh.ai.common.stopwatch import StopWatch
@@ -286,7 +313,47 @@ print(f"Last run: {last_run}s") # Approx 0.7
 print(f"Total time: {total_time}s") # Approx 1.2
 ```
 
-#### Realistic AI Workflow Example
+#### Detailed Benchmarking with `StopWatch.benchmark()`
+
+`StopWatch.benchmark()` is the final step in a profiling session. It aggregates all recorded timers—whether created via `@benchmark`, `StopWatch.timer()`, or manual calls—into a structured report.
+
+**Key Features:**
+
+- **Aggregation**: It prints a table showing the number of calls, the average time per call, and the total time spent.
+- **System Context**: By passing `sysinfo=True`, the report includes the host's hardware specifications (CPU, RAM), which is critical for comparing performance across different GPU nodes or VM sizes.
+
+
+```python
+from cloudmesh.ai.common.stopwatch import StopWatch, benchmark
+import time
+
+@benchmark
+def heavy_task():
+    time.sleep(0.1)
+
+for _ in range(10):
+    heavy_task()
+
+with StopWatch.timer("setup"):
+    time.sleep(0.5)
+
+# Print the final performance report with system info
+StopWatch.benchmark(sysinfo=True)
+```
+
+**Example Output Structure:**
+The report outputs a clean table:
+
+```
+Timer      | Calls | Avg    | Total
+-----------------------------------
+heavy_task | 10    | 0.101s | 1.01s
+setup      |  1    | 0.502s | 0.50s
+-----------------------------------
+Host: uva-dgx-01 | CPU: Intel Xeon | RAM: 512GB
+```
+
+#### Realistic AI Benchmark Workflow Example
 
 The following example demonstrates how to use `StopWatch` to profile a typical AI pipeline, including model loading, data preprocessing, and iterative inference.
 
@@ -356,6 +423,9 @@ StopWatch.benchmark(sysinfo=True)
     2. **Remote System Audit**: Write a script using `RemoteExecutor` to connect to a remote host, run `df -h` and `free -m`, and save the output to a local file using `Sudo.writefile` for restricted paths.
     3. **Performance Profiling**: Implement a function that processes a list of strings and use the `@benchmark` decorator to measure its performance. Use `StopWatch.benchmark(sysinfo=True)` to generate a final report.
     4. **Telemetry Integration**: Create a loop that emits "api_response_time" metrics using `Telemetry` and then use `TelemetryAggregator` to calculate the average response time.
+
+!!! note "Assignment: Test the StopWatch"
+    Test it out and if you see an issue [submit](https://github.com/cloudmesh-ai/cloudmesh-ai-common/issues) it.
 
 ---
 
