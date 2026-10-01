@@ -38,7 +38,7 @@ Welcome to the OpenStack and Research Cloud Platforms section of the course. Thi
     * **[🔴 Jetstream Multi-Node Orchestration](/section/cloud/platforms/jetstream/jetstream-multi-heat.md)**: Using Heat templates to deploy complex, multi-node clusters on the Jetstream platform.
 
 - **Part VI: OpenStack Storage**
-    * **Overview:** [🔴 Overview of Storage Services in Openstack](/section/cloud/openstack/storage/cinder.md).
+    * **Overview:** [🔴 Overview of Storage Services in Openstack](/section/cloud/openstack/storage/overview.md).
     * **Block Storage (Cinder)**: [🔴 Management of persistent block devices and volume attachment](/section/cloud/openstack/storage/cinder.md).
     * **Object Storage (Swift)**: [🔴 Scalable, S3-compatible storage for unstructured data](/section/cloud/openstack/storage/swift.md).
     * **Image Registry (Glance)**: [🔴 Storage and retrieval of VM snapshots and base images](/section/cloud/openstack/storage/glance.md).

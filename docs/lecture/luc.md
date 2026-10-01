@@ -59,7 +59,7 @@ end="<!--end-->"
 
 ---
 
-# Chapter 6: Openstack Virtual Machine Implementation and Platforms
+# Chapter 6: Public Clouds Virtual Machine Implementation and Platforms
 
 {% include-markdown "section/cloud/vm-cloud/CHAPTER.md" 
 start="<!--start-->"
@@ -68,7 +68,7 @@ end="<!--end-->"
 
 ---
 
-# Chapter 6: DevOps
+# Chapter 7: DevOps
 
 {% include-markdown "section/devops/CHAPTER.md" 
 start="<!--start-->"

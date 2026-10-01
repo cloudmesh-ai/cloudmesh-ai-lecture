@@ -129,7 +129,7 @@ CPU-based scaling is reactive, as it waits for resource stress to occur. To scal
 
 KEDA is an operator that extends HPA to allow scaling based on external events. For Request-Per-Second (RPS) scaling, KEDA queries a Prometheus server to determine the actual request rate.
 
-![KEDA RPS Architecture](images/keda-rps-flow.png)
+![KEDA RPS Architecture](images/grock-keda-rps.jpg)
 
 Figure 2: KEDA RPS Architecture. KEDA queries Prometheus for request rates and adjusts the HPA replica count accordingly.
 
