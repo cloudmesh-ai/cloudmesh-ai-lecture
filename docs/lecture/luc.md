@@ -47,9 +47,22 @@ start="<!--start-->"
 end="<!--end-->"
 %}
 
+# Chapter 6: Openstack Virtual Machine Implementation and Platforms
+
+{% include-markdown "section/cloud/vm-cloud/CHAPTER.md" 
+start="<!--start-->"
+end="<!--end-->"
+%}
+
+# Cloud Virtual Machines
+
+
 # Chapter 6: DevOps
 
 {% include-markdown "section/devops/CHAPTER.md" 
 start="<!--start-->"
 end="<!--end-->"
 %}
+
+
+
