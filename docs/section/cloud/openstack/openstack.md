@@ -37,7 +37,7 @@ Networking is managed by **Neutron**, which provisions virtual networks, subnets
 
 The platform is supported by **Glance**, which acts as the image registry for VM snapshots, and **Heat**, which provides template-driven orchestration to automate the deployment of complex environments. For operational visibility, **Ceilometer** collects usage and metering data, while **Horizon** provides the web-based dashboard for users and administrators.
 
-![alt text](images/grok-openstack.jpg)
+![OpenStack Architecture Overview](images/grok-openstack.jpg)
 
 | Service | Acronym | Primary Function | Key API |
 | :--- | :--- | :--- | :--- |

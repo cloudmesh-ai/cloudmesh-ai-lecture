@@ -17,7 +17,7 @@ While all three options stop the virtual machine from running, they treat the un
 ---
 
 
-![alt text](images/openstack-shelve-cost-chatgpt.png)
+![Comparison of Instance States and Cost Efficiency](images/openstack-shelve-cost-chatgpt.png)
 
 ## 1. Shelving an Instance
 
