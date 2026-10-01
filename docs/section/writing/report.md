@@ -15,7 +15,7 @@
 
 Writing a technical report is a fundamental skill in scientific research and engineering. A well-structured report documents work and communicates the value, validity, and reproducibility of results to the broader community. This section provides a framework for producing high-quality, scientific-grade reports.
 
-![alt text](images/gemini-writing.jpeg)
+![Technical Report Writing Process](images/gemini-writing.jpeg)
 
 ## Core Sections
 
