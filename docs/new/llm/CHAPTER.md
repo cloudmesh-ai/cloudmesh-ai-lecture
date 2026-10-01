@@ -26,6 +26,6 @@ This chapter provides a comprehensive overview of the Large Language Model (LLM)
 
 ### Practical Application
 
-* **[🔵 LLM Tutorials](/new/llm/tutorials)**: Hands-on guides for implementing LLMs across different platforms.
+* **[🔵 LLM Tutorials](/new/llm/tutorials/index.md)**: Hands-on guides for implementing LLMs across different platforms.
 
 <!--end-->

@@ -1,0 +1,32 @@
+digraph G {
+    rankdir=LR;
+    splines=ortho;
+    nodesep=0.5;
+    ranksep=0.8;
+    
+    node [fontname="Helvetica", fontsize=12, shape=box, style="filled,rounded", color="#7fb3d5", fillcolor="#eaf2f8", penwidth=2];
+    edge [fontname="Helvetica", fontsize=10, color="#5d6d7e", penwidth=1.5];
+    
+    User [shape=ellipse, color="#f7dc6f", fillcolor="#fef9e7", label="User Request"];
+    Gateway [label="API Gateway\n(FastAPI)"];
+    Router [label="LLM Router\n(LiteLLM)"];
+    
+    subgraph cluster_backends {
+        label = "Inference Backends";
+        fontname="Helvetica-Bold";
+        fontsize=14;
+        style="filled,dashed";
+        color="#abb2b9";
+        fillcolor="#f8f9f9";
+        
+        Ollama [label="Ollama\n(Local Llama3)", fillcolor="#d5f5e3", color="#58d68d"];
+        JetStream [label="JetStream\n(TPU Gemma)", fillcolor="#d6eaf8", color="#5dade2"];
+        OpenAI [label="OpenAI\n(GPT-4o)", fillcolor="#fdedec", color="#ec7063"];
+    }
+    
+    User -> Gateway;
+    Gateway -> Router;
+    Router -> Ollama;
+    Router -> JetStream;
+    Router -> OpenAI;
+}

@@ -1,0 +1,149 @@
+# Running a One-Node OpenStack Cloud with DevStack on Chameleon
+
+This guide provides a step-by-step walkthrough for deploying a minimal, single-node OpenStack environment using **DevStack** on the Chameleon Cloud platform (KVM@TAC or Jetstream).
+
+## Overview
+
+**DevStack** is a series of scripts used to quickly bring up a complete OpenStack environment. It is designed for developers and students to learn the OpenStack architecture, test new features, or develop plugins without needing a massive data center.
+
+Because we are running DevStack inside a Virtual Machine (VM) provided by Chameleon, we are performing **Nested Virtualization**. This means the "outer" VM (the Chameleon node) acts as a hypervisor for the "inner" VMs (the OpenStack instances you will create).
+
+### Critical Requirements
+- **Nested Virtualization Support**: You must select a flavor/node that supports KVM nested virtualization. On Chameleon, ensure you are using a flavor that provides hardware-assisted virtualization (VT-x/AMD-V).
+- **Resource Allocation**: DevStack is resource-intensive. A minimum of **8GB RAM** and **4 vCPUs** is recommended; **16GB RAM** is preferred to avoid stability issues during the installation process.
+- **Public Access**: You will need a **Floating IP** to access the OpenStack Dashboard (Horizon) from your local browser.
+
+---
+
+## Step 1: Provisioning the Node
+
+1. **Log into the Chameleon Portal**.
+2. **Select an Image**: Choose **Ubuntu 22.04 (Jammy Jellyfish)**. This is the most stable and supported version for current DevStack releases.
+3. **Select a Flavor**:
+   - Choose a flavor with at least 8GB RAM (16GB recommended).
+   - Ensure the node is located in a zone that supports KVM (e.g., KVM@TAC).
+4. **Network Configuration**:
+   - Assign a **Floating IP** to the instance.
+   - Note the Floating IP address; you will use this to access your cloud later.
+
+## Step 2: Security Group Configuration
+
+OpenStack services require several ports to be open. In the Chameleon portal, modify your instance's security group to allow the following:
+
+| Port | Protocol | Purpose |
+| :--- | :--- | :--- |
+| `22` | TCP | SSH Access to the node |
+| `80` | TCP | Horizon Dashboard (HTTP) |
+| `443` | TCP | Horizon Dashboard (HTTPS) |
+| `8774` | TCP | Keystone Identity API |
+| `8775` | TCP | Nova Compute API |
+
+---
+
+## Step 3: Preparing the OS
+
+DevStack **cannot** be run as the root user. You must create a dedicated `stack` user with sudo privileges.
+
+1. **SSH into your Chameleon node**:
+   ```bash
+   ssh ubuntu@<your-floating-ip>
+   ```
+
+2. **Create the `stack` user**:
+   ```bash
+   # Create the user
+   sudo useradd -s /bin/bash -d /opt/stack -m stack
+
+   # Give the user sudo privileges without requiring a password
+   echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+
+   # Switch to the stack user
+   sudo su - stack
+   ```
+
+## Step 4: Installing DevStack
+
+Now that the environment is prepared, you can clone the DevStack repository and configure the installation.
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://opendev.org/openstack/devstack.git
+   cd devstack
+   ```
+
+2. **Create the `local.conf` file**:
+   The `local.conf` file defines the passwords and services that will be installed. Replace `secret` with your own strong passwords.
+
+   ```bash
+   cat >local.conf <<EOF
+   [[local|localrc]]
+   # Passwords
+   ADMIN_PASSWORD=secretadmin
+   DATABASE_PASSWORD=secretdb
+   RABBIT_PASSWORD=secretrabbit
+   SERVICE_PASSWORD=secretservice
+
+   # Host IP (Use the internal IP of the node, not the floating IP)
+   HOST_IP=$(hostname -I | awk '{print $1}')
+
+   # Enable basic services
+   enable_service rabbitmq-server
+   enable_service mysql
+   EOF
+   ```
+
+3. **Run the installation script**:
+   This process can take anywhere from 15 to 45 minutes depending on the node's performance.
+   ```bash
+   ./stack.sh
+   ```
+
+---
+
+## Step 5: Verifying the Installation
+
+Once the script completes, it will print the URL for the **Horizon Dashboard** and the admin credentials.
+
+1. **Access the Dashboard**:
+   Open your web browser and navigate to:
+   `http://<your-floating-ip>/dashboard`
+
+2. **Login**:
+   - **Domain**: `Default`
+   - **Username**: `admin`
+   - **Password**: The `ADMIN_PASSWORD` you set in `local.conf`.
+
+3. **Test the Cloud**:
+   - Create a new Project.
+   - Create a small Network and Subnet.
+   - Launch a "CirrOS" instance (a tiny image used for testing) to verify that nested virtualization is working correctly.
+
+## Troubleshooting
+
+### "KVM not available" Error
+If you see errors related to the hypervisor not being available, check if nested virtualization is enabled on the host:
+```bash
+grep -E 'vmx|svm' /proc/cpuinfo
+```
+If no output is returned, the flavor you chose does not support nested virtualization, and you must recreate the node using a different flavor.
+
+### Installation Hangs
+DevStack is memory-intensive. If the installation hangs at the "Installing MariaDB" or "Installing RabbitMQ" stage, check the memory usage with `htop`. If the RAM is exhausted, you may need to add a swap file:
+```bash
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+```
+
+## Cleanup
+
+To stop the services and clean up the environment:
+```bash
+cd ~/devstack
+./unstack.sh
+```
+To completely remove the installation:
+```bash
+./clean.sh
+```

@@ -1,0 +1,9 @@
+WARNING -  Doc file 'lecture/CHAPTER.md' contains a link '/lsection/writing/markdown.md', but the target is not found among documentation files.
+WARNING -  Delimiter start '<!--start-->' of 'include-markdown' directive at lecture/luc.md:45 not detected in the file section/cloud/CHAPTER-VM-OPENSTACK.md
+WARNING -  Doc file 'lecture/luc.md' contains a link '/lsection/writing/markdown.md', but the target is not found among documentation files.
+WARNING -  Doc file 'section/container/kubernetes-advanced/hpa-autoscaling.md' contains a link 'images/keda-rps-flow.png', but the target 'section/container/kubernetes-advanced/images/keda-rps-flow.png' is not found among documentation files.
+WARNING -  Doc file 'section/container/kubernetes-advanced/rps-autoscaling.md' contains a link 'images/keda-rps-flow.png', but the target 'section/container/kubernetes-advanced/images/keda-rps-flow.png' is not found among documentation files.
+WARNING -  Doc file 'section/container/orchestration/openshift.md' contains a link 'images/openshift-comparison.png', but the target 'section/container/orchestration/images/openshift-comparison.png' is not found among documentation files.
+WARNING -  Doc file 'section/container/orchestration/openshift.md' contains a link 'images/s2i-process.png', but the target 'section/container/orchestration/images/s2i-process.png' is not found among documentation files.
+WARNING -  Doc file 'section/container/specialized/ai-containers.md' contains a link 'images/ai-stack.png', but the target 'section/container/specialized/images/ai-stack.png' is not found among documentation files.
+WARNING -  Doc file 'section/container/specialized/container-storage-networking.md' contains a link 'images/csi-abstraction.png', but the target 'section/container/specialized/images/csi-abstraction.png' is not found among documentation files.

@@ -1,0 +1,34 @@
+digraph G {
+    rankdir=TB;
+    splines=ortho;
+    nodesep=0.6;
+    ranksep=0.6;
+    
+    node [fontname="Helvetica", fontsize=12, shape=box, style="filled,rounded", color="#7fb3d5", fillcolor="#eaf2f8", penwidth=2];
+    edge [fontname="Helvetica", fontsize=10, color="#5d6d7e", penwidth=1.5];
+    
+    Code [label="Source Code\n(GitHub)", shape=cylinder, color="#82e0aa", fillcolor="#d4efdf"];
+    CI [label="CI Pipeline\n(GitHub Actions)", fillcolor="#d6eaf8", color="#5dade2"];
+    
+    subgraph cluster_checks {
+        label = "Quality Gates";
+        fontname="Helvetica-Bold";
+        fontsize=14;
+        style="filled,dashed";
+        color="#abb2b9";
+        fillcolor="#f8f9f9";
+        
+        Test [label="Unit Tests\n(Pytest)", fillcolor="#fcf3cf", color="#f4d03f"];
+        Lint [label="Linting\n(Ruff)", fillcolor="#fcf3cf", color="#f4d03f"];
+    }
+    
+    CD [label="CD Pipeline\n(Terraform)", fillcolor="#d5f5e3", color="#58d68d"];
+    Prod [label="Production\n(AWS/Azure)", shape=cloud, color="#f5b7b1", fillcolor="#fadbd8"];
+    
+    Code -> CI;
+    CI -> Test;
+    CI -> Lint;
+    Test -> CD [label=" Pass "];
+    Lint -> CD [label=" Pass "];
+    CD -> Prod;
+}

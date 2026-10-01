@@ -1,0 +1,177 @@
+
+# Schedule    
+
+  - LECTURES:
+    - 🟢 OVERVIEW:
+      - L.1.0 🟢 Introduction: lecture/syllabus/cloud-computing-devops-ai-syllabus.pdf **August 27, 2026**
+      - L.1.1 🟢 Syllabus: lecture/01.1-syllabus.md **August 27, 2026**
+      - L.1.2 🟢 Contribute: lecture/01.2-contribute-lecture-notes.md **August 27, 2026**
+      - L.1.3 🟢 Supplemental: lecture/01.4-supplemental.md **August 27, 2026**
+      - L.1.4 🟢 Piazza: lecture/01.5-piazza.md **August 27, 2026**
+      - L.1.5 🟢 Videos: lecture/videos.md **August 27, 2026**
+      - L.1.5 🟢⚪ ACCOUNTS:
+        - L.1.5.1 🟢 Local: lecture/accounts/local.md **September 10, 2026** 
+        - L.1.5.2 🟢 Access: lecture/accounts/access-ci.md **August 27, 2026**
+        - L.1.5.3 🟢 Chameleon: lecture/accounts/chameleon.md **August 27, 2026**
+        - L.1.5.4 ⚪ AWS: lecture/accounts/aws.md
+        - L.1.5.5 ⚪ Azure: lecture/accounts/azure.md
+        - L.1.5.6 ⚪ Google: lecture/accounts/google.md
+    - 🟢 CLOUD:
+      - L2.1.1 🟢 Introduction: lecture/cloud/introduction.md **August 27, 2026**, **September 03, 2026**
+      - L2.1.2 🟢 Privacy: /section/cloud/privacy.md **September 24, 2026**
+      - L2.1.3 🟢 Network: /section/network/network.md **September 24, 2026**
+    - 🟢🔴 VIRTUALIZATION:
+      - 🟢🔴 Vm:
+        - L3.1.3 🟢 Virtualization: lecture/cloud/virtualization.md **September 10, 2026** 
+        - L3.1.4 🟢 VM Technologies: lecture/cloud/virtual-machine-technologies.md **September 17, 2026**
+        - L3.1.5 🟢 VM Summary: lecture/cloud/virtualization-landscape.md **September 17, 2026**
+        - L3.2 Local: 
+          - L3.2.1 🟢 Overview: /section/cloud/local/vm-status.md **September 17, 2026**        
+          - L3.2.2 🟢 Multipass: /section/cloud/local/multipass.md **September 17, 2026**
+          - L3.2.3 🟢 Qemu: /section/cloud/local/qemu.md **September 17, 2026**
+          - L3.2.4 🟢 Vagrant: /section/cloud/local/vagrant.md **September 17, 2026**
+          - L3.2.5 ⚪ Virsh: /section/cloud/local/virsh.md 
+          - L3.2.6 ⚪ Virtualbox: /section/cloud/local/virtualbox.md
+          - L3.2.7 🟢 WSL2: /section/cloud/local/wsl2.md **September 17, 2026**
+          - L3.2.7.1 🟢 WSL2 SSH: /section/cloud/local/wsl2-ssh.md  **September 17, 2026**
+          - L3.2.8 ⚪ Lima: /section/cloud/local/lima.md
+          - L3.2.9 ⚪ UTM: /section/cloud/local/utm.md
+          - L3.2.10 Different Host Architecture:
+            - 🟢 macOS: /section/cloud/other-architecture-with-vmon-mac.md **September 24, 2026**
+            - 🟢 Windows: /section/cloud/other-architecture-with-vmon-windows.md **September 24, 2026**
+        - L3.3 Academia:
+          - L3.3.1 Jetstream:
+            - 🟢 Quickstart: /section/cloud/jetstream/jetstream-vm.md **September 10, 2026**, **September 17, 2026**
+            - 🔴 Hosting a Website: /section/cloud/jetstream/jetstream-mkdocs.md
+            - 🔴 Multiple VMs: /section/cloud/jetstream/jetstream-multi.md
+            - 🔴 VMs via Heat: /section/cloud/jetstream/jetstream-multi-heat.md
+            - 🟢 Cost: /section/cloud/jetstream/jetstream-cost.md **September 24, 2026**
+          - L3.3.2 Chameleon:
+            - 🟢 Horizon: /section/cloud/chameleon/horizon.md **September 17, 2026**
+            - 🔴 os-chi: /section/cloud/chameleon/python-chi.md
+            - 🔴 os-command: /section/cloud/chameleon/os-commandline.md
+            - 🟢 Libcloud: /section/cloud/libcloud.md**September 24, 2026**
+            - 🟢 os-python: /section/cloud/chameleon/os-python.md
+            - 🟢 Cost: /section/cloud/chameleon/cost.md **September 24, 2026**
+          - 🔴 L3.3.3 OpenStack:
+            - 🔴 Reduce Cost: /section/cloud/openstack-reduce-cost.md
+          - L3.4 🔴 Openstack Heat:
+            - 🔴 Introduction: /section/cloud/openstack-heat.md
+            - 🔴 Shared Web Service: /section/cloud/openstack-heat-fast-api-project-wide-access.md
+            - 🔴 Bastian Web Service: /section/cloud/openstack-heat-fastapi.md
+      - 🔵 Container:
+        - 🔵 Docker: /section/container/docker.md
+        - 🔵 Kubernetes: 
+          - 🔵 Introduction: /section/container/kubernetes.md
+          - 🔵 Local Deployment: /section/container/kubernetes-local.md
+        - 🔵 Apptainer: /section/container/apptainer.md
+        - 🔵 Podman: /section/container/podman.md    
+        - 🔵 Podman vs Docker: /section/container/podman-and-co.md
+        - 🔵 Comparison: /section/container/container-tool-comparison.md
+        - 🔵 Openstack and Containers:
+          - 🔵 Opensatck: /section/container/openstack/openstack.md
+          - 🔵 Containers: /section/container/openstack/openstack-containers.md 
+          - 🔵 Chameleon: /section/container/openstack/openstack-chameleon-containers.md
+          - 🔵 Jetstream: /section/container/openstack/openstack-jetstream-container.md    
+    - 🔴 DEVOPS:
+      - D.1 🔴 Introduction: /section/devops/devops.md
+      - D.2 🔴 Continuous Integration & Deployment:
+          - D.2.1 🔴 Fundamentals: /section/devops/devop-ci.md
+          - D.2.2 🔴 Teams: /section/devops/devops-team.md
+          - D.2.3 🟢 Make: /section/devops/make.md **September 17, 2026**
+          - D.2.4.1 🔴 Make for WSL2: /section/devops/make.md
+          - D.2.5 🔴 GitHub Workflows: /section/devops/github-workflows.md
+          - D.2.6 🔴 Workflow Security: /section/devops/github-workflow-security.md
+          - D.2.7 🔴 Travis CI: /section/devops/travis.md
+          - D.2.8 🔴 CircleCI: /section/devops/circleci.md
+          - D.2.9 🔴 Jenkins Orchestration: /section/devops/jenkins.md
+      - D.3 🔴 Infrastructure as Code:
+          - D.3.1 🔴 Overview: /section/devops/devops-iac.md
+          - D.3.2 🔴 Provisioning with Terraform: /section/devops/terraform.md
+          - D.3.3 🔴 Configuration with Ansible: /section/devops/ansible.md
+          - D.3.4 🔴 Need: /section/devops/ansible.md
+          - D.3.5 🔴 Puppet: /section/devops/puppet.md
+      - D.4 🔵 Cloud DevOps:
+          - D.4.1 🔵 AWS: /section/devops/devop-aws.md
+          - D.4.2 🔵 Azure: /section/devops/devop-azure-monitor.md
+    - 🔴 SERVICES:
+      - 🔴 REST:
+        - 🟢 REST Services: /section/rest/rest.md **September 24, 2026**    
+        - 🔴 REST Services: /section/rest/rest-ai.md      
+        - 🟡 REST Services: /section/rest/rest-llm-mock-openai.md
+      - 🔵 LLM:
+        - 🔵🟡 LLM on CPUs: /section/llm/llm-cpu-all.md
+        - 🔵🟡 LLM on Jetstream: /section/llm/llm-jetstream.md
+        - 🔵⚪ LLM on AmSC: /section/llm/llm-spark.md
+        - 🔵⚪ LLM on AmSC: /section/llm/llm-amsc.md
+  - ASSIGNMENTS:
+    - 🟢 Overview: lecture/assignments/overview.md **August 27, 2026** 
+    - 🟢 Weekly (LUC 388,488): lecture/assignments/assignments.md **August 27, 2026** 
+    - 🟡 Project Ideas: lecture/assignments/ideas.md **September 24, 2026**
+  - 🟡 AI Fundamentals:
+    - Scikit-learn:
+      - ⚪ Introduction: /section/ai/skit-learn/scikit-learn.md
+      - 🟡 Introduction: /section/ai/skit-learn/scikit-kmeans.md
+  - 🔴 CLOUDMESH:
+    - 🔴 Common:  /section/python/cloudmesh-ai-common.md
+    - 🔴 YAMLDB: /section/python/python-yamldb.md
+    - 🔴 Hostlist: /section/python/python-hostlist.md
+  - 🔴  PYTHON:
+    - P.1 ⚪ Introduction: /section/python/python-intro.md
+    - P.2 ⚪ Installation: /section/python/python-install.md
+    - P.3 Getting Started:
+      - P.3.1 ⚪ Interactive: /section/python/python-interactive.md
+      - P.3.2 ⚪ Editor: /section/python/python-editor.md
+      - P.3.3 ⚪ Language: /section/python/language.md
+    - P.4 🔴  Virtual Environments:
+      - P.4.1 ⚪ Uv: /section/python/python-uv.md
+      - P.4.2 ⚪ Hatch: /section/python/python-hatch.md
+      - P.4.3 ⚪ Hatch vs uv: /section/python/python-hatch-vs-uv.md
+      - P.4.4 🔴 Pipx: /section/python/python-pipx.md
+    - P.5 🟡 Commands:
+      - P.5.1 🟡 Click: /section/python/python-click.md
+      - P.5.2 ⚪ DocOpts: /section/python/python-docopts.md
+      - P.5.3 ⚪ Argparse: /section/python/python-argparse.md
+      - P.5.3 ⚪ CMD: /section/python/python-cmd.md
+    - P.6 🟡 Processes:
+      - P.6.1 🟡 Subprocess: /section/python/python-subprocess.md
+      - P.6.2 ⚪ Parallel: /section/python/python-parallel.md
+      - P.6.3 ⚪ Queues: /section/python/python-queue.md
+      - P.6.4 ⚪ Schedulers: /section/python/python-scheduler.md
+    - P.7 ⚪ Data:
+      - P.7.1 ⚪ Basic Data: /section/python/python-data.md
+      - P.7.2 ⚪ Wordcount: /section/python/python-wordcount.md
+    - P.8 ⚪ Graphs:
+      - P.8.1 ⚪ Graph: /section/python/python-graph.md
+      - P.8.2 ⚪ Matplotlib: /section/python/python-matplotlib.md
+    - P.9 ⚪ Security:
+      - P.9.1 ⚪ SSL/TLS: /section/python/python-ssl.md
+      - P.9.2 ⚪ SSH: /section/python/python-ssh.md
+    - P.10 🟡 Development and DevOps:
+      - P.10.1 🟡 Type Hinting and Static Analysis: /section/python/python-type-hints.md
+      - P.10.2 🟡 Testing: /section/python/python-testing.md
+      - P.10.3 🟡 Logging and Monitoring: /section/python/python-logging.md
+      - P.10.4 🟡 Packaging and Distribution: /section/python/python-pyproject.md
+
+  - 🟢⚪ LINUX:
+    - L.1 ⚪ Introduction: /section/linux/linux.md
+    - L.1.1 ⚪ ZSH: /section/linux/zsh.md
+    - L.2 ⚪ Text one Liners: /section/linux/text.md
+    - L.3.1 ⚪ RefCards: /section/linux/refcards.md
+    - L.3.2 ⚪ Ubuntu CLI Cheat Sheet: /section/linux/ubuntu-cheatsheet.md
+    - L.4.1 🟢 Gitbash: /section/linux/gitbash.md  **September 10, 2026**
+    - L.4.2 🟢 Github: /section/linux/github.md **September 17, 2026** 
+    - L.4.2 🔴 Gh CLI: /section/linux/gh.md
+    - L.5 🟢 SSH: /section/linux/ssh.md  **September 10, 2026**
+    - L.6 🟢 SSH on Windows: /section/linux/ssh-windows.md **September 10, 2026** 
+    - L.8 ⚪ Recording: /section/linux/recording.md **September 10, 2026** 
+  - 🔴⚪  WRITING:
+    - W.1 ⚪ Plagarism: /section/writing/plagiarism.md
+    - W.2 🔴 Markdown: /section/writing/markdown.md
+    - W.2 ⚪ Mkdocs: /section/writing/mkdocs.md
+    - W.3 ⚪ Emacs: /section/writing/emacs.md
+    - W.4 🔴 Diagrams:
+      - W.4.1 ⚪ PPT: /section/writing/ppt.md
+      - W.4.2 🔴 Mermaid: /section/writing/mermaid.md
+      - W.4.3 🔴 Graphviz: /section/writing/graphviz.md
+      - W.4.1 ⚪ Blockdiag: /section/writing/blockdiag.md
