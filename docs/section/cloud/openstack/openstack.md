@@ -1,8 +1,4 @@
----
-title: "Introduction to OpenStack: IaaS for the Enterprise"
----
-
-# OpenStack: Enterprise Cloud Infrastructure
+# Introduction to OpenStack: IaaS for the Enterprise
 
 ## Learning Objectives
 
@@ -40,6 +36,8 @@ To understand how OpenStack operates, one must understand the specific roles of 
 Networking is managed by **Neutron**, which provisions virtual networks, subnets, and security groups. For storage, OpenStack offers two primary paths: **Cinder** provides persistent block storage volumes that can be attached to instances, while **Swift** provides a scalable, S3-compatible object storage system for unstructured data.
 
 The platform is supported by **Glance**, which acts as the image registry for VM snapshots, and **Heat**, which provides template-driven orchestration to automate the deployment of complex environments. For operational visibility, **Ceilometer** collects usage and metering data, while **Horizon** provides the web-based dashboard for users and administrators.
+
+![alt text](images/grok-openstack.jpg)
 
 | Service | Acronym | Primary Function | Key API |
 | :--- | :--- | :--- | :--- |

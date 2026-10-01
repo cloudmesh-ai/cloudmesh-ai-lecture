@@ -17,6 +17,7 @@ OpenStack Heat solves this by introducing **Infrastructure‑as‑Code (IaC)**. 
 
 This approach ensures that your environment is repeatable, auditable, and version-controlled, allowing you to treat your infrastructure with the same rigor as your application code.
 
+<!--
 ```mermaid
 graph TD
     subgraph User Interaction
@@ -55,6 +56,9 @@ graph TD
     style K fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#880e4f
     style L fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#880e4f
 ```
+-->
+
+![Heat](images/grok-heat.jpg)
 
 ## Core Concepts
 
@@ -128,6 +132,8 @@ To understand Heat in practice, let's look at a complete scenario: deploying a w
 We need a private network for the server to reside in, a security group to allow HTTP (port 80) and SSH (port 22) traffic, and a floating IP to make the server accessible from the internet.
 
 ### The Template (`web_tier.yaml`)
+
+![webtier.yaml](images/grok-web-tier.jpg)
 
 ```yaml
 heat_template_version: 2018-03-02
