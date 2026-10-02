@@ -1,4 +1,4 @@
-## Working with **YAMLDB** (the Cloudmesh YAML Database)
+# Working with **YAMLDB** (the Cloudmesh YAML Database)
 
 In this chapter you will discover how the **YAMLDB** package from the Cloudmesh ecosystem turns plain YAML files into a lightweight, searchable key-value store. You will learn to:
 
@@ -9,14 +9,14 @@ In this chapter you will discover how the **YAMLDB** package from the Cloudmesh 
 
 ---
 
-### 4.1 Learning Outcomes
+## 4.1 Learning Outcomes
 
 !!! info "Learning Outcomes"
 
     After finishing this chapter you will be able to:
 
     - **Explain** what a YAML-based document store is and when it is preferable to relational or full-featured NoSQL databases.
-    - **Install** `cloudmesh-yamldb` and import its core classes (`YamlDatabase`, `YamlObject`).
+    - **Install** `cloudmesh-yamldb` and import its core classes (`YamlDB`, `YamlObject`).
     - **Design** a schema-less collection of records and perform CRUD operations with clear, repeatable code.
     - **Write** simple queries using the built-in predicate language (`where`, `order_by`, `limit`).
     - **Merge** data from separate YAML files while handling conflicts gracefully.
@@ -24,7 +24,8 @@ In this chapter you will discover how the **YAMLDB** package from the Cloudmesh 
 
 ---
 
-### 4.2 Why YAMLDB?
+
+## 4.2 Why YAMLDB?
 
 | Situation | Traditional Choice | Why YAMLDB shines |
 |-----------|-------------------|-------------------|
@@ -35,37 +36,38 @@ In this chapter you will discover how the **YAMLDB** package from the Cloudmesh 
 
 ---
 
-### 4.3 Installing the Library
+## 4.3 Installing the Library
 
 Open a terminal (or a notebook cell) and run:
 
 ```bash
-pip install cloudmesh-yamldb
+pip install yamldb
 ```
 
 If you are inside an isolated environment (e.g., a Jupyter notebook) you can use the *magic* command:
 
 ```python
-!pip install -q cloudmesh-yamldb
+!pip install -q yamldb
 ```
 
 The installation pulls in PyYAML and a few helper packages.
 
-> **Tip:** `cloudmesh-yamldb` works with Python 3.8+; it does **not** require a running MongoDB server.
+!!! Tip 
+    `yamldb` works with modern Python ; it does **not** require a running MongoDB server.
 
 ---
 
-### 4.4 A First-Look Example
+## 4.4 A First-Look Example
 
 Below is a minimal script that creates a database, inserts a few records, and queries them.
 You can copy-paste it into a Jupyter cell or a `.py` file.
 
 ```python
-from cloudmesh.yaml.db import YamlDatabase
+from yamldb import YamlDB
 
 # 1. Create (or open) a YAML file that will host our database.
-# It will be created in the current working directory if it doesn't exist.
-db = YamlDatabase("catalog.yaml")
+ It will be created in the current working directory if it doesn't exist.
+db = YamlDB("catalog.yaml")
 
 # 2. Insert some records. Each record is a Python dict.
 db.insert_one({"name": "alpha",   "type": "sensor",   "value": 12.5, "tags": ["temp", "outdoor"]})
@@ -85,7 +87,7 @@ for r in results:
     print(r)
 ```
 
-#### What you should see
+### What you should see
 
 Running the script prints something like:
 
@@ -108,9 +110,9 @@ These operators mimic MongoDB's query language, making the transition to a "real
 
 ---
 
-### 4.5 CRUD in Detail
+## 4.5 CRUD in Detail
 
-#### 4.5.1 Create
+### 4.5.1 Create
 
 ```python
 # Insert a single document
@@ -124,7 +126,7 @@ batch = [
 db.insert_many(batch)
 ```
 
-#### 4.5.2 Read
+### 4.5.2 Read
 
 ```python
 # Fetch by exact match
@@ -136,7 +138,7 @@ finished = db.find(where={"status": "finished"})
 print("Finished experiments:", finished)
 ```
 
-#### 4.5.3 Update
+### 4.5.3 Update
 
 ```python
 # Increment a numeric field
@@ -152,7 +154,7 @@ db.replace_one(
 )
 ```
 
-#### 4.5.4 Delete
+### 4.5.4 Delete
 
 ```python
 # Remove a single record
@@ -164,15 +166,15 @@ db.delete_one({"id": 102})
 
 ---
 
-### 4.6 Merging Multiple YAML Sources
+## 4.6 Merging Multiple YAML Sources
 
 Imagine you have two YAML files that describe hardware inventories for two labs. You can unite them safely:
 
 ```python
-from cloudmesh.yaml.db import YamlDatabase
+from yamldb import YamlDB
 
-lab_a = YamlDatabase("lab_a.yaml")
-lab_b = YamlDatabase("lab_b.yaml")
+lab_a = YamlDB("lab_a.yaml")
+lab_b = YamlDB("lab_b.yaml")
 
 # Merge lab_b into lab_a, keeping lab_a's records when there is a conflict
 lab_a.merge(lab_b, on="serial_number", how="left")
@@ -185,15 +187,15 @@ After the merge `lab_a` now contains the combined inventory, written back to *la
 
 ---
 
-### 4.7 Safe Persistence – Backups & Context Managers
+## 4.7 Safe Persistence – Backups & Context Managers
 
 YAMLDB writes to the file **every time** you call a mutating method (`insert_one`, `update_one`, ...).
 To guard against accidental corruption you can use the built-in context manager that creates a temporary backup:
 
 ```python
-from cloudmesh.yaml.db import YamlDatabase
+from yamldb import YamlDB
 
-with YamlDatabase("catalog.yaml", backup=True) as db:
+with YamlDB("catalog.yaml", backup=True) as db:
     db.insert_one({"name": "epsilon", "type": "sensor", "value": 9.1})
     # If an exception occurs, the original file is restored automatically.
 ```
@@ -202,7 +204,7 @@ When `backup=True`, a file named `catalog.yaml.bak` is created before any write 
 
 ---
 
-### 4.8 Common Pitfalls & Debugging Tips
+## 4.8 Common Pitfalls & Debugging Tips
 
 | Symptom | Likely Cause | Fix |
 |---------|--------------|-----|
@@ -226,7 +228,7 @@ Test your knowledge by expanding the questions below.
 
 ---
 
-### 4.10 Assignments
+## 4.10 Assignments
 
 !!! note "Assignment 4.1 – Build a Mini-Catalog"
 
@@ -237,7 +239,7 @@ Test your knowledge by expanding the questions below.
        - `year`
        - `tags` (list, e.g., `["science", "history"]`)
 
-    2. **Queries** – Using `YamlDatabase`, write Python functions that answer the following:
+    2. **Queries** – Using `YamlDB`, write Python functions that answer the following:
        - `books_by_author(author_name)` → returns all books written by that author.
        - `books_between_years(start, end)` → returns books published between the two years (inclusive).
        - `books_with_tag(tag)` → returns books that have a specific tag.
@@ -255,7 +257,7 @@ Test your knowledge by expanding the questions below.
 
     Write a short script that spawns **5** Python threads. Each thread should:
 
-    - Open the same `catalog.yaml` file via `YamlDatabase(..., backup=True)`.
+    - Open the same `catalog.yaml` file via `YamlDB(..., backup=True)`.
     - Insert a unique record (e.g., `{"thread": i, "timestamp": <now>}`) **five** times with a small random sleep (`time.sleep(random.random())`) between inserts.
 
     After all threads finish, verify that **25** new records exist and that the file is still valid YAML (no duplicate keys, proper indentation).
@@ -264,17 +266,17 @@ Test your knowledge by expanding the questions below.
 
 ---
 
-### 4.11 Recap
+## 4.11 Recap
 
 | Concept | Quick Cheat-Sheet |
 |---------|-------------------|
 | **Installation** | `pip install cloudmesh-yamldb` |
-| **Open / create DB** | `db = YamlDatabase("my.db")` |
+| **Open / create DB** | `db = YamlDB("my.db")` |
 | **Insert** | `db.insert_one(dict)`, `db.insert_many([dict,...])` |
 | **Find** | `db.find(where={...}, order_by="field", limit=n)` |
 | **Update** | `db.update_one(query, {"$set": {...}})` |
 | **Delete** | `db.delete_one(query)` |
 | **Merge** | `db1.merge(db2, on="key", how="left")` |
-| **Backup** | `with YamlDatabase(file, backup=True) as db: ...` |
+| **Backup** | `with YamlDB(file, backup=True) as db: ...` |
 
 You now have a complete toolkit for turning human-friendly YAML files into a tiny, queryable database. Use it for configuration, prototyping, or as a stepping-stone toward larger data platforms.
