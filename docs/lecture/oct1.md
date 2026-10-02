@@ -5,7 +5,7 @@ The selected documents provide a comprehensive pathway from **foundational techn
 
 1. We start with **Technical Writing** because clear, reproducible documentation is essential for scientific engineering and the project report. 
 
-2.We then move to **Python Tooling** to establish a stable, conflict-free development environment, as these tools are required to interact with cloud APIs. These tools simplify benchmarking and storing yaml files whille avoiding overhead introduce by tools such as mongodb for inteacting with configuration files. 
+2. We then move to **Python Tooling** to establish a stable, conflict-free development environment, as these tools are required to interact with cloud APIs. These tools simplify benchmarking and storing yaml files whille avoiding overhead introduce by tools such as mongodb for inteacting with configuration files. 
 
 3. Finally, we dive into **OpenStack**, moving from basic VM management to complex "Infrastructure as Code" (IaC) patterns. This progression ensures that students can not only build complex cloud architectures but also document them professionally and maintain the tooling required to operate them.
 

@@ -117,9 +117,9 @@ from cloudmesh.ai.common.remote import RemoteExecutor
 
 host = "dgx-node-1"
 with RemoteExecutor(host) as executor:
- result = executor.execute("nvidia-smi")
- print(f"Exit Code: {result.exit_code}")
- print(f"Stdout: {result.stdout}")
+    result = executor.execute("nvidia-smi")
+    print(f"Exit Code: {result.exit_code}")
+    print(f"Stdout: {result.stdout}")
 ```
 
 ### Live Streaming and File Transfers
@@ -132,12 +132,12 @@ from pathlib import Path
 
 host = "dgx-node-1"
 with RemoteExecutor(host, monitor_output=True) as executor:
- # Live stream a training script
- executor.execute("bash long_training_script.sh")
- 
- # Upload and Download
- executor.upload(Path("local_config.yaml"), "/home/user/remote_config.yaml")
- executor.download("/home/user/training.log", Path("local_training.log"))
+    # Live stream a training script
+    executor.execute("bash long_training_script.sh")
+
+    # Upload and Download
+    executor.upload(Path("local_config.yaml"), "/home/user/remote_config.yaml")
+    executor.download("/home/user/training.log", Path("local_training.log"))
 ```
 
 ---
@@ -152,14 +152,14 @@ The `sys` module provides cross-platform tools to detect hardware and OS environ
 from cloudmesh.ai.common.sys import os_is_linux, systeminfo, has_window_manager
 
 if os_is_linux():
- print("Running on Linux")
+    print("Running on Linux")
 
 info = systeminfo()
 print(f"CPU: {info.get('cpu')}")
 print(f"Total Memory: {info.get('memory_total')}")
 
 if has_window_manager():
- print("GUI environment detected.")
+    print("GUI environment detected.")
 ```
 
 ---
@@ -365,29 +365,29 @@ from cloudmesh.ai.common.stopwatch import StopWatch, benchmark
 # 1. Use the @benchmark decorator for utility functions
 @benchmark
 def preprocess_data(item):
- """Simulates data cleaning and tokenization."""
- time.sleep(random.uniform(0.01, 0.05)) 
+    """Simulates data cleaning and tokenization."""
+    time.sleep(random.uniform(0.01, 0.05)) 
 
 def run_ai_pipeline():
- # 2. Use StopWatch.timer with a specific name for a major phase
- with StopWatch.timer("Model Loading"):
- print("Loading LLM into GPU memory...")
- time.sleep(1.5) # Simulate heavy I/O
+    # 2. Use StopWatch.timer with a specific name for a major phase
+    with StopWatch.timer("Model Loading"):
+    print("Loading LLM into GPU memory...")
+    time.sleep(1.5) # Simulate heavy I/O
  
  # 3. Use StopWatch.timer WITHOUT a name
  # StopWatch will automatically name this timer 'run_ai_pipeline' 
  # because it detects the calling function name.
  with StopWatch.timer():
- print("Initializing pipeline...")
- time.sleep(0.2)
+    print("Initializing pipeline...")
+    time.sleep(0.2)
 
  # 4. Demonstrate Accumulation (Sum vs Get)
  print("Processing batch...")
  for i in range(5):
- # The 'inference' timer will be started and stopped 5 times.
- with StopWatch.timer("inference"):
- time.sleep(random.uniform(0.1, 0.3))
- preprocess_data(f"item_{i}")
+    # The 'inference' timer will be started and stopped 5 times.
+    with StopWatch.timer("inference"):
+        time.sleep(random.uniform(0.1, 0.3))
+        preprocess_data(f"item_{i}")
 
  # --- Analyzing Results ---
  
