@@ -5,9 +5,9 @@
 Welcome to the OpenStack and Research Cloud Platforms section of the course. This chapter focuses on the implementation and management of private clouds using OpenStack, exploring how this powerful IaaS platform is utilized by research clouds like Chameleon and Jetstream to provide scalable compute, networking, and storage resources.
 
 - **Part I: Introduction to OpenStack**
-    * **Fundamentals**: [🔴 Introduction to OpenStack: IaaS for the Enterprise](/section/cloud/openstack/openstack.md): A comprehensive overview of OpenStack's role, its core services (Nova, Neutron, Cinder, etc.), and its importance for AI workloads.
+    * **Fundamentals**: [🟢 Introduction to OpenStack: IaaS for the Enterprise](/section/cloud/openstack/openstack.md): A comprehensive overview of OpenStack's role, its core services (Nova, Neutron, Cinder, etc.), and its importance for AI workloads.
     * **Control Plane**: [🟢 Managing the Cloud: The OpenStack Horizon Dashboard](/section/cloud/openstack/horizon.md): A guide to navigating the web-based GUI and managing cloud resources visually.
-    * **Optimization**: [🔴 Strategies for reducing OpenStack costs](/section/cloud/openstack/openstack-reduce-cost.md).
+    * **Optimization**: [🟢 Strategies for reducing OpenStack costs](/section/cloud/openstack/openstack-reduce-cost.md).
 
 - **Part II: OpenStack Research Cloud Platforms**
     * **Chameleon Cloud**:
@@ -18,7 +18,7 @@ Welcome to the OpenStack and Research Cloud Platforms section of the course. Thi
         * **Economics**: [🟢 Understanding and managing costs on Chameleon](/section/cloud/platforms/chameleon/cost.md).
     * **Jetstream**:
         * **VM Basics**: [🟢 Deploying and managing VMs on Jetstream](/section/cloud/platforms/jetstream/jetstream-vm.md).
-        * **Scaling**: [🔴 Multi-node deployments](/section/cloud/platforms/jetstream/jetstream-multi.md), including [🔵 Visualizing multi-node deployments](/section/cloud/platforms/jetstream/images/multi-jetstream-mermaid.md) and [🔴 Orchestration with Heat](/section/cloud/platforms/jetstream/jetstream-multi-heat.md).
+        * **Scaling**: [🟢 Multi-node deployments](/section/cloud/platforms/jetstream/jetstream-multi.md), including [🔵 Visualizing multi-node deployments](/section/cloud/platforms/jetstream/images/multi-jetstream-mermaid.md) and [🔴 Orchestration with Heat](/section/cloud/platforms/jetstream/jetstream-multi-heat.md).
         * **Administration**: [🟢 Jetstream cost management](/section/cloud/platforms/jetstream/jetstream-cost.md) and [🟢 Documentation via mkdocs](/section/cloud/platforms/jetstream/jetstream-mkdocs.md).
 
 - **Part III: Openstack CLI**

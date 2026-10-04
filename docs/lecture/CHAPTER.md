@@ -17,12 +17,12 @@ Here, you will find the overarching schedule, communication channels for communi
 - **Part II: Assignments and Projects**
     * **[🟢 Assignments Overview](/lecture/assignments/overview.md)**: A high-level guide to the course assignments.
     * **[🟢 Assignments List](/lecture/assignments/assignments.md)**: Detailed requirements and instructions for all course tasks.
-    * **[🔴 Project Report Format](/section/writing/report.md)**: Detailed requirements and instructions for all course tasks.
-        * **[🔴 Markdown Format](/section/writing/markdown.md)**: Markdown syntax
+    * **[🟢 Project Report Format](/section/writing/report.md)**: Detailed requirements and instructions for all course tasks.
+        * **[🟢 Markdown Format](/section/writing/markdown.md)**: Markdown syntax
         * **[⚪ ACM Markdown](/section/writing/acm-markdown.md)**: ACM styling for research papers.
         * **[⚪ ACM LaTeX with Overleaf](/section/writing/overleaf.md)**: ACM styling for research papers in overleaf.
 
-        * **Diagrams:** [🔴 Mermaid Diagrams](/section/writing/mermaid.md), [🔴 Graphviz Diagrams](/section/writing/graphviz.md) 
+        * **Diagrams:** [🟢 Mermaid Diagrams](/section/writing/mermaid.md), [🟢 Graphviz Diagrams](/section/writing/graphviz.md) 
         
 
 - **Part III: Media and Resources**
