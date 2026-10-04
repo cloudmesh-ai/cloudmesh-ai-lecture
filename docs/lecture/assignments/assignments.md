@@ -22,6 +22,19 @@
     4. Update the `README.md` with the list of assignments that are posted each week.
     5. You can add a subbullet with - [ ] Other and check what other things you did. If there are relevant links in GitHub, make sure to post them here.
 
+## Week 6:  Due Oct 8, 2026, 9am
+
+
+!!! note "Assignment W6.1-5: VMs via Python (libcloud)"
+    1. Continue the libcloud assignment.
+    2. This includes communicating in class.
+    3. This includes using GitHub.
+    4. This includes staying up to date with the latest commits.
+    5. In class it was pointed out to use two providers now; week one was one provider, week two is two.
+    6. Develop a smoke test for at least one provider. See if you can adapt it to a second one. (next week you will develop a smke test for another provider.)
+    7. Once you have identified issue for your provider try to fix them in seperate pull requests.
+    9. When submitting the assignment, there is no need to put them in your repository. Instead, create pull requests. You can add the links to the pull requests to your repository.
+    9. Make sure your pull request can be merged and is small enough to be reviewable.
 
 ## Week 5:  Due Oct 1, 2026, 9am
 
