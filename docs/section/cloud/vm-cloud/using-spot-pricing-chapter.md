@@ -1,5 +1,6 @@
 
 # Spot‑Pricing Guide – AWS, Azure, Google Cloud, Oracle Cloud  
+
 **How to launch a 1 vCPU + 1 GiB Ubuntu 26.04 VM with spot (pre‑emptible) pricing**  
 The guide is divided into three parts for each cloud provider:
 
