@@ -25,12 +25,18 @@
 ## Public Clouds
 *Focus: Comparing private cloud capabilities with public cloud implementations.*
 
-*   **[OpenStack VM Implementation and Platforms](/lecture/luc.md#chapter-6-openstack-virtual-machine-implementation-and-platforms)**: Comparing the architectural patterns of OpenStack with public cloud platforms.
-
 * **Cloudbank videos:**
 
     In a discussion with Cloudbank they indicated they wanted me to show them:
 
     * Part 1: [CloudBank Onboarding (~10m)](https://www.cloudbank.org/onboarding-video-part1)
     * Part 2: [CloudBank Portal Demo (~25m)](https://www.cloudbank.org/onboarding-video-part2)
+
+
+*   **Public Cloud Implementations**:
+
+    *   **AWS**: [Account Setup](/section/accounts/aws.md), [CLI Installation & Setup](/section/cloud/vm-cloud/aws-install-chapter.md) and [Boto3 SDK Implementation](/section/cloud/vm-cloud/aws-boto-chapter.md)
+    *   **Azure**: [Account Setup](/section/accounts/azure.md), [Installation & Setup](/section/cloud/vm-cloud/azure%20install-chapter.md) and [Azure SDK Implementation](/section/cloud/vm-cloud/azure-sdk-chapter.md)
+    *   **GCP**: [Account Setup](/section/accounts/google.md) and [Installation & Setup](/section/cloud/vm-cloud/gcp-install-chapter.md)
+
  
