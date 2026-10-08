@@ -1,7 +1,5 @@
 # Oct 15 Lecture: Containerization, Orchestration, and Cloud Integration
 
-## Learning Objectives
-
 !!! info "Learning Objectives"
     - Understand the transition from basic process isolation to large-scale cluster orchestration.
     - Compare container runtimes including Docker, Podman, and Apptainer, specifically for HPC and security contexts.
@@ -98,13 +96,13 @@ Cloud platforms provide the raw compute and storage (VMs) that support container
 ## Self-Evaluation
 
 ??? note "What is the main difference between Docker and Podman?"
-Podman is daemonless and supports rootless containers by default, whereas Docker relies on a central daemon process that typically requires root privileges.
+    Podman is daemonless and supports rootless containers by default, whereas Docker relies on a central daemon process that typically requires root privileges.
 
 ??? note "Why is Apptainer preferred over Docker in HPC environments?"
-Apptainer is designed for scientific workloads and HPC, focusing on security (avoiding root privileges) and better integration with shared file systems and job schedulers like Slurm.
+    Apptainer is designed for scientific workloads and HPC, focusing on security (avoiding root privileges) and better integration with shared file systems and job schedulers like Slurm.
 
 ??? note "What is the role of a Kubernetes HPA?"
-The Horizontal Pod Autoscaler (HPA) automatically increases or decreases the number of pods in a deployment based on observed CPU utilization or other specified metrics to maintain application performance during traffic spikes.
+    The Horizontal Pod Autoscaler (HPA) automatically increases or decreases the number of pods in a deployment based on observed CPU utilization or other specified metrics to maintain application performance during traffic spikes.
 
 ??? note "Scenario: You are deploying a scientific workload on a shared HPC cluster where you have no root access and must use a shared filesystem. Which runtime do you choose and why?"
-Apptainer (formerly Singularity). Unlike Docker, it does not require a root daemon, is designed to run as an unprivileged user, and integrates natively with shared HPC filesystems and job schedulers like Slurm.
+    Apptainer (formerly Singularity). Unlike Docker, it does not require a root daemon, is designed to run as an unprivileged user, and integrates natively with shared HPC filesystems and job schedulers like Slurm.
