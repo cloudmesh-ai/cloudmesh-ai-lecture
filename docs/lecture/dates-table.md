@@ -55,7 +55,7 @@
 | D.1 | 🔴 | [Introduction](/section/devops/devops.md) | October 1, 2026 | d.1 | Devops | - Define DevOps and explain its core goals in a modern software lifecycle. |
 | D.2.1 | 🔴 | [Fundamentals](/section/devops/devop-ci.md) | October 1, 2026 | d.3 | Devops | - Define Continuous Integration (CI), Continuous Deployment (CD), and Continuous Monitoring (CM). |
 | D.2.2 | 🔴 | [Teams](/section/devops/devops-team.md) | October 1, 2026 | d.4 | Devops | - Analyze the impact of organizational communication on system architecture (Conway's Law). |
-|  | 🔴 | [VMs via Heat](/section/cloud/platforms/jetstream/jetstream-multi-heat.md) |  |  | Cloud | By the end of this lab, students will be able to: |
+|  | 🔴 | [VMs via Heat](/section/cloud/platforms/chameleon/chameleon-multi-heat.md) |  |  | Cloud | By the end of this lab, students will be able to: |
 |  | 🟢 | [os-python](/section/cloud/platforms/chameleon/os-python.md) |  |  | Cloud | *A step‑by‑step tutorial* |
 |  | 🔴 | [Introduction](/section/cloud/openstack/openstack-heat.md) |  | 6 | Cloud | After completing this chapter, you will be able to: |
 |  | 🔴 | [Bastian Web Service](/section/cloud/openstack/openstack-heat-fastapi.md) |  | 8 | Cloud | Deploying web services in a multi-tenant cloud environment requires balancing accessibility for project members with strict security hardening. Exp... |

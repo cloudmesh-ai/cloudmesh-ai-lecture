@@ -14,7 +14,7 @@
 *   **[OpenStack Heat](/section/cloud/openstack/openstack-heat.md) (IaC)**: Moving from imperative CLI commands to declarative YAML templates (HOT) for repeatable infrastructure.
 *   **[Secure API Deployment](/section/cloud/openstack/openstack-heat-fastapi.md)**: Implementing two-tier architectures using **Bastion Hosts** and **FastAPI** to balance project-wide accessibility with strict security.
 *   **[Project-Wide Access](/section/cloud/openstack/openstack-heat-fast-api-project-wide-access.md)**: Analyzing the security trade-offs between "Bastion" and "Project-Wide" access models for internal team connectivity.
-*   **[Multi-VM Heat Orchestration](/section/cloud/platforms/jetstream/jetstream-multi-heat.md)**: Applying Infrastructure as Code specifically to the multi-worker cluster example.
+*   **[Multi-VM Heat Orchestration](/section/cloud/platforms/chameleon/chameleon-multi-heat.md)**: Applying Infrastructure as Code specifically to the multi-worker cluster example.
 
 ### Storage Services
 *   **[Overview](/section/cloud/openstack/storage/cinder.md)**: Overview of the Openstack storage services.

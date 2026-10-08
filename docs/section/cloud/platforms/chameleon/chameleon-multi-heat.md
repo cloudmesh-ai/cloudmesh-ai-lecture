@@ -24,7 +24,7 @@ This contrasts the experience from the
 
 *Figure: The diagram of the multiple VM example*
 
-![The diagram of the multiple VM example](images/jetstream-multi.png)
+![The diagram of the multiple VM example](images/chameleon-multi.png)
 
 ### Architecture to be Orchestrated
 
@@ -190,11 +190,25 @@ outputs:
 
 ## 2. Deploying the Stack
 
-### 2.1 Creating the Stack
-Once you have saved the `multi-vm.yaml` file, use the OpenStack CLI to create the stack.
+### 2.1 Securing Resources (The Lease)
+Before deploying the stack, you must reserve the necessary compute resources. On Chameleon, especially for KVM@TACC instances, we use the **Blazar Reservation** service to create a lease. This ensures that your required flavors and quotas are guaranteed for the duration of your lab.
+
+Run the following command to create a simple lease for the resources needed (e.g., 5 `m1.medium` instances for **1 hour** starting now):
 
 ```bash
-openstack stack create -t multi-vm.yaml jetstream-multi-stack
+openstack reservation lease create \
+  --flavor m1.medium \
+  --count 5 \
+  --start $(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+  --duration 3600
+```
+*Note: Ensure your current quota allows for this reservation. You can verify your lease status with `openstack reservation lease list`.*
+
+### 2.2 Creating the Stack
+Once the lease is active and resources are reserved, use the OpenStack CLI to create the stack.
+
+```bash
+openstack stack create -t multi-vm.yaml chameleon-multi-stack
 ```
 
 ### 2.2 Monitoring Deployment
@@ -246,18 +260,52 @@ openstack stack delete jetstream-multi-stack
 
 ---
 
-## Self-Assessment
-Test your knowledge by expanding the questions below.
-    Test your knowledge by expanding the questions below.
+## Appendix: Integrating Reservations into Heat Templates
 
-??? question "What is a 'Stack' in OpenStack Heat?"
-    A stack is a collection of OpenStack resources (servers, networks, security groups) managed as a single unit via a template.
+### Could reservations be integrated into the Heat YAML?
+Technically, it is possible to define certain resource constraints in a Heat Orchestration Template (HOT), but a **Blazar Reservation (Lease)** is a separate architectural layer that operates *before* Heat.
 
-??? question "How does Heat handle dependencies between resources?"
-    By using the `get_resource` or `get_attr` functions, Heat automatically determines the order of creation. For example, if a server references a security group, Heat ensures the group is created first.
+### Why we separate them:
+1.  **Timing**: A reservation is a commitment of resources for a *future* time window. Heat, however, is an execution engine that creates resources *now*.
+2.  **Quota vs. Allocation**: Blazar handles the "booking" of the quota so that when the `openstack stack create` command is run, the resources are guaranteed to be available. If you tried to include the reservation logic inside the Heat template, the stack creation would likely fail because the resources wouldn't have been "pre-booked" in the cloud's global inventory.
+3.  **Lifecycle**: Leases often have a specific start and end time that is independent of the stack's existence. You might have a lease for 24 hours but only keep the stack active for 2 hours.
 
-??? question "What is the benefit of using 'outputs' in a HOT template?"
-    Outputs allow you to programmatically retrieve critical information (like Floating IPs) immediately after deployment without having to query individual resources.
+**Best Practice**: Always create your lease first via the `openstack reservation` CLI or Horizon UI, verify its status, and then deploy your Heat stack.
 
-??? question "If you change the flavor of a server in the template and update the stack, what happens?"
-    Depending on the resource, Heat will either modify the existing server or delete and recreate it to match the new specification.
+### Automation with Makefiles
+To avoid running these multi-line commands manually, you can use a `Makefile` to encapsulate the workflow. This ensures consistency and reduces errors.
+
+Example `Makefile`:
+```makefile
+# Variables
+LEASE_NAME=chameleon-multi-lease
+STACK_NAME=chameleon-multi-stack
+TEMPLATE=multi-vm.yaml
+FLAVOR=m1.medium
+COUNT=5
+DURATION=3600
+
+.PHONY: reservation deploy destroy clean
+
+reservation:
+	@echo "Creating lease for $(COUNT) x $(FLAVOR)..."
+	openstack reservation lease create \
+	  --flavor $(FLAVOR) \
+	  --count $(COUNT) \
+	  --start $$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+	  --duration $(DURATION)
+
+deploy:
+	@echo "Deploying Heat stack $(STACK_NAME)..."
+	openstack stack create -t $(TEMPLATE) $(STACK_NAME)
+
+destroy:
+	@echo "Tearing down stack $(STACK_NAME)..."
+	openstack stack delete $(STACK_NAME)
+
+clean: destroy
+	@echo "Cleaning up leases..."
+	openstack reservation lease list | grep $(LEASE_NAME) | awk '{print $$2}' | xargs -I {} openstack reservation lease delete {}
+```
+
+With this file, you can simply run `make reservation` followed by `make deploy`.

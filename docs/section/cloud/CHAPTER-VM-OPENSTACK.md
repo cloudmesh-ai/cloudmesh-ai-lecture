@@ -18,7 +18,7 @@ Welcome to the OpenStack and Research Cloud Platforms section of the course. Thi
         * **Economics**: [🟢 Understanding and managing costs on Chameleon](/section/cloud/platforms/chameleon/cost.md).
     * **Jetstream**:
         * **VM Basics**: [🟢 Deploying and managing VMs on Jetstream](/section/cloud/platforms/jetstream/jetstream-vm.md).
-        * **Scaling**: [🟢 Multi-node deployments](/section/cloud/platforms/jetstream/jetstream-multi.md), including [🔵 Visualizing multi-node deployments](/section/cloud/platforms/jetstream/images/multi-jetstream-mermaid.md) and [🔴 Orchestration with Heat](/section/cloud/platforms/jetstream/jetstream-multi-heat.md).
+        * **Scaling**: [🟢 Multi-node deployments](/section/cloud/platforms/jetstream/jetstream-multi.md), including [🔵 Visualizing multi-node deployments](/section/cloud/platforms/jetstream/images/multi-jetstream-mermaid.md) and [🔴 Orchestration with Heat](/section/cloud/platforms/chameleon/chameleon-multi-heat.md).
         * **Administration**: [🟢 Jetstream cost management](/section/cloud/platforms/jetstream/jetstream-cost.md) and [🟢 Documentation via mkdocs](/section/cloud/platforms/jetstream/jetstream-mkdocs.md).
 
 - **Part III: Openstack CLI**
@@ -35,7 +35,7 @@ Welcome to the OpenStack and Research Cloud Platforms section of the course. Thi
     * **[🔴 Introduction to OpenStack Heat](/section/cloud/openstack/openstack-heat.md)**: Understanding the concept of orchestration, Heat templates (HOT), and the lifecycle of a stack.
     * **[🔴 Advanced API Integration](/section/cloud/openstack/openstack-heat-fastapi.md)**: Implementing FastAPI wrappers to simplify Heat operations.
     * **[🔴 Project-Wide Access](/section/cloud/openstack/openstack-heat-fast-api-project-wide-access.md)**: Configuring and managing Heat API access across different project scopes.
-    * **[🔴 Jetstream Multi-Node Orchestration](/section/cloud/platforms/jetstream/jetstream-multi-heat.md)**: Using Heat templates to deploy complex, multi-node clusters on the Jetstream platform.
+    * **[🔴 Chameleon Multi-Node Orchestration](/section/cloud/platforms/chameleon/chameleon-multi-heat.md)**: Using Heat templates to deploy complex, multi-node clusters on the Chameleon platform.
 
 - **Part VI: OpenStack Storage**
     * **Overview:** [🔴 Overview of Storage Services in Openstack](/section/cloud/openstack/storage/overview.md).

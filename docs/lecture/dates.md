@@ -43,7 +43,7 @@
           - 🟢 [Quickstart:](/section/cloud/platforms/jetstream/jetstream-vm.md) **September 10, 2026**, **September 17, 2026**
           - 🟢🔴 [Hosting a Website:](/section/cloud/platforms/jetstream/jetstream-mkdocs.md) **October 1, 2026**  (3)
           - 🟢🔴 [Multiple VMs:](/section/cloud/platforms/jetstream/jetstream-multi.md) **October 1, 2026** (4)
-          - 🔴 [VMs via Heat:](/section/cloud/platforms/jetstream/jetstream-multi-heat.md)
+          - 🔴 [VMs via Heat:](/section/cloud/platforms/chameleon/chameleon-multi-heat.md)
           - 🟢 [Cost:](/section/cloud/platforms/jetstream/jetstream-cost.md) **September 24, 2026**
         - L3.3.2 Chameleon:
           - 🟢 [Horizon:](/section/cloud/platforms/chameleon/horizon.md) **September 17, 2026**
