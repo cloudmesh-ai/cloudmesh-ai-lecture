@@ -27,29 +27,3 @@ The selected documents provide a comprehensive pathway from **foundational techn
 *   **[cloudmesh-ai-common](/section/python/cloudmesh-ai-common.md)**: Utilizing a shared utility layer for system introspection, remote execution (`RemoteExecutor`), and configuration management.
 *   **[YAMLDB](/section/python/python-yamldb.md)**: Implementing a lightweight, searchable key-value store using plain YAML files for schema-less data management.
 *   **[hostlist](/section/python/python-hostlist.md)**: Parsing and manipulating Slurm-style hostlists, essential for managing large-scale HPC and AI clusters.
-
-## OpenStack & Cloud Orchestration
-*Focus: Moving from manual VM provisioning to automated, scalable infrastructure.*
-
-### Fundamentals & Cost Optimization
-*   **[OpenStack IaaS](/section/cloud/openstack/openstack.md)**: Understanding the core services (Nova, Neutron, Keystone) and the trade-offs between private and public clouds for AI.
-*   **[Cost Reduction](/section/cloud/openstack/openstack-reduce-cost.md)**: Mastering the `Shelve`, `Stop`, and `Suspend` states to maximize resource utilization and minimize billing.
-*   **[Local Development](/section/cloud/openstack/devstack.md) (`DevStack`)**: Deploying a full OpenStack reference environment locally for testing and learning.
-
-### Advanced Networking & Orchestration
-*   **[Multi-VM Architectures](/section/cloud/platforms/jetstream/jetstream-multi.md)**: Building distributed AI/Data clusters (Scheduler $\leftrightarrow$ Workers) with complex security group rules and private/public IP routing.
-*   **[OpenStack Heat](/section/cloud/openstack/openstack-heat.md) (IaC)**: Moving from imperative CLI commands to declarative YAML templates (HOT) for repeatable infrastructure.
-*   **[Secure API Deployment](/section/cloud/openstack/openstack-heat-fastapi.md)**: Implementing two-tier architectures using **Bastion Hosts** and **FastAPI** to balance project-wide accessibility with strict security.
-*   **[Project-Wide Access](/section/cloud/openstack/openstack-heat-fast-api-project-wide-access.md)**: Analyzing the security trade-offs between "Bastion" and "Project-Wide" access models for internal team connectivity.
-*   **[Multi-VM Heat Orchestration](/section/cloud/platforms/jetstream/jetstream-multi-heat.md)**: Applying Infrastructure as Code specifically to the multi-worker cluster example.
-
-### Storage Services
-*   **[Overview](/section/cloud/openstack/storage/cinder.md)**: Overview of the Openstack storage services.
-*   **[Cinder](/section/cloud/openstack/storage/cinder.md) (Block Storage)**: Managing persistent virtual hard drives that survive VM lifecycles.
-*   **[Swift](/section/cloud/openstack/storage/swift.md) (Object Storage)**: Using S3-compatible storage for massive, unstructured datasets (images, backups).
-*   **[Glance](/section/cloud/openstack/storage/glance.md) (Image Registry)**: Managing "Golden Images" to ensure consistency across thousands of VM boots.
-
-## Public Clouds
-*Focus: Comparing private cloud capabilities with public cloud implementations.*
-
-*   **[OpenStack VM Implementation and Platforms](/lecture/luc.md#chapter-6-openstack-virtual-machine-implementation-and-platforms)**: Comparing the architectural patterns of OpenStack with public cloud platforms.

@@ -17,7 +17,9 @@ You must execute these steps sequentially:
 
 3. **Transformation Phase (The "Rewrite")**:
    - Rewrite the content of `SOURCE_FILE` **in-place**.
-   - **Strict Adherence**: Every rule, section header, and formatting requirement in the `TEMPLATE_FILE` must be followed without exception.
+   - **Strict Adherence**: Every rule, section header, and formatting requirement in the `TEMPLATE_FILE` must be followed without exception, with the following overrides:
+     - **Title**: The document MUST start with a proper `# Title` (H1) that accurately reflects the chapter's content.
+     - **No Learning Objectives Heading**: Do NOT include a `## Learning Objectives` or `## Lerning Objective` heading. If the template requires learning objectives, incorporate them into the "Overview" or as an admonition, but avoid the H2 heading.
    - **Pedagogical Enrichment**:
      - **Contextualize**: For every major concept, add a "Why this matters" section that connects the technical detail to a real-world architectural benefit.
      - **Concrete Examples**: Replace abstract descriptions with concrete, real-world scenarios.
@@ -26,15 +28,16 @@ You must execute these steps sequentially:
        - Insert a `:::warning` (or template-equivalent) for common pitfalls.
        - Insert a `:::tip` (or template-equivalent) for professional shortcuts/best practices.
        - End the chapter with a "Knowledge Check" summary checklist.
-   - do add to the document a section Self assesment of the form 
+   Add a "Self-Assessment" section using the following MkDocs Material format:
 
-         ```!!! tip "Self-Assessment"
-                Test your knowledge by expanding the questions below.
-         
-         ??? question "This is a meaningful question?"
-         ```
-         Make sure there are at least 5 questions and if the chapter gets longer add more.
-         Make sure that the questions do not introduce tool preference or advertisment or llm ad words.
+   !!! tip "Self-Assessment"
+       Test your knowledge by expanding the questions below.
+
+       ??? question "This is a meaningful question?"
+           The answer to the question must be indented by 4 spaces relative to the `???` line.
+
+   Make sure there are at least 5 questions and if the chapter gets longer add more.
+   Make sure that the questions do not introduce tool preference or advertisment or llm ad words.
     **Packaging** (Docker) focuses on bundling an application and its dependencies into a portable container. **Orchestration** (Kubernetes) manages the deployment, scaling, and networking of those containers across a cluster. **Provisioning** (Ansible) handles the setup of the underlying servers, operating systems, and network settings that allow the orchestration layer to run.
 
 

@@ -9,6 +9,9 @@
     - Manage the lifecycle of a stack, including creation, updating, and deletion.
     - Implement self-healing and auto-scaling architectures using Heat.
 
+!!! warning
+    Jetstream does not have heat deployed.
+
 ## Contextual Overview
 
 Managing a modern cloud environment manually is error-prone and unscalable. Creating a network, defining subnets, launching multiple virtual machines, assigning floating IPs, and configuring security groups—all through a CLI or GUI—leads to "snowflake" environments where no two deployments are identical.

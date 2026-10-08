@@ -1,7 +1,5 @@
 # Project-Wide FastAPI Deployment with Application-Level Access Control
 
-## Learning Objectives
-
 !!! info "Learning Objectives"
     By the end of this chapter, participants will be able to:
     - Implement application-level access control using FastAPI middleware.
@@ -10,6 +8,10 @@
     - Analyze the security trade-offs between "Bastion" and "Project-Wide" access models.
     - Implement robust cloud-init scripts for automated service deployment and systemd integration.
     - Deploy a service that balances broad accessibility with specific identity restrictions.
+
+
+!!! warning
+    Jetstream does not have heat deployed.
 
 ## Overview
 

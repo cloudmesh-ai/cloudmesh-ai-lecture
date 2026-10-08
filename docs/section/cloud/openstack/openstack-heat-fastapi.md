@@ -12,6 +12,10 @@ This tutorial guides you through creating a secure, production-grade architectur
     - Secure internal backend communication so that SSH and API traffic are restricted strictly to the private subnet.
     - Use Heat outputs to dynamically generate local SSH configuration snippets for project members.
 
+
+!!! warning
+    Jetstream does not have heat deployed.
+    
 ## 1. Architecture Overview
 
 ```mermaid

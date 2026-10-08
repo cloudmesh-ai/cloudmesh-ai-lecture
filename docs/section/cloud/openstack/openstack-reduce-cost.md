@@ -6,7 +6,7 @@
 In cloud environments, maximizing utilization while controlling expenses is a core operational priority. OpenStack provides three distinct lifecycle mechanisms to pause or deactivate an active instance when it is not actively processing workloads: Shelve, Stop, and Suspend.
 While all three options stop the virtual machine from running, they treat the underlying compute infrastructure, memory states, and billing footprints fundamentally differently. Understanding these nuances is critical for administrators trying to free up hardware resources and users attempting to reduce cloud costs.
 
-!!! Learning Objectives
+!!! info "Learning Objectives"
 
     By the end of this section, you will be able to:
     * **Distinguish** between the `Shelve`, `Stop`, and `Suspend` states in OpenStack.

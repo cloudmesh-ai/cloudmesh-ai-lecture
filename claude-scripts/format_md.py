@@ -40,11 +40,30 @@ def format_file(filepath):
             if i < len(lines) and lines[i].strip():
                 new_lines.append('\n')
                 changed = True
-            
+
             # Ensure indentation of content
             while i < len(lines) and (not lines[i].strip() or lines[i].startswith(' ')):
                 l = lines[i]
                 if l.strip():
+                    # If we encounter a nested ??? block, we should handle its content's indentation
+                    if l.strip().startswith('???'):
+                        # The ??? block itself should be indented by 4 spaces
+                        if not l.startswith('    '):
+                            l = '    ' + l.lstrip()
+                            changed = True
+                        new_lines.append(l)
+                        i += 1
+                        # Now indent the content of the ??? block by 8 spaces (4 for !!! + 4 for ???)
+                        while i < len(lines) and (not lines[i].strip() or lines[i].startswith(' ')):
+                            inner_l = lines[i]
+                            if inner_l.strip():
+                                if not inner_l.startswith('        '):
+                                    inner_l = '        ' + inner_l.lstrip()
+                                    changed = True
+                            new_lines.append(inner_l)
+                            i += 1
+                        continue
+
                     if not l.startswith('    '):
                         l = '    ' + l.lstrip()
                         changed = True
