@@ -25,7 +25,23 @@ To bridge this gap, we need a mechanism that allows the container to communicate
 
 To understand how GPU passthrough works, it is helpful to visualize the layers of the software stack. The container does not replace the host driver; it relies on it.
 
-![AI Container Stack](images/ai-stack.png)
+```mermaid
+graph TD
+    subgraph Container ["Inside the Container"]
+        FW[AI Frameworks: PyTorch / TensorFlow]
+        CT[CUDA Toolkit / cuDNN]
+        FW --> CT
+    end
+    
+    subgraph Host ["On the Host Machine"]
+        DRV[NVIDIA Host Driver]
+    end
+    
+    DRV -- "NVIDIA Container Toolkit (Passthrough)" --> CT
+    
+    style DRV fill:#f9f,stroke:#333,stroke-width:2px
+    style CT fill:#ccf,stroke:#333,stroke-width:2px
+```
 
 Figure 1: The AI Container Stack. Notice that the Host Driver remains on the host, while the CUDA Toolkit is packaged inside the image.
 

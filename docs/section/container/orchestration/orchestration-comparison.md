@@ -1,7 +1,5 @@
 # Orchestration Comparison: Kubernetes, Docker Swarm, and OpenShift
 
-## Learning Objectives
-
 !!! info "Learning Objectives"
     By the end of this chapter, participants will be able to:
     - Understand the fundamental differences between a basic orchestrator (Swarm) and a full-scale platform (OpenShift).

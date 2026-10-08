@@ -33,7 +33,31 @@ To persist data, it must be stored *outside* the container's writable layer.
 
 In [Kubernetes](../orchestration/kubernetes.md), the **Container Storage Interface (CSI)** provides a universal API that allows K8s to interact with any storage provider (e.g., AWS EBS, Azure Disk, or local NFS) without needing to build a specific integration for every vendor.
 
-![CSI Abstraction](images/csi-abstraction.png)
+```mermaid
+graph LR
+    subgraph K8s ["Kubernetes API"]
+        PVC[Persistent Volume Claim]
+    end
+    
+    subgraph CSI ["CSI Layer"]
+        Driver[CSI Driver]
+    end
+    
+    subgraph Providers ["Storage Providers"]
+        AWS[AWS EBS]
+        Azure[Azure Disk]
+        NFS[Local NFS]
+        Ceph[Ceph/Lustre]
+    end
+    
+    PVC --> Driver
+    Driver --> AWS
+    Driver --> Azure
+    Driver --> NFS
+    Driver --> Ceph
+    
+    style Driver fill:#fdf,stroke:#333,stroke-width:2px
+```
 
 Figure 1: The CSI Abstraction. The CSI Driver ensures that the K8s API can request storage from any provider without knowing the provider's specific API.
 
@@ -68,7 +92,15 @@ Similar to storage, networking is standardized via the **CNI**. This specificati
 
 In a production AI deployment, a request travels through several layers of abstraction before it hits the GPU.
 
-![Traffic Flow](images/traffic-flow.png)
+```mermaid
+graph LR
+    User[External User] --> Ingress[Ingress Controller]
+    Ingress --> Svc[K8s Service]
+    Svc --> Pod[Application Pod]
+    Pod --> GPU[GPU Hardware]
+    
+    style GPU fill:#dfd,stroke:#333,stroke-width:2px
+```
 
 Figure 2: The AI Traffic Flow.
 `External User` $\rightarrow$ `Ingress (Routing)` $\rightarrow$ `Service (Load Balancing)` $\rightarrow$ `Pod (Application)` $\rightarrow$ `GPU (Inference)`.

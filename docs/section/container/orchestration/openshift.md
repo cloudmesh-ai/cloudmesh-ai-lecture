@@ -49,7 +49,28 @@ To transition from vanilla Kubernetes to OpenShift, you must understand a few ke
 | **Isolation** | Namespaces | Projects (Namespace + Metadata) | Better multi-tenant research isolation and quotas |
 | **Deployment** | YAML Manifests | S2I (Source-to-Image) | Deploy AI code from Git without writing Dockerfiles |
 
-![Kubernetes vs OpenShift](images/openshift-comparison.png)
+```mermaid
+graph TD
+    subgraph OpenShift ["Red Hat OpenShift (The Complete Vehicle)"]
+        subgraph K8s ["Upstream Kubernetes (The Engine)"]
+            API[API Server]
+            ETCD[etcd]
+            SCH[Scheduler]
+            KLE[Kubelet]
+        end
+        REG[Integrated Registry]
+        RT[Routes]
+        SCC[Security Context Constraints]
+        CON[Developer Console]
+        IS[ImageStreams]
+    end
+    REG --- K8s
+    RT --- K8s
+    SCC --- K8s
+    CON --- K8s
+    IS --- K8s
+```
+
 Figure 1: Comparison of the Kubernetes core and the OpenShift Enterprise wrap.
 
 ### Operational Workflows for AI
@@ -120,7 +141,17 @@ When this command is executed, OpenShift performs the following steps:
 
 OpenShift detects the language, pulls the appropriate builder image, injects your code, and deploys the pod—all in one step.
 
-![S2I Process](images/s2i-process.png)
+```mermaid
+graph LR
+    A[Git Repository] --> C[Assemble]
+    B[Builder Image] --> C
+    C --> D[Application Image]
+    D --> E[Internal Registry]
+    E --> F[Running Pod]
+    
+    style C fill:#fdf,stroke:#333,stroke-width:2px
+```
+
 Figure 2: The Source-to-Image (S2I) process.
 
 #### Managing External Access with Routes
