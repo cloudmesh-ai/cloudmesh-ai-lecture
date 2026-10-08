@@ -10,7 +10,7 @@
 
 ## Overview
 
-This section explores the paradigm shift from explicit, script-based automation to intent-based execution using Large Language Models (LLMs) and the **OpenClaw** and **NemoClay** frameworks. 
+This section explores the paradigm shift from explicit, script-based automation to intent-based execution using Large Language Models (LLMs) and the **OpenClaw** and **NemoClay** frameworks.
 
 Traditional automation is brittle and requires precise command sequences. AI-driven automation allows users to describe a desired outcome in natural language, which the system then translates into precise technical actions.
 
@@ -59,16 +59,16 @@ Supporting tools and academic references provide additional context for implemen
 
 ## Assignments
 
-!!! note "Assignment.1: Architectural Analysis"
+!!! note "Assignment 1: Architectural Analysis"
     Read the Introduction and the NemoClay documents. Write a brief comparison focusing on when to use OpenClaw versus NemoClay based on task complexity and isolation requirements.
 
-    ??? tip "Solution: Architectural Analysis"
+    ??? question "Solution"
         OpenClaw is suitable for single-step, low-latency CLI wrapping on a host. NemoClay is required for multi-step, multi-modal pipelines that need container-level isolation and a DAG-based orchestration.
 
-!!! note "Assignment.2: Project Decomposition"
+!!! note "Assignment 2: Project Decomposition"
     Review the Chapter Generator project. Identify the three primary components of the pipeline (Ingestion, Trigger, Result Handling) and describe the data flow between them.
 
-    ??? tip "Solution: Project Decomposition"
+    ??? question "Solution"
         The flow is: [Dataset: lecture_material] $\rightarrow$ [Action: chapter_generator] $\rightarrow$ [Dataset: lecture_material (update)]. Ingestion fills the content, the trigger calls the LLM action, and result handling updates the dataset with the generated JSON.
 
 ## References
@@ -79,10 +79,11 @@ Supporting tools and academic references provide additional context for implemen
 ## Self-Evaluation
 
 ??? note "What is the fundamental difference between OpenClaw and NemoClay?"
-OpenClaw focuses on lightweight, single-step CLI wrapping, while NemoClay provides a container-native DAG engine for complex, multi-modal pipelines.
+    OpenClaw focuses on lightweight, single-step CLI wrapping, while NemoClay provides a container-native DAG engine for complex, multi-modal pipelines.
 
 ??? note "Why is an 'intent-based' approach less brittle than traditional scripting?"
-Intent-based automation translates natural language goals into technical actions, allowing the system to adapt to input variations that would typically break a rigid, explicitly sequenced script.
+    Intent-based automation translates natural language goals into technical actions, allowing the system to adapt to input variations that would typically break a rigid, explicitly sequenced script.
 
 ??? note "What is the recommended path for implementing an OpenClaw project?"
-The recommended path is to start with conceptual foundations, provision the infrastructure (e.g., via OpenStack), build a simple custom action (e.g., Chapter Generator), and then scale to more complex multi-cloud or multi-modal orchestrations.
+    The recommended path is to start with conceptual foundations, provision the infrastructure (e.g., via OpenStack), build a simple custom action (e.g., Chapter Generator), and then scale to more complex multi-cloud or multi-modal orchestrations.
+

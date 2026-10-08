@@ -57,6 +57,9 @@ def format_file(filepath):
                         while i < len(lines) and (not lines[i].strip() or lines[i].startswith(' ')):
                             inner_l = lines[i]
                             if inner_l.strip():
+                                # STOP if we hit another block header, even if indented
+                                if inner_l.strip().startswith('???') or inner_l.strip().startswith('!!!'):
+                                    break
                                 if not inner_l.startswith('        '):
                                     inner_l = '        ' + inner_l.lstrip()
                                     changed = True
