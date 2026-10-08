@@ -7401,8 +7401,26 @@
 </tr>
 </tbody>
 </table>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/openshift-comparison.png" data-desc-position="bottom"><img alt="Kubernetes vs OpenShift" src="images/openshift-comparison.png"></a>
-Figure 1: Comparison of the Kubernetes core and the OpenShift Enterprise wrap.</p>
+<pre class="mermaid"><code>graph TD
+    subgraph OpenShift ["Red Hat OpenShift (The Complete Vehicle)"]
+        subgraph K8s ["Upstream Kubernetes (The Engine)"]
+            API[API Server]
+            ETCD[etcd]
+            SCH[Scheduler]
+            KLE[Kubelet]
+        end
+        REG[Integrated Registry]
+        RT[Routes]
+        SCC[Security Context Constraints]
+        CON[Developer Console]
+        IS[ImageStreams]
+    end
+    REG --- K8s
+    RT --- K8s
+    SCC --- K8s
+    CON --- K8s
+    IS --- K8s</code></pre>
+<p>Figure 1: Comparison of the Kubernetes core and the OpenShift Enterprise wrap.</p>
 <h3 id="operational-workflows-for-ai">Operational Workflows for AI<a class="headerlink" href="#operational-workflows-for-ai" title="Permanent link">¶</a></h3>
 <h4 id="source-to-image-s2i">Source-to-Image (S2I)<a class="headerlink" href="#source-to-image-s2i" title="Permanent link">¶</a></h4>
 <p>One of OpenShift's most useful features is <strong>Source-to-Image (S2I)</strong>. In standard Kubernetes, a developer must write a Dockerfile, build the image, push it to a registry, and then update a YAML manifest. S2I automates this entire chain.</p>
@@ -7451,8 +7469,15 @@ When this command is executed, OpenShift performs the following steps:
 4. <strong>Application Image</strong>: A new, immutable container image is pushed to the internal OpenShift registry.
 5. <strong>Pod</strong>: OpenShift creates a Deployment and a Pod based on this new image.</p>
 <p>OpenShift detects the language, pulls the appropriate builder image, injects your code, and deploys the pod—all in one step.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/s2i-process.png" data-desc-position="bottom"><img alt="S2I Process" src="images/s2i-process.png"></a>
-Figure 2: The Source-to-Image (S2I) process.</p>
+<pre class="mermaid"><code>graph LR
+    A[Git Repository] --&gt; C[Assemble]
+    B[Builder Image] --&gt; C
+    C --&gt; D[Application Image]
+    D --&gt; E[Internal Registry]
+    E --&gt; F[Running Pod]
+
+    style C fill:#fdf,stroke:#333,stroke-width:2px</code></pre>
+<p>Figure 2: The Source-to-Image (S2I) process.</p>
 <h4 id="managing-external-access-with-routes">Managing External Access with Routes<a class="headerlink" href="#managing-external-access-with-routes" title="Permanent link">¶</a></h4>
 <p>In <strong><a href="../kubernetes/">Kubernetes</a></strong>, you define an Ingress object. In OpenShift, you use <strong>Routes</strong>. A Route is essentially a managed Ingress that automatically integrates with the OpenShift built-in HAProxy router to provide a DNS-addressable URL.</p>
 <div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Expose a service as a route</span>

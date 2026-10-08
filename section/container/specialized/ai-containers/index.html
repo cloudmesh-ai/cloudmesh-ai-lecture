@@ -7086,7 +7086,21 @@
 <h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">¶</a></h2>
 <h3 id="the-ai-container-stack">The AI Container Stack<a class="headerlink" href="#the-ai-container-stack" title="Permanent link">¶</a></h3>
 <p>To understand how GPU passthrough works, it is helpful to visualize the layers of the software stack. The container does not replace the host driver; it relies on it.</p>
-<p></p><figure id="_figure-1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/ai-stack.png" data-desc-position="bottom"><img alt="AI Container Stack" src="images/ai-stack.png"></a><figcaption>Figure 1: AI Container Stack</figcaption></figure><p></p>
+<pre class="mermaid"><code>graph TD
+    subgraph Container ["Inside the Container"]
+        FW[AI Frameworks: PyTorch / TensorFlow]
+        CT[CUDA Toolkit / cuDNN]
+        FW --&gt; CT
+    end
+
+    subgraph Host ["On the Host Machine"]
+        DRV[NVIDIA Host Driver]
+    end
+
+    DRV -- "NVIDIA Container Toolkit (Passthrough)" --&gt; CT
+
+    style DRV fill:#f9f,stroke:#333,stroke-width:2px
+    style CT fill:#ccf,stroke:#333,stroke-width:2px</code></pre>
 <p>Figure 1: The AI Container Stack. Notice that the Host Driver remains on the host, while the CUDA Toolkit is packaged inside the image.</p>
 <h3 id="the-nvidia-container-toolkit">The NVIDIA Container Toolkit<a class="headerlink" href="#the-nvidia-container-toolkit" title="Permanent link">¶</a></h3>
 <p>The solution to GPU access in containers is the <strong>NVIDIA Container Toolkit</strong>. This is not a replacement for the container engine (like Docker or Podman) but an extension that allows them to interface with NVIDIA GPUs.</p>

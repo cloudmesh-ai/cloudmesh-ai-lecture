@@ -6925,7 +6925,29 @@
 </ul>
 <h4 id="the-kubernetes-storage-stack-csi">The <a href="../../orchestration/kubernetes/">Kubernetes</a> Storage Stack (CSI)<a class="headerlink" href="#the-kubernetes-storage-stack-csi" title="Permanent link">¶</a></h4>
 <p>In <a href="../../orchestration/kubernetes/">Kubernetes</a>, the <strong>Container Storage Interface (CSI)</strong> provides a universal API that allows K8s to interact with any storage provider (e.g., AWS EBS, Azure Disk, or local NFS) without needing to build a specific integration for every vendor.</p>
-<p></p><figure id="_figure-1"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/csi-abstraction.png" data-desc-position="bottom"><img alt="CSI Abstraction" src="images/csi-abstraction.png"></a><figcaption>Figure 1: CSI Abstraction</figcaption></figure><p></p>
+<pre class="mermaid"><code>graph LR
+    subgraph K8s ["Kubernetes API"]
+        PVC[Persistent Volume Claim]
+    end
+
+    subgraph CSI ["CSI Layer"]
+        Driver[CSI Driver]
+    end
+
+    subgraph Providers ["Storage Providers"]
+        AWS[AWS EBS]
+        Azure[Azure Disk]
+        NFS[Local NFS]
+        Ceph[Ceph/Lustre]
+    end
+
+    PVC --&gt; Driver
+    Driver --&gt; AWS
+    Driver --&gt; Azure
+    Driver --&gt; NFS
+    Driver --&gt; Ceph
+
+    style Driver fill:#fdf,stroke:#333,stroke-width:2px</code></pre>
 <p>Figure 1: The CSI Abstraction. The CSI Driver ensures that the K8s API can request storage from any provider without knowing the provider's specific API.</p>
 <p><strong>The PV/PVC Lifecycle:</strong></p>
 <ol>
@@ -6952,7 +6974,13 @@
 <p>Similar to storage, networking is standardized via the <strong>CNI</strong>. This specification allows different networking plugins (such as Flannel, Calico, or Cilium) to be swapped in and out of a cluster without changing the application code.</p>
 <p><strong>The AI Traffic Flow: From User to Model</strong></p>
 <p>In a production AI deployment, a request travels through several layers of abstraction before it hits the GPU.</p>
-<p></p><figure id="_figure-2"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/traffic-flow.png" data-desc-position="bottom"><img alt="Traffic Flow" src="images/traffic-flow.png"></a><figcaption>Figure 2: Traffic Flow</figcaption></figure><p></p>
+<pre class="mermaid"><code>graph LR
+    User[External User] --&gt; Ingress[Ingress Controller]
+    Ingress --&gt; Svc[K8s Service]
+    Svc --&gt; Pod[Application Pod]
+    Pod --&gt; GPU[GPU Hardware]
+
+    style GPU fill:#dfd,stroke:#333,stroke-width:2px</code></pre>
 <p>Figure 2: The AI Traffic Flow.
 <code>External User</code> <span class="arithmatex">\(\rightarrow\)</span> <code>Ingress (Routing)</code> <span class="arithmatex">\(\rightarrow\)</span> <code>Service (Load Balancing)</code> <span class="arithmatex">\(\rightarrow\)</span> <code>Pod (Application)</code> <span class="arithmatex">\(\rightarrow\)</span> <code>GPU (Inference)</code>.</p>
 <ol>
