@@ -22,7 +22,10 @@
 *   **[Swift](/section/cloud/openstack/storage/swift.md) (Object Storage)**: Using S3-compatible storage for massive, unstructured datasets (images, backups).
 *   **[Glance](/section/cloud/openstack/storage/glance.md) (Image Registry)**: Managing "Golden Images" to ensure consistency across thousands of VM boots.
 
-## Public Clouds
+
+
+## Public Clouds - to be completed on Oct 15th
+
 *Focus: Comparing private cloud capabilities with public cloud implementations.*
 
 * **Cloudbank videos:**
