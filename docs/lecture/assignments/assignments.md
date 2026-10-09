@@ -39,7 +39,7 @@
 
 !!! note "Assignment W7.2: Summary of your contribution to cm-x."
 
-       * You will present that summary ofyour contribution in this weeks evening meeting
+       * You will present that summary of your contribution in this weeks evening meeting
        
 !!! note "Assignment W7.3: Project Presentation"
 
