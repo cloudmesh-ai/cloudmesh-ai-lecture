@@ -37,11 +37,11 @@
 
         * create small pull requests
 
-!!! note "Assignment W7.2: Summary of your contribution to cm-x.
+!!! note "Assignment W7.2: Summary of your contribution to cm-x."
 
        * You will present that summary ofyour contribution in this weeks evening meeting
        
-!!! note "Assignment W7.3: Project Presentation
+!!! note "Assignment W7.3: Project Presentation"
 
        * You will present your project to all in an understandable organized fashion. It is up to you if you prepare slides. However we will spend time looking over your project.md file. 
 
@@ -57,7 +57,6 @@
         DO NOT write it as proposal as explained in class. So sentence such as "In this project I propose to ...". Such a document will be returned without review and you will get point deductions.
 
 ## Week 6:  Due Oct 8, 2026, 9am
-
 
 !!! note "Assignment W6.1-5: VMs via Python (libcloud)"
     1. Continue the libcloud assignment.
