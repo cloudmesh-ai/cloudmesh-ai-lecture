@@ -51,7 +51,7 @@ A summary generatited from the lecture notes that are not yet published.
           frameborder="0" allowfullscreen></iframe>
 </div>
 
-## Cloud Computing (Part 4): Virtualization - 3
+## Cloud Computing (Part 5): Virtualization - 3
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
   <iframe src="https://www.youtube.com/embed/xRcZph32oPg" 
@@ -60,7 +60,7 @@ A summary generatited from the lecture notes that are not yet published.
 </div>
 
 
-## Cloud Computing (Part 4): Virtualization - 4
+## Cloud Computing (Part 6): Virtualization - 4
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
   <iframe src="https://www.youtube.com/embed/EY61J_iCHz0" 
@@ -69,10 +69,27 @@ A summary generatited from the lecture notes that are not yet published.
 </div>
 
 
-## Cloud Computing (Part 4): Virtualization - 5
+## Cloud Computing (Part 7): Virtualization - 5
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
   <iframe src="https://www.youtube.com/embed/r20bq3YBxjE" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+          frameborder="0" allowfullscreen></iframe>
+</div>
+
+
+## Cloud Computing (Part 8): Virtualization - 5
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+  <iframe src="https://www.youtube.com/embed/iZwzpp-T3To" 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+          frameborder="0" allowfullscreen></iframe>
+</div>
+
+## Cloud Computing (Part 9): Virtualization - 5 - Office Hour
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+  <iframe src="https://www.youtube.com/embed/lGEiDmxlVdw" 
           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
           frameborder="0" allowfullscreen></iframe>
 </div>

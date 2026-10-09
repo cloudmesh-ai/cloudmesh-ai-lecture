@@ -188,4 +188,4 @@ The following documents provide additional context and specialized use cases for
 - **DevOps & Automation**:
     - [Ansible](../../devops/ansible.md) - Discusses EKS in the context of managed service benefits and infrastructure automation.
 - **Student Projects**:
-    - [Assignment Ideas](../../../../lecture/assignments/ideas.md) - Suggestions for deploying RAG applications and Chat-bots to EKS.
+    - [Assignment Ideas](../../../lecture/assignments/ideas.md) - Suggestions for deploying RAG applications and Chat-bots to EKS.
