@@ -22,6 +22,40 @@
     4. Update the `README.md` with the list of assignments that are posted each week.
     5. You can add a subbullet with - [ ] Other and check what other things you did. If there are relevant links in GitHub, make sure to post them here.
 
+## Week 7:  Due Oct 15, 2026, 9am
+
+
+!!! note "Assignment W7.1: VMs via Python (libcloud)"
+    1. Continue the libcloud assignment.
+
+       * You need to work by now on 3 clouds
+          You will be basing your work of from the newest version of dev2. Certainly you can also integrate pull requests from others.
+          For the choice of the clouds you will need
+          1. one local
+          2. one openstack (jetsream or chameleon). If you pick chamelon make sure you look at my piaza updates. you may have to look in standalone and the branch feature/chameleon-native-chi instead of dev2
+          3. one public cloud suzh as AWS, Azure, GCP. No other public clouds are allowed. For example Cloudflare is not allowed.
+
+        * create small pull requests
+
+!!! note "Assignment W7.2: Summary of your contribution to cm-x.
+
+       * You will present that summary ofyour contribution in this weeks evening meeting
+       
+!!! note "Assignment W7.3: Project Presentation
+
+       * You will present your project to all in an understandable organized fashion. It is up to you if you prepare slides. However we will spend time looking over your project.md file. 
+
+       * Please follow the outline for the project as given in class earlier. 
+
+       * Make sure you address how your project adresses Cloud Computing, Dev Ops, and AI
+
+       * Make sure to add a section that discusses concretely how your project uses your three cloud choices and integrates cmx vm.
+
+       * Make sure to add a section issues, if you are unclear about things, that may just be bullet points.
+
+    !!! warning
+        DO NOT write it as proposal as explained in class. So sentence such as "In this project I propose to ...". Such a document will be returned without review and you will get point deductions.
+
 ## Week 6:  Due Oct 8, 2026, 9am
 
 
