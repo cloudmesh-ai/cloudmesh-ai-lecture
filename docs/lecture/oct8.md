@@ -17,10 +17,10 @@
 *   **[Multi-VM Heat Orchestration](/section/cloud/platforms/chameleon/chameleon-multi-heat.md)**: Applying Infrastructure as Code specifically to the multi-worker cluster example.
 
 ### Storage Services - to be completed on Oct 15th
-*   **[Overview](/section/cloud/openstack/storage/cinder.md)**: Overview of the Openstack storage services.
-*   **[Cinder](/section/cloud/openstack/storage/cinder.md) (Block Storage)**: Managing persistent virtual hard drives that survive VM lifecycles.
-*   **[Swift](/section/cloud/openstack/storage/swift.md) (Object Storage)**: Using S3-compatible storage for massive, unstructured datasets (images, backups).
-*   **[Glance](/section/cloud/openstack/storage/glance.md) (Image Registry)**: Managing "Golden Images" to ensure consistency across thousands of VM boots.
+*   🔴  **[Overview](/section/cloud/openstack/storage/cinder.md)**: Overview of the Openstack storage services.
+*   🔴  **[Cinder](/section/cloud/openstack/storage/cinder.md) (Block Storage)**: Managing persistent virtual hard drives that survive VM lifecycles.
+*   🔴  **[Swift](/section/cloud/openstack/storage/swift.md) (Object Storage)**: Using S3-compatible storage for massive, unstructured datasets (images, backups).
+*   🔴  **[Glance](/section/cloud/openstack/storage/glance.md) (Image Registry)**: Managing "Golden Images" to ensure consistency across thousands of VM boots.
 
 
 
@@ -32,14 +32,14 @@
 
     In a discussion with Cloudbank they indicated they wanted me to show them:
 
-    * Part 1: [CloudBank Onboarding (~10m)](https://www.cloudbank.org/onboarding-video-part1)
-    * Part 2: [CloudBank Portal Demo (~25m)](https://www.cloudbank.org/onboarding-video-part2)
+    * 🔴  Part 1: [CloudBank Onboarding (~10m)](https://www.cloudbank.org/onboarding-video-part1)
+    * 🔴  Part 2: [CloudBank Portal Demo (~25m)](https://www.cloudbank.org/onboarding-video-part2)
 
 
 *   **Public Cloud Implementations**:
 
-    *   **AWS**: [Account Setup](/section/accounts/aws.md), [CLI Installation & Setup](/section/cloud/vm-cloud/aws-install-chapter.md) and [Boto3 SDK Implementation](/section/cloud/vm-cloud/aws-boto-chapter.md)
-    *   **Azure**: [Account Setup](/section/accounts/azure.md), [Installation & Setup](/section/cloud/vm-cloud/azure%20install-chapter.md) and [Azure SDK Implementation](/section/cloud/vm-cloud/azure-sdk-chapter.md)
-    *   **GCP**: [Account Setup](/section/accounts/google.md) and [Installation & Setup](/section/cloud/vm-cloud/gcp-install-chapter.md)
+    *   🔴  **AWS**: [Account Setup](/section/accounts/aws.md), [CLI Installation & Setup](/section/cloud/vm-cloud/aws-install-chapter.md) and [Boto3 SDK Implementation](/section/cloud/vm-cloud/aws-boto-chapter.md)
+    *   🔴 **Azure**: [Account Setup](/section/accounts/azure.md), [Installation & Setup](/section/cloud/vm-cloud/azure%20install-chapter.md) and [Azure SDK Implementation](/section/cloud/vm-cloud/azure-sdk-chapter.md)
+    *   🔴 **GCP**: [Account Setup](/section/accounts/google.md) and [Installation & Setup](/section/cloud/vm-cloud/gcp-install-chapter.md)
 
  
