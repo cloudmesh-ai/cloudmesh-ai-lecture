@@ -34,6 +34,7 @@
 
     * 🔴  Part 1: [CloudBank Onboarding (~10m)](https://www.cloudbank.org/onboarding-video-part1)
     * 🔴  Part 2: [CloudBank Portal Demo (~25m)](https://www.cloudbank.org/onboarding-video-part2)
+    * 🔴 Part 3: [Onpoarding (PDF)](https://www.cloudbank.org/docs/onboarding)
 
 
 *   **Public Cloud Implementations**:
