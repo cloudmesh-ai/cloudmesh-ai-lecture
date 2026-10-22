@@ -5,7 +5,7 @@ Agentic AI differs from standard LLM chat because agents have **agency**: they c
 
 ---
 
-![alt text](images/agent-ethics-chatgpt.png)
+![alt text](../images/agent-ethics-chatgpt.png)
 
 ## 1. Agentic Risks
 

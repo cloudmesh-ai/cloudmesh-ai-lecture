@@ -14,7 +14,7 @@ Tool use, often referred to as function calling, is the mechanism that transform
 
 Tool use provides a standardized interface for the LLM to request that an external application perform a specific action. The LLM does not execute the code itself; instead, it generates a structured request (usually JSON) that the application interprets and executes.
 
-![alt text](images/agent-toolkit-chatgpt.png)
+![alt text](../images/agent-toolkit-chatgpt.png)
 
 
 ### Why this matters
