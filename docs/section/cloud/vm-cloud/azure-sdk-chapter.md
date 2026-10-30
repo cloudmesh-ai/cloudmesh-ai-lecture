@@ -1,5 +1,9 @@
 # Azure Native Python SDK
 
+!!! warning 
+    * This information may change. Please verify before relying on it.
+
+
 !!! info "Learning Objectives"
     * Install the Azure SDK for Python in an isolated environment.
     * Configure Azure credentials using a standardized YAML file.
@@ -65,7 +69,7 @@ All three approaches provide a `python` interpreter with the Azure SDK and `yaml
 
 ### Configuration with clouds.yaml
 
-To avoid hard-coding credentials, use a `clouds.yaml` file to store Azure service principal details and the target region.
+To avoid hard-coding credentials, use a `~/.config/azure/clouds.yaml` file to store Azure service principal details and the target region.
 
 ```yaml
 azure:
@@ -103,7 +107,7 @@ from azure.mgmt.network.models import (VirtualNetwork, AddressSpace,
                                     NetworkInterfaceIPConfiguration)
 
 
-def load_config(path="clouds.yaml"):
+def load_config(path="~/.config/azure/clouds.yaml"):
 """Read clouds.yaml and return the azure dict."""
 with open(path) as f:
     cfg = yaml.safe_load(f)
@@ -379,7 +383,7 @@ python run_azure_free_vm.py --destroy
 
 The deployment workflow follows these logical steps:
 
-* Read Azure credentials from `clouds.yaml`.
+* Read Azure credentials from `~/.config/azure/clouds.yaml`.
 * Create a `ClientSecretCredential` and three management clients for resources, compute, and network.
 * Ensure a resource group exists in a free-tier location (e.g., `eastus`).
 * Load a public SSH key from `~/.ssh/libcloud_azure_key.pub`.
@@ -444,7 +448,7 @@ from azure.mgmt.network.models import (VirtualNetwork, AddressSpace,
                                     NetworkInterfaceIPConfiguration)
 
 def load_cfg():
-with open("clouds.yaml") as f:
+with open("~/.config/azure/clouds.yaml") as f:
     return yaml.safe_load(f)["azure"]
 
 def get_clients(cfg):
@@ -607,7 +611,7 @@ print("All resources removed.")
 ## Assignments
 
 !!! note "Assignment.1: Native SDK Deployment"
-    Configure your `clouds.yaml` file and use the provided SDK scripts to deploy a free-tier B1s VM in your chosen Azure region. Confirm the deployment by SSHing into the instance and checking the OS version.
+    Configure your `~/.config/azure/clouds.yaml` file and use the provided SDK scripts to deploy a free-tier B1s VM in your chosen Azure region. Confirm the deployment by SSHing into the instance and checking the OS version.
 
     ??? tip "Solution: Native SDK Deployment"
         Follow the installation steps. Ensure your service principal has the Contributor role. Run `python run_azure_free_vm.py` and use the resulting SSH command.
@@ -616,7 +620,7 @@ print("All resources removed.")
     Modify the `location` in `clouds.yaml` to a different free-tier eligible region (e.g., `westus2`). Run the script and verify that the VM is still deployed successfully under the free tier.
 
     ??? tip "Solution: Regional Validation"
-        Change `location: eastus` to `location: westus2` in `clouds.yaml`. Rerun the script; since the helper functions handle regional parameters, no other changes should be necessary.
+        Change `location: eastus` to `location: westus2` in `~/.config/azure/clouds.yaml`. Rerun the script; since the helper functions handle regional parameters, no other changes should be necessary.
 
 !!! note "Assignment.3: SDK Extension"
     Add a function to `azure_helpers.py` that lists all virtual machines within the current resource group, printing their name and current power state.

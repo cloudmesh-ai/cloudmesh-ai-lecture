@@ -4,7 +4,7 @@
 
 !!! info "Learning Objectives"
     * Install the Google Cloud Python client libraries in an isolated environment.
-    * Configure credentials using a `clouds.yaml` file.
+    * Configure credentials using a `~/.config/azure/clouds.yaml` file.
     * Develop a helper module to abstract low-level Compute Engine API calls.
     * Implement a Python script to provision an e2-micro VM.
     * Retrieve the public IPv4 address of the provisioned instance.
@@ -67,9 +67,9 @@ pipx install google-auth
 pipx install PyYAML
 ```
 
-### Configuration with clouds.yaml
+### Configuration with ~/.config/azure/clouds.yaml
 
-To keep credentials separate from the code, use a `clouds.yaml` file.
+To keep credentials separate from the code, use a `~/.config/azure/clouds.yaml` file.
 
 ```yaml
 google:
@@ -92,8 +92,8 @@ import yaml
 from google.oauth2 import service_account
 from google.cloud import compute_v1
 
-def load_config(path="clouds.yaml"):
-"""Read clouds.yaml and return the google dict."""
+def load_config(path="~/.config/azure/clouds.yaml"):
+"""Read ~/.config/azure/clouds.yaml and return the google dict."""
 with open(path, "r") as f:
     cfg = yaml.safe_load(f)
 return cfg["google"]
@@ -360,7 +360,7 @@ gcloudsdk run_gcp_free_vm.py --destroy   # removes resources
 
 The script executes the following sequence:
 
-1. **Configuration**: Reads project ID and service account details from `clouds.yaml`.
+1. **Configuration**: Reads project ID and service account details from `~/.config/azure/clouds.yaml`.
 2. **Authentication**: Establishes a session using `service_account.Credentials`.
 3. **Networking**: Creates a VPC network, a /24 subnet, a static external IPv4 address, and a firewall rule allowing TCP port 22.
 4. **Provisioning**: Launches an `e2-micro` instance based on Ubuntu 22.04 LTS and injects the public SSH key.
@@ -369,7 +369,7 @@ The script executes the following sequence:
 
 ### Obtaining Credentials
 
-To configure `clouds.yaml`, you must create a service account:
+To configure `~/.config/azure/clouds.yaml`, you must create a service account:
 
 1. Create the account:
     ```bash
@@ -405,7 +405,7 @@ from google.oauth2 import service_account
 from google.cloud import compute_v1
 
 def load_cfg():
-with open("clouds.yaml") as f:
+with open("~/.config/azure/clouds.yaml") as f:
     return yaml.safe_load(f)["google"]
 
 cfg = load_cfg()
@@ -582,7 +582,7 @@ print("All resources removed.")
 
 - [ ] Python SDK installed in an isolated environment.
 - [ ] Service account created with **Compute Admin** role.
-- [ ] `clouds.yaml` configured with project ID, zone, and JSON key path.
+- [ ] `~/.config/azure/clouds.yaml` configured with project ID, zone, and JSON key path.
 - [ ] `gcp_helpers.py` and `run_gcp_free_vm.py` implemented.
 - [ ] Public SSH key generated and available at `~/.ssh/libcloud_gcp_key.pub`.
 - [ ] VPC network, subnet, and firewall rule provisioned.

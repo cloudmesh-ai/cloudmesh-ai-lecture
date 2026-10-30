@@ -3,6 +3,7 @@
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     * Understand the mechanics of spot/preemptible markets across AWS, Azure, GCP, and OCI.
     * Compare the typical cost savings of spot instances versus on-demand pricing for small VM workloads.
     * Identify the eviction policies and termination notice mechanisms for different providers.

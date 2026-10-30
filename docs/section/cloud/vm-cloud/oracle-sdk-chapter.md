@@ -1,10 +1,9 @@
 # Oracle Cloud SDK
 
-## Learning Objectives
-
 !!! info "Learning Objectives"
+
     * Install the Oracle Cloud Infrastructure (OCI) Python SDK in an isolated environment.
-    * Configure authentication using a `clouds.yaml` file and OCI API keys.
+    * Configure authentication using a `~/.config/azure/clouds.yaml` file and OCI API keys.
     * Develop a helper module to abstract OCI networking and compute API calls.
     * Implement a Python script to provision an Always-Free compute instance.
     * Retrieve the public IPv4 address of the provisioned instance.
@@ -66,14 +65,14 @@ pipx install oci
 pipx install PyYAML
 ```
 
-### Configuration with clouds.yaml
+### Configuration with ~/.config/azure/clouds.yaml
 
-OCI requires specific identity markers (OCIDs) and an API key for authentication. These are stored in a `clouds.yaml` file.
+OCI requires specific identity markers (OCIDs) and an API key for authentication. These are stored in a `~/.config/azure/clouds.yaml` file.
 
 ```yaml
 oci:
-    tenancy: ocid1.tenancy.oc1..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-    user: ocid1.user.oc1..bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    tenancy: ocid1.tenancy.oc1..aaa
+    user: ocid1.user.oc1..bbb
     fingerprint: 12:34:56:78:9a:bc:de:f0:12:34:56:78:9a:bc:de:f0
     key_file: /home/you/.oci/oci_api_key.pem
     region: us-ashburn-1
@@ -103,8 +102,8 @@ from oci.core.models import (CreateVcnDetails, CreateSubnetDetails,
                             CreateNetworkSecurityGroupSecurityRuleDetails,
                             CreateVnicDetails, LaunchInstanceDetails)
 
-def load_config(path="clouds.yaml"):
-"""Read clouds.yaml and return the OCI dictionary."""
+def load_config(path="~/.config/azure/clouds.yaml"):
+"""Read ~/.config/azure/clouds.yaml and return the OCI dictionary."""
 with open(path, "r") as f:
     cfg = yaml.safe_load(f)
 return cfg["oci"]
@@ -408,7 +407,7 @@ oci_python run_oci_free_vm.py --destroy   # removes resources
 
 The script follows a strict dependency chain for resource creation:
 
-1. **Authentication**: Loads identity and key details from `clouds.yaml`.
+1. **Authentication**: Loads identity and key details from `~/.config/azure/clouds.yaml`.
 2. **VCN Creation**: Establishes the Virtual Cloud Network.
 3. **Internet Gateway**: Creates an IGW and attaches it to the VCN to allow external traffic.
 4. **Routing**: Creates a route table directing all `0.0.0.0/0` traffic to the IGW.
@@ -450,7 +449,7 @@ from oci.core.models import (CreateVcnDetails, CreateSubnetDetails,
                             LaunchInstanceDetails, CreateVnicDetails)
 
 def load_cfg():
-with open("clouds.yaml") as f:
+with open("~/.config/azure/clouds.yaml") as f:
     return yaml.safe_load(f)["oci"]
 
 cfg = load_cfg()
@@ -632,7 +631,7 @@ print("All resources removed.")
 
 - [ ] OCI Python SDK installed in an isolated environment.
 - [ ] API key pair generated and registered in the OCI Console.
-- [ ] `clouds.yaml` configured with tenancy, user OCIDs, and fingerprint.
+- [ ] `~/.config/azure/clouds.yaml` configured with tenancy, user OCIDs, and fingerprint.
 - [ ] `oci_helpers.py` and `run_oci_free_vm.py` implemented.
 - [ ] Public SSH key available at `~/.ssh/libcloud_oci_key.pub`.
 - [ ] VCN, Subnet, Internet Gateway, and Route Table provisioned.

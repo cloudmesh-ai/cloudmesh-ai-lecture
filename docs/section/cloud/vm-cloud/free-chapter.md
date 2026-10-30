@@ -3,6 +3,7 @@
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     * Differentiate between promotional credits and "Always-Free" tiers in public cloud platforms.
     * Identify the specific free compute offerings provided by AWS, Azure, GCP, and OCI.
     * Understand the technical limitations—including region, instance type, and usage quotas—associated with free tiers.

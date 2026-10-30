@@ -4,7 +4,7 @@
 
 !!! info "Learning Objectives"
     * Install Apache Libcloud in an isolated environment to avoid dependency conflicts.
-    * Configure a centralized `clouds.yaml` file to manage credentials for multiple cloud providers.
+    * Configure a centralized `~/.config/azure/clouds.yaml` file to manage credentials for multiple cloud providers.
     * Develop Python helper functions to abstract provider-specific driver instantiation and node readiness polling.
     * Provision free-tier virtual machines across AWS, Azure, GCP, and OCI using a unified API.
     * Implement a basic multi-cloud cleanup routine to prevent orphaned resources and unexpected costs.
@@ -64,14 +64,14 @@ python3 -m pipx ensurepath
 pipx install libcloud
 ```
 
-### Configuration with clouds.yaml
+### Configuration with ~/.config/azure/clouds.yaml
 
 Libcloud can utilize a YAML configuration file to map logical cloud names to their respective drivers and credentials. This approach separates secrets from the application logic.
 
-Below is a standardized `clouds.yaml` template. Replace the placeholders with actual identifiers obtained from your cloud consoles.
+Below is a standardized `~/.config/azure/clouds.yaml` template. Replace the placeholders with actual identifiers obtained from your cloud consoles.
 
 ```yaml
-# clouds.yaml - centralized configuration for all providers
+# ~/.config/azure/clouds.yaml - centralized configuration for all providers
 aws:
   driver: libcloud.compute.providers.EC2
   key: YOUR_AWS_ACCESS_KEY_ID
@@ -123,8 +123,8 @@ import yaml
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
 
-def load_clouds_yaml(path="clouds.yaml"):
-    """Read clouds.yaml and return the dictionary."""
+def load_clouds_yaml(path="~/.config/azure/clouds.yaml"):
+    """Read ~/.config/azure/clouds.yaml and return the dictionary."""
     with open(path, "r") as f:
         return yaml.safe_load(f)
 
@@ -255,7 +255,7 @@ if "--destroy" in sys.argv:
 
 ### Managing Credentials
 
-To successfully authenticate, ensure the following fields are correctly configured in your `clouds.yaml` or environment variables.
+To successfully authenticate, ensure the following fields are correctly configured in your `~/.config/azure/clouds.yaml` or environment variables.
 
 | Cloud | Required Fields | Source |
 |-------|-----------------|--------|
@@ -284,7 +284,7 @@ import time, yaml, sys
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
 
-def load_cfg(p="clouds.yaml"):
+def load_cfg(p="~/.config/azure/clouds.yaml"):
     with open(p) as f:
         return yaml.safe_load(f)
 
@@ -333,7 +333,7 @@ if "--destroy" in sys.argv:
 ## Summary Checklist
 
 * [ ] Libcloud installed in an isolated Python environment (venv or Docker).
-* [ ] `clouds.yaml` created with valid credentials for at least two providers.
+* [ ] `~/.config/azure/clouds.yaml` created with valid credentials for at least two providers.
 * [ ] `libcloud_helpers.py` implemented to manage drivers and node polling.
 * [ ] Successfully launched a free-tier VM on at least one cloud platform.
 * [ ] Verified SSH connectivity to the provisioned instances.
@@ -344,7 +344,7 @@ if "--destroy" in sys.argv:
     Write a script using Libcloud that launches a free-tier VM on two different cloud providers (e.g., AWS and OCI) and prints both public IP addresses.
 
 ??? tip "Solution: Multi-Cloud Provisioning"
-    The solution involves iterating over a list of cloud names in `clouds.yaml`, calling `get_driver_for` for each, and using the `create_node` and `wait_for_node` functions.
+    The solution involves iterating over a list of cloud names in `~/.config/azure/clouds.yaml`, calling `get_driver_for` for each, and using the `create_node` and `wait_for_node` functions.
 
 !!! note "Assignment.2: Automated Resource Cleanup"
     Extend the `destroy_all` function to not only destroy the nodes but also list all remaining nodes in the account to ensure no resources were leaked.

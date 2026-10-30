@@ -61,7 +61,7 @@ All three approaches provide a `python` interpreter with the `boto3` and `yaml` 
 
 ### Configuration with clouds.yaml
 
-To avoid hard-coding credentials, use a `clouds.yaml` file to store AWS access keys and the target region.
+To avoid hard-coding credentials, use a `~/.confog/aws/clouds.yaml` file to store AWS access keys and the target region.
 
 ```yaml
 aws:
@@ -306,7 +306,7 @@ python run_aws_free_vm.py --destroy
 
 The deployment workflow follows these logical steps:
 
-* Read AWS credentials and region from `clouds.yaml`.
+* Read AWS credentials and region from `~/.confog/clouds/clouds.yaml`.
 * Initialize a boto3 session and an EC2 client.
 * Generate an EC2 key pair named `libcloud-aws-free` and save the private key locally to `~/.ssh/libcloud-aws-free.pem`.
 * Create a security group permitting inbound TCP port 22 from any address.
@@ -319,7 +319,7 @@ All resources used in this workflow are covered by the AWS Free Tier (t2.micro, 
 
 ### Pitfalls and Troubleshooting
 
-* **AMI Region Mismatch**: AMI identifiers are region-specific. If the `region` in `clouds.yaml` is changed, the `AMI_ID` must be updated to match a valid image for that region.
+* **AMI Region Mismatch**: AMI identifiers are region-specific. If the `region` in `~/.confog/clouds/clouds.yaml` is changed, the `AMI_ID` must be updated to match a valid image for that region.
 * **Key Pair Duplication**: AWS prevents multiple key pairs from sharing the same name. If a naming conflict occurs, delete the existing key via the AWS Console or modify `KEY_NAME` in the script.
 * **Security Group Limits**: While AWS allows many security groups per VPC, the script prevents duplication by checking for the existing group name before creation.
 * **Instance Availability**: Free-tier types like `t2.micro` may be unavailable in certain regions. If an `InvalidParameterValue` error is received, verify regional support for the instance type.
@@ -356,7 +356,7 @@ import os, sys, time, yaml, boto3
 from botocore.exceptions import ClientError
 
 def load_cfg():
-with open("clouds.yaml") as f:
+with open("~/.confog/clouds/clouds.yaml") as f:
     return yaml.safe_load(f)["aws"]
 
 def session(cfg):
@@ -474,7 +474,7 @@ print("All resources removed.")
 ## Summary Checklist
 
 * [ ] Install `boto3` and `PyYAML` using a virtual environment or Docker.
-* [ ] Create a `clouds.yaml` file with valid AWS IAM credentials.
+* [ ] Create a `~/.confog/clouds/clouds.yaml` file with valid AWS IAM credentials.
 * [ ] Implement helper functions for key pair and security group management.
 * [ ] Run the orchestration script to launch a `t2.micro` instance.
 * [ ] Verify SSH connectivity to the public IP address.
@@ -483,7 +483,7 @@ print("All resources removed.")
 ## Assignments
 
 !!! note "Assignment.1: Native Deployment"
-    Set up an isolated Python environment, configure `clouds.yaml`, and run the provided orchestration script to launch a free-tier EC2 instance. Verify you can SSH into the machine.
+    Set up an isolated Python environment, configure `~/.confog/clouds/clouds.yaml`, and run the provided orchestration script to launch a free-tier EC2 instance. Verify you can SSH into the machine.
 
     ??? tip "Solution: Native Deployment"
         Follow the installation steps in the Environment section. Ensure your IAM user has `AmazonEC2FullAccess`. Run `python run_aws_free_vm.py` and use the printed SSH command.
@@ -492,10 +492,10 @@ print("All resources removed.")
     Modify the script to launch the instance in a different AWS region (e.g., `us-west-2`). You will need to find a valid free-tier Amazon Linux 2 AMI ID for that specific region.
 
     ??? tip "Solution: Regional Migration"
-        Update the `region` in `clouds.yaml` to `us-west-2`. Search the AWS AMI Catalog for the Amazon Linux 2 AMI ID for `us-west-2` and update `AMI_ID` in the script.
+        Update the `region` in `~/.confog/clouds/clouds.yaml` to `us-west-2`. Search the AWS AMI Catalog for the Amazon Linux 2 AMI ID for `us-west-2` and update `AMI_ID` in the script.
 
 !!! note "Assignment.3: Multi-Service Orchestration"
-    Extend the script to create an S3 bucket with a unique name after the EC2 instance is launched. Ensure the bucket is also created in the region specified in `clouds.yaml`.
+    Extend the script to create an S3 bucket with a unique name after the EC2 instance is launched. Ensure the bucket is also created in the region specified in `~/.confog/clouds/clouds.yaml`.
 
     ??? tip "Solution: Multi-Service Orchestration"
         Add the S3 creation snippet from the "Extending to other AWS Services" section to the main loop of `run_aws_free_vm.py` after the `wait_for_instance` call.

@@ -8,7 +8,7 @@ The guide is divided into three parts for each cloud provider:
 2. **Libcloud** – a single Python library that works across clouds.  
 3. **Native SDK** – the official Python SDK for the provider (boto3, azure‑mgmt, google‑cloud‑compute, oci).  
 
-A single **`clouds.yaml`** file is shown at the end; the same file can be used by the Libcloud examples and by the native SDK scripts (the SDK sections read the file to obtain credentials and spot parameters).
+A single **`~/.config/clouds.yaml`** file is shown at the end; the same file can be used by the Libcloud examples and by the native SDK scripts (the SDK sections read the file to obtain credentials and spot parameters).
 
 ---
 
@@ -42,7 +42,7 @@ from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider
 
 # Load configuration
-with open("clouds.yaml") as f:
+with open("~/.config/clouds.yaml") as f:
     cfg = yaml.safe_load(f)["aws"]
 
 # Build driver (boto driver)
@@ -79,7 +79,7 @@ import yaml
 import boto3
 
 # Load configuration
-with open("clouds.yaml") as f:
+with open("~/.config/clouds.yaml") as f:
     cfg = yaml.safe_load(f)["aws"]
 
 session = boto3.Session(
@@ -150,7 +150,7 @@ import yaml
 from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider
 
-with open("clouds.yaml") as f:
+with open("~/.config/clouds.yaml") as f:
     cfg = yaml.safe_load(f)["azure"]
 
 Driver = get_driver(Provider.AZURE_ARM)
@@ -195,7 +195,7 @@ from azure.mgmt.compute import ComputeManagementClient
 from azure.mgmt.network import NetworkManagementClient
 from azure.mgmt.resource import ResourceManagementClient
 
-with open("clouds.yaml") as f:
+with open("~/.config/clouds.yaml") as f:
     cfg = yaml.safe_load(f)["azure"]
 
 credential = ClientSecretCredential(
@@ -300,7 +300,7 @@ import yaml
 from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider
 
-with open("clouds.yaml") as f:
+with open("~/.config/clouds.yaml") as f:
     cfg = yaml.safe_load(f)["gcp"]
 
 Driver = get_driver(Provider.GCE)
@@ -438,7 +438,7 @@ import yaml
 from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider
 
-with open("clouds.yaml") as f:
+with open("~/.config/clouds.yaml") as f:
     cfg = yaml.safe_load(f)["oci"]
 
 Driver = get_driver(Provider.OCI)
@@ -474,7 +474,7 @@ import yaml
 import oci
 import time
 
-with open("clouds.yaml") as f:
+with open("~/.config/clouds.yaml") as f:
     cfg = yaml.safe_load(f)["oci"]
 
 config = oci.config.from_dict({
@@ -522,7 +522,7 @@ print("OCI spot instance launched:", instance.id)
 
 ---
 
-## 5. Consolidated `clouds.yaml`
+## 5. Consolidated `~/.config/clouds.yaml`
 
 The single YAML file below supplies credentials and a **common spot‑price block** for all four clouds. Use the same file for the Libcloud scripts and the native‑SDK examples (CLI tools read their own configuration files, so the YAML is only needed for the programmatic paths).
 
@@ -596,4 +596,4 @@ When writing Libcloud or native‑SDK scripts you can read `cfg["spot"]["max_pri
 
 ### End of Document
 
-All the examples above assume you have already created an SSH key pair (`~/.ssh/id_rsa` / `id_rsa.pub`) and have the appropriate networking resources (VPC, subnet, security groups) in place. Adjust IDs, names, and image OCIDs as required for your environment. The same `clouds.yaml` file can be reused across the Libcloud and native‑SDK scripts, giving a single source of truth for credentials and spot‑price preferences.
+All the examples above assume you have already created an SSH key pair (`~/.ssh/id_rsa` / `id_rsa.pub`) and have the appropriate networking resources (VPC, subnet, security groups) in place. Adjust IDs, names, and image OCIDs as required for your environment. The same `~/.config/clouds.yaml` file can be reused across the Libcloud and native‑SDK scripts, giving a single source of truth for credentials and spot‑price preferences.
