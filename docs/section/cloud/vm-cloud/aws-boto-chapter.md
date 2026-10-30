@@ -85,7 +85,7 @@ import os
 from botocore.exceptions import ClientError
 
 
-def load_config(path="clouds.yaml"):
+def load_config(path="~/.config/aws/clouds.yaml"):
 """Read clouds.yaml and return the aws dictionary."""
 with open(path, "r") as f:
     cfg = yaml.safe_load(f)
