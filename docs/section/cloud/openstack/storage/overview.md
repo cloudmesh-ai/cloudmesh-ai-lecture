@@ -1,13 +1,8 @@
----
-title: "OpenStack Storage Overview: Cinder, Swift, and Glance"
----
-
 # OpenStack Storage Overview: Cinder, Swift, and Glance
-
-## Learning Objectives
 
 !!! info "Learning Objectives"
     By the end of this section, you will be able to:
+
     - Distinguish between block, object, and image storage within the OpenStack ecosystem.
     - Compare the architectural goals and access patterns of Cinder, Swift, and Glance.
     - Apply a decision framework to select the appropriate storage service based on a set of technical requirements.
@@ -19,6 +14,7 @@ title: "OpenStack Storage Overview: Cinder, Swift, and Glance"
 OpenStack does not provide a single "storage service." Instead, it implements a diverse storage ecosystem designed to handle fundamentally different data access patterns. While Cinder, Swift, and Glance all store bytes on disk, they differ in how that data is organized, how it is accessed, and the specific problem they solve.
 
 At a high level:
+
 - **Cinder** provides virtual hard disks for virtual machines.
 - **Swift** provides a scalable, distributed key-value store for unstructured data.
 - **Glance** provides a catalog of virtual machine blueprints (images).
@@ -117,18 +113,21 @@ While the OpenStack specifications are standard, the way these services are expo
 Choosing the right storage service depends on how the data will be accessed and the required performance characteristics.
 
 ### Use Cinder When...
+
 - You need a disk for a **database** (e.g., MySQL, PostgreSQL) where low latency is critical.
 - You need **persistent storage** that survives the deletion of the VM it is attached to.
 - You need to perform **high-speed random I/O**.
 - You require a filesystem that can be mounted and managed by the OS.
 
 ### Use Swift When...
+
 - You are storing **unstructured data** (e.g., user profile pictures, log archives).
 - You need to store **massive amounts of data** (TBs to PBs) across many servers.
 - The data needs to be **accessed via the web** without mounting a disk.
 - You prioritize **durability and availability** over raw latency.
 
 ### Use Glance When...
+
 - You need to store a **template** for a virtual machine.
 - You are managing **OS images** that will be used to boot new instances.
 - You need a centralized repository for **disk images** of different versions (e.g., Ubuntu 20.04 vs 22.04).

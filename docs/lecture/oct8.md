@@ -17,12 +17,12 @@
 *   **[Multi-VM Heat Orchestration](/section/cloud/platforms/chameleon/chameleon-multi-heat.md)**: Applying Infrastructure as Code specifically to the multi-worker cluster example.
 
 ### Storage Services - to be completed on Oct 15th
-*   🔴  **[Overview](/section/cloud/openstack/storage/cinder.md)**: Overview of the Openstack storage services.
-*   🔴  **[Cinder](/section/cloud/openstack/storage/cinder.md) (Block Storage)**: Managing persistent virtual hard drives that survive VM lifecycles.
-*   🔴  **[Swift](/section/cloud/openstack/storage/swift.md) (Object Storage)**: Using S3-compatible storage for massive, unstructured datasets (images, backups).
-*   🔴  **[Glance](/section/cloud/openstack/storage/glance.md) (Image Registry)**: Managing "Golden Images" to ensure consistency across thousands of VM boots.
+*   🔴  **[Overview](/section/cloud/openstack/storage/overview.md)**: Overview of the Openstack storage services.
+*   🟢  **[Cinder](/section/cloud/openstack/storage/cinder.md) (Block Storage)**: Managing persistent virtual hard drives that survive VM lifecycles.
+*   🟢  **[Swift](/section/cloud/openstack/storage/swift.md) (Object Storage)**: Using S3-compatible storage for massive, unstructured datasets (images, backups).
+*   🟢  **[Glance](/section/cloud/openstack/storage/glance.md) (Image Registry)**: Managing "Golden Images" to ensure consistency across thousands of VM boots.
 
-## Reminder: Sample Project Directory Layout  
+## 🟢 Reminder: Sample Project Directory Layout  
 
 * <https://github.com/cloudmesh-ai/cloudmesh-ai-vm>
 * <https://github.com/cloudmesh-ai/cloudmesh-ai-llm-mock>
@@ -54,9 +54,9 @@
 * Please note that all of you have decided to work **individually**. Hence, there is no need to do a very large task based project document. You are highly suggested to create an **academic style project report** which is more in line of an academic paper and is not like a company focussed project report. (See my notes on project report). Examples:
 
 
-    * <https://www.mdpi.com/1999-4893/15/7/230>
-    * <https://journals.flvc.org/UFJUR/article/view/139103>
-    * <https://www.frontiersin.org/journals/high-performance-computing/articles/10.3389/fhpcp.2023.1233877/full>
+    * 🟢 <https://www.mdpi.com/1999-4893/15/7/230>
+    * 🟢 <https://journals.flvc.org/UFJUR/article/view/139103>
+    * 🟢 <https://www.frontiersin.org/journals/high-performance-computing/articles/10.3389/fhpcp.2023.1233877/full>
 
     This shows that one does not have to distinguish if you have no degree, a BA, a MS, or a PhD, or are a Prof. In the team we all contribute the best we can and organize the work around individual strenght.
 
@@ -64,15 +64,15 @@
 
 I also like to hear from anyone that has updates to vm. and can show me concrete results from your smoke tests. Clarification of repo for result posts (see last lecture, reminder as some did not use it.)
 
-* <https://github.com/cloudmesh-ai/cloudmesh-ai-vm-results>
+* 🟢 <https://github.com/cloudmesh-ai/cloudmesh-ai-vm-results>
 
 ## Cloud LLMs using jetstream
 
 Using LLMs for the class. This is for those that do not use LLMs in the cloud as costly.
 
-* <https://github.com/cloudmesh-ai/cloudmesh-ai-llm-mock>
-* <https://llm.jetstream-cloud.org/>
-* <https://docs.jetstream-cloud.org/inference-service/overview/>
+* 🟢 <https://github.com/cloudmesh-ai/cloudmesh-ai-llm-mock>
+* 🟢 <https://llm.jetstream-cloud.org/>
+* 🟢 <https://docs.jetstream-cloud.org/inference-service/overview/>
 
 
 ## Public Clouds
@@ -90,8 +90,8 @@ Using LLMs for the class. This is for those that do not use LLMs in the cloud as
 
 *   **Public Cloud Implementations**:
 
-    *   🔴  **AWS**: [Account Setup](/section/accounts/aws.md), [CLI Installation & Setup](/section/cloud/vm-cloud/aws-install-chapter.md) and [Boto3 SDK Implementation](/section/cloud/vm-cloud/aws-boto-chapter.md)
-    *   🔴 **Azure**: [Account Setup](/section/accounts/azure.md), [Installation & Setup](/section/cloud/vm-cloud/azure%20install-chapter.md) and [Azure SDK Implementation](/section/cloud/vm-cloud/azure-sdk-chapter.md)
+    *   🟢  **AWS**: [Account Setup](/section/accounts/aws.md), [CLI Installation & Setup](/section/cloud/vm-cloud/aws-install-chapter.md) and [Boto3 SDK Implementation](/section/cloud/vm-cloud/aws-boto-chapter.md)
+    *   🟢 **Azure**: [Account Setup](/section/accounts/azure.md), [Installation & Setup](/section/cloud/vm-cloud/azure%20install-chapter.md) and [Azure SDK Implementation](/section/cloud/vm-cloud/azure-sdk-chapter.md)
     *   🔴 **GCP**: [Account Setup](/section/accounts/google.md) and [Installation & Setup](/section/cloud/vm-cloud/gcp-install-chapter.md)
 
 

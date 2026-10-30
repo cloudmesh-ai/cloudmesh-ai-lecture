@@ -1,12 +1,9 @@
----
-title: "OpenStack Swift: Object Storage"
----
-
 # OpenStack Swift: Object Storage
 
 ## Learning Objectives
 
 !!! info "Learning Objectives"
+
     By the end of this section, you will be able to:
     - Explain the architecture of Swift and the concept of eventual consistency.
     - Manage containers and objects using the OpenStack CLI.
@@ -41,6 +38,7 @@ Swift uses a "Ring" architecture (consistent hashing) to distribute data across 
 - **Eventual Consistency**: Swift prioritizes availability over immediate consistency. If a node is down, Swift will eventually synchronize the data once the node returns.
 
 !!! info "Cinder vs. Swift"
+
     - **Cinder (Block)**: Acts like a disk. It is mounted to a VM. Used for OS boot disks and databases.
     - **Swift (Object)**: Acts like a web service. It is accessed via HTTP/REST APIs. Used for backups, media files, and static website hosting.
 

@@ -1,13 +1,10 @@
----
-title: "OpenStack Glance: The Image Registry"
----
-
 # OpenStack Glance: The Image Registry
 
-## Learning Objectives
 
 !!! info "Learning Objectives"
+
     By the end of this section, you will be able to:
+
     - Explain the role of Glance in the OpenStack ecosystem and its detailed interaction with Nova.
     - Analyze the impact of different image backends (Local, Swift, Ceph RBD) on boot performance and scalability.
     - Differentiate between image formats (QCOW2, RAW) and container formats (Bare, VMDK).
@@ -63,9 +60,11 @@ When Nova boots a VM from a Ceph-backed image, it creates a "shallow clone"—a 
 Glance stores the image bits along with critical metadata that informs the hypervisor how to handle the disk.
 
 - **Disk Format**: Describes the internal structure of the virtual disk.
+
     - `qcow2`: Compressed, supports thin provisioning and internal snapshots.
     - `raw`: A bit-for-bit copy; provides maximum I/O performance but consumes full allocated space.
 - **Container Format**: Describes the "envelope" or wrapper of the image.
+
     - `bare`: The standard format for most OpenStack images.
     - `vmdk` / `vhd`: Used when importing images from VMware or Hyper-V.
 - **Properties**: Custom key-value pairs (e.g., `os=ubuntu`, `version=22.04`, `status=stable`) used for discovery and automation.
@@ -79,6 +78,7 @@ A "Golden Image" is a pre-configured, hardened, and tested VM image that include
 
 ### Automation with HashiCorp Packer
 **HashiCorp Packer** is the industry-standard tool for this workflow. It automates the a process:
+
 1. **Build**: Packer spins up a temporary VM.
 2. **Provision**: It runs shell scripts or Ansible playbooks to install software and harden the OS.
 3. **Generalize**: It cleans the image (e.g., removing SSH host keys) to make it a generic template.

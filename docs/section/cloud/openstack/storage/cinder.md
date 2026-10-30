@@ -1,13 +1,9 @@
----
-title: "OpenStack Cinder: Block Storage"
----
-
 # OpenStack Cinder: Block Storage
 
-## Learning Objectives
-
 !!! info "Learning Objectives"
+
     By the end of this section, you will be able to:
+
     - Explain the architecture of Cinder and its relationship with Nova.
     - Analyze the Cinder volume state machine and lifecycle.
     - Implement volume types and Quality of Service (QoS) specifications.
@@ -53,6 +49,7 @@ Understanding the lifecycle states is critical for troubleshooting and automatio
 - **deleting**: The volume is being removed from the backend.
 
 !!! info "Ephemeral vs. Persistent Storage"
+
     - **Ephemeral Storage**: Provided by Nova. It resides on the local disk of the compute node. If the instance is deleted or the node fails, the data is lost. It is optimized for temporary files, swap, and caches.
     - **Persistent Storage (Cinder)**: Managed by Cinder. It exists independently of the instance. A volume can be detached from one VM and attached to another, or snapshotted for backup, preserving the data across instance lifecycles.
 
