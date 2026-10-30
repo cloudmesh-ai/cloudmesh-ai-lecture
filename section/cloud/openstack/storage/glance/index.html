@@ -2110,7 +2110,7 @@
   <span class="md-ellipsis">
     
   
-    🔴 VMs via Heat
+    🟢 VMs via Heat
   
 
     
@@ -2157,7 +2157,7 @@
   <span class="md-ellipsis">
     
   
-    🔴 OpenStack
+    🟢 OpenStack
   
 
     
@@ -2173,7 +2173,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    🔴 OpenStack
+    🟢 OpenStack
   
 
           </label>
@@ -2240,7 +2240,7 @@
   <span class="md-ellipsis">
     
   
-    🔴 Openstack Heat
+    🟢 Openstack Heat
   
 
     
@@ -2256,7 +2256,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    🔴 Openstack Heat
+    🟢 Openstack Heat
   
 
           </label>
@@ -2276,7 +2276,7 @@
   <span class="md-ellipsis">
     
   
-    🔴 Introduction
+    🟢 Introduction
   
 
     
@@ -2304,7 +2304,7 @@
   <span class="md-ellipsis">
     
   
-    🔴 VMs via Heat
+    🟢 VMs via Heat
   
 
     
@@ -2332,7 +2332,7 @@
   <span class="md-ellipsis">
     
   
-    🔴 Shared Web Service
+    🟢 Shared Web Service
   
 
     
@@ -2360,7 +2360,7 @@
   <span class="md-ellipsis">
     
   
-    🔴 Bastian Web Service
+    🟢 Bastian Web Service
   
 
     
@@ -2443,7 +2443,7 @@
   <span class="md-ellipsis">
     
   
-    🔴 AWS Install
+    🟢 AWS Install
   
 
     
@@ -2471,7 +2471,7 @@
   <span class="md-ellipsis">
     
   
-    🔴 AWS Boto
+    🟢 AWS Boto
   
 
     
@@ -7050,17 +7050,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#learning-objectives" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Learning Objectives
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7325,16 +7314,17 @@
 
 
 <h1 id="openstack-glance-the-image-registry">OpenStack Glance: The Image Registry<a class="headerlink" href="#openstack-glance-the-image-registry" title="Permanent link">¶</a></h1>
-<h2 id="learning-objectives">Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permanent link">¶</a></h2>
 <div class="admonition info">
 <p class="admonition-title">Learning Objectives</p>
-<p>By the end of this section, you will be able to:
-- Explain the role of Glance in the OpenStack ecosystem and its detailed interaction with Nova.
-- Analyze the impact of different image backends (Local, Swift, Ceph RBD) on boot performance and scalability.
-- Differentiate between image formats (QCOW2, RAW) and container formats (Bare, VMDK).
-- Manage images, tags, and metadata using advanced OpenStack CLI patterns.
-- Automate image registration and audit pipelines using the OpenStack SDK with industry-standard patterns.
-- Describe the lifecycle of a "Golden Image" pipeline and the role of tools like HashiCorp Packer.</p>
+<p>By the end of this section, you will be able to:</p>
+<ul>
+<li>Explain the role of Glance in the OpenStack ecosystem and its detailed interaction with Nova.</li>
+<li>Analyze the impact of different image backends (Local, Swift, Ceph RBD) on boot performance and scalability.</li>
+<li>Differentiate between image formats (QCOW2, RAW) and container formats (Bare, VMDK).</li>
+<li>Manage images, tags, and metadata using advanced OpenStack CLI patterns.</li>
+<li>Automate image registration and audit pipelines using the OpenStack SDK with industry-standard patterns.</li>
+<li>Describe the lifecycle of a "Golden Image" pipeline and the role of tools like HashiCorp Packer.</li>
+</ul>
 </div>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
 <p><strong>Glance</strong> is the OpenStack Image Service. It acts as a central repository for virtual machine images, providing a way to store, discover, and retrieve the disk images used to boot instances across the cloud.</p>
@@ -7396,28 +7386,34 @@
 <h3 id="metadata-and-formats">Metadata and Formats<a class="headerlink" href="#metadata-and-formats" title="Permanent link">¶</a></h3>
 <p>Glance stores the image bits along with critical metadata that informs the hypervisor how to handle the disk.</p>
 <ul>
-<li><strong>Disk Format</strong>: Describes the internal structure of the virtual disk.<ul>
+<li>
+<p><strong>Disk Format</strong>: Describes the internal structure of the virtual disk.</p>
+<ul>
 <li><code>qcow2</code>: Compressed, supports thin provisioning and internal snapshots.</li>
 <li><code>raw</code>: A bit-for-bit copy; provides maximum I/O performance but consumes full allocated space.</li>
-</ul>
+<li>
+<p><strong>Container Format</strong>: Describes the "envelope" or wrapper of the image.</p>
 </li>
-<li><strong>Container Format</strong>: Describes the "envelope" or wrapper of the image.<ul>
-<li><code>bare</code>: The standard format for most OpenStack images.</li>
+<li>
+<p><code>bare</code>: The standard format for most OpenStack images.</p>
+</li>
 <li><code>vmdk</code> / <code>vhd</code>: Used when importing images from VMware or Hyper-V.</li>
+<li><strong>Properties</strong>: Custom key-value pairs (e.g., <code>os=ubuntu</code>, <code>version=22.04</code>, <code>status=stable</code>) used for discovery and automation.</li>
 </ul>
 </li>
-<li><strong>Properties</strong>: Custom key-value pairs (e.g., <code>os=ubuntu</code>, <code>version=22.04</code>, <code>status=stable</code>) used for discovery and automation.</li>
 </ul>
 <h2 id="the-golden-image-ecosystem">The Golden Image Ecosystem<a class="headerlink" href="#the-golden-image-ecosystem" title="Permanent link">¶</a></h2>
 <p>In enterprise and AI environments, images are rarely created manually. Organizations implement <strong>Golden Image Pipelines</strong> to ensure security, stability, and reproducibility.</p>
 <h3 id="the-concept">The Concept<a class="headerlink" href="#the-concept" title="Permanent link">¶</a></h3>
 <p>A "Golden Image" is a pre-configured, hardened, and tested VM image that includes all necessary dependencies (e.g., NVIDIA CUDA drivers for AI, monitoring agents, and security patches). This eliminates "configuration drift" where different VMs have slightly different software versions.</p>
 <h3 id="automation-with-hashicorp-packer">Automation with HashiCorp Packer<a class="headerlink" href="#automation-with-hashicorp-packer" title="Permanent link">¶</a></h3>
-<p><strong>HashiCorp Packer</strong> is the industry-standard tool for this workflow. It automates the a process:
-1. <strong>Build</strong>: Packer spins up a temporary VM.
-2. <strong>Provision</strong>: It runs shell scripts or Ansible playbooks to install software and harden the OS.
-3. <strong>Generalize</strong>: It cleans the image (e.g., removing SSH host keys) to make it a generic template.
-4. <strong>Publish</strong>: It converts the disk to QCOW2 and uploads it to Glance via the OpenStack API.</p>
+<p><strong>HashiCorp Packer</strong> is the industry-standard tool for this workflow. It automates the a process:</p>
+<ol>
+<li><strong>Build</strong>: Packer spins up a temporary VM.</li>
+<li><strong>Provision</strong>: It runs shell scripts or Ansible playbooks to install software and harden the OS.</li>
+<li><strong>Generalize</strong>: It cleans the image (e.g., removing SSH host keys) to make it a generic template.</li>
+<li><strong>Publish</strong>: It converts the disk to QCOW2 and uploads it to Glance via the OpenStack API.</li>
+</ol>
 <p><strong>Workflow</strong>: <code>Packer (Build) $\rightarrow$ Glance (Register) $\rightarrow$ Nova (Deploy)</code></p>
 <h2 id="access-via-cli">Access via CLI<a class="headerlink" href="#access-via-cli" title="Permanent link">¶</a></h2>
 <p>The <code>openstack</code> CLI allows for rapid management and auditing of the image library.</p>
@@ -7567,9 +7563,6 @@
 
 
 
-
-  
-  
 
 
 
