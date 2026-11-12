@@ -4,6 +4,7 @@
 
 !!! info "Why this matters"
     By the end of this chapter, participants will be able to:
+    
     - Understand the architectural difference between daemon-based and daemonless container engines.
     - Compare Docker and Podman across security, architecture, and ecosystem.
     - Learn the concept of "Pods" and how they bridge the gap to Kubernetes.

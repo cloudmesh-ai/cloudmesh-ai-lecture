@@ -4,6 +4,7 @@
 
 !!! info "Why this matters"
     By the end of this chapter, participants will be able to:
+    
     - Install and configure the Docker Engine across various operating systems.
     - Build optimized Docker images using a Dockerfile and industry best-practice patterns.
     - Manage container lifecycles (create, start, stop, remove) using the Docker CLI.

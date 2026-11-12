@@ -4,6 +4,7 @@
 
 !!! info "Why this matters"
     By the end of this chapter, participants will be able to:
+
     - Define containerization and explain how it differs from traditional virtualization.
     - Understand the core components of the container ecosystem: Image, Registry, and Runtime.
     - Analyze the container lifecycle: Build $\rightarrow$ Ship $\rightarrow$ Run.
@@ -29,9 +30,13 @@ Containerization represents a fundamental shift in how we package and deploy sof
 !!! info "Why this matters"
     For AI researchers and Data Scientists, "it works on my machine" is a frequent and costly failure. A model that trains perfectly on a local workstation with a same version of CUDA, PyTorch, and a set of system libraries often fails when moved to a GPU cluster or a production cloud environment. Containers solve this by packaging the entire environment—not just the code—ensuring that the environment in production is an exact replica of the environment used during development.
 
+![Containers vs VMs](images/container-vs-vm-chatgpt.png)
+
 ### Case Study: The History of Containerization
 
 Containerization didn't appear overnight; it was the result of decades of evolution in the Linux kernel. Each stage represented a technical "leap" that solved a specific problem of isolation and portability.
+
+![History](images/history-container-chatgpt.png)
 
 #### 1. The Filesystem Leap: `chroot` (1979)
 Introduced in 1979, `chroot` (change root) provided the first primitive for filesystem isolation. It allowed a process to see a specific directory as its root (`/`), preventing it from accessing files outside that path.
@@ -61,6 +66,7 @@ Launched in 2013, Docker didn't invent containers—it made them *usable* for de
 
 !!! info "Why this matters"
     This is the "killer app" for AI reproducibility. GPU clusters are notoriously fragile; a mismatch between the NVIDIA driver, the CUDA toolkit, and the PyTorch binaries can lead to cryptic crashes. Immutable images eliminate the "it works on my machine" problem by packaging the entire software stack into a single, versioned artifact.
+
 
 
 ---

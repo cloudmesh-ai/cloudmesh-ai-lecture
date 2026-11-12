@@ -4,12 +4,17 @@
 
 !!! info "Why this matters"
     By the end of this chapter, participants will be able to:
+    
     - Distinguish between Apptainer and Docker, specifically comparing the SIF format to layered images.
     - Execute containers using the `exec`, `shell`, and `run` commands.
     - Build custom immutable images using Apptainer definition files (`.def`).
     - Manage host-to-container data flow using bind mounts (`--bind`).
     - Understand why Apptainer's "no-root" architecture is critical for shared HPC clusters.
     - Optimize container execution for parallel file systems used in supercomputing.
+
+![Apptainer Local Install](images/apptainer-chatgpt.png)
+
+!![Apptainer HPC Ussage](images/apptainer-hpc-chatgpt.png)
 
 ## Implementation
 
