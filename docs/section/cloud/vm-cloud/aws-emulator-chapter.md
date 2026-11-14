@@ -28,6 +28,8 @@ Key benefits include:
 
 > **Note:** The emulator is intended for **development and testing only**. Do not use it for production workloads or security‑related testing.
 
+![AWS Emulator](images/aws-emulator-chatpgt.png)
+
 ---
 
 ## Prerequisites
