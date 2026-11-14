@@ -25,7 +25,7 @@
 
 ## Assignment till the rest of the semester
 
-See * [Outstanding Assignments](docs/lecture/assignments/assignments-rest.md)
+See * [Outstanding Assignments](assignment-rest.md)
 
 ## Week 7:  Due Oct 15, 2026, 9am
 
