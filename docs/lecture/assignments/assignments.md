@@ -22,6 +22,52 @@
     4. Update the `README.md` with the list of assignments that are posted each week.
     5. You can add a subbullet with - [ ] Other and check what other things you did. If there are relevant links in GitHub, make sure to post them here.
 
+
+## Assignment 
+
+<https://piazza.com/class/mt5rkdsycb31c3/post/191>
+
+
+## Assignment setup LLM so you can access it via Jetstream
+
+* <https://piazza.com/class/mt5rkdsycb31c3/post/149>
+
+## Assignment Weekly till end of class
+
+* Run smoke tests <https://piazza.com/class/mt5rkdsycb31c3/post/155>
+* Work on your implementation of the cloudmesh-ai-vm providers you chose. Make small pull requests. 
+
+
+## Assignment 3: due Nov 12 demo on using gitbash and ssh keys in github
+
+For Nov 12 presnentations, you are expected that
+
+1. you have a ssh key in github
+2. you are familiar with bash
+3. you have all calss related repos in a single dir such as ~/work
+
+See: 
+* <https://piazza.com/class/mt5rkdsycb31c3/post/188>
+* 10/29/2026: <https://piazza.com/class/mt5rkdsycb31c3/post/150>
+
+
+!!! Tip: Class related repos are for example your project repository and a fork of cloudmesh-ai-vm as well as cloudmesh-ai-llm-mock
+
+You are also expected to have the following Assignment completed as posted in piazza:
+
+<https://piazza.com/class/mt5rkdsycb31c3/post/176>
+
+
+## Assignment due Nov 12: Make sure you read all Piazza posts
+
+* https://piazza.com/class/mt5rkdsycb31c3/post/187
+* <https://piazza.com/class/mt5rkdsycb31c3/post/153>
+
+
+* Create detailed plan on how to catch up
+
+
+
 ## Week 7:  Due Oct 15, 2026, 9am
 
 
